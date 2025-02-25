@@ -812,3 +812,16 @@ input[type="number"] {
   .vsc-initialized {
     all: unset !important;
 }
+
+/* Turn the .calculation-container into a 2-column flex layout */
+.calculation-container {
+    display: flex;         /* activate flexbox */
+    gap: 1rem;             /* space between columns */
+    align-items: flex-start;
+    justify-content: space-between;
+  }
+  
+  .calculation-container fieldset {
+    flex: 1 1 0;           /* let each fieldset grow/shrink equally */
+    min-width: 300px;      /* ensure each column isn't too narrow */
+  }
