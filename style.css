@@ -1,0 +1,814 @@
+/* General Page Styling */
+/* 🔹 General Page Styling */
+body {
+font-family: sans-serif; 
+background-color: #f7f7f7;
+color: #333;
+margin: 0px;
+padding: 0;
+}
+
+/* 🔹 Main Container */
+.container {
+max-width: 900px;
+margin: auto;
+padding: 20px;
+background: #fff;
+box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+border-radius: 8px;
+}
+
+.container-tabe {
+    max-width: 98%;
+    margin: auto;
+    padding: 20px;
+    background: #fff;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    }
+
+/* 🔹 Headings */
+h1, h2, h3 {
+font-weight: 600;
+color: #222;
+margin-bottom: 10px;
+}
+
+h1 {
+font-size: 22px;
+border-bottom: 3px solid #007bff;
+padding-bottom: 8px;
+}
+
+h2 {
+font-size: 18px;
+margin-top: 20px;
+}
+
+h3 {
+font-size: 16px;
+}
+
+.header-container {
+display: flex;
+align-items: center; /* Keeps items aligned */
+justify-content: space-between; /* Pushes items to opposite sides */
+width: 100%;
+padding: 10px 0;
+}
+
+/* Ensures the title does not shrink */
+.header-title {
+font-size: 22px;
+font-weight: bold;
+white-space: nowrap;
+}
+
+/* Ensures the button stays fixed on the right */
+.header-buttons {
+display: flex;
+gap: 10px; /* Space between buttons */
+}
+
+/* 🔹 Labels & Inputs */
+label {
+font-weight: 500;
+display: block;
+margin-bottom: 6px;
+color: #444;
+}
+
+input[type="text"] {
+width: 95%;
+padding: 10px;
+border: 1px solid #ccc;
+border-radius: 4px;
+font-size: 14px;
+margin-bottom: 15px;
+}
+
+/* 🔹 Editable Table */
+table {
+width: 100%;
+border-collapse: collapse;
+margin-bottom: 20px;
+background: #fff;
+}
+
+th, td {
+border: 1px solid #ddd;
+padding: 10px;
+text-align: left;
+}
+
+/* 🔹 Table Headers */
+th {
+background: #e0e0e0;
+color: #333;
+font-weight: 600;
+}
+
+/* 🔹 Alternating Rows */
+tr:nth-child(even) td {
+background: #fdfdf5;
+}
+
+tr:nth-child(odd) td {
+background: #fefef9;
+}
+
+/* 🔹 Editable Cell Highlight */
+td[contenteditable="true"] {
+background-color: #fefef2;
+transition: background 0.2s ease-in-out;
+cursor: text;
+}
+
+td[contenteditable="true"]:hover {
+background-color: #fffde6;
+}
+
+td[contenteditable="true"]:focus {
+background-color: #fff9c4;
+border: 2px solid #007bff;
+outline: none;
+box-shadow: 0 0 4px rgba(0, 123, 255, 0.4);
+}
+
+/* 🔹 General Button Styles */
+button, .btn {
+font-size: 14px;
+font-weight: 600;
+border: none;
+padding: 10px 15px;
+border-radius: 6px;
+cursor: pointer;
+transition: background 0.2s ease-in-out, transform 0.2s ease-in-out;
+display: inline-block;
+text-align: center;
+background: #333;
+color: white;
+}
+
+/* 🔹 Hover Effect */
+button:hover, .btn:hover {
+background: #000;
+transform: scale(1.01);
+}
+
+/* 🔹 Primary Button */
+.btn-primary, .btn-generate {
+background: #007bff;
+color: white;
+}
+
+.btn-primary:hover {
+background: #0056b3;
+}
+
+/* 🔥 Sticky Footer - Lock Layout */
+.sticky-footer {
+position: fixed;
+bottom: 0;
+left: 0;
+width: 100%;
+background-color: #fff;
+box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
+z-index: 1000;
+display: flex;
+align-items: center;
+justify-content: space-between;
+padding: 10px 20px;
+transform: translateY(100%);
+transition: transform 0.3s ease-in-out, box-shadow 0.2s ease-in-out;
+}
+
+/* 🟢 Keep Layout Consistent (Prevent shifting) */
+.sticky-footer.visible {
+display: flex;
+transform: translateY(0);
+justify-content: space-between; /* Ensures even button spacing */
+align-items: center; /* Keeps vertical alignment */
+}
+
+/* 🎯 Footer Button Styling */
+.sticky-footer .btn {
+flex-grow: 1;
+text-align: center;
+padding: 10px;
+min-width: 150px; /* Prevents shrinking */
+}
+
+/* 🔹 Ensure Footer Text (Left Side) Stays Consistent */
+.footer-left {
+font-weight: bold;
+padding-left: 20px;
+white-space: nowrap; /* Prevents text wrapping */
+}
+
+/* 🔥 Fix Button Scaling When Clicked */
+.btn-generate, .btn-download {
+transition: background 0.2s ease-in-out, transform 0.1s ease-in-out;
+}
+
+
+.btn-generate:active, .btn-download:active {
+transform: scale(0.98); /* Prevents the layout from shifting */
+}
+.btn-disabled, .btn[disabled] {
+    background: #ccc !important;
+    color: #666 !important;
+    cursor: not-allowed !important;
+    opacity: 0.6;
+    pointer-events: none;
+}
+
+
+/* 🔹 Sticky Row Buttons */
+#rowButtons {
+background: white;
+padding: 10px 20px;
+width: 100%;
+z-index: 1000;
+box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+}
+
+#rowButtons.sticky {
+position: fixed;
+top: 0;
+left: 0;
+width: 100%;
+background: white;
+z-index: 1100;
+box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+transform: translateY(0);
+}
+
+/* 🔹 Info Box (Accordion) */
+.accordion-btn {
+background: #003F7D;
+display: inline-flex; /* Keeps icon & text aligned */
+min-width: max-content; /* Ensures button doesn’t shrink */
+gap: 6px; /* Space between icon & text */
+color: white;
+border: none;
+padding: 10px 15px;
+border-radius: 6px;
+font-size: 14px;
+cursor: pointer;
+transition: background 0.2s ease-in-out;
+display: inline-block;
+margin-bottom: 10px;
+}
+
+.accordion-btn:hover {
+background: #0055B3;
+transform: scale(1.01);
+}
+
+/* 🔹 Info Box (Default Collapsed) */
+.info-box {
+background: #e9f7ef;
+border-left: 5px solid #28a745;
+padding: 15px;
+margin-bottom: 20px;
+display: none;
+border-radius: 6px;
+}
+
+.info-box ul {
+list-style: none;
+padding-left: 0;
+}
+
+/* 🔹 Show Info Box when Expanded */
+.info-box.collapsed:not(.expanded) {
+    display: none;
+}
+.info-box.expanded {
+    display: block;
+    animation: fadeIn 0.3s ease-in-out;
+}
+
+/* 🔹 Smooth Fade-in Animation */
+@keyframes fadeIn {
+from {
+    opacity: 0;
+    transform: translateY(-5px);
+}
+to {
+    opacity: 1;
+    transform: translateY(0);
+}
+}
+
+/* 🔹 Ensure Input Fields & Buttons Stay in Line */
+.module-input-container {
+display: flex;
+align-items: center;
+gap: 10px;
+width: 100%;
+}
+
+/* 🔹 Prevent Label Wrapping */
+.module-label {
+white-space: nowrap;
+flex-shrink: 0;
+font-weight: bold;
+}
+
+/* 🔹 Make Input Expand */
+.module-input-container input {
+flex-grow: 1;
+padding: 10px;
+border: 1px solid #ccc;
+border-radius: 4px;
+font-size: 14px;
+}
+
+/* 🔹 Two-Column Layout */
+.two-column-container {
+display: flex;
+gap: 20px;
+justify-content: space-between;
+align-items: flex-start;
+}
+
+/* 🔹 Columns */
+.column {
+flex: 1;
+min-width: 300px;
+}
+
+/* 🔹 Responsive Fix */
+@media (max-width: 1024px) {
+.btn-container {
+    flex-direction: column;
+}
+}
+
+/* 🔥 Sticky Row Buttons */
+#rowButtons {
+position: sticky;
+top: 0;
+left: 0;
+width: 100%;
+background: white;
+z-index: 1100;
+display: flex;
+align-items: center;
+justify-content: space-between; /* Left & Right Layout */
+padding: 10px 20px;
+box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+}
+
+/* Left Side: Add Rows Buttons */
+.row-buttons-left {
+display: flex;
+gap: 10px;
+}
+
+/* Right Side: Generate Buttons */
+.row-buttons-right {
+display: flex;
+align-items: center;
+gap: 10px;
+margin-right: 20px; /* Ensure it doesn't touch the screen edge */
+flex-wrap: wrap; /* Prevents buttons from overflowing */
+max-width: 100%; /* Ensures it doesn't exceed parent width */
+overflow: hidden; /* Prevents horizontal scrolling issues */
+}
+
+/* Ensure "Generate" Label Stays in Place */
+.generate-label {
+font-weight: bold;
+margin-right: 10px;
+}
+
+/* 🔥 Sticky Footer - Full Width & Balanced Layout */
+.sticky-footer {
+position: fixed;
+bottom: 0;
+left: 0;
+width: 100%;
+background-color: #fff;
+box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
+z-index: 1000;
+display: flex;
+align-items: center;
+padding: 10px 20px;
+transform: translateY(100%);
+transition: transform 0.3s ease-in-out, box-shadow 0.2s ease-in-out;
+}
+
+/* ✅ Show footer when active */
+.sticky-footer.visible {
+transform: translateY(0);
+}
+
+/* 🔹 Left: Remove Rows Button */
+.footer-left {
+display: flex;
+align-items: center;
+}
+
+/* 🔹 Center: Data Row Counter - Fully Centered */
+.footer-center {
+position: absolute;
+left: 50%;
+transform: translateX(-50%);
+font-weight: bold;
+font-size: 16px;
+white-space: nowrap; /* Prevents breaking */
+}
+
+/* 🔹 Button Styling */
+.btn-danger {
+background: #333;
+color: white;
+padding: 10px 15px;
+font-size: 14px;
+border-radius: 6px;
+cursor: pointer;
+transition: background 0.2s ease-in-out;
+}
+
+.btn-danger:hover {
+background: #000;
+}
+#feedbackTable {
+padding-left: 20px;
+}
+#rubric-table {
+    padding-left: 20px;
+    }
+
+/* 🔹 Sticky Row Buttons - Full Width */
+.full-width-bar {
+position: sticky;
+top: 0;
+left: 0;
+width: 100vw; /* Ensure full width */
+background: white;
+z-index: 1100;
+display: flex;
+align-items: center;
+justify-content: space-between;
+box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+}
+
+/* 🔄 Sticky Effect */
+.full-width-bar.sticky {
+position: fixed;
+top: 0;
+width: 100vw;
+box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+transform: translateY(0);
+}
+
+/* 🔹 Left Side: Add Rows */
+.row-buttons-left {
+display: flex;
+align-items: center;
+gap: 10px;
+}
+
+/* 🔹 Center "Add" Label */
+.row-buttons-left span {
+font-weight: bold;
+min-width: 50px; /* Ensures alignment */
+text-align: center;
+}
+
+/* 🔹 Right Side: Generate Buttons */
+.row-buttons-right {
+display: flex;
+align-items: center;
+gap: 10px;
+max-width: calc(100% - 200px); /* Ensures it doesn't push beyond screen */
+flex-wrap: wrap; /* Allows wrapping instead of pushing off-screen */
+overflow: hidden; /* Prevents unwanted overflow */
+}
+
+/* 🔹 Ensure "Generate" Label Stays in Place */
+.generate-label {
+font-weight: bold;
+margin-right: 10px;
+}
+
+/* 🔹 Prevent Moderator Summary from Overflowing */
+#generateSummary {
+margin-right: 20px; /* Adds space to keep it within screen */
+}
+
+/* 🔹 Button Styling */
+#rowButtons button {
+padding: 12px 16px;
+font-size: 14px;
+font-weight: 600;
+border-radius: 6px;
+background: #333;
+color: white;
+border: none;
+cursor: pointer;
+transition: background 0.2s ease-in-out, transform 0.2s ease-in-out;
+}
+
+#rowButtons button:hover {
+background: black;
+transform: scale(1.01);
+}
+
+#feedbackTable {
+width: 97%; /* Ensures it takes full width */
+max-width: 98vw; /* Prevents overflow beyond screen */
+margin-left: 20px;
+margin-top: 20px;
+margin-bottom: 80px;
+table-layout: auto; /* Allows columns to adjust dynamically */
+overflow-x: auto; /* Enables horizontal scrolling if needed */
+}
+.step-number {
+display: inline-flex;
+align-items: center;
+justify-content: center;
+width: 26px; /* Adjust size */
+height: 26px;
+background: #0050b3; /* Strong blue */
+color: white;
+font-weight: bold;
+border-radius: 50%; /* Circular */
+font-size: 14px;
+margin-right: 10px; /* Space between number & heading */
+}
+
+
+
+nav {
+    background-color: #333;
+    padding: 10px;
+    font-family: sans-serif; 
+}
+
+ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+}
+
+li {
+    margin-right: 20px;
+}
+
+a {
+    text-decoration: none;
+    color: #0645AD;
+    font-size: 16px;
+    padding: 8px 0px;
+    border-radius: 6px;
+    transition: background 0.3s;
+}
+
+a:hover,
+a:focus {
+  color: #0b0080; /* A slightly darker blue for hover/focus */
+  text-decoration: underline;
+  border: 2px solid #800000; /* Solid border in primary blue */
+
+}
+
+/* Force Arial for everything */
+* {
+    font-family: Arial, sans-serif !important;
+}
+
+/* Reset VS Code Live Server styles */
+.vsc-initialized {
+    all: unset !important;
+}
+
+/* Main Menu Styling */
+.main-menu {
+    width: 100%;
+    background-color: #333;
+    text-align: left;
+    padding: 15px 20px;
+    margin: 0;
+    border: 0;
+}
+.main-menu ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+.main-menu ul li {
+    display: inline-block;
+    margin: 0 10px;
+}
+.main-menu ul li a {
+    text-decoration: none;
+    color: white;
+    font-weight: bold;
+    font-size: 16px;
+    padding: 12px 16px;
+    transition: background 0.3s ease;
+    border-bottom: 2px solid transparent;
+}
+.main-menu ul li a:hover {
+    background-color: #00447C;
+    border-radius: 3px;
+}
+
+/* Black background for the entire menu bar */
+.menu {
+    background: #000; /* Black menu */
+    padding: 10px 20px;
+    font-family: sans-serif;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  }
+  
+  /* Remove inherited global link styling by targeting .menu a specifically */
+  .menu a {
+    text-decoration: none !important;
+    color: #fff !important;         /* White text on black */
+    font-size: 15px;
+    padding: 8px 14px;
+    border-radius: 3px;
+    transition: background-color 0.3s ease, color 0.3s ease;
+    border: none !important;        /* Override any global border rules */
+    box-shadow: none !important;    /* If you have any global box-shadows */
+  }
+  
+  /* Menu items container */
+  .menu ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    align-items: center;
+  }
+  
+  /* Spacing between menu items */
+  .menu li {
+    margin-right: 20px;
+  }
+  .menu li:last-child {
+    margin-right: 0;
+  }
+  
+  /* Hover or focus: lighten background and keep text visible */
+  .menu a:hover,
+  .menu a:focus {
+    background-color: #444 !important; /* Dark gray background on hover */
+    color: #fff !important;            /* Keep text white */
+    border: none !important;           /* Override any global border styling */
+    text-decoration: none !important;  /* Remove underline if globally set */
+  }
+  
+  /* Optional: White hover (instead of gray) */
+  .menu a:hover.white-hover {
+    background-color: #fff !important; /* White background */
+    color: #000 !important;            /* Black text */
+  }
+  
+  /* Active menu item: highlight with a brand color or just keep it black */
+  .menu a.active {
+    background-color: #07407e !important; /* Example brand color */
+    color: #fff !important;
+  }
+
+/* Table Styling (Options Table) */
+.options-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+fieldset {
+    border: 1px solid #ccc;
+    padding: 15px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+}
+legend {
+    font-weight: bold;
+    padding: 0 5px;
+}
+
+.options-table th,
+.options-table td {
+    border: 1px solid #ddd;
+    padding: 12px;
+    text-align: left;
+}
+.options-table th {
+    background-color: #f0f0f0;
+}
+.options-table td:first-child {
+    width: 25%;
+}
+.options-table td:nth-child(2) {
+    width: 40%;
+}
+.options-table td:last-child {
+    width: 35%;
+    text-align: center;
+}
+
+/* Form Elements */
+fieldset {
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    padding: 15px;
+    border-radius: 5px;
+    position: relative;
+}
+legend {
+    font-weight: bold;
+    padding: 0 5px;
+}
+label {
+    display: block;
+    margin: 10px 0;
+}
+input[type="number"] {
+    width: 80px;
+    padding: 5px;
+    margin-left: 10px;
+}
+
+/* Notification Boxes */
+.notice-box {
+    margin-bottom: 10px;
+    padding: 10px;
+    border-left: 5px solid;
+    border-radius: 5px;
+    font-weight: bold;
+    min-height: 1em;
+}
+.success-state {
+    background: #e8f5e9;
+    border-left-color: #28a745;
+    color: #2c662d;
+}
+.warning-state {
+    background: #fff3cd;
+    border-left-color: #ffa502;
+    color: #856404;
+}
+
+/* Result Container */
+#result {
+    background: #e8f5e9;
+    border: 1px solid #c8e6c9;
+    padding: 15px;
+    border-radius: 5px;
+    transition: background 0.3s ease-in-out;
+}
+
+/* Button Container */
+.button-container {
+    text-align: center;
+    margin-top: 15px;
+}
+
+/* Image Gallery */
+.image-gallery {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+}
+.image-gallery img {
+    width: 100px;
+    height: auto;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+#searchInput {
+    font-size: 16px;
+    padding: 8px;
+    width: 300px;
+    margin-bottom: 20px;
+  }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    background: #fff;
+  }
+  th, td {
+    border: 1px solid #ccc;
+    padding: 10px;
+    text-align: left;
+    vertical-align: top;
+  }
+  th {
+    background: #eee;
+  }
+  .vsc-initialized {
+    all: unset !important;
+}

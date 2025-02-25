@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>DMP Grade Calculator</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- Navigation Menu -->
+  <nav class="menu">
+    <ul>
+      <li><a href="index.html">Home</a></li>
+      <li><a href="mod.html">Moderate</a></li>
+      <li><a href="rub.html">Feedback Sheets</a></li>
+      <li><a href="dmp.html" class="active">DMP Calculator</a></li>
+      <li><a href="uspec.html">Module Specs</a></li>
+    </ul>
+</nav>
+
+
+  <div class="container">
+    <h1>DMP Grade Calculator</h1>
+
+    <form id="gradeForm">
+      <!-- SEMESTER 2 FIELDSET -->
+      <fieldset>
+        <legend>Semester 2 Portfolio (70% of module)</legend>
+
+        <!-- RPM Warning Box (Permanent) -->
+        <div id="rpmWarning" class="notice-box success-state">
+          All good! RPM inputs are valid.
+        </div>
+
+        <label>
+          RPM1 (out of 5):
+          <input type="number" id="rpm1" min="0" max="5" step="0.1">
+        </label>
+        <label>
+          RPM2 (out of 5):
+          <input type="number" id="rpm2" min="0" max="5" step="0.1">
+        </label>
+        <label>
+          RPM3 (out of 5):
+          <input type="number" id="rpm3" min="0" max="5" step="0.1">
+        </label>
+        <label>
+          RPM4 (out of 5):
+          <input type="number" id="rpm4" min="0" max="5" step="0.1">
+        </label>
+        <label>
+          Final Submission (report and digital assets) (%) :
+          <input type="number" id="finalSubmission" min="0" max="100" step="0.1">
+        </label>
+      </fieldset>
+
+      <!-- SEMESTER 1 FIELDSET -->
+      <fieldset>
+        <legend>Semester 1 Plan (30% of module)</legend>
+
+        <!-- Plan Warning Box (Permanent) -->
+        <div id="planWarning" class="notice-box success-state">
+          All good! Plan mark is valid.
+        </div>
+
+        <label>
+          Plan Mark (%) :
+          <input type="number" id="planMark" min="0" max="100" step="0.1">
+        </label>
+      </fieldset>
+    </form>
+
+    <div id="result">
+      <h2>Calculation Details</h2>
+      <p class="calculation explanation-text default-message">Enter the grades above to calculate final DMP mark.</p>
+            </div>
+
+    <div class="button-container">
+      <button id="copyButton" class="button">Copy Feedback Calculation</button>
+      <button id="resetButton" class="button">Reset</button>
+      <div id="copyNotice" style="display: none; margin-top: 10px; color: green; font-weight: bold;">
+        ✅ Calculation copied!
+      </div>
+    </div>
+    
+    <script>
+      function copyCalculation() {
+        const explanationText = document.querySelector('#explanationText')?.innerText.trim() || "";
+        if (!explanationText) return;
+    
+        navigator.clipboard.writeText(explanationText).then(() => {
+          const copyNotice = document.getElementById('copyNotice');
+          copyNotice.style.display = "block";
+          setTimeout(() => {
+            copyNotice.style.display = "none";
+          }, 2000);
+        }).catch(err => {
+          console.error('Failed to copy text:', err);
+        });
+      }
+    
+      document.getElementById('copyButton').addEventListener('click', copyCalculation);
+    </script>
+  </div>
+
+  <script>
+    // Attach event listeners to inputs
+    const inputs = document.querySelectorAll('#gradeForm input');
+    inputs.forEach(input => {
+      input.addEventListener('input', updateResults);
+    });
+
+    // Attach event listeners to buttons
+    document.getElementById('copyButton').addEventListener('click', copyCalculation);
+    document.getElementById('resetButton').addEventListener('click', resetForm);
+
+    // Allowed Plan Mark values
+    const permittedPlanMarks = [
+      100, 95, 90, 85, 78, 75, 72, 68, 65, 62, 58, 55, 52, 48, 45, 42,
+      38, 35, 32, 28, 25, 22, 18, 15, 12, 8, 5, 2, 0
+    ];
+
+    function updateResults() {
+      // Get all input values (default to 0 if empty)
+      let rpm1 = parseFloat(document.getElementById('rpm1').value) || 0;
+      let rpm2 = parseFloat(document.getElementById('rpm2').value) || 0;
+      let rpm3 = parseFloat(document.getElementById('rpm3').value) || 0;
+      let rpm4 = parseFloat(document.getElementById('rpm4').value) || 0;
+      let finalSubmission = parseFloat(document.getElementById('finalSubmission').value) || 0;
+      let planMark = parseFloat(document.getElementById('planMark').value) || 0;
+
+      // 1) Validate RPM input: check if any RPM is out of range (0-5)
+      const rpmInputs = [rpm1, rpm2, rpm3, rpm4];
+      let anyRPMOutOfRange = rpmInputs.some(rpm => rpm < 0 || rpm > 5);
+
+      const rpmWarningEl = document.getElementById('rpmWarning');
+
+      // Toggle message box styling & text for RPM
+      if (anyRPMOutOfRange) {
+        rpmWarningEl.classList.remove('success-state');
+        rpmWarningEl.classList.add('warning-state');
+        rpmWarningEl.textContent = "⚠️ Please enter only numbers between 0 and 5 for RPM fields.";
+      } else {
+        rpmWarningEl.classList.remove('warning-state');
+        rpmWarningEl.classList.add('success-state');
+        rpmWarningEl.textContent = "All good! RPM inputs are valid.";
+      }
+
+      // 2) Validate Plan Mark input
+      const planWarningEl = document.getElementById('planWarning');
+      let planIsValid = permittedPlanMarks.includes(planMark);
+
+      if (!planIsValid && document.getElementById('planMark').value !== "") {
+        planWarningEl.classList.remove('success-state');
+        planWarningEl.classList.add('warning-state');
+        planWarningEl.textContent = "⚠️ Please enter one of the permitted Plan Mark values.";
+      } else {
+        planWarningEl.classList.remove('warning-state');
+        planWarningEl.classList.add('success-state');
+        planWarningEl.textContent = "All good! Plan mark is valid.";
+      }
+
+      // Calculate RPM total and percentage
+      const rpmTotal = rpm1 + rpm2 + rpm3 + rpm4;  // out of 20
+      const rpmPercentage = (rpmTotal / 20) * 100; // convert to % out of 100
+
+      // Semester 2 computed mark = 10% RPM + 90% Final Submission
+      const semester2Computed = (rpmPercentage * 0.1) + (finalSubmission * 0.9);
+
+      // Step marking: round to nearest 5
+      const semester2Stepped = Math.round(semester2Computed / 5) * 5;
+
+      // Overall module mark = 30% Plan + 70% Semester 2 (stepped)
+      const overallMark = (planMark * 0.3) + (semester2Stepped * 0.7);
+
+      // Explanation text
+      const explanationText = `
+  Overall mark for DMP: Semester 1 (${planMark} x 0.3) + Semester 2 (${semester2Stepped} x 0.7) 
+  = ${Math.round(planMark * 0.3)} + ${Math.round(semester2Stepped * 0.7)} = ${Math.round(overallMark)}
+`;
+
+      // Update result area
+      const resultDiv = document.getElementById('result');
+      resultDiv.innerHTML = `
+<h2>Overall Module Mark: ${Math.round(overallMark)}%</h2>
+<p class="calculation explanation-text" id="explanationText">${explanationText}</p>      `;
+    }
+
+    function copyCalculation() {
+  const explanationText = document.querySelector('#explanationText')?.innerText.trim() || "";
+  if (!explanationText) return;
+
+  navigator.clipboard.writeText(explanationText).then(() => {
+    const copyButton = document.getElementById('copyButton');
+
+    // Store the original button text
+    const originalText = copyButton.innerHTML;
+
+    // Replace button text with confirmation message
+    copyButton.innerHTML = "✅ Calculation copied!";
+    copyButton.disabled = true;
+
+    // Restore button text after 2 seconds
+    setTimeout(() => {
+      copyButton.innerHTML = originalText;
+      copyButton.disabled = false;
+    }, 2000);
+  }).catch(err => {
+    console.error('Failed to copy text:', err);
+  });
+}
+
+    function resetForm() {
+      document.getElementById('gradeForm').reset();
+
+      // Reset result area
+      document.getElementById('result').innerHTML = `
+        <h2>Calculation Details</h2>
+        <p>Enter the grades above to see your final mark and how it is calculated.</p>
+      `;
+
+      // Reset both notices to "success" by default
+      const rpmWarningEl = document.getElementById('rpmWarning');
+      rpmWarningEl.classList.remove('warning-state');
+      rpmWarningEl.classList.add('success-state');
+      rpmWarningEl.textContent = "All good! RPM inputs are valid.";
+
+      const planWarningEl = document.getElementById('planWarning');
+      planWarningEl.classList.remove('warning-state');
+      planWarningEl.classList.add('success-state');
+      planWarningEl.textContent = "All good! Plan mark is valid.";
+    }
+  </script>
+</body>
+</html>

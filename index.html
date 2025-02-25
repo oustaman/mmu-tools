@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Navigation Menu & Options Table</title>
+  <!-- Link to your external CSS -->
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<!-- Navigation Menu -->
+<nav class="menu">
+  <ul>
+    <li><a href="index.html" class="active">Home</a></li>
+    <li><a href="mod.html">Moderate</a></li>
+    <li><a href="rub.html">Feedback Sheets</a></li>
+    <li><a href="dmp.html">DMP Calculator</a></li>
+    <li><a href="uspec.html">Module Specs</a></li>
+  </ul>
+</nav>
+
+<!-- Main Container for the Options Table -->
+<div class="container">
+  <h1>🤠 Howdy</h1>
+  <!-- 4-Column Table -->
+  <table class="options-table">
+    <thead>
+      <tr>
+        <th>Option</th>
+        <th>Description</th>
+        <th>Preview</th>
+        <th>Changelog</th>
+      </tr>
+    </thead>
+    <tbody>
+      <!-- RubriFlow Row -->
+      <tr>
+        <td>
+          <strong></strong><br>
+          <button href="rub.html" class="button">RubriFlow</button><br><br><em>RubriFlow, helps your rubric sheets to flow smoothly</em>
+        </td>
+        <td>
+          Effortlessly generate multiple feedback sheets and a moderator sheet at once.
+        </td>
+        <td>
+          <div class="image-gallery">
+            <img src="img/65_PeanutB.Waffles_Page_1.jpeg" alt="RubriFlow Preview 1" />
+            <img src="img/65_PeanutB.Waffles_Page_2.jpeg" alt="RubriFlow Preview 2" />
+            <img src="img/moderation_data_sheet_Page_1.jpeg" alt="Moderatio Sheet Preview 1" />
+          </div>
+        </td>
+        <td>
+          <!-- Accordion button for single Info Box -->
+          <button class="accordion-btn" data-tool="rubriflow">View Changelog</button>
+        </td>
+      </tr>
+
+      <!-- Moderator Row -->
+      <tr>
+        <td>
+          <a href="mod.html">
+            <button class="button">ModuL8</button>
+        </a>
+          <button href="mod.html" class="button">ModuL8</button><br><br><em>ModuL8, pronounced “Modulate”. Just nerdy.</em>
+        </td>
+        <td>
+          Create a structured moderation report for evaluation. 
+        </td>
+        <td>
+          <img src="img/ModeratorTool_Page_1.jpeg" alt="Moderator Data Sheet" width="150" />
+          <img src="img/ModeratorTool_Page_2.jpeg" alt="Moderator Data Sheet" width="150" />
+        </td>
+        <td>
+          <button class="accordion-btn" data-tool="moderator">View Changelog</button>
+        </td>
+      </tr>
+
+      <!-- DMP Calculator Row -->
+      <tr>
+        <td>
+            <button href="dmp.html" class="button">DMP Calc</button>
+        </td>
+        <td>
+          Calculate marks for the Digital Media Project (DMP).
+        </td>
+        <td>
+          <img src="dmp-preview.png" alt="DMP Calculator Preview" width="150" />
+        </td>
+        <td>
+          <button class="accordion-btn" data-tool="dmp">View Changelog</button>
+        </td>
+      </tr>
+            <!-- Unit Specification Documents Row -->
+            <tr>
+                <td>
+                    <button href="uspec.html" class="button">Unit Spec</button>
+                </td>
+                <td>
+                Browse Unit Specifications conveniently (test version)
+                </td>
+                <td>
+                  <img />
+                </td>
+                <td>
+                </td>
+              </tr>
+                          <!-- BaseLiner-->
+            <tr>
+                <td>
+                    <button class="button btn-disabled">BaseLiner</button>
+                </td>
+                <td>
+                  Simple checklist tool with the Moodle Baseline (will add later)
+                </td>
+                <td>
+                    <img />
+                </td>
+                <td>
+                </td>
+              </tr>
+    </tbody>
+  </table>
+
+  <!-- Single Info Box (Collapsed by default) -->
+  <div id="changelog-container" class="info-box collapsed">
+    <h3 id="changelog-title">Changelog</h3>
+    <div id="changelog-content">
+      <!-- Filled by JavaScript on button click -->
+    </div>
+  </div>
+</div>
+
+
+<!-- JavaScript for Single Info Box Toggling -->
+<script>
+  // Example content for each tool’s changelog
+  const changelogs = {
+    rubriflow: `
+<div class="version">
+  <h2>Version 4: Moderation Support &amp; Statistical Analysis</h2>
+  <p><strong>v4.7</strong> – Top level menu - access to other tools is now possible from the top level</p>
+  <p><strong>v4.6</strong> – UI improvements - Box &amp; Legend introduced</p>
+  <p><strong>v4.5</strong> – Introduced picking random student sample according to grade bands, and a secondary page with full cohort organized by gradebands</p>
+  <p><strong>v4.4</strong> – Added counter at the sticky footer</p>
+  <p><strong>v4.3</strong> – Implemented sticky table headers and sticky footer</p>
+  <p><strong>v4.2</strong> – Improved color styling and removed redundant CSS</p>
+  <p><strong>v4.1</strong> – Bulk Row Management &amp; Enhanced Excel Compatibility</p>
+  <p>Implemented bulk row management. Improved Excel copy-paste handling, ensuring smoother data import.</p>
+  <p><strong>v4.0</strong> – Moderation Data Sheet Introduced</p>
+  <p>Added statistical calculations including mean, median, mode, standard deviation, skewness, and kurtosis.</p>
+</div>
+
+<!-- Version 3 -->
+<div class="version">
+  <h2>Version 3: Major Code Optimization &amp; Table-Based Rubric Input</h2>
+  <p><strong>v3.3</strong> – JavaScript refactored to reduce duplicate code, streamlining processes</p>
+  <p><strong>v3.2</strong> – Automatic renaming of PDF files in the format 'Mark Student Name.pdf'</p>
+  <p><strong>v3.1</strong> – Introduced color-coded, automatic highlight of the rubric tables</p>
+  <p><strong>v3.0</strong> – Dynamic Rubric Table &amp; Code Reduction</p>
+  <p>Replaced the old hardcoded system with a dynamic rubric table. Allowed users to paste entire rubric structures directly from Excel. Massively reduced code complexity, making the tool faster and more efficient.</p>
+</div>
+
+<!-- Version 2 -->
+<div class="version">
+  <h2>Version 2: Customization and Dynamic Input</h2>
+  <p><strong>v2.5</strong> – Improved compatibility and stability issues</p>
+  <p><strong>v2.4</strong> – Swapped Handsontable with DataTables</p>
+  <p>Handsontable is very robust but requires licensing for commercial applications. DataTables is free and won't cause any burden to the university.</p>
+  <p><strong>v2.3</strong> – Improved Data Persistence and stability issues</p>
+  <p><strong>v2.2</strong> – Customizable headers</p>
+  <p><strong>v2.1</strong> – Implemented checkbox toggles for enabling/disabling rubric grading descriptors dynamically</p>
+  <p><strong>v2.0</strong> – Introduced spreadsheet framework (Handsontable)</p>
+  <p>Removed CSV import and introduced feedback via input tables. Major code refactoring reduced complexity and improved maintainability.</p>
+</div>
+
+<!-- Version 1 -->
+<div class="version">
+  <h2>Version 1: HTML &amp; JavaScript, Hardcoded Descriptors</h2>
+  <p><strong>v1.4</strong> – Fixed formatting inconsistencies when exporting PDFs</p>
+  <p><strong>v1.3</strong> – Improved handling of large data sets and addressed row misalignment issues in exported PDFs</p>
+  <p><strong>v1.2</strong> – Replaced input fields with an editable table for easier data entry</p>
+  <p><strong>v1.1</strong> – Introduced basic styling, added simple form validation, and fixed minor alignment issues in PDFs</p>
+  <p><strong>v1.0</strong> – Initial Web-Based Version with CSV import</p>
+  <p>Transitioned from Excel to an HTML/JavaScript-based app. Hardcoded rubric descriptors directly into the code. Allowed basic feedback entry and formatting. Introduced PDF generation support using jsPDF.</p>
+</div>
+
+<!-- Version 0.1 -->
+<div class="version">
+  <h2>Version 0.1 (Early Prototype) – Excel-Based Solution</h2>
+  <p>Initial concept developed as an Excel sheet. Contained a manual feedback system with predefined cells for entering grades and comments. Limited formatting, prone to breaking when adding new descriptors. Difficult to scale, and export PDFs at mass. Inconsistent row formatting across different student entries.</p>
+</div>
+    `,
+    moderator: `
+    <p>### More testing required</p>
+    <p><strong>v0.4</strong> – Experimenting with print through the browser print dialog.</p>
+    <p><strong>v0.3</strong> – Added visualisations and color.</p>
+    <p><strong>v0.2</strong> – Introduced live refresh on the browser.</p>
+    <p><strong>v0.1</strong> – Downsizing RubriFlow to moderation core.</p>
+    `,
+    dmp: `
+    <p><strong>v1</strong> – First functioning calculator release.</p>
+    <p><strong>v0.6</strong> – Copy to clipboard & reset buttons.</p>
+    <p><strong>v0.6</strong> – UI improvements & little warnings.</p>
+    <p><strong>v0.5</strong> – Introduced human-friendly wording to explain how calculations are made.</p>
+    <p><strong>v0.4</strong> – UI elements.</p>
+    <p><strong>v0.3</strong> – Refactored Calculator code - removing redundancy.</p>
+    <p><strong>v0.2</strong> – Added parameters and weighting.</p>
+    <p><strong>v0.1</strong> – Dummy Javascript calculator.</p>
+    `
+  };
+
+  document.addEventListener("DOMContentLoaded", function() {
+    const container = document.getElementById("changelog-container");
+    const contentDiv = document.getElementById("changelog-content");
+
+    // Attach click event to each "View Changelog" button
+    document.querySelectorAll(".accordion-btn").forEach(btn => {
+      btn.addEventListener("click", function() {
+        const toolKey = this.dataset.tool;
+        // Fill the #changelog-content with the correct snippet
+        contentDiv.innerHTML = changelogs[toolKey] || "<p>No changelog found</p>";
+
+        // Toggle collapsed/expanded on the container
+        if (container.classList.contains("collapsed")) {
+          container.classList.remove("collapsed");
+          container.classList.add("expanded");
+        } else {
+          container.classList.remove("expanded");
+          container.classList.add("collapsed");
+        }
+      });
+    });
+  });
+</script>
+
+</body>
+</html>
