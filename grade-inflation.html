@@ -63,12 +63,29 @@
             color: white;
         }
         
+        /* New charts row layout */
+        .charts-row {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        
         .chart-container {
+            flex: 1;
+            min-width: 250px;
             margin-bottom: 20px;
             padding: 15px;
             background-color: var(--bg-primary);
             border: 1px solid var(--border-color);
             border-radius: 0.5rem;
+        }
+        
+        @media (max-width: 992px) {
+            .chart-container {
+                flex-basis: 100%;
+            }
         }
         
         .chart-header {
@@ -1441,7 +1458,10 @@
                 '</div>' +
                 '</div>';
             
-            // Create charts containers
+            // Create charts containers in a row
+            html += '<div class="charts-row">';
+            
+            // Mean Grade Trend chart
             html += '<div class="chart-container">' +
                 '<div class="chart-header">' +
                 '<div class="chart-title">Mean Grade Trend</div>' +
@@ -1453,6 +1473,7 @@
                 '<canvas id="trendChart" height="250"></canvas>' +
                 '</div>';
             
+            // Grade Distribution chart
             html += '<div class="chart-container">' +
                 '<div class="chart-header">' +
                 '<div class="chart-title">Grade Distribution by Year</div>' +
@@ -1464,6 +1485,7 @@
                 '<canvas id="distributionChart" height="250"></canvas>' +
                 '</div>';
             
+            // First Class Awards chart
             html += '<div class="chart-container">' +
                 '<div class="chart-header">' +
                 '<div class="chart-title">First Class Awards (70%+) by Year</div>' +
@@ -1474,6 +1496,9 @@
                 '</div>' +
                 '<canvas id="firstClassChart" height="250"></canvas>' +
                 '</div>';
+            
+            // Close charts row
+            html += '</div>';
             
             // Year-by-Year Statistics Table
             html += '<h3 class="text-xl font-bold mb-2 mt-4">Year-by-Year Statistics</h3>' +
