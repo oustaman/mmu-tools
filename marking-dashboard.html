@@ -1,0 +1,1286 @@
+
+
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Marking Assistant Dashboard</title>
+    
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" 
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" 
+          integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" 
+          crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="styles.css">
+
+    <!-- Added style block for sidebars -->
+    <style>
+      /* Example: Collapsing the left sidebar to 60px wide */
+      .sidebar.collapsed {
+        width: 60px;
+        overflow: hidden;
+        transition: width 0.3s;
+      }
+
+      /* Example: Hiding the right sidebar completely */
+      .right-sidebar.collapsed {
+        width: 0;
+        display: none;
+        transition: width 0.3s;
+      }
+
+      /* Expand states for main content */
+      .main-content.left-expanded {
+        margin-left: 60px; /* match .sidebar.collapsed width */
+      }
+      .main-content.right-expanded {
+        /* If your right sidebar was normally 250px, you can do margin-right: 250px */
+        margin-right: 0; 
+      }
+      .main-content.fully-expanded {
+        margin-left: 60px; 
+        margin-right: 0;
+      }
+    </style>
+
+    <script src="sidebar-links.js"></script>
+    <script src="core.js"></script>
+</head>
+
+<body>
+    <!-- Single Header -->
+    <header class="header">
+        <button class="hamburger-menu" aria-label="Toggle sidebar">
+            <i class="fas fa-bars"></i>
+        </button>
+        
+        <div class="logo">
+            <span class="logo-text">Marking Assistant</span>
+        </div>
+        
+        <nav class="nav-tabs">
+            <a href="#dashboard" class="nav-tab active">Dashboard</a>
+            <a href="#history" class="nav-tab">History</a>
+        </nav>
+        
+        <!-- Centered search box (hidden on mobile) -->
+        <div class="search-container">
+            <i class="fas fa-search search-icon"></i>
+            <input type="text" id="search-input" class="search-input" placeholder="Search submissions...">
+        </div>
+        
+        <!-- Header controls positioned above right sidebar -->
+        <div class="header-controls">
+            <!-- Font size controls -->
+            <div class="font-size-controls">
+                <div id="decrease-font" class="font-size-btn">
+                    <i class="fas fa-minus"></i>
+                </div>
+                <div class="text-label mx-2 text-muted">Text</div>
+                <div id="increase-font" class="font-size-btn">
+                    <i class="fas fa-plus"></i>
+                </div>
+            </div>
+            
+            <button class="theme-toggle" aria-label="Toggle dark/light mode">
+                <i class="fas fa-sun fa-lg"></i>
+            </button>
+            
+            <button class="toggle-right-sidebar" aria-label="Toggle right sidebar">
+                <i class="fas fa-cog fa-lg"></i>
+            </button>
+        </div>
+    </header>
+
+    <!-- Mobile search bar (only visible on smaller screens) -->
+    <div class="mobile-search-container">
+        <div class="relative w-full">
+            <i class="fas fa-search search-icon"></i>
+            <input type="text" id="mobile-search-input" class="search-input w-full" placeholder="Search submissions...">
+        </div>
+    </div>
+
+    <!-- Main layout -->
+    <div class="layout">
+        <!-- Left sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-section">
+                <div class="sidebar-header">
+                    <span>University Links</span>
+                </div>
+                <div id="university-content" class="sidebar-content">
+                    <!-- Populated by sidebar-links.js -->
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main content area with tab content -->
+        <main class="main-content">
+            <!-- Dashboard tab content -->
+            <div id="dashboard-tab-content" class="tab-content active">
+                <h1 class="text-2xl font-bold mb-4">Marking Assistant Dashboard</h1>
+                
+                <!-- Summary Cards -->
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
+                    <!-- Total Submissions Card -->
+                    <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-4 border-l-4 border-blue-500">
+                        <div class="flex items-center">
+                            <div class="p-3 rounded-full bg-blue-100 dark:bg-blue-900 mr-4">
+                                <i class="fas fa-file-alt text-blue-500"></i>
+                            </div>
+                            <div>
+                                <p class="text-sm text-gray-500 dark:text-gray-400">Total Submissions</p>
+                                <p class="text-xl font-bold" id="total-count">42</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Waiting Submissions Card -->
+                    <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-4 border-l-4 border-yellow-500">
+                        <div class="flex items-center">
+                            <div class="p-3 rounded-full bg-yellow-100 dark:bg-yellow-900 mr-4">
+                                <i class="fas fa-clock text-yellow-500"></i>
+                            </div>
+                            <div>
+                                <p class="text-sm text-gray-500 dark:text-gray-400">Waiting</p>
+                                <p class="text-xl font-bold" id="waiting-count">12</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Unmarked Submissions Card -->
+                    <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-4 border-l-4 border-red-500">
+                        <div class="flex items-center">
+                            <div class="p-3 rounded-full bg-red-100 dark:bg-red-900 mr-4">
+                                <i class="fas fa-times-circle text-red-500"></i>
+                            </div>
+                            <div>
+                                <p class="text-sm text-gray-500 dark:text-gray-400">Unmarked</p>
+                                <p class="text-xl font-bold" id="unmarked-count">18</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Completed Submissions Card -->
+                    <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-4 border-l-4 border-green-500">
+                        <div class="flex items-center">
+                            <div class="p-3 rounded-full bg-green-100 dark:bg-green-900 mr-4">
+                                <i class="fas fa-check-circle text-green-500"></i>
+                            </div>
+                            <div>
+                                <p class="text-sm text-gray-500 dark:text-gray-400">Completed</p>
+                                <p class="text-xl font-bold" id="completed-count">12</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Progress Bar -->
+                <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-4 mb-6">
+                    <h2 class="text-lg font-semibold mb-2">Marking Progress</h2>
+                    <div class="w-full bg-gray-200 rounded-full h-4 mb-2">
+                        <div class="flex rounded-full h-4">
+                            <div class="bg-green-500 rounded-l-full" style="width: 33%;" id="completed-progress"></div>
+                            <div class="bg-yellow-500" style="width: 33%;" id="waiting-progress"></div>
+                            <div class="bg-red-500 rounded-r-full" style="width: 34%;" id="unmarked-progress"></div>
+                        </div>
+                    </div>
+                    <div class="flex text-sm justify-between mt-2">
+                        <div class="flex items-center">
+                            <div class="w-3 h-3 bg-green-500 rounded-full mr-1"></div>
+                            <span>Completed (33%)</span>
+                        </div>
+                        <div class="flex items-center">
+                            <div class="w-3 h-3 bg-yellow-500 rounded-full mr-1"></div>
+                            <span>Waiting (33%)</span>
+                        </div>
+                        <div class="flex items-center">
+                            <div class="w-3 h-3 bg-red-500 rounded-full mr-1"></div>
+                            <span>Unmarked (34%)</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Filters and Controls -->
+                <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-4 mb-6">
+                    <div class="flex flex-wrap justify-between items-center">
+                        <div class="mb-4 md:mb-0">
+                            <h2 class="text-lg font-semibold mb-2">Filters</h2>
+                            <div class="flex flex-wrap gap-2">
+                                <select id="module-filter" class="border rounded p-2 text-sm bg-gray-100">
+                                    <option value="ENG205">ENG205</option>
+                                    <option value="CS101">CS101</option>
+                                    <option value="MATH201">MATH201</option>
+                                </select>
+                                <select id="status-filter" class="border rounded p-2 text-sm bg-gray-100">
+                                    <option value="Unmarked">Unmarked</option>
+                                    <option value="Waiting">Waiting</option>
+                                    <option value="Completed">Completed</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div>
+                            <h2 class="text-lg font-semibold mb-2">Columns (Drag Columns & Drop to Reorder)</h2>
+                            <div class="flex flex-wrap gap-3">
+                                <label class="inline-flex items-center">
+                                    <input type="checkbox" class="column-toggle form-checkbox h-4 w-4 text-blue-600" data-column="1" checked>
+                                    <span class="ml-1 text-sm">Module</span>
+                                  </label>
+                                  <label class="inline-flex items-center">
+                                    <input type="checkbox" class="column-toggle form-checkbox h-4 w-4 text-blue-600" data-column="2" checked>
+                                    <span class="ml-1 text-sm">Due Date</span>
+                                  </label>
+                                  <label class="inline-flex items-center">
+                                    <input type="checkbox" class="column-toggle form-checkbox h-4 w-4 text-blue-600" data-column="3" checked>
+                                    <span class="ml-1 text-sm">Days Left</span>
+                                  </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Submissions Table -->
+                <div class="bg-white dark:bg-gray-800 rounded-lg shadow overflow-hidden mb-6">
+                    <div class="overflow-x-auto">
+                        <table id="submissions-table" class="min-w-full divide-y divide-gray-200">
+                            <thead class="bg-gray-50 dark:bg-gray-700">
+                                <tr>
+                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider cursor-pointer" data-sort="name">
+                                        <div class="flex items-center">
+                                            Name
+                                            <i class="fas fa-sort ml-1"></i>
+                                        </div>
+                                    </th>
+                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider cursor-pointer" data-sort="module">
+                                        <div class="flex items-center">
+                                            Module
+                                            <i class="fas fa-sort ml-1"></i>
+                                        </div>
+                                    </th>
+                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider cursor-pointer" data-sort="dueDate">
+                                        <div class="flex items-center">
+                                            Due Date
+                                            <i class="fas fa-sort ml-1"></i>
+                                        </div>
+                                    </th>
+                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider cursor-pointer" data-sort="dueDate">
+                                        <div class="flex items-center">
+                                            Days Left
+                                            <i class="fas fa-sort ml-1"></i>
+                                        </div>
+                                    </th>
+                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider cursor-pointer" data-sort="markStatus">
+                                        <div class="flex items-center">
+                                            Marking Status
+                                            <i class="fas fa-sort ml-1"></i>
+                                        </div>
+                                    </th>
+                                    <th scope="col" class="px-6 py-3 text-right text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
+                                        Actions
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody class="bg-white dark:bg-gray-800 divide-y divide-gray-200" id="submissions-body">
+                                <!-- Table rows will be populated by JavaScript -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                
+                <!-- Action Buttons -->
+                <div class="flex gap-3 mb-6">
+                    <button id="add-submission" class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded flex items-center">
+                        <i class="fas fa-plus mr-2"></i> Add Submission
+                    </button>
+                    <button id="bulk-add" class="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded flex items-center">
+                        <i class="fas fa-list mr-2"></i> Bulk Add
+                    </button>
+                    <button id="export-data" class="bg-purple-500 hover:bg-purple-600 text-white px-4 py-2 rounded flex items-center">
+                        <i class="fas fa-file-export mr-2"></i> Export Data
+                    </button>
+                    <button id="reset-data" class="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded flex items-center">
+                        <i class="fas fa-trash mr-2"></i> Reset Data
+                    </button>
+                </div>
+            </div>
+
+            <!-- History tab content -->
+            <div id="history-tab-content" class="tab-content">
+                <h1 class="text-2xl font-bold mb-4">Marking History</h1>
+                <div class="info-box">
+                    <div class="info-box-title">
+                        <i class="fas fa-info-circle"></i> 
+                        Marking History
+                    </div>
+                    <div class="info-content">
+                        <p>This section will show your marking history and statistics over time.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Settings tab content -->
+            <!-- (Add any other tab content if needed) -->
+
+        </main>
+
+        <!-- Right sidebar -->
+        <aside class="right-sidebar">
+            <div class="right-sidebar-header">Quick Tools</div>
+            <!-- Populated by sidebar-links.js -->
+        </aside>
+    </div>
+
+    <!-- Add/Edit Submission Modal -->
+    <div id="submission-modal" class="fixed inset-0 bg-black bg-opacity-50 hidden flex items-center justify-center z-50">
+        <div class="bg-white dark:bg-gray-800 rounded-lg shadow-lg max-w-md w-full mx-4">
+            <div class="p-4 border-b border-gray-200 dark:border-gray-700 flex justify-between items-center">
+                <h3 class="text-lg font-semibold" id="modal-title">Add New Submission</h3>
+                <button id="close-modal" class="text-gray-500 hover:text-gray-700">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="p-4">
+                <form id="submission-form">
+                    <input type="hidden" id="submission-id">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div class="mb-3">
+                            <label class="block text-sm font-medium mb-1">Student ID</label>
+                            <input type="text" id="student-id" class="w-full p-2 border rounded" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="block text-sm font-medium mb-1">Name</label>
+                            <input type="text" id="student-name" class="w-full p-2 border rounded" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="block text-sm font-medium mb-1">Module</label>
+                            <select id="student-module" class="w-full p-2 border rounded" required>
+                                <option value="CS101">CS101</option>
+                                <option value="ENG205">ENG205</option>
+                                <option value="MATH201">MATH201</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label class="block text-sm font-medium mb-1">Assignment</label>
+                            <input type="text" id="student-assignment" class="w-full p-2 border rounded" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="block text-sm font-medium mb-1">Due Date</label>
+                            <input type="date" id="due-date" class="w-full p-2 border rounded" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="block text-sm font-medium mb-1">Submission Status</label>
+                            <select id="submission-status" class="w-full p-2 border rounded" required>
+                                <option value="Waiting">Waiting</option>
+                                <option value="Unmarked">Unmarked</option>
+                                <option value="Completed">Completed</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label class="block text-sm font-medium mb-1">Marking Status</label>
+                            <select id="marking-status" class="w-full p-2 border rounded" required>
+                                <option value="Unmarked">Unmarked</option>
+                                <option value="Waiting">Waiting</option>
+                                <option value="Completed">Completed</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label class="block text-sm font-medium mb-1">Grade (if marked)</label>
+                            <input type="text" id="student-grade" class="w-full p-2 border rounded">
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label class="block text-sm font-medium mb-1">Notes</label>
+                        <textarea id="student-notes" class="w-full p-2 border rounded" rows="2"></textarea>
+                    </div>
+                    <div class="flex justify-end gap-2 mt-4">
+                        <button type="button" id="cancel-submission" class="px-4 py-2 border rounded">Cancel</button>
+                        <button type="submit" id="save-submission" class="px-4 py-2 bg-blue-500 text-white rounded">Save</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bulk Add Modal -->
+    <div id="bulk-add-modal" class="fixed inset-0 bg-black bg-opacity-50 hidden flex items-center justify-center z-50">
+        <div class="bg-white dark:bg-gray-800 rounded-lg shadow-lg max-w-md w-full mx-4">
+            <div class="p-4 border-b border-gray-200 dark:border-gray-700 flex justify-between items-center">
+                <h3 class="text-lg font-semibold">Bulk Add Submissions</h3>
+                <button id="close-bulk-modal" class="text-gray-500 hover:text-gray-700">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="p-4">
+                <p class="mb-4">Enter one submission per line in this format:<br>
+                <code>Student ID, Name, Module, Assignment, Due Date, Status</code></p>
+                <p class="mb-4 text-sm text-gray-500">Example:<br>
+                <code>ST1001, John Smith, CS101, Assignment 1, 2025-03-20, Waiting</code></p>
+                <form id="bulk-add-form">
+                    <div class="mb-3">
+                        <textarea id="bulk-data" class="w-full p-2 border rounded" rows="8" placeholder="Enter submissions data here..."></textarea>
+                    </div>
+                    <div class="flex justify-end gap-2 mt-4">
+                        <button type="button" id="cancel-bulk" class="px-4 py-2 border rounded">Cancel</button>
+                        <button type="submit" id="submit-bulk" class="px-4 py-2 bg-green-500 text-white rounded">Add Submissions</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const leftSidebar = document.querySelector('.sidebar');
+            const rightSidebar = document.querySelector('.right-sidebar');
+            const mainContent = document.querySelector('.main-content');
+        
+            const hamburgerMenu = document.querySelector('.hamburger-menu');
+            const toggleRightSidebar = document.querySelector('.toggle-right-sidebar');
+        
+            if (hamburgerMenu) {
+                hamburgerMenu.addEventListener('click', function () {
+                    leftSidebar.classList.toggle('collapsed');
+                    mainContent.classList.toggle('left-expanded');
+                });
+            }
+        
+            if (toggleRightSidebar) {
+                toggleRightSidebar.addEventListener('click', function () {
+                    rightSidebar.classList.toggle('collapsed');
+                    mainContent.classList.toggle('right-expanded');
+                });
+            }
+        });
+        </script>
+
+    <script>
+    // Ensure the DOM is fully loaded before initialization
+document.addEventListener('DOMContentLoaded', function() {
+    initDashboard();
+});
+
+// Sample data for submissions
+let submissions = [
+    {
+        id: 1,
+        name: "John Smith",
+        module: "CS101",
+        dueDate: "2025-03-15",
+        markStatus: "Completed",
+        grade: "85"
+    },
+    {
+        id: 2,
+        name: "Emily Johnson",
+        module: "CS101",
+        dueDate: "2025-03-15",
+        markStatus: "Completed",
+        grade: "72"
+    },
+    {
+        id: 3,
+        name: "Michael Brown",
+        module: "ENG205",
+        dueDate: "2025-03-20",
+        markStatus: "Waiting",
+        grade: ""
+    },
+    {
+        id: 4,
+        name: "Sarah Wilson",
+        module: "MATH201",
+        dueDate: "2025-03-22",
+        markStatus: "Waiting",
+        grade: ""
+    },
+    {
+        id: 5,
+        name: "David Lee",
+        module: "CS101",
+        dueDate: "2025-03-15",
+        markStatus: "Waiting",
+        grade: ""
+    },
+    {
+        id: 6,
+        name: "Jessica Martin",
+        module: "ENG205",
+        dueDate: "2025-03-20",
+        markStatus: "Unmarked",
+        grade: ""
+    },
+    {
+        id: 7,
+        name: "Daniel Clark",
+        module: "MATH201",
+        dueDate: "2025-03-22",
+        markStatus: "Unmarked",
+        grade: ""
+    },
+    {
+        id: 8,
+        name: "Jennifer Adams",
+        module: "CS101",
+        dueDate: "2025-03-15",
+        markStatus: "Unmarked",
+        grade: ""
+    },
+    {
+        id: 9,
+        name: "Robert White",
+        module: "ENG205",
+        dueDate: "2025-03-20",
+        markStatus: "Completed",
+        grade: "91"
+    },
+    {
+        id: 10,
+        name: "Laura Taylor",
+        module: "MATH201",
+        dueDate: "2025-03-22",
+        markStatus: "Unmarked",
+        grade: ""
+    }
+];
+
+// Store or load from localStorage
+if (!localStorage.getItem('submissions')) {
+    localStorage.setItem('submissions', JSON.stringify(submissions));
+} else {
+    submissions = JSON.parse(localStorage.getItem('submissions'));
+}
+
+// DOM elements
+const submissionsTable = document.getElementById('submissions-table');
+const submissionsHead = document.querySelector('#submissions-table thead tr');
+const submissionsBody = document.getElementById('submissions-body');
+const searchInput = document.getElementById('search-input');
+const mobileSearchInput = document.getElementById('mobile-search-input');
+const moduleFilter = document.getElementById('module-filter');
+const statusFilter = document.getElementById('status-filter');
+const columnToggles = document.querySelectorAll('.column-toggle');
+const addSubmissionBtn = document.getElementById('add-submission');
+const submissionModal = document.getElementById('submission-modal');
+const closeModalBtn = document.getElementById('close-modal');
+const cancelSubmissionBtn = document.getElementById('cancel-submission');
+const submissionForm = document.getElementById('submission-form');
+const tabs = document.querySelectorAll('.nav-tab');
+const tabContents = document.querySelectorAll('.tab-content');
+
+// Additional references for bulk-add
+const importCsvBtn = document.getElementById('bulk-add');
+const bulkAddModal = document.getElementById('bulk-add-modal');
+const closeBulkModalBtn = document.getElementById('close-bulk-modal');
+const cancelBulkBtn = document.getElementById('cancel-bulk');
+const bulkAddForm = document.getElementById('bulk-add-form');
+const bulkDataInput = document.getElementById('bulk-data');
+
+// Export
+const exportDataBtn = document.getElementById('export-data');
+
+const resetDataBtn = document.getElementById('reset-data');
+if (resetDataBtn) {
+    resetDataBtn.addEventListener('click', () => {
+        if (confirm("Are you sure you want to reset all data? This cannot be undone.")) {
+            localStorage.removeItem('submissions');
+            submissions = [];
+            displaySubmissions();
+            updateDashboardStats();
+            alert("All data has been cleared.");
+        }
+    });
+}
+
+// Current sort
+let currentSort = {
+    column: 'id',
+    direction: 'asc'
+};
+
+// Status cycle
+const statusCycle = ['Unmarked', 'Waiting', 'Completed'];
+
+// Initialize the dashboard
+function initDashboard() {
+    try {
+        // Reload from localStorage
+        const storedSubmissions = localStorage.getItem('submissions');
+        if (storedSubmissions) {
+            submissions = JSON.parse(storedSubmissions);
+        }
+        
+        // Restore column order if saved
+        const storedColumnOrder = localStorage.getItem('columnOrder');
+        if (storedColumnOrder) {
+            applyColumnOrder(JSON.parse(storedColumnOrder));
+        }
+        
+        displaySubmissions();
+        updateDashboardStats();
+        
+        setupEventListeners();
+        
+        // Column visibility
+        columnToggles.forEach(toggle => {
+            const column = parseInt(toggle.dataset.column);
+            toggleColumnVisibility(column, toggle.checked);
+        });
+    } catch (error) {
+        console.error('Error initializing dashboard:', error);
+    }
+}
+
+// Display submissions in the table
+function displaySubmissions(filteredData) {
+    const data = filteredData || submissions;
+    submissionsBody.innerHTML = '';
+    
+    if (data.length === 0) {
+        const emptyRow = document.createElement('tr');
+        const emptyCell = document.createElement('td');
+        emptyCell.className = 'px-6 py-4 whitespace-nowrap text-sm text-center text-gray-500';
+        emptyCell.textContent = 'No submissions found';
+        emptyCell.colSpan = 6; // Updated column count (added Days Left)
+        emptyRow.appendChild(emptyCell);
+        submissionsBody.appendChild(emptyRow);
+        return;
+    }
+    
+    data.forEach(sub => {
+        const row = document.createElement('tr');
+        row.className = 'hover:bg-gray-50 dark:hover:bg-gray-700';
+        
+        // Name
+        const nameCell = document.createElement('td');
+        nameCell.className = 'px-6 py-4 whitespace-nowrap text-sm font-medium';
+        nameCell.textContent = sub.name;
+        row.appendChild(nameCell);
+        
+        // Module
+        const moduleCell = document.createElement('td');
+        moduleCell.className = 'px-6 py-4 whitespace-nowrap text-sm';
+        moduleCell.textContent = sub.module;
+        row.appendChild(moduleCell);
+        
+        // Due Date
+        const dueDateCell = document.createElement('td');
+        dueDateCell.className = 'px-6 py-4 whitespace-nowrap text-sm';
+        dueDateCell.textContent = formatDate(sub.dueDate);
+        row.appendChild(dueDateCell);
+        
+        // Days Left
+        const daysLeftCell = document.createElement('td');
+        daysLeftCell.className = 'px-6 py-4 whitespace-nowrap text-sm';
+        const daysLeft = calculateDaysLeft(sub.dueDate);
+        daysLeftCell.textContent = daysLeft;
+        
+        // Apply color based on days left
+        if (daysLeft < 0) {
+            daysLeftCell.classList.add('text-red-600', 'font-medium');
+        } else if (daysLeft <= 3) {
+            daysLeftCell.classList.add('text-orange-600', 'font-medium');
+        } else if (daysLeft <= 7) {
+            daysLeftCell.classList.add('text-yellow-600');
+        }
+        
+        row.appendChild(daysLeftCell);
+        
+        // Marking Status
+        const markStatusCell = document.createElement('td');
+        markStatusCell.className = 'px-6 py-4 whitespace-nowrap';
+        const markStatusBadge = document.createElement('span');
+        markStatusBadge.className = `px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full ${getMarkingStatusColor(sub.markStatus)} cursor-pointer`;
+        markStatusBadge.textContent = sub.markStatus;
+        markStatusBadge.addEventListener('click', () => cycleMarkingStatus(sub.id));
+        markStatusCell.appendChild(markStatusBadge);
+        row.appendChild(markStatusCell);
+        
+        // Actions
+        const actionsCell = document.createElement('td');
+        actionsCell.className = 'px-6 py-4 whitespace-nowrap text-right text-sm font-medium';
+        
+        const editBtn = document.createElement('button');
+        editBtn.className = 'text-indigo-600 hover:text-indigo-900 mr-3';
+        editBtn.innerHTML = '<i class="fas fa-edit"></i>';
+        editBtn.addEventListener('click', () => editSubmission(sub.id));
+        
+        const deleteBtn = document.createElement('button');
+        deleteBtn.className = 'text-red-600 hover:text-red-900';
+        deleteBtn.innerHTML = '<i class="fas fa-trash"></i>';
+        deleteBtn.addEventListener('click', () => deleteSubmission(sub.id));
+        
+        actionsCell.appendChild(editBtn);
+        actionsCell.appendChild(deleteBtn);
+        row.appendChild(actionsCell);
+        
+        submissionsBody.appendChild(row);
+    });
+}
+
+// Update dashboard statistics
+function updateDashboardStats() {
+    if (!submissions || submissions.length === 0) return;
+    
+    const stats = {
+        total: submissions.length,
+        waiting: submissions.filter(sub => sub.markStatus === 'Waiting').length,
+        unmarked: submissions.filter(sub => sub.markStatus === 'Unmarked').length,
+        completed: submissions.filter(sub => sub.markStatus === 'Completed').length
+    };
+    
+    const totalCount = document.getElementById('total-count');
+    const waitingCount = document.getElementById('waiting-count');
+    const unmarkedCount = document.getElementById('unmarked-count');
+    const completedCount = document.getElementById('completed-count');
+    
+    if (totalCount) totalCount.textContent = stats.total;
+    if (waitingCount) waitingCount.textContent = stats.waiting;
+    if (unmarkedCount) unmarkedCount.textContent = stats.unmarked;
+    if (completedCount) completedCount.textContent = stats.completed;
+    
+    // Calculate percentages
+    const totalMarking = stats.total;
+    const completedPct = totalMarking ? ((stats.completed / totalMarking) * 100).toFixed(0) : 0;
+    const waitingPct = totalMarking ? ((stats.waiting / totalMarking) * 100).toFixed(0) : 0;
+    const unmarkedPct = totalMarking ? ((stats.unmarked / totalMarking) * 100).toFixed(0) : 0;
+    
+    const completedProgress = document.getElementById('completed-progress');
+    const waitingProgress = document.getElementById('waiting-progress');
+    const unmarkedProgress = document.getElementById('unmarked-progress');
+    
+    if (completedProgress) completedProgress.style.width = completedPct + '%';
+    if (waitingProgress) waitingProgress.style.width = waitingPct + '%';
+    if (unmarkedProgress) unmarkedProgress.style.width = unmarkedPct + '%';
+    
+    const progressLabels = document.querySelectorAll('.flex.text-sm.justify-between > div');
+    progressLabels.forEach(div => {
+        const span = div.querySelector('span');
+        if (!span) return;
+        if (span.textContent.includes('Completed')) {
+            span.textContent = `Completed (${completedPct}%)`;
+        } else if (span.textContent.includes('Waiting')) {
+            span.textContent = `Waiting (${waitingPct}%)`;
+        } else if (span.textContent.includes('Unmarked')) {
+            span.textContent = `Unmarked (${unmarkedPct}%)`;
+        }
+    });
+}
+
+// Filter submissions
+function filterSubmissions() {
+    const searchTerm = searchInput.value.toLowerCase();
+    const moduleValue = moduleFilter.value;
+    const statusValue = statusFilter.value;
+    
+    const filtered = submissions.filter(sub => {
+        const matchesSearch =
+            sub.name.toLowerCase().includes(searchTerm) ||
+            sub.module.toLowerCase().includes(searchTerm);
+        
+        const matchesModule = !moduleValue || sub.module === moduleValue;
+        const matchesStatus = !statusValue || sub.markStatus === statusValue;
+        
+        return matchesSearch && matchesModule && matchesStatus;
+    });
+    
+    displaySubmissions(filtered);
+}
+
+// Sort submissions
+function sortSubmissions(column) {
+    if (currentSort.column === column) {
+        currentSort.direction = currentSort.direction === 'asc' ? 'desc' : 'asc';
+    } else {
+        currentSort.column = column;
+        currentSort.direction = 'asc';
+    }
+    
+    const headers = submissionsTable.querySelectorAll('th[data-sort]');
+    headers.forEach(header => {
+        const sortIcon = header.querySelector('i');
+        if (header.dataset.sort === column) {
+            sortIcon.className = currentSort.direction === 'asc'
+                ? 'fas fa-sort-up ml-1'
+                : 'fas fa-sort-down ml-1';
+        } else {
+            sortIcon.className = 'fas fa-sort ml-1';
+        }
+    });
+    
+    submissions.sort((a, b) => {
+        let valueA = a[column];
+        let valueB = b[column];
+        
+        if (column === 'dueDate') {
+            valueA = new Date(valueA);
+            valueB = new Date(valueB);
+        }
+        
+        if (valueA < valueB) {
+            return currentSort.direction === 'asc' ? -1 : 1;
+        }
+        if (valueA > valueB) {
+            return currentSort.direction === 'asc' ? 1 : -1;
+        }
+        return 0;
+    });
+    
+    displaySubmissions();
+}
+
+// Toggle column visibility
+function toggleColumnVisibility(columnIndex, visible) {
+    const rows = submissionsTable.querySelectorAll('tr');
+    rows.forEach(row => {
+        const cells = row.querySelectorAll('th, td');
+        if (cells && cells.length > columnIndex) {
+            cells[columnIndex].style.display = visible ? '' : 'none';
+        }
+    });
+}
+
+// Setup draggable columns
+function setupDraggableColumns() {
+    if (!submissionsHead) return;
+    
+    // Store current column order
+    function getCurrentColumnOrder() {
+        const headers = Array.from(submissionsHead.children);
+        return headers.map(header => {
+            return {
+                index: Array.from(submissionsHead.children).indexOf(header),
+                id: header.dataset.sort || header.textContent.trim()
+            };
+        });
+    }
+    
+    // Save column order to localStorage
+    function saveColumnOrder() {
+        const order = getCurrentColumnOrder();
+        localStorage.setItem('columnOrder', JSON.stringify(order));
+    }
+    
+    // Make table headers draggable
+    const headers = submissionsHead.querySelectorAll('th');
+    headers.forEach(header => {
+        header.setAttribute('draggable', true);
+        header.style.cursor = 'move';
+        
+        header.addEventListener('dragstart', handleDragStart);
+        header.addEventListener('dragover', handleDragOver);
+        header.addEventListener('dragenter', handleDragEnter);
+        header.addEventListener('dragleave', handleDragLeave);
+        header.addEventListener('drop', handleDrop);
+        header.addEventListener('dragend', handleDragEnd);
+    });
+    
+    let draggedColumn = null;
+    
+    function handleDragStart(e) {
+        draggedColumn = this;
+        this.style.opacity = '0.4';
+        e.dataTransfer.effectAllowed = 'move';
+        e.dataTransfer.setData('text/plain', this.cellIndex);
+    }
+    
+    function handleDragOver(e) {
+        if (e.preventDefault) e.preventDefault();
+        e.dataTransfer.dropEffect = 'move';
+        return false;
+    }
+    
+    function handleDragEnter(e) {
+        this.classList.add('bg-gray-100', 'dark:bg-gray-600');
+    }
+    
+    function handleDragLeave(e) {
+        this.classList.remove('bg-gray-100', 'dark:bg-gray-600');
+    }
+    
+    function handleDrop(e) {
+        if (e.stopPropagation) e.stopPropagation();
+        
+        if (draggedColumn !== this) {
+            // Get column indices
+            const fromIndex = draggedColumn.cellIndex;
+            const toIndex = this.cellIndex;
+            
+            // Swap columns in all rows
+            const rows = submissionsTable.querySelectorAll('tr');
+            rows.forEach(row => {
+                const cells = row.querySelectorAll('th, td');
+                if (fromIndex < toIndex) {
+                    row.insertBefore(cells[fromIndex], cells[toIndex].nextSibling);
+                } else {
+                    row.insertBefore(cells[fromIndex], cells[toIndex]);
+                }
+            });
+            
+            // Save new column order
+            saveColumnOrder();
+        }
+        
+        return false;
+    }
+    
+    function handleDragEnd(e) {
+        // Reset opacity of dragged element
+        this.style.opacity = '1';
+        
+        // Remove highlighting from all columns
+        const headers = submissionsHead.querySelectorAll('th');
+        headers.forEach(header => {
+            header.classList.remove('bg-gray-100', 'dark:bg-gray-600');
+        });
+    }
+}
+
+// Apply saved column order
+function applyColumnOrder(columnOrder) {
+    if (!submissionsHead || !columnOrder || !columnOrder.length) return;
+    
+    const headers = Array.from(submissionsHead.children);
+    const rows = submissionsTable.querySelectorAll('tbody tr');
+    
+    // Create a map of desired positions
+    const orderMap = new Map();
+    columnOrder.forEach(col => {
+        orderMap.set(col.id, col.index);
+    });
+    
+    // Sort headers based on saved order
+    headers.sort((a, b) => {
+        const aId = a.dataset.sort || a.textContent.trim();
+        const bId = b.dataset.sort || b.textContent.trim();
+        
+        const aPos = orderMap.has(aId) ? orderMap.get(aId) : headers.indexOf(a);
+        const bPos = orderMap.has(bId) ? orderMap.get(bId) : headers.indexOf(b);
+        
+        return aPos - bPos;
+    });
+    
+    // Apply order to header row
+    headers.forEach(header => {
+        submissionsHead.appendChild(header);
+    });
+    
+    // Apply same order to all data rows
+    rows.forEach(row => {
+        const cells = Array.from(row.children);
+        headers.forEach((header, index) => {
+            const cellIndex = header.cellIndex;
+            if (cellIndex < cells.length) {
+                row.appendChild(cells[cellIndex]);
+            }
+        });
+    });
+}
+
+// Edit submission
+function editSubmission(id) {
+    const submission = submissions.find(sub => sub.id === id);
+    if (submission) {
+        document.getElementById('modal-title').textContent = 'Edit Submission';
+        document.getElementById('submission-id').value = submission.id;
+        document.getElementById('student-name').value = submission.name;
+        document.getElementById('student-module').value = submission.module;
+        document.getElementById('due-date').value = submission.dueDate;
+        document.getElementById('marking-status').value = submission.markStatus;
+        document.getElementById('student-grade').value = submission.grade || '';
+        
+        submissionModal.classList.remove('hidden');
+    }
+}
+
+// Delete submission
+function deleteSubmission(id) {
+    if (confirm('Are you sure you want to delete this submission?')) {
+        const index = submissions.findIndex(sub => sub.id === id);
+        if (index !== -1) {
+            submissions.splice(index, 1);
+            saveSubmissions();
+            displaySubmissions();
+            updateDashboardStats();
+        }
+    }
+}
+
+// Handle submission form
+function handleSubmissionForm(e) {
+    e.preventDefault();
+    
+    const submissionId = document.getElementById('submission-id').value;
+    const newSubmission = {
+        name: document.getElementById('student-name').value,
+        module: document.getElementById('student-module').value,
+        dueDate: document.getElementById('due-date').value,
+        markStatus: document.getElementById('marking-status').value,
+        grade: document.getElementById('student-grade').value
+    };
+    
+    if (submissionId) {
+        // Edit existing
+        const index = submissions.findIndex(sub => sub.id === parseInt(submissionId));
+        if (index !== -1) {
+            newSubmission.id = parseInt(submissionId);
+            submissions[index] = newSubmission;
+        }
+    } else {
+        // Add new
+        newSubmission.id = submissions.length > 0
+            ? Math.max(...submissions.map(sub => sub.id)) + 1
+            : 1;
+        submissions.push(newSubmission);
+    }
+    
+    saveSubmissions();
+    displaySubmissions();
+    updateDashboardStats();
+    submissionModal.classList.add('hidden');
+}
+
+// Handle bulk add form
+function handleBulkAddForm(e) {
+    e.preventDefault();
+    
+    const bulkData = bulkDataInput.value;
+    if (bulkData.trim()) {
+        const rows = bulkData.split('\n');
+        const importedSubmissions = [];
+        
+        rows.forEach((row, index) => {
+            if (!row.trim()) return;
+            const columns = row.split(',').map(item => item.trim());
+            
+            if (columns.length >= 3) {
+                importedSubmissions.push({
+                    id: submissions.length > 0
+                        ? Math.max(...submissions.map(sub => sub.id)) + index + 1
+                        : index + 1,
+                    name: columns[0],
+                    module: columns[1],
+                    dueDate: columns[2],
+                    markStatus: columns[3] || 'Unmarked',
+                    grade: columns[4] || ''
+                });
+            }
+        });
+        
+        if (importedSubmissions.length > 0) {
+            submissions = submissions.concat(importedSubmissions);
+            saveSubmissions();
+            displaySubmissions();
+            updateDashboardStats();
+            alert(`Successfully added ${importedSubmissions.length} submissions.`);
+        } else {
+            alert('No valid data found in the input.');
+        }
+        
+        bulkAddModal.classList.add('hidden');
+        bulkDataInput.value = '';
+    } else {
+        alert('Please enter submission data.');
+    }
+}
+
+// Export submissions
+function exportSubmissions() {
+    let csvContent = "data:text/csv;charset=utf-8,";
+    csvContent += "Name,Module,Due Date,Days Left,Marking Status,Grade\n";
+    
+    submissions.forEach(sub => {
+        const daysLeft = calculateDaysLeft(sub.dueDate);
+        csvContent += `${sub.name},${sub.module},${sub.dueDate},${daysLeft},${sub.markStatus},${sub.grade}\n`;
+    });
+    
+    const encodedUri = encodeURI(csvContent);
+    const link = document.createElement("a");
+    link.setAttribute("href", encodedUri);
+    link.setAttribute("download", "marking_submissions.csv");
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+}
+
+// Format date
+function formatDate(dateString) {
+    if (!dateString) return '';
+    try {
+        const options = { year: 'numeric', month: 'short', day: 'numeric' };
+        const date = new Date(dateString);
+        return date.toLocaleDateString(undefined, options);
+    } catch {
+        return dateString;
+    }
+}
+
+// Calculate days left until due date
+function calculateDaysLeft(dueDate) {
+    if (!dueDate) return '';
+    try {
+        const today = new Date();
+        today.setHours(0, 0, 0, 0); // Set to beginning of day
+        
+        const due = new Date(dueDate);
+        due.setHours(0, 0, 0, 0); // Set to beginning of day
+        
+        const diffTime = due - today;
+        const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+        
+        if (diffDays === 0) {
+            return 'Due today';
+        } else if (diffDays < 0) {
+            return diffDays === -1 ? 'Overdue by 1 day' : `Overdue by ${Math.abs(diffDays)} days`;
+        } else {
+            return diffDays === 1 ? '1 day left' : `${diffDays} days left`;
+        }
+    } catch {
+        return '';
+    }
+}
+
+// Marking status color
+function getMarkingStatusColor(status) {
+    switch (status) {
+        case 'Completed':
+            return 'bg-green-100 text-green-800 dark:bg-green-800 dark:text-green-100';
+        case 'Waiting':
+            return 'bg-yellow-100 text-yellow-800 dark:bg-yellow-800 dark:text-yellow-100';
+        case 'Unmarked':
+            return 'bg-red-100 text-red-800 dark:bg-red-800 dark:text-red-100';
+        default:
+            return 'bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-300';
+    }
+}
+
+// Save to localStorage
+function saveSubmissions() {
+    localStorage.setItem('submissions', JSON.stringify(submissions));
+}
+
+// Cycle marking status
+function cycleMarkingStatus(id) {
+    const submission = submissions.find(sub => sub.id === id);
+    if (submission) {
+        const currentIndex = statusCycle.indexOf(submission.markStatus);
+        const nextIndex = (currentIndex + 1) % statusCycle.length;
+        submission.markStatus = statusCycle[nextIndex];
+        saveSubmissions();
+        displaySubmissions();
+        updateDashboardStats();
+    }
+}
+
+// Set up event listeners
+function setupEventListeners() {
+    if (searchInput) {
+        searchInput.addEventListener('input', filterSubmissions);
+    }
+    if (mobileSearchInput) {
+        mobileSearchInput.addEventListener('input', () => {
+            searchInput.value = mobileSearchInput.value;
+            filterSubmissions();
+        });
+    }
+    if (moduleFilter) {
+        moduleFilter.addEventListener('change', filterSubmissions);
+    }
+    if (statusFilter) {
+        statusFilter.addEventListener('change', filterSubmissions);
+    }
+    
+    // Column toggles
+    columnToggles.forEach(toggle => {
+        toggle.addEventListener('change', function() {
+            const column = parseInt(this.dataset.column);
+            toggleColumnVisibility(column, this.checked);
+        });
+    });
+    
+    // Sort
+    const tableHeaders = submissionsTable.querySelectorAll('th[data-sort]');
+    tableHeaders.forEach(header => {
+        header.addEventListener('click', () => {
+            const column = header.dataset.sort;
+            sortSubmissions(column);
+        });
+    });
+    
+    // Setup draggable columns
+    setupDraggableColumns();
+    
+    // Add submission
+    if (addSubmissionBtn) {
+        addSubmissionBtn.addEventListener('click', () => {
+            document.getElementById('modal-title').textContent = 'Add New Submission';
+            document.getElementById('submission-id').value = '';
+            document.getElementById('student-name').value = '';
+            document.getElementById('student-module').value = 'CS101';
+            document.getElementById('due-date').value = '';
+            document.getElementById('marking-status').value = 'Unmarked';
+            document.getElementById('student-grade').value = '';
+            submissionModal.classList.remove('hidden');
+        });
+    }
+    
+    if (closeModalBtn) {
+        closeModalBtn.addEventListener('click', () => {
+            submissionModal.classList.add('hidden');
+        });
+    }
+    if (cancelSubmissionBtn) {
+        cancelSubmissionBtn.addEventListener('click', () => {
+            submissionModal.classList.add('hidden');
+        });
+    }
+    
+    // Bulk Add
+    if (importCsvBtn) {
+        importCsvBtn.addEventListener('click', () => {
+            bulkAddModal.classList.remove('hidden');
+        });
+    }
+    if (closeBulkModalBtn) {
+        closeBulkModalBtn.addEventListener('click', () => {
+            bulkAddModal.classList.add('hidden');
+        });
+    }
+    if (cancelBulkBtn) {
+        cancelBulkBtn.addEventListener('click', () => {
+            bulkAddModal.classList.add('hidden');
+        });
+    }
+    if (bulkAddForm) {
+        bulkAddForm.addEventListener('submit', handleBulkAddForm);
+    }
+    
+    // Export
+    if (exportDataBtn) {
+        exportDataBtn.addEventListener('click', exportSubmissions);
+    }
+    
+    // Submission form
+    if (submissionForm) {
+        submissionForm.addEventListener('submit', handleSubmissionForm);
+    }
+    
+    // Tab navigation
+    tabs.forEach(tab => {
+        tab.addEventListener('click', function(e) {
+            e.preventDefault();
+            tabs.forEach(t => t.classList.remove('active'));
+            this.classList.add('active');
+            
+            const tabId = this.getAttribute('href').substring(1);
+            tabContents.forEach(content => {
+                content.classList.remove('active');
+            });
+            document.getElementById(tabId + '-tab-content').classList.add('active');
+        });
+    });
+}
+    </script>
+
+
+</body>
+</html>

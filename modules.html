@@ -1,681 +1,497 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="light">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>University Programs and Modules</title>
+    <title>University Modules Portal</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="styles.css">
+    <script src="sidebar-links.js"></script>
+    <script src="core.js"></script>
+    
+    <!-- Set the current page in the right sidebar navigation -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            if (window.sidebarLinks && window.sidebarLinks.setCurrentRightSidebarPage) {
+                window.sidebarLinks.setCurrentRightSidebarPage("Module Spec");
+            }
+        });
+    </script>
+    
+    <!-- Module-specific styles not in styles.css -->
     <style>
-        :root {
-    --font-size-multiplier: 1;
-    --max-width: 1200px;
-    --primary-color: #3b82f6; /* Blue */
-    --danger-color: #ef5350; /* Softer red */
-    --danger-hover: #e53e3e; /* Slightly darker red on hover */
-}
+        /* Filter buttons with better contrast */
+        .filter-btn {
+            padding: 0.5rem 1rem;
+            border-radius: 0.375rem;
+            font-weight: 500;
+            transition: all 0.2s;
+            border: 1px solid var(--button-secondary-border);
+            background-color: var(--button-secondary-bg);
+            color: var(--button-secondary-text);
+        }
+        
+        .filter-btn.active {
+            background-color: var(--button-primary-bg);
+            color: var(--button-primary-text);
+            border-color: var(--button-primary-border);
+        }
+        
+        .filter-btn:hover:not(.active) {
+            background-color: var(--bg-tertiary);
+        }
+        
+        /* Dark mode button text color adjustment */
+        [data-theme="dark"] .filter-btn {
+            color: #ffffff; /* White text in dark mode */
+        }
+        
+        [data-theme="dark"] .button-primary,
+        [data-theme="dark"] .pin-button-primary,
+        [data-theme="dark"] .filter-btn.active {
+            color: #ffffff; /* White text for primary buttons in dark mode */
+        }
+        
+        /* Filter section layout */
+        .filter-section {
+            margin-bottom: 1rem;
+        }
+        
+        .filter-section-label {
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+            display: block;
+        }
+        
+        .filter-btn-group {
+            display: flex;
+            gap: 0.5rem;
+        }
+        
+        /* Year filter button group - allow wrapping */
+        .filter-btn-group.flex-wrap {
+            flex-wrap: wrap;
+        }
+        
+        /* Filter bar */
+        .filter-bar {
+            background-color: var(--bg-tertiary);
+            border-radius: 0.5rem;
+            padding: 1rem;
+            margin-bottom: 1.5rem;
+            border: 1px solid var(--border-color);
+        }
+        
+        /* Custom module section */
+        .custom-module-section {
+            display: none;
+        }
+        
+        body.custom-module-visible .custom-module-section {
+            display: block;
+        }
+        
+        .custom-module {
+            background-color: rgba(59, 130, 246, 0.1);
+        }
+        
+        /* Highlight search text */
+        .highlight {
+            background-color: rgba(59, 130, 246, 0.3);
+            color: var(--text-primary);
+            padding: 0 2px;
+            border-radius: 2px;
+        }
+        
+        /* Program modules */
+        .program-modules {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease-out;
+        }
+        
+        .program-modules.expanded {
+            max-height: 5000px;
+        }
+        
+        /* Modal styles */
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s, visibility 0.3s;
+        }
+        
+        .modal-overlay.visible {
+            opacity: 1;
+            visibility: visible;
+        }
+        
+        .modal-content {
+            background-color: var(--bg-primary);
+            border-radius: 0.5rem;
+            padding: 1.5rem;
+            max-width: 500px;
+            width: 90%;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            border: 1px solid var(--border-color);
+        }
 
-body {
-    font-size: calc(var(--font-size-multiplier) * 16px);
-}
+        /* Pin button with improved contrast */
+        .pin-button {
+            display: inline-flex;
+            align-items: center;
+            padding: 0.375rem 0.75rem;
+            border-radius: 0.375rem;
+            font-weight: 500;
+            border: 1px solid;
+            transition: all 0.2s;
+        }
+        
+        /* Non-pinned button (blue) */
+        .pin-button-primary {
+            background-color: var(--button-primary-bg); 
+            color: #000000; /* Black text */
+            border-color: var(--button-primary-border);
+        }
+        
+        .pin-button-primary:hover {
+            background-color: var(--accent-hover);
+        }
+        
+        /* Pinned button (yellow) */
+        .pin-button-pinned {
+            background-color: #fef3c7; /* Light yellow bg */
+            color: #92400e; /* Dark amber text - AA compliant */
+            border-color: #fcd34d; /* Medium yellow border */
+        }
+        
+        .pin-button-pinned:hover {
+            background-color: #fde68a;
+        }
+        
+        /* Custom link button (green) */
+        .custom-link-button {
+            display: inline-flex;
+            align-items: center;
+            padding: 0.375rem 0.75rem;
+            border-radius: 0.375rem;
+            font-weight: 500;
+            background-color: #ecfdf5; /* Light green */
+            color: #065f46; /* Dark green - AA compliant */
+            border: 1px solid #6ee7b7; /* Medium green border */
+            transition: all 0.2s;
+        }
+        
+        .custom-link-button:hover {
+            background-color: #d1fae5;
+        }
+        
+        /* Unpin button (red) */
+        .unpin-button {
+            display: inline-flex;
+            align-items: center;
+            padding: 0.375rem 0.75rem;
+            border-radius: 0.375rem;
+            font-weight: 500;
+            background-color: #fee2e2; /* Light red */
+            color: #b91c1c; /* Dark red - AA compliant */
+            border: 1px solid #fca5a5; /* Medium red border */
+            transition: all 0.2s;
+        }
+        
+        .unpin-button:hover {
+            background-color: #fecaca;
+        }
 
-table, th, td, 
-.text-sm, 
-.program-modules td, 
-.program-header, 
-.module-name, 
-.module-leader,
-button, 
-input, 
-select, 
-textarea {
-    font-size: calc(var(--font-size-multiplier) * 0.875rem);
-}
-
-/* Main layout */
-.main-container {
-    max-width: var(--max-width);
-    margin: 0 auto;
-    position: relative;
-}
-
-.page-container {
-    max-width: var(--max-width);
-    margin: 0 auto;
-    position: relative;
-    display: flex;
-}
-
-/* Header styling */
-.header-bar {
-    position: sticky;
-    top: 0;
-    left: 0;
-    right: 0;
-    background-color: white;
-    z-index: 1000;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-    padding: 0.75rem 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 60px; /* Fixed height for consistency */
-}
-
-.header-container {
-    max-width: var(--max-width);
-    width: 100%;
-    margin: 0 auto;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 0 1rem;
-}
-
-.title-container {
-    flex-grow: 1;
-    text-align: center;
-    display: flex;
-    justify-content: center;
-}
-
-.header-title {
-    font-size: 1.5rem;
-    font-weight: bold;
-    margin: 0;
-}
-
-.sidebar-toggle-container {
-    min-width: 180px; /* Fixed minimum width */
-    display: flex;
-    justify-content: flex-start;
-}
-
-.font-controls-container {
-    min-width: 180px; /* Match width for balance */
-    display: flex;
-    justify-content: flex-end;
-}
-
-/* Controls bar (legacy) */
-.controls-bar {
-    position: sticky;
-    top: 0;
-    left: 0;
-    right: 0;
-    z-index: 1000;
-    background-color: white;
-    border-bottom: 1px solid #e2e8f0;
-    padding: 10px 0;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-}
-
-/* Program modules styling */
-.program-modules {
-    max-height: 0;
-    overflow: hidden;
-    transition: max-height 0.5s ease-out;
-}
-
-.program-modules.expanded {
-    max-height: 5000px; /* Large enough to fit all content */
-}
-
-/* Custom module section */
-.custom-module-section {
-    display: none;
-}
-
-.custom-module-visible .custom-module-section {
-    display: block;
-}
-
-.custom-module {
-    background-color: rgba(253, 230, 138, 0.2); /* Light yellow background */
-}
-
-/* Sidebar styles */
-.sidebar {
-    width: 280px;
-    height: 100vh;
-    position: sticky;
-    top: 0;
-    background-color: #f8fafc;
-    transition: width 0.3s ease;
-    overflow-y: auto;
-    z-index: 100;
-    flex-shrink: 0;
-    padding-top: 20px;
-    border-right: 1px solid #e2e8f0;
-}
-
-.sidebar.collapsed {
-    width: 0;
-    overflow: hidden;
-    border-right: none;
-}
-
-/* Main content */
-.main-content {
-    flex: 1;
-    transition: padding-left 0.3s ease;
-    padding-left: 20px;
-    padding-right: 20px;
-    overflow-x: hidden;
-    padding-top: 1rem;
-}
-
-/* Font size controls - merged */
-.font-size-controls {
-    display: flex;
-    align-items: center;
-    background-color: white;
-    white-space: nowrap; /* Prevent text wrapping */
-    border-radius: 999px;
-    padding: 0.5rem;
-    margin-right: 15px;
-}
-
-.font-size-btn {
-    width: 28px;
-    height: 28px;
-    border-radius: 50%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin: 0 0.25rem;
-    cursor: pointer;
-    transition: all 0.2s;
-    background-color: #f1f5f9;
-    color: #64748b;
-    border: 1px solid #e2e8f0;
-}
-
-.font-size-btn:hover {
-    background-color: #e2e8f0;
-}
-
-/* Highlight search term */
-.highlight {
-    background-color: yellow;
-    padding: 0 2px;
-    border-radius: 2px;
-}
-
-/* Sidebar info and links */
-.sidebar-info-box {
-    position: relative;
-    background-color: #f8fafc;
-    border-radius: 0.5rem;
-    padding: 1rem;
-    margin-bottom: 1rem;
-}
-
-.sidebar-info-box .close-btn {
-    position: absolute;
-    top: 0.5rem;
-    right: 0.5rem;
-    cursor: pointer;
-    color: #6b7280;
-}
-
-.sidebar-links-container {
-    margin-bottom: 1rem;
-    border: 1px solid #e5e7eb;
-    border-radius: 0.5rem;
-    overflow: hidden;
-}
-
-.link-card {
-    padding: 0.75rem 1rem;
-    background-color: white;
-    border-bottom: 1px solid #e5e7eb;
-    transition: all 0.2s;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-}
-
-.link-card:last-child {
-    border-bottom: none;
-}
-
-.link-card:hover {
-    background-color: #f9fafb;
-}
-
-.link-card .link-actions {
-    opacity: 0;
-    transition: opacity 0.2s;
-}
-
-.link-card:hover .link-actions {
-    opacity: 1;
-}
-
-/* Tips box */
-.tips-box {
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
-    width: 350px;
-    z-index: 50;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-}
-
-/* Custom website notice */
-.website-notice {
-    position: fixed;
-    inset: 0;
-    background-color: rgba(0, 0, 0, 0.5);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 1000;
-    opacity: 0;
-    visibility: hidden;
-    transition: opacity 0.3s, visibility 0.3s;
-}
-
-.website-notice.visible {
-    opacity: 1;
-    visibility: visible;
-}
-
-.notice-content {
-    background-color: white;
-    border-radius: 0.5rem;
-    padding: 1.5rem;
-    max-width: 500px;
-    width: 90%;
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
-}
-
-/* Softer Clear All button */
-.clear-all-btn {
-    background-color: var(--danger-color);
-    transition: background-color 0.2s;
-    color: white;
-    border-radius: 0.375rem;
-    padding: 0.5rem 1rem;
-    width: 100%;
-    text-align: center;
-    font-weight: 500;
-}
-
-.clear-all-btn:hover {
-    background-color: var(--danger-hover);
-}
-
-/* Responsive styles - merged */
-@media (max-width: 992px) {
-    .header-title {
-        font-size: 1.25rem;
-    }
-}
-
-@media (max-width: 768px) {
-    .page-container {
-        flex-direction: column;
-    }
-    
-    .sidebar {
-        width: 100%;
-        height: auto;
-        max-height: 80vh;
-        position: fixed;
-        top: 0;
-        left: 0;
-        transform: translateY(-100%);
-        transition: transform 0.3s ease;
-        z-index: 100;
-    }
-    
-    .sidebar.active {
-        transform: translateY(0);
-    }
-    
-    .sidebar.collapsed {
-        transform: translateY(-100%);
-    }
-    
-    .main-content {
-        padding-left: 10px;
-        padding-right: 10px;
-        margin-top: 40px;
-    }
-    
-    .tips-box {
-        width: 90%;
-        left: 5%;
-        right: 5%;
-    }
-    
-    .text-toggle-btn {
-        font-size: 0.75rem;
-        padding: 0.375rem 0.5rem;
-    }
-    
-    .font-size-controls .text-gray-700 {
-        display: none; /* Hide "Text Size" text on smaller screens */
-    }
-    
-    .sidebar-toggle-container, 
-    .font-controls-container {
-        min-width: 120px;
-    }
-}
-.sidebar-toggle-btn {
-    /* Button appearance */
-    height: 40px;
-    background-color: #f1f5f9;
-    color: #64748b;
-    border: 1px solid #e2e8f0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    
-    /* Position within container, not fixed */
-    border-radius: 5px;
-    min-width: 40px;
-    padding: 0 15px;
-    margin-left: 0; /* Reset margin since we're in a container with its own padding */
-}
-
-.sidebar-toggle-btn:hover {
-    background-color: #e2e8f0;
-    color: #334155;
-}
-
-/* Active state styles */
-.sidebar-toggle-btn.active {
-    background-color: #3b82f6; /* Deeper blue color when active */
-    color: white;
-    border-color: #2563eb;
-}
-
-/* Responsive adjustments */
-@media (max-width: 768px) {
-    .sidebar-toggle-btn {
-        min-width: auto;
-        width: 40px;
-        padding: 0;
-        border-radius: 15%;
-    }
-    
-    .sidebar-toggle-btn span.text-sm {
-        display: none; /* Hide text on mobile */
-    }
-    #custom-modules-container {
-    display: none !important; /* Hide this completely */
-}
-}
+        /* Primary action buttons - now with black text instead of white */
+        .button-primary {
+            background-color: var(--button-primary-bg);
+            color: #000000; /* Black text */
+            border-color: var(--button-primary-border);
+        }
+        
+        /* Sidebar info box */
+        .sidebar-info-box {
+            background-color: var(--info-box-bg);
+            border: 1px solid var(--info-box-border);
+            color: var(--info-box-text);
+            border-radius: 0.5rem;
+            padding: 1rem;
+            margin: 0.75rem;
+            position: relative;
+        }
+        
+        /* Close button styling */
+        .sidebar-info-box .close-btn {
+            position: absolute;
+            top: 0.5rem;
+            right: 0.5rem;
+            color: var(--info-box-text);
+            cursor: pointer;
+            width: 1.5rem;
+            height: 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            transition: background-color 0.2s;
+        }
+        
+        .sidebar-info-box .close-btn:hover {
+            background-color: rgba(0, 0, 0, 0.1);
+        }
+        
+        /* Link card style */
+        .link-card {
+            padding: 0.5rem 1rem;
+            margin: 0.5rem 0.75rem;
+            background-color: var(--bg-secondary);
+            border-radius: 0.375rem;
+            border: 1px solid var(--border-color);
+        }
+        
+        .link-actions {
+            display: flex;
+        }
+        
+        .link-actions button {
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 0.25rem;
+            border-radius: 0.25rem;
+        }
+        
+        .link-actions button:hover {
+            background-color: var(--bg-tertiary);
+        }
     </style>
 </head>
-<body class="bg-gray-50">
-    <!-- Controls bar (always visible) -->
-<div class="header-bar">
-    <div class="header-container">
-        <div id="sidebar-toggle" class="sidebar-toggle-btn">
-            <span class="flex items-center">
-                <i id="toggle-icon" class="fas fa-bars mr-2"></i>
-                <span class="text-sm">Menu</span>
-            </span>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <button class="hamburger-menu" aria-label="Toggle sidebar">
+            <i class="fas fa-bars"></i>
+        </button>
+        
+        <div class="logo">
+            <i class="fas fa-university mr-2"></i>
+            Simpl Uni
         </div>
-      
-      <div class="title-container">
-        <h1 class="header-title">University Programs and Modules</h1>
-      </div>
-      
-      <div class="font-controls-container">
+        
+        <nav class="nav-tabs">
+            <a href="#main" class="nav-tab active">Module Spec</a>
+            <a href="#info" class="nav-tab">Info</a>
+        </nav>
+        
+        <!-- Font size controls -->
         <div class="font-size-controls">
-          <div id="decrease-font" class="font-size-btn">
-            <i class="fas fa-minus"></i>
-          </div>
-          <div class="text-gray-700 mx-2">Text Size</div>
-          <div id="increase-font" class="font-size-btn">
-            <i class="fas fa-plus"></i>
-          </div>
+            <div id="decrease-font" class="font-size-btn">
+                <i class="fas fa-minus"></i>
+            </div>
+            <div class="text-label mx-2 text-muted">Text</div>
+            <div id="increase-font" class="font-size-btn">
+                <i class="fas fa-plus"></i>
+            </div>
         </div>
-      </div>
+        
+        <div class="search-container">
+            <i class="fas fa-search search-icon"></i>
+            <input type="text" id="search-input" class="search-input" placeholder="Search modules, codes...">
+        </div>
+        
+        <button class="toggle-right-sidebar" aria-label="Toggle right sidebar">
+            <i class="fas fa-tools"></i>
+        </button>
+        
+        <button class="theme-toggle" aria-label="Toggle dark/light mode">
+            <i class="fas fa-sun"></i>
+        </button>
+    </header>
+
+    <!-- Mobile search bar (only visible on smaller screens) -->
+    <div class="mobile-search-container">
+        <div class="relative w-full">
+            <i class="fas fa-search search-icon"></i>
+            <input type="text" id="mobile-search-input" class="search-input w-full" placeholder="Search modules, codes...">
+        </div>
     </div>
-  </div>
 
-    <div class="page-container">
-        <!-- Left Sidebar -->
-        <div id="sidebar" class="sidebar">
-            <div class="relative p-4">
-
-                
-                <!-- University Links Section -->
-                <div class="mb-6 mt-6">
-                    <h2 class="text-lg font-semibold mb-4 text-gray-700">University Links</h2>
-                    <div class="sidebar-links-container">
-                        <a href="https://my.mmu.ac.uk/" target="_blank" class="link-card flex items-center text-gray-600 hover:text-gray-800">
-                            <div><i class="fas fa-home mr-3 text-gray-500"></i>University Portal</div>
-                        </a>
-                        <a href="https://moodle.mmu.ac.uk/" target="_blank" class="link-card flex items-center text-gray-600 hover:text-gray-800">
-                            <div><i class="fas fa-graduation-cap mr-3 text-gray-500"></i>Moodle</div>
-                        </a>
-                        <a href="https://www.mmu.ac.uk/library" target="_blank" class="link-card flex items-center text-gray-600 hover:text-gray-800">
-                            <div><i class="fas fa-book mr-3 text-gray-500"></i>Library</div>
-                        </a>
-                        <a href="https://outlook.office.com/mail/" target="_blank" class="link-card flex items-center text-gray-600 hover:text-gray-800">
-                            <div><i class="fas fa-envelope mr-3 text-gray-500"></i>Email</div>
-                        </a>
-                        <a href="https://mmuintranet.mmu.ac.uk/page/10275?SearchId=7567945" target="_blank" class="link-card flex items-center text-gray-600 hover:text-gray-800">
-                            <div><i class="fas fa-calendar-alt mr-3 text-gray-500"></i>Academic Calendar</div>
-                        </a>
-                        <a href="https://mytimetable.mmu.ac.uk/schedule" target="_blank" class="link-card flex items-center text-gray-600 hover:text-gray-800">
-                            <div><i class="fas fa-clock mr-3 text-gray-500"></i>Timetables</div>
-                        </a>
-                        <a href="https://staffregisters.mmu.ac.uk/" target="_blank" class="link-card flex items-center text-gray-600 hover:text-gray-800">
-                            <div><i class="fas fa-users mr-3 text-gray-500"></i>Attendance Register</div>
-                        </a>
-                        <a href="https://mmuintranet.mmu.ac.uk/person?" target="_blank" class="link-card flex items-center text-gray-600 hover:text-gray-800">
-                            <div><i class="fas fa-users mr-3 text-gray-500"></i>Staff Directory</div>
-                        </a>
-                        <a href="https://mmuintranet.mmu.ac.uk/Interact/Pages/Content/Document.aspx?id=2247&SearchId=8621605" target="_blank" class="link-card flex items-center text-gray-600 hover:text-gray-800">
-                            <div><i class="fas fa-question-circle mr-3 text-gray-500"></i>Digital Support</div>
-                        </a>
-                        <a href="https://mmuintranet.mmu.ac.uk/Interact/Pages/Section/Default.aspx?Section=4487" target="_blank" class="link-card flex items-center text-gray-600 hover:text-gray-800">
-                            <div><i class="fas fa-question-circle mr-3 text-gray-500"></i>IT Support</div>
-                        </a>
-                    </div>
+    <!-- Main layout -->
+    <div class="layout">
+        <!-- Left sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-section">
+                <div class="sidebar-header">
+                    <span>University Links</span>
                 </div>
-                
-                <!-- Divider -->
-                <div class="border-t border-gray-200 my-4"></div>
-                
-                <!-- Custom Links Section -->
-                <div>
-                    <h2 class="text-lg font-semibold mb-4 text-gray-700">My Custom Links</h2>
-                    
-                    <!-- User's saved links - Displayed ABOVE the info box -->
-                    <div id="sidebar-links-list" class="sidebar-links-container mb-4">
+                <div id="university-content" class="sidebar-content">
+                    <!-- University links will be loaded from sidebar-links.js -->
+                </div>
+            </div>
+
+            <div class="sidebar-section">
+                <div class="sidebar-header">
+                    <span>My Custom Links</span>
+                </div>
+                <div id="customlinks-content" class="sidebar-content">
+                    <!-- User's saved links container -->
+                    <div id="sidebar-links-list">
                         <!-- Custom links will be added here dynamically -->
-                        <div id="no-sidebar-links" class="link-card text-center text-gray-500">
+                        <div id="no-sidebar-links" class="sidebar-link text-center">
                             No links added yet
                         </div>
                     </div>
                     
-                    <!-- Info box with close button -->
+                    <!-- Improved info box with proper positioning -->
                     <div id="sidebar-info-box" class="sidebar-info-box">
                         <button id="close-info-box" class="close-btn">
                             <i class="fas fa-times"></i>
                         </button>
-                        <p class="text-sm text-gray-600">Add your frequently visited websites here for quick access.</p>
+                        <p>Add your frequently visited websites here for quick access.</p>
                     </div>
                     
                     <!-- Link input form -->
-                    <form id="custom-sidebar-link-form" class="space-y-2 mb-4">
+                    <form id="custom-sidebar-link-form" class="p-4 space-y-2">
                         <div>
-                            <label for="sidebar-link-name" class="block text-sm font-medium text-gray-700">Link Name</label>
-                            <input type="text" id="sidebar-link-name" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-gray-500 focus:border-gray-500 sm:text-sm">
+                            <label for="sidebar-link-name" class="block text-sm font-medium">Link Name</label>
+                            <input type="text" id="sidebar-link-name" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3">
                         </div>
                         <div>
-                            <label for="sidebar-link-url" class="block text-sm font-medium text-gray-700">URL</label>
-                            <input type="text" id="sidebar-link-url" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-gray-500 focus:border-gray-500 sm:text-sm">
+                            <label for="sidebar-link-url" class="block text-sm font-medium">URL</label>
+                            <input type="text" id="sidebar-link-url" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3">
                         </div>
                         <div>
-                            <button type="submit" class="w-full py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-gray-600 hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500">
+                            <button type="submit" class="w-full py-2 px-4 border button-primary rounded-md shadow-sm text-sm font-medium">
                                 Add Link
                             </button>
                         </div>
                     </form>
-                    
-                    <div class="mt-6 mb-4">
-                        <button id="clear-all-data" class="clear-all-btn">
-                            Clear All Pinned Modules & Links
-                        </button>
-                    </div>
                 </div>
             </div>
-        </div>
+        </aside>
 
-        <!-- Main content -->
-        <div id="main-content" class="main-content">
-            <div class="content-wrapper">
-                <div class="mb-6">                    
-                    <!-- Search and Filters -->
-                    <div class="space-y-4">
-                        <!-- Search bar -->
-                        <div class="relative">
-                            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                                <i class="fas fa-search text-gray-500"></i>
-                            </div>
-                            <input
-                                type="text"
-                                id="search-input"
-                                placeholder="Search programs, modules, codes, or module leaders..."
-                                class="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                            >
-                        </div>
-                        
+        <!-- Main content area with tab content -->
+        <main class="main-content">
+            <!-- Main tab content - contains the module listing -->
+            <div id="main-tab-content" class="tab-content active">
+                <!-- Filter bar with improved button styling -->
+                <div class="filter-bar bg-bg-tertiary rounded-lg border border-border-color p-4 mb-6">
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
                         <!-- Semester filter -->
-                        <div class="flex items-center space-x-4">
-                            <label class="text-sm font-medium text-gray-700">Semester:</label>
-                            <div class="flex space-x-2">
-                                <button id="sem-all" class="px-3 py-1 bg-blue-600 text-white rounded-md text-sm">All</button>
-                                <button id="sem-1" class="px-3 py-1 bg-gray-200 text-gray-700 rounded-md text-sm">Semester 1</button>
-                                <button id="sem-2" class="px-3 py-1 bg-gray-200 text-gray-700 rounded-md text-sm">Semester 2</button>
+                        <div class="filter-section">
+                            <label class="filter-section-label">Semester:</label>
+                            <div class="filter-btn-group">
+                                <button id="sem-all" class="filter-btn active">All</button>
+                                <button id="sem-1" class="filter-btn">Sem 1</button>
+                                <button id="sem-2" class="filter-btn">Sem 2</button>
                             </div>
                         </div>
                         
                         <!-- Display mode -->
-                        <div class="flex items-center space-x-4">
-                            <label class="text-sm font-medium text-gray-700">Display:</label>
-                            <div class="flex space-x-2">
-                                <button id="view-all" class="px-3 py-1 bg-blue-600 text-white rounded-md text-sm">All Modules</button>
-                                <button id="view-favorites" class="px-3 py-1 bg-gray-200 text-gray-700 rounded-md text-sm">Pinned Only</button>
-                                <button id="custom-module-toggle" class="px-3 py-1 bg-gray-200 text-gray-700 rounded-md text-sm">
-                                    <i class="fas fa-plus-circle mr-1"></i> Add Custom Module
-                                </button>
+                        <div class="filter-section">
+                            <label class="filter-section-label">Display:</label>
+                            <div class="filter-btn-group">
+                                <button id="view-all" class="filter-btn active">All Modules</button>
+                                <button id="view-favorites" class="filter-btn">Pinned Only</button>
                             </div>
+                        </div>
+                        
+                        <!-- Add custom module button -->
+                        <div class="filter-section">
+                            <label class="filter-section-label">Custom Module:</label>
+                            <button id="custom-module-toggle" class="filter-btn">
+                                <i class="fas fa-plus-circle mr-1"></i> Add Custom Module
+                            </button>
                         </div>
                     </div>
                 </div>
                 
                 <!-- Add custom module section (hidden by default) -->
-                <div class="custom-module-section mb-6 bg-indigo-50 p-6 rounded-lg border border-indigo-200">
+                <div class="custom-module-section mb-6 rounded-lg border border-border-color p-6 mb-6">
                     <div class="flex justify-between items-center mb-4">
-                        <h2 class="text-xl font-semibold text-indigo-800">Add Your Own Module</h2>
-                        <button id="close-custom-module" class="text-indigo-500 hover:text-indigo-700">
+                        <h2 class="text-xl font-semibold">Add Your Own Module</h2>
+                        <button id="close-custom-module" class="text-accent-color hover:text-accent-hover">
                             <i class="fas fa-times"></i>
                         </button>
                     </div>
                     
-                    <p class="mb-4 text-indigo-700">
+                    <p class="mb-4">
                         Teaching a module that's not listed below? Add it here for your personal reference.
                         <span class="font-bold">Note: This information is stored in your browser and may be lost if cache is cleared.</span>
                     </p>
                     
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
                         <div>
-                            <label for="custom-code" class="block text-sm font-medium text-gray-700">Module Code*</label>
-                            <input type="text" id="custom-code" placeholder="e.g. CS101" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                            <label for="custom-code" class="block text-sm font-medium">Module Code*</label>
+                            <input type="text" id="custom-code" placeholder="e.g. CS101" class="mt-1 block w-full border rounded-md shadow-sm py-2 px-3">
                         </div>
                         <div>
-                            <label for="custom-name" class="block text-sm font-medium text-gray-700">Module Name*</label>
-                            <input type="text" id="custom-name" placeholder="e.g. Introduction to Programming" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                            <label for="custom-name" class="block text-sm font-medium">Module Name*</label>
+                            <input type="text" id="custom-name" placeholder="e.g. Introduction to Programming" class="mt-1 block w-full border rounded-md shadow-sm py-2 px-3">
                         </div>
                         <div>
-                            <label for="custom-leader" class="block text-sm font-medium text-gray-700">Module Leader*</label>
-                            <input type="text" id="custom-leader" placeholder="e.g. Dr. Smith" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                            <label for="custom-leader" class="block text-sm font-medium">Module Leader*</label>
+                            <input type="text" id="custom-leader" placeholder="e.g. Dr. Smith" class="mt-1 block w-full border rounded-md shadow-sm py-2 px-3">
                         </div>
                         <div>
-                            <label for="custom-semester" class="block text-sm font-medium text-gray-700">Semester*</label>
-                            <select id="custom-semester" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                            <label for="custom-year" class="block text-sm font-medium">Year of Study*</label>
+                            <select id="custom-year" class="mt-1 block w-full border rounded-md shadow-sm py-2 px-3">
+                                <option value="1">Year 1</option>
+                                <option value="2">Year 2</option>
+                                <option value="3">Year 3</option>
+                                <option value="4">Year 4</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label for="custom-semester" class="block text-sm font-medium">Semester*</label>
+                            <select id="custom-semester" class="mt-1 block w-full border rounded-md shadow-sm py-2 px-3">
                                 <option value="1">Semester 1</option>
                                 <option value="2">Semester 2</option>
                             </select>
                         </div>
                         <div>
-                            <label for="custom-moodle" class="block text-sm font-medium text-gray-700">Moodle Link</label>
-                            <input type="url" id="custom-moodle" placeholder="https://moodle.university.edu/course/view.php?id=123" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
-                        </div>
-                        <div>
-                            <label for="custom-spec" class="block text-sm font-medium text-gray-700">Spec Link</label>
-                            <input type="url" id="custom-spec" placeholder="https://university.edu/specs/CS101.pdf" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                            <label for="custom-moodle" class="block text-sm font-medium">Moodle Link</label>
+                            <input type="url" id="custom-moodle" placeholder="https://moodle.university.edu/course/view.php?id=123" class="mt-1 block w-full border rounded-md shadow-sm py-2 px-3">
                         </div>
                     </div>
                     
                     <div class="flex justify-end">
-                        <button id="add-custom-module" class="px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700">
+                        <button id="add-custom-module" class="px-4 py-2 button-primary rounded-md">
                             <i class="fas fa-plus mr-1"></i> Add Module
                         </button>
                     </div>
                 </div>
                 
-                <!-- Custom modules list -->
-                <div id="custom-modules-container" class="mb-6 bg-gray-50 rounded-lg border border-gray-200 overflow-hidden custom-module-section">
-                    <div class="overflow-x-auto">
-                        <table class="min-w-full divide-y divide-gray-200">
-                            <thead class="bg-gray-100">
-                                <tr>
-                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Code</th>
-                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Name</th>
-                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Leader</th>
-                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Semester</th>
-                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Links</th>
-                                    <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">Action</th>
-                                </tr>
-                            </thead>
-                            <tbody id="custom-modules-body" class="bg-white divide-y divide-gray-200">
-                                <!-- Custom modules will be inserted here -->
-                            </tbody>
-                        </table>
-                    </div>
-                    <div id="no-custom-modules" class="text-center py-8">
-                        <p class="text-gray-500">You haven't added any custom modules yet.</p>
-                    </div>
-                </div>
-                
                 <!-- Favorites/Pinned modules section -->
-                <div id="favorites-container" class="mb-8 hidden">
+                <div id="favorites-container" class="mb-8">
                     <h2 class="text-xl font-semibold mb-3 flex items-center">
                         <i class="fas fa-thumbtack text-yellow-500 mr-2"></i>
                         Your Pinned Modules
                     </h2>
-                    <div class="bg-gray-50 rounded-lg border border-gray-200 overflow-hidden">
+                    <div class="rounded-lg border border-border-color overflow-hidden">
                         <div class="overflow-x-auto">
-                            <table class="min-w-full divide-y divide-gray-200">
-                                <thead class="bg-gray-100">
+                            <table class="min-w-full divide-y">
+                                <thead>
                                     <tr>
-                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Code</th>
-                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Name</th>
-                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Leader</th>
-                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Semester</th>
-                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Links</th>
-                                        <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">Action</th>
+                                        <th class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">Code</th>
+                                        <th class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">Name</th>
+                                        <th class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">Leader</th>
+                                        <th class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">Year</th>
+                                        <th class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">Semester</th>
+                                        <th class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">Links</th>
+                                        <th class="px-6 py-3 text-right text-xs font-medium uppercase tracking-wider">Action</th>
                                     </tr>
                                 </thead>
-                                <tbody id="favorites-body" class="bg-white divide-y divide-gray-200">
+                                <tbody id="favorites-body" class="divide-y">
                                     <!-- Pinned modules will be inserted here -->
                                 </tbody>
                             </table>
@@ -686,14 +502,19 @@ textarea {
                 <!-- All programs and modules -->
                 <div id="programs-view">
                     <div class="flex justify-between items-center mb-3">
-                        <h2 class="text-xl font-semibold">All Programs (<span id="program-count">0</span>)</h2>
-                        <button id="toggle-all-programs" class="px-3 py-1 bg-blue-600 text-white rounded-md text-sm">
-                            <i class="fas fa-angle-double-down mr-1"></i> Expand All
-                        </button>
+                        <h2 class="text-xl font-semibold mb-3 flex items-center">
+                            <i class="fas fa-toggle-on text-accent-color mr-2"></i>
+                            All Programs (<span id="program-count">0</span>)
+                        </h2>
+                        <div class="flex items-center">
+                            <button id="toggle-all-programs" class="px-3 py-1 button-primary rounded-md text-sm">
+                                <i class="fas fa-angle-double-down mr-1"></i> Expand All
+                            </button>
+                        </div>
                     </div>
                     
-                    <div id="no-results" class="text-center py-8 bg-gray-50 rounded-lg border border-gray-200 hidden">
-                        <p class="text-gray-500">No programs or modules match your search.</p>
+                    <div id="no-results" class="text-center py-8 rounded-lg border border-border-color hidden">
+                        <p class="text-muted">No programs or modules match your search.</p>
                     </div>
                     
                     <div id="programs-container" class="space-y-4">
@@ -701,52 +522,96 @@ textarea {
                     </div>
                 </div>
             </div>
-        </div>
-    </div>
 
-    <!-- Tips box -->
-    <div id="tips-box" class="tips-box bg-blue-50 p-4 rounded-lg border border-blue-200">
-        <div class="flex justify-between items-start mb-2">
-            <h3 class="text-lg font-medium text-blue-800">Tips & Information:</h3>
-            <button id="close-tips" class="text-blue-500 hover:text-blue-700">
-                <i class="fas fa-times"></i>
-            </button>
-        </div>
-        <div class="mb-3 p-2 bg-blue-100 rounded-md">
-            <p class="text-blue-700"><strong>No account required:</strong> Your pinned modules and custom links are stored in your browser. If your browser data is cleared, you will need to re-pin your selections.</p>
-        </div>
-        <ul class="list-disc pl-5 text-blue-700 space-y-1">
-            <li>Use the search box to filter by program name, module code, module name, or module leader</li>
-            <li>Filter modules by semester using the buttons above</li>
-            <li>Click "Pin at Top" on any module to add it to your pinned list for quick access</li>
-            <li>Add your own custom links to modules for quick access to your teaching materials</li>
-            <li>If you teach modules that aren't listed, click "Add Custom Module" to add them</li>
-            <li>Adjust text size using the +/- controls at the top right</li>
-            <li>Use the menu button <i class="fas fa-bars"></i> to show/hide the sidebar</li>
-        </ul>
+            <!-- Info tab content - contains all the documentation -->
+            <div id="info-tab-content" class="tab-content">
+                <h1 class="text-3xl font-bold mb-6">University Modules Portal</h1>
+                <p class="text-lg mb-8">
+                    <strong>No account required:</strong> Your pinned modules and custom links are stored in your browser. 
+                    If your browser data is cleared, you will need to re-pin your selections.
+                </p>
+
+                <!-- Info box -->
+                <div class="info-box">
+                    <div class="info-box-title">
+                        <i class="fas fa-info-circle"></i> 
+                        Tips for Using This Portal
+                    </div>
+                    <div class="info-content">
+                        <p class="mb-4">
+                            This portal helps you manage university teaching modules, track your teaching assignments, and organize related resources.
+                        </p>
+                        <ul class="list-disc pl-5 space-y-2">
+                            <li>Use the search box at the top to find modules, codes, or module leaders</li>
+                            <li>Pin your teaching modules to keep them easily accessible</li>
+                            <li>Add custom links to your teaching materials for quick access</li>
+                            <li>You can add custom modules for modules not listed here</li>
+                            <li>Toggle between dark and light modes using the moon/sun icon in the top-right corner</li>
+                            <li>Adjust text size for better readability</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Reset All Data button -->
+                <div class="info-box">
+                    <div class="info-box-title">
+                        <i class="fas fa-exclamation-triangle"></i> 
+                        Reset Portal Data
+                    </div>
+                    <div class="info-content mb-4">
+                        <p>This will reset the entire portal to its default state. All your pinned modules, custom links, and other preferences will be permanently deleted.</p>
+                        <p class="font-semibold mt-2 text-red-500">This action cannot be undone!</p>
+                    </div>
+                    <button id="clear-all-data" class="mt-2 px-4 py-2 bg-red-600 text-black rounded-md hover:bg-red-700 w-full border border-red-700 font-medium">
+                        Clear All Pinned Modules & Links
+                    </button>
+                </div>
+
+                <!-- More info content -->
+                <h2 class="text-2xl font-bold mt-8 mb-4">Privacy Note</h2>
+                <p class="mb-4">
+                    All data is stored locally in your browser. No account is required, and no data is sent to any server.
+                    This means your preferences and selections are private, but will be lost if you clear your browser data.
+                </p>
+            </div>
+        </main>
+
+        <!-- Right sidebar -->
+        <aside class="right-sidebar">
+            <div class="right-sidebar-header">Quick Tools</div>
+            <a href="#" class="right-sidebar-link current"><strong>Module Spec</strong></a>
+            <a href="#" class="right-sidebar-link">Jargon</a>
+            <a href="#" class="right-sidebar-link">Personalised Student List</a>
+            <a href="#" class="right-sidebar-link">Rubric Feedback Generator</a>
+            <a href="#" class="right-sidebar-link">Rubric Descriptors</a>            
+            <a href="#" class="right-sidebar-link">Moderation Statistics</a>
+            <a href="#" class="right-sidebar-link">Countdown Dates</a>
+            <a href="#" class="right-sidebar-link">Marking Tracker</a>
+            <a href="#" class="right-sidebar-link">Teaching Resources</a>
+        </aside>
     </div>
 
     <!-- Modal for adding custom links -->
-    <div id="custom-link-modal" class="fixed inset-0 bg-gray-600 bg-opacity-50 flex items-center justify-center hidden z-50">
-        <div class="bg-white rounded-lg shadow-xl p-6 max-w-md w-full">
+    <div id="custom-link-modal" class="modal-overlay">
+        <div class="modal-content">
             <div class="flex justify-between items-center mb-4">
                 <h3 class="text-lg font-medium" id="modal-title">Add Custom Link</h3>
-                <button id="close-modal" class="text-gray-400 hover:text-gray-500">
+                <button id="close-modal" class="text-muted hover:text-primary">
                     <i class="fas fa-times"></i>
                 </button>
             </div>
             <div class="space-y-4">
                 <input type="hidden" id="link-module-id">
                 <div>
-                    <label for="link-name" class="block text-sm font-medium text-gray-700">Link Name</label>
-                    <input type="text" id="link-name" placeholder="My Teaching Materials" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500">
+                    <label for="link-name" class="block text-sm font-medium">Link Name</label>
+                    <input type="text" id="link-name" placeholder="My Teaching Materials" class="mt-1 block w-full border rounded-md shadow-sm py-2 px-3">
                 </div>
                 <div>
-                    <label for="link-url" class="block text-sm font-medium text-gray-700">URL</label>
-                    <input type="url" id="link-url" placeholder="https://example.com/my-slides" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500">
+                    <label for="link-url" class="block text-sm font-medium">URL</label>
+                    <input type="url" id="link-url" placeholder="https://example.com/my-slides" class="mt-1 block w-full border rounded-md shadow-sm py-2 px-3">
                 </div>
                 <div class="flex justify-end mt-6">
-                    <button id="save-link" class="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700">
+                    <button id="save-link" class="px-4 py-2 button-primary rounded-md">
                         Save Link
                     </button>
                 </div>
@@ -755,26 +620,26 @@ textarea {
     </div>
 
     <!-- Modal for editing sidebar links -->
-    <div id="edit-sidebar-link-modal" class="fixed inset-0 bg-gray-600 bg-opacity-50 flex items-center justify-center hidden z-50">
-        <div class="bg-white rounded-lg shadow-xl p-6 max-w-md w-full">
+    <div id="edit-sidebar-link-modal" class="modal-overlay">
+        <div class="modal-content">
             <div class="flex justify-between items-center mb-4">
                 <h3 class="text-lg font-medium">Edit Custom Link</h3>
-                <button id="close-edit-sidebar-modal" class="text-gray-400 hover:text-gray-500">
+                <button id="close-edit-sidebar-modal" class="text-muted hover:text-primary">
                     <i class="fas fa-times"></i>
                 </button>
             </div>
             <div class="space-y-4">
                 <input type="hidden" id="edit-sidebar-link-id">
                 <div>
-                    <label for="edit-sidebar-link-name" class="block text-sm font-medium text-gray-700">Link Name</label>
-                    <input type="text" id="edit-sidebar-link-name" placeholder="My Website" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500">
+                    <label for="edit-sidebar-link-name" class="block text-sm font-medium">Link Name</label>
+                    <input type="text" id="edit-sidebar-link-name" placeholder="My Website" class="mt-1 block w-full border rounded-md shadow-sm py-2 px-3">
                 </div>
                 <div>
-                    <label for="edit-sidebar-link-url" class="block text-sm font-medium text-gray-700">URL</label>
-                    <input type="url" id="edit-sidebar-link-url" placeholder="https://example.com" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500">
+                    <label for="edit-sidebar-link-url" class="block text-sm font-medium">URL</label>
+                    <input type="url" id="edit-sidebar-link-url" placeholder="https://example.com" class="mt-1 block w-full border rounded-md shadow-sm py-2 px-3">
                 </div>
                 <div class="flex justify-end mt-6">
-                    <button id="save-edit-sidebar-link" class="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700">
+                    <button id="save-edit-sidebar-link" class="px-4 py-2 button-primary rounded-md">
                         Save Changes
                     </button>
                 </div>
@@ -783,11 +648,11 @@ textarea {
     </div>
 
     <!-- Confirmation modal for clearing data -->
-    <div id="confirm-clear-modal" class="fixed inset-0 bg-gray-600 bg-opacity-50 flex items-center justify-center hidden z-50">
-        <div class="bg-white rounded-lg shadow-xl p-6 max-w-md w-full">
+    <div id="confirm-clear-modal" class="modal-overlay">
+        <div class="modal-content">
             <div class="mb-4">
                 <h3 class="text-lg font-semibold text-red-600">⚠️ Warning: Reset Everything</h3>
-                <p class="text-gray-600 mt-2">
+                <p class="mt-2">
                     This will reset the entire page to its default state. All your pinned modules, custom links, and other preferences will be permanently deleted.
                 </p>
                 <p class="font-semibold text-red-500 mt-2">
@@ -795,1563 +660,36 @@ textarea {
                 </p>
             </div>
             <div class="flex justify-end space-x-3">
-                <button id="cancel-clear" class="px-4 py-2 bg-gray-300 text-gray-700 rounded-md hover:bg-gray-400">
+                <button id="cancel-clear" class="px-4 py-2 bg-button-secondary-bg text-button-secondary-text rounded-md hover:bg-bg-secondary border border-button-secondary-border">
                     Cancel
                 </button>
-                <button id="confirm-clear" class="px-4 py-2 bg-red-500 text-white rounded-md hover:bg-red-600" onclick="window.executeDataClear()">
+                <button id="confirm-clear" class="px-4 py-2 bg-red-500 text-black rounded-md hover:bg-red-600 border border-red-600 font-medium">
                     Yes, Reset Everything
                 </button>
             </div>
         </div>
     </div>
     
-    
-    <!-- Custom website notice (replaces JavaScript alerts) -->
-    <div id="website-notice" class="website-notice">
-        <div class="notice-content">
+    <!-- Notice modal (for alerts) -->
+    <div id="website-notice" class="modal-overlay">
+        <div class="modal-content">
             <div class="mb-4">
-                <h3 id="notice-title" class="text-lg font-semibold text-blue-600">Notice</h3>
-                <p id="notice-message" class="text-gray-600 mt-2">
+                <h3 id="notice-title" class="text-lg font-semibold text-accent-color">Notice</h3>
+                <p id="notice-message" class="mt-2">
                     This is a website notice.
                 </p>
             </div>
             <div class="flex justify-end">
-                <button id="notice-ok" class="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700">
+                <button id="notice-ok" class="px-4 py-2 button-primary rounded-md">
                     OK
                 </button>
             </div>
         </div>
     </div>
 
-    <script>
-        // Make all the functions accessible in the global scope
-        window.MODULES_DATA = {
-            "mod-1-1": {
-                id: "mod-1-1",
-                code: "CS101",
-                name: "Introduction to Programming",
-                leader: "Dr. Smith",
-                semester: 1,
-                moodleLink: "https://moodle.university.edu/course/view.php?id=101",
-                specLink: "https://university.edu/specs/CS101.pdf",
-                isCustom: false
-            },
-            "mod-1-2": {
-                id: "mod-1-2",
-                code: "CS102",
-                name: "Data Structures and Algorithms",
-                leader: "Dr. Johnson",
-                semester: 2,
-                moodleLink: "https://moodle.university.edu/course/view.php?id=102",
-                specLink: "https://university.edu/specs/CS102.pdf",
-                isCustom: false
-            },
-            "mod-1-3": {
-                id: "mod-1-3",
-                code: "CS103",
-                name: "Computer Architecture",
-                leader: "Prof. Williams",
-                semester: 1,
-                moodleLink: "https://moodle.university.edu/course/view.php?id=103",
-                specLink: "https://university.edu/specs/CS103.pdf",
-                isCustom: false
-            },
-            "mod-2-1": {
-                id: "mod-2-1",
-                code: "BIO101",
-                name: "Cell Biology",
-                leader: "Dr. Davis",
-                semester: 1,
-                moodleLink: "https://moodle.university.edu/course/view.php?id=201",
-                specLink: "https://university.edu/specs/BIO101.pdf",
-                isCustom: false
-            },
-            "mod-2-2": {
-                id: "mod-2-2",
-                code: "BIO102",
-                name: "Genetics",
-                leader: "Prof. Miller",
-                semester: 2,
-                moodleLink: "https://moodle.university.edu/course/view.php?id=202",
-                specLink: "https://university.edu/specs/BIO102.pdf",
-                isCustom: false
-            },
-            "mod-2-3": {
-                id: "mod-2-3",
-                code: "BIO103",
-                name: "Ecology",
-                leader: "Dr. Wilson",
-                semester: 2,
-                moodleLink: "https://moodle.university.edu/course/view.php?id=203",
-                specLink: "https://university.edu/specs/BIO103.pdf",
-                isCustom: false
-            },
-            "mod-3-1": {
-                id: "mod-3-1",
-                code: "MATH101",
-                name: "Calculus I",
-                leader: "Prof. Brown",
-                semester: 1,
-                moodleLink: "https://moodle.university.edu/course/view.php?id=301",
-                specLink: "https://university.edu/specs/MATH101.pdf",
-                isCustom: false
-            },
-            "mod-3-2": {
-                id: "mod-3-2",
-                code: "MATH102",
-                name: "Linear Algebra",
-                leader: "Dr. Taylor",
-                semester: 2,
-                moodleLink: "https://moodle.university.edu/course/view.php?id=302",
-                specLink: "https://university.edu/specs/MATH102.pdf",
-                isCustom: false
-            },
-            "mod-3-3": {
-                id: "mod-3-3",
-                code: "MATH103",
-                name: "Discrete Mathematics",
-                leader: "Dr. Anderson",
-                semester: 1,
-                moodleLink: "https://moodle.university.edu/course/view.php?id=303",
-                specLink: "https://university.edu/specs/MATH103.pdf",
-                isCustom: false
-            }
-        };
-
-        // Programs only reference module IDs
-        window.PROGRAMS_DATA = [
-            {
-                id: "prog-1",
-                name: "Computer Science Undergraduate",
-                moduleIds: ["mod-1-1", "mod-1-2", "mod-1-3"]
-            },
-            {
-                id: "prog-2",
-                name: "Biology Undergraduate",
-                moduleIds: ["mod-2-1", "mod-2-2", "mod-2-3"]
-            },
-            {
-                id: "prog-3",
-                name: "Mathematics Undergraduate",
-                moduleIds: ["mod-3-1", "mod-3-2", "mod-3-3", "mod-1-1"] // Note CS101 is shared with CS program
-            }
-        ];
-
-        // Generate more sample data to demonstrate scale
-        window.lastProgramId = 3;
-        window.lastModuleId = 9;
-        
-        for (let i = 4; i <= 25; i++) {
-            window.lastProgramId++;
-            const programId = `prog-${window.lastProgramId}`;
-            const program = {
-                id: programId,
-                name: `Program ${i}: ${['Computer Science', 'Biology', 'Mathematics', 'Psychology', 
-                       'Business', 'English', 'History'][i % 7]} ${Math.floor(i/7) + 1}`,
-                moduleIds: []
-            };
-            
-            // Generate 30-40 modules per program
-            const moduleCount = 30 + Math.floor(Math.random() * 10);
-            for (let j = 1; j <= moduleCount; j++) {
-                window.lastModuleId++;
-                const moduleId = `mod-${window.lastProgramId}-${j}`;
-                const dept = ['CS', 'BIO', 'MATH', 'PSY', 'BUS', 'ENG', 'HIST'][i % 7];
-                const moduleCode = `${dept}${100 + j}`;
-                
-                // Add module to modules collection
-                window.MODULES_DATA[moduleId] = {
-                    id: moduleId,
-                    code: moduleCode,
-                    name: `${['Introduction to', 'Advanced', 'Topics in', 'Methods for', 'Contemporary', 
-                           'Applied', 'Theoretical'][j % 7]} ${['Systems', 'Analytics', 'Theory', 
-                           'Practice', 'Ethics', 'Development', 'Research'][Math.floor(j/7) % 7]}`,
-                    leader: `Dr. ${['Smith', 'Johnson', 'Williams', 'Jones', 'Brown', 'Davis', 'Miller', 
-                             'Wilson', 'Moore', 'Taylor', 'Anderson', 'Thomas', 'Jackson'][j % 13]}`,
-                    semester: j % 2 === 0 ? 2 : 1, // Alternate between semester 1 and 2
-                    moodleLink: `https://moodle.university.edu/course/view.php?id=${i*100+j}`,
-                    specLink: `https://university.edu/specs/${dept}${100 + j}.pdf`,
-                    isCustom: false
-                };
-                
-                // Add module reference to program
-                program.moduleIds.push(moduleId);
-            }
-            
-            window.PROGRAMS_DATA.push(program);
-        }
-
-        // Global state
-        window.favoriteModuleIds = []; // Just store module IDs
-        window.customLinks = {}; // moduleId -> array of {name, url} objects
-        window.customModules = {}; // Subset of MODULES_DATA that are custom
-        window.expandedPrograms = {};
-        window.filteredPrograms = [];
-        window.currentSemester = 'all'; // 'all', '1', or '2'
-        window.currentView = 'all'; // 'all', 'favorites'
-        window.lastCustomModuleId = 0;
-        window.sidebarLinks = []; // Array of {id, name, url} objects
-        window.nextSidebarLinkId = 1;
-        window.sidebarCollapsed = false;
-        window.allProgramsExpanded = false;
-        window.fontSizeMultiplier = 1;
-        window.currentSearchTerm = '';
-        window.infoBoxClosed = false;
-        
-        // Display a custom notice (replaces JavaScript alerts)
-        window.showNotice = function(title, message) {
-            document.getElementById('notice-title').textContent = title;
-            document.getElementById('notice-message').textContent = message;
-            document.getElementById('website-notice').classList.add('visible');
-        };
-        
-        // Hide the custom notice
-        window.hideNotice = function() {
-            document.getElementById('website-notice').classList.remove('visible');
-        };
-        
-        // Toggle sidebar
-        window.toggleSidebar = function() {
-    window.sidebarCollapsed = !window.sidebarCollapsed;
-    
-    const sidebar = document.getElementById('sidebar');
-    const toggleBtn = document.getElementById('sidebar-toggle');
-    const toggleIcon = document.getElementById('toggle-icon');
-    
-    if (window.sidebarCollapsed) {
-        sidebar.classList.add('collapsed');
-        toggleBtn.classList.remove('active');
-        toggleIcon.classList.remove('fa-times');
-        toggleIcon.classList.add('fa-bars');
-        localStorage.setItem('sidebarCollapsed', 'true');
-    } else {
-        sidebar.classList.remove('collapsed');
-        toggleBtn.classList.add('active');
-        toggleIcon.classList.remove('fa-bars');
-        toggleIcon.classList.add('fa-times');
-        localStorage.setItem('sidebarCollapsed', 'false');
-    }
-};
-
-// Set correct state on page load
-window.loadSidebarState = function() {
-    const storedSidebarState = localStorage.getItem('sidebarCollapsed');
-    const sidebar = document.getElementById('sidebar');
-    const toggleBtn = document.getElementById('sidebar-toggle');
-    const toggleIcon = document.getElementById('toggle-icon');
-    
-    if (storedSidebarState === 'true') {
-        window.sidebarCollapsed = true;
-        sidebar.classList.add('collapsed');
-        toggleBtn.classList.remove('active');
-        toggleIcon.classList.remove('fa-times');
-        toggleIcon.classList.add('fa-bars');
-    } else {
-        window.sidebarCollapsed = false;
-        sidebar.classList.remove('collapsed');
-        toggleBtn.classList.add('active');
-        toggleIcon.classList.remove('fa-bars');
-        toggleIcon.classList.add('fa-times');
-    }
-};
-  
-  // Additional code to set the correct text on page load
-  document.addEventListener('DOMContentLoaded', function() {
-    const toggleText = document.getElementById('toggle-text');
-    const storedSidebarState = localStorage.getItem('sidebarCollapsed');
-    
-    if (storedSidebarState === 'true') {
-      toggleText.textContent = 'Show University Links';
-    } else {
-      toggleText.textContent = 'Hide University Links';
-    }
-  });
-          
-        // Toggle expand/collapse all programs
-        window.toggleAllPrograms = function() {
-            window.allProgramsExpanded = !window.allProgramsExpanded;
-            const button = document.getElementById('toggle-all-programs');
-            
-            if (window.allProgramsExpanded) {
-                button.innerHTML = '<i class="fas fa-angle-double-up mr-1"></i> Collapse All';
-                // Expand all programs
-                window.filteredPrograms.forEach(program => {
-                    const modulesContainer = document.getElementById(`modules-${program.id}`);
-                    const chevron = document.getElementById(`chevron-${program.id}`);
-                    if (modulesContainer && chevron) {
-                        modulesContainer.classList.add('expanded');
-                        chevron.classList.remove('fa-chevron-down');
-                        chevron.classList.add('fa-chevron-up');
-                        window.expandedPrograms[program.id] = true;
-                    }
-                });
-            } else {
-                button.innerHTML = '<i class="fas fa-angle-double-down mr-1"></i> Expand All';
-                // Collapse all programs
-                window.filteredPrograms.forEach(program => {
-                    const modulesContainer = document.getElementById(`modules-${program.id}`);
-                    const chevron = document.getElementById(`chevron-${program.id}`);
-                    if (modulesContainer && chevron) {
-                        modulesContainer.classList.remove('expanded');
-                        chevron.classList.remove('fa-chevron-up');
-                        chevron.classList.add('fa-chevron-down');
-                        window.expandedPrograms[program.id] = false;
-                    }
-                });
-            }
-        };
-
-        // Add this function to make the "Add Custom Module" button work
-window.toggleCustomModuleSection = function() {
-    const body = document.body;
-    const toggleButton = document.getElementById('custom-module-toggle');
-    
-    if (body.classList.contains('custom-module-visible')) {
-        // Hide the section
-        body.classList.remove('custom-module-visible');
-        toggleButton.classList.remove('bg-indigo-600', 'text-white');
-        toggleButton.classList.add('bg-gray-200', 'text-gray-700');
-    } else {
-        // Show the section
-        body.classList.add('custom-module-visible');
-        toggleButton.classList.remove('bg-gray-200', 'text-gray-700');
-        toggleButton.classList.add('bg-indigo-600', 'text-white');
-    }
-};
-        
-        // Font size controls
-        window.increaseFontSize = function() {
-            if (window.fontSizeMultiplier < 1.5) {
-                window.fontSizeMultiplier += 0.1;
-                document.documentElement.style.setProperty('--font-size-multiplier', window.fontSizeMultiplier.toString());
-                localStorage.setItem('fontSizeMultiplier', window.fontSizeMultiplier.toString());
-                
-                // Refresh views to ensure all text is resized properly
-                window.filterAndRenderPrograms(document.getElementById('search-input').value.toLowerCase());
-                window.renderFavorites();
-                window.renderCustomModules();
-            }
-        };
-        
-        window.decreaseFontSize = function() {
-            if (window.fontSizeMultiplier > 0.8) {
-                window.fontSizeMultiplier -= 0.1;
-                document.documentElement.style.setProperty('--font-size-multiplier', window.fontSizeMultiplier.toString());
-                localStorage.setItem('fontSizeMultiplier', window.fontSizeMultiplier.toString());
-                
-                // Refresh views to ensure all text is resized properly
-                window.filterAndRenderPrograms(document.getElementById('search-input').value.toLowerCase());
-                window.renderFavorites();
-                window.renderCustomModules();
-            }
-        };
-        
-        // Hide the sidebar info box
-        window.closeInfoBox = function() {
-            document.getElementById('sidebar-info-box').style.display = 'none';
-            window.infoBoxClosed = true;
-            localStorage.setItem('infoBoxClosed', 'true');
-        };
-        
-        // Add a sidebar link
-        window.addSidebarLink = function(name, url) {
-            const id = window.nextSidebarLinkId++;
-            window.sidebarLinks.push({ id, name, url });
-            window.saveSidebarLinks();
-            window.renderSidebarLinks();
-        };
-        
-        // Edit a sidebar link
-        window.editSidebarLink = function(id, name, url) {
-            const link = window.sidebarLinks.find(link => link.id === id);
-            if (link) {
-                link.name = name;
-                link.url = url;
-                window.saveSidebarLinks();
-                window.renderSidebarLinks();
-            }
-        };
-        
-        // Delete a sidebar link
-        window.deleteSidebarLink = function(id) {
-            window.sidebarLinks = window.sidebarLinks.filter(link => link.id !== id);
-            window.saveSidebarLinks();
-            window.renderSidebarLinks();
-        };
-        
-        // Render sidebar links
-        window.renderSidebarLinks = function() {
-    const linksList = document.getElementById('sidebar-links-list');
-    const noLinks = document.getElementById('no-sidebar-links');
-    
-    if (window.sidebarLinks.length === 0) {
-        // Show "No links added yet" message when there are no links
-        noLinks.classList.remove('hidden');
-        // Remove any existing link elements
-        linksList.querySelectorAll('.link-card').forEach(div => div.remove());
-        return;
-    }
-    
-    // If we have links, hide the "No links" message
-    noLinks.classList.add('hidden');
-    
-    // Clear existing links before adding new ones
-    linksList.querySelectorAll('.link-card').forEach(div => div.remove());
-    
-    // Render all links
-    window.sidebarLinks.forEach(link => {
-        const linkCard = document.createElement('div');
-        linkCard.className = 'link-card group';
-        // rest of your link rendering code...
-    });
-            
-            noLinks.classList.add('hidden');
-            linksList.querySelectorAll('div:not(#no-sidebar-links)').forEach(div => div.remove());
-            
-            window.sidebarLinks.forEach(link => {
-                const linkCard = document.createElement('div');
-                linkCard.className = 'link-card';
-                linkCard.innerHTML = `
-                    <div class="flex items-center justify-between">
-                        <a href="${link.url}" target="_blank" class="text-gray-600 hover:text-gray-800 flex-grow overflow-hidden text-ellipsis whitespace-nowrap">
-                            <i class="fas fa-link mr-2 text-gray-500"></i>${link.name}
-                        </a>
-                        <div class="link-actions space-x-1">
-                            <button class="edit-sidebar-link text-gray-500 hover:text-gray-700" data-id="${link.id}">
-                                <i class="fas fa-edit"></i>
-                            </button>
-                            <button class="delete-sidebar-link text-red-400 hover:text-red-500" data-id="${link.id}">
-                                <i class="fas fa-trash-alt"></i>
-                            </button>
-                        </div>
-                    </div>
-                `;
-                
-                // Add event listeners
-                const editBtn = linkCard.querySelector('.edit-sidebar-link');
-                const deleteBtn = linkCard.querySelector('.delete-sidebar-link');
-                
-                editBtn.addEventListener('click', function() {
-                    const linkToEdit = window.sidebarLinks.find(l => l.id === parseInt(this.dataset.id));
-                    if (linkToEdit) {
-                        document.getElementById('edit-sidebar-link-id').value = linkToEdit.id;
-                        document.getElementById('edit-sidebar-link-name').value = linkToEdit.name;
-                        document.getElementById('edit-sidebar-link-url').value = linkToEdit.url;
-                        document.getElementById('edit-sidebar-link-modal').classList.remove('hidden');
-                    }
-                });
-                
-                deleteBtn.addEventListener('click', function() {
-                    const id = parseInt(this.dataset.id);
-                    if (confirm('Are you sure you want to delete this link?')) {
-                        window.deleteSidebarLink(id);
-                    }
-                });
-                
-                linksList.appendChild(linkCard);
-            });
-        };
-        
-        // Save sidebar links to localStorage
-        window.saveSidebarLinks = function() {
-            localStorage.setItem('sidebarLinks', JSON.stringify(window.sidebarLinks));
-            localStorage.setItem('nextSidebarLinkId', window.nextSidebarLinkId.toString());
-        };
-        
-        // Load sidebar links from localStorage
-window.loadSidebarLinks = function() {
-    const storedLinks = localStorage.getItem('sidebarLinks');
-    const storedNextId = localStorage.getItem('nextSidebarLinkId');
-    const storedSidebarState = localStorage.getItem('sidebarCollapsed');
-    
-    if (storedLinks) {
-        try {
-            window.sidebarLinks = JSON.parse(storedLinks);
-        } catch (e) {
-            console.error('Failed to parse stored sidebar links', e);
-            window.sidebarLinks = [];
-        }
-    }
-    
-    if (storedNextId) {
-        window.nextSidebarLinkId = parseInt(storedNextId);
-    }
-    
-    // Apply sidebar collapsed state from localStorage
-    if (storedSidebarState === 'true') {
-        window.sidebarCollapsed = true;
-        document.getElementById('sidebar').classList.add('collapsed');
-        document.getElementById('sidebar-toggle').classList.remove('hidden');
-    } else {
-        window.sidebarCollapsed = false;
-        document.getElementById('sidebar').classList.remove('collapsed');
-        document.getElementById('sidebar-toggle').classList.add('hidden');
-    }
-};
-        
-        // Tips visibility
-        window.loadTipsVisibility = function() {
-            if (localStorage.getItem('tipsClosed') === 'true') {
-                document.getElementById('tips-box').classList.add('hidden');
-            }
-        };
-        
-        window.closeTips = function() {
-            document.getElementById('tips-box').classList.add('hidden');
-            localStorage.setItem('tipsClosed', 'true');
-        };
-        
-        // Clear all data (pinned modules, custom links, sidebar links)
-        window.clearAllData = function() {
-            // Show confirmation modal
-            document.getElementById('confirm-clear-modal').classList.remove('hidden');
-        };
-        
-        // Execute clear all data after confirmation
-        window.executeDataClear = function() {
-    console.log("Executing data clear");
-    
-    // Clear all data
-    window.favoriteModuleIds = [];
-    window.customLinks = {};
-    window.customModules = {};
-    window.sidebarLinks = [];
-    window.nextSidebarLinkId = 1;
-    
-    // Remove custom modules from MODULES_DATA
-    Object.keys(window.MODULES_DATA).forEach(key => {
-        if (window.MODULES_DATA[key].isCustom) {
-            delete window.MODULES_DATA[key];
-        }
-    });
-    
-    // Save empty data to localStorage
-    window.saveFavorites();
-    window.saveCustomLinks();
-    window.saveCustomModules();
-    window.saveSidebarLinks();
-    
-    // Also remove tips closed state so tips box reappears
-    localStorage.removeItem('tipsClosed');
-    document.getElementById('tips-box').classList.remove('hidden');
-    
-    // Reset infoBox closed state
-    localStorage.removeItem('infoBoxClosed');
-    if (document.getElementById('sidebar-info-box')) {
-        document.getElementById('sidebar-info-box').style.display = '';
-    }
-    
-    // Refresh views
-    window.filterAndRenderPrograms(document.getElementById('search-input').value.toLowerCase());
-    window.renderFavorites();
-    window.renderCustomModules();
-    window.renderSidebarLinks();
-    
-    // Hide confirmation modal
-    document.getElementById('confirm-clear-modal').classList.add('hidden');
-    
-    // Show custom notice 
-    window.showNotice('Success', 'Page reset successful! All pinned modules, custom links, and preferences have been cleared.');
-};
-        
-        // Highlight search matches
-        window.highlightText = function(text, searchTerm) {
-            if (!searchTerm) return text;
-            
-            const regex = new RegExp(`(${searchTerm})`, 'gi');
-            return text.replace(regex, '<span class="highlight">$1</span>');
-        };
-        
-        // Add a module to favorites (now pinned)
-        window.addToFavorites = function(moduleId) {
-            if (!window.favoriteModuleIds.includes(moduleId)) {
-                window.favoriteModuleIds.push(moduleId);
-                window.saveFavorites();
-                window.renderFavorites();
-                
-                // Update the pin button
-                const pinButton = document.querySelector(`[data-save-id="${moduleId}"]`);
-                if (pinButton) {
-                    pinButton.innerHTML = '<i class="fas fa-thumbtack text-yellow-600 mr-1"></i> Pinned';
-                    pinButton.classList.remove('text-blue-600', 'hover:text-blue-800');
-                    pinButton.classList.add('text-yellow-600', 'hover:text-yellow-800');
-                }
-            }
-        };
-        
-        // Remove a module from favorites (now pinned)
-        window.removeFromFavorites = function(moduleId) {
-            window.favoriteModuleIds = window.favoriteModuleIds.filter(id => id !== moduleId);
-            window.saveFavorites();
-            window.renderFavorites();
-            
-            // Update the pin button if it exists
-            const pinButton = document.querySelector(`[data-save-id="${moduleId}"]`);
-            if (pinButton) {
-                pinButton.innerHTML = '<i class="fas fa-thumbtack mr-1"></i> Pin at Top';
-                pinButton.classList.remove('text-yellow-600', 'hover:text-yellow-800');
-                pinButton.classList.add('text-blue-600', 'hover:text-blue-800');
-            }
-            
-            // If we're in favorites view and removed the last favorite, refresh the view
-            if (window.currentView === 'favorites' && window.favoriteModuleIds.length === 0) {
-                window.filterAndRenderPrograms(document.getElementById('search-input').value.toLowerCase());
-            }
-        };
-        
-        // Toggle program expansion
-        window.toggleProgram = function(programId) {
-            const modulesContainer = document.getElementById(`modules-${programId}`);
-            const chevron = document.getElementById(`chevron-${programId}`);
-            
-            if (modulesContainer.classList.contains('expanded')) {
-                modulesContainer.classList.remove('expanded');
-                chevron.classList.remove('fa-chevron-up');
-                chevron.classList.add('fa-chevron-down');
-                window.expandedPrograms[programId] = false;
-            } else {
-                modulesContainer.classList.add('expanded');
-                chevron.classList.remove('fa-chevron-down');
-                chevron.classList.add('fa-chevron-up');
-                window.expandedPrograms[programId] = true;
-            }
-            
-            // Update the expand/collapse all button state
-            window.updateExpandAllButtonState();
-        };
-        
-        // Update the expand all button state based on current program states
-        window.updateExpandAllButtonState = function() {
-            const button = document.getElementById('toggle-all-programs');
-            const allExpanded = window.filteredPrograms.every(program => window.expandedPrograms[program.id]);
-            
-            if (allExpanded) {
-                button.innerHTML = '<i class="fas fa-angle-double-up mr-1"></i> Collapse All';
-                window.allProgramsExpanded = true;
-            } else {
-                button.innerHTML = '<i class="fas fa-angle-double-down mr-1"></i> Expand All';
-                window.allProgramsExpanded = false;
-            }
-        };
-        
-        // Show the custom link modal
-        window.showAddLinkModal = function(moduleId) {
-            document.getElementById('link-module-id').value = moduleId;
-            document.getElementById('link-name').value = '';
-            document.getElementById('link-url').value = '';
-            document.getElementById('custom-link-modal').classList.remove('hidden');
-        };
-        
-        // Hide the custom link modal
-        window.hideAddLinkModal = function() {
-            document.getElementById('custom-link-modal').classList.add('hidden');
-        };
-        
-        // Save a custom link
-        window.saveCustomLink = function() {
-            const moduleId = document.getElementById('link-module-id').value;
-            const name = document.getElementById('link-name').value.trim();
-            const url = document.getElementById('link-url').value.trim();
-            
-            if (!moduleId || !name || !url) {
-                window.showNotice('Error', 'Please fill in all fields');
-                return;
-            }
-            
-            if (!url.startsWith('http://') && !url.startsWith('https://')) {
-                window.showNotice('Error', 'URL must start with http:// or https://');
-                return;
-            }
-            
-            if (!window.customLinks[moduleId]) {
-                window.customLinks[moduleId] = [];
-            }
-            
-            window.customLinks[moduleId].push({ name, url });
-            window.saveCustomLinks();
-            window.hideAddLinkModal();
-            
-            // Refresh the view
-            window.filterAndRenderPrograms(document.getElementById('search-input').value.toLowerCase());
-            window.renderFavorites();
-            window.renderCustomModules();
-        };
-        
-        // Remove a custom link
-        window.removeCustomLink = function(moduleId, linkIndex) {
-            if (window.customLinks[moduleId] && window.customLinks[moduleId][linkIndex]) {
-                window.customLinks[moduleId].splice(linkIndex, 1);
-                if (window.customLinks[moduleId].length === 0) {
-                    delete window.customLinks[moduleId];
-                }
-                window.saveCustomLinks();
-                
-                // Refresh the view
-                window.filterAndRenderPrograms(document.getElementById('search-input').value.toLowerCase());
-                window.renderFavorites();
-                window.renderCustomModules();
-            }
-        };
-        
-        // Toggle custom module section
-
-        window.addCustomModule = function() {
-    const code = document.getElementById('custom-code').value.trim();
-    const name = document.getElementById('custom-name').value.trim();
-    const leader = document.getElementById('custom-leader').value.trim();
-    const semester = parseInt(document.getElementById('custom-semester').value);
-    const moodleLink = document.getElementById('custom-moodle').value.trim() || '#';
-    const specLink = document.getElementById('custom-spec').value.trim() || '#';
-    
-    if (!code || !name || !leader) {
-        window.showNotice('Error', 'Please fill in all required fields (Code, Name, Leader)');
-        return;
-    }
-    
-    // Generate a unique ID for the custom module
-    window.lastCustomModuleId++;
-    const moduleId = `custom-${window.lastCustomModuleId}`;
-    
-    // Add to modules collection
-    window.MODULES_DATA[moduleId] = {
-        id: moduleId,
-        code: code,
-        name: name,
-        leader: leader,
-        semester: semester,
-        moodleLink: moodleLink,
-        specLink: specLink,
-        isCustom: true // Mark as custom module
-    };
-    
-    // Also track in customModules
-    window.customModules[moduleId] = window.MODULES_DATA[moduleId];
-    
-    // Automatically add to favorites/pinned
-    window.addToFavorites(moduleId);
-    
-    // Save to localStorage
-    window.saveCustomModules();
-    
-    // Clear the form
-    document.getElementById('custom-code').value = '';
-    document.getElementById('custom-name').value = '';
-    document.getElementById('custom-leader').value = '';
-    document.getElementById('custom-semester').value = '1';
-    document.getElementById('custom-moodle').value = '';
-    document.getElementById('custom-spec').value = '';
-    
-    // Hide the custom module form
-    document.body.classList.remove('custom-module-visible');
-    document.getElementById('custom-module-toggle').classList.remove('bg-indigo-600', 'text-white');
-    document.getElementById('custom-module-toggle').classList.add('bg-gray-200', 'text-gray-700');
-    
-    // Refresh the views
-    window.filterAndRenderPrograms(document.getElementById('search-input').value.toLowerCase());
-    window.renderFavorites();
-    
-    // Show a confirmation
-    window.showNotice('Success', 'Custom module added and pinned successfully!');
-};
-        
-        // Remove a custom module
-        window.removeCustomModule = function(moduleId) {
-            // Remove from modules collection
-            delete window.MODULES_DATA[moduleId];
-            
-            // Remove from customModules
-            delete window.customModules[moduleId];
-            
-            // If it was a favorite, remove from favorites
-            if (window.favoriteModuleIds.includes(moduleId)) {
-                window.removeFromFavorites(moduleId);
-            }
-            
-            // Remove any custom links
-            if (window.customLinks[moduleId]) {
-                delete window.customLinks[moduleId];
-                window.saveCustomLinks();
-            }
-            
-            // Save to localStorage
-            window.saveCustomModules();
-            
-            // Refresh the views
-            window.renderCustomModules();
-        };
-        
-        // Load favorites from localStorage
-        window.loadFavorites = function() {
-            const storedFavorites = localStorage.getItem('favoriteModuleIds');
-            if (storedFavorites) {
-                try {
-                    window.favoriteModuleIds = JSON.parse(storedFavorites);
-                } catch (e) {
-                    console.error('Failed to parse stored favorites', e);
-                    localStorage.removeItem('favoriteModuleIds');
-                    window.favoriteModuleIds = [];
-                }
-            }
-        };
-        
-        // Save favorites to localStorage
-        window.saveFavorites = function() {
-            localStorage.setItem('favoriteModuleIds', JSON.stringify(window.favoriteModuleIds));
-        };
-        
-        // Load custom links from localStorage
-        window.loadCustomLinks = function() {
-            const storedLinks = localStorage.getItem('customLinks');
-            if (storedLinks) {
-                try {
-                    window.customLinks = JSON.parse(storedLinks);
-                } catch (e) {
-                    console.error('Failed to parse stored custom links', e);
-                    localStorage.removeItem('customLinks');
-                    window.customLinks = {};
-                }
-            }
-        };
-        
-        // Save custom links to localStorage
-        window.saveCustomLinks = function() {
-            localStorage.setItem('customLinks', JSON.stringify(window.customLinks));
-        };
-        
-        // Load custom modules from localStorage
-        window.loadCustomModules = function() {
-            const storedModules = localStorage.getItem('customModules');
-            if (storedModules) {
-                try {
-                    window.customModules = JSON.parse(storedModules);
-                    
-                    // Add custom modules to current modules collection
-                    for (const moduleId in window.customModules) {
-                        window.MODULES_DATA[moduleId] = window.customModules[moduleId];
-                    }
-                    
-                    // Update lastCustomModuleId
-                    for (const moduleId in window.customModules) {
-                        const id = parseInt(moduleId.replace('custom-', ''));
-                        if (id > window.lastCustomModuleId) {
-                            window.lastCustomModuleId = id;
-                        }
-                    }
-                } catch (e) {
-                    console.error('Failed to parse stored custom modules', e);
-                    localStorage.removeItem('customModules');
-                    window.customModules = {};
-                }
-            }
-        };
-        
-        // Save custom modules to localStorage
-        window.saveCustomModules = function() {
-            localStorage.setItem('customModules', JSON.stringify(window.customModules));
-        };
-        
-        // Update semester filter buttons
-        window.updateSemesterButtons = function() {
-            const buttons = [
-                document.getElementById('sem-all'),
-                document.getElementById('sem-1'),
-                document.getElementById('sem-2')
-            ];
-            
-            buttons.forEach(btn => {
-                btn.classList.remove('bg-blue-600', 'text-white', 'bg-gray-200', 'text-gray-700');
-                btn.classList.add('bg-gray-200', 'text-gray-700');
-            });
-            
-            if (window.currentSemester === 'all') {
-                buttons[0].classList.remove('bg-gray-200', 'text-gray-700');
-                buttons[0].classList.add('bg-blue-600', 'text-white');
-            } else if (window.currentSemester === '1') {
-                buttons[1].classList.remove('bg-gray-200', 'text-gray-700');
-                buttons[1].classList.add('bg-blue-600', 'text-white');
-            } else if (window.currentSemester === '2') {
-                buttons[2].classList.remove('bg-gray-200', 'text-gray-700');
-                buttons[2].classList.add('bg-blue-600', 'text-white');
-            }
-        };
-        
-        // Update view mode buttons
-        window.updateViewButtons = function() {
-            // Update button styles
-            const buttons = [
-                document.getElementById('view-all'),
-                document.getElementById('view-favorites')
-            ];
-            
-            buttons.forEach(btn => {
-                btn.classList.remove('bg-blue-600', 'text-white', 'bg-gray-200', 'text-gray-700');
-                btn.classList.add('bg-gray-200', 'text-gray-700');
-            });
-            
-            if (window.currentView === 'all') {
-                buttons[0].classList.remove('bg-gray-200', 'text-gray-700');
-                buttons[0].classList.add('bg-blue-600', 'text-white');
-            } else if (window.currentView === 'favorites') {
-                buttons[1].classList.remove('bg-gray-200', 'text-gray-700');
-                buttons[1].classList.add('bg-blue-600', 'text-white');
-            }
-            
-            // Apply the view
-            if (window.currentView === 'all') {
-                window.filterAndRenderPrograms(document.getElementById('search-input').value.toLowerCase());
-            } else if (window.currentView === 'favorites') {
-                if (window.favoriteModuleIds.length === 0) {
-                    // If no favorites, show a message
-                    document.getElementById('no-results').classList.remove('hidden');
-                    document.getElementById('programs-container').classList.add('hidden');
-                    document.getElementById('no-results').innerHTML = '<p class="text-gray-500">You have no pinned modules yet. Pin some modules to see them here.</p>';
-                } else {
-                    // Show only programs with favorite modules
-                    window.filterAndRenderPrograms(document.getElementById('search-input').value.toLowerCase(), true);
-                }
-            }
-        };
-        
-        // Render custom modules view
-        window.renderCustomModules = function() {
-            const customModuleIds = Object.keys(window.customModules);
-            const noCustomModules = document.getElementById('no-custom-modules');
-            const customModulesBody = document.getElementById('custom-modules-body');
-            
-            if (customModuleIds.length === 0) {
-                noCustomModules.classList.remove('hidden');
-                customModulesBody.innerHTML = '';
-                return;
-            }
-            
-            noCustomModules.classList.add('hidden');
-            customModulesBody.innerHTML = '';
-            
-            // Filter by semester if needed
-            const filteredModuleIds = customModuleIds.filter(moduleId => {
-                const module = window.customModules[moduleId];
-                return window.currentSemester === 'all' || module.semester === parseInt(window.currentSemester);
-            });
-            
-            // Filter by search term if provided
-            const searchTerm = document.getElementById('search-input').value.toLowerCase();
-            const searchFilteredModuleIds = filteredModuleIds.filter(moduleId => {
-                const module = window.customModules[moduleId];
-                return searchTerm === '' || 
-                       module.code.toLowerCase().includes(searchTerm) ||
-                       module.name.toLowerCase().includes(searchTerm) ||
-                       module.leader.toLowerCase().includes(searchTerm);
-            });
-            
-            if (searchFilteredModuleIds.length === 0) {
-                customModulesBody.innerHTML = `
-                    <tr>
-                        <td colspan="6" class="px-6 py-4 text-center text-gray-500">
-                            No custom modules match your search or filter criteria.
-                        </td>
-                    </tr>
-                `;
-                return;
-            }
-            
-            // Sort by code
-            searchFilteredModuleIds.sort((a, b) => {
-                return window.customModules[a].code.localeCompare(window.customModules[b].code);
-            });
-            
-            // Render each custom module
-            searchFilteredModuleIds.forEach(moduleId => {
-                const module = window.customModules[moduleId];
-                const isFavorite = window.favoriteModuleIds.includes(moduleId);
-                const moduleLinks = window.customLinks[moduleId] || [];
-                
-                const row = document.createElement('tr');
-                row.classList.add('hover:bg-gray-50', 'custom-module');
-                
-                const code = window.highlightText(module.code, searchTerm);
-                const name = window.highlightText(module.name, searchTerm);
-                const leader = window.highlightText(module.leader, searchTerm);
-                
-                row.innerHTML = `
-                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">${code}</td>
-                    <td class="px-6 py-4 text-sm text-gray-500">${name}</td>
-                    <td class="px-6 py-4 text-sm text-gray-500">${leader}</td>
-                    <td class="px-6 py-4 text-sm text-gray-500">Semester ${module.semester}</td>
-                    <td class="px-6 py-4 text-sm text-gray-500">
-                        <div class="grid grid-cols-1 gap-2">
-                            <div class="flex flex-wrap gap-3">
-                                ${module.moodleLink !== '#' ? `
-                                    <a href="${module.moodleLink}" target="_blank" rel="noopener noreferrer" class="inline-flex items-center px-3 py-1 bg-blue-100 text-blue-700 rounded-md hover:bg-blue-200">
-                                        Moodle <i class="fas fa-external-link-alt ml-1 text-xs"></i>
-                                    </a>
-                                ` : ''}
-                                ${module.specLink !== '#' ? `
-                                    <a href="${module.specLink}" target="_blank" rel="noopener noreferrer" class="inline-flex items-center px-3 py-1 bg-blue-100 text-blue-700 rounded-md hover:bg-blue-200">
-                                        Spec <i class="fas fa-external-link-alt ml-1 text-xs"></i>
-                                    </a>
-                                ` : ''}
-                            </div>
-                            ${moduleLinks.map((link, idx) => `
-                                <div class="flex items-center space-x-2">
-                                    <a href="${link.url}" target="_blank" rel="noopener noreferrer" class="inline-flex items-center px-3 py-1 bg-green-100 text-green-700 rounded-md hover:bg-green-200 flex-grow">
-                                        ${link.name} <i class="fas fa-external-link-alt ml-1 text-xs"></i>
-                                    </a>
-                                    <button onclick="window.removeCustomLink('${moduleId}', ${idx})" class="text-red-400 hover:text-red-500 p-1">
-                                        <i class="fas fa-times"></i>
-                                    </button>
-                                </div>
-                            `).join('')}
-                            <button onclick="window.showAddLinkModal('${moduleId}')" class="inline-flex items-center px-3 py-1 bg-indigo-100 text-indigo-700 rounded-md hover:bg-indigo-200 w-max mt-1">
-                                <i class="fas fa-plus mr-1"></i> Add Custom Link
-                            </button>
-                        </div>
-                    </td>
-                    <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                        <div class="flex flex-col space-y-2 items-end">
-                            <button 
-                                data-save-id="${moduleId}"
-                                onclick="${isFavorite ? `window.removeFromFavorites('${moduleId}')` : `window.addToFavorites('${moduleId}')`}"
-                                class="${isFavorite ? 'text-yellow-600 hover:text-yellow-800' : 'text-blue-600 hover:text-blue-800'} flex items-center"
-                            >
-                                <i class="fas fa-thumbtack mr-1"></i> 
-                                ${isFavorite ? 'Pinned' : 'Pin at Top'}
-                            </button>
-                            <button 
-                                onclick="window.removeCustomModule('${moduleId}')"
-                                class="text-red-400 hover:text-red-500 flex items-center"
-                            >
-                                <i class="fas fa-trash-alt mr-1"></i> Delete
-                            </button>
-                        </div>
-                    </td>
-                `;
-                
-                customModulesBody.appendChild(row);
-            });
-        };
-        
-        // Filter programs and modules based on search term and semester
-        window.filterAndRenderPrograms = function(searchTerm, favoritesOnly = false) {
-    window.currentSearchTerm = searchTerm;
-    
-    // Filter modules by search term, semester, and favorites if needed
-    const filteredModuleIds = Object.keys(window.MODULES_DATA).filter(moduleId => {
-        const module = window.MODULES_DATA[moduleId];
-        
-        // For favorites view, include all modules (custom or not) that are in favorites
-        if (favoritesOnly) {
-            return window.favoriteModuleIds.includes(moduleId) && 
-                   (window.currentSemester === 'all' || module.semester === parseInt(window.currentSemester)) &&
-                   (searchTerm === '' || 
-                    module.code.toLowerCase().includes(searchTerm) ||
-                    module.name.toLowerCase().includes(searchTerm) ||
-                    module.leader.toLowerCase().includes(searchTerm));
-        }
-        
-        // For regular view, filter by semester and search
-        if (window.currentSemester !== 'all' && module.semester !== parseInt(window.currentSemester)) {
-            return false;
-        }
-        
-        // Filter by search term
-        return searchTerm === '' || 
-               module.code.toLowerCase().includes(searchTerm) ||
-               module.name.toLowerCase().includes(searchTerm) ||
-               module.leader.toLowerCase().includes(searchTerm);
-    });
-
-    // Create a special "Custom Modules" program to group custom modules that aren't pinned
-    const customModuleIds = filteredModuleIds.filter(id => 
-        window.MODULES_DATA[id].isCustom && !window.favoriteModuleIds.includes(id)
-    );
-    
-    // Create filtered programs list
-    window.filteredPrograms = window.PROGRAMS_DATA.map(program => {
-        // Filter modules that match the search criteria (exclude custom modules)
-        const filteredProgramModuleIds = program.moduleIds.filter(moduleId => 
-            filteredModuleIds.includes(moduleId) && !window.MODULES_DATA[moduleId].isCustom
-        );
-        
-        return {
-            ...program,
-            filteredModuleIds: filteredProgramModuleIds,
-            containsMatch: searchTerm !== '' && (
-                program.name.toLowerCase().includes(searchTerm) ||
-                filteredProgramModuleIds.some(moduleId => {
-                    const module = window.MODULES_DATA[moduleId];
-                    return module.code.toLowerCase().includes(searchTerm) ||
-                           module.name.toLowerCase().includes(searchTerm) ||
-                           module.leader.toLowerCase().includes(searchTerm);
-                })
-            )
-        };
-    }).filter(program => program.filteredModuleIds.length > 0);
-    
-    // Add custom modules as a special program if there are any not pinned
-    if (customModuleIds.length > 0) {
-        window.filteredPrograms.push({
-            id: "custom-modules-program",
-            name: "Your Custom Teaching Modules",
-            filteredModuleIds: customModuleIds,
-            containsMatch: searchTerm !== '' && customModuleIds.some(moduleId => {
-                const module = window.MODULES_DATA[moduleId];
-                return module.code.toLowerCase().includes(searchTerm) ||
-                      module.name.toLowerCase().includes(searchTerm) ||
-                      module.leader.toLowerCase().includes(searchTerm);
-            })
-        });
-    }
-    
-    window.renderPrograms();
-};
-        
-        // Render favorite modules (now pinned)
-        window.renderFavorites = function() {
-            const favoritesContainer = document.getElementById('favorites-container');
-            const favoritesBody = document.getElementById('favorites-body');
-            
-            if (window.favoriteModuleIds.length > 0) {
-                favoritesContainer.classList.remove('hidden');
-                favoritesBody.innerHTML = '';
-                
-                window.favoriteModuleIds.forEach(moduleId => {
-                    const module = window.MODULES_DATA[moduleId];
-                    if (!module) return; // Skip if module doesn't exist
-                    
-                    const row = document.createElement('tr');
-                    row.classList.add('hover:bg-gray-50');
-                    if (module.isCustom) {
-                        row.classList.add('custom-module');
-                    }
-                    
-                    // Get custom links for this module
-                    const moduleLinks = window.customLinks[moduleId] || [];
-                    
-                    const code = window.highlightText(module.code, window.currentSearchTerm);
-                    const name = window.highlightText(module.name, window.currentSearchTerm);
-                    const leader = window.highlightText(module.leader, window.currentSearchTerm);
-                    
-                    row.innerHTML = `
-                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">${code}</td>
-                        <td class="px-6 py-4 text-sm text-gray-500">${name}</td>
-                        <td class="px-6 py-4 text-sm text-gray-500">${leader}</td>
-                        <td class="px-6 py-4 text-sm text-gray-500">Semester ${module.semester}</td>
-                        <td class="px-6 py-4 text-sm text-gray-500">
-                            <div class="grid grid-cols-1 gap-2">
-                                <div class="flex flex-wrap gap-3">
-                                    ${module.moodleLink !== '#' ? `
-                                        <a href="${module.moodleLink}" target="_blank" rel="noopener noreferrer" class="inline-flex items-center px-3 py-1 bg-blue-100 text-blue-700 rounded-md hover:bg-blue-200">
-                                            Moodle <i class="fas fa-external-link-alt ml-1 text-xs"></i>
-                                        </a>
-                                    ` : ''}
-                                    ${module.specLink !== '#' ? `
-                                        <a href="${module.specLink}" target="_blank" rel="noopener noreferrer" class="inline-flex items-center px-3 py-1 bg-blue-100 text-blue-700 rounded-md hover:bg-blue-200">
-                                            Spec <i class="fas fa-external-link-alt ml-1 text-xs"></i>
-                                        </a>
-                                    ` : ''}
-                                </div>
-                                ${moduleLinks.map((link, idx) => `
-                                    <div class="flex items-center space-x-2">
-                                        <a href="${link.url}" target="_blank" rel="noopener noreferrer" class="inline-flex items-center px-3 py-1 bg-green-100 text-green-700 rounded-md hover:bg-green-200 flex-grow">
-                                            ${link.name} <i class="fas fa-external-link-alt ml-1 text-xs"></i>
-                                        </a>
-                                        <button onclick="window.removeCustomLink('${moduleId}', ${idx})" class="text-red-400 hover:text-red-500 p-1">
-                                            <i class="fas fa-times"></i>
-                                        </button>
-                                    </div>
-                                `).join('')}
-                                <button onclick="window.showAddLinkModal('${moduleId}')" class="inline-flex items-center px-3 py-1 bg-indigo-100 text-indigo-700 rounded-md hover:bg-indigo-200 w-max mt-1">
-                                    <i class="fas fa-plus mr-1"></i> Add Custom Link
-                                </button>
-                            </div>
-                        </td>
-                        <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                            <button 
-                                onclick="window.removeFromFavorites('${moduleId}')"
-                                class="inline-flex items-center px-3 py-1 bg-red-100 text-red-400 rounded-md hover:bg-red-200"
-                            >
-                                <i class="fas fa-times mr-1"></i> Unpin
-                            </button>
-                        </td>
-                    `;
-                    favoritesBody.appendChild(row);
-                });
-            } else {
-                favoritesContainer.classList.add('hidden');
-            }
-        };
-        
-        // Render all programs and their modules
-        window.renderPrograms = function() {
-            const programCount = document.getElementById('program-count');
-            const noResults = document.getElementById('no-results');
-            const programsContainer = document.getElementById('programs-container');
-            
-            programCount.textContent = window.filteredPrograms.length;
-            
-            if (window.filteredPrograms.length === 0) {
-                noResults.classList.remove('hidden');
-                programsContainer.classList.add('hidden');
-            } else {
-                noResults.classList.add('hidden');
-                programsContainer.classList.remove('hidden');
-                
-                programsContainer.innerHTML = '';
-                
-                window.filteredPrograms.forEach(program => {
-                    const programDiv = document.createElement('div');
-                    programDiv.classList.add('border', 'border-gray-200', 'rounded-lg', 'overflow-hidden');
-                    
-                    // Program header
-                    const header = document.createElement('button');
-                    header.classList.add('w-full', 'px-6', 'py-4', 'flex', 'justify-between', 'items-center', 'bg-gray-50', 'hover:bg-gray-100', 'focus:outline-none');
-                    header.onclick = function() { window.toggleProgram(program.id); };
-                    
-                    // Highlight program name if it matches search
-                    const programName = window.highlightText(program.name, window.currentSearchTerm);
-                    
-                    header.innerHTML = `
-                        <h3 class="text-lg font-medium text-gray-900">${programName}</h3>
-                        <div class="flex items-center">
-                            <span class="text-sm text-gray-500 mr-2">
-                                ${program.filteredModuleIds.length} module${program.filteredModuleIds.length !== 1 ? 's' : ''}
-                            </span>
-                            <i id="chevron-${program.id}" class="fas fa-chevron-down text-gray-500"></i>
-                        </div>
-                    `;
-                    
-                    // Program modules container
-                    const modulesContainer = document.createElement('div');
-                    modulesContainer.id = `modules-${program.id}`;
-                    modulesContainer.classList.add('program-modules');
-                    
-                    // Auto-expand if program contains search matches
-                    if (program.containsMatch) {
-                        modulesContainer.classList.add('expanded');
-                        window.expandedPrograms[program.id] = true;
-                    }
-                    
-                    // Modules table
-                    const tableWrapper = document.createElement('div');
-                    tableWrapper.classList.add('overflow-x-auto');
-                    
-                    const table = document.createElement('table');
-                    table.classList.add('min-w-full', 'divide-y', 'divide-gray-200');
-                    
-                    // Table header
-                    const thead = document.createElement('thead');
-                    thead.classList.add('bg-gray-50');
-                    thead.innerHTML = `
-                        <tr>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Code</th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Name</th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Leader</th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Semester</th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Links</th>
-                            <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">Action</th>
-                        </tr>
-                    `;
-                    
-                    // Table body
-                    const tbody = document.createElement('tbody');
-                    tbody.classList.add('bg-white', 'divide-y', 'divide-gray-200');
-                    
-                    program.filteredModuleIds.forEach(moduleId => {
-    const module = window.MODULES_DATA[moduleId];
-    if (!module) return; // Skip if module doesn't exist
-    
-    const row = document.createElement('tr');
-    row.classList.add('hover:bg-gray-50');
-    if (module.isCustom) {
-        row.classList.add('custom-module');
-    }
-    
-    const isFavorite = window.favoriteModuleIds.includes(moduleId);
-    const moduleLinks = window.customLinks[moduleId] || [];
-    
-    // Highlight matching text
-    const code = window.highlightText(module.code, window.currentSearchTerm);
-    const name = window.highlightText(module.name, window.currentSearchTerm);
-    const leader = window.highlightText(module.leader, window.currentSearchTerm);
-    
-    row.innerHTML = `
-        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">${code}</td>
-        <td class="px-6 py-4 text-sm text-gray-500">${name}</td>
-        <td class="px-6 py-4 text-sm text-gray-500">${leader}</td>
-        <td class="px-6 py-4 text-sm text-gray-500">Semester ${module.semester}</td>
-        <td class="px-6 py-4 text-sm text-gray-500">
-            <div class="grid grid-cols-1 gap-2">
-                <div class="flex flex-wrap gap-3">
-                    ${module.moodleLink && module.moodleLink !== '#' ? 
-                        `<a href="${module.moodleLink}" target="_blank" rel="noopener noreferrer" class="inline-flex items-center px-3 py-1 bg-blue-100 text-blue-700 rounded-md hover:bg-blue-200">
-                            Moodle <i class="fas fa-external-link-alt ml-1 text-xs"></i>
-                        </a>` : ''}
-                    
-                    ${module.specLink && module.specLink !== '#' ? 
-                        `<a href="${module.specLink}" target="_blank" rel="noopener noreferrer" class="inline-flex items-center px-3 py-1 bg-blue-100 text-blue-700 rounded-md hover:bg-blue-200">
-                            Spec <i class="fas fa-external-link-alt ml-1 text-xs"></i>
-                        </a>` : ''}
-                </div>
-                ${(moduleLinks && moduleLinks.length > 0) ? moduleLinks.map((link, idx) => `
-                    <div class="flex items-center space-x-2">
-                        <a href="${link.url}" target="_blank" rel="noopener noreferrer" class="inline-flex items-center px-3 py-1 bg-green-100 text-green-700 rounded-md hover:bg-green-200 flex-grow">
-                            ${link.name} <i class="fas fa-external-link-alt ml-1 text-xs"></i>
-                        </a>
-                        <button onclick="window.removeCustomLink('${moduleId}', ${idx})" class="text-red-400 hover:text-red-500 p-1">
-                            <i class="fas fa-times"></i>
-                        </button>
-                    </div>
-                `).join('') : ''}
-                <button onclick="window.showAddLinkModal('${moduleId}')" class="inline-flex items-center px-3 py-1 bg-indigo-100 text-indigo-700 rounded-md hover:bg-indigo-200 w-max mt-1">
-                    <i class="fas fa-plus mr-1"></i> Add Custom Link
-                </button>
-            </div>
-        </td>
-        <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-            <button 
-                data-save-id="${moduleId}"
-                onclick="${isFavorite ? `window.removeFromFavorites('${moduleId}')` : `window.addToFavorites('${moduleId}')`}"
-                class="${isFavorite ? 'bg-yellow-100 text-yellow-700 hover:bg-yellow-200' : 'bg-blue-100 text-blue-700 hover:bg-blue-200'} inline-flex items-center px-3 py-1 rounded-md"
-            >
-                <i class="fas fa-thumbtack mr-1"></i> 
-                ${isFavorite ? 'Pinned' : 'Pin at Top'}
-            </button>
-        </td>
-    `;
-    
-    tbody.appendChild(row);
-});
-                    
-                    table.appendChild(thead);
-                    table.appendChild(tbody);
-                    tableWrapper.appendChild(table);
-                    modulesContainer.appendChild(tableWrapper);
-                    
-                    programDiv.appendChild(header);
-                    programDiv.appendChild(modulesContainer);
-                    programsContainer.appendChild(programDiv);
-                });
-                
-                // Restore expanded state
-                window.filteredPrograms.forEach(program => {
-                    const modulesContainer = document.getElementById(`modules-${program.id}`);
-                    const chevron = document.getElementById(`chevron-${program.id}`);
-                    
-                    if (modulesContainer && chevron) {
-                        if (window.expandedPrograms[program.id] || program.containsMatch) {
-                            modulesContainer.classList.add('expanded');
-                            chevron.classList.remove('fa-chevron-down');
-                            chevron.classList.add('fa-chevron-up');
-                        } else {
-                            modulesContainer.classList.remove('expanded');
-                            chevron.classList.remove('fa-chevron-up');
-                            chevron.classList.add('fa-chevron-down');
-                        }
-                    }
-                });
-                
-                // Update expand all button state
-                window.updateExpandAllButtonState();
-            }
-        };
-        
-        // Initialize the app when the DOM is loaded
-  // Properly structured init function with all event listeners inside
-window.init = function() {
-    try {
-        // Load data from localStorage
-        window.loadFavorites();
-        window.loadCustomLinks();
-        window.loadCustomModules();
-        window.loadSidebarLinks();
-        window.loadTipsVisibility();
-        
-        // Apply font size from localStorage
-        const storedFontSize = localStorage.getItem('fontSizeMultiplier');
-        if (storedFontSize) {
-            window.fontSizeMultiplier = parseFloat(storedFontSize);
-            document.documentElement.style.setProperty('--font-size-multiplier', window.fontSizeMultiplier.toString());
-        }
-        
-        // Update semester and view buttons
-        window.updateSemesterButtons();
-        window.updateViewButtons();
-        
-        // Initial render
-        window.filterAndRenderPrograms('');
-        window.renderFavorites();
-        window.renderCustomModules();
-        window.renderSidebarLinks();
-        
-        // Hide the custom modules container
-        if (document.getElementById('custom-modules-container')) {
-            document.getElementById('custom-modules-container').style.display = 'none';
-        }
-        
-        // Set up event listeners
-        
-        // Sidebar toggle
-        document.getElementById('sidebar-toggle').addEventListener('click', window.toggleSidebar);
-        
-        // Info box close button
-        document.getElementById('close-info-box').addEventListener('click', window.closeInfoBox);
-        
-        // Font size controls
-        document.getElementById('increase-font').addEventListener('click', window.increaseFontSize);
-        document.getElementById('decrease-font').addEventListener('click', window.decreaseFontSize);
-        
-        // Search input
-        document.getElementById('search-input').addEventListener('input', (e) => {
-            const searchTerm = e.target.value.toLowerCase();
-            window.filterAndRenderPrograms(searchTerm, window.currentView === 'favorites');
-            if (document.body.classList.contains('custom-module-visible')) {
-                window.renderCustomModules();
-            }
-        });
-        
-        // Semester filter buttons
-        document.getElementById('sem-all').addEventListener('click', () => {
-            window.currentSemester = 'all';
-            window.updateSemesterButtons();
-            window.filterAndRenderPrograms(document.getElementById('search-input').value.toLowerCase(), window.currentView === 'favorites');
-            if (document.body.classList.contains('custom-module-visible')) {
-                window.renderCustomModules();
-            }
-        });
-        
-        document.getElementById('sem-1').addEventListener('click', () => {
-            window.currentSemester = '1';
-            window.updateSemesterButtons();
-            window.filterAndRenderPrograms(document.getElementById('search-input').value.toLowerCase(), window.currentView === 'favorites');
-            if (document.body.classList.contains('custom-module-visible')) {
-                window.renderCustomModules();
-            }
-        });
-        
-        document.getElementById('sem-2').addEventListener('click', () => {
-            window.currentSemester = '2';
-            window.updateSemesterButtons();
-            window.filterAndRenderPrograms(document.getElementById('search-input').value.toLowerCase(), window.currentView === 'favorites');
-            if (document.body.classList.contains('custom-module-visible')) {
-                window.renderCustomModules();
-            }
-        });
-        
-        // View mode buttons
-        document.getElementById('view-all').addEventListener('click', () => {
-            window.currentView = 'all';
-            window.updateViewButtons();
-        });
-        
-        document.getElementById('view-favorites').addEventListener('click', () => {
-            window.currentView = 'favorites';
-            window.updateViewButtons();
-        });
-        
-        // Custom module toggle
-        document.getElementById('custom-module-toggle').addEventListener('click', window.toggleCustomModuleSection);
-        document.getElementById('close-custom-module').addEventListener('click', window.toggleCustomModuleSection);
-        
-        // Toggle all programs
-        document.getElementById('toggle-all-programs').addEventListener('click', window.toggleAllPrograms);
-        
-        // Add sidebar link form
-        document.getElementById('custom-sidebar-link-form').addEventListener('submit', (e) => {
-            e.preventDefault();
-            const name = document.getElementById('sidebar-link-name').value.trim();
-            const url = document.getElementById('sidebar-link-url').value.trim();
-            
-            if (!name || !url) {
-                window.showNotice('Error', 'Please provide both name and URL');
-                return;
-            }
-            
-            if (!url.startsWith('http://') && !url.startsWith('https://')) {
-                window.showNotice('Error', 'URL must start with http:// or https://');
-                return;
-            }
-            
-            window.addSidebarLink(name, url);
-            document.getElementById('sidebar-link-name').value = '';
-            document.getElementById('sidebar-link-url').value = '';
-        });
-        
-        // Edit sidebar link form
-        document.getElementById('save-edit-sidebar-link').addEventListener('click', () => {
-            const id = parseInt(document.getElementById('edit-sidebar-link-id').value);
-            const name = document.getElementById('edit-sidebar-link-name').value.trim();
-            const url = document.getElementById('edit-sidebar-link-url').value.trim();
-            
-            if (!name || !url) {
-                window.showNotice('Error', 'Please provide both name and URL');
-                return;
-            }
-            
-            if (!url.startsWith('http://') && !url.startsWith('https://')) {
-                window.showNotice('Error', 'URL must start with http:// or https://');
-                return;
-            }
-            
-            window.editSidebarLink(id, name, url);
-            document.getElementById('edit-sidebar-link-modal').classList.add('hidden');
-        });
-        
-        document.getElementById('close-edit-sidebar-modal').addEventListener('click', () => {
-            document.getElementById('edit-sidebar-link-modal').classList.add('hidden');
-        });
-        
-        // Close edit modal when clicking outside
-        document.getElementById('edit-sidebar-link-modal').addEventListener('click', (e) => {
-            if (e.target === document.getElementById('edit-sidebar-link-modal')) {
-                document.getElementById('edit-sidebar-link-modal').classList.add('hidden');
-            }
-        });
-        
-        // Custom link modal
-        document.getElementById('close-modal').addEventListener('click', window.hideAddLinkModal);
-        document.getElementById('save-link').addEventListener('click', window.saveCustomLink);
-        
-        // Close modal when clicking outside
-        document.getElementById('custom-link-modal').addEventListener('click', (e) => {
-            if (e.target === document.getElementById('custom-link-modal')) {
-                window.hideAddLinkModal();
-            }
-        });
-        
-        // Add custom module button
-        document.getElementById('add-custom-module').addEventListener('click', window.addCustomModule);
-        
-        // Clear all data button
-        document.getElementById('clear-all-data').addEventListener('click', window.clearAllData);
-        document.getElementById('cancel-clear').addEventListener('click', () => {
-            document.getElementById('confirm-clear-modal').classList.add('hidden');
-        });
-        document.getElementById('confirm-clear').addEventListener('click', window.executeDataClear);
-        document.getElementById('confirm-clear-modal').addEventListener('click', (e) => {
-            if (e.target === document.getElementById('confirm-clear-modal')) {
-                document.getElementById('confirm-clear-modal').classList.add('hidden');
-            }
-        });
-        
-        // Close tips box
-        document.getElementById('close-tips').addEventListener('click', window.closeTips);
-        
-        // Website notice OK button
-        document.getElementById('notice-ok').addEventListener('click', window.hideNotice);
-        document.getElementById('website-notice').addEventListener('click', (e) => {
-            if (e.target === document.getElementById('website-notice')) {
-                window.hideNotice();
-            }
-        });
-        
-    } catch (error) {
-        console.error("Error initializing app:", error);
-        window.showNotice('Error', 'There was an error initializing the application. Please check the console for details.');
-    }
-};
-
-// Initialize the app
-document.addEventListener('DOMContentLoaded', window.init);
-    </script>
+    <!-- Include module data -->
+    <script src="js/modules-data.js"></script>
+    <!-- Include main functionality -->
+    <script src="js/modules-app.js"></script>
 </body>
 </html>

@@ -1,0 +1,1304 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student List Manager</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        /* Student list specific styles */
+        .highlight {
+            background-color: rgba(59, 130, 246, 0.3);
+            color: var(--text-primary);
+            padding: 0 2px;
+            border-radius: 2px;
+        }
+        
+        .filter-controls {
+            display: inline-flex;
+            flex-wrap: wrap;
+            gap: 0.25rem;
+            margin-bottom: 1rem;
+        }
+        
+        .filter-btn {
+            height: 1.75rem;
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 0.25rem;
+            font-weight: 500;
+            font-size: 0.75rem;
+            background-color: var(--button-secondary-bg);
+            color: var(--button-secondary-text);
+            border: 1px solid var(--button-secondary-border);
+            cursor: pointer;
+            transition: all 0.2s;
+            padding: 0 0.5rem;
+            margin-right: 0.25rem;
+            margin-bottom: 0.25rem;
+        }
+        
+        .filter-btn:hover {
+            background-color: var(--bg-tertiary);
+        }
+        
+        .filter-btn.active {
+            background-color: var(--button-primary-bg);
+            color: var(--button-primary-text);
+            border-color: var(--button-primary-border);
+        }
+        
+        .student-table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+            border: 1px solid var(--border-color);
+            border-radius: 0.5rem;
+            overflow: hidden;
+        }
+        
+        .student-table th {
+            background-color: var(--bg-tertiary);
+            padding: 0.75rem 1rem;
+            text-align: left;
+            font-weight: 600;
+            border-bottom: 1px solid var(--border-color);
+            position: relative;
+            cursor: pointer;
+            user-select: none;
+        }
+        
+        .student-table th:hover {
+            background-color: var(--button-secondary-bg);
+        }
+        
+        .student-table td {
+            padding: 0.75rem 1rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        .student-table tr:last-child td {
+            border-bottom: none;
+        }
+        
+        .no-results {
+            text-align: center;
+            padding: 2rem;
+            background-color: var(--bg-primary);
+            border: 1px solid var(--border-color);
+            border-radius: 0.5rem;
+            color: var(--text-muted);
+        }
+
+        /* Form controls for adding students */
+        .add-student-form {
+            background-color: var(--bg-primary);
+            border: 1px solid var(--border-color);
+            border-radius: 0.5rem;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+        
+        .form-title {
+            font-weight: 600;
+            font-size: 1.125rem;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            color: var(--text-primary);
+        }
+        
+        .form-title i {
+            margin-right: 0.5rem;
+            color: var(--accent-color);
+        }
+        
+        .form-group {
+            margin-bottom: 1.25rem;
+        }
+        
+        .form-label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+        
+/* Enhanced input field styling with visible outlines */
+.form-input {
+    width: 100%;
+    padding: 0.5rem 0.75rem;
+    border: 1px solid var(--border-color);
+    border-radius: 0.25rem;
+    background-color: var(--input-bg);
+    color: var(--text-primary);
+    outline: none;
+    box-shadow: 0 0 0 1px var(--border-color);
+    transition: all 0.2s;
+}
+
+.form-input:focus {
+    outline: none;
+    border-color: var(--accent-color);
+    box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.3);
+}
+
+.form-input:hover:not(:focus) {
+    border-color: var(--text-muted);
+}
+
+/* Style placeholders to be more visible */
+.form-input::placeholder {
+    color: var(--text-muted);
+    opacity: 0.75;
+}
+
+/* Dark mode specific adjustments */
+[data-theme="dark"] .form-input {
+    border-color: #444;
+    box-shadow: 0 0 0 1px #444;
+}
+
+[data-theme="dark"] .form-input:hover:not(:focus) {
+    border-color: #666;
+}
+
+[data-theme="dark"] .form-input:focus {
+    border-color: var(--accent-color);
+    box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.3);
+}
+        
+        .btn {
+            padding: 0.5rem 1rem;
+            border-radius: 0.25rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .btn-primary {
+            background-color: var(--accent-color);
+            color: white;
+            border: 1px solid var(--accent-hover);
+        }
+        
+        .btn-primary:hover {
+            background-color: var(--accent-hover);
+        }
+        
+        .btn-secondary {
+            background-color: var(--button-secondary-bg);
+            color: var(--button-secondary-text);
+            border: 1px solid var(--button-secondary-border);
+        }
+        
+        .btn-secondary:hover {
+            background-color: var(--bg-tertiary);
+        }
+        
+        .btn-danger {
+            background-color: #ef4444;
+            color: white;
+            border: 1px solid #dc2626;
+        }
+        
+        .btn-danger:hover {
+            background-color: #dc2626;
+        }
+        
+        .sort-icon {
+            margin-left: 0.25rem;
+            display: inline-block;
+        }
+        
+        .column-options {
+            display: inline-flex;
+            flex-wrap: wrap;
+            gap: 0.25rem;
+            margin-bottom: 0.75rem;
+        }
+        
+        .column-checkbox {
+            display: inline-flex;
+            align-items: center;
+            padding: 0.15rem 0.4rem;
+            background-color: var(--bg-primary);
+            border: 1px solid var(--border-color);
+            border-radius: 0.25rem;
+            margin-right: 0.25rem;
+            margin-bottom: 0.25rem;
+            cursor: pointer;
+            font-size: 0.8rem;
+        }
+        
+        .column-checkbox input {
+            margin-right: 0.5rem;
+        }
+        
+        .action-btn {
+            background-color: transparent;
+            border: none;
+            color: var(--accent-color);
+            cursor: pointer;
+            padding: 0.25rem;
+            margin-right: 0.5rem;
+            border-radius: 0.25rem;
+        }
+        
+        .action-btn:hover {
+            background-color: var(--bg-tertiary);
+        }
+        
+        .action-btn.edit {
+            color: var(--accent-color);
+        }
+        
+        .action-btn.delete {
+            color: #ef4444;
+        }
+        
+        /* Additional styles for cleaner look */
+        .student-table tbody tr:nth-of-type(odd) {
+            background-color: var(--bg-secondary);
+        }
+        
+        .student-table tbody tr:hover {
+            background-color: var(--bg-tertiary);
+        }
+
+        @media (max-width: 768px) {
+            .form-actions {
+                flex-direction: column;
+            }
+            
+            .btn {
+                width: 100%;
+                margin-bottom: 0.5rem;
+            }
+            
+            .add-student-form {
+                padding: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Single Header -->
+    <header class="header">
+        <button class="hamburger-menu" aria-label="Toggle sidebar">
+            <i class="fas fa-bars"></i>
+        </button>
+        
+        <div class="logo">
+        </div>
+        
+        <nav class="nav-tabs">
+            <a href="#main" class="nav-tab active">All Students</a>
+            <a href="#add" class="nav-tab">Add Students</a>
+            <a href="#info" class="nav-tab">Info</a>
+        </nav>
+        
+        <!-- Centered search box (hidden on mobile) -->
+        <div class="search-container">
+            <i class="fas fa-search search-icon"></i>
+            <input type="text" id="search-input" class="search-input" placeholder="Search students...">
+        </div>
+        
+        <!-- Header controls positioned above right sidebar -->
+        <div class="header-controls">
+            <!-- Font size controls -->
+            <div class="font-size-controls">
+                <div id="decrease-font" class="font-size-btn">
+                    <i class="fas fa-minus"></i>
+                </div>
+                <div class="text-label mx-2 text-muted">Text</div>
+                <div id="increase-font" class="font-size-btn">
+                    <i class="fas fa-plus"></i>
+                </div>
+            </div>
+            
+            <button class="theme-toggle" aria-label="Toggle dark/light mode">
+                <i class="fas fa-sun fa-lg"></i>
+            </button>
+            
+            <button class="toggle-right-sidebar" aria-label="Toggle right sidebar">
+                <i class="fas fa-cog fa-lg"></i>
+            </button>
+        </div>
+    </header>
+
+    <!-- Mobile search bar (only visible on smaller screens) -->
+    <div class="mobile-search-container">
+        <div class="relative w-full">
+            <i class="fas fa-search search-icon"></i>
+            <input type="text" id="mobile-search-input" class="search-input w-full" placeholder="Search students...">
+        </div>
+    </div>
+
+    <!-- Main layout -->
+    <div class="layout">
+        <!-- Left sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-section">
+                <div class="sidebar-header">
+                    <span>University Links</span>
+                </div>
+                <div id="university-content" class="sidebar-content">
+                    <!-- Links will be populated by sidebar-links.js -->
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main content area with tab content -->
+        <main class="main-content">
+            <!-- Main tab content - contains the student listing -->
+            <div id="main-tab-content" class="tab-content active">
+                <h1 class="text-2xl font-bold mb-4">Student List Manager (<span id="total-count">0</span>)</h1>
+                
+                <!-- Column Configuration and Filter controls in the same row -->
+                <div class="flex flex-col sm:flex-row justify-between items-start mb-3">
+                    <div>
+                        <h3 class="text-sm font-medium mb-1">Configure Columns:</h3>
+                        <div id="column-options" class="column-options">
+                            <!-- Column options will be generated here -->
+                        </div>
+                    </div>
+                    
+                    <div class="mt-2 sm:mt-0">
+                        <h3 class="text-sm font-medium mb-1">Filter by Module:</h3>
+                        <div class="filter-controls" id="filter-controls">
+                            <button class="filter-btn active" data-filter="all">All Students</button>
+                            <div id="module-filters" class="inline">
+                                <!-- Module filter buttons will be generated here -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div id="student-container">
+                    <table class="student-table">
+                        <thead>
+                            <tr id="table-header">
+                                <!-- Table headers will be generated here -->
+                            </tr>
+                        </thead>
+                        <tbody id="student-list">
+                            <!-- Student rows will be generated here -->
+                        </tbody>
+                    </table>
+                </div>
+                
+                <div id="no-results" class="no-results hidden">
+                    <p>No students match your search.</p>
+                </div>
+            </div>
+
+            <!-- Add Students tab content -->
+            <div id="add-tab-content" class="tab-content">
+                <h1 class="text-2xl font-bold mb-4">Add Students</h1>
+                
+                <!-- Add Single Student Form -->
+                <div class="add-student-form">
+                    <div class="form-title">
+                        <i class="fas fa-user-plus"></i> Add New Student
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="student-name" class="form-label">Student Name</label>
+                        <input type="text" id="student-name" class="form-input" placeholder="Full name">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="student-id" class="form-label">Student ID</label>
+                        <input type="text" id="student-id" class="form-input" placeholder="e.g. S12345678">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="student-email" class="form-label">Email Address</label>
+                        <input type="email" id="student-email" class="form-input" placeholder="student@example.com">
+                    </div>
+                    
+                    <div class="form-row grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div class="form-group">
+                            <label for="student-program" class="form-label">Program</label>
+                            <input type="text" id="student-program" class="form-input" placeholder="e.g. BSc Computer Science">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="student-year" class="form-label">Year of Study</label>
+                            <input type="text" id="student-year" class="form-input" placeholder="e.g. 1, 2, 3, etc.">
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="student-modules" class="form-label">Modules (comma separated)</label>
+                        <input type="text" id="student-modules" class="form-input" placeholder="e.g. CS101, Introduction to Psychology, Chinese 1, Web Dev">
+                        <p class="text-xs text-muted mt-1">
+                            Use any format: course codes, full names, abbreviations, or simple labels
+                        </p>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="student-notes" class="form-label">Notes</label>
+                        <textarea id="student-notes" class="form-input" rows="3" placeholder="Additional information about the student"></textarea>
+                    </div>
+                    
+                    <div class="form-actions">
+                        <button id="cancel-add" class="btn btn-secondary">Cancel</button>
+                        <button id="add-student" class="btn btn-primary">Add Student</button>
+                    </div>
+                </div>
+                
+                <!-- Bulk Add Students -->
+                <div class="add-student-form mt-8">
+                    <div class="form-title">
+                        <i class="fas fa-users"></i> Bulk Add Students
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="bulk-students" class="form-label">
+                            Paste CSV or Tab-delimited data (one student per line)
+                        </label>
+                        <p class="text-sm text-muted mb-2">
+                            Format: Name, Student ID, Email, Program, Year, Modules, Notes
+                        </p>
+                        <p class="text-xs text-muted mb-2">
+                            For modules: Use any format (CS101, Introduction to Biology, Chinese 1, Web Dev)
+                        </p>
+                        <textarea id="bulk-students" class="form-input" rows="5" placeholder="Jane Smith, S12345678, jane@example.com, BSc Computer Science, 2, CS101 Programming 101, High performer"></textarea>
+                    </div>
+                    
+                    <div class="form-actions">
+                        <button id="add-sample-data" class="btn btn-secondary">
+                            <i class="fas fa-magic mr-1"></i> Add Sample Data
+                        </button>
+                        <button id="bulk-add-students" class="btn btn-primary">
+                            <i class="fas fa-users mr-1"></i> Import Students
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Info tab content - contains the documentation -->
+            <div id="info-tab-content" class="tab-content">
+                <h1 class="text-3xl font-bold mb-6">About Student List Manager</h1>
+                <p class="mb-4">
+                    This tool helps you keep track of your students across different modules and programs. It's designed to be flexible so you can add only the information that's useful to you.
+                </p>
+
+                <h2 class="text-2xl font-bold mt-8 mb-4">Features</h2>
+                <ul class="list-disc pl-5 space-y-2 mb-6">
+                    <li>Add individual students with details including name, ID, email, program, and modules</li>
+                    <li>Bulk import multiple students at once using CSV or tab-delimited format</li>
+                    <li>Generate sample data to test and demonstrate the application</li>
+                    <li>Sort students by clicking on column headers</li>
+                    <li>Filter students by module</li>
+                    <li>Search across all student information</li>
+                    <li>Customize which columns appear in your table</li>
+                    <li>All data is stored locally in your browser</li>
+                </ul>
+
+                <!-- Info box -->
+                <div class="info-box">
+                    <div class="info-box-title">
+                        <i class="fas fa-info-circle"></i> 
+                        Data Privacy
+                    </div>
+                    <div class="info-content">
+                        <p class="mb-4">
+                            All student information is stored locally in your browser using localStorage. No data is sent to any server.
+                        </p>
+                        <p class="mb-4">
+                            This means your data will persist between visits, but only on this device and browser.
+                        </p>
+                        <p>
+                            <button id="clear-data" class="btn btn-danger">
+                                <i class="fas fa-trash-alt mr-2"></i> Clear All Student Data
+                            </button>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!-- Right sidebar -->
+        <aside class="right-sidebar">
+            <div class="right-sidebar-header">Quick Tools</div>
+        </aside>
+    </div>
+
+    <script src="sidebar-links.js"></script>
+    <script src="core.js"></script>
+
+    <script>
+    // Define available columns and their defaults
+    const AVAILABLE_COLUMNS = [
+        { id: 'name', label: 'Name', visible: true, sortable: true },
+        { id: 'studentId', label: 'Student ID', visible: true, sortable: true },
+        { id: 'email', label: 'Email', visible: true, sortable: true },
+        { id: 'program', label: 'Program', visible: true, sortable: true },
+        { id: 'year', label: 'Year', visible: true, sortable: true },
+        { id: 'modules', label: 'Modules', visible: true, sortable: true },
+        { id: 'notes', label: 'Notes', visible: false, sortable: true },
+        { id: 'actions', label: 'Actions', visible: true, sortable: false }
+    ];
+
+    // Sample student data 
+    const SAMPLE_STUDENTS = [
+        { name: "Alex Johnson", studentId: "S22001234", email: "alex.johnson@student.edu", program: "BSc Computer Science", year: "2", modules: "CS201, CS204, Programming 101", notes: "Interested in AI" },
+        { name: "Samantha Lee", studentId: "S22002345", email: "s.lee@student.edu", program: "BSc Computer Science", year: "2", modules: "Introduction to Algorithms, CS204, EUP", notes: "Transfer student" },
+        { name: "David Chen", studentId: "S22003456", email: "d.chen@student.edu", program: "BSc Computer Science", year: "1", modules: "CS101, Chinese 1, ENG101", notes: "" },
+        { name: "Maria Rodriguez", studentId: "S21004567", email: "m.rodriguez@student.edu", program: "BA English Literature", year: "3", modules: "Creative Writing, ENG304, HIST202", notes: "Exchange student" },
+        { name: "James Smith", studentId: "S21005678", email: "j.smith@student.edu", program: "BSc Physics", year: "2", modules: "PHYS201, Calculus II, CHEM101", notes: "Lab assistant" },
+        { name: "Emma Wilson", studentId: "S20006789", email: "e.wilson@student.edu", program: "BA Psychology", year: "4", modules: "PSYC401, Sociology of Media", notes: "Thesis on cognitive development" },
+        { name: "Mohammed Ali", studentId: "S22007890", email: "m.ali@student.edu", program: "MSc Data Science", year: "1", modules: "DS501, Python for Data, Stats Methods", notes: "Working professional" },
+        { name: "Sofia Nguyen", studentId: "S21008901", email: "s.nguyen@student.edu", program: "BSc Biology", year: "3", modules: "BIO301, Sustainability 101, Lab Techniques", notes: "Research assistant" },
+        { name: "Jamal Williams", studentId: "S22009012", email: "j.williams@student.edu", program: "BA Business", year: "2", modules: "BUS201, Economics 1, Web Dev", notes: "" },
+        { name: "Priya Patel", studentId: "S20000123", email: "p.patel@student.edu", program: "BSc Computer Science", year: "4", modules: "Final Project, CS404, CS408", notes: "Graduating with honors" }
+    ];
+
+    // Application state for student list - using different name to avoid conflict with core.js
+    const studentAppState = {
+        students: [],
+        filteredStudents: [],
+        currentSearchTerm: '',
+        currentFilter: 'all',
+        sortColumn: 'name',
+        sortDirection: 'asc',
+        visibleColumns: AVAILABLE_COLUMNS.filter(col => col.visible).map(col => col.id),
+        editingStudentId: null
+    };
+
+    // DOM elements cache
+    let studentElements = {};
+
+    // Initialize the application when DOM is loaded
+    document.addEventListener('DOMContentLoaded', function() {
+        console.log("DOM loaded, initializing student list application");
+        
+        // Cache important DOM elements
+        cacheStudentElements();
+        
+        // Load students from localStorage
+        loadStudentsFromStorage();
+        
+        // Initialize column options
+        initializeColumnOptions();
+        
+        // Update table headers based on visible columns
+        updateTableHeaders();
+        
+        // Initial render
+        filterAndRenderStudents();
+        
+        // Initialize module filters
+        updateModuleFilters();
+        
+        // Setup student-list-specific event listeners
+        setupStudentListEventListeners();
+        
+        // Set the current page in the right sidebar
+        if (window.sidebarLinks && window.sidebarLinks.setCurrentRightSidebarPage) {
+            window.sidebarLinks.setCurrentRightSidebarPage("Student List");
+        }
+        
+        console.log("Student list application initialized successfully");
+    });
+
+    // Cache DOM elements for performance
+    function cacheStudentElements() {
+        studentElements = {
+            // Main containers
+            studentContainer: document.getElementById('student-container'),
+            studentList: document.getElementById('student-list'),
+            tableHeader: document.getElementById('table-header'),
+            noResults: document.getElementById('no-results'),
+            columnOptions: document.getElementById('column-options'),
+            moduleFilters: document.getElementById('module-filters'),
+            
+            // Forms and inputs
+            addStudentForm: document.querySelector('.add-student-form'),
+            studentName: document.getElementById('student-name'),
+            studentId: document.getElementById('student-id'),
+            studentEmail: document.getElementById('student-email'),
+            studentProgram: document.getElementById('student-program'),
+            studentYear: document.getElementById('student-year'),
+            studentModules: document.getElementById('student-modules'),
+            studentNotes: document.getElementById('student-notes'),
+            bulkStudents: document.getElementById('bulk-students'),
+            addStudentBtn: document.getElementById('add-student'),
+            cancelAddBtn: document.getElementById('cancel-add'),
+            
+            // Search and controls
+            searchInput: document.getElementById('search-input'),
+            mobileSearchInput: document.getElementById('mobile-search-input'),
+            clearDataBtn: document.getElementById('clear-data')
+        };
+    }
+
+    // Initialize column options
+    function initializeColumnOptions() {
+        const container = studentElements.columnOptions;
+        if (!container) return;
+        
+        container.innerHTML = '';
+        
+        AVAILABLE_COLUMNS.forEach(column => {
+            if (column.id === 'actions') return; // Always show actions
+            
+            const isChecked = studentAppState.visibleColumns.includes(column.id);
+            
+            const checkbox = document.createElement('label');
+            checkbox.className = 'column-checkbox';
+            checkbox.innerHTML = `
+                <input type="checkbox" data-column="${column.id}" ${isChecked ? 'checked' : ''}>
+                ${column.label}
+            `;
+            
+            container.appendChild(checkbox);
+        });
+        
+        // Add event listeners to checkboxes
+        container.querySelectorAll('input[type="checkbox"]').forEach(checkbox => {
+            checkbox.addEventListener('change', function() {
+                const columnId = this.getAttribute('data-column');
+                
+                if (this.checked) {
+                    // Add to visible columns
+                    if (!studentAppState.visibleColumns.includes(columnId)) {
+                        studentAppState.visibleColumns.push(columnId);
+                    }
+                } else {
+                    // Remove from visible columns
+                    studentAppState.visibleColumns = studentAppState.visibleColumns.filter(id => id !== columnId);
+                }
+                
+                // Update table headers and re-render
+                updateTableHeaders();
+                renderStudents();
+                
+                // Save visible columns to localStorage
+                saveVisibleColumnsToStorage();
+            });
+        });
+    }
+
+    // Update table headers based on visible columns
+    function updateTableHeaders() {
+        const headerRow = studentElements.tableHeader;
+        if (!headerRow) return;
+        
+        headerRow.innerHTML = '';
+        
+        // Add headers for visible columns
+        AVAILABLE_COLUMNS.forEach(column => {
+            if (studentAppState.visibleColumns.includes(column.id)) {
+                const th = document.createElement('th');
+                
+                let headerContent = column.label;
+                
+                // Add sort indicators for sortable columns
+                if (column.sortable) {
+                    headerContent += `<span class="sort-icon ml-1">`;
+                    
+                    if (studentAppState.sortColumn === column.id) {
+                        headerContent += studentAppState.sortDirection === 'asc' ? '▲' : '▼';
+                    } else {
+                        headerContent += '◆'; // Neutral sort icon
+                    }
+                    
+                    headerContent += `</span>`;
+                    
+                    // Add click event for sorting
+                    th.addEventListener('click', () => {
+                        if (studentAppState.sortColumn === column.id) {
+                            // Toggle direction if already sorting by this column
+                            studentAppState.sortDirection = studentAppState.sortDirection === 'asc' ? 'desc' : 'asc';
+                        } else {
+                            // Set new sort column and default to ascending
+                            studentAppState.sortColumn = column.id;
+                            studentAppState.sortDirection = 'asc';
+                        }
+                        
+                        // Update headers and re-render
+                        updateTableHeaders();
+                        renderStudents();
+                    });
+                }
+                
+                th.innerHTML = headerContent;
+                headerRow.appendChild(th);
+            }
+        });
+    }
+
+    // Load students from localStorage
+    function loadStudentsFromStorage() {
+        const storedStudents = localStorage.getItem('students');
+        studentAppState.students = storedStudents ? JSON.parse(storedStudents) : [];
+        
+        // Also load visible columns if saved
+        const storedColumns = localStorage.getItem('visibleColumns');
+        if (storedColumns) {
+            studentAppState.visibleColumns = JSON.parse(storedColumns);
+        }
+
+        // If no students, import sample students automatically
+        if (studentAppState.students.length === 0) {
+            importSampleStudents();
+        }
+    }
+
+    // Save students to localStorage
+    function saveStudentsToStorage() {
+        localStorage.setItem('students', JSON.stringify(studentAppState.students));
+    }
+
+    // Save visible columns to localStorage
+    function saveVisibleColumnsToStorage() {
+        localStorage.setItem('visibleColumns', JSON.stringify(studentAppState.visibleColumns));
+    }
+
+    // Add a new student
+    function addStudent() {
+        const nameValue = studentElements.studentName.value.trim();
+        const idValue = studentElements.studentId.value.trim();
+        const emailValue = studentElements.studentEmail.value.trim();
+        const programValue = studentElements.studentProgram.value.trim();
+        const yearValue = studentElements.studentYear.value.trim();
+        const modulesValue = studentElements.studentModules.value.trim();
+        const notesValue = studentElements.studentNotes.value.trim();
+        
+        // Basic validation
+        if (!nameValue || !idValue) {
+            alert('Name and Student ID are required');
+            return;
+        }
+        
+        // Check if we are editing an existing student
+        if (studentAppState.editingStudentId !== null) {
+            // Find the student in the array
+            const index = studentAppState.students.findIndex(s => s.id === studentAppState.editingStudentId);
+            
+            if (index !== -1) {
+                // Update the student
+                studentAppState.students[index] = {
+                    id: studentAppState.editingStudentId,
+                    name: nameValue,
+                    studentId: idValue,
+                    email: emailValue,
+                    program: programValue,
+                    year: yearValue,
+                    modules: modulesValue,
+                    notes: notesValue
+                };
+                
+                // Reset editing state
+                studentAppState.editingStudentId = null;
+                studentElements.addStudentBtn.textContent = 'Add Student';
+            }
+        } else {
+            // Create a new student
+            const newStudent = {
+                id: Date.now().toString(), // Use timestamp as unique ID
+                name: nameValue,
+                studentId: idValue,
+                email: emailValue,
+                program: programValue,
+                year: yearValue,
+                modules: modulesValue,
+                notes: notesValue
+            };
+            
+            // Add to state
+            studentAppState.students.push(newStudent);
+        }
+        
+        // Save to localStorage
+        saveStudentsToStorage();
+        
+        // Clear form
+        resetForm();
+        
+        // Update module filters
+        updateModuleFilters();
+        
+        // Re-render students
+        filterAndRenderStudents();
+        
+        // Switch to main tab to view the updated list
+        document.querySelector('.nav-tab[href="#main"]').click();
+    }
+
+    // Reset the add student form
+    function resetForm() {
+        studentElements.studentName.value = '';
+        studentElements.studentId.value = '';
+        studentElements.studentEmail.value = '';
+        studentElements.studentProgram.value = '';
+        studentElements.studentYear.value = '';
+        studentElements.studentModules.value = '';
+        studentElements.studentNotes.value = '';
+        
+        // Reset editing state
+        studentAppState.editingStudentId = null;
+        if (studentElements.addStudentBtn) {
+            studentElements.addStudentBtn.textContent = 'Add Student';
+        }
+    }
+
+    // Edit a student
+    function editStudent(studentId) {
+        const student = studentAppState.students.find(s => s.id === studentId);
+        
+        if (student) {
+            // Switch to add tab
+            document.querySelector('.nav-tab[href="#add"]').click();
+            
+            // Fill form with student data
+            studentElements.studentName.value = student.name || '';
+            studentElements.studentId.value = student.studentId || '';
+            studentElements.studentEmail.value = student.email || '';
+            studentElements.studentProgram.value = student.program || '';
+            studentElements.studentYear.value = student.year || '';
+            studentElements.studentModules.value = student.modules || '';
+            studentElements.studentNotes.value = student.notes || '';
+            
+            // Set editing state
+            studentAppState.editingStudentId = studentId;
+            studentElements.addStudentBtn.textContent = 'Update Student';
+            
+            // Scroll to form
+            studentElements.addStudentForm.scrollIntoView({ behavior: 'smooth' });
+        }
+    }
+
+    // Delete a student
+    function deleteStudent(studentId) {
+        if (confirm('Are you sure you want to delete this student?')) {
+            // Remove from students array
+            studentAppState.students = studentAppState.students.filter(s => s.id !== studentId);
+            
+            // Save to localStorage
+            saveStudentsToStorage();
+            
+            // Update module filters
+            updateModuleFilters();
+            
+            // Re-render students
+            filterAndRenderStudents();
+        }
+    }
+
+    // Update module filters based on existing students
+    function updateModuleFilters() {
+        const container = studentElements.moduleFilters;
+        if (!container) return;
+        
+        // Clear existing filters
+        container.innerHTML = '';
+        
+        // Get all unique modules
+        const allModules = new Set();
+        
+        studentAppState.students.forEach(student => {
+            if (student.modules) {
+                const modules = student.modules.split(',').map(m => m.trim());
+                modules.forEach(module => {
+                    if (module) allModules.add(module);
+                });
+            }
+        });
+        
+        // Sort modules alphabetically
+        const sortedModules = Array.from(allModules).sort();
+        
+        // Create filter button for each module
+        sortedModules.forEach(module => {
+            const button = document.createElement('button');
+            button.className = `filter-btn ${studentAppState.currentFilter === module ? 'active' : ''}`;
+            button.setAttribute('data-filter', module);
+            button.textContent = module;
+            
+            button.addEventListener('click', function() {
+                filterByModule(module);
+            });
+            
+            container.appendChild(button);
+        });
+    }
+
+    // Filter students by module
+    function filterByModule(module) {
+        // Update active button
+        document.querySelectorAll('.filter-btn').forEach(btn => {
+            btn.classList.remove('active');
+        });
+        
+        document.querySelector(`.filter-btn[data-filter="${module}"]`)?.classList.add('active');
+        
+        studentAppState.currentFilter = module;
+        filterAndRenderStudents();
+    }
+
+    // Filter and render students based on search term and selected filter
+    function filterAndRenderStudents() {
+        // Get search term from either main or mobile search input
+        const mainSearch = studentElements.searchInput?.value.toLowerCase() || '';
+        const mobileSearch = studentElements.mobileSearchInput?.value.toLowerCase() || '';
+        studentAppState.currentSearchTerm = mainSearch || mobileSearch;
+        
+        // Update both search inputs to match
+        if (studentElements.searchInput && studentElements.mobileSearchInput) {
+            studentElements.searchInput.value = studentAppState.currentSearchTerm;
+            studentElements.mobileSearchInput.value = studentAppState.currentSearchTerm;
+        }
+        
+        // Filter students
+        studentAppState.filteredStudents = studentAppState.students.filter(student => {
+            // Filter by module if not "all"
+            if (studentAppState.currentFilter !== 'all') {
+                const studentModules = (student.modules || '').split(',').map(m => m.trim());
+                if (!studentModules.includes(studentAppState.currentFilter)) {
+                    return false;
+                }
+            }
+            
+            // Filter by search term
+            if (!studentAppState.currentSearchTerm) {
+                return true;
+            }
+            
+            // Search in all student fields
+            return Object.values(student).some(value => 
+                value && value.toString().toLowerCase().includes(studentAppState.currentSearchTerm)
+            );
+        });
+        
+        renderStudents();
+    }
+
+    // Render students table
+    function renderStudents() {
+        const container = studentElements.studentList;
+        const noResults = studentElements.noResults;
+        
+        if (!container || !noResults) return;
+        
+        // Show/hide no results message
+        if (studentAppState.filteredStudents.length === 0) {
+            container.innerHTML = '';
+            noResults.classList.remove('hidden');
+            document.getElementById('total-count').textContent = 0;
+            return;
+        }
+        
+        noResults.classList.add('hidden');
+        
+        // Sort students
+        const sortedStudents = [...studentAppState.filteredStudents].sort((a, b) => {
+            const aValue = a[studentAppState.sortColumn] || '';
+            const bValue = b[studentAppState.sortColumn] || '';
+            
+            // Handle numeric sorting for year
+            if (studentAppState.sortColumn === 'year' && !isNaN(aValue) && !isNaN(bValue)) {
+                return studentAppState.sortDirection === 'asc' 
+                    ? Number(aValue) - Number(bValue)
+                    : Number(bValue) - Number(aValue);
+            }
+            
+            // Default string comparison
+            const comparison = String(aValue).localeCompare(String(bValue));
+            return studentAppState.sortDirection === 'asc' ? comparison : -comparison;
+        });
+        
+        // Update total count
+        document.getElementById('total-count').textContent = sortedStudents.length;
+        
+        // Clear container
+        container.innerHTML = '';
+        
+        // Create rows for each student
+        sortedStudents.forEach(student => {
+            const row = document.createElement('tr');
+            
+            // Add cells for visible columns
+            AVAILABLE_COLUMNS.forEach(column => {
+                if (studentAppState.visibleColumns.includes(column.id)) {
+                    const cell = document.createElement('td');
+                    
+                    if (column.id === 'actions') {
+                        // Action buttons
+                        cell.innerHTML = `
+                            <button class="action-btn edit" title="Edit" data-id="${student.id}">
+                                <i class="fas fa-edit"></i>
+                            </button>
+                            <button class="action-btn delete" title="Delete" data-id="${student.id}">
+                                <i class="fas fa-trash-alt"></i>
+                            </button>
+                        `;
+                    } else {
+                        // Regular cell with data
+                        let content = student[column.id] || '';
+                        
+                        // Highlight search matches
+                        if (studentAppState.currentSearchTerm && content) {
+                            content = highlightText(content.toString(), studentAppState.currentSearchTerm);
+                        }
+                        
+                        cell.innerHTML = content;
+                    }
+                    
+                    row.appendChild(cell);
+                }
+            });
+            
+            container.appendChild(row);
+        });
+        
+        // Add event listeners to action buttons
+        container.querySelectorAll('.action-btn.edit').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const studentId = this.getAttribute('data-id');
+                editStudent(studentId);
+            });
+        });
+        
+        container.querySelectorAll('.action-btn.delete').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const studentId = this.getAttribute('data-id');
+                deleteStudent(studentId);
+            });
+        });
+    }
+
+    // Highlight search matches with safe escaping of regex special characters
+    function highlightText(text, searchTerm) {
+        if (!searchTerm) return text;
+        
+        // Escape special characters in the search term to prevent regex errors
+        const escapedSearchTerm = searchTerm.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+        // Create a safe regex pattern
+        try {
+            const regex = new RegExp(`(${escapedSearchTerm})`, 'gi');
+            return text.replace(regex, '<span class="highlight">$1</span>');
+        } catch (e) {
+            // In case regex still fails (which shouldn't happen with proper escaping)
+            console.error("Regex error:", e);
+            return text;
+        }
+    }
+
+    // Clear all student data
+    function clearAllData() {
+        if (confirm('Are you sure you want to delete ALL student data? This cannot be undone.')) {
+            // Clear student data
+            studentAppState.students = [];
+            studentAppState.filteredStudents = [];
+            
+            // Save empty array to localStorage
+            saveStudentsToStorage();
+            
+            // Update module filters
+            updateModuleFilters();
+            
+            // Re-render students
+            filterAndRenderStudents();
+            
+            // Switch to main tab
+            document.querySelector('.nav-tab[href="#main"]').click();
+            
+            alert('All student data has been deleted.');
+        }
+    }
+
+    // Add sample data to textarea
+    function addSampleData() {
+        const bulkTextarea = document.getElementById('bulk-students');
+        if (bulkTextarea) {
+            const sampleData = SAMPLE_STUDENTS.map(student => 
+                `${student.name}, ${student.studentId}, ${student.email}, ${student.program}, ${student.year}, ${student.modules}, ${student.notes}`
+            ).join('\n');
+            
+            bulkTextarea.value = sampleData;
+        }
+    }
+
+    // Import sample students to the application directly
+    function importSampleStudents() {
+        for (const student of SAMPLE_STUDENTS) {
+            const newStudent = {
+                id: Date.now().toString() + Math.random().toString(36).substr(2, 5),
+                name: student.name,
+                studentId: student.studentId,
+                email: student.email,
+                program: student.program,
+                year: student.year,
+                modules: student.modules,
+                notes: student.notes
+            };
+            
+            studentAppState.students.push(newStudent);
+        }
+        
+        // Save to localStorage
+        saveStudentsToStorage();
+        
+        // Update module filters
+        updateModuleFilters();
+        
+        // Re-render students
+        filterAndRenderStudents();
+    }
+    
+    // Bulk add students
+    function bulkAddStudents() {
+        const bulkTextarea = document.getElementById('bulk-students');
+        if (!bulkTextarea || !bulkTextarea.value.trim()) {
+            alert('Please enter student data');
+            return;
+        }
+        
+        const lines = bulkTextarea.value.trim().split('\n');
+        let addedCount = 0;
+        
+        for (const line of lines) {
+            if (!line.trim()) continue;
+            
+            // Split by comma or tab
+            const parts = line.split(/,|\t/).map(part => part.trim());
+            
+            if (parts.length < 2) {
+                continue; // Need at least name and id
+            }
+            
+            const newStudent = {
+                id: Date.now().toString() + Math.random().toString(36).substr(2, 5),
+                name: parts[0] || '',
+                studentId: parts[1] || '',
+                email: parts[2] || '',
+                program: parts[3] || '',
+                year: parts[4] || '',
+                modules: parts[5] || '',
+                notes: parts[6] || ''
+            };
+            
+            studentAppState.students.push(newStudent);
+            addedCount++;
+        }
+        
+        if (addedCount > 0) {
+            // Save to localStorage
+            saveStudentsToStorage();
+            
+            // Update module filters
+            updateModuleFilters();
+            
+            // Re-render students
+            filterAndRenderStudents();
+            
+            // Clear the textarea
+            bulkTextarea.value = '';
+            
+            // Switch to main tab
+            document.querySelector('.nav-tab[href="#main"]').click();
+            
+            alert(`Successfully added ${addedCount} students.`);
+        } else {
+            alert('No valid student data found. Please check the format.');
+        }
+    }
+
+    // Set up student-list-specific event listeners
+    function setupStudentListEventListeners() {
+        // Add student form
+        if (studentElements.addStudentBtn) {
+            studentElements.addStudentBtn.addEventListener('click', addStudent);
+        }
+        
+        // Cancel add student
+        if (studentElements.cancelAddBtn) {
+            studentElements.cancelAddBtn.addEventListener('click', function() {
+                resetForm();
+                // Optional: switch back to main tab
+                document.querySelector('.nav-tab[href="#main"]').click();
+            });
+        }
+        
+        // Bulk add students
+        const bulkAddBtn = document.getElementById('bulk-add-students');
+        if (bulkAddBtn) {
+            bulkAddBtn.addEventListener('click', bulkAddStudents);
+        }
+        
+        // Add sample data
+        const addSampleDataBtn = document.getElementById('add-sample-data');
+        if (addSampleDataBtn) {
+            addSampleDataBtn.addEventListener('click', addSampleData);
+        }
+        
+        // Clear all data button
+        if (studentElements.clearDataBtn) {
+            studentElements.clearDataBtn.addEventListener('click', clearAllData);
+        }
+        
+        // Search input
+        if (studentElements.searchInput) {
+            studentElements.searchInput.addEventListener('input', function() {
+                filterAndRenderStudents();
+            });
+        }
+        
+        // Mobile search input
+        if (studentElements.mobileSearchInput) {
+            studentElements.mobileSearchInput.addEventListener('input', function() {
+                filterAndRenderStudents();
+            });
+        }
+        
+        // "All Students" button in filter controls
+        const allButton = document.querySelector('.filter-btn[data-filter="all"]');
+        if (allButton) {
+            allButton.addEventListener('click', function() {
+                studentAppState.currentFilter = 'all';
+                document.querySelectorAll('.filter-btn').forEach(btn => {
+                    btn.classList.remove('active');
+                });
+                this.classList.add('active');
+                filterAndRenderStudents();
+            });
+        }
+        
+        // Tab switching - ensure proper initialization of visible tab content
+        document.querySelectorAll('.nav-tab').forEach(tab => {
+            tab.addEventListener('click', function(e) {
+                const tabId = this.getAttribute('href').substring(1);
+                
+                // If switching to add tab and we're not editing, reset the form
+                if (tabId === 'add' && !studentAppState.editingStudentId) {
+                    resetForm();
+                }
+            });
+        });
+    }
+
+    // Add CSS class to highlight current tool in right sidebar
+    function highlightCurrentTool() {
+        const rightSidebarLinks = document.querySelectorAll('.right-sidebar-link');
+        rightSidebarLinks.forEach(link => {
+            if (link.textContent.includes('Student List')) {
+                link.classList.add('current');
+            } else {
+                link.classList.remove('current');
+            }
+        });
+    }
+
+    // Run this once on page load to ensure the right tool is highlighted
+    setTimeout(highlightCurrentTool, 500);
+    </script>
+</body>
+</html>

@@ -1,0 +1,2239 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>University Portal Template - Main Content Text Resize</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
+   
+    <!-- DataTables CSS and JS -->
+<link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+
+<!-- jsPDF and jsPDF-AutoTable -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.21/jspdf.plugin.autotable.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+
+   
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="styles.css">
+    <script src="sidebar-links.js"></script>
+    <script src="core.js"></script>
+    <style>
+        /* RubriFlow UI Improvements - Supplemental Styles */
+
+/* Enhanced Card-based Layout */
+.header-container,
+fieldset,
+.info-box,
+.full-width-bar,
+table.display {
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    background-color: var(--bg-primary);
+    margin-bottom: 1.5rem;
+}
+
+/* Improved header styling */
+.header-container {
+    padding: 1.25rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.header-title {
+    color: var(--accent-color);
+    font-size: 1.75rem;
+    font-weight: 700;
+}
+
+/* Accordion buttons with consistent styling */
+.accordion-btn, 
+.btn {
+    font-weight: 500;
+    transition: all 0.2s;
+    border-radius: 6px;
+}
+
+.accordion-btn:hover, 
+.btn:hover {
+    filter: brightness(0.95);
+    transform: translateY(-1px);
+}
+
+/* Button variants with improved styling */
+.btn-add-rows {
+    background-color: var(--bg-tertiary);
+    color: var(--text-secondary);
+}
+
+.btn-generate {
+    background-color: var(--accent-color);
+    color: white;
+    border-color: var(--accent-color);
+}
+
+.btn-download {
+    background-color: #22c55e;
+    color: white;
+    border-color: #16a34a;
+}
+
+.btn-danger {
+    background-color: #ef4444;
+    color: white;
+    border-color: #dc2626;
+}
+
+/* Improved form element styling */
+fieldset {
+    padding: 1.5rem;
+    border: 1px solid var(--border-color);
+}
+
+legend {
+    font-weight: 600;
+    padding: 0 0.75rem;
+    background-color: var(--bg-primary);
+}
+
+.step-number {
+    background-color: var(--accent-color);
+    color: white;
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 1.75rem;
+    height: 1.75rem;
+    margin-right: 0.75rem;
+    font-weight: 600;
+}
+
+/* Improved table styling */
+table.display {
+    border-collapse: separate;
+    border-spacing: 0;
+    overflow: hidden;
+}
+
+table.display thead th {
+    background-color: var(--bg-tertiary);
+    font-weight: 600;
+    padding: 0.875rem;
+    border-bottom: 2px solid var(--border-color);
+}
+
+table.display tbody tr:hover td {
+    background-color: var(--bg-secondary);
+}
+
+/* Editable cells styling */
+[contenteditable="true"] {
+    padding: 0.5rem;
+    border: 1px solid transparent;
+    border-radius: 4px;
+    transition: all 0.2s;
+}
+
+[contenteditable="true"]:hover {
+    background-color: var(--bg-secondary);
+}
+
+[contenteditable="true"]:focus {
+    outline: none;
+    border-color: var(--accent-color);
+    background-color: var(--bg-secondary);
+    box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2);
+}
+
+/* Enhanced column layout */
+.two-column-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2rem;
+}
+
+.column {
+    flex: 1;
+    min-width: 250px;
+}
+
+/* Improved sticky bar styling */
+.full-width-bar.sticky {
+    position: sticky;
+    top: 72px;
+    z-index: 20;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+/* Improved row button layout */
+.row-buttons-left, 
+.row-buttons-right {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.625rem;
+}
+
+/* Improved info-box styling */
+.info-box.expanded {
+    max-height: 1000px;
+    padding: 1.25rem;
+    margin-bottom: 1.5rem;
+}
+
+.info-box.collapsed {
+    max-height: 0;
+    padding: 0;
+    margin: 0;
+    border: none;
+    box-shadow: none;
+}
+
+/* Improved typography */
+h3 {
+    color: var(--text-secondary);
+    margin-top: 1.25rem;
+    margin-bottom: 0.875rem;
+    font-weight: 600;
+}
+
+label {
+    font-weight: 500;
+    margin-bottom: 0.5rem;
+    display: block;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .two-column-container {
+        flex-direction: column;
+    }
+    
+    .column {
+        width: 100%;
+    }
+    
+    .full-width-bar {
+        flex-direction: column;
+        gap: 1rem;
+    }
+    
+    .row-buttons-left, 
+    .row-buttons-right {
+        width: 100%;
+        justify-content: center;
+    }
+}
+
+/* DataTables improvements */
+.dataTables_wrapper .dataTables_filter input {
+    padding: 0.5rem;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+}
+
+.row-counter-inline {
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+}
+
+/* Focus styles for accessibility */
+a:focus, 
+button:focus, 
+input:focus, 
+[tabindex]:focus {
+    outline: 2px solid var(--accent-color);
+    outline-offset: 2px;
+}/* Fix for tab content disappearing issue */
+
+/* The issue is likely in these styles - we need to modify them to be less aggressive */
+.tab-content {
+  display: none; /* Remove !important */
+  position: static; /* Remove !important */
+  top: auto; /* Remove !important */
+  left: auto; /* Remove !important */
+  right: auto; /* Remove !important */
+  bottom: auto; /* Remove !important */
+  width: 100%; /* Remove !important */
+  box-sizing: border-box; /* Remove !important */
+  padding: 0; /* Remove !important */
+  margin: 0; /* Remove !important */
+}
+
+.tab-content.active {
+  display: block; /* Remove !important */
+}
+
+/* Override the styles from the previous fix that might be causing conflicts */
+#main-tab-content,
+#info-tab-content {
+  display: none;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+#main-tab-content.active,
+#info-tab-content.active {
+  display: block;
+}
+
+/* Ensure that the most specific selector wins */
+body main.main-content #main-tab-content.active,
+body main.main-content #info-tab-content.active {
+  display: block !important;
+}
+
+/* Additional UI enhancements for Feedback Generator */
+
+/* 1. Better visual hierarchy and spacing */
+.main-content > h1 {
+  margin-bottom: 1.5rem;
+  color: var(--accent-color);
+  font-size: 1.8rem;
+  border-bottom: 2px solid var(--border-color);
+  padding-bottom: 0.5rem;
+}
+
+/* 2. More distinctive accordion container */
+.accordion-container {
+  background-color: var(--bg-primary);
+  padding: 1rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.03);
+  margin-bottom: 2rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  align-items: center;
+}
+
+/* 3. More attractive info boxes when expanded */
+.info-box.expanded {
+  background-color: var(--bg-primary);
+  border-left: 4px solid var(--accent-color);
+}
+
+/* 4. Enhance table appearance */
+#rubrictable, #feedbackTable {
+  width: 100%;
+  margin-bottom: 2rem;
+}
+
+#rubrictable thead th, 
+#feedbackTable thead th {
+  background-color: var(--accent-color);
+  color: white;
+  font-weight: 600;
+  padding: 0.75rem;
+}
+
+/* Zebra striping for better readability */
+#rubrictable tbody tr:nth-child(even),
+#feedbackTable tbody tr:nth-child(even) {
+  background-color: var(--bg-secondary);
+}
+
+#rubrictable tbody tr:hover,
+#feedbackTable tbody tr:hover {
+  background-color: rgba(59, 130, 246, 0.05);
+}
+
+/* 5. Improved button group appearance */
+.full-width-bar {
+  background: linear-gradient(to right, var(--bg-primary), var(--bg-secondary));
+  border-left: 4px solid var(--accent-color);
+}
+
+/* 6. Make "Generate" section more prominent */
+.generate-label {
+  font-weight: 600;
+  color: var(--accent-color);
+}
+
+.btn-generate {
+  position: relative;
+  overflow: hidden;
+}
+
+.btn-generate:before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+  transition: 0.5s;
+}
+
+.btn-generate:hover:before {
+  left: 100%;
+}
+
+/* 7. Better focus styles for accessibility */
+input:focus, 
+[contenteditable="true"]:focus {
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.3);
+  outline: none;
+}
+
+/* 8. Nicer step numbers */
+.step-number {
+  font-size: 1rem;
+  width: 2rem;
+  height: 2rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+/* 9. Improved fieldset styling */
+fieldset {
+  position: relative;
+  border-top: 3px solid var(--accent-color);
+  padding-top: 1.5rem;
+}
+
+legend {
+  padding: 0 1rem;
+  margin-left: 1rem;
+  background-color: var(--bg-primary);
+  border-radius: 4px;
+}
+
+/* 10. Interactive table cells */
+[contenteditable="true"] {
+  transition: all 0.2s ease;
+}
+
+[contenteditable="true"]:hover {
+  background-color: rgba(59, 130, 246, 0.05);
+}
+
+[contenteditable="true"]:focus {
+  background-color: rgba(59, 130, 246, 0.1);
+}
+
+/* 11. Better inputs */
+input[type="text"] {
+  border: 1px solid var(--border-color);
+  padding: 0.625rem;
+  border-radius: 6px;
+  transition: all 0.2s ease;
+}
+
+input[type="text"]:hover {
+  border-color: var(--accent-color);
+}
+
+/* 12. Better checkbox styling */
+input[type="checkbox"] {
+  width: 1.25rem;
+  height: 1.25rem;
+  margin-right: 0.5rem;
+  vertical-align: middle;
+}
+
+/* 13. Progress indication - step completion */
+fieldset.completed {
+  border-color: #22c55e;
+}
+
+fieldset.completed legend:before {
+  content: "✓ ";
+  color: #22c55e;
+}
+
+/* 14. More responsive accommodation */
+@media (max-width: 768px) {
+  .accordion-container {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  
+  .accordion-btn {
+    width: 100%;
+    text-align: left;
+  }
+  
+  .two-column-container {
+    gap: 1rem;
+  }
+}
+
+/* 15. Fix for tab content disappearing issue */
+#main-tab-content.active,
+#info-tab-content.active {
+  display: block !important;
+}
+
+/* 16. Improved row counter display */
+.row-counter {
+  background-color: var(--bg-primary);
+  padding: 0.75rem;
+  border-radius: 6px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  text-align: center;
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+  margin-top: 1rem;
+}
+
+.row-counter strong {
+  color: var(--accent-color);
+  font-weight: 600;
+}
+
+/* Main title enhancement */
+.main-title {
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--accent-color);
+  margin-bottom: 1.5rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 2px solid var(--border-color);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.main-title i {
+  color: var(--accent-color);
+}
+
+/* Feature overview styling */
+.feature-overview {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2rem;
+  margin: 1.5rem 0 2rem;
+  padding: 1.5rem;
+  background-color: var(--bg-primary);
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.feature-section {
+  flex: 1;
+  min-width: 280px;
+}
+
+.feature-section h3 {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 1.25rem;
+  color: var(--accent-color);
+  margin-top: 0;
+  margin-bottom: 1rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.feature-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.feature-list li {
+  margin-bottom: 0.75rem;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.feature-list li i {
+  color: var(--accent-color);
+  width: 1rem;
+  text-align: center;
+}
+
+/* Enhanced accordion container */
+.accordion-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  padding: 1.25rem;
+  justify-content: space-between;
+}
+
+.accordion-group {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.accordion-label {
+  margin: 0;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+  white-space: nowrap;
+}
+
+.accordion-btn i, 
+.example-btn i {
+  margin-right: 0.5rem;
+}
+
+.example-btn {
+  font-weight: 500;
+  transition: all 0.2s;
+  border-radius: 6px;
+  cursor: pointer;
+  padding: 0.625rem 1.25rem;
+  background-color: var(--bg-tertiary);
+  border: 1px solid var(--border-color);
+  color: var(--text-secondary);
+  display: inline-flex;
+  align-items: center;
+}
+
+.example-btn:hover {
+  filter: brightness(0.95);
+  transform: translateY(-1px);
+  background-color: var(--bg-secondary);
+}
+
+/* Improved action bar with grouped buttons */
+.action-label,
+.generate-label {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.generate-label i {
+  color: var(--accent-color);
+}
+
+.button-group {
+  display: inline-flex;
+  border-radius: 6px;
+  overflow: hidden;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.button-group .btn {
+  border-radius: 0;
+  margin: 0;
+  border-right: 1px solid rgba(0, 0, 0, 0.1);
+  min-width: 3rem;
+}
+
+.button-group .btn:last-child {
+  border-right: none;
+}
+
+.btn i {
+  margin-right: 0.4rem;
+}
+
+/* Mobile responsiveness for new elements */
+@media (max-width: 768px) {
+  .feature-overview {
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+  
+  .accordion-container {
+    flex-direction: column;
+  }
+  
+  .accordion-group {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  
+  .accordion-label {
+    margin-bottom: 0.5rem;
+  }
+  
+  .button-group {
+    display: flex;
+    width: 100%;
+  }
+  
+  .button-group .btn {
+    flex: 1;
+  }
+}
+/* Spreadsheet-like table styling */
+
+/* Reset table styles to create a clean slate */
+#rubrictable, 
+#feedbackTable {
+  width: 100%;
+  border-collapse: collapse;
+  border-spacing: 0;
+  font-size: 0.9rem;
+  border: 1px solid #e2e8f0;
+  margin-bottom: 1.5rem;
+}
+
+/* Header cells styling - more spreadsheet like */
+#rubrictable thead th, 
+#feedbackTable thead th {
+  background-color: #f8fafc;
+  color: #475569;
+  font-weight: 600;
+  text-align: left;
+  padding: 0.6rem 0.75rem;
+  border: 1px solid #e2e8f0;
+  border-bottom: 2px solid #cbd5e1;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+/* Lighter grid layout */
+#rubrictable tbody td, 
+#feedbackTable tbody td {
+  padding: 0.5rem 0.75rem;
+  border: 1px solid #e2e8f0;
+  vertical-align: top;
+  transition: background-color 0.15s ease;
+}
+
+/* Non-editable cells (like the Grade Band column) */
+#rubrictable tbody td:first-child {
+  background-color: #f8fafc;
+  font-weight: 500;
+}
+
+/* First column in feedback table is name - make it stand out a bit */
+#feedbackTable tbody td:first-child {
+  font-weight: 500;
+}
+
+/* Even row styling for easier reading */
+#rubrictable tbody tr:nth-child(even),
+#feedbackTable tbody tr:nth-child(even) {
+  background-color: #f9fafb;
+}
+
+/* Very pale yellow hover effect on the cell being hovered */
+#rubrictable tbody td:hover,
+#feedbackTable tbody td:hover {
+  background-color: rgba(255, 250, 205, 0.5); /* Very light yellow */
+  cursor: pointer;
+}
+
+/* Focused/active cell */
+#rubrictable [contenteditable="true"]:focus,
+#feedbackTable [contenteditable="true"]:focus {
+  outline: 2px solid #3b82f6;
+  outline-offset: -2px;
+  background-color: rgba(255, 250, 205, 0.7); /* Slightly stronger light yellow */
+  box-shadow: none;
+}
+
+/* Row hover - very subtle */
+#rubrictable tbody tr:hover,
+#feedbackTable tbody tr:hover {
+  background-color: rgba(243, 244, 246, 0.7);
+}
+
+/* Editable cells styling */
+[contenteditable="true"] {
+  padding: 0.5rem;
+  cursor: text;
+  transition: all 0.2s ease;
+}
+
+/* DataTables-specific overrides */
+.dataTables_wrapper .dataTables_length,
+.dataTables_wrapper .dataTables_filter {
+  margin-bottom: 1rem;
+}
+
+.dataTables_wrapper .dataTables_info {
+  padding-top: 0.5rem;
+  font-size: 0.875rem;
+  color: #6b7280;
+}
+
+/* Remove default DataTables border */
+table.dataTable.no-footer {
+  border-bottom: 1px solid #e2e8f0;
+}
+
+/* Style for the feedback table search */
+.dataTables_wrapper .dataTables_filter input {
+  border: 1px solid #d1d5db;
+  border-radius: 0.375rem;
+  padding: 0.375rem 0.75rem;
+  margin-left: 0.5rem;
+}
+
+/* Fix for the Firefox outline */
+#rubrictable [contenteditable="true"]::-moz-focus-inner,
+#feedbackTable [contenteditable="true"]::-moz-focus-inner {
+  border: 0;
+}
+      </style>
+
+</head>
+<body>
+<!-- Main content for Rubric Tool -->
+<div class="header-container">
+    <h1 class="header-title">Bulk Marksheet Feedback Generator</h1>
+    <div class="header-buttons">
+        <button class="accordion-btn" data-target="infoBox2">▶️ Browser Help</button>
+    </div>
+</div>
+
+   <!-- Single Header -->
+   <header class="header">
+    <button class="hamburger-menu" aria-label="Toggle sidebar">
+        <i class="fas fa-bars"></i>
+    </button>
+    
+    <div class="logo">
+    </div>
+    
+    <nav class="nav-tabs">
+        <a href="#"></a>
+    </nav>
+
+    
+    <!-- Header controls positioned above right sidebar -->
+    <div class="header-controls">
+        <!-- Font size controls -->
+        <div class="font-size-controls">
+            <div id="decrease-font" class="font-size-btn">
+                <i class="fas fa-minus"></i>
+            </div>
+            <div class="text-label mx-2 text-muted">Text</div>
+            <div id="increase-font" class="font-size-btn">
+                <i class="fas fa-plus"></i>
+            </div>
+        </div>
+        
+        <button class="toggle-right-sidebar" aria-label="Toggle right sidebar">
+            <i class="fas fa-cog"></i>
+        </button>
+        
+        <button class="theme-toggle" aria-label="Toggle dark/light mode">
+            <i class="fas fa-sun"></i>
+        </button>
+    </div>
+</header>
+
+<!-- Main layout -->
+<div>
+    <!-- Left sidebar -->
+    <aside class="sidebar">
+        <div class="sidebar-section">
+            <div class="sidebar-header">
+                <span>University Links</span>
+            </div>
+            <div id="university-content" class="sidebar-content">
+            </div>
+        </div>
+    </aside>
+
+    <!-- Main content area with tab content -->
+    <main class="main-content">
+        <!-- Main tab content - contains placeholder for content -->
+        <div id="main-tab-content" class="tab-content active">
+            <h1 class="main-title"><i class="fas fa-file-alt"></i> Bulk Marksheet Feedback Generator</h1>
+            
+
+            
+                <div class="feature-overview">
+                    <div class="feature-section">
+                        <h3><i class="fas fa-check-circle"></i> Benefits</h3>
+                        <ul class="feature-list">
+                            <li><i class="fas fa-chart-line"></i> <strong>Smoother feedback-sheet creation</strong></li>
+                            <li><i class="fas fa-chart-line"></i> <strong>Improved moderation workflow</strong></li>
+                            <li><i class="fas fa-chart-line fa-rotate-180"></i> <strong>Less time formatting documents</strong></li>
+                        </ul>
+                    </div>
+                    
+                    <div class="feature-section">
+                        <h3><i class="fas fa-star"></i> Features</h3>
+                        <ul class="feature-list">
+                            <li><i class="fas fa-file-alt"></i> <strong>Generate structured feedback</strong> with rubric-based criteria and auto-highlighted marks</li>
+                            <li><i class="fas fa-file-pdf"></i> <strong>Export PDFs instantly</strong>, processed locally in your browser</li>
+                            <li><i class="fas fa-tasks"></i> <strong>Streamline workflow</strong> by reducing manual formatting</li>
+                            <li><i class="fas fa-clipboard-check"></i> <strong>Produce moderation data sheets</strong> for internal/external review</li>
+                            <li><i class="fas fa-balance-scale"></i> <strong>Ensure fair evaluation</strong> with randomized review samples</li>
+                        </ul>
+                    </div>
+                </div>
+
+                
+            
+                <!-- Second Info Box -->
+                <div id="infoBox2" class="info-box collapsed">
+                    <p>Best used in default browsers like Safari and Edge.</p>
+                    <p>Since it's fully built in JavaScript, some ad blockers may interfere with its functionality.</p>
+                    <hr>
+                    <p>Having issues processing multiple modules? Click the button below and refresh the page to clear cached data and reset labels and settings.</p>
+                    <button id="clearLocalStorage">Reset All Data</button>
+                    <hr>
+                    <p>Contact: <strong>Buried in work.</strong> This is not a support service. For feedback or suggestions, contact <a href="mailto:m.oustamanolakis@mmu.ac.uk">m.oustamanolakis@mmu.ac.uk</a>.</p>  
+                </div>
+            
+                <!-- First Info Box -->
+                <div class="accordion-container">
+                    <div class="accordion-group">
+                        <h4 class="accordion-label">Information:</h4>
+                        <button class="accordion-btn" data-target="infoBox1"><i class="fas fa-info-circle"></i> What's not included</button>
+                        <button class="accordion-btn" data-target="infoBox2"><i class="fas fa-question-circle"></i> Help</button>
+                    </div>
+                    <div class="accordion-group">
+                        <h4 class="accordion-label">Examples:</h4>
+                        <button class="example-btn" href="files/65_Peanut B. Waffles.pdf B. Waffles"><i class="fas fa-file-pdf"></i> Feedback Sheet</button>
+                        <button class="example-btn" href="files/moderation_data_sheet.pdf"><i class="fas fa-file-pdf"></i> Moderation Sheet</button>
+                    </div>
+                </div>
+                <div id="infoBox1" class="info-box collapsed">
+                    <p><strong>What this tool does NOT do:</strong></p>
+                    <ul>
+                        <li>🔴 Store or transmit any student data to external servers.</li>
+                        <li>🔴 Automatically analyze or grade student submissions.</li>
+                        <li>🔴 Replace manual grading (it only streamlines feedback creation).</li>
+                        <li>🔴 Replace the moderation process.</li>
+                    </ul>
+                </div>
+            
+                <h1>Start by setting up your feedback-sheets</h1>
+            
+                <form id="gradeForm">
+                    <fieldset class="completed">
+                        <legend><span class="step-number">1</span>Start by setting up your feedback-sheets</legend>
+                        <div class="step-content">
+                            <div class="module-input-container">
+                                <label class="module-label">Insert Your Module Name:</label>
+                                <input type="text" id="moduleName" placeholder="Enter module name">
+                            </div>
+                            <table style="width:100%; border-collapse: collapse;">
+                                <tr>
+                                    <td style="vertical-align: top; padding: 10px; border: 1px solid var(--border-color);">
+                                        <h3>How to name?</h3>
+                                        <p><strong>Use the full name</strong>, avoid abbreviations.</p>
+                                        <p>• Optionally, you can include the [unit code] or [year].</p>
+                                    </td>
+                                    <td style="vertical-align: top; padding: 10px; border: 1px solid var(--border-color);">
+                                        <p><strong>Examples:</strong></p>
+                                        <p><em>Advanced Cat Nap Strategies</em></p>
+                                        <p><em>The Sociology of Sandwiches, 2025-FOOD210</em></p>
+                                        <p><em>The Great Emu War: A Tactical Analysis (WARFR0355)</em></p>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </fieldset>
+                </form>
+            
+                <form id="gradeForm">
+                    <fieldset>
+                        <legend><span class="step-number">2</span>Activate as many descriptors as your module requires</legend>
+                        <div class="step-content">
+                            <div class="">
+                                <label><input type="checkbox" id="toggleDescriptor2"> Enable Descriptor 2</label>
+                                <label><input type="checkbox" id="toggleDescriptor3"> Enable Descriptor 3</label>
+                                <label><input type="checkbox" id="toggleDescriptor4"> Enable Descriptor 4</label>
+                            </div>
+                        </div>
+                    </fieldset>
+                </form>
+            
+                <form id="gradeForm">
+                    <fieldset>
+                        <legend><span class="step-number">3</span>(Optional) Modify the default labels</legend>
+                        <div class="two-column-container">
+                            <div class="column">
+                                <h3>(Optional) Modify the feedback labels</h3>
+                                <label>Summary Text: <input type="text" id="summaryTextLabel" class="label-input" data-key="summaryText"></label>
+                                <label>What was done well: <input type="text" id="doneWellLabel" class="label-input" data-key="whatWasDoneWell"></label>
+                                <label>Suggestions to improve in the future: <input type="text" id="suggestionsLabel" class="label-input" data-key="suggestions"></label>
+                                <label>What was needed to get a better mark: <input type="text" id="betterMarkLabel" class="label-input" data-key="neededForBetterMark"></label>
+                                <label>Comments about sources: <input type="text" id="sourcesLabel" class="label-input" data-key="commentsOnSources"></label>
+                            </div>
+                            <div class="column">
+                                <h3>(Optional) Modify the mark labels</h3>
+                                <label>Descriptor 1 Mark: <input type="text" id="descriptor1Label" class="label-input" data-key="descriptor1"></label>
+                                <label>Descriptor 2 Mark: <input type="text" id="descriptor2Label" class="label-input" data-key="descriptor2"></label>
+                                <label>Descriptor 3 Mark: <input type="text" id="descriptor3Label" class="label-input" data-key="descriptor3"></label>
+                                <label>Descriptor 4 Mark: <input type="text" id="descriptor4Label" class="label-input" data-key="descriptor4"></label>
+                            </div>
+                        </div>
+                    </fieldset>
+                </form>
+            
+                <form id="gradeForm">
+                    <fieldset>
+                        <legend><span class="step-number">4</span> Set your rubric criteria</legend>
+                        <div>
+                            <table style="width:100%; border-collapse:collapse;">
+                                <tr>
+                                    <td>1️⃣</td>
+                                    <td>Look up the <a target="_blank" href="https://docs.google.com/spreadsheets/d/1PpWyuqvyD5yvkTmb7PvjOLgoeCVvpHfXOUjc2HcVnQk/edit?usp=sharing">rubrik descriptors in this Spreadsheet</a> (opens in new tab).</td>
+                                </tr>
+                                <tr>
+                                    <td>2️⃣</td>
+                                    <td>Alternatively, download an <a href="files/MMU Descriptors.xlsx">Excel file with all rubric descriptors</a>.</td>
+                                </tr>
+                                <tr>
+                                    <td>3️⃣</td>
+                                    <td>Choose your year (L3-L7) by selecting the relevant tab.</td>
+                                </tr>
+                                <tr>
+                                    <td>4️⃣</td>
+                                    <td>Copy the Rubric Criteria including the top row. <strong>⚠️ Make sure to select the correct year!</strong></td>
+                                </tr>
+                                <tr>
+                                    <td>5️⃣</td>
+                                    <td>Paste them to the table below.</td>
+                                </tr>
+                                <tr>
+                                    <td>⚠️</td>
+                                    <td>If you need fewer than 4 descriptors, disable the extras in Step 2 and ignore the pre-filled content.</td>
+                                </tr>
+                            </table>
+                            <p><strong>Levels Explained</strong></p>
+                            <table border="1" style="width: 100%; border-collapse: collapse; text-align: left;">
+                                <thead>
+                                    <tr style="background: var(--bg-tertiary);">
+                                        <th>Level</th>
+                                        <th>Academic Stage</th>
+                                        <th>Typical Year</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>L3</td>
+                                        <td>Foundation Year</td>
+                                        <td>Pre-University</td>
+                                    </tr>
+                                    <tr>
+                                        <td>L4</td>
+                                        <td>Undergraduate Year 1</td>
+                                        <td>First Year of Bachelor's</td>
+                                    </tr>
+                                    <tr>
+                                        <td>L5</td>
+                                        <td>Undergraduate Year 2</td>
+                                        <td>Second Year of Bachelor's</td>
+                                    </tr>
+                                    <tr>
+                                        <td>L6</td>
+                                        <td>Undergraduate Year 3 (Final Year)</td>
+                                        <td>Final Year of Bachelor's</td>
+                                    </tr>
+                                    <tr>
+                                        <td>L7</td>
+                                        <td>Postgraduate</td>
+                                        <td>Master's Degree or Diploma</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </fieldset>
+                </form>
+            
+                <table id="rubrictable" class="display">
+                    <thead>
+                        <tr>
+                            <th>Grade Band</th>
+                            <th>Descriptor 1</th>
+                            <th>Descriptor 2</th>
+                            <th>Descriptor 3</th>
+                            <th>Descriptor 4</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td></td><td contenteditable="true">Insert descriptor 1 here</td><td contenteditable="true">Insert descriptor 2 here</td><td contenteditable="true">Insert descriptor 3 here</td><td contenteditable="true">Insert descriptor 4 here</td></tr>
+                        <tr><td>86%-100%</td><td contenteditable="true">Excellent</td><td contenteditable="true">AAA</td><td contenteditable="true">Outstanding</td><td contenteditable="true">Exceptional</td></tr>
+                        <tr><td>70%-85%</td><td contenteditable="true">Good</td><td contenteditable="true">AA</td><td contenteditable="true">Solid</td><td contenteditable="true">Very Good</td></tr>
+                        <tr><td>60%-69%</td><td contenteditable="true">Not bad</td><td contenteditable="true">A</td><td contenteditable="true">Decent</td><td contenteditable="true">Satisfactory</td></tr>
+                        <tr><td>50%-59%</td><td contenteditable="true">Needs Improvement</td><td contenteditable="true">B</td><td contenteditable="true">Developing</td><td contenteditable="true">Basic</td></tr>
+                        <tr><td>40%-49%</td><td contenteditable="true">Weak</td><td contenteditable="true">C</td><td contenteditable="true">Limited</td><td contenteditable="true">Marginal</td></tr>
+                        <tr><td>35%-39%</td><td contenteditable="true">Poor</td><td contenteditable="true">D</td><td contenteditable="true">Failing</td><td contenteditable="true">Insufficient</td></tr>
+                        <tr><td>20%-34%</td><td contenteditable="true">Very Poor</td><td contenteditable="true">E</td><td contenteditable="true">Severely Lacking</td><td contenteditable="true">Unacceptable</td></tr>
+                        <tr><td>0%-19%</td><td contenteditable="true">Fail</td><td contenteditable="true">F</td><td contenteditable="true">No Understanding</td><td contenteditable="true">Unsatisfactory</td></tr>
+                    </tbody>
+                </table>
+            
+                <fieldset>
+                    <legend><span class="step-number">5</span>Copy-paste your feedback and marks from excel</legend>
+                    <div class="step-content">
+                        <h3>⚠️ Make sure your columns match with the table below - don't mix up your columns.</h3>
+                    </div>
+                </fieldset>
+            
+                <!-- Row Buttons (Now includes "Generate" buttons) -->
+<!-- Row Buttons (Now includes "Generate" buttons) -->
+<!-- Row Buttons (Now includes "Generate" buttons) -->
+<div id="rowButtons" class="full-width-bar">
+    <!-- Left: Add Rows Buttons -->
+    <div class="row-buttons-left">
+        <span class="action-label"><i class="fas fa-plus-circle"></i> Add rows:</span>
+        <div class="button-group">
+            <button id="addRow5" class="btn btn-add-rows">5</button>
+            <button id="addRow10" class="btn btn-add-rows">10</button>
+            <button id="addRow25" class="btn btn-add-rows">25</button>
+        </div>
+        <button id="removeEmptyRows" class="btn btn-danger"><i class="fas fa-trash-alt"></i> Remove unused rows</button>
+    </div>
+
+    <!-- Right: Generate PDFs & Summary -->
+    <div class="row-buttons-right">
+        <span class="generate-label"><i class="fas fa-file-export"></i> Generate:</span>
+        <button class="btn btn-generate" id="generatePDFs"><i class="fas fa-file-pdf"></i> Feedback PDFs</button>
+        <button class="btn btn-download" id="downloadZip" style="display: none;">
+            <i class="fas fa-download"></i> Force Download
+        </button>
+        <button class="btn btn-download" id="generateSummary"><i class="fas fa-clipboard-list"></i> Moderator Summary</button>
+    </div>
+</div>
+ 
+                <table id="feedbackTable" class="display feedback-table">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Overall Mark</th>
+                            <th>Summary Text</th>
+                            <th>What was done well</th>
+                            <th>Suggestions to improve in the future</th> 
+                            <th>What was needed to get a better mark</th>
+                            <th>Comments about sources</th>
+                            <th>Descriptor 1 Mark</th>
+                            <th>Descriptor 2 Mark</th>
+                            <th>Descriptor 3 Mark</th>
+                            <th>Descriptor 4 Mark</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td contenteditable="true">Sample Student</td>
+                            <td contenteditable="true">85</td>
+                            <td contenteditable="true">Replace this summary.</td>
+                            <td contenteditable="true">Sweet</td>
+                            <td contenteditable="true">Not too bad</td> 
+                            <td contenteditable="true">More real-world examples.</td>
+                            <td contenteditable="true">Citations missing.</td>
+                            <td contenteditable="true">70</td>
+                            <td contenteditable="true">65</td>
+                            <td contenteditable="true">60</td>
+                            <td contenteditable="true">55</td>
+                        </tr>
+                        <tr>
+                            <td contenteditable="true">Paste</td>
+                            <td contenteditable="true"></td>
+                            <td contenteditable="true"></td>
+                            <td contenteditable="true"></td>
+                            <td contenteditable="true"></td> 
+                            <td contenteditable="true"></td>
+                            <td contenteditable="true"></td>
+                            <td contenteditable="true"></td>
+                            <td contenteditable="true"></td>
+                            <td contenteditable="true"></td>
+                            <td contenteditable="true"></td>
+                        </tr>
+                        <tr>
+                            <td contenteditable="true">Directly</td>
+                            <td contenteditable="true"></td>
+                            <td contenteditable="true"></td>
+                            <td contenteditable="true"></td>
+                            <td contenteditable="true"></td> 
+                            <td contenteditable="true"></td>
+                            <td contenteditable="true"></td>
+                            <td contenteditable="true"></td>
+                            <td contenteditable="true"></td>
+                            <td contenteditable="true"></td>
+                            <td contenteditable="true"></td>
+                        </tr>
+                        <tr>
+                            <td contenteditable="true">From</td>
+                            <td contenteditable="true"></td>
+                            <td contenteditable="true"></td>
+                            <td contenteditable="true"></td>
+                            <td contenteditable="true"></td> 
+                            <td contenteditable="true"></td>
+                            <td contenteditable="true"></td>
+                            <td contenteditable="true"></td>
+                            <td contenteditable="true"></td>
+                            <td contenteditable="true"></td>
+                            <td contenteditable="true"></td>
+                        </tr>
+                        <tr>
+                            <td contenteditable="true">Excel</td>
+                            <td contenteditable="true"></td>
+                            <td contenteditable="true"></td>
+                            <td contenteditable="true"></td>
+                            <td contenteditable="true"></td> 
+                            <td contenteditable="true"></td>
+                            <td contenteditable="true"></td>
+                            <td contenteditable="true"></td>
+                            <td contenteditable="true"></td>
+                            <td contenteditable="true"></td>
+                            <td contenteditable="true"></td>
+                        </tr>
+                    </tbody>
+                </table>
+            
+                <div class="step-content">
+                    <div class="row-counter"></div>
+                </div>
+            
+            </div>
+            <div id="info-tab-content" class="tab-content">
+                <h1 class="text-3xl font-bold mb-6">About this Portal</h1>
+                <p class="mb-4">
+                    Information about this portal goes here.
+                </p>
+    
+                <h2 class="text-2xl font-bold mt-8 mb-4">About Section</h2>
+                <p class="mb-4">
+                    Additional information about this portal and its purpose.
+                </p>
+    
+                <!-- Info box -->
+                <div class="info-box">
+                    <div class="info-box-title">
+                        <i class="fas fa-info-circle"></i> 
+                        Tips for Using This Portal
+                    </div>
+                    <div class="info-content">
+                        <p class="mb-4">
+                            This portal helps you navigate university resources quickly and easily.
+                        </p>
+                        <ul class="list-disc pl-5 space-y-2">
+                            <li>Use the search box at the top to find resources</li>
+                            <li>Toggle between dark and light modes using the moon/sun icon in the top-right corner</li>
+                            <li>Adjust text size for better readability</li>
+                            <li>Access quick links in the sidebar</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Info tab content - contains the documentation -->
+
+    </main>
+
+    <!-- Right sidebar -->
+    <aside class="right-sidebar">
+        <div class="right-sidebar-header">Quick Tools</div>
+    </aside>
+</div>
+
+<script>
+
+    // RubriFlow Tool JavaScript
+document.getElementById("clearLocalStorage").addEventListener("click", function() {
+    localStorage.clear();
+    location.reload(); // Refresh the page so everything starts fresh
+});
+
+$(document).ready(function () {
+    let rowButtons = $("#rowButtons");
+    let footer = $(".sticky-footer");
+    let table = $("#feedbackTable");
+
+    // Store the initial position of rowButtons (trigger point)
+    let rowButtonsOffset = rowButtons.offset().top;
+    let isSticky = false; // To prevent flickering
+    let isFooterVisible = false;
+
+    function checkScrollPositions() {
+        let scrollTop = $(window).scrollTop();
+        let scrollBottom = scrollTop + $(window).height();
+
+        // Sticky Footer Logic
+        if (table.length) {
+            let tableTop = table.offset().top;
+            if (scrollBottom >= tableTop && !isFooterVisible) {
+                footer.addClass("visible");
+                isFooterVisible = true;
+            } else if (scrollBottom < tableTop && isFooterVisible) {
+                footer.removeClass("visible");
+                isFooterVisible = false;
+            }
+        }
+
+        // Sticky Row Buttons Logic (Prevents Flickering)
+        if (scrollTop >= rowButtonsOffset && !isSticky) {
+            rowButtons.addClass("sticky");
+            isSticky = true;
+        } else if (scrollTop < rowButtonsOffset && isSticky) {
+            rowButtons.removeClass("sticky");
+            isSticky = false;
+        }
+    }
+
+    // Run when scrolling
+    $(window).on("scroll", checkScrollPositions);
+
+    // Run once on page load (in case elements are already in view)
+    checkScrollPositions();
+});
+
+// Info-box accordions
+document.querySelectorAll(".accordion-btn").forEach(button => {
+    button.addEventListener("click", function () {
+        let target = document.getElementById(this.dataset.target);
+        target.classList.toggle("expanded");
+        target.classList.toggle("collapsed"); // Remove collapsed when expanded, and vice versa
+
+        // Toggle emoji based on state
+        if (target.classList.contains("expanded")) {
+            this.innerHTML = `🔽 ${this.innerHTML.substring(2)}`;
+        } else {
+            this.innerHTML = `▶️ ${this.innerHTML.substring(2)}`;
+        }
+    });
+});
+
+// Update row counter function
+function updateRowCounter() {
+    let table = document.getElementById("feedbackTable");
+    if (!table) return;
+
+    let rows = table.querySelectorAll("tbody tr");
+    let filledRows = Array.from(rows).filter(row => 
+        Array.from(row.children).some(cell => cell.textContent.trim() !== "")
+    ).length;
+
+    let counterDiv = document.querySelector(".row-counter");
+    if (counterDiv) {
+        counterDiv.innerHTML = `Total rows: <strong>${rows.length}</strong> | Rows with data: <strong>${filledRows}</strong>`;
+    }
+} // Add this closing brace here
+
+// Update on page load
+document.addEventListener("DOMContentLoaded", updateRowCounter);
+
+// Update when rows are added via buttons
+document.querySelectorAll("#addRow5, #addRow10, #addRow25").forEach(button => {
+    button.addEventListener("click", function () {
+        // Slight delay to allow new rows to render
+        setTimeout(updateRowCounter, 100);
+    });
+});
+
+// Update when empty rows are removed
+document.getElementById("removeEmptyRows").addEventListener("click", function () {
+    document.querySelectorAll("#feedbackTable tbody tr").forEach(row => {
+        if (!Array.from(row.children).some(cell => cell.textContent.trim() !== "")) {
+            row.remove();
+        }
+    });
+    updateRowCounter();
+});
+
+// Auto-update every 3 seconds
+setInterval(updateRowCounter, 3000);
+
+// Clear localStorage
+document.getElementById("clearLocalStorage").addEventListener("click", function() {
+    // Clear localStorage
+    localStorage.clear();
+    
+    // Optionally, reload the page to reset everything visually
+    location.reload();
+});
+
+// Default labels
+const defaultLabels = {
+    summaryText: "Summary Text",
+    whatWasDoneWell: "What was done well",
+    suggestions: "Suggestions to improve in the future",
+    neededForBetterMark: "What was needed to get a better mark",
+    commentsOnSources: "Comments about sources",
+    descriptor1: "Descriptor 1 Mark",
+    descriptor2: "Descriptor 2 Mark",
+    descriptor3: "Descriptor 3 Mark",
+    descriptor4: "Descriptor 4 Mark",
+    rubricDescriptor1: "Descriptor 1",
+    rubricDescriptor2: "Descriptor 2",
+    rubricDescriptor3: "Descriptor 3",
+    rubricDescriptor4: "Descriptor 4"
+};
+
+// Load visibility settings from localStorage
+let descriptorVisibility = JSON.parse(localStorage.getItem("descriptorVisibility")) || {
+    descriptor2: true,
+    descriptor3: true,
+    descriptor4: true
+};
+
+// Apply stored visibility settings to checkboxes
+document.getElementById("toggleDescriptor2").checked = descriptorVisibility.descriptor2;
+document.getElementById("toggleDescriptor3").checked = descriptorVisibility.descriptor3;
+document.getElementById("toggleDescriptor4").checked = descriptorVisibility.descriptor4;
+
+// Listen for checkbox changes and update localStorage
+document.querySelectorAll("input[type='checkbox']").forEach(checkbox => {
+    checkbox.addEventListener("change", () => {
+        descriptorVisibility[checkbox.id.replace("toggle", "").toLowerCase()] = checkbox.checked;
+        localStorage.setItem("descriptorVisibility", JSON.stringify(descriptorVisibility));
+    });
+});
+
+// Retrieve stored labels or use defaults
+let userLabels = JSON.parse(localStorage.getItem("customLabels")) || defaultLabels;
+
+// Apply stored labels to input fields
+document.querySelectorAll(".label-input").forEach(input => {
+    let key = input.dataset.key;
+    input.value = userLabels[key]; // Load stored value
+    input.addEventListener("input", () => {
+        userLabels[key] = input.value;
+        localStorage.setItem("customLabels", JSON.stringify(userLabels)); // Save to localStorage
+    });
+});
+
+// Table navigation with arrow keys
+document.addEventListener("keydown", function (event) {
+    let currentCell = document.activeElement;
+
+    // Ensure we are inside a table cell
+    if (currentCell.tagName !== "TD" || !currentCell.isContentEditable) {
+        return;
+    }
+
+    let row = currentCell.parentElement;
+    let table = row.parentElement;
+    let cellIndex = Array.from(row.children).indexOf(currentCell);
+    let rowIndex = Array.from(table.children).indexOf(row);
+
+    // Allow pasting without interfering
+    if (event.ctrlKey && event.key === "v") {
+        return;
+    }
+
+    switch (event.key) {
+        case "ArrowUp":
+            if (rowIndex > 0) {
+                let targetCell = table.children[rowIndex - 1].children[cellIndex];
+                if (targetCell) targetCell.focus();
+            }
+            break;
+        case "ArrowDown":
+            if (rowIndex < table.children.length - 1) {
+                let targetCell = table.children[rowIndex + 1].children[cellIndex];
+                if (targetCell) targetCell.focus();
+            }
+            break;
+        case "ArrowLeft":
+            if (cellIndex > 0) {
+                let targetCell = row.children[cellIndex - 1];
+                if (targetCell) targetCell.focus();
+            }
+            break;
+        case "ArrowRight":
+            if (cellIndex < row.children.length - 1) {
+                let targetCell = row.children[cellIndex + 1];
+                if (targetCell) targetCell.focus();
+            }
+            break;
+    }
+});
+
+// Replace your current paste event handler with this improved version
+document.addEventListener("paste", function (event) {
+    let clipboardData = event.clipboardData || window.clipboardData;
+    let pastedText = clipboardData.getData("text");
+    let currentCell = document.activeElement;
+
+    // Ensure we're inside an editable table cell
+    if (currentCell.tagName !== "TD" || !currentCell.isContentEditable) {
+        return;
+    }
+
+    event.preventDefault(); // Prevent default paste behavior
+
+    let row = currentCell.parentElement;
+    let table = row.parentElement;
+    let cellIndex = Array.from(row.children).indexOf(currentCell);
+    let rowIndex = Array.from(table.children).indexOf(row);
+    
+    // Split pasted content into rows and columns
+    let pastedRows = pastedText.split(/\r\n|\n/).filter(row => row.trim() !== "");
+    
+    // Process each row of pasted data
+    pastedRows.forEach((rowText, rowOffset) => {
+        // Skip if we're past the table boundaries
+        if (rowIndex + rowOffset >= table.children.length) return;
+        
+        // Get target row
+        let targetRow = table.children[rowIndex + rowOffset];
+        
+        // Split the row into columns
+        let cells = rowText.split('\t');
+        
+        // Process each cell in the row
+        cells.forEach((cellText, colOffset) => {
+            // Skip if we're past the table boundaries
+            if (cellIndex + colOffset >= targetRow.children.length) return;
+            
+            // Get target cell and update content
+            let targetCell = targetRow.children[cellIndex + colOffset];
+            if (targetCell && targetCell.isContentEditable) {
+                targetCell.textContent = cellText.trim();
+            }
+        });
+    });
+    
+    // Notify DataTables that data has changed (if using DataTables)
+    try {
+        $('#feedbackTable').DataTable().draw(false);
+    } catch (e) {
+        console.log("DataTables refresh not available");
+    }
+});
+
+// Add rows functionality
+$(document).ready(function() {
+    // Function to add a specified number of rows
+    function addRows(count) {
+        let tableBody = $("#feedbackTable tbody");
+        for (let i = 0; i < count; i++) {
+            let newRow = `<tr>
+                <td contenteditable="true"></td>
+                <td contenteditable="true"></td>
+                <td contenteditable="true"></td>
+                <td contenteditable="true"></td>
+                <td contenteditable="true"></td>
+                <td contenteditable="true"></td>
+                <td contenteditable="true"></td>
+                <td contenteditable="true"></td>
+                <td contenteditable="true"></td>
+                <td contenteditable="true"></td>
+                <td contenteditable="true"></td>
+            </tr>`;
+            tableBody.append(newRow);
+        }
+    }
+
+    // Button event listeners to add rows
+    $("#addRow5").click(function() {
+        addRows(5);
+    });
+    $("#addRow10").click(function() {
+        addRows(10);
+    });
+    $("#addRow25").click(function() {
+        addRows(25);
+    });
+
+    // Remove all unused rows (rows with all empty cells)
+    $("#removeEmptyRows").click(function() {
+        $("#feedbackTable tbody tr").each(function() {
+            let isEmpty = true;
+            $(this).find("td").each(function() {
+                if ($(this).text().trim() !== "") {
+                    isEmpty = false;
+                }
+            });
+            if (isEmpty) {
+                $(this).remove();
+            }
+        });
+    });
+});
+
+// Helper function to determine grade band
+function getGradeBand(mark) {
+    mark = parseInt(mark);
+    if (mark >= 86) return "86%-100%";
+    if (mark >= 70) return "70%-85%";
+    if (mark >= 60) return "60%-69%";
+    if (mark >= 50) return "50%-59%";
+    if (mark >= 40) return "40%-49%";
+    if (mark >= 35) return "35%-39%";
+    if (mark >= 20) return "20%-34%";
+    return "0%-19%";
+}
+
+// Generate PDFs functionality
+// Generate PDFs functionality
+document.getElementById("generatePDFs").addEventListener("click", function() {
+    const { jsPDF } = window.jspdf;
+    const zip = new JSZip();
+    const moduleName = document.getElementById('moduleName').value || "Unnamed Module";
+
+    $('#feedbackTable tbody tr').each(function() {
+        // Extract row data for this student
+        let rowData = $(this).find("td").map(function () {
+            return $(this).text().trim();
+        }).get();
+
+        // Student name / overall mark come from columns 0 and 1
+        let studentName = rowData[0] || "Unnamed";
+        let overallMark = rowData[1] || "N/A";
+        
+        // Skip empty rows
+        if (!studentName || studentName === "Unnamed") return;
+
+        // Create a new PDF for this student
+        let doc = new jsPDF();
+
+        // Basic layout setup
+        let pageWidth = doc.internal.pageSize.width;
+        let margin = 10;
+        let y = 20;
+
+        // 1) Module Title
+        doc.setFontSize(18).setFont("helvetica", "bold").text(moduleName, margin, y);
+        y += 10;
+
+        // 2) GREEN BOX ABOVE THE FEEDBACK
+        // --------------------------------
+        let boxPadding = 8;
+        let boxHeight = 25;
+
+        let nameText = `Name: ${studentName}`;
+        let markText = `Overall Mark: ${overallMark}`;
+
+        // Calculate just enough width for the name/mark + padding
+        let textWidth = Math.max(
+            doc.getTextWidth(nameText),
+            doc.getTextWidth(markText)
+        );
+        let boxWidth = textWidth + (boxPadding * 1.5);
+
+        // Draw the green background
+        doc.setFillColor(238, 245, 229); // Light green
+        doc.rect(margin, y, boxWidth, boxHeight, "F");
+
+        // Dark green line on the left
+        doc.setDrawColor(27, 94, 32);
+        doc.setLineWidth(1);
+        doc.line(margin, y, margin, y + boxHeight);
+
+        // Center the text vertically in the box
+        let textYOffset = y + (boxHeight / 2);
+        doc.setFontSize(14).setFont("helvetica", "bold").setTextColor(0, 0, 0);
+        doc.text(nameText, margin + boxPadding, textYOffset - 3);
+        doc.text(markText, margin + boxPadding, textYOffset + 5);
+
+        // Move below the green box before printing feedback
+        y += boxHeight + 10;
+
+        // 3) FEEDBACK FIELDS (SUMMARY, SUGGESTIONS, ETC.)
+        // Define your layout - full width for content
+        let contentWidth = pageWidth - (margin * 2) - 30; // Reduce width to prevent trimming
+        // 
+        // let labelWidth = 80; // Fixed width for labels
+
+        // Use User-Defined Labels from localStorage
+        const labels = [
+            userLabels.summaryText, 
+            userLabels.whatWasDoneWell, 
+            userLabels.suggestions, 
+            userLabels.neededForBetterMark, 
+            userLabels.commentsOnSources, 
+            userLabels.descriptor1, 
+            userLabels.descriptor2, 
+            userLabels.descriptor3, 
+            userLabels.descriptor4
+        ];
+
+        // Define bottom margin for dynamic page break check
+        const bottomMargin = 10;
+        const lineHeight = 5; // Reduced line height for more compact layout
+
+        // Field Indexes
+        const fieldIndexes = [2, 3, 4, 5, 6, 7, 8, 9, 10];
+
+        // Loop through each feedback field
+        fieldIndexes.forEach((fieldIndex, i) => {
+            let text = rowData[fieldIndex];
+            if (text) {
+
+                if (i === 0) {
+    // For the summary field, use same format as other fields
+    let label = `${labels[i]}:`;
+    let wrappedText = doc.splitTextToSize(text, contentWidth - 5); // Even narrower for safety
+    const rowHeight = wrappedText.length * lineHeight + 2;
+
+    // Check for page break before printing
+    if (y + rowHeight > doc.internal.pageSize.height - bottomMargin) {
+        doc.addPage();
+        y = 20;
+    }
+
+    // Print label and text with same formatting as other fields
+    doc.setFontSize(10).setFont("helvetica", "bold");
+    doc.text(label, margin, y);
+    y += lineHeight;
+    
+    doc.setFontSize(10).setFont("helvetica", "normal");
+    doc.text(wrappedText, margin + 30, y); // Small indent for text
+    y += rowHeight;
+    
+    // Add small gap after summary
+    if (i < fieldIndexes.length - 1 && rowData[fieldIndexes[i+1]]) {
+        y += 2;
+    }
+
+
+                } else {
+                    // For other fields, use compact label-text layout
+                    let label = `${labels[i]}:`;
+                    let wrappedText = doc.splitTextToSize(text, contentWidth - 5); // Even narrower for safety
+                    const rowHeight = wrappedText.length * lineHeight + 2;
+
+                    // Check for page break before printing
+                    if (y + rowHeight > doc.internal.pageSize.height - bottomMargin) {
+                        doc.addPage();
+                        y = 20;
+                    }
+
+                    // Print label and text with better formatting
+                    doc.setFontSize(10).setFont("helvetica", "bold");
+                    doc.text(label, margin, y);
+                    y += lineHeight;
+                    
+                    doc.setFontSize(10).setFont("helvetica", "normal");
+                    doc.text(wrappedText, margin + 30, y); // Small indent for text
+                    y += rowHeight;
+                    
+                    // Add small gap between sections if not the last field
+                    if (i < fieldIndexes.length - 1 && rowData[fieldIndexes[i+1]]) {
+                        y += 2;
+                    }
+                }
+            }
+        });
+
+        // Force Rubric Table onto the next page
+        doc.addPage();
+        y = 20;
+        doc.setFontSize(16).setFont("helvetica", "bold").text("Rubric Table", margin, y);
+        y += 10;
+
+        let studentMarks = rowData.slice(7, 11).map(Number); // Pull descriptor marks correctly
+        let rubricData = [];
+
+        $('#rubrictable tbody tr').each(function () {
+            let row = $(this).find("td").map(function () { return $(this).text().trim(); }).get();
+            let gradebandText = row[0];
+
+            // Extract numeric range from Grade Band
+            let [min, max] = gradebandText.match(/\d+/g) || [0, 0];
+            min = parseInt(min);
+            max = parseInt(max);
+
+            let descriptorIndex = 0;
+            let updatedRow = row.map((cell, index) => {
+                if (index === 0) return { content: cell }; // Keep "Grade Band" unchanged
+
+                // Skip hidden descriptors (only track visible ones)
+                if (
+                    (index === 2 && !descriptorVisibility.descriptor2) ||
+                    (index === 3 && !descriptorVisibility.descriptor3) ||
+                    (index === 4 && !descriptorVisibility.descriptor4)
+                ) {
+                    return { content: cell };
+                }
+
+                // Ensure correct descriptor highlighting
+                if (studentMarks[descriptorIndex] >= min && studentMarks[descriptorIndex] <= max) {
+                    descriptorIndex++;
+                    return { content: cell, styles: { fontStyle: "bold", fillColor: [255, 255, 0] } }; // Highlight correct descriptor cell
+                }
+
+                descriptorIndex++; // Move to the next descriptor in the marks array
+                return { content: cell };
+            });
+
+            rubricData.push(updatedRow);
+        });
+
+        // Construct table headers dynamically based on visibility settings
+        let tableHeaders = ["Grade Band", userLabels.rubricDescriptor1];
+        if (descriptorVisibility.descriptor2) tableHeaders.push(userLabels.rubricDescriptor2);
+        if (descriptorVisibility.descriptor3) tableHeaders.push(userLabels.rubricDescriptor3);
+        if (descriptorVisibility.descriptor4) tableHeaders.push(userLabels.rubricDescriptor4);
+
+        // Construct table body dynamically
+        let filteredRubricData = rubricData.map(row => {
+            let newRow = [row[0], row[1]]; // Always include "Grade Band" and "Descriptor 1"
+            if (descriptorVisibility.descriptor2) newRow.push(row[2]);
+            if (descriptorVisibility.descriptor3) newRow.push(row[3]);
+            if (descriptorVisibility.descriptor4) newRow.push(row[4]);
+            return newRow;
+        });
+
+        doc.autoTable({
+            startY: y,
+            head: [tableHeaders],
+            body: filteredRubricData,
+            styles: { fontSize: 9, cellPadding: 3 },
+            theme: "grid",
+            headStyles: {
+                fillColor: [220,220,220],
+                textColor: [0, 0, 0],
+                fontStyle: "bold",
+                halign: "center",
+            },
+            bodyStyles: {
+                textColor: [50, 50, 50],
+                fontSize: 9
+            }
+        });
+
+        // Save individual PDFs for download
+        zip.file(`${overallMark}_${studentName}.pdf`, doc.output("blob"));
+    });
+
+    // Allow downloading all PDFs in a ZIP
+    zip.generateAsync({ type: "blob" }).then(content => {
+        const link = document.createElement("a");
+        link.href = URL.createObjectURL(content);
+        link.download = "Feedback_PDFs.zip";
+        link.click();
+    });
+
+    document.getElementById("downloadZip").style.display = "block";
+});
+
+// Generate Summary PDF functionality
+document.getElementById("generateSummary").addEventListener("click", function() {
+    const { jsPDF } = window.jspdf;
+    let doc = new jsPDF();
+    let margin = 10, y = 20;
+
+    // Gather student marks (Ignore empty rows unless 0 is explicitly entered)
+    let studentData = [];
+    $('#feedbackTable tbody tr').each(function() {
+        let rowData = $(this).find("td").map(function() {
+            return $(this).text().trim();
+        }).get();
+        
+        let name = rowData[0] || "Unnamed";
+        let mark = parseFloat(rowData[1]);
+
+        if (!isNaN(mark)) { // Skip invalid rows
+            studentData.push({ name, mark });
+        }
+    });
+
+    let n = studentData.length;
+    let marks = studentData.map(s => s.mark).sort((a, b) => a - b);
+    let mean = marks.reduce((sum, m) => sum + m, 0) / n;
+    let aboveMean = marks.filter(m => m > mean).length;
+    let belowMean = marks.filter(m => m < mean).length;
+    let percentAbove = ((aboveMean / n) * 100).toFixed(1);
+    let percentBelow = ((belowMean / n) * 100).toFixed(1);
+    let median = n % 2 ? marks[Math.floor(n/2)] : ((marks[n/2 - 1] + marks[n/2]) / 2);
+    let modeMap = {};
+    marks.forEach(m => modeMap[m] = (modeMap[m] || 0) + 1);
+    let mode = Object.keys(modeMap).reduce((a, b) => modeMap[a] > modeMap[b] ? a : b);
+    let maxMark = Math.max(...marks);
+    let minMark = Math.min(...marks);
+    let range = maxMark - minMark;
+    let highestMark = Math.max(...marks);
+    let lowestMark = Math.min(...marks);
+
+    // Get module name from the page
+    let moduleName = document.getElementById("moduleName").value || "Unnamed Module";
+
+    // Format current date as "MMM YYYY"
+    let dateOptions = { year: "numeric", month: "short" }; // "Feb 2024" format
+    let currentDate = new Date().toLocaleDateString("en-US", dateOptions);
+
+    // Standard deviation
+    let variance = marks.reduce((sum, m) => sum + Math.pow(m - mean, 2), 0) / n;
+    let stdDev = Math.sqrt(variance);
+
+    // Skewness & Kurtosis
+    let skewness = (n / ((n - 1) * (n - 2))) * marks.reduce((sum, m) => sum + Math.pow((m - mean) / stdDev, 3), 0);
+    let kurtosis = (n * (n + 1)) / ((n - 1) * (n - 2) * (n - 3)) * marks.reduce((sum, m) => sum + Math.pow((m - mean) / stdDev, 4), 0) - (3 * (n - 1) ** 2) / ((n - 2) * (n - 3));
+
+    // Define university-specific grade bands (highest to lowest)
+    let gradeBands = {
+        "UG and PG: 70% or above (1st or Distinction)": studentData.filter(s => s.mark >= 70),
+        "UG: 60%-69% (2:1), PG: 60%-69% (Merit)": studentData.filter(s => s.mark >= 60 && s.mark < 70),
+        "UG: 50%-59% (2:2), PG: 50%-59% (Pass)": studentData.filter(s => s.mark >= 50 && s.mark < 60),
+        "UG: 40%-49% (Third)": studentData.filter(s => s.mark >= 40 && s.mark < 50),
+        "PG: 0%-49% (Fail)": studentData.filter(s => s.mark < 50),
+        "UG: 0%-39% (Fail)": studentData.filter(s => s.mark < 40)
+    };
+
+    function getRandomSamples(arr, count) {
+        let samples = [];
+        let copy = arr.slice();
+        for (let i = 0; i < Math.min(count, copy.length); i++) {
+            let index = Math.floor(Math.random() * copy.length);
+            samples.push(copy[index]);
+            copy.splice(index, 1);
+        }
+        return samples;
+    }
+
+    doc.setFontSize(16).setFont("helvetica", "bold").text("Moderation Data Sheet", margin, y);
+    y += 10;
+
+    // Insert Module Name & Date at the top
+    doc.setFontSize(12).setFont("helvetica", "bold").text("Module Name:", margin, y);
+    doc.setFont("helvetica", "normal").text(moduleName, margin + 50, y);
+    y += 7;
+
+    doc.setFont("helvetica", "bold").text("Date Generated:", margin, y);
+    doc.setFont("helvetica", "normal").text(currentDate, margin + 50, y);
+    y += 7;
+
+    // Calculate the percentage of students above 70%
+    let highAchievers = marks.filter(m => m >= 70).length;
+    let highAchieverPercentage = ((highAchievers / n) * 100).toFixed(1);
+
+    // Determine approval status
+    let statusLabel = highAchieverPercentage > 30 ? "WARNING:" : "APPROVED:";
+    let statusMessage = `${highAchieverPercentage}% students above 70%. ${highAchieverPercentage > 30 ? "This exceeds the university threshold." : "Within university guidelines."}`;
+
+    // Draw status label & message aligned correctly
+    doc.setFontSize(12).setFont("helvetica", "bold");
+    doc.setTextColor(highAchieverPercentage > 30 ? 200 : 0, 0, 0); // Red for warning, Black for approved
+    doc.text(statusLabel, margin, y);
+    doc.setFont("helvetica", "normal").text(statusMessage, margin + 50, y); // Ensures it aligns like the other stats
+    y += 7; 
+
+    doc.setFontSize(12).setFont("helvetica", "bold").text("(n) Total students:", margin, y);
+    doc.setFont("helvetica", "normal").text(`${n}`, margin + 50, y);
+    y += 7;
+
+    doc.setFont("helvetica", "bold").text("Average (Mean):", margin, y);
+    doc.setFont("helvetica", "normal").text(`${mean.toFixed(2)}`, margin + 50, y);
+    y += 7;
+
+    doc.setFont("helvetica", "bold").text("Above Average:", margin, y);
+    doc.setFont("helvetica", "normal").text(`${percentAbove}%`, margin + 50, y);
+    y += 7;
+
+    doc.setFont("helvetica", "bold").text("Below Average:", margin, y);
+    doc.setFont("helvetica", "normal").text(`${percentBelow}%`, margin + 50, y);
+    y += 7;
+
+    doc.setFont("helvetica", "bold").text("Median:", margin, y);
+    doc.setFont("helvetica", "normal").text(`${median}`, margin + 50, y);
+    y += 7;
+
+    doc.setFont("helvetica", "bold").text("Mode:", margin, y);
+    doc.setFont("helvetica", "normal").text(`${mode}`, margin + 50, y);
+    y += 7;
+
+    doc.setFont("helvetica", "bold").text("Skewness:", margin, y);
+    doc.setFont("helvetica", "normal").text(`${skewness.toFixed(2)}`, margin + 50, y);
+    y += 7;
+
+    doc.setFont("helvetica", "bold").text("Kurtosis:", margin, y);
+    doc.setFont("helvetica", "normal").text(`${kurtosis.toFixed(2)}`, margin + 50, y);
+    y += 7;
+    
+    // Draw Highest Mark
+    doc.setFontSize(12).setFont("helvetica", "bold").text("Highest Mark:", margin, y);
+    doc.setFont("helvetica", "normal").text(`${highestMark}`, margin + 50, y);
+    y += 7;
+    
+    // Draw Lowest Mark
+    doc.setFont("helvetica", "bold").text("Lowest Mark:", margin, y);
+    doc.setFont("helvetica", "normal").text(`${lowestMark}`, margin + 50, y);
+    y += 10;
+
+    // Explanation Box
+    doc.setFontSize(10).setFont("helvetica", "italic");
+    let explanationText = [
+        "Mean (Average): Sum of all marks divided by total students.",
+        "Median: The middle value when all marks are sorted.",
+        "Mode: The most frequently occurring mark.",
+        "Skewness: Negative means more high scores than low.",
+        "Kurtosis: Low values indicate scores are more spread out."
+    ];
+    let wrappedExplanation = doc.splitTextToSize(explanationText.join("\n"), 180);
+    doc.text(wrappedExplanation, margin, y);
+    y += wrappedExplanation.length * 6;
+
+    doc.setFontSize(14).setFont("helvetica", "bold").text("Random Sample for Moderation", margin, y);
+    y += 10;
+
+    Object.keys(gradeBands).forEach(band => {
+        let students = gradeBands[band].sort((a, b) => b.mark - a.mark);
+        let samples = getRandomSamples(students, 2);
+        let sampleText = samples.length ? samples.map(s => `${s.name} (${s.mark})`).join(", ") : "None";
+
+        doc.setFont("helvetica", "bold").text(band, margin, y);
+        y += 7;
+        doc.setFont("helvetica", "normal").text(`Sample: ${sampleText}`, margin, y);
+        y += 10;
+    });
+
+    doc.addPage();
+    y = 20;
+    doc.setFontSize(14).setFont("helvetica", "bold").text("Full Gradeband Breakdown", margin, y);
+    y += 7;
+
+    Object.keys(gradeBands).forEach(band => {
+        let students = gradeBands[band].sort((a, b) => b.mark - a.mark);
+        let studentText = students.length ? students.map(s => `${s.name} (${s.mark})`).join(", ") : "None";
+        let wrappedText = doc.splitTextToSize(studentText, 180);
+
+        doc.setFont("helvetica", "bold").text(band, margin, y);
+        y += 7;
+        doc.setFont("helvetica", "normal").text(wrappedText, margin, y);
+        y += wrappedText.length * 6;
+    });
+
+    doc.save("moderation_data_sheet.pdf");
+});
+
+// Add CSS for RubriFlow
+document.addEventListener('DOMContentLoaded', function() {
+    let style = document.createElement('style');
+    style.innerHTML = `
+        /* RubriFlow specific styles */
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+        
+        .header-title {
+            font-size: 1.75rem;
+            font-weight: bold;
+        }
+        
+        .header-buttons {
+            display: flex;
+            gap: 0.5rem;
+        }
+        
+        .info-box {
+            background-color: #f8f9fa;
+            border: 1px solid #dee2e6;
+            border-radius: 4px;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            overflow: hidden;
+            transition: max-height 0.3s ease-in-out;
+        }
+        
+        .info-box.collapsed {
+            max-height: 0;
+            padding: 0;
+            margin: 0;
+            border: none;
+        }
+        
+        .info-box.expanded {
+            max-height: 1000px;
+        }
+        
+        .accordion-btn {
+            cursor: pointer;
+            padding: 0.5rem 1rem;
+            background-color: #f0f0f0;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        
+        .accordion-container {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .two-column-container {
+            display: flex;
+            gap: 2rem;
+        }
+        
+        .column {
+            flex: 1;
+        }
+        
+        fieldset {
+            border: 1px solid #dee2e6;
+            border-radius: 4px;
+            padding: 1rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        legend {
+            font-weight: bold;
+            padding: 0 0.5rem;
+        }
+        
+        .step-number {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 1.5rem;
+            height: 1.5rem;
+            background-color: var(--accent-color, #3b82f6);
+            color: white;
+            border-radius: 50%;
+            margin-right: 0.5rem;
+            font-size: 0.875rem;
+        }
+        
+        .step-content {
+            margin-top: 1rem;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+        
+        input[type="text"] {
+            padding: 0.5rem;
+            border: 1px solid #dee2e6;
+            border-radius: 4px;
+            width: 100%;
+            margin-bottom: 1rem;
+        }
+        
+        .module-input-container {
+            margin-bottom: 1rem;
+        }
+        
+        .full-width-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #f8f9fa;
+            padding: 0.75rem 1rem;
+            border: 1px solid #dee2e6;
+            border-radius: 4px;
+            margin: 1rem 0;
+        }
+        
+        .full-width-bar.sticky {
+            position: sticky;
+            top: var(--header-height, 64px);
+            z-index: 10;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        .row-buttons-left, .row-buttons-right {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .btn {
+            padding: 0.5rem 1rem;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.875rem;
+        }
+        
+        .btn-add-rows {
+            background-color: #e9ecef;
+        }
+        
+        .btn-generate {
+            background-color: var(--accent-color, #3b82f6);
+            color: white;
+        }
+        
+        .btn-download {
+            background-color: #28a745;
+            color: white;
+        }
+        
+        .btn-danger {
+            background-color: #dc3545;
+            color: white;
+        }
+        
+        .feedback-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 1rem;
+        }
+        
+        .feedback-table th {
+            background-color: #f8f9fa;
+            padding: 0.75rem;
+            text-align: left;
+            border: 1px solid #dee2e6;
+        }
+        
+        .feedback-table td {
+            padding: 0.75rem;
+            border: 1px solid #dee2e6;
+        }
+        
+.sticky-footer {
+    display: none !important; 
+}
+        
+        .sticky-footer.visible {
+            transform: translateY(0);
+        }
+    `;
+    document.head.appendChild(style);
+});
+
+// Initialize DataTables after document load
+$(document).ready(function() {
+    $('#rubrictable').DataTable({
+        paging: false,
+        searching: false,
+        info: false,
+        ordering: false // Disable sorting to remove asterisks
+    })
+    });
+// Find this section in your DataTables initialization:
+$('#feedbackTable').DataTable({
+    paging: false,
+    scrollX: true,
+    scrollCollapse: true,
+    ordering: false,
+    info: false,
+    responsive: true,
+    autoWidth: false,
+    dom: '<"top"<"row-counter-inline"id>f>rt<"bottom">',
+    language: {
+        search: "Search:",
+        info: "Total rows: _TOTAL_ | Rows with data: _MAX_",
+        searchPlaceholder: "Search records"
+    },
+    search: {
+        regex: false,
+        smart: true
+    },
+    columnDefs: [
+        { width: '120px', targets: '_all' },
+        { className: "dt-head-nowrap", targets: "_all" }
+    ],
+    drawCallback: function(settings) {
+        // 1. Update the counter
+        const totalRows = settings.aoData.length;
+        const filledRows = settings.aoData.filter(row => 
+            Object.values(row._aData).some(cell => cell && cell.trim && cell.trim() !== "")
+        ).length;
+        
+        $('.row-counter-inline').html(`Total rows: <strong>${totalRows}</strong> | Rows with data: <strong>${filledRows}</strong>`);
+        
+        // 2. Force header alignment
+        $(this).find('thead th').css('width', function(i) {
+            return $(this).width();
+        });
+    }
+});
+
+
+ </script>   
+
+</body>
+</html>

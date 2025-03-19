@@ -1,0 +1,1077 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UK Abbreviations Portal</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="styles.css">
+    <script src="sidebar-links.js"></script>
+
+    <style>
+        /* Abbreviation-specific styles */
+        .highlight {
+            background-color: rgba(59, 130, 246, 0.3);
+            color: var(--text-primary);
+            padding: 0 2px;
+            border-radius: 2px;
+        }
+        
+        .alphabet-filter {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.25rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .letter-btn {
+            min-width: 2.5rem;
+            height: 2.5rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 0.25rem;
+            font-weight: 500;
+            background-color: var(--button-secondary-bg);
+            color: var(--button-secondary-text);
+            border: 1px solid var(--button-secondary-border);
+            cursor: pointer;
+            transition: all 0.2s;
+            padding: 0 0.5rem;
+        }
+        
+        .letter-btn:hover {
+            background-color: var(--bg-tertiary);
+        }
+        
+        .letter-btn.active {
+            background-color: var(--button-primary-bg);
+            color: var(--button-primary-text);
+            border-color: var(--button-primary-border);
+        }
+        
+        .abbreviation-table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+            border: 1px solid var(--border-color);
+            border-radius: 0.5rem;
+            overflow: hidden;
+        }
+        
+        .abbreviation-table th {
+            background-color: var(--bg-tertiary);
+            padding: 0.75rem 1rem;
+            text-align: left;
+            font-weight: 600;
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        .abbreviation-table td {
+            padding: 0.75rem 1rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        .abbreviation-table tr:last-child td {
+            border-bottom: none;
+        }
+        
+        .abbreviation-letter-header {
+            background-color: var(--bg-tertiary);
+            padding: 0.5rem 1rem;
+            font-weight: 600;
+            font-size: 1.25rem;
+            margin: 1.5rem 0 0.5rem 0;
+            border-radius: 0.25rem;
+            border-left: 4px solid var(--accent-color);
+        }
+        
+        .no-results {
+            text-align: center;
+            padding: 2rem;
+            background-color: var(--bg-primary);
+            border: 1px solid var(--border-color);
+            border-radius: 0.5rem;
+            color: var(--text-muted);
+        }
+        
+        /* Fix for Mobile search box - hidden by default */
+        .mobile-search-container {
+            display: none;
+            padding: 0.75rem 1rem;
+            background-color: var(--bg-primary);
+            border-bottom: 1px solid var(--border-color);
+            position: fixed;
+            top: var(--header-height);
+            left: 0;
+            right: 0;
+            z-index: 45;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+        
+        /* Fix for highlighting element with .hidden class */
+        .hidden {
+            display: none !important;
+        }
+        </style>
+</head>
+<body>
+    <!-- Single Header -->
+    <header class="header">
+        <button class="hamburger-menu" aria-label="Toggle sidebar">
+            <i class="fas fa-bars"></i>
+        </button>
+        
+        <div class="logo">
+        </div>
+        
+        <nav class="nav-tabs">
+            <a href="#main" class="nav-tab active">Abbreviations</a>
+            <a href="#info" class="nav-tab">Info</a>
+        </nav>
+        
+        <!-- Centered search box -->
+        <div class="search-container">
+            <i class="fas fa-search search-icon"></i>
+            <input type="text" id="search-input" class="search-input" placeholder="Search abbreviations...">
+        </div>
+        
+        <!-- Header controls positioned above right sidebar -->
+        <div class="header-controls">
+            <!-- Font size controls -->
+            <div class="font-size-controls">
+                <div id="decrease-font" class="font-size-btn">
+                    <i class="fas fa-minus"></i>
+                </div>
+                <div class="text-label mx-2 text-muted">Text</div>
+                <div id="increase-font" class="font-size-btn">
+                    <i class="fas fa-plus"></i>
+                </div>
+            </div>
+            
+            <button class="toggle-right-sidebar" aria-label="Toggle right sidebar">
+                <i class="fas fa-cog"></i>
+            </button>
+            
+            <button class="theme-toggle" aria-label="Toggle dark/light mode">
+                <i class="fas fa-sun"></i>
+            </button>
+        </div>
+    </header>
+
+    <!-- Main layout -->
+    <div class="layout">
+        <!-- Left sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-section">
+                <div class="sidebar-header">
+                    <span>University Links</span>
+                </div>
+                <div id="university-content" class="sidebar-content">
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main content area with tab content -->
+        <main class="main-content">
+            <!-- Main tab content - contains the abbreviations listing -->
+            <div id="main-tab-content" class="tab-content active">
+                <h1 class="text-2xl font-bold mb-4">UK Abbreviations, Initialims and Acronyms (<span id="total-count">0</span>)</h1>
+                
+                <!-- Alphabet filter -->
+                <div class="alphabet-filter" id="alphabet-filter">
+                    <button class="letter-btn active" data-letter="all">All</button>
+                    <!-- Letters will be added dynamically -->
+                </div>
+                
+                <div id="abbreviations-container">
+                    <!-- Abbreviations will be rendered here -->
+                </div>
+                
+                <div id="no-results" class="no-results hidden">
+                    <p>No abbreviations match your search.</p>
+                </div>
+            </div>
+
+            <!-- Info tab content - contains the documentation -->
+            <div id="info-tab-content" class="tab-content">
+                <h1 class="text-3xl font-bold mb-6">About this list</h1>
+                <p class="mb-4">
+                    Have you been confused in meetings? I was nonplussed (very confused) when I MTUK (move to the UK) and didn't have this collection.</p>
+                    <p> As a foreigner who a) reads local news. b) works with British Universities and c) teaching young people, I ended up hoarding up a massive collection of things that make no sense. At least now they do.</p>
+                    <p>All these things are stuff I've picked up over the years, simply by living in the UK. </p>
+
+                <h2 class="text-2xl font-bold mt-8 mb-4">About All this Jargon</h2>
+                <p class="mb-4">
+                    All this jargon are initialisms, abbreviations and acronyms that I've picked up at work over the years through houndrends of emails. 
+                    Use this list to comprehend more easily what is being communicated. If you spot any incorect, incomplete or major omission, please get in touch.
+                </p>
+
+                <!-- Info box -->
+                <div class="info-box">
+                    <div class="info-box-title">
+                        <i class="fas fa-info-circle"></i> 
+                        Tips for Using This Portal
+                    </div>
+                    <div class="info-content">
+                        <p class="mb-4">
+                            This portal helps you find and understand university abbreviations quickly and easily.
+                        </p>
+                        <ul class="list-disc pl-5 space-y-2">
+                            <li>Use the search box at the top to find abbreviations or their meanings</li>
+                            <li>Click on a letter in the alphabet filter to jump to abbreviations starting with that letter</li>
+                            <li>Toggle between dark and light modes using the moon/sun icon in the top-right corner</li>
+                            <li>Adjust text size for better readability</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!-- Right sidebar -->
+        <aside class="right-sidebar">
+            <div class="right-sidebar-header">Quick Tools</div>
+            <!-- Links will be dynamically inserted here by JavaScript -->
+        </aside>
+    </div>
+
+    <script>
+        // Define abbreviations data
+        const ABBREVIATIONS_DATA = [
+        { id: 1, abbr: "5YP", meaning: "5-Year Plan" },
+{ id: 2, abbr: "6GMS", meaning: "6 Great Marlborough Street (6GMS) building" },
+{ id: 3, abbr: "AAC", meaning: "Augmentative and Alternative Communication" },
+{ id: 4, abbr: "AACSB", meaning: "Association to Advance Collegiate Schools of Business" },
+{ id: 5, abbr: "AB", meaning: "Academic Board" },
+{ id: 6, abbr: "AB", meaning: "Assessment Brief" },
+{ id: 7, abbr: "ACCA", meaning: "Association of Chartered Certified Accountants" },
+{ id: 8, abbr: "ACW", meaning: "Assessment Course Work" },
+{ id: 9, abbr: "A&H", meaning: "Arts and Humanities" },
+{ id: 10, abbr: "AH", meaning: "Arts and Humanities (building)" },
+{ id: 11, abbr: "AH", meaning: "Arts and Humanities (department)" },
+{ id: 12, abbr: "AHEA", meaning: "AdvanceHE Higher Education Academy" },
+{ id: 13, abbr: "AHRC", meaning: "Arts and Humanities Research Council" },
+{ id: 14, abbr: "AiP", meaning: "Approval in Principle" },
+{ id: 15, abbr: "AL", meaning: "A Levels" },
+{ id: 16, abbr: "AL", meaning: "Annual Leave" },
+{ id: 17, abbr: "AL", meaning: "Associate Lecturer" },
+{ id: 18, abbr: "AMBA", meaning: "Association of MBAs (Masters in Business Administration" },
+{ id: 19, abbr: "AQSC", meaning: "Academic Quality & Standards Committee" },
+{ id: 20, abbr: "AR", meaning: "Annual Record" },
+{ id: 21, abbr: "AR", meaning: "Annual Report" },
+{ id: 22, abbr: "AR", meaning: "Annual Review" },
+{ id: 23, abbr: "ARB", meaning: "Architects Registration Board" },
+{ id: 24, abbr: "ArtHumRKE", meaning: "Arts and Humanities Research and Knowledge Exchange" },
+{ id: 25, abbr: "ASS", meaning: "All Saints South" },
+{ id: 26, abbr: "ASSTs", meaning: "Academic and Study Skills Tutors" },
+{ id: 27, abbr: "ATAS", meaning: "Academic Technology Approval Scheme" },
+{ id: 28, abbr: "AVCMS", meaning: "Audio Visual Content Management System" },
+{ id: 29, abbr: "AWDD", meaning: "(Ts) Applied Web Design and Development (Ts)" },
+{ id: 30, abbr: "AY", meaning: "Academic Year" },
+{ id: 31, abbr: "BA", meaning: "Bachelor" },
+{ id: 32, abbr: "BALLT", meaning: "BA Languages Linguistics TESOL" },
+{ id: 33, abbr: "BAR", meaning: "Board Action Required" },
+{ id: 34, abbr: "BAU", meaning: "Business As Usual" },
+{ id: 35, abbr: "BCC", meaning: "Blind Carbon Copy" },
+{ id: 36, abbr: "BD", meaning: "Business Development" },
+{ id: 37, abbr: "BEIS", meaning: "Department for Business, Energy and Industrial Strategy" },
+{ id: 38, abbr: "BFA", meaning: "Bachelor of Fine Arts" },
+{ id: 39, abbr: "BH", meaning: "Bank Holiday" },
+{ id: 40, abbr: "B&L", meaning: "Business & Law (Faculty)" },
+{ id: 41, abbr: "BTEC", meaning: "Business and Technology Education Council" },
+{ id: 42, abbr: "BTEC", meaning: "DMM Business and Technology Education Council Distinction Merit Merit" },
+{ id: 43, abbr: "bw", meaning: "Best Wishes" },
+{ id: 44, abbr: "CAP", meaning: "Creative Asset Production" },
+{ id: 45, abbr: "CAPE", meaning: "Capabilities in Academic Policy Engagement" },
+{ id: 46, abbr: "CAS", meaning: "Confirmation of Acceptance for Studies" },
+{ id: 47, abbr: "GMLPN", meaning: "Greater Manchester Learning Provider Network" },
+{ id: 48, abbr: "CASQE", meaning: "Centre for Academic Standards & Quality Enhancement" },
+{ id: 49, abbr: "CAT", meaning: "Central Administrative Team" },
+{ id: 50, abbr: "CAUR", meaning: "Completely and Utterly Ridiculous" },
+{ id: 51, abbr: "CC", meaning: "Carbon Copy" },
+{ id: 52, abbr: "CDA", meaning: "(scheme) Collaborative Doctoral Awards" },
+{ id: 53, abbr: "CDD", meaning: "Creative Digital Design Apprenticeship" },
+{ id: 54, abbr: "CDP", meaning: "Collaborative Doctoral Partnership" },
+{ id: 55, abbr: "CELL", meaning: "Research Centre for Creative Writing, English Literature, and Linguistics" },
+{ id: 56, abbr: "CELT", meaning: "Centre for Excellence in Learning & Teaching" },
+{ id: 57, abbr: "CES", meaning: "Careers and Employability Service" },
+{ id: 58, abbr: "CfACS", meaning: "Centre for Advanced Computational Science" },
+{ id: 59, abbr: "CF", meaning: "Conditional Firm (Clearing)" },
+{ id: 60, abbr: "CHons", meaning: "Combined Honours" },
+{ id: 61, abbr: "CIISec", meaning: "Chartered Institute of Information Security" },
+{ id: 62, abbr: "CLT", meaning: "Cognitive Load Theory" },
+{ id: 63, abbr: "CMI", meaning: "Chartered Management Institute" },
+{ id: 64, abbr: "CMI", meaning: "Continuous Monitoring & Improvement" },
+{ id: 65, abbr: "CMMFA", meaning: "Centre for Mathematical Modelling and Flow Analysis" },
+{ id: 66, abbr: "CompTIA", meaning: "Computer Technology Industry Association" },
+{ id: 67, abbr: "CoP", meaning: "Code of Practice" },
+{ id: 68, abbr: "CPD", meaning: "Continuing Professional Development" },
+{ id: 69, abbr: "CW", meaning: "Cognitive Walkthrough" },
+{ id: 70, abbr: "DBS", meaning: "Disclosure and Barring Service" },
+{ id: 71, abbr: "DEF1/REF1", meaning: "Resit related term" },
+{ id: 72, abbr: "DIL", meaning: "Department International Lead" },
+{ id: 73, abbr: "DMDA", meaning: "Digital Marketing Degree Apprenticeship" },
+{ id: 74, abbr: "DMG", meaning: "Departmental Management Group" },
+{ id: 75, abbr: "DoS", meaning: "Director of Studies" },
+{ id: 76, abbr: "DRDC", meaning: "Departmental Research Degrees Coordinator" },
+{ id: 77, abbr: "DTS", meaning: "Digital and Technology Solutions Degree Apprenticeship" },
+{ id: 78, abbr: "DUX", meaning: "Digital User Experience (UX) Professional Degree Apprenticeship" },
+{ id: 79, abbr: "EAR", meaning: "Education Academic Reviews" },
+{ id: 80, abbr: "EC", meaning: "Education Committee" },
+{ id: 81, abbr: "ECR", meaning: "Early Career Researcher" },
+{ id: 82, abbr: "EdDoc", meaning: "Doctor of Education" },
+{ id: 83, abbr: "EDI", meaning: "Equality Diversity Inclusion" },
+{ id: 84, abbr: "EERC", meaning: "Ecology and Environment Research Centre" },
+{ id: 85, abbr: "EFMD", meaning: "European Foundation for Management Development" },
+{ id: 86, abbr: "EFs", meaning: "Exceptional Factors" },
+{ id: 87, abbr: "EIA", meaning: "Equality Impact Assessment" },
+{ id: 88, abbr: "EOA", meaning: "End Of Availability" },
+{ id: 89, abbr: "EPA", meaning: "End Point Assessment" },
+{ id: 90, abbr: "EPC", meaning: "Education, Pedagogy and Citizenship (Career Pathway)" },
+{ id: 91, abbr: "EPQ", meaning: "Extended Project Qualification" },
+{ id: 92, abbr: "EQUIS", meaning: "EFMD Quality Improvement System" },
+{ id: 93, abbr: "ESRC", meaning: "Economic and Social Research Council" },
+{ id: 94, abbr: "ESRI", meaning: "Education and Social Research Institute" },
+{ id: 95, abbr: "Fab", meaning: "Fabulous" },
+{ id: 96, abbr: "FAQSC", meaning: "Faculty Academic Quality & Standards Committee" },
+{ id: 97, abbr: "FBL", meaning: "Faculty of Business and Law" },
+{ id: 98, abbr: "FCP", meaning: "First Contact Practitioner" },
+{ id: 99, abbr: "FEC", meaning: "Faculty Education Committee" },
+{ id: 100, abbr: "FEG", meaning: "Faculty Executive Group" },
+{ id: 101, abbr: "FHEA", meaning: "Fellow of the Higher Education Academy" },
+{ id: 102, abbr: "FIC", meaning: "Faculty International Committee" },
+{ id: 103, abbr: "FIMO", meaning: "Faculty International Marketing Office" },
+{ id: 104, abbr: "FOG", meaning: "Faculty Operations Group" },
+{ id: 105, abbr: "FPO", meaning: "Faculty Planning and Operations" },
+{ id: 106, abbr: "FPVC", meaning: "Faculty Pro-Vice-Chancellor" },
+{ id: 107, abbr: "FRDC", meaning: "Facultry Research Degrees Committee" },
+{ id: 108, abbr: "FRDC", meaning: "Faculty Research Degrees Committee" },
+{ id: 109, abbr: "FRDCo", meaning: "Faculty Research Degrees Co-ordinator" },
+{ id: 110, abbr: "FREGC", meaning: "Faculty Research Ethics & Governance Committee" },
+{ id: 111, abbr: "FRKEC", meaning: "Faculty Research & Knowledge Exchange Committee" },
+{ id: 112, abbr: "FSAG", meaning: "Faculty Strategic Appointments Group" },
+{ id: 113, abbr: "FSC", meaning: "Field Studies Council" },
+{ id: 114, abbr: "FTE", meaning: "Full Time Equivalent" },
+{ id: 115, abbr: "FY", meaning: "Fist Year" },
+{ id: 116, abbr: "FYSA", meaning: "For Your Situational Awareness" },
+{ id: 117, abbr: "GB", meaning: "Great Britain (not the same as UK)" },
+{ id: 118, abbr: "GCSE", meaning: "General Certificate of Secondary Education" },
+{ id: 119, abbr: "GPA", meaning: "Grade Point Average" },
+{ id: 120, abbr: "GP", meaning: "General Practitioner" },
+{ id: 121, abbr: "GSA", meaning: "Global Studies Association" },
+{ id: 122, abbr: "HNY", meaning: "Happy New Year" },
+{ id: 123, abbr: "HCPC", meaning: "Health and Care Professions Council" },
+{ id: 124, abbr: "HEA", meaning: "Higher Education Academy" },
+{ id: 125, abbr: "HEFCE", meaning: "Higher Education Funding Council for England" },
+{ id: 126, abbr: "HE", meaning: "Higher Education" },
+{ id: 127, abbr: "HFRD", meaning: "Head of Faculty Research Degrees" },
+{ id: 128, abbr: "HLSS", meaning: "Humanities Languages and Social Science" },
+{ id: 129, abbr: "HM", meaning: "Her Majesty" },
+{ id: 130, abbr: "HMRC", meaning: "Her Majesty's Revenue and Customs" },
+{ id: 131, abbr: "HoD", meaning: "Head of Department" },
+{ id: 132, abbr: "HOSAC", meaning: "Home Office Science Advisory Council" },
+{ id: 133, abbr: "HPP", meaning: "History, Politics and Philosophy" },
+{ id: 134, abbr: "HPSC", meaning: "Faculty of Health, Psychology and Social Care" },
+{ id: 135, abbr: "HRC", meaning: "History Research Centre" },
+{ id: 136, abbr: "ICP", meaning: "Institutional Code of Practice MMUC MMU Cheshire" },
+{ id: 137, abbr: "IoC", meaning: "Institute of Coding" },
+{ id: 138, abbr: "IQA", meaning: "Interactive Questions & Answers" },
+{ id: 139, abbr: "ISA", meaning: "Individual Savings Account" },
+{ id: 140, abbr: "ISDS", meaning: "Information Systems & Digital Services" },
+{ id: 141, abbr: "ISS", meaning: "Internal Student Survey" },
+{ id: 142, abbr: "IUX", meaning: "Introduction to User Experience" },
+{ id: 143, abbr: "KSB", meaning: "Knowledge Skill Behaviour" },
+{ id: 144, abbr: "KTP", meaning: "Knowledge Transfer Partnership" },
+{ id: 145, abbr: "L3", meaning: "Foundation Year" },
+{ id: 146, abbr: "L4", meaning: "First year" },
+{ id: 147, abbr: "L5", meaning: "Second year" },
+{ id: 148, abbr: "L6", meaning: "Third year" },
+{ id: 149, abbr: "L7", meaning: "Fourth year / Masters" },
+{ id: 150, abbr: "LIC", meaning: "Languages and Information Communication" },
+{ id: 151, abbr: "LIM", meaning: "Library and Information Management" },
+{ id: 152, abbr: "LISA", meaning: "Lifetime Individual Savings Account" },
+{ id: 153, abbr: "LMS", meaning: "Learning Management System" },
+{ id: 154, abbr: "LO1", meaning: "Learning Objective 1" },
+{ id: 155, abbr: "LO2", meaning: "Learning Objective 2" },
+{ id: 156, abbr: "LO3", meaning: "Learning Objective 3" },
+{ id: 157, abbr: "LTA", meaning: "Learning, Teaching and Assessment" },
+{ id: 158, abbr: "MAHE", meaning: "Masters in Higher Education" },
+{ id: 159, abbr: "MA", meaning: "Master of Arts" },
+{ id: 160, abbr: "MAN", meaning: "Manchester Airport" },
+{ id: 161, abbr: "ManMet", meaning: "Manchester Metropolitan University" },
+{ id: 162, abbr: "MCOL", meaning: "Manchester City of Literature" },
+{ id: 163, abbr: "MCR", meaning: "Manchester City Region" },
+{ id: 164, abbr: "MCYS", meaning: "Manchester Centre for Youth Studies" },
+{ id: 165, abbr: "MFI", meaning: "Manchester Fashion Institute" },
+{ id: 166, abbr: "MIF", meaning: "Manchester International Festival" },
+{ id: 167, abbr: "MIP", meaning: "Mortgage In Principle" },
+{ id: 168, abbr: "MJ", meaning: "Michael Jackson" },
+{ id: 169, abbr: "MMJ", meaning: "Multimedia and Journalism" },
+{ id: 170, abbr: "OT", meaning: "Overtime" },
+{ id: 171, abbr: "MMU", meaning: "Manchester Metropolitan Uniersity" },
+{ id: 172, abbr: "MOODLE", meaning: "Modular Object-Oriented Dynamic Learning Environment" },
+{ id: 173, abbr: "MRT", meaning: "Marketing Retail & Tourism" },
+{ id: 174, abbr: "MSA", meaning: "Manchester School of Architecture" },
+{ id: 175, abbr: "MSARC", meaning: "Manchester School of Art Research Centre" },
+{ id: 176, abbr: "MS", meaning: "Marking Sheet" },
+{ id: 177, abbr: "MSoA", meaning: "Manchester School of Art" },
+{ id: 178, abbr: "NASENCo", meaning: "National Award for Special Educational Needs Coordination" },
+{ id: 179, abbr: "NHS", meaning: "National Healthcare System" },
+{ id: 180, abbr: "NICE", meaning: "National Institute for Health and Care Excellence" },
+{ id: 181, abbr: "NIH", meaning: "Not Invented Here" },
+{ id: 182, abbr: "NIMBY", meaning: "Not In My BackYard" },
+{ id: 183, abbr: "NS", meaning: "Non-Submission" },
+{ id: 184, abbr: "NSS", meaning: "National Student Survey" },
+{ id: 185, abbr: "ODA", meaning: "Official Development Assistance" },
+{ id: 186, abbr: "OFCOM", meaning: "Office of Communications" },
+{ id: 187, abbr: "OfS", meaning: "Office for Students" },
+{ id: 188, abbr: "OFSTED", meaning: "Office for Standards in Education, Children's Services and Skills" },
+{ id: 189, abbr: "OOO", meaning: "Out Of Office" },
+{ id: 190, abbr: "PAHC", meaning: "Postgraduate Arts and Humanities Research Centre" },
+{ id: 191, abbr: "PAL", meaning: "Peer Assisted Learning" },
+{ id: 192, abbr: "PARM", meaning: "Programme Approval, Review and Modification" },
+{ id: 193, abbr: "PC", meaning: "Progression Code" },
+{ id: 194, abbr: "PDR", meaning: "Professional Development Review" },
+{ id: 195, abbr: "PERU", meaning: "Policy Evaluation and Research Unit" },
+{ id: 196, abbr: "PEx", meaning: "Project Executive" },
+{ id: 197, abbr: "PGCert", meaning: "Postgraduate Certificate" },
+{ id: 198, abbr: "PGC", meaning: "LTHE Postgraduate Certificate in Learning and Teaching" },
+{ id: 199, abbr: "PgDip", meaning: "Postgraduate Diploma" },
+{ id: 200, abbr: "PG", meaning: "Postgraduate" },
+{ id: 201, abbr: "PGR", meaning: "Postgraduate Research" },
+{ id: 202, abbr: "PGT", meaning: "Postgraduate Taught Programmes" },
+{ id: 203, abbr: "PID", meaning: "UCAS Personal ID" },
+{ id: 204, abbr: "PLP", meaning: "Personal Learning Plan" },
+{ id: 205, abbr: "PMDI", meaning: "Project Management for Digital Industries" },
+{ id: 206, abbr: "PP", meaning: "Pass and progress" },
+{ id: 207, abbr: "PSE", meaning: "Pre-sessional English" },
+{ id: 208, abbr: "PSF", meaning: "Professional Standards Framework" },
+{ id: 209, abbr: "PSLT", meaning: "Professional Services Leadership Team" },
+{ id: 210, abbr: "PT", meaning: "Personal Tutor" },
+{ id: 211, abbr: "PT", meaning: "Private Tutor" },
+{ id: 212, abbr: "PVC", meaning: "RKE Pro Vice Chancellor, Research and Knowledge Exchange" },
+{ id: 213, abbr: "QAA", meaning: "Quality Assurance Agency" },
+{ id: 214, abbr: "QTS", meaning: "Qualified Teacher Status" },
+{ id: 215, abbr: "RAH", meaning: "Research in Arts and Humanities" },
+{ id: 216, abbr: "RCASS", meaning: "Research Centre for Applied Social Science" },
+{ id: 217, abbr: "RDC", meaning: "Research Degree Committee" },
+{ id: 218, abbr: "REC", meaning: "Research, Education and Citizen (Carreer Pathway)" },
+{ id: 219, abbr: "Ass.", meaning: "Assistant" },
+{ id: 220, abbr: "REF", meaning: "Research Excellence Framework" },
+{ id: 221, abbr: "REGC", meaning: "Research Ethics & Governance Committee" },
+{ id: 222, abbr: "RIBA", meaning: "Royal Institute of British Architects" },
+{ id: 223, abbr: "RKEC", meaning: "Research & Knowledge Exchange Committee" },
+{ id: 224, abbr: "RKE", meaning: "Research and Knowledge Exchange" },
+{ id: 225, abbr: "RPL", meaning: "Recognition of Prior Learning" },
+{ id: 226, abbr: "RPM", meaning: "Recorded Progress Meeting" },
+{ id: 227, abbr: "RPSD", meaning: "Resource, Planning, Strategy and Development (group)" },
+{ id: 228, abbr: "RT", meaning: "Resilience Team" },
+{ id: 229, abbr: "SAG", meaning: "Strategic Appointments Group" },
+{ id: 230, abbr: "SAS", meaning: "Student & Academic Services" },
+{ id: 231, abbr: "SCC", meaning: "Student-Centred Curriculum" },
+{ id: 232, abbr: "SCPN", meaning: "Social Care Partnership Network" },
+{ id: 233, abbr: "SDGs", meaning: "Sustainable Development Goals" },
+{ id: 234, abbr: "SEND", meaning: "Special Educational Needs and Disability" },
+{ id: 235, abbr: "SEN", meaning: "Special Educational Needs" },
+{ id: 236, abbr: "SEO", meaning: "Student Experience Officer" },
+{ id: 237, abbr: "S&E", meaning: "Science & Engineering" },
+{ id: 238, abbr: "SEST", meaning: "Student Experience Support Tutor / Student Support Officer" },
+{ id: 239, abbr: "SET", meaning: "Student Experience Tutors" },
+{ id: 240, abbr: "SJO", meaning: "Student Journey Operations" },
+{ id: 241, abbr: "SJTP", meaning: "Student Journey Transformation Programme" },
+{ id: 242, abbr: "SKE", meaning: "Subject Knowledge Enhancement" },
+{ id: 243, abbr: "SL", meaning: "Senior Lecturer" },
+{ id: 244, abbr: "SLTA", meaning: "Strategy for Learning, Teaching and Assessment" },
+{ id: 245, abbr: "SNT", meaning: "Student Number Targets" },
+{ id: 246, abbr: "SODA", meaning: "School of Digital Arts" },
+{ id: 247, abbr: "SOP", meaning: "Standard Operating Procedure" },
+{ id: 248, abbr: "SP1", meaning: "Submission Point 1" },
+{ id: 249, abbr: "SP2", meaning: "Submission Point 2" },
+{ id: 250, abbr: "SP3", meaning: "Submission Point 3" },
+{ id: 251, abbr: "SpLDs", meaning: "specific learning differences" },
+{ id: 252, abbr: "SQA", meaning: "Scottish Qualifications Authority" },
+{ id: 253, abbr: "SRO", meaning: "Student Record Operation" },
+{ id: 254, abbr: "SSO", meaning: "Student Support Officer / Student Experience Support Tutor" },
+{ id: 255, abbr: "STEL", meaning: "Simulation and Technology Enhanced Learning" },
+{ id: 256, abbr: "SUAB", meaning: "Substance Use and Associated Behaviours" },
+{ id: 257, abbr: "ta", meaning: "Thank you" },
+{ id: 258, abbr: "TELAs", meaning: "Moodle people, Technology Enhanced Learning Advisor" },
+{ id: 259, abbr: "TEL", meaning: "Teaching and Learning Community" },
+{ id: 260, abbr: "TEL", meaning: "Technology Enhanced Learning" },
+{ id: 261, abbr: "TESOL", meaning: "Teaching English to Speakers of Other Languages" },
+{ id: 262, abbr: "TNA", meaning: "Training Needs Analysis" },
+{ id: 263, abbr: "TND", meaning: "There's No Downside" },
+{ id: 264, abbr: "TNE", meaning: "Transnational Education" },
+{ id: 265, abbr: "TPS", meaning: "Teachers' Pension" },
+{ id: 266, abbr: "TRSN", meaning: "Teaching Related Sessional Nomination" },
+{ id: 267, abbr: "Ts", meaning: "Technology solutions (Apprentices)" },
+{ id: 268, abbr: "UCAS", meaning: "Universities and Colleges Admissions Service" },
+{ id: 269, abbr: "UCRKE", meaning: "University Centres for Research and Knowledge Exchange" },
+{ id: 270, abbr: "UCU", meaning: "University and College Union" },
+{ id: 271, abbr: "UEG", meaning: "University Executive Group" },
+{ id: 272, abbr: "UF", meaning: "Unconditional Firm (Clearing)" },
+{ id: 273, abbr: "UGRKE", meaning: "University Groups for Research and Knowledge Exchange" },
+{ id: 274, abbr: "UHC", meaning: "Universal Health Coverage" },
+{ id: 275, abbr: "UKI", meaning: "United Kingdom, Northern Ireland & Ireland" },
+{ id: 276, abbr: "UKPSF", meaning: "UK Professional Standards Framework" },
+{ id: 277, abbr: "UKRI", meaning: "UK Research and Innovation" },
+{ id: 278, abbr: "UK", meaning: "United Kingdom (not the same as GB)" },
+{ id: 279, abbr: "ULF", meaning: "University Leadership Forum" },
+{ id: 280, abbr: "ULO", meaning: "University Learning Objectives" },
+{ id: 281, abbr: "UoM", meaning: "University of Manchester" },
+{ id: 282, abbr: "UPEN", meaning: "Universities Policy Engagement Network" },
+{ id: 283, abbr: "UTA", meaning: "University Teaching Academy" },
+{ id: 284, abbr: "UXCI", meaning: "User Experience for Creative Industries" },
+{ id: 285, abbr: "UXP", meaning: "User Experience Practices" },
+{ id: 286, abbr: "VC", meaning: "Vice-Chancellor" },
+{ id: 287, abbr: "VSI", meaning: "Virtual Special Issue" },
+{ id: 288, abbr: "VUI", meaning: "(Coronavirus) Variant Under Investigation" },
+{ id: 289, abbr: "WPD", meaning: "Web Page Development" },
+{ id: 290, abbr: "WSD", meaning: "Web Site Development" },
+{ id: 291, abbr: "YP", meaning: "Year Plan" },
+{ id: 292, abbr: "TfGM", meaning: "Transport for Greater Manchester" },
+{ id: 293, abbr: "GMP", meaning: "Greater Manchester Police" },
+{ id: 294, abbr: "GMCA", meaning: "Greater Manchester Combined Authority" },
+{ id: 295, abbr: "GM", meaning: "Greater Manchester" },
+{ id: 296, abbr: "Metrolink", meaning: "Manchester's tram system (Not abbreviation but treated as such)" },
+{ id: 297, abbr: "MCR", meaning: "Manchester" },
+{ id: 298, abbr: "MEN", meaning: "Manchester Evening News" },
+{ id: 299, abbr: "MCC", meaning: "Manchester City Council" },
+{ id: 300, abbr: "RBH", meaning: "Rochdale Boroughwide Housing" },
+{ id: 301, abbr: "MHPP", meaning: "Manchester Housing Providers Partnership" },
+{ id: 302, abbr: "ASS", meaning: "Short for 'Asset" },
+{ id: 303, abbr: "NQ", meaning: "Northern Quarter" },
+{ id: 304, abbr: "GMLPN", meaning: "Greater Manchester Learning Provider Network" },
+{ id: 305, abbr: "Manc", meaning: "Mancunian (person from Manchester)" },
+{ id: 306, abbr: "Scally", meaning: "Local slang, rough/troublemaking youth" },
+{ id: 307, abbr: "GMPF", meaning: "Greater Manchester Pension Fund" },
+{ id: 308, abbr: "Salf", meaning: "Salford" },
+{ id: 309, abbr: "Chorlton", meaning: "Manchester suburb (shortened from Chorlton-cum-Hardy)" },
+{ id: 310, abbr: "Dids", meaning: "Didsbury (Manchester suburb)" },
+{ id: 311, abbr: "Withy", meaning: "Withington (Manchester suburb)" },
+{ id: 312, abbr: "The Arndale", meaning: "Manchester Arndale Centre (shopping mall)" },
+{ id: 313, abbr: "Ofsted", meaning: "Office for Standards in Education" },
+{ id: 314, abbr: "PTSD", meaning: "Post-Traumatic Stress Disorder" },
+{ id: 315, abbr: "PRU", meaning: "Pupil Referral Unit" },
+{ id: 316, abbr: "EHCP", meaning: "Education, Health and Care Plan" },
+{ id: 317, abbr: "DPhil", meaning: "Doctor of Philosophy (Oxford University's term for PhD)" },
+{ id: 318, abbr: "ER", meaning: "Emergency Room (US equivalent of A&E)" },
+{ id: 319, abbr: "innit", meaning: "(informal) Isn't it? (Filler word for emphasis or agreement)" },
+{ id: 320, abbr: "bruv", meaning: "(informal) Brother (friend), Londoners may say this " },
+{ id: 321, abbr: "fam", meaning: "(informal) Family or close friend" },
+{ id: 322, abbr: "wagwan", meaning: "(informal) What's going on? (hello) Jamaican Londoners taught me that one" },
+{ id: 323, abbr: "bare", meaning: "(informal) A lot of / very - As in 'It's bare cold today'" },
+{ id: 324, abbr: "mandem", meaning: "(informal) Group of male friends" },
+{ id: 325, abbr: "gyaldem", meaning: "(informal) Group of girls" },
+{ id: 326, abbr: "ting", meaning: "(informal) Thing" },
+{ id: 327, abbr: "peak", meaning: "(informal) Bad/unlucky situation" },
+{ id: 328, abbr: "peng", meaning: "(informal) Attractive, good-looking" },
+{ id: 329, abbr: "leng", meaning: "(informal) Very attractive / hot" },
+{ id: 330, abbr: "yute", meaning: "(informal) Youth / young person" },
+{ id: 331, abbr: "BMT", meaning: "Believe Me Though - Used to emphasize honesty" },
+{ id: 332, abbr: "FOMO", meaning: "Fear Of Missing Out - Opposite of JOMO" },
+{ id: 333, abbr: "JOMO", meaning: "Joy Of Missing Out - Opposite of FOMO" },
+{ id: 334, abbr: "LOL", meaning: "Laugh Out Loud" },
+{ id: 335, abbr: "LMAO", meaning: "Laughing My Ass Off" },
+{ id: 336, abbr: "OMG", meaning: "Oh My God" },
+{ id: 337, abbr: "TBH", meaning: "To Be Honest" },
+{ id: 338, abbr: "BTW", meaning: "By The Way" },
+{ id: 339, abbr: "IMO/IMHO", meaning: "(informal) In My Opinion / In My Humble Opinion" },
+{ id: 340, abbr: "IDC/IDK", meaning: "(informal) I Don't Care / I Don't Know" },
+{ id: 341, abbr: "DM", meaning: "Direct Message - Social media term" },
+{ id: 342, abbr: "TL", meaning: "Timeline (social media feed)" },
+{ id: 343, abbr: "ICYMI", meaning: "In Case You Missed It" },
+{ id: 344, abbr: "SMH", meaning: "(informal) Shaking My Head - Expressing disapproval" },
+{ id: 345, abbr: "BFF", meaning: "Best Friends Forever" },
+{ id: 346, abbr: "DJ", meaning: "Disc Jockey" },
+{ id: 347, abbr: "SRS", meaning: "(informal) Serious - As in 'You srs?'" },
+{ id: 348, abbr: "OMD", meaning: "(informal) Oh My Days - UK version of OMG" },
+{ id: 349, abbr: "TRL", meaning: "True Real Life - Used for authentic situations" },
+{ id: 350, abbr: "Yh", meaning: "(informal) Yeah - Texting abbreviation" },
+{ id: 351, abbr: "NGL", meaning: "(informal) Not Gonna Lie" },
+{ id: 352, abbr: "HBU", meaning: "(informal) How About You?" },
+{ id: 353, abbr: "PPL", meaning: "People" },
+{ id: 354, abbr: "LMK", meaning: "(informal) Let Me Know" },
+{ id: 355, abbr: "GN", meaning: "(informal) Good Night" },
+{ id: 356, abbr: "CEO (of)", meaning: "(informal banter) Best at something - Meme slang" },
+{ id: 357, abbr: "CRB check", meaning: "(informal) Slang for checking someone's background or stalking them on social media" },
+{ id: 358, abbr: "BS", meaning: "Business School" },
+{ id: 359, abbr: "SIMP", meaning: "(informal) Someone who does too much for someone they like" },
+{ id: 360, abbr: "G.O.A.T.", meaning: "(informal) Greatest Of All Time" },
+{ id: 361, abbr: "Cap / No Cap", meaning: "(informal) Lie / Not lying" },
+{ id: 362, abbr: "Vibe Check", meaning: "Test if someone fits in a situation" },
+{ id: 363, abbr: "MOTM", meaning: "Man of the Match - From football, now used broadly" },
+{ id: 364, abbr: "ASAP Rocky", meaning: "Humorous way to say 'as soon as possible'" },
+{ id: 365, abbr: "DJ", meaning: "Disc Jockey" },
+{ id: 366, abbr: "OFC", meaning: "(informal) Of Course" },
+{ id: 367, abbr: "RD / Re", meaning: "Regarding - Used in emails/messages" },
+{ id: 368, abbr: "UKG", meaning: "UK Garage - Music genre" },
+{ id: 369, abbr: "BBK", meaning: "Boy Better Know - Grime music crew" },
+{ id: 374, abbr: "HR", meaning: "Human Resources" },
+{ id: 375, abbr: "BOGOF", meaning: "Buy One Get One Free" },
+{ id: 376, abbr: "LIC", meaning: "Line Manager / Line in Charge" },
+{ id: 377, abbr: "SLT", meaning: "Senior Leadership Team" },
+{ id: 378, abbr: "SMT", meaning: "Senior Management Team" },
+{ id: 379, abbr: "TMI", meaning: "Too Much Information" },
+{ id: 380, abbr: "OTT", meaning: "Over The Top" },
+{ id: 381, abbr: "NFA", meaning: "No Fixed Abode" },
+{ id: 382, abbr: "UG", meaning: "Undergraduate" },
+{ id: 383, abbr: "Uni", meaning: "University" },
+{ id: 384, abbr: "FE", meaning: "Further Education" },
+{ id: 445, abbr: "NFA", meaning: "No Fixed Abode" },
+{ id: 386, abbr: "PhD", meaning: "Doctor of Philosophy" },
+{ id: 387, abbr: "TTO", meaning: "Term-Time Only" },
+{ id: 388, abbr: "WFH", meaning: "Work From Home" },
+{ id: 389, abbr: "TOIL", meaning: "Time Off in Lieu" },
+{ id: 390, abbr: "P45", meaning: "End of Employment Document" },
+{ id: 391, abbr: "P60", meaning: "Annual Tax Summary" },
+{ id: 392, abbr: "PAYE", meaning: "Pay As You Earn" },
+{ id: 393, abbr: "EDI", meaning: "Equality, Diversity, and Inclusion" },
+{ id: 394, abbr: "DEI", meaning: "Diversity, Equity, and Inclusion" },
+{ id: 395, abbr: "NHS", meaning: "National Health Service" },
+{ id: 396, abbr: "TfGM", meaning: "Transport for Greater Manchester" },
+{ id: 397, abbr: "A&E", meaning: "Accident & Emergency" },
+{ id: 398, abbr: "PPE", meaning: "Personal Protective Equipment" },
+{ id: 399, abbr: "OT", meaning: "Occupational Therapy / Therapist" },
+{ id: 400, abbr: "CBT", meaning: "Cognitive Behavioural Therapy" },
+{ id: 401, abbr: "CAMHS", meaning: "Child and Adolescent Mental Health Services" },
+{ id: 402, abbr: "DWP", meaning: "Department for Work and Pensions" },
+{ id: 403, abbr: "ESA", meaning: "Employment and Support Allowance" },
+{ id: 404, abbr: "UC", meaning: "Universal Credit" },
+{ id: 405, abbr: "PIP", meaning: "Personal Independence Payment" },
+{ id: 406, abbr: "HMRC", meaning: "His Majesty’s Revenue and Customs" },
+{ id: 407, abbr: "DVLA", meaning: "Driver and Vehicle Licensing Agency" },
+{ id: 408, abbr: "ID", meaning: "Identification" },
+{ id: 409, abbr: "NINO", meaning: "National Insurance (Number)" },
+{ id: 410, abbr: "NI", meaning: "National Insurance (somes used the same as NINO)" },
+{ id: 411, abbr: "LEA", meaning: "Local Education Authority" },
+{ id: 412, abbr: "MP", meaning: "Member of Parliament" },
+{ id: 413, abbr: "PM", meaning: "Prime Minister" },
+{ id: 414, abbr: "FOI", meaning: "Freedom of Information (request)" },
+{ id: 415, abbr: "GDPR", meaning: "General Data Protection Regulation" },
+{ id: 416, abbr: "QC", meaning: "Queen’s Counsel (now KC)" },
+{ id: 417, abbr: "KC", meaning: "King’s Counsel (Previously QC)" },
+{ id: 418, abbr: "EPC", meaning: "Energy Performance Certificate" },
+{ id: 419, abbr: "HMO", meaning: "House in Multiple Occupation" },
+{ id: 420, abbr: "TVL", meaning: "TV Licence" },
+{ id: 421, abbr: "PC", meaning: "Postcode" },
+{ id: 422, abbr: "CO", meaning: "Council Tax" },
+{ id: 423, abbr: "AST", meaning: "Assured Shorthold Tenancy" },
+{ id: 424, abbr: "LL", meaning: "Landlord" },
+{ id: 425, abbr: "M.O.T.", meaning: "Ministry of Transport Test" },
+{ id: 426, abbr: "PAYG", meaning: "Pay As You Go" },
+{ id: 427, abbr: "TfL", meaning: "Transport for London" },
+{ id: 428, abbr: "DLR", meaning: "Docklands Light Railway" },
+{ id: 429, abbr: "NRE", meaning: "National Rail Enquiries" },
+{ id: 430, abbr: "BTP", meaning: "British Transport Police" },
+{ id: 431, abbr: "MOT", meaning: "Ministry of Transport (test)" },
+{ id: 432, abbr: "ATM", meaning: "At The Moment" },
+{ id: 433, abbr: "VAT", meaning: "Value-Added Tax" },
+{ id: 434, abbr: "ROI", meaning: "Return on Investment" },
+{ id: 435, abbr: "Gov", meaning: "Government" },
+{ id: 436, abbr: "Pres", meaning: "President" },
+{ id: 437, abbr: "Sec", meaning: "Secretary" },
+{ id: 438, abbr: "Dept", meaning: "Department" },
+{ id: 439, abbr: "ASAP", meaning: "As Soon As Possible" },
+{ id: 440, abbr: "FYI", meaning: "For Your Information" },
+{ id: 441, abbr: "DIY", meaning: "Do It Yourself" }
+
+
+
+
+        
+        ];
+
+        // Application state
+        let state = {
+            filteredAbbreviations: [],
+            currentSearchTerm: '',
+            currentLetter: 'all',
+            fontSizeMultiplier: 1
+        };
+
+        // DOM elements cache
+        let elements = {};
+
+        // Initialize the application when DOM is loaded
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log("DOM loaded, initializing application");
+            
+            // Cache important DOM elements
+            cacheElements();
+            
+            // First, set up the theme
+            initializeThemeToggle();
+            
+            // Apply font size from localStorage
+            const storedFontSize = localStorage.getItem('fontSizeMultiplier');
+            if (storedFontSize) {
+                state.fontSizeMultiplier = parseFloat(storedFontSize);
+                document.documentElement.style.setProperty('--font-size-multiplier', state.fontSizeMultiplier.toString());
+            }
+            
+            // Set up event listeners
+            setupEventListeners();
+            
+            // Initialize alphabet filter
+            initializeAlphabetFilter();
+            
+            // Initial render
+            filterAndRenderAbbreviations('');
+            
+            console.log("Application initialized successfully");
+        });
+
+        // Cache DOM elements for performance
+        function cacheElements() {
+            elements = {
+                // Main containers
+                abbreviationsContainer: document.getElementById('abbreviations-container'),
+                alphabetFilter: document.getElementById('alphabet-filter'),
+                noResults: document.getElementById('no-results'),
+                
+                // Search and controls
+                searchInput: document.getElementById('search-input'),
+                fontSizeControls: {
+                    increase: document.getElementById('increase-font'),
+                    decrease: document.getElementById('decrease-font')
+                },
+                
+                // Navigation
+                tabs: document.querySelectorAll('.nav-tab'),
+                tabContents: document.querySelectorAll('.tab-content'),
+                
+                // Sidebars
+                sidebar: document.querySelector('.sidebar'),
+                hamburgerMenu: document.querySelector('.hamburger-menu'),
+                rightSidebar: document.querySelector('.right-sidebar'),
+                toggleRightSidebar: document.querySelector('.toggle-right-sidebar')
+            };
+        }
+
+        // Initialize alphabet filter
+        function initializeAlphabetFilter() {
+            if (!elements.alphabetFilter) return;
+            
+            // Get unique first letters and count occurrences
+            const letters = [...new Set(ABBREVIATIONS_DATA.map(item => item.abbr.charAt(0)))].sort();
+            const letterCounts = {};
+            
+            // Count abbreviations for each letter
+            ABBREVIATIONS_DATA.forEach(item => {
+                const firstLetter = item.abbr.charAt(0);
+                letterCounts[firstLetter] = (letterCounts[firstLetter] || 0) + 1;
+            });
+            
+            // Add letter buttons to filter with counts
+            letters.forEach(letter => {
+                const button = document.createElement('button');
+                button.className = 'letter-btn';
+                button.setAttribute('data-letter', letter);
+                button.innerHTML = letter;
+
+                button.addEventListener('click', function() {
+                    filterByLetter(letter);
+                });
+                
+                elements.alphabetFilter.appendChild(button);
+            });
+        }
+
+        // Filter abbreviations by first letter
+        function filterByLetter(letter) {
+            // Update active button
+            document.querySelectorAll('.letter-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            
+            document.querySelector(`.letter-btn[data-letter="${letter}"]`).classList.add('active');
+            
+            state.currentLetter = letter;
+            filterAndRenderAbbreviations(state.currentSearchTerm);
+        }
+
+        // Filter and render abbreviations based on search term and selected letter
+        function filterAndRenderAbbreviations(searchTerm) {
+            state.currentSearchTerm = searchTerm.toLowerCase();
+            
+            // Filter abbreviations
+            state.filteredAbbreviations = ABBREVIATIONS_DATA.filter(item => {
+                // Filter by letter if not "all"
+                if (state.currentLetter !== 'all' && item.abbr.charAt(0) !== state.currentLetter) {
+                    return false;
+                }
+                
+                // Filter by search term
+                if (searchTerm === '') {
+                    return true;
+                }
+                
+                return item.abbr.toLowerCase().includes(searchTerm) || 
+                       item.meaning.toLowerCase().includes(searchTerm);
+            });
+            
+            renderAbbreviations();
+        }
+
+        // Render abbreviations table
+        function renderAbbreviations() {
+            const container = elements.abbreviationsContainer;
+            const noResults = elements.noResults;
+            
+            if (!container || !noResults) return;
+            
+            // Show/hide no results message
+            if (state.filteredAbbreviations.length === 0) {
+                container.innerHTML = '';
+                noResults.classList.remove('hidden');
+                return;
+            }
+            
+            noResults.classList.add('hidden');
+            
+            // Sort abbreviations alphabetically
+            const sortedAbbreviations = [...state.filteredAbbreviations].sort((a, b) => 
+                a.abbr.localeCompare(b.abbr)
+            );
+            
+            // Update total count
+            document.getElementById('total-count').textContent = sortedAbbreviations.length;
+            
+            // Clear container
+            container.innerHTML = '';
+            
+            // Group abbreviations by first letter
+            const groupedByLetter = {};
+            
+            sortedAbbreviations.forEach(item => {
+                const firstLetter = item.abbr.charAt(0);
+                if (!groupedByLetter[firstLetter]) {
+                    groupedByLetter[firstLetter] = [];
+                }
+                groupedByLetter[firstLetter].push(item);
+            });
+            
+            // Create sections for each letter group
+            Object.keys(groupedByLetter).sort().forEach(letter => {
+                // Create letter header with count
+                const letterHeader = document.createElement('div');
+                letterHeader.className = 'abbreviation-letter-header';
+                letterHeader.innerHTML = `${letter} <span class="text-sm font-normal text-muted ml-2">(${groupedByLetter[letter].length})</span>`;
+                container.appendChild(letterHeader);
+                
+                // Create table for this letter group
+                const table = document.createElement('table');
+                table.className = 'abbreviation-table';
+                
+                // Add table header
+                const thead = document.createElement('thead');
+                thead.innerHTML = `
+                    <tr>
+                        <th class="w-1/4">🤔❓</th>
+                        <th>Meaning</th>
+                    </tr>
+                `;
+                table.appendChild(thead);
+                
+                // Add table body
+                const tbody = document.createElement('tbody');
+                
+                groupedByLetter[letter].forEach(item => {
+                    const row = document.createElement('tr');
+                    
+                    // Highlight matching text
+                    const abbr = highlightText(item.abbr, state.currentSearchTerm);
+                    const meaning = highlightText(item.meaning, state.currentSearchTerm);
+                    
+                    row.innerHTML = `
+                        <td class="font-medium">${abbr}</td>
+                        <td>${meaning}</td>
+                    `;
+                    
+                    tbody.appendChild(row);
+                });
+                
+                table.appendChild(tbody);
+                container.appendChild(table);
+            });
+        }
+
+        // Highlight search matches with safe escaping of regex special characters
+        function highlightText(text, searchTerm) {
+            if (!searchTerm) return text;
+            
+            // Escape special characters in the search term to prevent regex errors
+            const escapedSearchTerm = searchTerm.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+            const regex = new RegExp(`(${escapedSearchTerm})`, 'gi');
+            return text.replace(regex, '<span class="highlight">$1</span>');
+        }
+
+        // Initialize theme toggle
+        function initializeThemeToggle() {
+            // Get theme toggle button and icon
+            const themeToggle = document.querySelector('.theme-toggle');
+            if (!themeToggle) return;
+            
+            const themeIcon = themeToggle.querySelector('i');
+            if (!themeIcon) return;
+            
+            // Load theme from localStorage or use default light theme
+            const savedTheme = localStorage.getItem('theme') || 'light';
+            
+            // Apply the theme
+            if (savedTheme === 'light') {
+                document.documentElement.setAttribute('data-theme', 'light');
+                themeIcon.classList.remove('fa-moon');
+                themeIcon.classList.add('fa-sun');
+            } else {
+                document.documentElement.setAttribute('data-theme', 'dark');
+                themeIcon.classList.remove('fa-sun');
+                themeIcon.classList.add('fa-moon');
+            }
+            
+            // Theme toggle event listener
+            themeToggle.addEventListener('click', function() {
+                const html = document.documentElement;
+                const icon = this.querySelector('i');
+                
+                if (html.getAttribute('data-theme') === 'light') {
+                    // Switch to dark mode
+                    html.setAttribute('data-theme', 'dark');
+                    icon.classList.remove('fa-sun');
+                    icon.classList.add('fa-moon');
+                    localStorage.setItem('theme', 'dark');
+                } else {
+                    // Switch to light mode
+                    html.setAttribute('data-theme', 'light');
+                    icon.classList.remove('fa-moon');
+                    icon.classList.add('fa-sun');
+                    localStorage.setItem('theme', 'light');
+                }
+            });
+        }
+
+        // Toggle left sidebar
+        function toggleSidebar() {
+            elements.sidebar.classList.toggle('collapsed');
+            updateMainContentClasses();
+        }
+
+        // Toggle right sidebar
+        function toggleRightSidebar() {
+            elements.rightSidebar.classList.toggle('collapsed');
+            updateMainContentClasses();
+        }
+
+        // Update main content margins based on sidebar states
+        function updateMainContentClasses() {
+            const mainContent = document.querySelector('.main-content');
+            const leftSidebar = document.querySelector('.sidebar');
+            const rightSidebar = document.querySelector('.right-sidebar');
+            
+            if (!mainContent || !leftSidebar || !rightSidebar) return;
+            
+            mainContent.classList.remove('left-expanded', 'right-expanded', 'fully-expanded');
+            
+            const leftCollapsed = leftSidebar.classList.contains('collapsed');
+            const rightCollapsed = rightSidebar.classList.contains('collapsed');
+            
+            if (leftCollapsed && rightCollapsed) {
+                mainContent.classList.add('fully-expanded');
+            } else if (leftCollapsed) {
+                mainContent.classList.add('left-expanded');
+            } else if (rightCollapsed) {
+                mainContent.classList.add('right-expanded');
+            }
+        }
+
+        // Font size controls
+        function increaseFontSize() {
+            if (state.fontSizeMultiplier < 1.5) {
+                state.fontSizeMultiplier += 0.1;
+                document.documentElement.style.setProperty('--font-size-multiplier', state.fontSizeMultiplier.toString());
+                localStorage.setItem('fontSizeMultiplier', state.fontSizeMultiplier.toString());
+            }
+        }
+
+        function decreaseFontSize() {
+            if (state.fontSizeMultiplier > 0.8) {
+                state.fontSizeMultiplier -= 0.1;
+                document.documentElement.style.setProperty('--font-size-multiplier', state.fontSizeMultiplier.toString());
+                localStorage.setItem('fontSizeMultiplier', state.fontSizeMultiplier.toString());
+            }
+        }
+
+        // Set up all event listeners
+        function setupEventListeners() {
+            // Hamburger menu toggle
+            if (elements.hamburgerMenu) {
+                elements.hamburgerMenu.addEventListener('click', toggleSidebar);
+            }
+            
+            // Toggle right sidebar button
+            if (elements.toggleRightSidebar) {
+                elements.toggleRightSidebar.addEventListener('click', toggleRightSidebar);
+            }
+            
+            // Font size controls
+            if (elements.fontSizeControls.increase) {
+                elements.fontSizeControls.increase.addEventListener('click', increaseFontSize);
+            }
+            
+            if (elements.fontSizeControls.decrease) {
+                elements.fontSizeControls.decrease.addEventListener('click', decreaseFontSize);
+            }
+            
+            // Search input
+            if (elements.searchInput) {
+                elements.searchInput.addEventListener('input', function() {
+                    filterAndRenderAbbreviations(this.value);
+                });
+            }
+            
+            // Tab navigation
+            if (elements.tabs) {
+                elements.tabs.forEach(tab => {
+                    tab.addEventListener('click', function(e) {
+                        e.preventDefault();
+                        
+                        // Update active tab
+                        elements.tabs.forEach(t => t.classList.remove('active'));
+                        this.classList.add('active');
+                        
+                        // Get the tab id from the href
+                        const tabId = this.getAttribute('href').substring(1);
+                        
+                        // Hide all tab content
+                        elements.tabContents.forEach(content => {
+                            content.classList.remove('active');
+                        });
+                        
+                        // Show the selected tab content
+                        document.getElementById(tabId + '-tab-content').classList.add('active');
+                    });
+                });
+            }
+            
+            // "All" button in alphabet filter
+            const allButton = document.querySelector('.letter-btn[data-letter="all"]');
+            if (allButton) {
+                // Update the All button to show total count
+                const totalCount = ABBREVIATIONS_DATA.length;
+                allButton.innerHTML = 'All';
+                
+                allButton.addEventListener('click', function() {
+                    state.currentLetter = 'all';
+                    document.querySelectorAll('.letter-btn').forEach(btn => {
+                        btn.classList.remove('active');
+                    });
+                    this.classList.add('active');
+                    filterAndRenderAbbreviations(state.currentSearchTerm);
+                });
+            }
+        }
+    </script>
+</body>
+</html>

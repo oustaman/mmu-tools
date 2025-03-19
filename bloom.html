@@ -1,0 +1,1843 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>University Portal Template - Main Content Text Resize</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="styles.css">
+    <script src="sidebar-links.js"></script>
+    <script src="core.js"></script>
+    <style>
+        /* Styles unique to Bloom's Taxonomy Activity Generator */
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+        
+        .header-title {
+            font-size: 1.75rem;
+            font-weight: bold;
+        }
+        
+        .header-buttons {
+            display: flex;
+            gap: 0.5rem;
+        }
+        
+        .info-box.collapsed {
+            max-height: 0;
+            padding: 0;
+            margin: 0;
+            border: none;
+        }
+        
+        .info-box.expanded {
+            max-height: 1000px;
+        }
+        
+        .accordion-btn {
+            cursor: pointer;
+            padding: 0.5rem 1rem;
+            background-color: #f0f0f0;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        
+        .accordion-container {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .two-column-container {
+            display: flex;
+            gap: 2rem;
+        }
+        
+        .column {
+            flex: 1;
+        }
+        
+        fieldset {
+            border: 1px solid #dee2e6;
+            border-radius: 4px;
+            padding: 1rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        legend {
+            font-weight: bold;
+            padding: 0 0.5rem;
+        }
+        
+        .step-number {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 1.5rem;
+            height: 1.5rem;
+            background-color: var(--accent-color, #3b82f6);
+            color: white;
+            border-radius: 50%;
+            margin-right: 0.5rem;
+            font-size: 0.875rem;
+        }
+        
+        .step-content {
+            margin-top: 1rem;
+        }
+        
+        .hidden {
+            display: none !important;
+        }
+        </style>
+</head>
+<body>
+    <!-- Single Header -->
+    <header class="header">
+        <button class="hamburger-menu" aria-label="Toggle sidebar">
+            <i class="fas fa-bars"></i>
+        </button>
+        
+        <div class="logo">
+        </div>
+        
+        <nav class="nav-tabs">
+            <a href="#main" class="nav-tab active">Main Tab</a>
+            <a href="#info" class="nav-tab">Info</a>
+        </nav>
+        
+        <!-- Centered search box (hidden on mobile) -->
+        <div class="search-container">
+            <i class="fas fa-search search-icon"></i>
+            <input type="text" id="search-input" class="search-input" placeholder="Search...">
+        </div>
+        
+        <!-- Header controls positioned above right sidebar -->
+        <div class="header-controls">
+            <!-- Font size controls -->
+            <div class="font-size-controls">
+                <div id="decrease-font" class="font-size-btn">
+                    <i class="fas fa-minus"></i>
+                </div>
+                <div class="text-label mx-2 text-muted">Text</div>
+                <div id="increase-font" class="font-size-btn">
+                    <i class="fas fa-plus"></i>
+                </div>
+            </div>
+            
+            <button class="toggle-right-sidebar" aria-label="Toggle right sidebar">
+                <i class="fas fa-cog"></i>
+            </button>
+            
+            <button class="theme-toggle" aria-label="Toggle dark/light mode">
+                <i class="fas fa-sun"></i>
+            </button>
+        </div>
+    </header>
+
+    <!-- Mobile search bar (only visible on smaller screens) -->
+    <div class="mobile-search-container">
+        <div class="relative w-full">
+            <i class="fas fa-search search-icon"></i>
+            <input type="text" id="mobile-search-input" class="search-input w-full" placeholder="Search...">
+        </div>
+    </div>
+
+    <!-- Main layout -->
+    <div class="layout">
+        <!-- Left sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-section">
+                <div class="sidebar-header">
+                    <span>University Links</span>
+                </div>
+                <div id="university-content" class="sidebar-content">
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main content area with tab content -->
+<!-- Main content area with tab content -->
+<main class="main-content">
+    <!-- Main tab content -->
+    <div id="main-tab-content" class="tab-content active">
+        <h1 class="text-2xl font-bold mb-4">Bloom's Taxonomy Activity Generator</h1>
+        
+        <!-- Learning Objective section -->
+        <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-6 mb-6">
+            <div class="flex items-center justify-between mb-4">
+                <h2 class="text-xl font-semibold">Learning Objective (optional)</h2>
+                <label class="inline-flex items-center cursor-pointer">
+                    <div class="relative">
+                        <input type="checkbox" id="enable-objective" class="sr-only peer">
+                    </div>
+                </label>
+            </div>
+            
+            <div class="mb-4">
+                <label class="block text-sm font-medium mb-2" for="learning-objective">Enter a single learning objective for this session:</label>
+                <textarea id="learning-objective" class="w-full p-3 border border-gray-300 dark:border-gray-600 rounded-md dark:bg-gray-700 dark:text-white" 
+                    rows="2" placeholder="Students will be able to analyze the causes of World War I by examining primary sources..."></textarea>
+            </div>
+            
+            <div id="objective-analysis" class="hidden">
+                <div class="p-3 bg-blue-50 dark:bg-blue-900/30 border border-blue-200 dark:border-blue-800 rounded-md mb-4">
+                    <h3 class="font-medium text-blue-700 dark:text-blue-300 mb-2">Analysis Results:</h3>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                            <h4 class="text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Detected Taxonomy Levels:</h4>
+                            <div id="detected-levels" class="flex flex-wrap gap-1">
+                                <!-- Detected levels will appear here -->
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <h4 class="text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Detected Subject Areas:</h4>
+                            <div id="detected-subjects" class="flex flex-wrap gap-1">
+                                <!-- Detected subjects will appear here -->
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="mt-3 text-sm text-blue-700 dark:text-blue-300">
+                        <i class="fas fa-info-circle mr-1"></i> Activities will be tailored to this learning objective
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-6 mb-6">
+            <h2 class="text-xl font-semibold mb-4">Select Options</h2>
+            
+            <!-- Base parameters -->
+            <div class="grid md:grid-cols-2 gap-6 mb-4">
+                <!-- Taxonomy levels -->
+                <div>
+                    <h3 class="font-medium mb-3">Bloom's Taxonomy Levels</h3>
+                    <div class="space-y-2">
+                        <label class="flex items-center">
+                            <input type="checkbox" class="taxonomy-level mr-2" value="remember" checked>
+                            Remember (Knowledge)
+                        </label>
+                        <label class="flex items-center">
+                            <input type="checkbox" class="taxonomy-level mr-2" value="understand">
+                            Understand (Comprehension)
+                        </label>
+                        <label class="flex items-center">
+                            <input type="checkbox" class="taxonomy-level mr-2" value="apply">
+                            Apply (Application)
+                        </label>
+                        <label class="flex items-center">
+                            <input type="checkbox" class="taxonomy-level mr-2" value="analyze">
+                            Analyze (Analysis)
+                        </label>
+                        <label class="flex items-center">
+                            <input type="checkbox" class="taxonomy-level mr-2" value="evaluate">
+                            Evaluate (Evaluation)
+                        </label>
+                        <label class="flex items-center">
+                            <input type="checkbox" class="taxonomy-level mr-2" value="create">
+                            Create (Synthesis)
+                        </label>
+                    </div>
+                </div>
+                
+                <!-- Subject areas -->
+                <div>
+                    <h3 class="font-medium mb-3">Subject Areas</h3>
+                    <div class="space-y-2">
+                        <label class="flex items-center">
+                            <input type="checkbox" class="subject-area mr-2" value="technology" checked>
+                            Technology
+                        </label>
+                        <label class="flex items-center">
+                            <input type="checkbox" class="subject-area mr-2" value="language">
+                            Language
+                        </label>
+                        <label class="flex items-center">
+                            <input type="checkbox" class="subject-area mr-2" value="theory">
+                            Theory
+                        </label>
+                        <label class="flex items-center">
+                            <input type="checkbox" class="subject-area mr-2" value="practical">
+                            Practical
+                        </label>
+                        <label class="flex items-center">
+                            <input type="checkbox" class="subject-area mr-2" value="humanities">
+                            Humanities
+                        </label>
+                        <label class="flex items-center">
+                            <input type="checkbox" class="subject-area mr-2" value="social-sciences">
+                            Social Sciences
+                        </label>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Advanced parameters (collapsible) -->
+            <div class="mb-4">
+                <button id="toggle-advanced" class="flex items-center text-blue-600 hover:text-blue-800 mb-2">
+                    <i id="toggle-icon" class="fas fa-plus-circle mr-2"></i>
+                    <span>Customize Activities</span>
+                </button>
+                
+                <div id="advanced-options" class="hidden border-t pt-4 mt-4">
+                    <div class="grid md:grid-cols-3 gap-6">
+                        <!-- Learning Environment -->
+                        <div>
+                            <h3 class="font-medium mb-3">Learning Environment</h3>
+                            <div class="space-y-2">
+                                <label class="flex items-center">
+                                    <input type="radio" name="environment" class="environment-param mr-2" value="any" checked>
+                                    Any Environment
+                                </label>
+                                <label class="flex items-center">
+                                    <input type="radio" name="environment" class="environment-param mr-2" value="in-person">
+                                    In-person
+                                </label>
+                                <label class="flex items-center">
+                                    <input type="radio" name="environment" class="environment-param mr-2" value="online">
+                                    Online
+                                </label>
+                                <label class="flex items-center">
+                                    <input type="radio" name="environment" class="environment-param mr-2" value="hybrid">
+                                    Hybrid
+                                </label>
+                            </div>
+                        </div>
+                        
+                        <!-- Group Size -->
+                        <div>
+                            <h3 class="font-medium mb-3">Group Size</h3>
+                            <div class="space-y-2">
+                                <label class="flex items-center">
+                                    <input type="radio" name="group-size" class="group-param mr-2" value="any" checked>
+                                    Any Group Size
+                                </label>
+                                <label class="flex items-center">
+                                    <input type="radio" name="group-size" class="group-param mr-2" value="individual">
+                                    Individual
+                                </label>
+                                <label class="flex items-center">
+                                    <input type="radio" name="group-size" class="group-param mr-2" value="pairs">
+                                    Pairs
+                                </label>
+                                <label class="flex items-center">
+                                    <input type="radio" name="group-size" class="group-param mr-2" value="small-groups">
+                                    Small Groups
+                                </label>
+                                <label class="flex items-center">
+                                    <input type="radio" name="group-size" class="group-param mr-2" value="whole-class">
+                                    Whole Class
+                                </label>
+                            </div>
+                        </div>
+                        
+                        <!-- Activity Style -->
+                        <div>
+                            <h3 class="font-medium mb-3">Activity Style</h3>
+                            <div class="space-y-2">
+                                <label class="flex items-center">
+                                    <input type="radio" name="style" class="style-param mr-2" value="any" checked>
+                                    Standard Activities
+                                </label>
+                                <label class="flex items-center">
+                                    <input type="radio" name="style" class="style-param mr-2" value="gamified">
+                                    Gamified
+                                </label>
+                                <label class="flex items-center">
+                                    <input type="radio" name="style" class="style-param mr-2" value="discussion">
+                                    Discussion-based
+                                </label>
+                                <label class="flex items-center">
+                                    <input type="radio" name="style" class="style-param mr-2" value="project">
+                                    Project-based
+                                </label>
+                                <label class="flex items-center">
+                                    <input type="radio" name="style" class="style-param mr-2" value="tech">
+                                    Technology-enhanced
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="mb-4 p-3 border border-blue-200 bg-blue-50 dark:border-blue-800 dark:bg-blue-900 rounded-md">
+                <div class="flex items-start">
+                    <div class="mr-2 mt-0.5 text-blue-600 dark:text-blue-400">
+                        <i class="fas fa-random"></i>
+                    </div>
+                    <div>
+                        <h4 class="font-medium text-blue-700 dark:text-blue-300">Activity Variation:</h4>
+                        <label class="flex items-center mt-2">
+                            <input type="checkbox" id="mix-match" class="mr-2">
+                            <span class="text-sm">Create varied activities by combining different taxonomy levels, verbs, and subject areas</span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="mt-6">
+                <button id="generate-btn" class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition">
+                    Generate 5 Activities
+                </button>
+            </div>
+        </div>
+
+        <!-- Results section -->
+        <div id="results-container" class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-6 mb-6 hidden">
+            <div class="flex justify-between items-center mb-4">
+                <h2 class="text-xl font-semibold">Generated Activities</h2>
+                
+                <div class="space-x-2">
+                    <button id="regenerate-btn" class="px-3 py-1 bg-blue-100 text-blue-700 border border-blue-300 rounded hover:bg-blue-200 transition">
+                        <i class="fas fa-sync-alt mr-1"></i> Regenerate
+                    </button>
+                </div>
+            </div>
+            
+            <div id="activity-results" class="space-y-4">
+                <!-- Generated activities will appear here -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Info tab content - contains comprehensive documentation -->
+    <div id="info-tab-content" class="tab-content">
+        <h1 class="text-3xl font-bold mb-6">About Bloom's Taxonomy Activity Generator</h1>
+        
+        <div class="info-box mb-6">
+            <div class="info-box-title">
+                <i class="fas fa-info-circle"></i> 
+                How to Use This Tool
+            </div>
+            <div class="info-content">
+                <p class="mb-2">
+                    Generate teaching activities based on Bloom's Taxonomy in just a few clicks:
+                </p>
+                <ol class="list-decimal pl-5 space-y-1 mb-4">
+                    <li><strong>Select taxonomy levels</strong> - Choose one or more cognitive levels you want to target</li>
+                    <li><strong>Choose subject areas</strong> - Select disciplines that match your teaching context</li>
+                    <li><strong>Customize activities</strong> (optional) - Expand the options panel to specify:
+                        <ul class="list-disc pl-5 mt-1 mb-1">
+                            <li>Learning environment (in-person, online, hybrid)</li>
+                            <li>Group sizes (individual, pairs, small groups, whole class)</li>
+                            <li>Activity styles (gamified, discussion-based, etc.)</li>
+                        </ul>
+                    </li>
+                    <li><strong>Enable activity variation</strong> (optional) - Check this option to create more diverse activities</li>
+                    <li><strong>Add learning objectives</strong> (optional) - Enter specific learning goals to tailor activities to your needs</li>
+                    <li><strong>Generate activities</strong> - Click the button to create five custom teaching activities</li>
+                </ol>
+                <p>You can save or print your generated activities for later use, or regenerate a new set at any time.</p>
+            </div>
+        </div>
+        
+        <div class="info-box mb-6">
+            <div class="info-box-title">
+                <i class="fas fa-lightbulb"></i> 
+                Learning Objectives Feature
+            </div>
+            <div class="info-content">
+                <p class="mb-3">
+                    The learning objectives feature lets you align activities with specific course goals:
+                </p>
+                
+                <h4 class="font-medium mb-2">How it works:</h4>
+                <ol class="list-decimal pl-5 space-y-1 mb-3">
+                    <li>Enter a learning objective in the text area (e.g., "Students will analyze data using statistical methods")</li>
+                    <li>The system automatically detects taxonomy levels and subject areas from your objective</li>
+                    <li>Activities are prioritized to match your objective's cognitive level and content area</li>
+                    <li>Highly relevant activities receive an "Objective aligned" badge</li>
+                </ol>
+                
+                <h4 class="font-medium mb-2">Tips for effective learning objectives:</h4>
+                <ul class="list-disc pl-5 space-y-1">
+                    <li>Use specific, measurable action verbs (e.g., "analyze," "evaluate," "create")</li>
+                    <li>Include clear subject matter content</li>
+                    <li>Be concrete about what students will do</li>
+                    <li>Avoid vague terms like "understand" or "know"</li>
+                </ul>
+            </div>
+        </div>
+        
+        <h2 class="text-2xl font-bold mt-8 mb-4">Understanding Bloom's Taxonomy</h2>
+        <p class="mb-4">
+            Bloom's Taxonomy is a hierarchical framework used to classify educational learning objectives. It consists of six cognitive levels, from basic remembering to complex creation, providing a structured approach to developing learning activities that target different cognitive skills.
+        </p>
+        
+        <div class="grid md:grid-cols-2 gap-6 mt-6">
+            <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-4">
+                <h3 class="font-bold" style="color: #3B82F6;">1. Remember</h3>
+                <p>Recall facts and basic concepts</p>
+                <p class="text-sm text-gray-600 dark:text-gray-400 mt-2">Associated verbs: List, Recall, Define, Identify, Name, State</p>
+                <p class="text-sm mt-2">Example: "Students list key components of a computer system from memory."</p>
+            </div>
+            
+            <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-4">
+                <h3 class="font-bold" style="color: #10B981;">2. Understand</h3>
+                <p>Explain ideas or concepts</p>
+                <p class="text-sm text-gray-600 dark:text-gray-400 mt-2">Associated verbs: Explain, Interpret, Summarize, Describe, Classify, Compare</p>
+                <p class="text-sm mt-2">Example: "Groups explain how a circulatory system works using a diagram."</p>
+            </div>
+            
+            <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-4">
+                <h3 class="font-bold" style="color: #F59E0B;">3. Apply</h3>
+                <p>Use information in new situations</p>
+                <p class="text-sm text-gray-600 dark:text-gray-400 mt-2">Associated verbs: Use, Implement, Demonstrate, Calculate, Solve, Illustrate</p>
+                <p class="text-sm mt-2">Example: "Students use a formula to solve real-world physics problems."</p>
+            </div>
+            
+            <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-4">
+                <h3 class="font-bold" style="color: #8B5CF6;">4. Analyze</h3>
+                <p>Make connections among ideas</p>
+                <p class="text-sm text-gray-600 dark:text-gray-400 mt-2">Associated verbs: Analyze, Differentiate, Organize, Examine, Categorize, Investigate</p>
+                <p class="text-sm mt-2">Example: "Pairs analyze a poem to identify literary devices and their effects."</p>
+            </div>
+            
+            <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-4">
+                <h3 class="font-bold" style="color: #EC4899;">5. Evaluate</h3>
+                <p>Justify a stand or decision</p>
+                <p class="text-sm text-gray-600 dark:text-gray-400 mt-2">Associated verbs: Evaluate, Judge, Critique, Assess, Appraise, Justify</p>
+                <p class="text-sm mt-2">Example: "Teams evaluate research methods for validity and reliability."</p>
+            </div>
+            
+            <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-4">
+                <h3 class="font-bold" style="color: #EF4444;">6. Create</h3>
+                <p>Produce new or original work</p>
+                <p class="text-sm text-gray-600 dark:text-gray-400 mt-2">Associated verbs: Create, Design, Develop, Compose, Construct, Formulate</p>
+                <p class="text-sm mt-2">Example: "Students design an experiment to test a scientific hypothesis."</p>
+            </div>
+        </div>
+        
+        <h2 class="text-2xl font-bold mt-8 mb-4">Teaching with Bloom's Taxonomy</h2>
+        
+        <div class="mb-6">
+            <h3 class="text-xl font-medium mb-3">Benefits of Using Varied Cognitive Levels</h3>
+            <ul class="list-disc pl-5 space-y-2">
+                <li><strong>Deeper learning</strong> - Students engage with content at multiple cognitive levels</li>
+                <li><strong>Critical thinking</strong> - Higher-order activities (analyze, evaluate, create) develop analytical skills</li>
+                <li><strong>Student engagement</strong> - Variety keeps students motivated and active</li>
+                <li><strong>Inclusivity</strong> - Different activities address diverse learning styles and abilities</li>
+                <li><strong>Assessment alignment</strong> - Activities can be mapped to assessment tasks and learning outcomes</li>
+            </ul>
+        </div>
+        
+        <div class="info-box mt-8">
+            <div class="info-box-title">
+                <i class="fas fa-graduation-cap"></i> 
+                Best Practices for Activity Design
+            </div>
+            <div class="info-content">
+                <div class="grid md:grid-cols-2 gap-4">
+                    <div>
+                        <h4 class="font-medium mb-2">For Effective Activities:</h4>
+                        <ul class="list-disc pl-5 space-y-1">
+                            <li>Scaffold from lower to higher cognitive levels</li>
+                            <li>Match taxonomy levels to your learning objectives</li>
+                            <li>Balance individual and group activities</li>
+                            <li>Consider time constraints and session length</li>
+                            <li>Provide clear instructions and success criteria</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4 class="font-medium mb-2">When to Use Each Level:</h4>
+                        <ul class="list-disc pl-5 space-y-1">
+                            <li><strong>Remember/Understand</strong>: For new concepts or knowledge foundations</li>
+                            <li><strong>Apply/Analyze</strong>: For developing skills and making connections</li>
+                            <li><strong>Evaluate/Create</strong>: For synthesis, innovation, and mastery</li>
+                            <li><strong>Mixed levels</strong>: For comprehensive understanding and skill building</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</main>
+        <!-- Right sidebar -->
+        <aside class="right-sidebar">
+            <div class="right-sidebar-header">Quick Tools</div>
+        </aside>
+    </div>
+
+<script>// Bloom's Taxonomy Activity Generator
+    // Wrap everything in a DOMContentLoaded event to ensure HTML elements exist before we reference them
+    document.addEventListener('DOMContentLoaded', function() {
+        // =====================================================
+        // CONSTANTS AND DATA
+        // =====================================================
+    
+        // Set constant number of activities to generate
+        const ACTIVITY_COUNT = 5;
+    
+        // Activity data based on Bloom's Taxonomy
+        const bloomsActivities = {
+            remember: {
+                verbs: ["List", "Recall", "Define", "Identify", "Name", "State"],
+                activities: {
+                    technology: [
+                        "Groups list major tech concepts from last lecture; share definitions.",
+                        "Pairs list computing breakthroughs since 2000; compile a class master list.",
+                        "Students identify key components in a system diagram.",
+                        "Class recalls programming syntax from memory.",
+                        "Teams name different types of networks and their purposes.",
+                        "Individuals state the steps in a technical process."
+                    ],
+                    language: [
+                        "Students list synonyms for a key term; compare with dictionary definitions.",
+                        "Groups list essential grammar rules from memory; correct each other's lists.",
+                        "Pairs identify parts of speech in a paragraph.",
+                        "Class recalls vocabulary from previous lessons.",
+                        "Students name literary devices found in a passage.",
+                        "Individuals define grammatical terms with examples."
+                    ],
+                    theory: [
+                        "Class lists core theoretical frameworks; check references for completeness.",
+                        "In pairs, list influential theorists; share and refine collectively.",
+                        "Students identify main assumptions in a theoretical model.",
+                        "Groups recall key theoretical principles from memory.",
+                        "Teams name the major schools of thought in the field.",
+                        "Individuals state the fundamental laws or axioms underlying a theory."
+                    ],
+                    practical: [
+                        "Students list necessary lab steps; verify each step with a brief demo.",
+                        "Groups list required materials for a project; cross-check actual resources.",
+                        "Pairs identify potential safety hazards in a procedure.",
+                        "Class recalls proper equipment usage protocols.",
+                        "Teams name alternative methods for achieving the same practical outcome.",
+                        "Individuals define technical terms used in lab procedures."
+                    ],
+                    humanities: [
+                        "Pairs list major literary works of a period; discuss significance briefly.",
+                        "Groups list key historical events in a timeline; refine with additional details.",
+                        "Students identify artistic styles from visual examples.",
+                        "Class recalls significant dates and their historical importance.",
+                        "Teams name influential figures in a cultural movement.",
+                        "Individuals state the defining characteristics of historical periods."
+                    ],
+                    "social-sciences": [
+                        "Class lists leading sociologists; compare lists, adding missing names.",
+                        "Students list factors influencing social behavior; validate with examples.",
+                        "Groups identify patterns in demographic data.",
+                        "Pairs recall key studies and their findings.",
+                        "Teams name major theories of human development.",
+                        "Individuals define research methodologies used in the field."
+                    ]
+                }
+            },
+            understand: {
+                verbs: ["Explain", "Interpret", "Summarize", "Describe", "Classify", "Compare"],
+                activities: {
+                    technology: [
+                        "Students explain how an algorithm works using a flowchart.",
+                        "Pairs interpret code snippets and explain their purpose to the class.",
+                        "Groups summarize the features of a new technology platform.",
+                        "Class describes the relationship between hardware and software components.",
+                        "Teams classify different types of databases according to their structure.",
+                        "Individuals compare two programming languages, highlighting key differences."
+                    ],
+                    language: [
+                        "Groups summarize a text in their own words, preserving key points.",
+                        "Students describe language patterns they notice in sample passages.",
+                        "Pairs explain grammar rules using their own examples.",
+                        "Class interprets figurative language in a poem.",
+                        "Teams classify sentences by their structure and function.",
+                        "Individuals compare different writing styles across multiple authors."
+                    ],
+                    theory: [
+                        "Pairs compare two competing theories using a Venn diagram.",
+                        "Class classifies theoretical approaches by their core assumptions.",
+                        "Students explain a complex theory to a non-specialist audience.",
+                        "Groups interpret a theoretical model using a real-world example.",
+                        "Teams summarize a lengthy academic paper in a one-page document.",
+                        "Individuals describe how theories have evolved over time."
+                    ],
+                    practical: [
+                        "Students explain the reasoning behind each step in a procedure.",
+                        "Groups interpret experimental results and describe what they mean.",
+                        "Pairs summarize best practices for using specialized equipment.",
+                        "Class describes potential applications of a practical technique.",
+                        "Teams classify different approaches to solving practical problems.",
+                        "Individuals compare alternative methodologies for efficiency."
+                    ],
+                    humanities: [
+                        "Pairs summarize the main arguments in a philosophical text.",
+                        "Students compare artistic movements using specific examples of works.",
+                        "Groups explain historical causes and effects of a major event.",
+                        "Class interprets the meaning of symbols in cultural artifacts.",
+                        "Teams classify literary works by genre and period.",
+                        "Individuals describe the characteristics of an architectural style."
+                    ],
+                    "social-sciences": [
+                        "Groups classify research methods by their strengths and limitations.",
+                        "Students describe connections between social phenomena using models.",
+                        "Pairs explain the impact of policies on different demographics.",
+                        "Class interprets statistical data about human behavior.",
+                        "Teams summarize key findings from a sociological study.",
+                        "Individuals compare different approaches to addressing social issues."
+                    ]
+                }
+            },
+            apply: {
+                verbs: ["Use", "Implement", "Demonstrate", "Calculate", "Solve", "Illustrate"],
+                activities: {
+                    technology: [
+                        "Students implement an algorithm to solve a real-world problem.",
+                        "Pairs use programming concepts to create a simple application.",
+                        "Groups demonstrate how to troubleshoot common technical issues.",
+                        "Class calculates system requirements for a given application.",
+                        "Teams solve debugging challenges in provided code samples.",
+                        "Individuals illustrate data flows using diagrams."
+                    ],
+                    language: [
+                        "Groups demonstrate correct usage of grammar rules in written paragraphs.",
+                        "Students apply translation techniques to a challenging passage.",
+                        "Pairs use newly learned vocabulary in meaningful sentences.",
+                        "Class implements editing techniques to improve a flawed text.",
+                        "Teams solve word puzzles that reinforce language concepts.",
+                        "Individuals illustrate the meaning of idioms through short stories."
+                    ],
+                    theory: [
+                        "Pairs solve theoretical problems using established frameworks.",
+                        "Class calculates outcomes using theoretical models and compares to data.",
+                        "Students use theoretical principles to predict behavior in new situations.",
+                        "Groups implement a theoretical approach to analyze a case study.",
+                        "Teams demonstrate the application of abstract concepts to concrete examples.",
+                        "Individuals illustrate theoretical relationships through diagrams."
+                    ],
+                    practical: [
+                        "Students illustrate a process through demonstration to peers.",
+                        "Groups implement safety protocols in a simulated scenario.",
+                        "Pairs use specialized equipment to complete a task.",
+                        "Class calculates materials needed for a scaled project.",
+                        "Teams solve practical challenges with limited resources.",
+                        "Individuals demonstrate proper technique for a practical skill."
+                    ],
+                    humanities: [
+                        "Pairs use historical methods to investigate a local historical question.",
+                        "Students demonstrate literary analysis techniques on an unseen text.",
+                        "Groups implement artistic techniques to create themed works.",
+                        "Class calculates proportions in architectural or artistic designs.",
+                        "Teams solve historical puzzles using primary source evidence.",
+                        "Individuals illustrate philosophical concepts through creative work."
+                    ],
+                    "social-sciences": [
+                        "Groups apply research methods to collect data on campus behaviors.",
+                        "Students use theoretical concepts to explain current events.",
+                        "Pairs demonstrate interview techniques in role-play scenarios.",
+                        "Class calculates statistical measures from social science data.",
+                        "Teams solve case studies involving social dynamics.",
+                        "Individuals illustrate sociological concepts through infographics."
+                    ]
+                }
+            },
+            analyze: {
+                verbs: ["Analyze", "Differentiate", "Organize", "Examine", "Categorize", "Investigate"],
+                activities: {
+                    technology: [
+                        "Students analyze system architecture diagrams to identify bottlenecks.",
+                        "Pairs differentiate between efficient and inefficient code implementations.",
+                        "Groups organize programming concepts into a hierarchical framework.",
+                        "Class examines the impact of hardware specifications on performance.",
+                        "Teams categorize software by function and user interface design.",
+                        "Individuals investigate the causes of common system failures."
+                    ],
+                    language: [
+                        "Groups examine a text for bias and underlying assumptions.",
+                        "Students categorize linguistic features in a corpus of texts.",
+                        "Pairs organize language patterns into meaningful categories.",
+                        "Class analyzes the effectiveness of different communication styles.",
+                        "Teams differentiate between denotative and connotative meanings in a passage.",
+                        "Individuals investigate the etymology of technical terminology."
+                    ],
+                    theory: [
+                        "Pairs investigate inconsistencies in theoretical frameworks.",
+                        "Class organizes various theoretical perspectives on a complex problem.",
+                        "Students examine competing theories for strengths and weaknesses.",
+                        "Groups analyze a theory's ability to explain anomalous data.",
+                        "Teams differentiate between correlation and causation in theoretical claims.",
+                        "Individuals categorize theoretical approaches based on their assumptions."
+                    ],
+                    practical: [
+                        "Students analyze failed attempts to identify sources of error.",
+                        "Groups differentiate between correlation and causation in lab results.",
+                        "Teams organize experimental data into meaningful patterns.",
+                        "Class examines variations in outcome based on technique differences.",
+                        "Pairs categorize procedural approaches by efficiency and effectiveness.",
+                        "Individuals investigate factors affecting practical performance."
+                    ],
+                    humanities: [
+                        "Pairs examine primary sources to reveal historical perspectives.",
+                        "Students analyze artistic techniques and their effects in selected works.",
+                        "Groups organize historical events according to underlying causes.",
+                        "Class differentiates between fact and interpretation in historical accounts.",
+                        "Teams categorize cultural artifacts by period and influence.",
+                        "Individuals investigate patterns in artistic or literary developments."
+                    ],
+                    "social-sciences": [
+                        "Groups investigate factors contributing to specific social patterns.",
+                        "Students categorize research findings into themes and patterns.",
+                        "Class organizes sociological concepts into a coherent framework.",
+                        "Pairs analyze survey data to identify demographic trends.",
+                        "Teams differentiate between causal factors and consequences in social issues.",
+                        "Individuals examine case studies to identify underlying principles."
+                    ]
+                }
+            },
+            evaluate: {
+                verbs: ["Evaluate", "Judge", "Critique", "Assess", "Appraise", "Justify"],
+                activities: {
+                    technology: [
+                        "Students evaluate software usability; propose improvements.",
+                        "Pairs evaluate competing tech solutions for a problem; rate each on feasibility.",
+                        "Groups judge the security implications of different system architectures.",
+                        "Class critiques user interface designs based on accessibility standards.",
+                        "Teams assess the sustainability of technological innovations.",
+                        "Individuals justify technology choices for specific use cases."
+                    ],
+                    language: [
+                        "Class evaluates clarity in sample writing; suggest edits for conciseness.",
+                        "Groups evaluate translations of a text; decide which is most accurate.",
+                        "Students critique arguments for logical fallacies and rhetorical effectiveness.",
+                        "Pairs assess the appropriateness of language use in different contexts.",
+                        "Teams appraise the credibility of sources in academic writing.",
+                        "Individuals justify stylistic choices in their own compositions."
+                    ],
+                    theory: [
+                        "Students evaluate a theory's predictive power; present supporting evidence.",
+                        "Pairs evaluate the relevance of an older theory to modern issues; share conclusions.",
+                        "Groups judge theoretical models based on empirical evidence.",
+                        "Class critiques the methodological assumptions in theoretical research.",
+                        "Teams assess competing explanations for the same phenomenon.",
+                        "Individuals justify their preference for one theoretical framework over alternatives."
+                    ],
+                    practical: [
+                        "Groups evaluate success of a workshop project; consider time, cost, quality.",
+                        "Students evaluate safety compliance in a mock scenario; assign a grade and justify.",
+                        "Pairs critique demonstration techniques for clarity and effectiveness.",
+                        "Class assesses the sustainability of practical processes.",
+                        "Teams appraise the transferability of skills across different contexts.",
+                        "Individuals justify modifications to standard procedures."
+                    ],
+                    humanities: [
+                        "Pairs evaluate the historical impact of an author's work; weigh multiple perspectives.",
+                        "Class evaluates a museum exhibit's representation of an era; note strengths/gaps.",
+                        "Students critique interpretations of historical events for bias and evidence.",
+                        "Groups judge artistic works against established critical standards.",
+                        "Teams assess the cultural significance of historical artifacts.",
+                        "Individuals justify their interpretation of ambiguous texts or artworks."
+                    ],
+                    "social-sciences": [
+                        "Groups evaluate research findings; check validity and reliability of methods.",
+                        "Students evaluate ethical standards in a famous study; propose alternative approaches.",
+                        "Pairs critique social policies based on empirical outcomes.",
+                        "Class assesses different approaches to addressing social problems.",
+                        "Teams appraise the quality of evidence supporting social theories.",
+                        "Individuals justify policy recommendations with data and ethical considerations."
+                    ]
+                }
+            },
+            create: {
+                verbs: ["Create", "Design", "Develop", "Compose", "Construct", "Formulate"],
+                activities: {
+                    technology: [
+                        "Students design an app to solve a campus problem; present prototypes.",
+                        "Pairs develop algorithms for an unsolved computational challenge.",
+                        "Groups create a technical specification for an innovative product.",
+                        "Class constructs a database schema for a complex information system.",
+                        "Teams formulate testing protocols for quality assurance.",
+                        "Individuals compose documentation for a technical system."
+                    ],
+                    language: [
+                        "Groups compose dialogues demonstrating complex language features.",
+                        "Students create a style guide for specialized technical writing.",
+                        "Pairs develop communication strategies for diverse audiences.",
+                        "Class constructs a taxonomy of linguistic structures.",
+                        "Teams design instructional materials for language learning.",
+                        "Individuals formulate arguments on controversial topics."
+                    ],
+                    theory: [
+                        "Pairs construct a new theoretical model that addresses existing gaps.",
+                        "Class formulates hypotheses based on theoretical frameworks; design tests.",
+                        "Students create visual representations of abstract theoretical concepts.",
+                        "Groups develop extensions to existing theories to explain new phenomena.",
+                        "Teams design experiments to test theoretical predictions.",
+                        "Individuals compose scholarly arguments synthesizing multiple theories."
+                    ],
+                    practical: [
+                        "Students develop an improved protocol for a standard procedure.",
+                        "Groups design and build a solution to a real-world engineering problem.",
+                        "Pairs create troubleshooting guides for common practical issues.",
+                        "Class constructs a performance rubric for practical skills.",
+                        "Teams formulate best practices based on practical experience.",
+                        "Individuals develop innovations that enhance efficiency or safety."
+                    ],
+                    humanities: [
+                        "Pairs create an exhibition proposal interpreting historical events.",
+                        "Students compose creative responses to philosophical questions.",
+                        "Groups design a cultural event that synthesizes multiple art forms.",
+                        "Class constructs historical narratives from primary source materials.",
+                        "Teams develop interpretive frameworks for understanding cultural phenomena.",
+                        "Individuals formulate original theories about artistic or historical developments."
+                    ],
+                    "social-sciences": [
+                        "Groups design research studies to investigate contemporary issues.",
+                        "Students construct theoretical frameworks to explain emerging phenomena.",
+                        "Pairs create intervention strategies for social problems.",
+                        "Class develops survey instruments to gather meaningful data.",
+                        "Teams formulate policy recommendations based on social research.",
+                        "Individuals compose case studies illustrating social science principles."
+                    ]
+                }
+            }
+        };
+    
+        // Environment modifiers for activities
+        const environmentModifiers = {
+            "in-person": [
+                "using physical manipulatives",
+                "through face-to-face interaction",
+                "in a classroom setting",
+                "using whiteboard collaboration",
+                "with hands-on materials"
+            ],
+            "online": [
+                "using digital collaboration tools",
+                "in virtual breakout rooms",
+                "through asynchronous discussion boards",
+                "using shared online documents",
+                "via video conferencing"
+            ],
+            "hybrid": [
+                "combining online research with in-class presentation",
+                "through both synchronous and asynchronous components",
+                "with digital submission and in-person feedback",
+                "using both physical and digital resources",
+                "alternating between individual online work and group in-person activities"
+            ]
+        };
+    
+        // Group size modifiers
+        const groupModifiers = {
+            "individual": [
+                "working independently",
+                "as a self-directed activity",
+                "for personal reflection",
+                "as a portfolio piece",
+                "for individual assessment"
+            ],
+            "pairs": [
+                "in pairs",
+                "with a partner",
+                "through peer collaboration",
+                "using pair programming techniques",
+                "with peer feedback"
+            ],
+            "small-groups": [
+                "in small groups of 3-4",
+                "in diverse teams",
+                "through collaborative learning groups",
+                "in research teams",
+                "with jigsaw group techniques"
+            ],
+            "whole-class": [
+                "as a class-wide activity",
+                "through collective brainstorming",
+                "in a fishbowl discussion format",
+                "using class debate structures",
+                "with full-class participation"
+            ]
+        };
+    
+        // Activity style modifiers
+        const styleModifiers = {
+            "gamified": [
+                "as a competitive challenge",
+                "using a points-based reward system",
+                "in a game-show format",
+                "with achievement badges for completion",
+                "as an escape room challenge"
+            ],
+            "discussion": [
+                "using Socratic questioning",
+                "through structured debate",
+                "in a think-pair-share format",
+                "using discussion protocols",
+                "with guided reflection questions"
+            ],
+            "project": [
+                "as part of a longer-term project",
+                "with authentic real-world application",
+                "culminating in a portfolio artifact",
+                "with client-based specifications",
+                "as an inquiry-based investigation"
+            ],
+            "tech": [
+                "using digital visualization tools",
+                "with interactive simulations",
+                "through multimedia creation",
+                "using AI-powered feedback tools",
+                "with data analytics platforms"
+            ]
+        };
+    
+        // Taxonomy verb mapping - maps common verbs in learning objectives to Bloom's levels
+        const verbTaxonomyMap = {
+            // Remember level
+            "recall": "remember",
+            "recognize": "remember",
+            "list": "remember",
+            "identify": "remember",
+            "retrieve": "remember",
+            "name": "remember",
+            "define": "remember",
+            "state": "remember",
+            "match": "remember",
+            "memorize": "remember",
+            "select": "remember",
+            "label": "remember",
+            "locate": "remember",
+            
+            // Understand level
+            "summarize": "understand",
+            "explain": "understand",
+            "interpret": "understand",
+            "describe": "understand",
+            "classify": "understand",
+            "compare": "understand",
+            "contrast": "understand",
+            "paraphrase": "understand",
+            "predict": "understand",
+            "translate": "understand",
+            "discuss": "understand",
+            "estimate": "understand",
+            "express": "understand",
+            "extend": "understand",
+            "generalize": "understand",
+            "give examples": "understand",
+            "illustrate": "understand",
+            "infer": "understand",
+            "relate": "understand",
+            "rephrase": "understand",
+            
+            // Apply level
+            "apply": "apply",
+            "use": "apply",
+            "implement": "apply",
+            "execute": "apply",
+            "solve": "apply",
+            "demonstrate": "apply",
+            "calculate": "apply",
+            "complete": "apply",
+            "illustrate": "apply",
+            "show": "apply",
+            "examine": "apply",
+            "modify": "apply",
+            "relate": "apply",
+            "change": "apply",
+            "classify": "apply",
+            "experiment": "apply",
+            "discover": "apply",
+            "operate": "apply",
+            
+            // Analyze level
+            "analyze": "analyze",
+            "differentiate": "analyze",
+            "organize": "analyze",
+            "attribute": "analyze",
+            "compare": "analyze",
+            "contrast": "analyze",
+            "distinguish": "analyze",
+            "examine": "analyze",
+            "experiment": "analyze",
+            "question": "analyze",
+            "test": "analyze",
+            "deconstruct": "analyze",
+            "determine": "analyze",
+            "deduce": "analyze",
+            "categorize": "analyze",
+            "connect": "analyze",
+            "investigate": "analyze",
+            "discover": "analyze",
+            "dissect": "analyze",
+            "separate": "analyze",
+            
+            // Evaluate level
+            "evaluate": "evaluate",
+            "check": "evaluate",
+            "critique": "evaluate",
+            "judge": "evaluate",
+            "justify": "evaluate",
+            "argue": "evaluate",
+            "defend": "evaluate",
+            "assess": "evaluate",
+            "value": "evaluate",
+            "interpret": "evaluate",
+            "support": "evaluate",
+            "appraise": "evaluate",
+            "conclude": "evaluate",
+            "criticize": "evaluate",
+            "measure": "evaluate",
+            "opinion": "evaluate",
+            "perceive": "evaluate",
+            "prioritize": "evaluate",
+            "prove": "evaluate",
+            "rate": "evaluate",
+            "recommend": "evaluate",
+            "rule on": "evaluate",
+            "select": "evaluate",
+            "validate": "evaluate",
+            
+            // Create level
+            "create": "create",
+            "design": "create",
+            "formulate": "create",
+            "build": "create",
+            "develop": "create",
+            "construct": "create",
+            "invent": "create",
+            "make": "create",
+            "compose": "create",
+            "generate": "create",
+            "plan": "create",
+            "produce": "create",
+            "devise": "create",
+            "assemble": "create",
+            "author": "create",
+            "collaborate": "create",
+            "develop": "create",
+            "devise": "create",
+            "integrate": "create",
+            "modify": "create",
+            "originate": "create",
+            "propose": "create",
+            "write": "create"
+        };
+    
+        // Subject area keyword mapping - maps common terms to our subject areas
+        const subjectAreaKeywords = {
+            technology: [
+                "technology", "digital", "computer", "software", "hardware", "code", "program", 
+                "app", "application", "algorithm", "data", "system", "tech", "network", 
+                "online", "internet", "web", "computing", "it", "programming", "engineering",
+                "cybersecurity", "database", "artificial intelligence", "ai", "machine learning"
+            ],
+            
+            language: [
+                "language", "reading", "writing", "vocabulary", "grammar", "syntax", "text", 
+                "word", "sentence", "paragraph", "essay", "speech", "communication", "literature", 
+                "linguistic", "literacy", "composition", "comprehension", "dialect", "phonics", 
+                "rhetoric", "translation", "debate", "language arts", "english", "esl"
+            ],
+            
+            theory: [
+                "theory", "concept", "framework", "model", "principle", "paradigm", "hypothesis", 
+                "theorem", "philosophy", "assumption", "abstraction", "conceptual", "theoretical", 
+                "perspective", "approach", "methodology", "epistemology", "ontology", "ideological",
+                "logical", "reasoning", "critical thinking", "abstract", "analysis"
+            ],
+            
+            practical: [
+                "practical", "lab", "laboratory", "hands-on", "procedure", "technique", "skill", 
+                "method", "operation", "experiment", "practice", "field", "demo", "demonstration", 
+                "implementation", "application", "execution", "craft", "workshop", "technical",
+                "physical", "manual", "experiential", "empirical", "tactile"
+            ],
+            
+            humanities: [
+                "humanities", "history", "art", "literature", "philosophy", "music", "culture", 
+                "religion", "ethics", "archaeology", "anthropology", "classics", "heritage", 
+                "civilization", "cultural", "historical", "artistic", "philosophical", "theological",
+                "museum", "artifact", "primary source", "document", "historical", "creative"
+            ],
+            
+            "social-sciences": [
+                "social", "society", "psychology", "sociology", "anthropology", "economics", 
+                "political", "government", "human", "behavior", "cultural", "community", 
+                "population", "demographic", "civic", "social studies", "geographical", 
+                "statistics", "research", "politics", "policy", "law", "education", "development"
+            ]
+        };
+    
+        // =====================================================
+        // DOM ELEMENT REFERENCES 
+        // =====================================================
+        // Get references to DOM elements after ensuring the document is loaded
+        const generateBtn = document.getElementById('generate-btn');
+        const regenerateBtn = document.getElementById('regenerate-btn');
+        const mixMatchCheckbox = document.getElementById('mix-match');
+        const resultsContainer = document.getElementById('results-container');
+        const activityResults = document.getElementById('activity-results');
+        const taxonomyLevels = document.querySelectorAll('.taxonomy-level');
+        const subjectAreas = document.querySelectorAll('.subject-area');
+        const toggleAdvancedBtn = document.getElementById('toggle-advanced');
+        const advancedOptions = document.getElementById('advanced-options');
+        const toggleIcon = document.getElementById('toggle-icon');
+    
+        // =====================================================
+        // UTILITY FUNCTIONS
+        // =====================================================
+    
+        // Helper function to get color based on taxonomy level
+        function getLevelColor(level) {
+            const colors = {
+                remember: '#3B82F6', // blue
+                understand: '#10B981', // green
+                apply: '#F59E0B', // amber
+                analyze: '#8B5CF6', // purple
+                evaluate: '#EC4899', // pink
+                create: '#EF4444'  // red
+            };
+            
+            return colors[level] || '#6B7280'; // gray default
+        }
+    
+        // Get a more descriptive label for taxonomy level
+        function getTaxonomyLabel(level) {
+            const labels = {
+                remember: 'Remember',
+                understand: 'Understand',
+                apply: 'Apply',
+                analyze: 'Analyze',
+                evaluate: 'Evaluate',
+                create: 'Create'
+            };
+            
+            return labels[level] || capitalizeFirstLetter(level);
+        }
+    
+        // Format subject area for display
+        function formatSubject(subject) {
+            if (subject === 'social-sciences') return 'Social Sciences';
+            return capitalizeFirstLetter(subject);
+        }
+    
+        // Capitalize first letter
+        function capitalizeFirstLetter(string) {
+            return string.charAt(0).toUpperCase() + string.slice(1);
+        }
+    
+        // Helper debounce function for event handlers
+        function debounce(func, wait) {
+            let timeout;
+            return function() {
+                const context = this;
+                const args = arguments;
+                clearTimeout(timeout);
+                timeout = setTimeout(() => func.apply(context, args), wait);
+            };
+        }
+    
+        // =====================================================
+        // CORE FUNCTIONALITY
+        // =====================================================
+    
+        // Create a single activity
+        function createActivity(selectedLevels, selectedSubjects, environment, groupSize, activityStyle) {
+            // Randomly select a level and subject
+            const level = selectedLevels[Math.floor(Math.random() * selectedLevels.length)];
+            const subject = selectedSubjects[Math.floor(Math.random() * selectedSubjects.length)];
+            
+            // Get a random verb for this level
+            const verbs = bloomsActivities[level].verbs;
+            const verb = verbs[Math.floor(Math.random() * verbs.length)];
+            
+            // Get a random activity description for this level and subject
+            const activities = bloomsActivities[level].activities[subject];
+            
+            // Match verb if possible
+            let description;
+            const matchingActivities = activities.filter(activity => 
+                activity.toLowerCase().startsWith(verb.toLowerCase()) || 
+                activity.toLowerCase().includes(` ${verb.toLowerCase()} `)
+            );
+            
+            // Use matching activity if found, otherwise use any activity
+            const activityPool = matchingActivities.length > 0 ? matchingActivities : activities;
+            description = activityPool[Math.floor(Math.random() * activityPool.length)];
+            
+            // Apply environment modifier if specified
+            if (environment !== 'any' && Math.random() < 0.7) {
+                const envModifiers = environmentModifiers[environment];
+                if (envModifiers) {
+                    const modifier = envModifiers[Math.floor(Math.random() * envModifiers.length)];
+                    description = description.replace(/\.$/, ` ${modifier}.`);
+                }
+            }
+            
+            // Apply group size modifier if specified
+            if (groupSize !== 'any' && Math.random() < 0.7) {
+                const grpModifiers = groupModifiers[groupSize];
+                if (grpModifiers) {
+                    // Only add if it doesn't conflict with existing group specification
+                    const hasGroupSpec = /\b(individually|in pairs|groups|teams|class)\b/i.test(description);
+                    if (!hasGroupSpec) {
+                        const modifier = grpModifiers[Math.floor(Math.random() * grpModifiers.length)];
+                        description = description.replace(/\.$/, ` ${modifier}.`);
+                    }
+                }
+            }
+            
+            // Apply activity style modifier if specified
+            if (activityStyle !== 'any' && Math.random() < 0.7) {
+                const styleModifierList = styleModifiers[activityStyle];
+                if (styleModifierList) {
+                    const modifier = styleModifierList[Math.floor(Math.random() * styleModifierList.length)];
+                    description = description.replace(/\.$/, ` ${modifier}.`);
+                }
+            }
+            
+            return {
+                level,
+                verb,
+                subject: formatSubject(subject),
+                description
+            };
+        }
+    
+        // Create a mixed activity by combining elements from different levels/subjects
+        function createMixedActivity(selectedLevels, selectedSubjects, environment, groupSize, activityStyle) {
+            // Get base activity
+            const baseActivity = createActivity(selectedLevels, selectedSubjects, 'any', 'any', 'any');
+            
+            // Decide what to mix (verb, subject, or format)
+            const mixType = Math.floor(Math.random() * 3);
+            
+            if (mixType === 0 && selectedLevels.length > 1) {
+                // Mix verb from a different level
+                let differentLevel;
+                do {
+                    differentLevel = selectedLevels[Math.floor(Math.random() * selectedLevels.length)];
+                } while (differentLevel === baseActivity.level);
+                
+                const verbs = bloomsActivities[differentLevel].verbs;
+                baseActivity.verb = verbs[Math.floor(Math.random() * verbs.length)];
+                
+            } else if (mixType === 1 && selectedSubjects.length > 1) {
+                // Mix subject but keep the same structure
+                let differentSubject;
+                do {
+                    differentSubject = selectedSubjects[Math.floor(Math.random() * selectedSubjects.length)];
+                } while (differentSubject === baseActivity.subject.toLowerCase());
+                
+                const activities = bloomsActivities[baseActivity.level].activities[differentSubject];
+                baseActivity.description = activities[Math.floor(Math.random() * activities.length)];
+                baseActivity.subject = formatSubject(differentSubject);
+                
+            } else {
+                // Mix format by modifying the description
+                const modifiers = [
+                    "in pairs instead of groups",
+                    "using digital tools",
+                    "as a timed challenge",
+                    "with peer feedback afterward",
+                    "focusing on cross-disciplinary connections",
+                    "as a flipped classroom activity",
+                    "through video demonstration",
+                    "with real-world examples",
+                    "using concept mapping",
+                    "as a scaffolded exercise"
+                ];
+                
+                const modifier = modifiers[Math.floor(Math.random() * modifiers.length)];
+                baseActivity.description = baseActivity.description.replace(/\.$/, ` ${modifier}.`);
+            }
+            
+            // Apply environment, group size, and style modifiers
+            if (environment !== 'any' && Math.random() < 0.5) {
+                const envModifiers = environmentModifiers[environment];
+                if (envModifiers) {
+                    const modifier = envModifiers[Math.floor(Math.random() * envModifiers.length)];
+                    baseActivity.description = baseActivity.description.replace(/\.$/, ` ${modifier}.`);
+                }
+            }
+            
+            if (groupSize !== 'any' && Math.random() < 0.5) {
+                const grpModifiers = groupModifiers[groupSize];
+                if (grpModifiers) {
+                    const hasGroupSpec = /\b(individually|in pairs|groups|teams|class)\b/i.test(baseActivity.description);
+                    if (!hasGroupSpec) {
+                        const modifier = grpModifiers[Math.floor(Math.random() * grpModifiers.length)];
+                        baseActivity.description = baseActivity.description.replace(/\.$/, ` ${modifier}.`);
+                    }
+                }
+            }
+            
+            if (activityStyle !== 'any' && Math.random() < 0.5) {
+                const styleModifierList = styleModifiers[activityStyle];
+                if (styleModifierList) {
+                    const modifier = styleModifierList[Math.floor(Math.random() * styleModifierList.length)];
+                    baseActivity.description = baseActivity.description.replace(/\.$/, ` ${modifier}.`);
+                }
+            }
+            
+            return baseActivity;
+        }
+    
+        // Function to score relevance of an activity to the learning objective
+        function scoreRelevanceToObjective(activity, objectiveText) {
+            let score = 0;
+            
+            // 1. Check if the verb appears in the objective
+            const verb = activity.verb.toLowerCase();
+            if (objectiveText.includes(verb)) {
+                score += 0.3;
+            }
+            
+            // 2. Check if subject keywords appear in the objective
+            const subjectKeywords = subjectAreaKeywords[activity.subject.toLowerCase()] || [];
+            for (const keyword of subjectKeywords) {
+                if (objectiveText.includes(keyword)) {
+                    score += 0.1;
+                    break;
+                }
+            }
+            
+            // 3. Check for content word overlap (excluding common stopwords)
+            const stopwords = ["a", "an", "the", "and", "or", "but", "in", "on", "at", "to", "for", "with", "by", "about", "as"];
+            const objectiveWords = objectiveText.split(/\s+/).filter(word => !stopwords.includes(word));
+            const activityWords = activity.description.toLowerCase().split(/\s+/).filter(word => !stopwords.includes(word));
+            
+            let wordMatchCount = 0;
+            for (const word of objectiveWords) {
+                if (activityWords.some(activityWord => activityWord.includes(word) || word.includes(activityWord))) {
+                    wordMatchCount++;
+                }
+            }
+            
+            // Calculate additional score based on word matches (normalized by objective length)
+            const wordMatchScore = objectiveWords.length > 0 ? 
+                (wordMatchCount / objectiveWords.length) * 0.6 : 0;
+            
+            score += wordMatchScore;
+            
+            return score; // 0-1 scale, higher means more relevant
+        }
+    
+        // Print and save functionality removed
+    
+        // Function to analyze learning objectives
+        function analyzeLearningObjective() {
+            const objectiveText = document.getElementById('learning-objective')?.value?.toLowerCase() || '';
+            const objectiveEnabled = document.getElementById('enable-objective')?.checked || false;
+            const objectiveAnalysis = document.getElementById('objective-analysis');
+            const detectedLevelsContainer = document.getElementById('detected-levels');
+            const detectedSubjectsContainer = document.getElementById('detected-subjects');
+            
+            // Check if elements exist
+            if (!objectiveAnalysis || !detectedLevelsContainer || !detectedSubjectsContainer) {
+                console.warn("Learning objective UI elements not found");
+                return { taxonomyLevels: [], subjects: [], enabled: false };
+            }
+            
+            // Clear previous analysis
+            detectedLevelsContainer.innerHTML = '';
+            detectedSubjectsContainer.innerHTML = '';
+            
+            // Hide analysis section if objective is empty or disabled
+            if (!objectiveText.trim()) {
+                objectiveAnalysis.classList.add('hidden');
+                return {
+                    taxonomyLevels: [],
+                    subjects: [],
+                    enabled: false
+                };
+            }
+            
+            // Set of unique detected taxonomy levels and subject areas
+            const detectedTaxonomyLevels = new Set();
+            const detectedSubjectAreas = new Set();
+            
+            // Extract words and phrases from the objective
+            const words = objectiveText.split(/\s+/);
+            
+            // Look for taxonomy verbs (including two-word phrases)
+            for (let i = 0; i < words.length; i++) {
+                const word = words[i].replace(/[.,;:?!()]/, '');
+                
+                // Try two-word phrases first
+                const twoWordPhrase = i < words.length - 1 ? 
+                    word + " " + words[i+1].replace(/[.,;:?!()]/, '') : "";
+                
+                if (verbTaxonomyMap[twoWordPhrase]) {
+                    detectedTaxonomyLevels.add(verbTaxonomyMap[twoWordPhrase]);
+                    i++; // Skip the next word since we used it in the phrase
+                }
+                else if (verbTaxonomyMap[word]) {
+                    detectedTaxonomyLevels.add(verbTaxonomyMap[word]);
+                }
+            }
+            
+            // Look for subject area keywords
+            Object.entries(subjectAreaKeywords).forEach(([subject, keywords]) => {
+                for (const keyword of keywords) {
+                    if (objectiveText.includes(keyword)) {
+                        detectedSubjectAreas.add(subject);
+                        break;
+                    }
+                }
+            });
+            
+            // Convert Sets to Arrays for easier handling
+            const taxonomyLevels = Array.from(detectedTaxonomyLevels);
+            const subjects = Array.from(detectedSubjectAreas);
+            
+            // Display detected taxonomy levels
+            if (taxonomyLevels.length > 0) {
+                taxonomyLevels.forEach(level => {
+                    const chip = document.createElement('div');
+                    const levelColor = getLevelColor(level);
+                    chip.className = 'px-2 py-1 rounded-full text-xs';
+                    chip.style.backgroundColor = `${levelColor}20`;
+                    chip.style.color = levelColor;
+                    chip.textContent = getTaxonomyLabel(level);
+                    detectedLevelsContainer.appendChild(chip);
+                });
+            } else {
+                const noLevels = document.createElement('div');
+                noLevels.className = 'text-xs text-gray-500 italic';
+                noLevels.textContent = 'No specific taxonomy levels detected';
+                detectedLevelsContainer.appendChild(noLevels);
+            }
+            
+            // Display detected subject areas
+            if (subjects.length > 0) {
+                subjects.forEach(subject => {
+                    const chip = document.createElement('div');
+                    chip.className = 'px-2 py-1 rounded-full bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 text-xs';
+                    chip.textContent = formatSubject(subject);
+                    detectedSubjectsContainer.appendChild(chip);
+                });
+            } else {
+                const noSubjects = document.createElement('div');
+                noSubjects.className = 'text-xs text-gray-500 italic';
+                noSubjects.textContent = 'No specific subject areas detected';
+                detectedSubjectsContainer.appendChild(noSubjects);
+            }
+            
+            // Show analysis section
+            objectiveAnalysis.classList.remove('hidden');
+            
+            // Return analysis results
+            return {
+                taxonomyLevels: taxonomyLevels,
+                subjects: subjects,
+                enabled: true
+            };
+        }
+    
+        // Generate activities with specific parameters
+        function generateActivitiesWithParams(selectedLevels, selectedSubjects, environment, groupSize, activityStyle, mixMatch, isObjectiveAligned) {
+            // Validate selections
+            if (selectedLevels.length === 0 || selectedSubjects.length === 0) {
+                alert('Please select at least one taxonomy level and one subject area.');
+                return;
+            }
+            
+            // Clear previous results
+            activityResults.innerHTML = '';
+            
+            // Generate activities
+            const activities = [];
+            const usedDescriptions = new Set(); // Track used descriptions to avoid duplicates
+            
+            // Get learning objective text for relevance scoring
+            const objectiveText = document.getElementById('learning-objective')?.value?.toLowerCase() || '';
+            
+            for (let i = 0; i < ACTIVITY_COUNT; i++) {
+                let activity;
+                let attempts = 0;
+                const maxAttempts = 15; // Prevent infinite loops
+                
+                do {
+                    if (mixMatch && i > 0) {
+                        // Mix & Match: combine different levels and subjects
+                        activity = createMixedActivity(selectedLevels, selectedSubjects, environment, groupSize, activityStyle);
+                    } else {
+                        // Regular activity generation
+                        activity = createActivity(selectedLevels, selectedSubjects, environment, groupSize, activityStyle);
+                    }
+                    
+                    // Score relevance to learning objective if aligned
+                    if (isObjectiveAligned && objectiveText) {
+                        activity.relevance = scoreRelevanceToObjective(activity, objectiveText);
+                    }
+                    
+                    attempts++;
+                } while (usedDescriptions.has(activity.description) && attempts < maxAttempts);
+                
+                // Add to used descriptions set
+                usedDescriptions.add(activity.description);
+                activities.push(activity);
+            }
+            
+            // Sort by relevance score if we're aligning with learning objectives
+            if (isObjectiveAligned && objectiveText) {
+                activities.sort((a, b) => (b.relevance || 0) - (a.relevance || 0));
+            }
+            
+            // Display generated activities
+            activities.forEach((activity, index) => {
+                const activityElement = document.createElement('div');
+                activityElement.classList.add('activity-item', 'p-4', 'border', 'rounded-lg');
+                
+                // Set background color based on taxonomy level
+                const levelColor = getLevelColor(activity.level);
+                activityElement.style.borderLeftWidth = '4px';
+                activityElement.style.borderLeftColor = levelColor;
+                
+                // Create badges
+                const taxonomyLabel = getTaxonomyLabel(activity.level);
+                
+                // Add a badge if this activity has high relevance to the learning objective
+                let relevanceBadge = '';
+                if (isObjectiveAligned && activity.relevance && activity.relevance > 0.5) {
+                    relevanceBadge = `
+                        <span class="ml-2 px-2 py-1 text-xs rounded-full bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300">
+                            <i class="fas fa-check-circle mr-1"></i> Objective aligned
+                        </span>
+                    `;
+                }
+                
+                let badgeHtml = `
+                    <span class="px-2 py-1 text-xs rounded mr-2" style="background-color: ${levelColor}20; color: ${levelColor}">
+                        ${taxonomyLabel}
+                    </span>
+                    <span class="px-2 py-1 text-xs rounded bg-gray-200 text-gray-700 dark:bg-gray-700 dark:text-gray-300">
+                        ${activity.subject}
+                    </span>
+                    ${relevanceBadge}
+                `;
+                
+                activityElement.innerHTML = `
+                    <div class="flex justify-between items-start">
+                        <h3 class="font-semibold text-lg">${index + 1}. ${activity.verb}</h3>
+                        <div class="flex flex-wrap">
+                            ${badgeHtml}
+                        </div>
+                    </div>
+                    <p class="mt-2">${activity.description}</p>
+                `;
+                
+                activityResults.appendChild(activityElement);
+            });
+            
+            // Show results container
+            resultsContainer.classList.remove('hidden');
+            
+            // Add note about learning objective alignment
+            if (isObjectiveAligned && objectiveText) {
+                const alignmentNote = document.createElement('div');
+                alignmentNote.className = 'mb-4 py-2 px-3 bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 text-sm rounded border border-blue-200 dark:border-blue-800';
+                alignmentNote.innerHTML = '<i class="fas fa-info-circle mr-2"></i> Activities are prioritized based on their alignment with your learning objective.';
+                activityResults.insertBefore(alignmentNote, activityResults.firstChild);
+            }
+        }
+    
+        // Main generate activities function
+        function generateActivities() {
+            // Check if learning objectives feature is enabled and exists
+            const enableObjective = document.getElementById('enable-objective');
+            
+            if (enableObjective && enableObjective.checked) {
+                // Get learning objective analysis
+                const analysis = analyzeLearningObjective();
+                
+                // If we have detected taxonomy levels, modify the selected levels
+                const taxonomyCheckboxes = document.querySelectorAll('.taxonomy-level');
+                let selectedLevels = Array.from(taxonomyCheckboxes)
+                    .filter(cb => cb.checked)
+                    .map(cb => cb.value);
+                
+                if (analysis.taxonomyLevels.length > 0) {
+                    // Prioritize detected levels that are also checked by the user
+                    const priorityLevels = analysis.taxonomyLevels.filter(level => 
+                        selectedLevels.includes(level));
+                    
+                    // If we have matches, use those primarily
+                    if (priorityLevels.length > 0) {
+                        selectedLevels = priorityLevels;
+                        
+                        // Visually highlight these checkboxes
+                        taxonomyCheckboxes.forEach(cb => {
+                            if (priorityLevels.includes(cb.value)) {
+                                cb.parentElement.classList.add('text-blue-600', 'font-semibold');
+                            } else {
+                                cb.parentElement.classList.remove('text-blue-600', 'font-semibold');
+                            }
+                        });
+                    }
+                }
+                
+                // Similar for subject areas
+                const subjectCheckboxes = document.querySelectorAll('.subject-area');
+                let selectedSubjects = Array.from(subjectCheckboxes)
+                    .filter(cb => cb.checked)
+                    .map(cb => cb.value);
+                
+                if (analysis.subjects.length > 0) {
+                    // Prioritize detected subjects that are also checked by the user
+                    const prioritySubjects = analysis.subjects.filter(subject => 
+                        selectedSubjects.includes(subject));
+                    
+                    // If we have matches, use those primarily
+                    if (prioritySubjects.length > 0) {
+                        selectedSubjects = prioritySubjects;
+                        
+                        // Visually highlight these checkboxes
+                        subjectCheckboxes.forEach(cb => {
+                            if (prioritySubjects.includes(cb.value)) {
+                                cb.parentElement.classList.add('text-blue-600', 'font-semibold');
+                            } else {
+                                cb.parentElement.classList.remove('text-blue-600', 'font-semibold');
+                            }
+                        });
+                    }
+                }
+                
+                // Get other parameters
+                const environment = document.querySelector('input[name="environment"]:checked')?.value || 'any';
+                const groupSize = document.querySelector('input[name="group-size"]:checked')?.value || 'any';
+                const activityStyle = document.querySelector('input[name="style"]:checked')?.value || 'any';
+                const mixMatch = document.getElementById('mix-match').checked;
+                
+                // Generate activities using the learning objective-influenced parameters
+                generateActivitiesWithParams(selectedLevels, selectedSubjects, environment, groupSize, activityStyle, mixMatch, true);
+            } else {
+                // Standard generation without learning objectives
+                // Get selected taxonomy levels
+                const selectedLevels = Array.from(taxonomyLevels)
+                    .filter(cb => cb.checked)
+                    .map(cb => cb.value);
+                
+                // Get selected subject areas
+                const selectedSubjects = Array.from(subjectAreas)
+                    .filter(cb => cb.checked)
+                    .map(cb => cb.value);
+                
+                // Get advanced parameters
+                const environment = document.querySelector('input[name="environment"]:checked')?.value || 'any';
+                const groupSize = document.querySelector('input[name="group-size"]:checked')?.value || 'any';
+                const activityStyle = document.querySelector('input[name="style"]:checked')?.value || 'any';
+                
+                // Reset any highlighted checkboxes
+                document.querySelectorAll('.taxonomy-level, .subject-area').forEach(cb => {
+                    cb.parentElement.classList.remove('text-blue-600', 'font-semibold');
+                });
+                
+                // Generate activities
+                generateActivitiesWithParams(
+                    selectedLevels, 
+                    selectedSubjects, 
+                    environment, 
+                    groupSize, 
+                    activityStyle, 
+                    mixMatchCheckbox.checked, 
+                    false
+                );
+            }
+        }
+    
+        // =====================================================
+        // EVENT LISTENERS
+        // =====================================================
+        
+        // Set up event listeners when DOM is loaded
+        if (toggleAdvancedBtn) {
+            toggleAdvancedBtn.addEventListener('click', function() {
+                advancedOptions.classList.toggle('hidden');
+                
+                if (advancedOptions.classList.contains('hidden')) {
+                    toggleIcon.classList.remove('fa-minus-circle');
+                    toggleIcon.classList.add('fa-plus-circle');
+                } else {
+                    toggleIcon.classList.remove('fa-plus-circle');
+                    toggleIcon.classList.add('fa-minus-circle');
+                }
+            });
+        }
+        
+        // Generate button event listener
+        if (generateBtn) {
+            generateBtn.addEventListener('click', generateActivities);
+        } else {
+            console.error("Generate button not found! Check the ID 'generate-btn' exists in your HTML.");
+        }
+        
+        // Regenerate button if exists
+        if (regenerateBtn) {
+            regenerateBtn.addEventListener('click', generateActivities);
+        }
+        
+        // Print and save button event listeners removed
+        
+        // Learning objective event listeners
+        const learningObjective = document.getElementById('learning-objective');
+        const enableObjective = document.getElementById('enable-objective');
+        
+        if (learningObjective && enableObjective) {
+            // Analyze objective when text changes
+            learningObjective.addEventListener('input', debounce(analyzeLearningObjective, 500));
+            
+            // Toggle analysis visibility when checkbox changes
+            enableObjective.addEventListener('change', function() {
+                if (this.checked) {
+                    analyzeLearningObjective();
+                } else {
+                    const objectiveAnalysis = document.getElementById('objective-analysis');
+                    if (objectiveAnalysis) {
+                        objectiveAnalysis.classList.add('hidden');
+                    }
+                }
+            });
+        }
+        
+        // Initialize tabs functionality
+        const tabs = document.querySelectorAll('.nav-tab');
+        const tabContents = document.querySelectorAll('.tab-content');
+        
+        if (tabs.length > 0 && tabContents.length > 0) {
+            tabs.forEach(tab => {
+                tab.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    
+                    // Update active tab
+                    tabs.forEach(t => t.classList.remove('active'));
+                    this.classList.add('active');
+                    
+                    // Get the tab id from the href
+                    const tabId = this.getAttribute('href').substring(1);
+                    
+                    // Hide all tab content
+                    tabContents.forEach(content => {
+                        content.classList.remove('active');
+                    });
+                    
+                    // Show the selected tab content
+                    const targetTab = document.getElementById(tabId + '-tab-content');
+                    if (targetTab) {
+                        targetTab.classList.add('active');
+                    }
+                });
+            });
+        }
+    
+        // Initialize the learning objective analysis if enabled by default
+        if (enableObjective && enableObjective.checked) {
+            analyzeLearningObjective();
+        }
+    
+        // Log that initialization is complete
+        console.log("Bloom's Taxonomy Activity Generator initialized successfully!");
+    });
+    </script>
+</body>
+</html>

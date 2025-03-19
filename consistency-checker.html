@@ -1,0 +1,1224 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Marker Consistency Checker</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link rel="stylesheet" href="styles.css">
+    <script src="sidebar-links.js"></script>
+    <script src="core.js"></script>
+    <style>
+        /* Consistency Checker Specific Styles - keeping only CSS not found in styles.css */
+        .consistency-columns {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 2rem;
+        }
+        
+        .consistency-left-column {
+            flex: 1;
+            min-width: 300px;
+        }
+        
+        .consistency-right-column {
+            flex: 1.5;
+            min-width: 400px;
+        }
+        
+        .row-buttons {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .action-button {
+            padding: 0.5rem 1rem;
+            border-radius: 0.375rem;
+            border: 1px solid var(--button-secondary-border);
+            background-color: var(--button-secondary-bg);
+            color: var(--button-secondary-text);
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .action-button:hover {
+            background-color: var(--bg-tertiary);
+        }
+        
+        .primary-button {
+            background-color: var(--button-primary-bg);
+            color: var(--button-primary-text);
+            border-color: var(--button-primary-border);
+        }
+        
+        .primary-button:hover {
+            background-color: var(--accent-hover);
+            color: white;
+        }
+        
+        /* Data Table */
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 1.5rem;
+        }
+        
+        .data-table th {
+            background-color: var(--bg-tertiary);
+            border: 1px solid var(--border-color);
+            padding: 0.75rem;
+            text-align: left;
+            font-weight: 600;
+        }
+        
+        .data-table td {
+            border: 1px solid var(--border-color);
+            padding: 0.75rem;
+        }
+        
+        .data-table td[contenteditable="true"] {
+            background-color: var(--bg-primary);
+            cursor: text;
+        }
+        
+        .data-table td[contenteditable="true"]:focus {
+            outline: 2px solid var(--accent-color);
+            outline-offset: -2px;
+        }
+        
+        /* Summary Styles */
+        .summary-container {
+            background-color: var(--bg-primary);
+            border: 1px solid var(--border-color);
+            border-radius: 0.5rem;
+            padding: 1.25rem;
+        }
+        
+        .module-input {
+            width: 100%;
+            padding: 0.5rem 0.75rem;
+            margin-bottom: 1rem;
+            border: 1px solid var(--border-color);
+            border-radius: 0.25rem;
+            background-color: var(--bg-tertiary);
+            color: var(--text-primary);
+        }
+        
+        .vis-bar {
+            height: 16px;
+            background-color: var(--accent-color);
+            border-radius: 2px;
+            border: 1px solid rgba(0,0,0,0.1);
+        }
+        
+        /* Flag and marker status indicators */
+        .marker-status {
+            display: inline-block;
+            padding: 0.25rem 0.5rem;
+            border-radius: 0.25rem;
+            margin: 0.25rem 0;
+            font-weight: 500;
+        }
+        
+        .status-harsh {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        
+        .status-generous {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        
+        .status-neutral {
+            background-color: #e2e3e5;
+            color: #383d41;
+            border: 1px solid #d6d8db;
+        }
+        
+        .status-inconsistent {
+            background-color: #fff3cd;
+            color: #856404;
+            border: 1px solid #ffeeba;
+        }
+        
+        .student-flag {
+            display: inline-block;
+            padding: 0.25rem 0.5rem;
+            border-radius: 0.25rem;
+            margin: 0.25rem 0;
+            font-weight: 500;
+        }
+        
+        .flag-review {
+            background-color: #fff3cd;
+            color: #856404;
+            border: 1px solid #ffeeba;
+        }
+        
+        .flag-critical {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        
+        /* Custom marker summary table */
+        .marker-summary-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 1.5rem;
+        }
+        
+        .marker-summary-table th, 
+        .marker-summary-table td {
+            padding: 0.75rem;
+            border: 1px solid var(--border-color);
+        }
+        
+        .marker-summary-table th {
+            background-color: var(--bg-tertiary);
+            font-weight: 600;
+        }
+        
+        /* Marker comparison visualization */
+        .marker-comparison-container {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+        
+        .marker-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            position: absolute;
+            transform: translate(-50%, -50%);
+        }
+        
+        .marker-line {
+            position: relative;
+            height: 2px;
+            background-color: var(--text-muted);
+            width: 100%;
+            margin: 0 1rem;
+        }
+        
+        .marker-scale {
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+            font-size: 0.75rem;
+            color: var(--text-muted);
+        }
+        
+        /* Print optimization */
+        @media print {
+            .marker-comparison-container {
+                page-break-inside: avoid;
+            }
+            
+            .marker-summary-table {
+                page-break-inside: avoid;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header no-print">
+        <button class="hamburger-menu" aria-label="Toggle sidebar">
+            <i class="fas fa-bars"></i> 
+        </button>
+        
+        <div class="logo">
+        </div>
+        
+        <nav class="nav-tabs">
+            <a href="#main" class="nav-tab active">Consistency Checker</a>
+            <a href="#info" class="nav-tab">Info</a>
+        </nav>
+        
+        <!-- Centered search box (hidden on mobile) -->
+        <div class="search-container">
+            <i class="fas fa-search search-icon"></i>
+            <input type="text" id="search-input" class="search-input" placeholder="Search...">
+        </div>
+        
+        <!-- Header controls positioned above right sidebar -->
+        <div class="header-controls">
+            <!-- Font size controls -->
+            <div class="font-size-controls">
+                <div id="decrease-font" class="font-size-btn">
+                    <i class="fas fa-minus"></i>
+                </div>
+                <div class="text-label mx-2 text-muted">Text</div>
+                <div id="increase-font" class="font-size-btn">
+                    <i class="fas fa-plus"></i>
+                </div>
+            </div>
+            
+            <button class="theme-toggle" aria-label="Toggle dark/light mode">
+                <i class="fas fa-sun"></i>
+            </button>
+            
+            <button class="toggle-right-sidebar" aria-label="Toggle right sidebar">
+                <i class="fas fa-cog"></i>
+            </button>
+        </div>
+    </header>
+
+    <!-- Mobile search bar (only visible on smaller screens) -->
+    <div class="mobile-search-container">
+        <div class="relative w-full">
+            <i class="fas fa-search search-icon"></i>
+            <input type="text" id="mobile-search-input" class="search-input w-full" placeholder="Search...">
+        </div>
+    </div>
+
+    <!-- Main layout -->
+    <div class="layout">
+        <!-- Left sidebar -->
+        <aside class="sidebar no-print">
+            <div class="sidebar-section">
+                <div class="sidebar-header">
+                    <span>University Links</span>
+                </div>
+                <div id="university-content" class="sidebar-content">
+                    <!-- This will be populated by sidebar-links.js -->
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main content area with tab content -->
+        <main class="main-content">
+            <!-- Main tab content - contains the consistency checker tool -->
+            <div id="main-tab-content" class="tab-content active">
+                <h1 class="text-2xl font-bold mb-4 no-print">Marker Consistency Checker</h1>
+                
+                <div class="consistency-columns">
+                    <!-- Left Column: Data Entry -->
+                    <div class="consistency-left-column no-print">
+                        <p class="mb-4">Enter marking data below (Student ID, Mark, and Marker ID). You can paste data from Excel directly into the cells.</p>
+                        
+                        <div class="row-buttons">
+                            <button id="addRow10" class="action-button">Add 10 Rows</button>
+                            <button id="removeEmptyRows" class="action-button">Remove Empty Rows</button>
+                            <button id="clearTable" class="action-button">Clear Table</button>
+                        </div>
+                        
+                        <table id="consistencyTable" class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Student ID</th>
+                                    <th>Mark</th>
+                                    <th>Marker ID</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td contenteditable="true">S10001</td>
+                                    <td contenteditable="true">75</td>
+                                    <td contenteditable="true">1</td>
+                                </tr>
+                                <tr>
+                                    <td contenteditable="true">S10001</td>
+                                    <td contenteditable="true">72</td>
+                                    <td contenteditable="true">2</td>
+                                </tr>
+                                <tr>
+                                    <td contenteditable="true">S10002</td>
+                                    <td contenteditable="true">65</td>
+                                    <td contenteditable="true">1</td>
+                                </tr>
+                                <tr>
+                                    <td contenteditable="true">S10002</td>
+                                    <td contenteditable="true">68</td>
+                                    <td contenteditable="true">2</td>
+                                </tr>
+                                <tr>
+                                    <td contenteditable="true">S10003</td>
+                                    <td contenteditable="true">58</td>
+                                    <td contenteditable="true">1</td>
+                                </tr>
+                                <tr>
+                                    <td contenteditable="true">S10003</td>
+                                    <td contenteditable="true">45</td>
+                                    <td contenteditable="true">2</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    
+                    <!-- Right Column: Analysis -->
+                    <div class="consistency-right-column">
+                        <h3 class="text-xl font-semibold mb-4">Analysis Results</h3>
+                        
+                        <div class="mb-4">
+                            <input type="text" id="moduleName" class="module-input" placeholder="If you want to print, enter the module name and year here.">
+                        </div>
+                        
+                        <div class="no-print mb-4">
+                            <button id="analyzeData" class="action-button primary-button">Analyze Markers</button>
+                            <button id="printResults" class="action-button ml-2">Print Results</button>
+                        </div>
+                        
+                        <!-- Analysis container -->
+                        <div id="analysisContainer" class="summary-container"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Info tab content - contains the documentation -->
+            <div id="info-tab-content" class="tab-content">
+                <h1 class="text-3xl font-bold mb-6">Marker Consistency Checker</h1>
+                <p class="text-lg mb-8">
+                    This tool helps academic staff analyze and ensure consistency between multiple markers for the same assignments.
+                </p>
+
+                <!-- Info box -->
+                <div class="info-box">
+                    <div class="info-box-title">
+                        <i class="fas fa-info-circle"></i> 
+                        Tips for Using This Tool
+                    </div>
+                    <div class="info-content">
+                        <p class="mb-4">
+                            The consistency checker helps you identify if there are significant differences between markers and flags potential issues.
+                        </p>
+                        <ul class="list-disc pl-5 space-y-2">
+                            <li>Enter each student's ID, mark, and the marker ID in the table (or paste directly from Excel)</li>
+                            <li>Click "Analyze Markers" to generate statistics</li>
+                            <li>The tool will automatically calculate:
+                                <ul class="list-disc pl-5 mt-2">
+                                    <li>Overall mark distribution statistics</li>
+                                    <li>Per-marker statistics (mean, median, standard deviation)</li>
+                                    <li>Identify harsh/generous markers compared to peers</li>
+                                    <li>Flag students with high mark variance for review</li>
+                                </ul>
+                            </li>
+                            <li>Print the report for record keeping or moderation meetings</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <h2 class="text-2xl font-bold mt-8 mb-4">About Marker Consistency</h2>
+                <p class="mb-4">
+                    Ensuring markers apply assessment criteria consistently is crucial for fair assessment. This tool helps identify:
+                </p>
+                <ul class="list-disc pl-5 space-y-2 mb-6">
+                    <li>Whether certain markers are consistently harsher or more generous than others</li>
+                    <li>Students whose marks show significant variance between markers (potential cases for moderation)</li>
+                    <li>Overall patterns in marking consistency across the cohort</li>
+                </ul>
+                <p>
+                    By identifying these patterns early, you can address inconsistencies before finalizing grades and ensure fair treatment of all students.
+                </p>
+            </div>
+        </main>
+
+        <!-- Right sidebar -->
+        <aside class="right-sidebar no-print">
+            <div class="right-sidebar-header">Quick Tools</div>
+            <!-- This will be populated by sidebar-links.js -->
+        </aside>
+    </div>
+
+    <script>
+        // Initialize consistency checker functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initialize the consistency checker
+            initConsistencyChecker();
+            
+            // Set current page in right sidebar
+            if (window.sidebarLinks && typeof window.sidebarLinks.setCurrentRightSidebarPage === 'function') {
+                window.sidebarLinks.setCurrentRightSidebarPage("Consistency Checker");
+            }
+        });
+        
+        // Initialize consistency checker functionality
+        function initConsistencyChecker() {
+            // Row controls
+            $("#addRow10").click(function(){
+                for(let i = 0; i < 10; i++){
+                    $("#consistencyTable tbody").append('<tr><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td></tr>');
+                }
+            });
+            
+            $("#removeEmptyRows").click(function(){
+                $("#consistencyTable tbody tr").each(function(){
+                    let isEmpty = true;
+                    $(this).find("td").each(function(){
+                        if($(this).text().trim() !== ""){
+                            isEmpty = false;
+                        }
+                    });
+                    if(isEmpty){
+                        $(this).remove();
+                    }
+                });
+            });
+            
+            $("#clearTable").click(function(){
+                $("#consistencyTable tbody").empty();
+                $("#consistencyTable tbody").append('<tr><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td></tr>');
+            });
+            
+            // Excel paste support
+            document.addEventListener("paste", function(event) {
+                let clipboardData = event.clipboardData || window.clipboardData;
+                let pastedText = clipboardData.getData("text");
+                let targetCell = document.activeElement;
+                if (targetCell && targetCell.isContentEditable) {
+                    let rows = pastedText.split("\n").map(row => row.split("\t"));
+                    event.preventDefault();
+                    
+                    let $currentRow = $(targetCell).closest("tr");
+                    let startRow = $currentRow.index();
+                    let startCol = $(targetCell).index();
+                    
+                    rows.forEach((rowData, rIndex) => {
+                        let $targetRow = $("#consistencyTable tbody tr").eq(startRow + rIndex);
+                        if($targetRow.length === 0){
+                            $("#consistencyTable tbody").append('<tr><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td></tr>');
+                            $targetRow = $("#consistencyTable tbody tr").last();
+                        }
+                        rowData.forEach((cellText, cIndex) => {
+                            let $targetCell = $targetRow.find("td").eq(startCol + cIndex);
+                            if($targetCell.length){
+                                $targetCell.text(cellText.trim());
+                            }
+                        });
+                    });
+                    // Force analysis update immediately after pasting
+                    analyzeData();
+                }
+            });
+            
+            // Attach event to analyze button
+            $("#analyzeData").click(analyzeData);
+            
+            // Print button
+            document.getElementById("printResults").addEventListener("click", function() {
+                window.print();
+            });
+            
+            // Analyze data on init if there's data in the table
+            analyzeData();
+        }
+        
+        // Compute consistency analysis data
+        function computeConsistencyData() {
+            let markingData = [];
+            
+            // Collect data from table
+            $('#consistencyTable tbody tr').each(function() {
+                let rowData = $(this).find("td").map(function() {
+                    return $(this).text().trim();
+                }).get();
+                
+                let studentId = rowData[0];
+                let mark = parseFloat(rowData[1]);
+                let markerId = rowData[2];
+                
+                if (studentId && !isNaN(mark) && markerId) {
+                    markingData.push({ 
+                        studentId, 
+                        mark, 
+                        markerId 
+                    });
+                }
+            });
+            
+            if(markingData.length === 0){
+                return null;
+            }
+            
+            // Group data by student
+            let studentGroups = {};
+            markingData.forEach(entry => {
+                if (!studentGroups[entry.studentId]) {
+                    studentGroups[entry.studentId] = [];
+                }
+                studentGroups[entry.studentId].push(entry);
+            });
+            
+            // Group data by marker
+            let markerGroups = {};
+            markingData.forEach(entry => {
+                if (!markerGroups[entry.markerId]) {
+                    markerGroups[entry.markerId] = [];
+                }
+                markerGroups[entry.markerId].push(entry);
+            });
+            
+            // Calculate overall statistics
+            let allMarks = markingData.map(entry => entry.mark);
+            let overallStats = calculateStatistics(allMarks);
+            
+            // Calculate per-marker statistics
+            let markerStats = {};
+            Object.keys(markerGroups).forEach(markerId => {
+                let markerMarks = markerGroups[markerId].map(entry => entry.mark);
+                markerStats[markerId] = calculateStatistics(markerMarks);
+                
+                // Add difference from overall mean
+                markerStats[markerId].diffFromMean = markerStats[markerId].mean - overallStats.mean;
+                
+                // Determine marker behavior based on difference from mean
+                const diffThreshold = 5; // Consider 5% difference significant for behavior classification
+                
+                if (markerStats[markerId].diffFromMean <= -diffThreshold) {
+                    markerStats[markerId].behavior = 'harsh';
+                } else if (markerStats[markerId].diffFromMean >= diffThreshold) {
+                    markerStats[markerId].behavior = 'generous';
+                } else {
+                    markerStats[markerId].behavior = 'neutral';
+                }
+                
+                // Check for internal consistency
+                if (markerStats[markerId].stdDev > overallStats.stdDev * 1.5) {
+                    markerStats[markerId].consistency = 'inconsistent';
+                } else {
+                    markerStats[markerId].consistency = 'consistent';
+                }
+            });
+            
+            // Calculate per-student statistics and flag students for review
+            let studentStats = {};
+            Object.keys(studentGroups).forEach(studentId => {
+                let studentMarks = studentGroups[studentId].map(entry => entry.mark);
+                studentStats[studentId] = calculateStatistics(studentMarks);
+                
+                // Flag students with high variance between markers
+                studentStats[studentId].markers = studentGroups[studentId].map(entry => entry.markerId);
+                studentStats[studentId].marksDetail = studentGroups[studentId].map(entry => ({ 
+                    markerId: entry.markerId, 
+                    mark: entry.mark 
+                }));
+                
+                // Check if student was marked by any harsh or generous markers
+                const markerBehaviors = studentStats[studentId].marksDetail.map(detail => {
+                    if (markerStats[detail.markerId]) {
+                        return {
+                            behavior: markerStats[detail.markerId].behavior,
+                            markerId: detail.markerId,
+                            diffFromMean: markerStats[detail.markerId].diffFromMean,
+                            mark: detail.mark
+                        };
+                    }
+                    return null;
+                }).filter(item => item !== null);
+                
+                const hasHarshMarker = markerBehaviors.some(m => m.behavior === 'harsh');
+                const hasGenerousMarker = markerBehaviors.some(m => m.behavior === 'generous');
+                const harshMarkers = markerBehaviors.filter(m => m.behavior === 'harsh');
+                const generousMarkers = markerBehaviors.filter(m => m.behavior === 'generous');
+                
+                // Determine flag status
+                if (studentMarks.length > 1) {
+                    const range = studentStats[studentId].max - studentStats[studentId].min;
+                    const extremeDiff = Math.abs(overallStats.mean - studentStats[studentId].mean) > 15;
+                    
+                    // Critical flags - need deeper inspection
+                    if (range >= 20) {
+                        studentStats[studentId].flag = 'critical';
+                        studentStats[studentId].flagReason = `Critical variance: ${range}% difference between markers`;
+                    } 
+                    // If marked by both harsh and generous markers - critical flag
+                    else if (hasHarshMarker && hasGenerousMarker) {
+                        studentStats[studentId].flag = 'critical';
+                        studentStats[studentId].flagReason = `Marked by both harsh and generous markers (${harshMarkers.map(m => 'M'+m.markerId).join(', ')} vs ${generousMarkers.map(m => 'M'+m.markerId).join(', ')})`;
+                    }
+                    // If marked by a significantly harsh/generous marker (>10 points diff) - critical flag
+                    else if (markerBehaviors.some(m => Math.abs(m.diffFromMean) >= 10)) {
+                        const outlierMarker = markerBehaviors.find(m => Math.abs(m.diffFromMean) >= 10);
+                        studentStats[studentId].flag = 'critical';
+                        studentStats[studentId].flagReason = `Marked by a significantly ${outlierMarker.behavior} marker (M${outlierMarker.markerId})`;
+                    }
+                    // Review flags - need one more person to verify
+                    else if (range >= 10 || studentStats[studentId].stdDev >= 5) {
+                        studentStats[studentId].flag = 'review';
+                        studentStats[studentId].flagReason = `High variance: ${range}% difference between markers`;
+                    }
+                    // If marked by any harsh/generous marker - review flag
+                    else if (hasHarshMarker || hasGenerousMarker) {
+                        studentStats[studentId].flag = 'review';
+                        studentStats[studentId].flagReason = `Marked by ${hasHarshMarker ? 'harsh' : 'generous'} marker(s): ${(hasHarshMarker ? harshMarkers : generousMarkers).map(m => 'M'+m.markerId).join(', ')}`;
+                    }
+                    // Extreme difference from cohort mean - review flag
+                    else if (extremeDiff) {
+                        studentStats[studentId].flag = 'review';
+                        studentStats[studentId].flagReason = `Unusual deviation from cohort mean`;
+                    }
+                    else {
+                        studentStats[studentId].flag = 'none';
+                    }
+                } else {
+                    // Single marker cases
+                    if (hasHarshMarker || hasGenerousMarker) {
+                        const behavior = hasHarshMarker ? 'harsh' : 'generous';
+                        const markerIds = hasHarshMarker ? harshMarkers.map(m => 'M'+m.markerId).join(', ') : generousMarkers.map(m => 'M'+m.markerId).join(', ');
+                        studentStats[studentId].flag = 'review';
+                        studentStats[studentId].flagReason = `Only marked by ${behavior} marker: ${markerIds}`;
+                    } else {
+                        studentStats[studentId].flag = 'single';
+                        studentStats[studentId].flagReason = 'Only marked by one marker';
+                    }
+                }
+            });
+            
+            // Grade bands distribution
+            let gradeBands = {
+                "70-100%": markingData.filter(entry => entry.mark >= 70 && entry.mark <= 100),
+                "60-69%": markingData.filter(entry => entry.mark >= 60 && entry.mark < 70),
+                "50-59%": markingData.filter(entry => entry.mark >= 50 && entry.mark < 60),
+                "40-49%": markingData.filter(entry => entry.mark >= 40 && entry.mark < 50),
+                "0-39%": markingData.filter(entry => entry.mark >= 0 && entry.mark < 40)
+            };
+            
+            // Calculate marker bias in grade bands
+            let markerBiasInBands = {};
+            Object.keys(markerGroups).forEach(markerId => {
+                markerBiasInBands[markerId] = {};
+                
+                Object.keys(gradeBands).forEach(band => {
+                    // Calculate percentage of this marker's marks in this band
+                    const markerMarksInBand = gradeBands[band].filter(entry => entry.markerId === markerId).length;
+                    const totalMarkerMarks = markerGroups[markerId].length;
+                    
+                    markerBiasInBands[markerId][band] = {
+                        count: markerMarksInBand,
+                        percentage: totalMarkerMarks > 0 ? (markerMarksInBand / totalMarkerMarks) * 100 : 0
+                    };
+                });
+            });
+            
+            return {
+                totalEntries: markingData.length,
+                uniqueStudents: Object.keys(studentGroups).length,
+                uniqueMarkers: Object.keys(markerGroups).length,
+                overallStats,
+                markerStats,
+                studentStats,
+                gradeBands,
+                markerBiasInBands
+            };
+        }
+        
+        // Helper function to calculate statistics for an array of numbers
+        function calculateStatistics(numbers) {
+            if (numbers.length === 0) return null;
+            
+            const n = numbers.length;
+            const sum = numbers.reduce((acc, val) => acc + val, 0);
+            const mean = sum / n;
+            
+            // Sort for median, min, max
+            const sorted = [...numbers].sort((a, b) => a - b);
+            const min = sorted[0];
+            const max = sorted[n - 1];
+            
+            // Median calculation
+            const median = n % 2 === 0 
+                ? (sorted[n/2 - 1] + sorted[n/2]) / 2 
+                : sorted[Math.floor(n/2)];
+            
+            // Standard deviation calculation
+            const variance = numbers.reduce((acc, val) => acc + Math.pow(val - mean, 2), 0) / n;
+            const stdDev = Math.sqrt(variance);
+            
+            // Calculate quartiles
+            const q1Index = Math.floor(n * 0.25);
+            const q3Index = Math.floor(n * 0.75);
+            const q1 = sorted[q1Index];
+            const q3 = sorted[q3Index];
+            
+            // Interquartile range
+            const iqr = q3 - q1;
+            
+            return {
+                count: n,
+                mean: mean,
+                median: median,
+                min: min,
+                max: max,
+                range: max - min,
+                stdDev: stdDev,
+                q1: q1,
+                q3: q3,
+                iqr: iqr
+            };
+        }
+        
+        // Generate HTML analysis
+        function generateAnalysisHTML(data) {
+            let html = "";
+            
+            // Add module name if provided
+            const moduleName = document.getElementById('moduleName').value.trim();
+            if (moduleName) {
+                html += `<h2 class="text-xl font-bold mb-4">${moduleName}</h2>`;
+            }
+            
+            // Summary information
+            html += `
+                <div class="mb-6">
+                    <h3 class="text-lg font-semibold mb-3">Summary</h3>
+                    <p><strong>Total Students:</strong> ${data.uniqueStudents}</p>
+                    <p><strong>Total Markers:</strong> ${data.uniqueMarkers}</p>
+                    <p><strong>Total Marking Entries:</strong> ${data.totalEntries}</p>
+                </div>
+            `;
+            
+            html += `
+                <div class="mb-6">
+                    <h3 class="text-lg font-semibold mb-3">Overall Mark Statistics</h3>
+                    <table class="marker-summary-table">
+                        <tr>
+                            <th>Statistic</th>
+                            <th>Value</th>
+                            <th>Description</th>
+                        </tr>
+                        <tr>
+                            <td>Total Students</td>
+                            <td>${data.uniqueStudents}</td>
+                            <td>Number of unique students in dataset</td>
+                        </tr>
+                        <tr>
+                            <td>Total Submissions</td>
+                            <td>${data.totalEntries}</td>
+                            <td>Total number of marks recorded</td>
+                        </tr>
+                        <tr>
+                            <td>Mean (Average)</td>
+                            <td>${data.overallStats.mean.toFixed(2)}</td>
+                            <td>Average of all marks</td>
+                        </tr>
+                        <tr>
+                            <td>Median</td>
+                            <td>${data.overallStats.median.toFixed(2)}</td>
+                            <td>Middle value when marks are sorted</td>
+                        </tr>
+                        <tr>
+                            <td>Standard Deviation</td>
+                            <td>${data.overallStats.stdDev.toFixed(2)}</td>
+                            <td>Measure of mark spread/dispersion</td>
+                        </tr>
+                        <tr>
+                            <td>Range</td>
+                            <td>${data.overallStats.min.toFixed(1)} - ${data.overallStats.max.toFixed(1)}</td>
+                            <td>Lowest to highest mark</td>
+                        </tr>
+                    </table>
+                </div>
+            `;
+            
+            // Marker Comparison
+            html += `
+                <div class="mb-6">
+                    <h3 class="text-lg font-semibold mb-3">Marker Comparison</h3>
+                    <table class="marker-summary-table">
+                        <tr>
+                            <th>Marker ID</th>
+                            <th>Submissions</th>
+                            <th>Mean</th>
+                            <th>Diff from Overall</th>
+                            <th>Std. Dev.</th>
+                            <th>Status</th>
+                        </tr>
+            `;
+            
+            // Sort markers by ID
+            const markerIds = Object.keys(data.markerStats).sort((a, b) => {
+                // Try to sort numerically if possible
+                const numA = parseInt(a);
+                const numB = parseInt(b);
+                if (!isNaN(numA) && !isNaN(numB)) {
+                    return numA - numB;
+                }
+                // Fall back to string comparison
+                return a.localeCompare(b);
+            });
+            
+            markerIds.forEach(markerId => {
+                const stats = data.markerStats[markerId];
+                const diffFromMean = stats.diffFromMean;
+                const diffClass = diffFromMean < -3 ? 'text-red-600' : 
+                                  diffFromMean > 3 ? 'text-green-600' : 'text-gray-600';
+                const diffSign = diffFromMean > 0 ? '+' : '';
+                
+                // Determine behavior status class
+                let behaviorClass = '';
+                let behaviorLabel = '';
+                
+                if (stats.behavior === 'harsh') {
+                    behaviorClass = 'status-harsh';
+                    behaviorLabel = 'Harsh';
+                } else if (stats.behavior === 'generous') {
+                    behaviorClass = 'status-generous';
+                    behaviorLabel = 'Generous';
+                } else {
+                    behaviorClass = 'status-neutral';
+                    behaviorLabel = 'Neutral';
+                }
+                
+                // Add consistency label if inconsistent
+                if (stats.consistency === 'inconsistent') {
+                    behaviorLabel += ', Inconsistent';
+                    behaviorClass += ' status-inconsistent';
+                }
+                
+                html += `
+                    <tr>
+                        <td><strong>Marker ${markerId}</strong></td>
+                        <td>${stats.count}</td>
+                        <td>${stats.mean.toFixed(2)}</td>
+                        <td class="${diffClass}">${diffSign}${diffFromMean.toFixed(2)}</td>
+                        <td>${stats.stdDev.toFixed(2)}</td>
+                        <td><span class="marker-status ${behaviorClass}">${behaviorLabel}</span></td>
+                    </tr>
+                `;
+            });
+            
+            html += `
+                    </table>
+                </div>
+            `;
+            
+            // Visual marker comparison
+            html += `
+                <div class="mb-6">
+                    <h3 class="text-lg font-semibold mb-3">Marker Mean Score Comparison</h3>
+                    <div class="marker-comparison-container">
+                        <div class="marker-line">
+            `;
+            
+            // Calculate position for markers on scale
+            const minMean = Math.min(...Object.values(data.markerStats).map(s => s.mean));
+            const maxMean = Math.max(...Object.values(data.markerStats).map(s => s.mean));
+            const range = maxMean - minMean;
+            const padding = range * 0.1; // Add 10% padding on each side
+            
+            const scaleMin = Math.max(0, minMean - padding);
+            const scaleMax = Math.min(100, maxMean + padding);
+            
+            // If range is too small, create a sensible default range
+            const effectiveMin = range < 10 ? Math.max(0, data.overallStats.mean - 15) : scaleMin;
+            const effectiveMax = range < 10 ? Math.min(100, data.overallStats.mean + 15) : scaleMax;
+            
+            // Position for overall mean
+            const overallPosition = ((data.overallStats.mean - effectiveMin) / (effectiveMax - effectiveMin)) * 100;
+            
+            // Add overall mean marker
+            html += `
+                <div class="marker-dot" style="left: ${overallPosition}%; top: 50%; background-color: #000; border: 2px solid #fff; z-index: 10; width: 14px; height: 14px;" title="Overall Mean: ${data.overallStats.mean.toFixed(2)}"></div>
+            `;
+            
+            // Add markers
+            const colors = ['#e41a1c', '#377eb8', '#4daf4a', '#984ea3', '#ff7f00', '#ffff33', '#a65628'];
+            
+            markerIds.forEach((markerId, index) => {
+                const stats = data.markerStats[markerId];
+                const position = ((stats.mean - effectiveMin) / (effectiveMax - effectiveMin)) * 100;
+                const color = colors[index % colors.length];
+                
+                html += `
+                    <div class="marker-dot" style="left: ${position}%; top: 50%; background-color: ${color};" title="Marker ${markerId}: ${stats.mean.toFixed(2)}"></div>
+                `;
+            });
+            
+            html += `
+                        </div>
+                    </div>
+                    <div class="marker-scale">
+                        <span>${effectiveMin.toFixed(0)}</span>
+                        <span>${((effectiveMin + effectiveMax) / 2).toFixed(0)}</span>
+                        <span>${effectiveMax.toFixed(0)}</span>
+                    </div>
+                    <div class="mt-2">
+            `;
+            
+            // Add legend
+            markerIds.forEach((markerId, index) => {
+                const color = colors[index % colors.length];
+                html += `
+                    <span style="display: inline-block; margin-right: 15px;">
+                        <span style="display: inline-block; width: 10px; height: 10px; background-color: ${color}; border-radius: 50%; margin-right: 5px;"></span>
+                        Marker ${markerId}
+                    </span>
+                `;
+            });
+            
+            html += `
+                    </div>
+                </div>
+            `;
+            
+            // Flagged Students Section
+            html += `
+                <div class="mb-6">
+                    <h3 class="text-lg font-semibold mb-3">Students Flagged for Review</h3>
+                    <div class="mb-3">
+                        <span class="student-flag flag-critical" style="margin-right: 10px;">Deep Inspection Needed</span>
+                        <span class="student-flag flag-review">Verification Needed</span>
+                    </div>
+                    <table class="marker-summary-table">
+                        <tr>
+                            <th>Student ID</th>
+                            <th>Marks</th>
+                            <th>Range</th>
+                            <th>Std. Dev.</th>
+                            <th>Review Level</th>
+                            <th>Reason</th>
+                        </tr>
+            `;
+            
+            // Get students with flags
+            const studentIds = Object.keys(data.studentStats);
+            const flaggedStudents = studentIds.filter(id => 
+                data.studentStats[id].flag === 'critical' || 
+                data.studentStats[id].flag === 'review'
+            );
+            
+            // Sort by flag severity (critical first, then review)
+            flaggedStudents.sort((a, b) => {
+                const flagA = data.studentStats[a].flag;
+                const flagB = data.studentStats[b].flag;
+                if (flagA === 'critical' && flagB !== 'critical') return -1;
+                if (flagA !== 'critical' && flagB === 'critical') return 1;
+                return 0;
+            });
+            
+            if (flaggedStudents.length === 0) {
+                html += `
+                    <tr>
+                        <td colspan="6" style="text-align: center;">No students flagged for review</td>
+                    </tr>
+                `;
+            } else {
+                flaggedStudents.forEach(studentId => {
+                    const stats = data.studentStats[studentId];
+                    const marksDetail = stats.marksDetail.map(m => `M${m.markerId}: ${m.mark}`).join(', ');
+                    
+                    let flagClass = '';
+                    let reviewLevel = '';
+                    if (stats.flag === 'critical') {
+                        flagClass = 'flag-critical';
+                        reviewLevel = 'Deep Inspection';
+                    } else if (stats.flag === 'review') {
+                        flagClass = 'flag-review';
+                        reviewLevel = 'Verification';
+                    }
+                    
+                    html += `
+                        <tr>
+                            <td><strong>${studentId}</strong></td>
+                            <td>${marksDetail}</td>
+                            <td>${stats.range ? stats.range.toFixed(1) : 'N/A'}</td>
+                            <td>${stats.stdDev ? stats.stdDev.toFixed(2) : 'N/A'}</td>
+                            <td><span class="student-flag ${flagClass}">${reviewLevel}</span></td>
+                            <td>${stats.flagReason}</td>
+                        </tr>
+                    `;
+                });
+            }
+            
+            html += `
+                    </table>
+                </div>
+            `;
+            
+            // Grade Distribution by Marker
+            html += `
+                <div class="mb-6">
+                    <h3 class="text-lg font-semibold mb-3">Grade Distribution by Marker</h3>
+                    <table class="marker-summary-table">
+                        <tr>
+                            <th>Grade Band</th>
+            `;
+            
+            // Add column headers for each marker
+            markerIds.forEach(markerId => {
+                html += `<th>Marker ${markerId}</th>`;
+            });
+            
+            html += `<th>Overall</th></tr>`;
+            
+            // Grade bands
+            const bands = ["70-100%", "60-69%", "50-59%", "40-49%", "0-39%"];
+            
+            // For each band, show percentage distribution
+            bands.forEach(band => {
+                html += `<tr><td><strong>${band}</strong></td>`;
+                
+                // Add each marker's percentage for this band
+                markerIds.forEach(markerId => {
+                    const percentage = data.markerBiasInBands[markerId][band].percentage.toFixed(1);
+                    html += `<td>${percentage}%</td>`;
+                });
+                
+                // Add overall percentage for this band
+                const overallPercentage = (data.gradeBands[band].length / data.totalEntries * 100).toFixed(1);
+                html += `<td>${overallPercentage}%</td>`;
+                
+                html += `</tr>`;
+            });
+            
+            // Add row for submission counts
+            html += `<tr><td><strong>Submissions</strong></td>`;
+            
+            // Add each marker's submission count
+            markerIds.forEach(markerId => {
+                const count = data.markerStats[markerId].count;
+                html += `<td>${count}</td>`;
+            });
+            
+            // Add total submissions
+            html += `<td>${data.totalEntries}</td></tr>`;
+            
+            html += `
+                    </table>
+                </div>
+            `;
+            
+            // Recommendations Section
+            html += `
+                <div class="mb-6">
+                    <h3 class="text-lg font-semibold mb-3">Recommendations</h3>
+                    <ul class="list-disc pl-5 space-y-2">
+            `;
+            
+            // Add recommendations based on analysis
+            const harshMarkers = markerIds.filter(id => data.markerStats[id].behavior === 'harsh');
+            const generousMarkers = markerIds.filter(id => data.markerStats[id].behavior === 'generous');
+            const inconsistentMarkers = markerIds.filter(id => data.markerStats[id].consistency === 'inconsistent');
+            
+            const criticalStudents = flaggedStudents.filter(id => data.studentStats[id].flag === 'critical');
+            const reviewStudents = flaggedStudents.filter(id => data.studentStats[id].flag === 'review');
+            
+            // Specific recommendations for flagged students
+            if (criticalStudents.length > 0) {
+                html += `<li><strong>Deep Inspection Required:</strong> ${criticalStudents.length} student${criticalStudents.length > 1 ? 's' : ''} have significant marking inconsistencies that require thorough review by a moderation panel.</li>`;
+            }
+            
+            if (reviewStudents.length > 0) {
+                html += `<li><strong>Verification Required:</strong> ${reviewStudents.length} student${reviewStudents.length > 1 ? 's' : ''} should have work verified by an additional marker to confirm appropriate grade.</li>`;
+            }
+            
+            // Recommendations for markers
+            if (harshMarkers.length > 0) {
+                const significantlyHarsh = harshMarkers.filter(id => Math.abs(data.markerStats[id].diffFromMean) >= 10);
+                if (significantlyHarsh.length > 0) {
+                    html += `<li><strong>Urgent:</strong> Discuss marking standards with Marker${significantlyHarsh.length > 1 ? 's' : ''} ${significantlyHarsh.join(', ')} who ${significantlyHarsh.length === 1 ? 'is' : 'are'} marking significantly more harshly than peers (>10% difference).</li>`;
+                }
+                const moderatelyHarsh = harshMarkers.filter(id => Math.abs(data.markerStats[id].diffFromMean) < 10);
+                if (moderatelyHarsh.length > 0) {
+                    html += `<li>Review marking criteria with Marker${moderatelyHarsh.length > 1 ? 's' : ''} ${moderatelyHarsh.join(', ')} who tend${moderatelyHarsh.length === 1 ? 's' : ''} to mark more harshly than peers.</li>`;
+                }
+            }
+            
+            if (generousMarkers.length > 0) {
+                const significantlyGenerous = generousMarkers.filter(id => Math.abs(data.markerStats[id].diffFromMean) >= 10);
+                if (significantlyGenerous.length > 0) {
+                    html += `<li><strong>Urgent:</strong> Discuss marking standards with Marker${significantlyGenerous.length > 1 ? 's' : ''} ${significantlyGenerous.join(', ')} who ${significantlyGenerous.length === 1 ? 'is' : 'are'} marking significantly more generously than peers (>10% difference).</li>`;
+                }
+                const moderatelyGenerous = generousMarkers.filter(id => Math.abs(data.markerStats[id].diffFromMean) < 10);
+                if (moderatelyGenerous.length > 0) {
+                    html += `<li>Review marking criteria with Marker${moderatelyGenerous.length > 1 ? 's' : ''} ${moderatelyGenerous.join(', ')} who tend${moderatelyGenerous.length === 1 ? 's' : ''} to mark more generously than peers.</li>`;
+                }
+            }
+            
+            if (inconsistentMarkers.length > 0) {
+                html += `<li>Provide additional guidance to Marker${inconsistentMarkers.length > 1 ? 's' : ''} ${inconsistentMarkers.join(', ')} who show${inconsistentMarkers.length === 1 ? 's' : ''} high internal variance in marking.</li>`;
+            }
+            
+            // Actions to improve consistency
+            html += `
+                <li><strong>Calibration Exercise:</strong> ${Math.abs(data.overallStats.max - data.overallStats.min) > 15 ? 'Strongly recommended' : 'Consider'} a marking calibration exercise for all markers to align grading standards.</li>
+                <li><strong>Process Improvements:</strong> 
+                    <ul class="list-disc pl-5 mt-2">
+                        <li>For students with "Deep Inspection" flags, arrange a moderation panel to review and agree on final marks.</li>
+                        <li>For students with "Verification" flags, assign one additional marker to confirm appropriate grade.</li>
+                        <li>Consider standardizing rubrics and assessment criteria to reduce subjective marking differences.</li>
+                    </ul>
+                </li>
+            `;
+            
+            html += `
+                    </ul>
+                </div>
+            `;
+            
+            // All Student Details (collapsible in UI, visible in print)
+            html += `
+                <div class="mb-6">
+                    <h3 class="text-lg font-semibold mb-3">All Student Details</h3>
+                    <table class="marker-summary-table">
+                        <tr>
+                            <th>Student ID</th>
+                            <th>Marks</th>
+                            <th>Mean</th>
+                            <th>Range</th>
+                            <th>Status</th>
+                        </tr>
+            `;
+            
+            // Sort students by ID
+            const sortedStudentIds = studentIds.sort();
+            
+            sortedStudentIds.forEach(studentId => {
+                const stats = data.studentStats[studentId];
+                const marksDetail = stats.marksDetail.map(m => `M${m.markerId}: ${m.mark}`).join(', ');
+                
+                let statusHtml = '';
+                if (stats.flag === 'critical') {
+                    statusHtml = `<span class="student-flag flag-critical">Critical Review</span>`;
+                } else if (stats.flag === 'review') {
+                    statusHtml = `<span class="student-flag flag-review">Review</span>`;
+                } else if (stats.flag === 'single') {
+                    statusHtml = `<span class="marker-status status-neutral">Single Mark</span>`;
+                } else {
+                    statusHtml = `<span class="marker-status status-neutral">Consistent</span>`;
+                }
+                
+                html += `
+                    <tr>
+                        <td><strong>${studentId}</strong></td>
+                        <td>${marksDetail}</td>
+                        <td>${stats.mean.toFixed(2)}</td>
+                        <td>${stats.range.toFixed(1)}</td>
+                        <td>${statusHtml}</td>
+                    </tr>
+                `;
+            });
+            
+            html += `
+                    </table>
+                </div>
+            `;
+            
+            return html;
+        }
+        
+        // Analyze the data and update UI
+        function analyzeData() {
+            let data = computeConsistencyData();
+            if (data) {
+                let html = generateAnalysisHTML(data);
+                $("#analysisContainer").html(html);
+                // Show the print button
+                $("#printResults").show();
+            } else {
+                $("#analysisContainer").html("<p>No valid marking data found. Please enter student IDs, marks, and marker IDs.</p>");
+                $("#printResults").hide();
+            }
+        }
+    </script>
+</body>
+</html>

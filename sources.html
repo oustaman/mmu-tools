@@ -1,0 +1,1833 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>University Portal Template - Academic Sources</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="styles.css">
+    <script src="sidebar-links.js"></script>
+    <script src="core.js"></script>
+    <style>
+        /* Additional styles for our table and filters */
+        .filter-container {
+            background-color: var(--bg-primary);
+            border: 1px solid var(--border-color);
+            border-radius: 0.5rem;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .filter-section {
+            margin-bottom: 1.5rem;
+        }
+        
+        .filter-section-title {
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+            margin-bottom: 0.75rem;
+        }
+        
+        .filter-chips {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .filter-chip {
+            background-color: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 999px;
+            padding: 0.375rem 0.75rem;
+            font-size: 0.75rem;
+            font-weight: 500;
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: all 0.2s;
+            user-select: none;
+        }
+        
+        .filter-chip:hover {
+            background-color: var(--bg-tertiary);
+        }
+        
+        .filter-chip.active {
+            background-color: var(--accent-color);
+            color: white;
+            border-color: var(--accent-color);
+        }
+        
+        .filter-button {
+            background-color: var(--button-primary-bg);
+            color: var(--button-primary-text);
+            border: 1px solid var(--button-primary-border);
+            border-radius: 0.25rem;
+            padding: 0.5rem 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .filter-button:hover {
+            filter: brightness(0.95);
+        }
+        
+        .sources-table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+            border: 1px solid var(--border-color);
+            border-radius: 0.5rem;
+            overflow: hidden;
+            margin-bottom: 2rem;
+            font-size: calc(var(--font-size-multiplier) * 0.875rem);
+        }
+        
+        .sources-table th {
+            background-color: var(--bg-tertiary);
+            color: var(--text-secondary);
+            font-weight: 600;
+            text-align: left;
+            padding: 0.75rem 1rem;
+            border-bottom: 1px solid var(--border-color);
+            position: relative;
+            cursor: pointer;
+        }
+        
+        .sources-table th:hover {
+            background-color: var(--bg-secondary);
+        }
+        
+        .sources-table th::after {
+            content: '↕';
+            position: absolute;
+            right: 0.5rem;
+            opacity: 0.5;
+        }
+        
+        .sources-table th.sort-asc::after {
+            content: '↑';
+            opacity: 1;
+        }
+        
+        .sources-table th.sort-desc::after {
+            content: '↓';
+            opacity: 1;
+        }
+        
+        .sources-table td {
+            padding: 0.75rem 1rem;
+            border-bottom: 1px solid var(--border-color);
+            color: var(--text-primary);
+            background-color: var(--bg-primary);
+        }
+        
+        .sources-table tr:last-child td {
+            border-bottom: none;
+        }
+        
+        .sources-table tr:hover td {
+            background-color: var(--bg-secondary);
+        }
+        
+        .external-link {
+            color: var(--accent-color);
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+        }
+        
+        .external-link:hover {
+            text-decoration: underline;
+        }
+        
+        .external-link i {
+            margin-left: 0.25rem;
+            font-size: 0.75rem;
+        }
+        
+        .badge {
+            display: inline-block;
+            padding: 0.25rem 0.5rem;
+            border-radius: 9999px;
+            font-size: 0.75rem;
+            font-weight: 500;
+            background-color: var(--bg-tertiary);
+            color: var(--text-secondary);
+            margin-right: 0.25rem;
+            margin-bottom: 0.25rem;
+        }
+        
+        .badge-free {
+            background-color: #d1fae5;
+            color: #065f46;
+        }
+        
+        .badge-subscription {
+            background-color: #fee2e2;
+            color: #991b1b;
+        }
+        
+        .badge-partial {
+            background-color: #fef3c7;
+            color: #92400e;
+        }
+        
+        .table-pagination {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 1rem;
+            margin-bottom: 2rem;
+        }
+        
+        .pagination-info {
+            color: var(--text-muted);
+            font-size: 0.875rem;
+        }
+        
+        .pagination-controls {
+            display: flex;
+            gap: 0.5rem;
+        }
+        
+        .pagination-button {
+            background-color: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 0.25rem;
+            padding: 0.5rem 0.75rem;
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .pagination-button:hover:not(:disabled) {
+            background-color: var(--bg-tertiary);
+            color: var(--text-primary);
+        }
+        
+        .pagination-button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        
+        @media (max-width: 768px) {
+            .filter-row {
+                flex-direction: column;
+                gap: 0.75rem;
+            }
+            
+            .filter-group {
+                width: 100%;
+                min-width: 0;
+            }
+            
+            .sources-table {
+                display: block;
+                overflow-x: auto;
+            }
+            
+            .table-pagination {
+                flex-direction: column;
+                gap: 1rem;
+                align-items: flex-start;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Single Header -->
+    <header class="header">
+        <button class="hamburger-menu" aria-label="Toggle sidebar">
+            <i class="fas fa-bars"></i>
+        </button>
+        
+        <div class="logo">
+        </div>
+        
+        <nav class="nav-tabs">
+            <a href="#main" class="nav-tab active">Main Tab</a>
+            <a href="#info" class="nav-tab">Info</a>
+        </nav>
+        
+        <!-- Centered search box (hidden on mobile) -->
+        <div class="search-container">
+            <i class="fas fa-search search-icon"></i>
+            <input type="text" id="search-input" class="search-input" placeholder="Search...">
+        </div>
+        
+        <!-- Header controls positioned above right sidebar -->
+        <div class="header-controls">
+            <!-- Font size controls -->
+            <div class="font-size-controls">
+                <div id="decrease-font" class="font-size-btn">
+                    <i class="fas fa-minus"></i>
+                </div>
+                <div class="text-label mx-2 text-muted">Text</div>
+                <div id="increase-font" class="font-size-btn">
+                    <i class="fas fa-plus"></i>
+                </div>
+            </div>
+            
+            <button class="theme-toggle" aria-label="Toggle dark/light mode">
+                <i class="fas fa-sun fa-lg"></i> <!-- Using fa-lg to make it larger -->
+            </button>
+            
+            <button class="toggle-right-sidebar" aria-label="Toggle right sidebar">
+                <i class="fas fa-cog fa-lg"></i> <!-- Using fa-lg to make it larger -->
+            </button>
+        </div>
+    </header>
+
+    <!-- Mobile search bar (only visible on smaller screens) -->
+    <div class="mobile-search-container">
+        <div class="relative w-full">
+            <i class="fas fa-search search-icon"></i>
+            <input type="text" id="mobile-search-input" class="search-input w-full" placeholder="Search...">
+        </div>
+    </div>
+
+    <!-- Main layout -->
+    <div class="layout">
+        <!-- Left sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-section">
+                <div class="sidebar-header">
+                    <span>University Links</span>
+                </div>
+                <div id="university-content" class="sidebar-content">
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main content area with tab content -->
+        <main class="main-content">
+            <!-- Main tab content - contains placeholder for content -->
+            <div id="main-tab-content" class="tab-content active">
+                <h1 class="text-2xl font-bold mb-4">Academic Sources Database</h1>
+                
+                <!-- Filters for the sources table -->
+                <div class="filter-container">
+                    <h2 class="text-lg font-semibold mb-3">Filter Sources</h2>
+                    
+                    <!-- Category filter section -->
+                    <div class="filter-section">
+                        <div class="filter-section-title">Category</div>
+                        <div id="category-filters" class="filter-chips">
+                            <div class="filter-chip" data-value="Multidisciplinary">Multidisciplinary</div>
+                            <div class="filter-chip" data-value="Medicine">Medicine & Health</div>
+                            <div class="filter-chip" data-value="Education">Education</div>
+                            <div class="filter-chip" data-value="Engineering">Engineering & Technology</div>
+                            <div class="filter-chip" data-value="Science">Science</div>
+                            <div class="filter-chip" data-value="Social">Social Sciences</div>
+                            <div class="filter-chip" data-value="Business">Business & Economics</div>
+                            <div class="filter-chip" data-value="Government">Government & Institutional</div>
+                            <div class="filter-chip" data-value="International">International Organizations</div>
+                            <div class="filter-chip" data-value="Open">Open Access</div>
+                            <div class="filter-chip" data-value="Specialized">Specialized Repositories</div>
+                            <div class="filter-chip" data-value="Statistical">Statistical & Survey</div>
+                            <div class="filter-chip" data-value="Digital">Digital Archives</div>
+                            <div class="filter-chip" data-value="Geospatial">Geospatial & GIS</div>
+                        </div>
+                    </div>
+                    
+                    <!-- Type of Data filter section -->
+                    <div class="filter-section">
+                        <div class="filter-section-title">Type of Data</div>
+                        <div id="type-filters" class="filter-chips">
+                            <div class="filter-chip" data-value="Bibliographic">Bibliographic</div>
+                            <div class="filter-chip" data-value="Citation">Citation</div>
+                            <div class="filter-chip" data-value="Academic">Academic</div>
+                            <div class="filter-chip" data-value="Articles">Articles</div>
+                            <div class="filter-chip" data-value="Theses">Theses</div>
+                            <div class="filter-chip" data-value="Books">Books</div>
+                            <div class="filter-chip" data-value="Biomedical">Biomedical</div>
+                            <div class="filter-chip" data-value="Technical">Technical</div>
+                            <div class="filter-chip" data-value="Preprints">Preprints</div>
+                            <div class="filter-chip" data-value="Research">Research</div>
+                            <div class="filter-chip" data-value="Statistics">Statistics</div>
+                            <div class="filter-chip" data-value="Government">Government</div>
+                            <div class="filter-chip" data-value="Genetic">Genetic</div>
+                            <div class="filter-chip" data-value="Geospatial">Geospatial</div>
+                        </div>
+                    </div>
+                    
+                    <!-- Access Type filter section -->
+                    <div class="filter-section">
+                        <div class="filter-section-title">Access Type</div>
+                        <div id="access-filters" class="filter-chips">
+                            <div class="filter-chip" data-value="Free">Free</div>
+                            <div class="filter-chip" data-value="Subscription">Subscription</div>
+                            <div class="filter-chip" data-value="Partial">Partial Free Access</div>
+                        </div>
+                    </div>
+                    
+                    <!-- Timeline filter section -->
+                    <div class="filter-section">
+                        <div class="filter-section-title">Timeline</div>
+                        <div id="timeline-filters" class="filter-chips">
+                            <div class="filter-chip" data-value="Historical">Historical</div>
+                            <div class="filter-chip" data-value="Comprehensive">Comprehensive</div>
+                            <div class="filter-chip" data-value="Recent">Recent/Current</div>
+                        </div>
+                    </div>
+                    
+                    <div class="flex justify-end">
+                        <button id="reset-filters" class="filter-button">
+                            <i class="fas fa-undo mr-1"></i> Reset Filters
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Academic sources table -->
+                <div class="overflow-hidden">
+                    <table id="sources-table" class="sources-table">
+                        <thead>
+                            <tr>
+                                <th data-sort="name">Name</th>
+                                <th data-sort="type">Type of Data</th>
+                                <th data-sort="timeline">Timeline</th>
+                                <th data-sort="access">Access</th>
+                                <th data-sort="provider">Provider</th>
+                                <th>Website</th>
+                            </tr>
+                        </thead>
+                        <tbody id="sources-tbody">
+                            <!-- Table rows will be populated by JavaScript -->
+                        </tbody>
+                    </table>
+                    
+                    <!-- Pagination controls -->
+                    <div class="table-pagination">
+                        <div class="pagination-info">
+                            Showing <span id="showing-start">1</span>-<span id="showing-end">10</span> of <span id="total-items">0</span> sources
+                        </div>
+                        <div class="pagination-controls">
+                            <button id="prev-page" class="pagination-button" disabled>
+                                <i class="fas fa-chevron-left mr-1"></i> Previous
+                            </button>
+                            <button id="next-page" class="pagination-button">
+                                Next <i class="fas fa-chevron-right ml-1"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Info tab content - contains the documentation -->
+            <div id="info-tab-content" class="tab-content">
+                <h1 class="text-3xl font-bold mb-6">About this Portal</h1>
+                <p class="mb-4">
+                    Information about this portal goes here.
+                </p>
+
+                <h2 class="text-2xl font-bold mt-8 mb-4">About Section</h2>
+                <p class="mb-4">
+                    Additional information about this portal and its purpose.
+                </p>
+
+                <!-- Info box -->
+                <div class="info-box">
+                    <div class="info-box-title">
+                        <i class="fas fa-info-circle"></i> 
+                        Tips for Using This Portal
+                    </div>
+                    <div class="info-content">
+                        <p class="mb-4">
+                            This portal helps you navigate university resources quickly and easily.
+                        </p>
+                        <ul class="list-disc pl-5 space-y-2">
+                            <li>Use the search box at the top to find resources</li>
+                            <li>Toggle between dark and light modes using the moon/sun icon in the top-right corner</li>
+                            <li>Adjust text size for better readability</li>
+                            <li>Access quick links in the sidebar</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!-- Right sidebar -->
+        <aside class="right-sidebar">
+            <div class="right-sidebar-header">Quick Tools</div>
+        </aside>
+    </div>
+
+    <!-- JavaScript for the academic sources table and filters -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Academic sources data               
+            const academicSources = [
+    // Multidisciplinary Resources
+    {
+        name: "Scopus",
+        type: "Bibliographic, citation metrics",
+        category: "Multidisciplinary",
+        timeline: "1788–present",
+        access: "Subscription",
+        provider: "Elsevier",
+        coverage: "82.4 million records",
+        website: "https://www.scopus.com/"
+    },
+    {
+        name: "Web of Science",
+        type: "Bibliographic, citation analysis",
+        category: "Multidisciplinary",
+        timeline: "Comprehensive historical coverage",
+        access: "Subscription",
+        provider: "Clarivate",
+        coverage: "171 million records on the platform",
+        website: "https://wokinfo.com/"
+    },
+    {
+        name: "Google Scholar",
+        type: "Academic articles, theses, books, abstracts",
+        category: "Multidisciplinary",
+        timeline: "Varies by publication",
+        access: "Free",
+        provider: "Google",
+        website: "https://scholar.google.com/"
+    },
+    {
+        name: "BASE (Bielefeld Academic Search Engine)",
+        type: "Academic web resources",
+        category: "Multidisciplinary",
+        timeline: "Varies by source",
+        access: "Free",
+        provider: "Bielefeld University",
+        coverage: "Over 150 million documents",
+        website: "https://www.base-search.net/"
+    },
+    {
+        name: "CORE",
+        type: "Open access research papers",
+        category: "Open",
+        timeline: "Recent research",
+        access: "Free",
+        provider: "Open University and Jisc",
+        website: "https://core.ac.uk/"
+    },
+    {
+        name: "JSTOR",
+        type: "Journal articles, books, images, primary sources",
+        category: "Multidisciplinary",
+        timeline: "Complete journal runs from first issue",
+        access: "Subscription with some free content",
+        provider: "Ithaka Harbors, Inc.",
+        website: "https://www.jstor.org/"
+    },
+    {
+        name: "Science.gov",
+        type: "Federal science information",
+        category: "Government",
+        timeline: "Varies by agency",
+        access: "Free",
+        provider: "U.S. Government",
+        website: "https://www.science.gov/"
+    },
+    {
+        name: "WorldCat",
+        type: "Unified library catalog",
+        category: "Multidisciplinary",
+        timeline: "Historical to present",
+        access: "Free basic searching",
+        provider: "OCLC",
+        coverage: "Over 540 million bibliographic records",
+        website: "https://www.worldcat.org/"
+    },
+    {
+        name: "Microsoft Academic",
+        type: "Scientific publications, conference proceedings",
+        category: "Multidisciplinary",
+        timeline: "Current with historical coverage",
+        access: "Free",
+        provider: "Microsoft",
+        website: "https://academic.microsoft.com/"
+    },
+    {
+        name: "ScienceOpen",
+        type: "Open access journals and articles",
+        category: "Open",
+        timeline: "Current",
+        access: "Free",
+        website: "https://www.scienceopen.com/"
+    },
+    {
+        name: "Semantic Scholar",
+        type: "Computer science and biomedical publications",
+        category: "Multidisciplinary",
+        timeline: "Recent with historical context",
+        access: "Free",
+        provider: "Allen Institute for Artificial Intelligence",
+        website: "https://www.semanticscholar.org/"
+    },
+    {
+        name: "SpringerLink",
+        type: "Journal articles, books, protocols",
+        category: "Multidisciplinary",
+        timeline: "Extensive coverage",
+        access: "Free abstracts, subscription for full text",
+        provider: "Springer",
+        website: "https://link.springer.com/"
+    },
+    {
+        name: "EBSCO Academic Search Complete",
+        type: "Multidisciplinary research",
+        category: "Multidisciplinary",
+        timeline: "Varies by subscription level",
+        access: "Institutional subscription",
+        provider: "EBSCO",
+        website: "https://www.ebsco.com/products/research-databases/academic-search-complete"
+    },
+    {
+        name: "ProQuest Central",
+        type: "Full-text articles, dissertations, newspapers",
+        category: "Multidisciplinary",
+        timeline: "Varies by collection",
+        access: "Subscription",
+        provider: "ProQuest",
+        website: "https://www.proquest.com/products-services/pq-central.html"
+    },
+    {
+        name: "Dimensions",
+        type: "Research outputs with metrics",
+        category: "Multidisciplinary",
+        timeline: "Recent with historical context",
+        access: "Free basic version",
+        provider: "Digital Science",
+        website: "https://www.dimensions.ai/"
+    },
+    
+    // Medicine and Health Sciences
+    {
+        name: "PubMed",
+        type: "Biomedical literature",
+        category: "Medicine",
+        timeline: "Since 1966",
+        access: "Free",
+        provider: "NIH",
+        website: "https://www.ncbi.nlm.nih.gov/pubmed/"
+    },
+    {
+        name: "MEDLINE",
+        type: "Biomedical literature",
+        category: "Medicine",
+        timeline: "Since 1946",
+        access: "Free through PubMed",
+        provider: "National Library of Medicine",
+        website: "https://www.ncbi.nlm.nih.gov/pubmed/"
+    },
+    {
+        name: "Cochrane Library",
+        type: "Systematic reviews, evidence-based medicine",
+        category: "Medicine",
+        timeline: "Current with historical context",
+        access: "Partial free access, subscription for full",
+        provider: "Cochrane Collaboration",
+        website: "https://www.cochranelibrary.com/"
+    },
+    {
+        name: "CINAHL",
+        type: "Nursing and allied health literature",
+        category: "Medicine",
+        timeline: "Comprehensive coverage",
+        access: "Subscription",
+        provider: "EBSCO",
+        website: "https://www.ebsco.com/products/research-databases/cinahl-complete"
+    },
+    {
+        name: "HubMed",
+        type: "Medical journals and articles",
+        category: "Medicine",
+        timeline: "Comprehensive",
+        access: "Free",
+        website: "https://www.hubmed.org/"
+    },
+    {
+        name: "Europe PMC",
+        type: "Life science literature",
+        category: "Medicine",
+        timeline: "Comprehensive",
+        access: "Free",
+        provider: "Europe PMC Consortium",
+        website: "https://europepmc.org/"
+    },
+    {
+        name: "BioMed Central",
+        type: "Open access medical research",
+        category: "Medicine",
+        timeline: "Current",
+        access: "Free",
+        provider: "Springer Nature",
+        website: "https://www.biomedcentral.com/"
+    },
+    {
+        name: "MedlinePlus",
+        type: "Consumer health information",
+        category: "Medicine",
+        timeline: "Current",
+        access: "Free",
+        provider: "U.S. National Library of Medicine",
+        website: "https://medlineplus.gov/"
+    },
+    
+    // Education
+    {
+        name: "ERIC",
+        type: "Education literature",
+        category: "Education",
+        timeline: "Comprehensive coverage",
+        access: "Free",
+        provider: "U.S. Department of Education",
+        website: "https://eric.ed.gov/"
+    },
+    {
+        name: "A+ Education",
+        type: "Australian education research",
+        category: "Education",
+        timeline: "Comprehensive",
+        access: "Subscription",
+        website: "https://www.aare.edu.au/"
+    },
+    {
+        name: "Education Source",
+        type: "Education research",
+        category: "Education",
+        timeline: "Comprehensive",
+        access: "Subscription",
+        provider: "EBSCO",
+        website: "https://www.ebsco.com/products/research-databases/education-source"
+    },
+    {
+        name: "Education Database",
+        type: "Education journals",
+        category: "Education",
+        timeline: "Extensive coverage",
+        access: "Subscription",
+        provider: "ProQuest",
+        website: "https://www.proquest.com/products-services/pq-education-journals.html"
+    },
+    
+    // Engineering and Technology
+    {
+        name: "IEEE Xplore",
+        type: "Technical literature",
+        category: "Engineering",
+        timeline: "Varies by publication",
+        access: "Subscription",
+        provider: "IEEE",
+        website: "https://ieeexplore.ieee.org/"
+    },
+    {
+        name: "Compendex",
+        type: "Engineering literature",
+        category: "Engineering",
+        timeline: "Since 1884",
+        access: "Subscription",
+        provider: "Elsevier",
+        website: "https://www.elsevier.com/solutions/engineering-village/compendex"
+    },
+    {
+        name: "ACM Digital Library",
+        type: "Computing literature",
+        category: "Engineering",
+        timeline: "Comprehensive",
+        access: "Subscription with some open access",
+        provider: "Association for Computing Machinery",
+        website: "https://dl.acm.org/"
+    },
+    {
+        name: "INSPIRE-HEP",
+        type: "High energy physics research",
+        category: "Science",
+        timeline: "Comprehensive",
+        access: "Free",
+        provider: "CERN, DESY, Fermilab, SLAC and IHEP",
+        website: "https://inspirehep.net/"
+    },
+    
+    // Science
+    {
+        name: "arXiv",
+        type: "Preprints of scientific papers",
+        category: "Science",
+        timeline: "Since 1991",
+        access: "Free",
+        provider: "Cornell University",
+        website: "https://arxiv.org/"
+    },
+    {
+        name: "Science Citation Index",
+        type: "Scientific literature with citation analysis",
+        category: "Science",
+        timeline: "Extensive historical coverage",
+        access: "Subscription",
+        provider: "Clarivate Analytics",
+        website: "https://wokinfo.com/"
+    },
+    {
+        name: "ScienceDirect",
+        type: "Scientific and medical research",
+        category: "Science",
+        timeline: "Comprehensive",
+        access: "Subscription with some open access",
+        provider: "Elsevier",
+        website: "https://www.sciencedirect.com/"
+    },
+    {
+        name: "Astrophysics Data System",
+        type: "Astronomy and physics research",
+        category: "Science",
+        timeline: "Comprehensive",
+        access: "Free",
+        provider: "Smithsonian Astrophysical Observatory",
+        website: "https://ui.adsabs.harvard.edu/"
+    },
+    {
+        name: "CERN Document Server",
+        type: "Physics research",
+        category: "Science",
+        timeline: "Comprehensive",
+        access: "Free",
+        provider: "European Organization for Nuclear Research",
+        website: "https://cds.cern.ch/"
+    },
+    
+    // Social Sciences
+    {
+        name: "Social Science Citation Index",
+        type: "Social science literature with citation tracking",
+        category: "Social",
+        timeline: "Extensive coverage",
+        access: "Subscription",
+        provider: "Clarivate Analytics",
+        website: "https://wokinfo.com/"
+    },
+    {
+        name: "SSRN",
+        type: "Preprints, working papers",
+        category: "Social",
+        timeline: "Recent research",
+        access: "Free",
+        provider: "Elsevier",
+        website: "https://www.ssrn.com/"
+    },
+    {
+        name: "PsycINFO",
+        type: "Psychological literature",
+        category: "Social",
+        timeline: "Since 1887",
+        access: "Subscription",
+        provider: "American Psychological Association",
+        website: "https://www.apa.org/pubs/databases/psycinfo/index"
+    },
+    {
+        name: "Sociological Abstracts",
+        type: "Sociology research",
+        category: "Social",
+        timeline: "Comprehensive",
+        access: "Subscription",
+        provider: "ProQuest",
+        website: "https://www.proquest.com/products-services/sociological-abstracts.html"
+    },
+    {
+        name: "Criminal Justice Abstracts",
+        type: "Criminology literature",
+        category: "Social",
+        timeline: "Comprehensive",
+        access: "Subscription",
+        provider: "EBSCO",
+        website: "https://www.proquest.com/products-services/criminal-justice-abstracts.html"
+    },
+    {
+        name: "National Criminal Justice Reference Service",
+        type: "Criminal justice research",
+        category: "Social",
+        timeline: "Comprehensive",
+        access: "Free",
+        provider: "U.S. Department of Justice",
+        website: "https://www.ncjrs.gov/"
+    },
+    
+    // Business and Economics
+    {
+        name: "ABI/INFORM",
+        type: "Business research",
+        category: "Business",
+        timeline: "Comprehensive",
+        access: "Subscription",
+        provider: "ProQuest",
+        website: "https://www.proquest.com/products-services/abi-inform-complete.html"
+    },
+    {
+        name: "Business Source Complete",
+        type: "Business research",
+        category: "Business",
+        timeline: "Comprehensive",
+        access: "Subscription",
+        provider: "EBSCO",
+        website: "https://www.ebsco.com/products/research-databases/business-source-complete"
+    },
+    {
+        name: "Business Source Ultimate",
+        type: "Business research",
+        category: "Business",
+        timeline: "Comprehensive",
+        access: "Subscription",
+        provider: "EBSCO",
+        website: "https://www.ebsco.com/products/research-databases/business-source-ultimate"
+    },
+    {
+        name: "EconLit",
+        type: "Economics literature",
+        category: "Business",
+        timeline: "Since 1886",
+        access: "Subscription",
+        provider: "American Economic Association",
+        website: "https://www.aeaweb.org/econlit/"
+    },
+    {
+        name: "NBER Working Papers",
+        type: "Economic research papers",
+        category: "Business",
+        timeline: "Comprehensive",
+        access: "Free (over 30,000 open access)",
+        provider: "National Bureau of Economic Research",
+        website: "https://www.nber.org/papers"
+    },
+    
+    // Government and Institutional Data Sources
+    {
+        name: "Data.gov",
+        type: "U.S. government data across sectors",
+        category: "Government",
+        timeline: "Varies by dataset",
+        access: "Free",
+        provider: "U.S. Government",
+        website: "https://www.data.gov/"
+    },
+    {
+        name: "Eurostat",
+        type: "European statistics",
+        category: "Government",
+        timeline: "Recent to historical European data",
+        access: "Free",
+        provider: "European Union",
+        website: "https://ec.europa.eu/eurostat"
+    },
+    {
+        name: "NOAA Data Access",
+        type: "Climate, weather, oceanographic",
+        category: "Government",
+        timeline: "Historical to present",
+        access: "Free",
+        provider: "National Oceanic and Atmospheric Administration",
+        website: "https://oceanexplorer.noaa.gov/data/access/access.html"
+    },
+    {
+        name: "CDC Data & Statistics",
+        type: "Health statistics, epidemiological data",
+        category: "Government",
+        timeline: "Varies by dataset",
+        access: "Free",
+        provider: "Centers for Disease Control and Prevention",
+        website: "https://www.cdc.gov/datastatistics/index.html"
+    },
+    {
+        name: "Federal Reserve Economic Data (FRED)",
+        type: "Economic time series",
+        category: "Government",
+        timeline: "Varies by series, often decades",
+        access: "Free",
+        provider: "Federal Reserve Bank of St. Louis",
+        website: "https://fred.stlouisfed.org/"
+    },
+    {
+        name: "Information Bridge: Department of Energy",
+        type: "Scientific and technical information",
+        category: "Government",
+        timeline: "Primarily from 1991 forward",
+        access: "Free",
+        provider: "U.S. Department of Energy",
+        website: "https://www.osti.gov/information-bridge"
+    },
+    {
+        name: "Science Accelerator",
+        type: "Department of Energy R&D results",
+        category: "Government",
+        timeline: "Comprehensive",
+        access: "Free",
+        provider: "U.S. Department of Energy",
+        website: "https://www.scienceaccelerator.gov/"
+    },
+    
+    // International Organizations
+    {
+        name: "UNData",
+        type: "Statistical databases",
+        category: "International",
+        timeline: "Varies by dataset",
+        access: "Free",
+        provider: "United Nations",
+        website: "https://data.un.org/"
+    },
+    {
+        name: "World Bank Open Data",
+        type: "Development indicators",
+        category: "International",
+        timeline: "Often decades of historical data",
+        access: "Free",
+        provider: "World Bank",
+        website: "https://data.worldbank.org/"
+    },
+    {
+        name: "WHO Global Health Observatory",
+        type: "Health statistics",
+        category: "International",
+        timeline: "Varies by dataset",
+        access: "Free",
+        provider: "World Health Organization",
+        website: "https://www.who.int/gho/en/"
+    },
+    {
+        name: "IMF Data",
+        type: "Economic statistics",
+        category: "International",
+        timeline: "Varies by dataset, often decades",
+        access: "Free",
+        provider: "International Monetary Fund",
+        website: "https://data.imf.org/"
+    },
+    {
+        name: "OECD Data",
+        type: "Economic and social statistics",
+        category: "International",
+        timeline: "Comprehensive",
+        access: "Mostly free",
+        provider: "Organisation for Economic Co-operation and Development",
+        website: "https://data.oecd.org/"
+    },
+    
+    // Open Access Resources and Repositories
+    {
+        name: "Directory of Open Access Journals (DOAJ)",
+        type: "Full-text articles",
+        category: "Open",
+        timeline: "Varies by journal",
+        access: "Free",
+        provider: "Infrastructure Services for Open Access",
+        website: "https://doaj.org/"
+    },
+    {
+        name: "Figshare",
+        type: "Research outputs (figures, datasets, images)",
+        category: "Open",
+        timeline: "Recent research",
+        access: "Free",
+        provider: "Digital Science",
+        website: "https://figshare.com/"
+    },
+    {
+        name: "Zenodo",
+        type: "Research outputs",
+        category: "Open",
+        timeline: "Recent research",
+        access: "Free",
+        provider: "CERN",
+        website: "https://zenodo.org/"
+    },
+    {
+        name: "Dryad",
+        type: "Research data",
+        category: "Open",
+        timeline: "Recent research",
+        access: "Free access, fee for submission",
+        provider: "Dryad Digital Repository",
+        website: "https://datadryad.org/"
+    },
+    {
+        name: "ResearchGate",
+        type: "Research papers, projects",
+        category: "Open",
+        timeline: "Current with some historical content",
+        access: "Free registration required",
+        provider: "ResearchGate GmbH",
+        website: "https://www.researchgate.net/"
+    },
+    {
+        name: "OpenSIGLE",
+        type: "Grey literature",
+        category: "Open",
+        timeline: "Comprehensive",
+        access: "Free",
+        provider: "Institut de l'information scientifique et technique",
+        website: "https://opensigle.inist.fr/"
+    },
+    {
+        name: "Paperity",
+        type: "Open access journals and papers",
+        category: "Open",
+        timeline: "Current",
+        access: "Free",
+        provider: "Paperity",
+        website: "https://paperity.org/"
+    },
+    
+    // Specialized Data Repositories
+    {
+        name: "GenBank",
+        type: "Genetic sequences",
+        category: "Specialized",
+        timeline: "Since 1982",
+        access: "Free",
+        provider: "National Center for Biotechnology Information",
+        website: "https://www.ncbi.nlm.nih.gov/genbank/"
+    },
+    {
+        name: "Protein Data Bank",
+        type: "Protein structures",
+        category: "Specialized",
+        timeline: "Since 1971",
+        access: "Free",
+        provider: "Research Collaboratory for Structural Bioinformatics",
+        website: "https://www.rcsb.org/"
+    },
+    {
+        name: "Global Biodiversity Information Facility",
+        type: "Biodiversity data",
+        category: "Specialized",
+        timeline: "Historical to present",
+        access: "Free",
+        provider: "GBIF",
+        website: "https://www.gbif.org/"
+    },
+    {
+        name: "PANGAEA",
+        type: "Earth & environmental science",
+        category: "Specialized",
+        timeline: "Varies by dataset",
+        access: "Free",
+        provider: "MARUM & AWI",
+        website: "https://www.pangaea.de/"
+    },
+    {
+        name: "ChemBioFinder",
+        type: "Chemical and biological compounds",
+        category: "Specialized",
+        timeline: "Comprehensive",
+        access: "Free registration required",
+        provider: "PerkinElmer",
+        website: "https://chembiofinder.cambridgesoft.com/"
+    },
+    {
+        name: "PubChem",
+        type: "Chemical information",
+        category: "Specialized",
+        timeline: "Comprehensive",
+        access: "Free",
+        provider: "National Center for Biotechnology Information",
+        website: "https://pubchem.ncbi.nlm.nih.gov/"
+    },
+    {
+        name: "CancerData",
+        type: "Cancer research",
+        category: "Specialized",
+        timeline: "Recent",
+        access: "Free",
+        provider: "Maastro Clinic in Maastricht",
+        website: "https://www.cancerdata.org/"
+    },
+    {
+        name: "SafetyLit",
+        type: "Safety and injury prevention research",
+        category: "Specialized",
+        timeline: "Comprehensive",
+        access: "Free",
+        provider: "SafetyLit Foundation",
+        website: "https://www.safetylit.org/"
+    },
+    
+    // Statistical and Survey Data
+    {
+        name: "IPUMS",
+        type: "Census and survey data",
+        category: "Statistical",
+        timeline: "Historical to present",
+        access: "Free (registration required)",
+        provider: "University of Minnesota",
+        website: "https://www.ipums.org/"
+    },
+    {
+        name: "General Social Survey (GSS)",
+        type: "Survey data on social trends",
+        category: "Statistical",
+        timeline: "Since 1972",
+        access: "Free",
+        provider: "NORC at University of Chicago",
+        website: "https://gss.norc.org/"
+    },
+    {
+        name: "Pew Research Center",
+        type: "Survey data, reports",
+        category: "Statistical",
+        timeline: "Recent with trend analysis",
+        access: "Free",
+        provider: "Pew Research Center",
+        website: "https://www.pewresearch.org/"
+    },
+    {
+        name: "Eurobarometer",
+        type: "Public opinion surveys",
+        category: "Statistical",
+        timeline: "Since 1974",
+        access: "Free",
+        provider: "European Commission",
+        website: "https://ec.europa.eu/commfrontoffice/publicopinion/index.cfm"
+    },
+    {
+        name: "IARP",
+        type: "Aging research",
+        category: "Statistical",
+        timeline: "Comprehensive",
+        access: "Free",
+        provider: "International Aging Research Portfolio",
+        website: "https://www.iarp.cc/"
+    },
+    
+    // Digital Archives and Historical Data
+    {
+        name: "Internet Archive",
+        type: "Books, movies, music, websites",
+        category: "Digital",
+        timeline: "Historical to present",
+        access: "Free",
+        provider: "Internet Archive",
+        website: "https://archive.org/"
+    },
+    {
+        name: "HathiTrust Digital Library",
+        type: "Books, journals",
+        category: "Digital",
+        timeline: "Historical",
+        access: "Free basic, more for partner institutions",
+        provider: "HathiTrust",
+        website: "https://www.hathitrust.org/"
+    },
+    {
+        name: "Digital Public Library of America",
+        type: "Cultural heritage materials",
+        category: "Digital",
+        timeline: "Historical (varies by collection)",
+        access: "Free",
+        provider: "DPLA",
+        website: "https://dp.la/"
+    },
+    {
+        name: "ProQuest Historical Newspapers",
+        type: "Newspaper archives",
+        category: "Digital",
+        timeline: "Often dating back to first issues",
+        access: "Subscription",
+        provider: "ProQuest",
+        website: "https://www.proquest.com/products-services/pq-historical-newspapers.html"
+    },
+    {
+        name: "Smithsonian Institution Research Information System",
+        type: "Museum collections",
+        category: "Digital",
+        timeline: "Historical",
+        access: "Free with membership",
+        provider: "Smithsonian Institution",
+        website: "https://www.si.edu/"
+    },
+    
+    // Geospatial and GIS Data
+    {
+        name: "Natural Earth",
+        type: "Vector and raster map data",
+        category: "Geospatial",
+        timeline: "Current",
+        access: "Free",
+        provider: "Natural Earth",
+        website: "https://www.naturalearthdata.com/"
+    },
+    {
+        name: "OpenStreetMap",
+        type: "Geospatial, mapping",
+        category: "Geospatial",
+        timeline: "Current",
+        access: "Free",
+        provider: "OpenStreetMap Foundation",
+        website: "https://www.openstreetmap.org/"
+    },
+    {
+        name: "USGS Earth Explorer",
+        type: "Satellite imagery, aerial photographs",
+        category: "Geospatial",
+        timeline: "Historical to present",
+        access: "Free (registration required)",
+        provider: "U.S. Geological Survey",
+        website: "https://earthexplorer.usgs.gov/"
+    },
+    
+    // Specialized Academic Resources
+    {
+        name: "AGRICOLA",
+        type: "Agricultural literature",
+        category: "Specialized",
+        timeline: "Comprehensive",
+        access: "Free",
+        provider: "National Agricultural Library",
+        website: "https://agricola.nal.usda.gov/"
+    },
+    {
+        name: "AGRIS",
+        type: "Agricultural science and technology",
+        category: "Specialized",
+        timeline: "Comprehensive",
+        access: "Free",
+        provider: "Food and Agriculture Organization",
+        website: "https://agris.fao.org/"
+    },
+    {
+        name: "Analytical Sciences Digital Library",
+        type: "Analytical chemistry resources",
+        category: "Specialized",
+        timeline: "Current",
+        access: "Free",
+        provider: "ASDL",
+        website: "https://www.asdlib.org/"
+    },
+    {
+        name: "Bioline International",
+        type: "Bioscience research from developing countries",
+        category: "Specialized",
+        timeline: "Current",
+        access: "Free",
+        provider: "Bioline International",
+        website: "https://www.bioline.org.br/"
+    },
+    {
+        name: "Philosophy Documentation Center eCollection",
+        type: "Philosophy research",
+        category: "Specialized",
+        timeline: "Comprehensive",
+        access: "Free abstracts, subscription for full text",
+        provider: "Philosophy Documentation Center",
+        website: "https://www.pdcnet.org/"
+    },
+    {
+        name: "Merck Index",
+        type: "Chemistry, biology, pharmacology",
+        category: "Specialized",
+        timeline: "Comprehensive",
+        access: "Subscription",
+        provider: "Royal Society of Chemistry",
+        website: "https://www.rsc.org/merck-index/"
+    },
+    {
+        name: "GreenFILE",
+        type: "Environmental research",
+        category: "Specialized",
+        timeline: "Comprehensive",
+        access: "Free abstracts, subscription for full text",
+        provider: "EBSCO",
+        website: "https://www.ebsco.com/products/research-databases/greenfile"
+    },
+    {
+        name: "SPORTDiscus",
+        type: "Sports and sports medicine research",
+        category: "Specialized",
+        timeline: "Comprehensive",
+        access: "Subscription",
+        provider: "EBSCO",
+        website: "https://www.ebsco.com/products/research-databases/sportdiscus"
+    },
+    {
+        name: "MLA International Bibliography",
+        type: "Language and literature research",
+        category: "Specialized",
+        timeline: "Since 1926",
+        access: "Subscription",
+        provider: "Modern Language Association",
+        website: "https://www.mla.org/publications/bibliography"
+    },
+    {
+        name: "Anthropology Plus",
+        type: "Anthropology research",
+        category: "Specialized",
+        timeline: "Comprehensive",
+        access: "Subscription",
+        provider: "EBSCO",
+        website: "https://www.ebsco.com/products/research-databases/anthropology-plus"
+    },
+    {
+        name: "PAIS Index",
+        type: "Public affairs research",
+        category: "Specialized",
+        timeline: "Since 1915",
+        access: "Subscription",
+        provider: "ProQuest",
+        website: "https://www.proquest.com/products-services/pais-index.html"
+    },
+    {
+        name: "VET-Bib",
+        type: "Vocational education research",
+        category: "Specialized",
+        timeline: "Comprehensive",
+        access: "Free",
+        provider: "European Centre for the Development of Vocational Training",
+        website: "https://vet-bib.eu/"
+    },
+    {
+        name: "LexisNexis Academic",
+        type: "Legal, news, and business information",
+        category: "Specialized",
+        timeline: "Comprehensive",
+        access: "Subscription",
+        provider: "LexisNexis",
+        website: "https://www.lexisnexis.com/"
+    },
+    {
+        name: "WestLaw",
+        type: "Legal information",
+        category: "Specialized",
+        timeline: "Comprehensive",
+        access: "Subscription",
+        provider: "Thomson Reuters",
+        website: "https://www.westlaw.com/"
+    },
+    {
+        name: "ProQuest Dissertations & Theses Global",
+        type: "Dissertations and theses",
+        category: "Multidisciplinary",
+        timeline: "Since 1861",
+        access: "Subscription",
+        provider: "ProQuest",
+        website: "https://www.proquest.com/products-services/pqdtglobal.html"
+    },
+    {
+        name: "Cambridge Core",
+        type: "Academic books and journals",
+        category: "Multidisciplinary",
+        timeline: "Historical to present",
+        access: "Subscription with some open access",
+        provider: "Cambridge University Press",
+        website: "https://www.cambridge.org/core/"
+    },
+                {
+                    name: "Dimensions",
+                    type: "Research outputs with metrics",
+                    category: "Multidisciplinary",
+                    timeline: "Recent with historical context",
+                    access: "Free basic version",
+                    provider: "Digital Science",
+                    coverage: "Unknown",
+                    website: "https://www.dimensions.ai/"
+                }
+            ];
+            
+            // Variables for pagination
+            let currentPage = 1;
+            const itemsPerPage = 10;
+            let filteredSources = [...academicSources];
+            
+            // Filter states
+            let activeFilters = {
+                category: [],
+                type: [],
+                access: [],
+                timeline: []
+            };
+            
+            // Get DOM elements
+            const sourcesTable = document.getElementById('sources-table');
+            const sourcesTableBody = document.getElementById('sources-tbody');
+            const totalItemsElement = document.getElementById('total-items');
+            const showingStartElement = document.getElementById('showing-start');
+            const showingEndElement = document.getElementById('showing-end');
+            const prevPageButton = document.getElementById('prev-page');
+            const nextPageButton = document.getElementById('next-page');
+            
+            // Get filter elements
+            const categoryFilters = document.querySelectorAll('#category-filters .filter-chip');
+            const typeFilters = document.querySelectorAll('#type-filters .filter-chip');
+            const accessFilters = document.querySelectorAll('#access-filters .filter-chip');
+            const timelineFilters = document.querySelectorAll('#timeline-filters .filter-chip');
+            const resetFiltersButton = document.getElementById('reset-filters');
+            
+            // Global search from header
+            const headerSearchInput = document.getElementById('search-input');
+            const mobileSearchInput = document.getElementById('mobile-search-input');
+            
+            // Initialize the table
+            function initializeTable() {
+                // Populate the table with initial data
+                renderTable();
+                
+                // Set up event listeners for filter chips
+                setupFilterChips();
+                
+                // Set up event listener for reset filters button
+                resetFiltersButton.addEventListener('click', resetFilters);
+                
+                // Set up event listeners for pagination
+                prevPageButton.addEventListener('click', goToPreviousPage);
+                nextPageButton.addEventListener('click', goToNextPage);
+                
+                // Set up event listeners for sorting
+                const tableHeaders = sourcesTable.querySelectorAll('th[data-sort]');
+                tableHeaders.forEach(header => {
+                    header.addEventListener('click', () => {
+                        sortTable(header.dataset.sort);
+                    });
+                });
+                
+                // Set up event listeners for header search
+                if (headerSearchInput) {
+                    headerSearchInput.addEventListener('input', applyHeaderSearch);
+                }
+                if (mobileSearchInput) {
+                    mobileSearchInput.addEventListener('input', applyHeaderSearch);
+                }
+                
+                // Update the count
+                updateItemCount();
+            }
+            
+            // Set up event listeners for filter chips
+            function setupFilterChips() {
+                // Category filter chips
+                categoryFilters.forEach(chip => {
+                    chip.addEventListener('click', function() {
+                        toggleFilterChip(this, 'category');
+                        applyFilters();
+                    });
+                });
+                
+                // Type filter chips
+                typeFilters.forEach(chip => {
+                    chip.addEventListener('click', function() {
+                        toggleFilterChip(this, 'type');
+                        applyFilters();
+                    });
+                });
+                
+                // Access filter chips
+                accessFilters.forEach(chip => {
+                    chip.addEventListener('click', function() {
+                        toggleFilterChip(this, 'access');
+                        applyFilters();
+                    });
+                });
+                
+                // Timeline filter chips
+                timelineFilters.forEach(chip => {
+                    chip.addEventListener('click', function() {
+                        toggleFilterChip(this, 'timeline');
+                        applyFilters();
+                    });
+                });
+            }
+            
+            // Toggle a filter chip's active state
+            function toggleFilterChip(chip, filterType) {
+                chip.classList.toggle('active');
+                
+                // Update active filters array
+                const value = chip.getAttribute('data-value').toLowerCase();
+                
+                if (chip.classList.contains('active')) {
+                    // Add to active filters if not already present
+                    if (!activeFilters[filterType].includes(value)) {
+                        activeFilters[filterType].push(value);
+                    }
+                } else {
+                    // Remove from active filters
+                    const index = activeFilters[filterType].indexOf(value);
+                    if (index !== -1) {
+                        activeFilters[filterType].splice(index, 1);
+                    }
+                }
+            }
+            
+            // Apply header search
+            function applyHeaderSearch() {
+                // Sync the search inputs
+                const searchValue = this.value.toLowerCase();
+                if (headerSearchInput && mobileSearchInput) {
+                    headerSearchInput.value = searchValue;
+                    mobileSearchInput.value = searchValue;
+                }
+                
+                applyFilters();
+            }
+            
+            // Apply all filters
+            function applyFilters() {
+                // Get search value from header search input
+                const searchValue = headerSearchInput ? headerSearchInput.value.toLowerCase() : '';
+                
+                filteredSources = academicSources.filter(source => {
+                    // Category filter - if any category filters are active
+                    if (activeFilters.category.length > 0) {
+                        const categoryMatch = activeFilters.category.some(cat => 
+                            source.category.toLowerCase().includes(cat)
+                        );
+                        if (!categoryMatch) return false;
+                    }
+                    
+                    // Type filter - if any type filters are active
+                    if (activeFilters.type.length > 0) {
+                        const typeMatch = activeFilters.type.some(type => 
+                            source.type.toLowerCase().includes(type)
+                        );
+                        if (!typeMatch) return false;
+                    }
+                    
+                    // Access filter - if any access filters are active
+                    if (activeFilters.access.length > 0) {
+                        const accessMatch = activeFilters.access.some(access => 
+                            source.access.toLowerCase().includes(access.toLowerCase())
+                        );
+                        if (!accessMatch) return false;
+                    }
+                    
+                    // Timeline filter - if any timeline filters are active
+                    if (activeFilters.timeline.length > 0) {
+                        const timelineMatch = activeFilters.timeline.some(timeline => 
+                            source.timeline.toLowerCase().includes(timeline)
+                        );
+                        if (!timelineMatch) return false;
+                    }
+                    
+                    // Search filter from header (check name, type, and provider)
+                    if (searchValue) {
+                        const nameMatch = source.name.toLowerCase().includes(searchValue);
+                        const typeMatch = source.type.toLowerCase().includes(searchValue);
+                        const providerMatch = source.provider ? source.provider.toLowerCase().includes(searchValue) : false;
+                        
+                        if (!nameMatch && !typeMatch && !providerMatch) {
+                            return false;
+                        }
+                    }
+                    
+                    return true;
+                });
+                
+                // Reset to first page when filtering
+                currentPage = 1;
+                
+                // Update the table with filtered data
+                renderTable();
+                updateItemCount();
+                updatePaginationButtons();
+            }
+            
+            // Reset all filters
+            function resetFilters() {
+                // Reset active filters object
+                activeFilters = {
+                    category: [],
+                    type: [],
+                    access: [],
+                    timeline: []
+                };
+                
+                // Reset all filter chips to inactive state
+                const allChips = document.querySelectorAll('.filter-chip');
+                allChips.forEach(chip => {
+                    chip.classList.remove('active');
+                });
+                
+                // Clear search inputs
+                if (headerSearchInput) headerSearchInput.value = '';
+                if (mobileSearchInput) mobileSearchInput.value = '';
+                
+                // Reset filtered sources and pagination
+                filteredSources = [...academicSources];
+                currentPage = 1;
+                
+                // Update the UI
+                renderTable();
+                updateItemCount();
+                updatePaginationButtons();
+            }
+            
+            // Render the table with current filtered data and page
+            function renderTable() {
+                // Clear the table body
+                sourcesTableBody.innerHTML = '';
+                
+                // Calculate slice for current page
+                const startIndex = (currentPage - 1) * itemsPerPage;
+                const endIndex = startIndex + itemsPerPage;
+                const currentSlice = filteredSources.slice(startIndex, endIndex);
+                
+                // Create table rows
+                currentSlice.forEach(source => {
+                    const row = document.createElement('tr');
+                    
+                    // Name column
+                    const nameCell = document.createElement('td');
+                    nameCell.textContent = source.name;
+                    row.appendChild(nameCell);
+                    
+                    // Type column
+                    const typeCell = document.createElement('td');
+                    typeCell.textContent = source.type;
+                    row.appendChild(typeCell);
+                    
+                    // Timeline column
+                    const timelineCell = document.createElement('td');
+                    timelineCell.textContent = source.timeline;
+                    row.appendChild(timelineCell);
+                    
+                    // Access column
+                    const accessCell = document.createElement('td');
+                    if (source.access.toLowerCase().includes('free') && !source.access.toLowerCase().includes('partial')) {
+                        accessCell.innerHTML = `<span class="badge badge-free">${source.access}</span>`;
+                    } else if (source.access.toLowerCase().includes('subscription')) {
+                        accessCell.innerHTML = `<span class="badge badge-subscription">${source.access}</span>`;
+                    } else if (source.access.toLowerCase().includes('partial')) {
+                        accessCell.innerHTML = `<span class="badge badge-partial">${source.access}</span>`;
+                    } else {
+                        accessCell.textContent = source.access;
+                    }
+                    row.appendChild(accessCell);
+                    
+                    // Provider column
+                    const providerCell = document.createElement('td');
+                    providerCell.textContent = source.provider || 'N/A';
+                    row.appendChild(providerCell);
+                    
+                    // Website column
+                    const websiteCell = document.createElement('td');
+                    if (source.website) {
+                        const linkElement = document.createElement('a');
+                        linkElement.href = source.website;
+                        linkElement.target = '_blank';
+                        linkElement.className = 'external-link';
+                        linkElement.textContent = 'Visit';
+                        
+                        const icon = document.createElement('i');
+                        icon.className = 'fas fa-external-link-alt';
+                        linkElement.appendChild(icon);
+                        
+                        websiteCell.appendChild(linkElement);
+                    } else {
+                        websiteCell.textContent = 'N/A';
+                    }
+                    row.appendChild(websiteCell);
+                    
+                    // Add the row to the table
+                    sourcesTableBody.appendChild(row);
+                });
+                
+                // Update pagination info
+                updatePaginationInfo();
+            }
+            
+            // Update the item count display
+            function updateItemCount() {
+                totalItemsElement.textContent = filteredSources.length;
+            }
+            
+            // Update pagination info (showing X-Y of Z)
+            function updatePaginationInfo() {
+                const startIndex = (currentPage - 1) * itemsPerPage + 1;
+                const endIndex = Math.min(startIndex + itemsPerPage - 1, filteredSources.length);
+                
+                showingStartElement.textContent = filteredSources.length > 0 ? startIndex : 0;
+                showingEndElement.textContent = endIndex;
+            }
+            
+            // Update pagination buttons state
+            function updatePaginationButtons() {
+                prevPageButton.disabled = currentPage === 1;
+                nextPageButton.disabled = currentPage >= Math.ceil(filteredSources.length / itemsPerPage);
+            }
+            
+            // Go to next page
+            function goToNextPage() {
+                if (currentPage < Math.ceil(filteredSources.length / itemsPerPage)) {
+                    currentPage++;
+                    renderTable();
+                    updatePaginationButtons();
+                }
+            }
+            
+            // Go to previous page
+            function goToPreviousPage() {
+                if (currentPage > 1) {
+                    currentPage--;
+                    renderTable();
+                    updatePaginationButtons();
+                }
+            }
+            
+            // Sort the table by column
+            function sortTable(column) {
+                const header = sourcesTable.querySelector(`th[data-sort="${column}"]`);
+                
+                // Remove sorting classes from all headers
+                sourcesTable.querySelectorAll('th').forEach(th => {
+                    th.classList.remove('sort-asc', 'sort-desc');
+                });
+                
+                // Determine sort direction
+                let sortAscending = true;
+                if (header.classList.contains('sort-asc')) {
+                    sortAscending = false;
+                    header.classList.add('sort-desc');
+                } else {
+                    header.classList.add('sort-asc');
+                }
+                
+                // Sort the filtered sources array
+                filteredSources.sort((a, b) => {
+                    let valueA, valueB;
+                    
+                    // Handle different column types
+                    if (column === 'name') {
+                        valueA = a.name.toLowerCase();
+                        valueB = b.name.toLowerCase();
+                    } else if (column === 'type') {
+                        valueA = a.type.toLowerCase();
+                        valueB = b.type.toLowerCase();
+                    } else if (column === 'timeline') {
+                        valueA = a.timeline.toLowerCase();
+                        valueB = b.timeline.toLowerCase();
+                    } else if (column === 'access') {
+                        valueA = a.access.toLowerCase();
+                        valueB = b.access.toLowerCase();
+                    } else if (column === 'provider') {
+                        valueA = (a.provider || '').toLowerCase();
+                        valueB = (b.provider || '').toLowerCase();
+                    } else {
+                        return 0;
+                    }
+                    
+                    // Compare the values
+                    if (valueA < valueB) {
+                        return sortAscending ? -1 : 1;
+                    }
+                    if (valueA > valueB) {
+                        return sortAscending ? 1 : -1;
+                    }
+                    return 0;
+                });
+                
+                // Re-render the table with sorted data
+                renderTable();
+            }
+            
+            // Initialize the table when the DOM is fully loaded
+            initializeTable();
+        });
+    </script>
+</body>
+</html>

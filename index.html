@@ -1,240 +1,741 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="light">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Navigation Menu & Options Table</title>
-  <!-- Link to your external CSS -->
-  <link rel="stylesheet" href="style.css" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>University Portal - Dashboard</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="styles.css">
+    <script src="sidebar-links.js"></script>
+    <script src="core.js"></script>
+    <style>
+        /* Additional styles for the cards */
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1.5rem;
+            margin-bottom: 2.5rem;
+        }
+        
+        .card {
+            background-color: var(--bg-primary);
+            border: 1px solid var(--border-color);
+            border-radius: 0.5rem;
+            padding: 1.25rem;
+            transition: transform 0.2s, box-shadow 0.2s;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+        
+        .card-icon {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            color: var(--accent-color);
+        }
+        
+        .card-title {
+            font-weight: 600;
+            font-size: 1.125rem;
+            margin-bottom: 0.5rem;
+            color: var(--text-primary);
+            display: flex;
+            align-items: center;
+        }
+        
+        .card-title i {
+            margin-left: 0.5rem;
+            font-size: 0.875rem;
+        }
+        
+        .card-description {
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+            flex-grow: 1;
+        }
+        
+        .card-footer {
+            margin-top: auto;
+        }
+        
+        .badge {
+            display: inline-block;
+            padding: 0.25rem 0.5rem;
+            border-radius: 0.25rem;
+            font-size: 0.75rem;
+            font-weight: 600;
+            margin-bottom: 0.75rem;
+            width: fit-content;
+        }
+        
+        .badge-tool {
+            background-color: var(--accent-color);
+            color: white;
+        }
+        
+        .badge-university {
+            background-color: #10B981;
+            color: white;
+        }
+        
+        .section-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin: 2rem 0 1rem;
+            color: var(--text-primary);
+            border-bottom: 2px solid var(--border-color);
+            padding-bottom: 0.5rem;
+        }
+        
+        /* Search highlighting */
+        mark {
+            background-color: rgba(254, 240, 138, 0.4);
+            padding: 0 2px;
+            border-radius: 2px;
+            font-weight: normal;
+        }
+        
+        .search-match {
+            border: 1px solid #e5e7eb;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+        }
+        
+        .search-match-indicator {
+            padding: 4px 8px;
+            background-color: #f9fafb;
+            border-bottom: 1px solid #e5e7eb;
+            color: #6b7280;
+            font-size: 0.7rem;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            border-top-left-radius: 0.5rem;
+            border-top-right-radius: 0.5rem;
+        }
+        
+        .search-match-indicator i {
+            color: var(--accent-color);
+            margin-right: 6px;
+            font-size: 0.7rem;
+        }
+        
+        .search-status {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            background-color: rgba(254, 240, 138, 0.2);
+            padding: 0.75rem 1rem;
+            border-radius: 0.5rem;
+            font-size: 0.875rem;
+            color: #374151;
+            border: 1px solid rgba(252, 211, 77, 0.3);
+        }
+        
+        .search-status-icon {
+            margin-right: 0.75rem;
+            color: var(--accent-color);
+        }
+        
+        .search-status-text {
+            flex-grow: 1;
+        }
+        
+        .search-status-clear {
+            background-color: transparent;
+            border: none;
+            color: #6b7280;
+            cursor: pointer;
+            padding: 0.25rem 0.5rem;
+            border-radius: 0.25rem;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+        }
+        
+        .search-status-clear:hover {
+            background-color: #e5e7eb;
+            color: #111827;
+        }
+        
+        .search-count {
+            font-weight: 600;
+        }
+        @media (max-width: 1400px) {
+            .card-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+        
+        @media (max-width: 1100px) {
+            .card-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .card-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
 </head>
 <body>
+    <!-- Single Header -->
+    <header class="header">
+        <button class="hamburger-menu" aria-label="Toggle sidebar">
+            <i class="fas fa-bars"></i>
+        </button>
+        
+        <div class="logo">
+        </div>
+        
+        <nav class="nav-tabs">
+            <a href="#main" class="nav-tab active">Dashboard</a>
+            <a href="#info" class="nav-tab">Info</a>
+        </nav>
+        
+        <!-- Centered search box (hidden on mobile) -->
+        <div class="search-container">
+            <i class="fas fa-search search-icon"></i>
+            <input type="text" id="search-input" class="search-input" placeholder="Search...">
+        </div>
+        
+        <!-- Header controls positioned above right sidebar -->
+        <div class="header-controls">
+            <!-- Font size controls -->
+            <div class="font-size-controls">
+                <div id="decrease-font" class="font-size-btn">
+                    <i class="fas fa-minus"></i>
+                </div>
+                <div class="text-label mx-2 text-muted">Text</div>
+                <div id="increase-font" class="font-size-btn">
+                    <i class="fas fa-plus"></i>
+                </div>
+            </div>
+            
+            <button class="theme-toggle" aria-label="Toggle dark/light mode">
+                <i class="fas fa-sun fa-lg"></i>
+            </button>
+            
+            <button class="toggle-right-sidebar" aria-label="Toggle right sidebar">
+                <i class="fas fa-cog fa-lg"></i>
+            </button>
+        </div>
+    </header>
 
-<!-- Navigation Menu -->
-<nav class="menu">
-  <ul>
-    <li><a href="index.html" class="active">Home</a></li>
-    <li><a href="mod.html">Moderate</a></li>
-    <li><a href="rub.html">Feedback Sheets</a></li>
-    <li><a href="dmp.html">DMP Calculator</a></li>
-    <li><a href="uspec.html">Module Specs</a></li>
-  </ul>
-</nav>
-
-<!-- Main Container for the Options Table -->
-<div class="container">
-  <h1>🤠 Howdy</h1>
-  <!-- 4-Column Table -->
-  <table class="options-table">
-    <thead>
-      <tr>
-        <th>Option</th>
-        <th>Description</th>
-        <th>Preview</th>
-        <th>Changelog</th>
-      </tr>
-    </thead>
-    <tbody>
-      <!-- RubriFlow Row -->
-      <tr>
-        <td>
-          <a href="rub.html">
-          <button  class="button">RubriFlow</button></a><br><br><em>RubriFlow, helps your rubric sheets to flow smoothly</em>
-        </td>
-        <td>
-          Effortlessly generate multiple feedback sheets and a moderator sheet at once.
-        </td>
-        <td>
-          <div class="image-gallery">
-            <img src="img/65_PeanutB.Waffles_Page_1.jpeg" alt="RubriFlow Preview 1" />
-            <img src="img/65_PeanutB.Waffles_Page_2.jpeg" alt="RubriFlow Preview 2" />
-            <img src="img/moderation_data_sheet_Page_1.jpeg" alt="Moderatio Sheet Preview 1" />
-          </div>
-        </td>
-        <td>
-          <!-- Accordion button for single Info Box -->
-          <button class="accordion-btn" data-tool="rubriflow">View Changelog</button>
-        </td>
-      </tr>
-
-      <!-- Moderator Row -->
-      <tr>
-        <td>
-          <a href="mod.html">
-            <button class="button">ModuL8</button>
-        </a>
-          <br><br><em>ModuL8, pronounced “Modulate”. Just nerdy.</em>
-        </td>
-        <td>
-          Create a structured moderation report for evaluation. 
-        </td>
-        <td>
-          <img src="img/ModeratorTool_Page_1.jpeg" alt="Moderator Data Sheet" width="150" />
-          <img src="img/ModeratorTool_Page_2.jpeg" alt="Moderator Data Sheet" width="150" />
-        </td>
-        <td>
-          <button class="accordion-btn" data-tool="moderator">View Changelog</button>
-        </td>
-      </tr>
-
-      <!-- DMP Calculator Row -->
-      <tr>
-        <td><a href="dmp.html">
-            <button  class="button">DMP Calc</button></a>
-        </td>
-        <td>
-          Calculate marks for the Digital Media Project (DMP).
-        </td>
-        <td>
-          <img src="dmp-preview.png" alt="DMP Calculator Preview" width="150" />
-        </td>
-        <td>
-          <button class="accordion-btn" data-tool="dmp">View Changelog</button>
-        </td>
-      </tr>
-            <!-- Unit Specification Documents Row -->
-            <tr>
-                <td><a href="uspec.html">
-                    <button  class="button">Unit Spec</button></a>
-                </td>
-                <td>
-                Browse Unit Specifications conveniently (test version)
-                </td>
-                <td>
-                  <img />
-                </td>
-                <td>
-                </td>
-              </tr>
-                          <!-- BaseLiner-->
-            <tr>
-                <td>
-                    <button class="button btn-disabled">BaseLiner</button>
-                </td>
-                <td>
-                  Simple checklist tool with the Moodle Baseline (will add later)
-                </td>
-                <td>
-                    <img />
-                </td>
-                <td>
-                </td>
-              </tr>
-    </tbody>
-  </table>
-
-  <!-- Single Info Box (Collapsed by default) -->
-  <div id="changelog-container" class="info-box collapsed">
-    <h3 id="changelog-title">Changelog</h3>
-    <div id="changelog-content">
-      <!-- Filled by JavaScript on button click -->
+    <!-- Mobile search bar (only visible on smaller screens) -->
+    <div class="mobile-search-container">
+        <div class="relative w-full">
+            <i class="fas fa-search search-icon"></i>
+            <input type="text" id="mobile-search-input" class="search-input w-full" placeholder="Search...">
+        </div>
     </div>
-  </div>
-</div>
 
+    <!-- Main layout -->
+    <div class="layout">
+        <!-- Left sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-section">
+                <div class="sidebar-header">
+                    <span>University Links</span>
+                </div>
+                <div id="university-content" class="sidebar-content">
+                </div>
+            </div>
+        </aside>
 
-<!-- JavaScript for Single Info Box Toggling -->
-<script>
-  // Example content for each tool’s changelog
-  const changelogs = {
-    rubriflow: `
-<div class="version">
-  <h2>Version 4: Moderation Support &amp; Statistical Analysis</h2>
-  <p><strong>v4.7</strong> – Top level menu - access to other tools is now possible from the top level</p>
-  <p><strong>v4.6</strong> – UI improvements - Box &amp; Legend introduced</p>
-  <p><strong>v4.5</strong> – Introduced picking random student sample according to grade bands, and a secondary page with full cohort organized by gradebands</p>
-  <p><strong>v4.4</strong> – Added counter at the sticky footer</p>
-  <p><strong>v4.3</strong> – Implemented sticky table headers and sticky footer</p>
-  <p><strong>v4.2</strong> – Improved color styling and removed redundant CSS</p>
-  <p><strong>v4.1</strong> – Bulk Row Management &amp; Enhanced Excel Compatibility</p>
-  <p>Implemented bulk row management. Improved Excel copy-paste handling, ensuring smoother data import.</p>
-  <p><strong>v4.0</strong> – Moderation Data Sheet Introduced</p>
-  <p>Added statistical calculations including mean, median, mode, standard deviation, skewness, and kurtosis.</p>
-</div>
+        <!-- Main content area with tab content -->
+        <main class="main-content">
+            <!-- Main tab content - Dashboard -->
+            <div id="main-tab-content" class="tab-content active">
+                <!-- Teaching Tools Section -->
+                
+                <!-- Info box - notice -->
+                <div class="info-box">
+                    <div class="info-box-title">
+                        <i class="fas fa-exclamation-circle"></i> 
+                        Development Notice
+                    </div>
+                    <div class="info-content">
+                        <p>This is a proposed work in progress interface with <strong>incomplete data, potential bugs, interface issues</strong>, and the dark mode is incosinstent. More tools are in the pipeline, and more testing is needed. Features and functionality may change. All dummy student names shown are fictional.</p>
+                    </div>
+                </div>
+                
+                <!-- Search status area - initially hidden -->
+                <div id="main-content">
 
-<!-- Version 3 -->
-<div class="version">
-  <h2>Version 3: Major Code Optimization &amp; Table-Based Rubric Input</h2>
-  <p><strong>v3.3</strong> – JavaScript refactored to reduce duplicate code, streamlining processes</p>
-  <p><strong>v3.2</strong> – Automatic renaming of PDF files in the format 'Mark Student Name.pdf'</p>
-  <p><strong>v3.1</strong> – Introduced color-coded, automatic highlight of the rubric tables</p>
-  <p><strong>v3.0</strong> – Dynamic Rubric Table &amp; Code Reduction</p>
-  <p>Replaced the old hardcoded system with a dynamic rubric table. Allowed users to paste entire rubric structures directly from Excel. Massively reduced code complexity, making the tool faster and more efficient.</p>
-</div>
+                    <!-- Search Status -->
+                    <div id="search-status" class="search-status" style="display: none;">
+                        <div class="search-status-icon">
+                            <i class="fas fa-search"></i>
+                        </div>
+                        <div class="search-status-text">
+                            Showing <span id="search-count" class="search-count">0</span> results for "<span id="search-term"></span>"
+                        </div>
+                        <button id="clear-search" class="search-status-clear">
+                            Clear search <i class="fas fa-times ml-1"></i>
+                        </button>
+                    </div>
+                
+                    <!-- Teaching & Assessment Tools Section -->
+                    <h2 class="section-title"><i class="fas fa-chalkboard-teacher mr-2"></i>Teaching & Assessment Tools</h2>
+                    <div class="card-grid">
+                        <!-- Cards for teaching tools -->
+                        <a href="modules.html" class="card">
+                            <span class="badge badge-tool">Tool</span>
+                            <div class="card-icon"><i class="fas fa-book"></i></div>
+                            <h3 class="card-title">Module Specs <i class="fas fa-chevron-right"></i></h3>
+                            <p class="card-description">Access and manage module specifications.</p>
+                            <div class="card-footer"></div>
+                        </a>
+                        
+                        <a href="student-list.html" class="card">
+                            <span class="badge badge-tool">Tool</span>
+                            <div class="card-icon"><i class="fas fa-users"></i></div>
+                            <h3 class="card-title">Personalised Student List <i class="fas fa-chevron-right"></i></h3>
+                            <p class="card-description">Create and manage customized student lists for your modules.</p>
+                            <div class="card-footer"></div>
+                        </a>
+                        
+                        <a href="feedback-generator.html" class="card">
+                            <span class="badge badge-tool">Tool</span>
+                            <div class="card-icon"><i class="fas fa-comments"></i></div>
+                            <!-- Removed any hidden zero-width spaces in "Rubric" -->
+                            <h3 class="card-title">Rubric Feedback Generator <i class="fas fa-chevron-right"></i></h3>
+                            <p class="card-description">Generate PDF feedback marksheets in bulk, complete with highlighted rubrics.</p>
+                            <div class="card-footer"></div>
+                        </a>
+                        
+                        <a href="rubric.html" class="card">
+                            <span class="badge badge-tool">Tool</span>
+                            <div class="card-icon"><i class="fas fa-th-list"></i></div>
+                            <h3 class="card-title">Rubric Descriptors <i class="fas fa-chevron-right"></i></h3>
+                            <p class="card-description">Familiarise with assessment rubrics and grading criteria.</p>
+                            <div class="card-footer"></div>
+                        </a>
+                    </div>
+                    
+                    <!-- Assessment & Quality Assurance Section -->
+                    <h2 class="section-title"><i class="fas fa-chart-line mr-2"></i>Assessment & Quality Assurance</h2>
+                    <div class="card-grid">
+                        <!-- Cards for assessment tools -->
+                        <a href="moderator.html" class="card">
+                            <span class="badge badge-tool">Tool</span>
+                            <div class="card-icon"><i class="fas fa-balance-scale"></i></div>
+                            <h3 class="card-title">Moderation Statistics <i class="fas fa-chevron-right"></i></h3>
+                            <p class="card-description">Instantly generate statistics and a sample for the moderator.</p>
+                            <div class="card-footer"></div>
+                        </a>
+                        
+                        <a href="marking-dashboard.html" class="card">
+                            <span class="badge badge-tool">Tool</span>
+                            <div class="card-icon"><i class="fas fa-tasks"></i></div>
+                            <h3 class="card-title">Marking Tracker <i class="fas fa-chevron-right"></i></h3>
+                            <p class="card-description">Monitor your marking progress and stay on track.</p>
+                            <div class="card-footer"></div>
+                        </a>
+                        
+                        <a href="grade-inflation.html" class="card">
+                            <span class="badge badge-tool">Tool</span>
+                            <div class="card-icon"><i class="fas fa-chart-bar"></i></div>
+                            <h3 class="card-title">Grade Inflation Checker <i class="fas fa-chevron-right"></i></h3>
+                            <p class="card-description">Analyze grading trends and identify potential grade inflation.</p>
+                            <div class="card-footer"></div>
+                        </a>
+                    </div>
+                    
+                    <!-- Planning & Resources Section -->
+                    <h2 class="section-title"><i class="fas fa-calendar mr-2"></i>Planning & Resources</h2>
+                    <div class="card-grid">
+                        <!-- Cards for planning tools -->
+                        <a href="deadlines.html" class="card">
+                            <span class="badge badge-tool">Tool</span>
+                            <div class="card-icon"><i class="fas fa-hourglass-end"></i></div>
+                            <h3 class="card-title">Deadlines <i class="fas fa-chevron-right"></i></h3>
+                            <p class="card-description">Keep track of academic deadlines and seamlessly add your own.</p>
+                            <div class="card-footer"></div>
+                        </a>
+                        
+                        <a href="bloom.html" class="card">
+                            <span class="badge badge-tool">Tool</span>
+                            <div class="card-icon"><i class="fas fa-lightbulb"></i></div>
+                            <h3 class="card-title">Activity Generator <i class="fas fa-chevron-right"></i></h3>
+                            <p class="card-description">Create engaging learning activities based on Bloom's taxonomy.</p>
+                            <div class="card-footer"></div>
+                        </a>
+                        
+                        <a href="research.html" class="card">
+                            <span class="badge badge-tool">Tool</span>
+                            <div class="card-icon"><i class="fas fa-search"></i></div>
+                            <h3 class="card-title">Research Groups <i class="fas fa-chevron-right"></i></h3>
+                            <p class="card-description">Explore university research groups and collaboration opportunities.</p>
+                            <div class="card-footer"></div>
+                        </a>
 
-<!-- Version 2 -->
-<div class="version">
-  <h2>Version 2: Customization and Dynamic Input</h2>
-  <p><strong>v2.5</strong> – Improved compatibility and stability issues</p>
-  <p><strong>v2.4</strong> – Swapped Handsontable with DataTables</p>
-  <p>Handsontable is very robust but requires licensing for commercial applications. DataTables is free and won't cause any burden to the university.</p>
-  <p><strong>v2.3</strong> – Improved Data Persistence and stability issues</p>
-  <p><strong>v2.2</strong> – Customizable headers</p>
-  <p><strong>v2.1</strong> – Implemented checkbox toggles for enabling/disabling rubric grading descriptors dynamically</p>
-  <p><strong>v2.0</strong> – Introduced spreadsheet framework (Handsontable)</p>
-  <p>Removed CSV import and introduced feedback via input tables. Major code refactoring reduced complexity and improved maintainability.</p>
-</div>
+                        <a href="sources.html" class="card">
+                            <span class="badge badge-tool">Tool</span>
+                            <div class="card-icon"><i class="fas fa-database"></i></div>
+                            <h3 class="card-title">Academic Sources Database <i class="fas fa-chevron-right"></i></h3>
+                            <p class="card-description">Reliable data, all in one place.</p>
+                            <div class="card-footer"></div>
+                        </a>
+                        
+                        <a href="jargon.html" class="card">
+                            <span class="badge badge-tool">Tool</span>
+                            <div class="card-icon"><i class="fas fa-language"></i></div>
+                            <h3 class="card-title">UK Jargon <i class="fas fa-chevron-right"></i></h3>
+                            <p class="card-description">Now it makes sense.</p>
+                            <div class="card-footer"></div>
+                        </a>
+                    </div>
+                    
+                    <!-- University Resources Section -->
+                    <h2 class="section-title"><i class="fas fa-university mr-2"></i>University Resources</h2>
+                    <div class="card-grid">
+                        <!-- Cards for university resources -->
+                        <a href="https://my.mmu.ac.uk/" class="card" target="_blank" rel="noopener noreferrer">
+                            <span class="badge badge-university">Link</span>
+                            <div class="card-icon"><i class="fas fa-home"></i></div>
+                            <h3 class="card-title">University Portal <i class="fas fa-external-link-alt"></i></h3>
+                            <p class="card-description">Access the main university portal for staff and students.</p>
+                            <div class="card-footer"></div>
+                        </a>
+                        
+                        <a href="https://moodle.mmu.ac.uk/" class="card" target="_blank" rel="noopener noreferrer">
+                            <span class="badge badge-university">University</span>
+                            <div class="card-icon"><i class="fas fa-graduation-cap"></i></div>
+                            <h3 class="card-title">Moodle <i class="fas fa-external-link-alt"></i></h3>
+                            <p class="card-description">Access the university's virtual learning environment.</p>
+                            <div class="card-footer"></div>
+                        </a>
+                        
+                        <a href="https://www.mmu.ac.uk/library" class="card" target="_blank" rel="noopener noreferrer">
+                            <span class="badge badge-university">University</span>
+                            <div class="card-icon"><i class="fas fa-book"></i></div>
+                            <h3 class="card-title">Library <i class="fas fa-external-link-alt"></i></h3>
+                            <p class="card-description">Access university library resources, databases, and services.</p>
+                            <div class="card-footer"></div>
+                        </a>
+                        
+                        <a href="https://outlook.office.com/mail/" class="card" target="_blank" rel="noopener noreferrer">
+                            <span class="badge badge-university">University</span>
+                            <div class="card-icon"><i class="fas fa-envelope"></i></div>
+                            <h3 class="card-title">Email <i class="fas fa-external-link-alt"></i></h3>
+                            <p class="card-description">Access your university email account through Office 365.</p>
+                            <div class="card-footer"></div>
+                        </a>
+                    </div>
+                    
+                    <!-- Academic Management Section -->
+                    <h2 class="section-title"><i class="fas fa-clipboard-list mr-2"></i>Academic Management</h2>
+                    <div class="card-grid">
+                        <!-- Cards for academic management -->
+                        <a href="https://mmuintranet.mmu.ac.uk/page/10275?SearchId=7567945" class="card" target="_blank" rel="noopener noreferrer">
+                            <span class="badge badge-university">University</span>
+                            <div class="card-icon"><i class="fas fa-calendar-alt"></i></div>
+                            <h3 class="card-title">Academic Calendar <i class="fas fa-external-link-alt"></i></h3>
+                            <p class="card-description">View the academic year including term times and holidays.</p>
+                            <div class="card-footer"></div>
+                        </a>
+                        
+                        <a href="https://mytimetable.mmu.ac.uk/schedule" class="card" target="_blank" rel="noopener noreferrer">
+                            <span class="badge badge-university">University</span>
+                            <div class="card-icon"><i class="fas fa-clock"></i></div>
+                            <h3 class="card-title">Timetables <i class="fas fa-external-link-alt"></i></h3>
+                            <p class="card-description">Access your teaching timetable.</p>
+                            <div class="card-footer"></div>
+                        </a>
+                        
+                        <a href="https://staffregisters.mmu.ac.uk/" class="card" target="_blank" rel="noopener noreferrer">
+                            <span class="badge badge-university">University</span>
+                            <div class="card-icon"><i class="fas fa-users"></i></div>
+                            <h3 class="card-title">Attendance Register <i class="fas fa-external-link-alt"></i></h3>
+                            <p class="card-description">Manage student attendance records.</p>
+                            <div class="card-footer"></div>
+                        </a>
+                        
+                        <a href="https://mmuintranet.mmu.ac.uk/person?" class="card" target="_blank" rel="noopener noreferrer">
+                            <span class="badge badge-university">University</span>
+                            <div class="card-icon"><i class="fas fa-address-book"></i></div>
+                            <h3 class="card-title">Staff Directory <i class="fas fa-external-link-alt"></i></h3>
+                            <p class="card-description">Find contact information for university staff and colleagues.</p>
+                            <div class="card-footer"></div>
+                        </a>
+                    </div>
+                    
+                    <!-- Support Services Section -->
+                    <h2 class="section-title"><i class="fas fa-life-ring mr-2"></i>Support Services</h2>
+                    <div class="card-grid">
+                        <!-- Cards for support services -->
+                        <a href="https://mmuintranet.mmu.ac.uk/Interact/Pages/Content/Document.aspx?id=2247&SearchId=8621605" class="card" target="_blank" rel="noopener noreferrer">
+                            <span class="badge badge-university">University</span>
+                            <div class="card-icon"><i class="fas fa-question-circle"></i></div>
+                            <h3 class="card-title">Digital Support <i class="fas fa-external-link-alt"></i></h3>
+                            <p class="card-description">Access technical help and digital services support resources.</p>
+                            <div class="card-footer"></div>
+                        </a>
+                        
+                        <a href="https://mmuintranet.mmu.ac.uk/Interact/Pages/Section/Default.aspx?Section=4487" class="card" target="_blank" rel="noopener noreferrer">
+                            <span class="badge badge-university">University</span>
+                            <div class="card-icon"><i class="fas fa-question-circle"></i></div>
+                            <h3 class="card-title">IT Support <i class="fas fa-external-link-alt"></i></h3>
+                            <p class="card-description">Get help with IT systems, software, and technical issues.</p>
+                            <div class="card-footer"></div>
+                        </a>
+                    </div>
+                
+                </div>
 
-<!-- Version 1 -->
-<div class="version">
-  <h2>Version 1: HTML &amp; JavaScript, Hardcoded Descriptors</h2>
-  <p><strong>v1.4</strong> – Fixed formatting inconsistencies when exporting PDFs</p>
-  <p><strong>v1.3</strong> – Improved handling of large data sets and addressed row misalignment issues in exported PDFs</p>
-  <p><strong>v1.2</strong> – Replaced input fields with an editable table for easier data entry</p>
-  <p><strong>v1.1</strong> – Introduced basic styling, added simple form validation, and fixed minor alignment issues in PDFs</p>
-  <p><strong>v1.0</strong> – Initial Web-Based Version with CSV import</p>
-  <p>Transitioned from Excel to an HTML/JavaScript-based app. Hardcoded rubric descriptors directly into the code. Allowed basic feedback entry and formatting. Introduced PDF generation support using jsPDF.</p>
-</div>
+            <!-- Info tab content - contains the documentation -->
+            <div id="info-tab-content" class="tab-content">
+                <h1 class="text-3xl font-bold mb-6">About this Portal</h1>
+                <p class="mb-4">
+                    This portal provides easy access to both teaching tools and official university resources in one convenient location. No account is needed and any saves, student names or other data you insert are saved locally on your computer. 
+                </p>
 
-<!-- Version 0.1 -->
-<div class="version">
-  <h2>Version 0.1 (Early Prototype) – Excel-Based Solution</h2>
-  <p>Initial concept developed as an Excel sheet. Contained a manual feedback system with predefined cells for entering grades and comments. Limited formatting, prone to breaking when adding new descriptors. Difficult to scale, and export PDFs at mass. Inconsistent row formatting across different student entries.</p>
-</div>
-    `,
-    moderator: `
-    <p>### More testing required</p>
-    <p><strong>v0.4</strong> – Experimenting with print through the browser print dialog.</p>
-    <p><strong>v0.3</strong> – Added visualisations and color.</p>
-    <p><strong>v0.2</strong> – Introduced live refresh on the browser.</p>
-    <p><strong>v0.1</strong> – Downsizing RubriFlow to moderation core.</p>
-    `,
-    dmp: `
-    <p><strong>v1.2</strong> – Separate calculation areas - first semester and overall mark.</p>
-    <p><strong>v1.1</strong> – Fixed calculation - now snapping to stepped marks.</p>
-    <p><strong>v1</strong> – First functioning calculator release.</p>
-    <p><strong>v0.6</strong> – Copy to clipboard & reset buttons.</p>
-    <p><strong>v0.6</strong> – UI improvements & little warnings.</p>
-    <p><strong>v0.5</strong> – Introduced human-friendly wording to explain how calculations are made.</p>
-    <p><strong>v0.4</strong> – UI elements.</p>
-    <p><strong>v0.3</strong> – Refactored Calculator code - removing redundancy.</p>
-    <p><strong>v0.2</strong> – Added parameters and weighting.</p>
-    <p><strong>v0.1</strong> – Dummy Javascript calculator.</p>
-    `
-  };
+                <h2 class="text-2xl font-bold mt-8 mb-4">Using This Dashboard</h2>
+                <p class="mb-4">
+                    The dashboard organizes resources into logical categories to help you quickly find what you need. Custom tools developed specifically for staff are clearly marked with "Tool" badges, while official university resources are identified with "Official University" badges.
+                </p>
 
-  document.addEventListener("DOMContentLoaded", function() {
-    const container = document.getElementById("changelog-container");
-    const contentDiv = document.getElementById("changelog-content");
+                <!-- Info box -->
+                <div class="info-box">
+                    <div class="info-box-title">
+                        <i class="fas fa-info-circle"></i> 
+                        Tips for Using This Portal
+                    </div>
+                    <div class="info-content">
+                        <p class="mb-4">
+                            This portal helps you navigate university resources quickly and easily.
+                        </p>
+                        <ul class="list-disc pl-5 space-y-2">
+                            <li>Use the search box at the top to find resources quickly</li>
+                            <li>Toggle between dark and light modes using the moon/sun icon in the top-right corner</li>
+                            <li>Adjust text size for better readability using the text controls</li>
+                            <li>Access quick links in the sidebar for frequently used resources</li>
+                            <li>Cards are organized into categories based on their function</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </main>
 
-    // Attach click event to each "View Changelog" button
-    document.querySelectorAll(".accordion-btn").forEach(btn => {
-      btn.addEventListener("click", function() {
-        const toolKey = this.dataset.tool;
-        // Fill the #changelog-content with the correct snippet
-        contentDiv.innerHTML = changelogs[toolKey] || "<p>No changelog found</p>";
+        <!-- Right sidebar -->
+        <aside class="right-sidebar">
+            <div class="right-sidebar-header">Quick Tools</div>
+        </aside>
+    </div>
 
-        // Toggle collapsed/expanded on the container
-        if (container.classList.contains("collapsed")) {
-          container.classList.remove("collapsed");
-          container.classList.add("expanded");
-        } else {
-          container.classList.remove("expanded");
-          container.classList.add("collapsed");
-        }
-      });
-    });
-  });
-</script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            setTimeout(function() {
+                const searchInput = document.getElementById('search-input');
+                const mobileSearchInput = document.getElementById('mobile-search-input');
+                const cards = document.querySelectorAll('.card');
+                const searchStatus = document.getElementById('search-status');
+                const searchCount = document.getElementById('search-count');
+                const searchTerm = document.getElementById('search-term');
+                const clearSearchBtn = document.getElementById('clear-search');
+        
+                /**
+                 * Safely highlight partial substrings without breaking the word.
+                 * - Removes zero-width spaces before highlight.
+                 * - Temporarily removes <i> icons, then re-inserts them at the end.
+                 */
+                function safeHighlight(element, query) {
+                    if (!query || query.trim() === '') return;
+                    
+                    // Remove zero-width spaces from the element’s text
+                    const cleanedText = element.textContent.replace(/[\u200B-\u200D\uFEFF]/g, '');
+                    const queryLower = query.toLowerCase();
+        
+                    // If there's no match, do nothing
+                    if (!cleanedText.toLowerCase().includes(queryLower)) {
+                        return;
+                    }
+        
+                    // Temporarily remove <i> icons so they don't get lost
+                    const icons = Array.from(element.querySelectorAll('i')).map(icon => icon.cloneNode(true));
+                    element.querySelectorAll('i').forEach(icon => icon.remove());
+        
+                    // Escape special regex characters in the query
+                    const safeQuery = query.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
+                    const regex = new RegExp('(' + safeQuery + ')', 'gi');
+        
+                    // Insert <mark> around the matched substring
+                    const highlighted = cleanedText.replace(regex, '<mark>$1</mark>');
+        
+                    // Replace the element’s content in a single pass
+                    element.innerHTML = highlighted;
+        
+                    // Re-append icons at the end (or wherever you prefer)
+                    icons.forEach(icon => element.appendChild(icon));
+                }
+        
+                /**
+                 * Highlight the .card-title and .card-description for partial matches.
+                 */
+                function highlightText(card, query) {
+                    if (!query || query.trim() === '') return;
+        
+                    const title = card.querySelector('.card-title');
+                    const description = card.querySelector('.card-description');
+        
+                    if (title) safeHighlight(title, query);
+                    if (description) safeHighlight(description, query);
+                }
+        
+                /**
+                 * Remove <mark> tags and restore the original text.
+                 */
+                function clearHighlighting() {
+                    const searchResultsGrid = document.getElementById('search-results-grid');
+                    if (searchResultsGrid) {
+                        searchResultsGrid.remove();
+                    }
+        
+                    cards.forEach(card => {
+                        card.classList.remove('search-match');
+        
+                        // Reset .card-title
+                        const title = card.querySelector('.card-title');
+                        if (title && title.innerHTML.includes('<mark>')) {
+                            // Keep icon if any
+                            const icon = title.querySelector('i');
+                            const plainText = title.textContent; 
+                            title.textContent = plainText;
+                            if (icon) title.appendChild(icon);
+                        }
+        
+                        // Reset .card-description
+                        const description = card.querySelector('.card-description');
+                        if (description && description.innerHTML.includes('<mark>')) {
+                            const plainDesc = description.textContent;
+                            description.textContent = plainDesc;
+                        }
+                    });
+                }
+        
+                /**
+                 * Filter cards, highlight matches, and display in a search-results grid.
+                 */
+                function filterCards(query) {
+                    const trimmedQuery = query.toLowerCase().trim();
+                    clearHighlighting();
+        
+                    // If query is empty, show everything
+                    if (!trimmedQuery) {
+                        cards.forEach(card => {
+                            card.style.display = '';
+                        });
+                        document.querySelectorAll('.section-title').forEach(section => {
+                            section.style.display = '';
+                        });
+                        document.querySelectorAll('.card-grid').forEach(grid => {
+                            grid.style.display = '';
+                        });
+                        searchStatus.style.display = 'none';
+                        return;
+                    }
+        
+                    // Show search status
+                    searchStatus.style.display = 'flex';
+                    searchTerm.textContent = trimmedQuery;
+        
+                    let matchCount = 0;
+                    const matchedCards = [];
+                    const shouldHighlight = trimmedQuery.length > 1;
+        
+                    // Check each card
+                    cards.forEach(card => {
+                        const cardTitle = card.querySelector('.card-title')?.innerText.toLowerCase() || '';
+                        const cardDescription = card.querySelector('.card-description')?.innerText.toLowerCase() || '';
+                        const cardType = card.querySelector('.badge')?.innerText.toLowerCase() || '';
+        
+                        if (
+                            cardTitle.includes(trimmedQuery) ||
+                            cardDescription.includes(trimmedQuery) ||
+                            cardType.includes(trimmedQuery)
+                        ) {
+                            // Clone card for results
+                            const clonedCard = card.cloneNode(true);
+                            clonedCard.classList.add('search-match');
+        
+                            // Highlight partial substring if > 1 character
+                            if (shouldHighlight) {
+                                highlightText(clonedCard, trimmedQuery);
+                            }
+        
+                            matchedCards.push(clonedCard);
+                            matchCount++;
+                        }
+        
+                        // Hide original
+                        card.style.display = 'none';
+                    });
+        
+                    // Hide original sections
+                    document.querySelectorAll('.section-title').forEach(s => s.style.display = 'none');
+                    document.querySelectorAll('.card-grid').forEach(g => g.style.display = 'none');
+        
+                    // Update count
+                    searchCount.textContent = matchCount;
+        
+                    // Show matched cards in new grid
+                    if (matchCount > 0) {
+                        let searchResultsGrid = document.getElementById('search-results-grid');
+                        if (searchResultsGrid) {
+                            searchResultsGrid.remove();
+                        }
+                        searchResultsGrid = document.createElement('div');
+                        searchResultsGrid.id = 'search-results-grid';
+                        searchResultsGrid.className = 'card-grid';
+        
+                        matchedCards.forEach(card => {
+                            card.style.display = '';
+                            searchResultsGrid.appendChild(card);
+                        });
+        
+                        searchStatus.parentNode.insertBefore(searchResultsGrid, searchStatus.nextSibling);
+                    }
+                }
+        
+                // Sync desktop + mobile searches
+                if (searchInput) {
+                    searchInput.addEventListener('input', function() {
+                        filterCards(this.value);
+                        if (mobileSearchInput) {
+                            mobileSearchInput.value = this.value;
+                        }
+                    });
+                }
+                if (mobileSearchInput) {
+                    mobileSearchInput.addEventListener('input', function() {
+                        filterCards(this.value);
+                        if (searchInput) {
+                            searchInput.value = this.value;
+                        }
+                    });
+                }
+        
+                // Clear button
+                if (clearSearchBtn) {
+                    clearSearchBtn.addEventListener('click', function() {
+                        if (searchInput) searchInput.value = '';
+                        if (mobileSearchInput) mobileSearchInput.value = '';
+                        filterCards('');
+                    });
+                }
+        
+            }, 500);
+        });
+        </script>
 
-</body>
 </html>

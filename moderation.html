@@ -1,0 +1,749 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>University Moderation Tool</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <!-- jsPDF for PDF generation -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link rel="stylesheet" href="styles.css">
+    <script src="sidebar-links.js"></script>
+    <script src="core.js"></script>
+    <style>
+        /* Moderation Tool Specific Styles - keeping only CSS not found in styles.css */
+        .moderation-columns {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 2rem;
+        }
+        
+        .moderation-left-column {
+            flex: 1;
+            min-width: 300px;
+        }
+        
+        .moderation-right-column {
+            flex: 1.5;
+            min-width: 400px;
+        }
+        
+        .row-buttons {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .action-button {
+            padding: 0.5rem 1rem;
+            border-radius: 0.375rem;
+            border: 1px solid var(--button-secondary-border);
+            background-color: var(--button-secondary-bg);
+            color: var(--button-secondary-text);
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .action-button:hover {
+            background-color: var(--bg-tertiary);
+        }
+        
+        .primary-button {
+            background-color: var(--button-primary-bg);
+            color: var(--button-primary-text);
+            border-color: var(--button-primary-border);
+        }
+        
+        .primary-button:hover {
+            background-color: var(--accent-hover);
+            color: white;
+        }
+        
+        /* Data Table */
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 1.5rem;
+        }
+        
+        .data-table th {
+            background-color: var(--bg-tertiary);
+            border: 1px solid var(--border-color);
+            padding: 0.75rem;
+            text-align: left;
+            font-weight: 600;
+        }
+        
+        .data-table td {
+            border: 1px solid var(--border-color);
+            padding: 0.75rem;
+        }
+        
+        .data-table td[contenteditable="true"] {
+            background-color: var(--bg-primary);
+            cursor: text;
+        }
+        
+        .data-table td[contenteditable="true"]:focus {
+            outline: 2px solid var(--accent-color);
+            outline-offset: -2px;
+        }
+        
+        /* Summary Styles */
+        .summary-container {
+            background-color: var(--bg-primary);
+            border: 1px solid var(--border-color);
+            border-radius: 0.5rem;
+            padding: 1.25rem;
+        }
+        
+        .module-input {
+            width: 100%;
+            padding: 0.5rem 0.75rem;
+            margin-bottom: 1rem;
+            border: 1px solid var(--border-color);
+            border-radius: 0.25rem;
+            background-color: var(--bg-tertiary);
+            color: var(--text-primary);
+        }
+        
+        .vis-bar {
+            height: 16px;
+            background-color: var(--accent-color);
+            border-radius: 2px;
+            border: 1px solid rgba(0,0,0,0.1);
+        }
+        
+        /* Classes for print optimization */
+        .print-bar {
+            position: relative;
+            min-height: 16px;
+        }
+        
+        .print-chart {
+            page-break-inside: avoid;
+        }
+        
+        .chart-segment {
+            page-break-inside: avoid;
+        }
+        
+        /* Custom styles for summary tables */
+        .summary-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 1.5rem;
+        }
+        
+        .summary-table th, 
+        .summary-table td {
+            padding: 0.75rem;
+            border: 1px solid var(--border-color);
+        }
+        
+        .summary-table th {
+            background-color: var(--bg-tertiary);
+            font-weight: 600;
+        }
+        
+        .randomSampleHidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header no-print">
+        <button class="hamburger-menu" aria-label="Toggle sidebar">
+            <i class="fas fa-bars"></i> 
+        </button>
+        
+        <div class="logo">
+        </div>
+        
+        <nav class="nav-tabs">
+            <a href="#main" class="nav-tab active">Moderation Tool</a>
+            <a href="#info" class="nav-tab">Info</a>
+        </nav>
+        
+        <!-- Centered search box (hidden on mobile) -->
+        <div class="search-container">
+            <i class="fas fa-search search-icon"></i>
+            <input type="text" id="search-input" class="search-input" placeholder="Search...">
+        </div>
+        
+        <!-- Header controls positioned above right sidebar -->
+        <div class="header-controls">
+            <!-- Font size controls -->
+            <div class="font-size-controls">
+                <div id="decrease-font" class="font-size-btn">
+                    <i class="fas fa-minus"></i>
+                </div>
+                <div class="text-label mx-2 text-muted">Text</div>
+                <div id="increase-font" class="font-size-btn">
+                    <i class="fas fa-plus"></i>
+                </div>
+            </div>
+            
+            <button class="theme-toggle" aria-label="Toggle dark/light mode">
+                <i class="fas fa-sun"></i>
+            </button>
+            
+            <button class="toggle-right-sidebar" aria-label="Toggle right sidebar">
+                <i class="fas fa-cog"></i>
+            </button>
+        </div>
+    </header>
+
+    <!-- Mobile search bar (only visible on smaller screens) -->
+    <div class="mobile-search-container">
+        <div class="relative w-full">
+            <i class="fas fa-search search-icon"></i>
+            <input type="text" id="mobile-search-input" class="search-input w-full" placeholder="Search...">
+        </div>
+    </div>
+
+    <!-- Main layout -->
+    <div class="layout">
+        <!-- Left sidebar -->
+        <aside class="sidebar no-print">
+            <div class="sidebar-section">
+                <div class="sidebar-header">
+                    <span>University Links</span>
+                </div>
+                <div id="university-content" class="sidebar-content">
+                    <!-- This will be populated by sidebar-links.js -->
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main content area with tab content -->
+        <main class="main-content">
+            <!-- Main tab content - contains the moderation tool -->
+            <div id="main-tab-content" class="tab-content active">
+                <h1 class="text-2xl font-bold mb-4 no-print">Auto Moderator</h1>
+                
+                <div class="moderation-columns">
+                    <!-- Left Column: Data Entry -->
+                    <div class="moderation-left-column no-print">
+                        <p class="mb-4">Enter moderator data below (Name and Marks). You can paste data from Excel directly into the cells.</p>
+                        
+                        <div class="row-buttons">
+                            <button id="addRow10" class="action-button">Add 10 Rows</button>
+                            <button id="removeEmptyRows" class="action-button">Remove Empty Rows</button>
+                            <button id="clearTable" class="action-button">Clear Table</button>
+                        </div>
+                        
+                        <table id="feedbackTable" class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Marks</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td contenteditable="true">Sample Student</td>
+                                    <td contenteditable="true">85</td>
+                                </tr>
+                                <tr>
+                                    <td contenteditable="true">Emma Johnson</td>
+                                    <td contenteditable="true">78</td>
+                                </tr>
+                                <tr>
+                                    <td contenteditable="true">Liam Smith</td>
+                                    <td contenteditable="true">65</td>
+                                </tr>
+                                <tr>
+                                    <td contenteditable="true">Olivia Williams</td>
+                                    <td contenteditable="true">92</td>
+                                </tr>
+                                <tr>
+                                    <td contenteditable="true">Noah Brown</td>
+                                    <td contenteditable="true">58</td>
+                                </tr>
+                                <tr>
+                                    <td contenteditable="true">Ava Davis</td>
+                                    <td contenteditable="true">71</td>
+                                </tr>
+                                <tr>
+                                    <td contenteditable="true">Sophia Martinez</td>
+                                    <td contenteditable="true">45</td>
+                                </tr>
+                                <tr>
+                                    <td contenteditable="true">Jackson Wilson</td>
+                                    <td contenteditable="true">63</td>
+                                </tr>
+                                <tr>
+                                    <td contenteditable="true">Isabella Moore</td>
+                                    <td contenteditable="true">79</td>
+                                </tr>
+                                <tr>
+                                    <td contenteditable="true">Lucas Taylor</td>
+                                    <td contenteditable="true">38</td>
+                                </tr>
+                                <tr>
+                                    <td contenteditable="true">Mia Anderson</td>
+                                    <td contenteditable="true">82</td>
+                                </tr>
+                                <tr>
+                                    <td contenteditable="true">Aiden Thomas</td>
+                                    <td contenteditable="true">51</td>
+                                </tr>
+                                <tr>
+                                    <td contenteditable="true">Charlotte Jackson</td>
+                                    <td contenteditable="true">74</td>
+                                </tr>
+                                <tr>
+                                    <td contenteditable="true">Ethan Harris</td>
+                                    <td contenteditable="true">67</td>
+                                </tr>
+                                <tr>
+                                    <td contenteditable="true">Amelia Clark</td>
+                                    <td contenteditable="true">43</td>
+                                </tr>
+                                <tr>
+                                    <td contenteditable="true">Benjamin Lewis</td>
+                                    <td contenteditable="true">69</td>
+                                </tr>
+                                <tr>
+                                    <td contenteditable="true">Harper Lee</td>
+                                    <td contenteditable="true">88</td>
+                                </tr>
+                                <tr>
+                                    <td contenteditable="true">Mason Walker</td>
+                                    <td contenteditable="true">55</td>
+                                </tr>
+                                <tr>
+                                    <td contenteditable="true">Evelyn Hall</td>
+                                    <td contenteditable="true">76</td>
+                                </tr>
+                                <tr>
+                                    <td contenteditable="true">Elijah Young</td>
+                                    <td contenteditable="true">32</td>
+                                </tr>
+                                <tr>
+                                    <td contenteditable="true">Elizabeth Allen</td>
+                                    <td contenteditable="true">61</td>
+                                </tr>
+                                <tr>
+                                    <td contenteditable="true">James Mitchell</td>
+                                    <td contenteditable="true">73</td>
+                                </tr>
+                                <tr>
+                                    <td contenteditable="true">Sofia Perez</td>
+                                    <td contenteditable="true">48</td>
+                                </tr>
+                                <tr>
+                                    <td contenteditable="true">Jacob Phillips</td>
+                                    <td contenteditable="true">59</td>
+                                </tr>
+                                <tr>
+                                    <td contenteditable="true">Emily Campbell</td>
+                                    <td contenteditable="true">77</td>
+                                </tr>
+                                <tr>
+                                    <td contenteditable="true">William Carter</td>
+                                    <td contenteditable="true">83</td>
+                                </tr>
+                                <tr>
+                                    <td contenteditable="true">Avery Roberts</td>
+                                    <td contenteditable="true">68</td>
+                                </tr>
+                                <tr>
+                                    <td contenteditable="true">Daniel Evans</td>
+                                    <td contenteditable="true">41</td>
+                                </tr>
+                                <tr>
+                                    <td contenteditable="true">Scarlett Turner</td>
+                                    <td contenteditable="true">95</td>
+                                </tr>
+                                <tr>
+                                    <td contenteditable="true">Michael Parker</td>
+                                    <td contenteditable="true">56</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    
+                    <!-- Right Column: Summary -->
+                    <div class="moderation-right-column">
+                        <h3 class="text-xl font-semibold mb-4">Cohort Data</h3>
+                        
+                        <div class="mb-4">
+                            <input type="text" id="moduleName" class="module-input" placeholder="If you want to print, enter the module name and year here." value="CS301: Advanced Programming 2024-25">
+                        </div>
+                        
+                        <div class="no-print mb-4">
+                            <button id="generateSummary" class="action-button primary-button">Refresh Sample</button>
+                            <button id="printWithSample" class="action-button ml-2" style="display:none;">Print (with Sample)</button>
+                            <button id="printNoSample" class="action-button ml-2" style="display:none;">Print (no Sample)</button>
+                        </div>
+                        
+                        <!-- Summary container -->
+                        <div id="moderationSummaryContainer" class="summary-container"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Info tab content - contains the documentation -->
+            <div id="info-tab-content" class="tab-content">
+                <h1 class="text-3xl font-bold mb-6">University Moderation Tool</h1>
+                <p class="text-lg mb-8">
+                    This tool helps academic staff analyze and moderate student grades for quality assurance.
+                </p>
+
+                <!-- Info box -->
+                <div class="info-box">
+                    <div class="info-box-title">
+                        <i class="fas fa-info-circle"></i> 
+                        Tips for Using This Tool
+                    </div>
+                    <div class="info-content">
+                        <p class="mb-4">
+                            The moderation tool helps you analyze student marks and generate statistical summaries.
+                        </p>
+                        <ul class="list-disc pl-5 space-y-2">
+                            <li>Enter student names and marks in the table or paste directly from Excel</li>
+                            <li>Click "Regenerate Moderation Sample" to analyze the data</li>
+                            <li>The tool will automatically calculate statistics and generate a random sample for moderation</li>
+                            <li>Print the report with or without the random sample</li>
+                            <li>Toggle between dark and light modes using the moon/sun icon in the top-right corner</li>
+                            <li>Adjust text size for better readability</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <h2 class="text-2xl font-bold mt-8 mb-4">About Moderation</h2>
+                <p class="mb-4">
+                    Moderation is a quality assurance process in educational assessment. It ensures that assessment is valid, reliable, fair and consistent with the required standards.
+                </p>
+                <p class="mb-4">
+                    This tool helps by analyzing the distribution of marks and picking a representative random sample for moderation. It also identifies potential issues such as unusually high percentages of high marks that may need special attention.
+                </p>
+            </div>
+        </main>
+
+        <!-- Right sidebar -->
+        <aside class="right-sidebar no-print">
+            <div class="right-sidebar-header">Quick Tools</div>
+            <!-- This will be populated by sidebar-links.js -->
+        </aside>
+    </div>
+
+    <script>
+        // Initialize auto moderator functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initialize the auto moderator functionality
+            initAutoModerator();
+        });
+        
+        // Initialize auto moderator functionality
+        function initAutoModerator() {
+            // Row controls
+            $("#addRow10").click(function(){
+                for(let i = 0; i < 10; i++){
+                    $("#feedbackTable tbody").append('<tr><td contenteditable="true"></td><td contenteditable="true"></td></tr>');
+                }
+            });
+            
+            $("#removeEmptyRows").click(function(){
+                $("#feedbackTable tbody tr").each(function(){
+                    let isEmpty = true;
+                    $(this).find("td").each(function(){
+                        if($(this).text().trim() !== ""){
+                            isEmpty = false;
+                        }
+                    });
+                    if(isEmpty){
+                        $(this).remove();
+                    }
+                });
+            });
+            
+            $("#clearTable").click(function(){
+                $("#feedbackTable tbody").empty();
+                $("#feedbackTable tbody").append('<tr><td contenteditable="true"></td><td contenteditable="true"></td></tr>');
+            });
+            
+            // Excel paste support
+            document.addEventListener("paste", function(event) {
+                let clipboardData = event.clipboardData || window.clipboardData;
+                let pastedText = clipboardData.getData("text");
+                let targetCell = document.activeElement;
+                if (targetCell && targetCell.isContentEditable) {
+                    let rows = pastedText.split("\n").map(row => row.split("\t"));
+                    event.preventDefault();
+                    
+                    let $currentRow = $(targetCell).closest("tr");
+                    let startRow = $currentRow.index();
+                    let startCol = $(targetCell).index();
+                    
+                    rows.forEach((rowData, rIndex) => {
+                        let $targetRow = $("#feedbackTable tbody tr").eq(startRow + rIndex);
+                        if($targetRow.length === 0){
+                            $("#feedbackTable tbody").append('<tr><td contenteditable="true"></td><td contenteditable="true"></td></tr>');
+                            $targetRow = $("#feedbackTable tbody tr").last();
+                        }
+                        rowData.forEach((cellText, cIndex) => {
+                            let $targetCell = $targetRow.find("td").eq(startCol + cIndex);
+                            if($targetCell.length){
+                                $targetCell.text(cellText.trim());
+                            }
+                        });
+                    });
+                    // Force preview update immediately after pasting
+                    generateSummary();
+                }
+            });
+            
+            // Attach event to generate summary button
+            $("#generateSummary").click(generateSummary);
+            
+            // Print buttons
+            document.getElementById("printWithSample").addEventListener("click", function() {
+                document.getElementById("randomSampleContainer").classList.remove("randomSampleHidden");
+                window.print();
+            });
+            
+            document.getElementById("printNoSample").addEventListener("click", function() {
+                let container = document.getElementById("randomSampleContainer");
+                container.classList.add("randomSampleHidden");
+                window.print();
+                container.classList.remove("randomSampleHidden");
+            });
+        }
+        
+        // Compute moderation data
+        function computeModerationData() {
+            let studentData = [];
+            $('#feedbackTable tbody tr').each(function() {
+                let rowData = $(this).find("td").map(function() {
+                    return $(this).text().trim();
+                }).get();
+                let name = rowData[0] || "Unnamed";
+                let mark = parseFloat(rowData[1]);
+                if (!isNaN(mark)) {
+                    studentData.push({ name, mark });
+                }
+            });
+            if(studentData.length === 0){
+                return null;
+            }
+            let n = studentData.length;
+            let marks = studentData.map(s => s.mark).sort((a, b) => a - b);
+            let mean = marks.reduce((sum, m) => sum + m, 0) / n;
+            let aboveMean = marks.filter(m => m > mean).length;
+            let belowMean = marks.filter(m => m < mean).length;
+            let percentAbove = ((aboveMean / n) * 100).toFixed(1);
+            let percentBelow = ((belowMean / n) * 100).toFixed(1);
+            let median = n % 2 ? marks[Math.floor(n/2)] : ((marks[n/2 - 1] + marks[n/2]) / 2);
+            let modeMap = {};
+            marks.forEach(m => modeMap[m] = (modeMap[m] || 0) + 1);
+            let mode = Object.keys(modeMap).reduce((a, b) => modeMap[a] > modeMap[b] ? a : b);
+            let variance = marks.reduce((sum, m) => sum + Math.pow(m - mean, 2), 0) / n;
+            let stdDev = Math.sqrt(variance);
+            let skewness = (n / ((n - 1) * (n - 2))) * marks.reduce((sum, m) => sum + Math.pow((m - mean) / stdDev, 3), 0);
+            let kurtosis = (n * (n + 1)) / ((n - 1) * (n - 2) * (n - 3)) *
+                         marks.reduce((sum, m) => sum + Math.pow((m - mean) / stdDev, 4), 0) - 
+                         (3 * Math.pow(n - 1, 2)) / ((n - 2) * (n - 3));
+            
+            // Bins for distribution
+            let bins = [
+                { label: "0-19", min: 0, max: 19 },
+                { label: "20-39", min: 20, max: 39 },
+                { label: "40-59", min: 40, max: 59 },
+                { label: "60-79", min: 60, max: 79 },
+                { label: "80-100", min: 80, max: 100 }
+            ];
+            bins.forEach(bin => {
+                bin.count = marks.filter(m => m >= bin.min && m <= bin.max).length;
+            });
+            
+            let gradeBands = {
+                "UG and PG: 70% or above (1st or Distinction)": studentData.filter(s => s.mark >= 70),
+                "UG: 60%-69% (2:1), PG: 60%-69% (Merit)": studentData.filter(s => s.mark >= 60 && s.mark < 70),
+                "UG: 50%-59% (2:2), PG: 50%-59% (Pass)": studentData.filter(s => s.mark >= 50 && s.mark < 60),
+                "UG: 40%-49% (Third)": studentData.filter(s => s.mark >= 40 && s.mark < 50),
+                "PG: 0%-49% (Fail)": studentData.filter(s => s.mark < 50),
+                "UG: 0%-39% (Fail)": studentData.filter(s => s.mark < 40)
+            };
+            
+            function getRandomSamples(arr, count) {
+                let copy = arr.slice();
+                let picks = [];
+                for(let i=0; i<Math.min(count, copy.length); i++){
+                    let idx = Math.floor(Math.random()*copy.length);
+                    picks.push(copy[idx]);
+                    copy.splice(idx,1);
+                }
+                return picks;
+            }
+            
+            let highAchievers = marks.filter(m => m >= 70).length;
+            let highAchieverPercentage = ((highAchievers / n) * 100).toFixed(1);
+            let statusLabel = highAchieverPercentage > 30 ? "WARNING:" : "APPROVED:";
+            let statusMessage = `${highAchieverPercentage}% students above 70%. ${highAchieverPercentage > 30 ? "This exceeds the university threshold." : "Within university guidelines."}`;
+            
+            return {
+                studentData, 
+                n, mean, median, mode, skewness, kurtosis,
+                percentAbove, percentBelow,
+                highAchieverPercentage, statusLabel, statusMessage, 
+                gradeBands, getRandomSamples,
+                distribution: bins
+            };
+        }
+        
+        // Generate HTML summary
+        function generateSummaryHTML(data) {
+            let html = "";
+            
+            // Add module name if provided
+            const moduleName = document.getElementById('moduleName').value.trim();
+            if (moduleName) {
+                html += `<h2 class="text-xl font-bold mb-4">${moduleName}</h2>`;
+            }
+            
+            // Descriptive Statistics
+            html += "<table class='summary-table'>";
+            html += "<tr><th>Statistic</th><th>Value</th><th>Explanation</th></tr>";
+            
+            let stats = [
+                { label: "n (Students)", value: data.n.toFixed(0), explanation: "Total Students (may exclude late submissions)", bold: true },
+                { label: "≥70% Achievers", value: data.highAchieverPercentage + "%", explanation: "Percentage of students scoring 70 or above.", bold: true },
+                { label: "Average (Mean)", value: data.mean.toFixed(2), explanation: "Sum of all marks divided by total students.", bold: true },
+                { label: "Median", value: data.median, explanation: "The middle value when marks are sorted." },
+                { label: "Mode", value: data.mode, explanation: "The most frequently occurring mark." },
+                { label: "Skewness", value: data.skewness.toFixed(2), explanation: "Negative = more high scores than low." },
+                { label: "Kurtosis", value: data.kurtosis.toFixed(2), explanation: "Low = marks more spread out." }
+            ];
+            
+            // Loop through stats array and populate table rows
+            stats.forEach(stat => {
+                let valueStyle = stat.bold ? "font-weight:bold; font-size:1.2em;" : "";
+                html += `<tr><td>${stat.label}</td><td style="${valueStyle}">${stat.value}</td><td>${stat.explanation}</td></tr>`;
+            });
+            
+            html += "</table>";
+            
+            // Mark Distribution
+            html += "<h3 class='text-lg font-semibold mt-6 mb-3'>Mark Distribution</h3>";
+            html += "<table class='summary-table'>";
+            html += "<tr><th>Range</th><th>Count</th><th>%</th><th>Visual</th></tr>";
+            
+            let maxCount = Math.max(...data.distribution.map(bin => bin.count));
+            data.distribution.forEach(bin => {
+                let barWidth = maxCount > 0 ? (bin.count / maxCount * 100).toFixed(0) : 0;
+                let binPercent = (bin.count / data.n * 100).toFixed(1);
+                html += "<tr>";
+                html += `<td>${bin.label}</td>`;
+                html += `<td style='text-align:center;'>${bin.count}</td>`;
+                html += `<td style='text-align:center;'>${binPercent}%</td>`;
+                html += `<td><div class='vis-bar print-bar' style='width:${barWidth}%;'></div></td>`;
+                html += "</tr>";
+            });
+            html += "</table>";
+            
+            // Above vs. Below Mean
+            html += `
+                <h3 class='text-lg font-semibold mt-6 mb-3'>Above vs. Below Mean</h3>
+                <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
+                    <span><strong>${data.percentAbove}%</strong> Students Above Mean</span>
+                    <span>Students Below Mean: <strong>${data.percentBelow}%</strong></span>
+                </div>
+                <div style="width: 100%; height: 20px; background: #ccc; border-radius: 4px; overflow: hidden; margin-bottom: 20px; border: 1px solid #999;" class="print-chart">
+                    <!-- Left segment (above mean, blue) -->
+                    <div style="width: ${data.percentAbove}%; background: #007bff; height: 20px; float: left; border-right: 1px solid rgba(0,0,0,0.2);" class="chart-segment"></div>
+                    <!-- Right segment (below mean, red) -->
+                    <div style="width: ${data.percentBelow}%; background: #dc3545; height: 20px; float: left;" class="chart-segment"></div>
+                </div>
+            `;
+            
+            // Extract grade band percentages
+            let gradeBandsData = [
+                { label: "First (≥70%)", color: "#007bff", percent: ((data.gradeBands["UG and PG: 70% or above (1st or Distinction)"].length / data.n) * 100).toFixed(1) },
+                { label: "2:1 (60-69%)", color: "#28a745", percent: ((data.gradeBands["UG: 60%-69% (2:1), PG: 60%-69% (Merit)"].length / data.n) * 100).toFixed(1) },
+                { label: "2:2 (50-59%)", color: "#ffc107", percent: ((data.gradeBands["UG: 50%-59% (2:2), PG: 50%-59% (Pass)"].length / data.n) * 100).toFixed(1) },
+                { label: "Third (40-49%)", color: "#fd7e14", percent: ((data.gradeBands["UG: 40%-49% (Third)"].length / data.n) * 100).toFixed(1) },
+                { label: "Fail (<40%)", color: "#dc3545", percent: ((data.gradeBands["UG: 0%-39% (Fail)"].length / data.n) * 100).toFixed(1) }
+            ];
+            
+            // Generate the stacked bar chart
+            html += `<h3 class='text-lg font-semibold mt-6 mb-3'>Grade Distribution</h3>`;
+            html += `<div style="display: flex; width: 100%; height: 25px; border-radius: 5px; overflow: hidden; border: 1px solid #ccc;" class="print-chart">`;
+            
+            gradeBandsData.forEach(band => {
+                if (parseFloat(band.percent) > 0) {
+                    html += `<div style="width: ${band.percent}%; background: ${band.color}; height: 100%; border-right: 1px solid rgba(0,0,0,0.1);" title="${band.label}: ${band.percent}%" class="chart-segment"></div>`;
+                }
+            });
+            
+            html += `</div>`;
+            
+            // Add legend
+            html += `<div style="margin-top: 15px;">
+                        <table style="width: 100%; border-collapse: collapse;">
+                          <tr>`;
+            
+            // Split into 3 columns dynamically
+            let numColumns = 3;
+            gradeBandsData.forEach((band, index) => {
+                if (index % numColumns === 0 && index !== 0) {
+                    html += `</tr><tr>`;
+                }
+                
+                html += `<td style="padding: 5px; vertical-align: middle;">
+                            <span style="width: 14px; height: 14px; background: ${band.color}; display: inline-block; margin-right: 8px; border-radius: 3px;"></span>
+                            ${band.label} (${band.percent}%)
+                         </td>`;
+            });
+            
+            // Close table
+            html += `</tr></table></div>`;
+            
+            // Random Sample for Moderation
+            html += "<h3 class='text-lg font-semibold mt-6 mb-3'>Random Sample for Moderation</h3>";
+            html += `<div id="randomSampleContainer">`;
+            
+            Object.keys(data.gradeBands).forEach(band => {
+                let students = data.gradeBands[band].sort((a, b) => b.mark - a.mark);
+                let samples = data.getRandomSamples(students, 2);
+                
+                let sampleText = samples.length ? samples.map(s => `${s.name} (${s.mark})`).join(", ") : "None";
+                html += `<p class="mb-2"><strong>${band}:</strong> Sample: ${sampleText}</p>`;
+            });
+            
+            html += `</div>`;
+            
+            // Full Gradeband Breakdown
+            html += "<h3 class='text-lg font-semibold mt-6 mb-3'>Full Gradeband Breakdown</h3>";
+            Object.keys(data.gradeBands).forEach(band => {
+                let students = data.gradeBands[band].sort((a, b) => b.mark - a.mark);
+                let studentText = students.length ? students.map(s => `${s.name} (${s.mark})`).join(", ") : "None";
+                html += `<p class="mb-2"><strong>${band}:</strong> ${studentText}</p>`;
+            });
+            
+            return html;
+        }
+        
+        // Generate the summary
+        function generateSummary() {
+            let data = computeModerationData();
+            if (data) {
+                let html = generateSummaryHTML(data);
+                $("#moderationSummaryContainer").html(html);
+                // Show the print buttons
+                $("#printWithSample").show();
+                $("#printNoSample").show();
+            } else {
+                $("#moderationSummaryContainer").html("<p>No valid student data found.</p>");
+                $("#printWithSample").hide();
+                $("#printNoSample").hide();
+            }
+        }
+    </script>
+</body>
+</html>

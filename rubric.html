@@ -1,0 +1,2019 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>University Portal Template - Main Content Text Resize</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="styles.css">
+    <script src="sidebar-links.js"></script>
+    <script src="core.js"></script>
+    <style>
+        /* Rubric descriptor specific styles */
+        .year-level-selector {
+            background-color: var(--bg-tertiary);
+            padding: 1rem;
+            border-radius: 0.5rem;
+            border: 1px solid var(--border-color);
+        }
+        
+        .year-level-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+        
+        .year-level-btn {
+            padding: 0.5rem 1rem;
+            border-radius: 0.25rem;
+            background-color: var(--bg-primary);
+            color: var(--text-secondary);
+            border: 1px solid var(--border-color);
+            cursor: pointer;
+            transition: all 0.2s;
+            font-weight: 500;
+        }
+        
+        .year-level-btn:hover {
+            background-color: var(--accent-color);
+            color: white;
+        }
+        
+        .year-level-btn.active {
+            background-color: var(--accent-color);
+            color: white;
+            border-color: var(--accent-color);
+        }
+        
+        /* Criteria info box styling */
+        .criteria-info-box {
+            background-color: var(--bg-tertiary);
+            border: 1px solid var(--border-color);
+            border-radius: 0.5rem;
+            padding: 1.25rem;
+            position: relative;
+        }
+        
+        .criteria-info {
+            display: none;
+        }
+        
+        .criteria-info.active {
+            display: block;
+        }
+        
+        .view-all-button {
+            margin-top: 1rem;
+            text-align: right;
+        }
+        
+        .btn-view-all {
+            background-color: var(--bg-primary);
+            color: var(--accent-color);
+            border: 1px solid var(--accent-color);
+            border-radius: 0.25rem;
+            padding: 0.35rem 0.75rem;
+            font-size: 0.875rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .btn-view-all:hover {
+            background-color: var(--accent-color);
+            color: white;
+        }
+        
+        /* Grade band filter styling */
+        .grade-band-filter {
+            background-color: var(--bg-tertiary);
+            padding: 1rem;
+            border-radius: 0.5rem;
+            border: 1px solid var(--border-color);
+        }
+        
+        .grade-band-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+        
+        .grade-band-btn {
+            padding: 0.5rem 0.75rem;
+            border-radius: 0.25rem;
+            background-color: var(--bg-primary);
+            color: var(--text-secondary);
+            border: 1px solid var(--border-color);
+            cursor: pointer;
+            transition: all 0.2s;
+            font-size: 0.875rem;
+        }
+        
+        .grade-band-btn:hover {
+            background-color: var(--accent-color);
+            color: white;
+        }
+        
+        .grade-band-btn.active {
+            background-color: var(--accent-color);
+            color: white;
+            border-color: var(--accent-color);
+        }
+        
+        /* Content containers */
+        .year-content {
+            display: none;
+        }
+        
+        .year-content.active {
+            display: block;
+        }
+        
+        .criteria-tabs {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 1rem;
+        }
+        
+        .criteria-tab {
+            padding: 0.5rem 1rem;
+            border-radius: 0.25rem;
+            background-color: var(--bg-tertiary);
+            color: var(--text-secondary);
+            border: 1px solid var(--border-color);
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .criteria-tab:hover {
+            background-color: var(--accent-color);
+            color: white;
+        }
+        
+        .criteria-tab.active {
+            background-color: var(--accent-color);
+            color: white;
+            font-weight: 500;
+        }
+        
+        .criteria-content {
+            display: none;
+        }
+        
+        .criteria-content.active {
+            display: block;
+        }
+        
+        /* Grade band styling */
+        .grade-band-container {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+        
+        .grade-band {
+            border: 1px solid var(--border-color);
+            border-radius: 0.5rem;
+            overflow: hidden;
+        }
+        
+        .grade-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.75rem 1rem;
+            background-color: var(--bg-tertiary);
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        .grade-title {
+            font-weight: 600;
+        }
+        
+        .grade-band-color {
+            width: 1.5rem;
+            height: 1.5rem;
+            border-radius: 50%;
+        }
+        
+        .grade-descriptor {
+            padding: 1rem;
+        }
+        
+        /* Grade band colors */
+        .exceptional {
+            background-color: #4caf50;
+        }
+        
+        .excellent {
+            background-color: #8bc34a;
+        }
+        
+        .very-good {
+            background-color: #cddc39;
+        }
+        
+        .good {
+            background-color: #ffeb3b;
+        }
+        
+        .satisfactory {
+            background-color: #ffc107;
+        }
+        
+        .pass {
+            background-color: #ff9800;
+        }
+        
+        .marginal-fail {
+            background-color: #ff5722;
+        }
+        
+        .clear-fail {
+            background-color: #f44336;
+        }
+        
+        /* Search highlight */
+        .highlight {
+            background-color: rgba(255, 255, 0, 0.4);
+            padding: 0 2px;
+            border-radius: 2px;
+        }
+        
+        /* Modal styling */
+        .criteria-modal {
+            display: none;
+            position: fixed;
+            z-index: 100;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            overflow: auto;
+        }
+        
+        .modal-content {
+            background-color: var(--bg-primary);
+            margin: 10% auto;
+            padding: 0;
+            border: 1px solid var(--border-color);
+            border-radius: 0.5rem;
+            width: 80%;
+            max-width: 800px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        
+        .modal-header {
+            padding: 1.25rem;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .modal-body {
+            padding: 1.25rem;
+            max-height: 70vh;
+            overflow-y: auto;
+        }
+        
+        .close-modal {
+            font-size: 1.5rem;
+            font-weight: bold;
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: var(--text-secondary);
+        }
+        
+        .close-modal:hover {
+            color: var(--accent-color);
+        }
+        </style>
+
+
+</head>
+<body>
+    <body>
+        <!-- Single Header -->
+        <header class="header">
+            <button class="hamburger-menu" aria-label="Toggle sidebar">
+                <i class="fas fa-bars"></i>
+            </button>
+            
+            <div class="logo">
+            </div>
+            
+            <nav class="nav-tabs">
+                <a href="#main" class="nav-tab active">Rubric Descriptors</a>
+                <a href="#info" class="nav-tab">Info</a>
+            </nav>
+            
+            <!-- Centered search box (hidden on mobile) -->
+            <div class="search-container">
+                <i class="fas fa-search search-icon"></i>
+                <input type="text" id="search-input" class="search-input" placeholder="Search descriptors...">
+            </div>
+            
+            <!-- Header controls positioned above right sidebar -->
+            <div class="header-controls">
+                <!-- Font size controls -->
+                <div class="font-size-controls">
+                    <div id="decrease-font" class="font-size-btn">
+                        <i class="fas fa-minus"></i>
+                    </div>
+                    <div class="text-label mx-2 text-muted">Text</div>
+                    <div id="increase-font" class="font-size-btn">
+                        <i class="fas fa-plus"></i>
+                    </div>
+                </div>
+                
+                <button class="toggle-right-sidebar" aria-label="Toggle right sidebar">
+                    <i class="fas fa-cog"></i>
+                </button>
+                
+                <button class="theme-toggle" aria-label="Toggle dark/light mode">
+                    <i class="fas fa-sun"></i>
+                </button>
+            </div>
+        </header>
+    
+        <!-- Mobile search bar (only visible on smaller screens) -->
+        <div class="mobile-search-container">
+            <div class="relative w-full">
+                <i class="fas fa-search search-icon"></i>
+                <input type="text" id="mobile-search-input" class="search-input w-full" placeholder="Search descriptors...">
+            </div>
+        </div>
+    
+        <!-- Main layout -->
+        <div class="layout">
+            <!-- Left sidebar -->
+            <aside class="sidebar">
+                <div class="sidebar-section">
+                    <div class="sidebar-header">
+                        <span>University Links</span>
+                    </div>
+                    <div id="university-content" class="sidebar-content">
+                    </div>
+                </div>
+            </aside>
+    
+            <!-- Main content area with tab content -->
+            <main class="main-content">
+                <!-- Main tab content - contains the rubric descriptors -->
+                <div id="main-tab-content" class="tab-content active">
+                    <h1 class="text-2xl font-bold mb-4">University Standard Grading Descriptors</h1>
+                    
+                    <!-- Academic Year Level Selector -->
+                    <div class="year-level-selector mb-6">
+                        <h2 class="text-lg font-semibold mb-2">Select Academic Level:</h2>
+                        <div class="year-level-buttons">
+                            <button class="year-level-btn" data-year="foundation">Foundation Year</button>
+                            <button class="year-level-btn active" data-year="year1">Year 1</button>
+                            <button class="year-level-btn" data-year="year2">Year 2</button>
+                            <button class="year-level-btn" data-year="year3">Year 3</button>
+                            <button class="year-level-btn" data-year="masters">Masters</button>
+                        </div>
+                    </div>
+                    
+                    <!-- Criteria selection tabs -->
+                    <div class="criteria-tabs mb-4">
+                        <button class="criteria-tab active" data-criteria="knowledge">Knowledge & Understanding</button>
+                        <button class="criteria-tab" data-criteria="analysis">Critical Analysis</button>
+                        <button class="criteria-tab" data-criteria="structure">Structure & Organization</button>
+                        <button class="criteria-tab" data-criteria="research">Research & Referencing</button>
+                        <button class="criteria-tab" data-criteria="presentation">Presentation</button>
+                    </div>
+                    
+                    <!-- Criteria Info Box -->
+                    <div class="criteria-info-box mb-6">
+                        <div class="criteria-info active" id="knowledge-info">
+                            <h3 class="text-lg font-semibold mb-2">About Knowledge & Understanding</h3>
+                            <p>This criterion assesses how well you understand and apply the subject matter. It looks at your grasp of key concepts, theories, and principles relevant to the discipline, and your ability to explain these accurately and appropriately.</p>
+                        </div>
+                        <div class="criteria-info" id="analysis-info">
+                            <h3 class="text-lg font-semibold mb-2">About Critical Analysis</h3>
+                            <p>This criterion evaluates your ability to analyze, evaluate, and synthesize information. It measures how well you can develop arguments, draw conclusions, and exercise critical judgment in examining the subject matter.</p>
+                        </div>
+                        <div class="criteria-info" id="structure-info">
+                            <h3 class="text-lg font-semibold mb-2">About Structure & Organization</h3>
+                            <p>This criterion assesses the clarity, coherence, and logical flow of your work. It examines how effectively you organize and present your ideas, with appropriate use of paragraphs, sections, and transitions.</p>
+                        </div>
+                        <div class="criteria-info" id="research-info">
+                            <h3 class="text-lg font-semibold mb-2">About Research & Referencing</h3>
+                            <p>This criterion evaluates your use of appropriate sources and your adherence to academic conventions in citation and referencing. It measures the quality, relevance, and integration of sources into your work.</p>
+                        </div>
+                        <div class="criteria-info" id="presentation-info">
+                            <h3 class="text-lg font-semibold mb-2">About Presentation</h3>
+                            <p>This criterion assesses the professional quality of your work, including aspects such as formatting, spelling, grammar, punctuation, and adherence to style guidelines. It looks at how well you communicate your ideas with clarity and precision.</p>
+                        </div>
+                        <div class="view-all-button">
+                            <button id="view-all-criteria-btn" class="btn-view-all">
+                                <i class="fas fa-list-ul mr-1"></i> View All Criteria Descriptions
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- Grade Band Filter -->
+                    <div class="grade-band-filter mb-6">
+                        <h2 class="text-lg font-semibold mb-2">Filter by Grade Band:</h2>
+                        <div class="grade-band-buttons">
+                            <button class="grade-band-btn active" data-grade="all">All Grades</button>
+                            <button class="grade-band-btn" data-grade="exceptional">Exceptional (90-100%)</button>
+                            <button class="grade-band-btn" data-grade="excellent">Excellent (80-89%)</button>
+                            <button class="grade-band-btn" data-grade="very-good">Very Good (70-79%)</button>
+                            <button class="grade-band-btn" data-grade="good">Good (60-69%)</button>
+                            <button class="grade-band-btn" data-grade="satisfactory">Satisfactory (50-59%)</button>
+                            <button class="grade-band-btn" data-grade="pass">Pass (40-49%)</button>
+                            <button class="grade-band-btn" data-grade="marginal-fail">Marginal Fail (35-39%)</button>
+                            <button class="grade-band-btn" data-grade="clear-fail">Clear Fail (0-34%)</button>
+                        </div>
+                    </div>
+                    
+                    <!-- Descriptor content -->
+                    <div id="rubric-content">
+                        <!-- FOUNDATION YEAR DESCRIPTORS -->
+                        <div class="year-content" id="foundation-content">
+                            <!-- Knowledge & Understanding -->
+                            <div class="criteria-content active" id="foundation-knowledge-content">
+                                <h2 class="text-xl font-semibold mb-3">Knowledge & Understanding - Foundation Year</h2>
+                                
+                                <div class="grade-band-container">
+                                    <!-- Exceptional: 90-100% -->
+                                    <div class="grade-band exceptional-band">
+                                        <div class="grade-header">
+                                            <h3 class="grade-title">Exceptional (90-100%)</h3>
+                                            <div class="grade-band-color exceptional"></div>
+                                        </div>
+                                        <div class="grade-descriptor">
+                                            <p>Exceptional foundation level understanding of core concepts and knowledge. Demonstrates comprehensive awareness of basic principles with perfect accuracy. Shows outstanding ability to recall and describe fundamental ideas and concepts.</p>
+                                        </div>
+                                    </div>
+                                    
+                                    <!-- Excellent: 80-89% -->
+                                    <div class="grade-band excellent-band">
+                                        <div class="grade-header">
+                                            <h3 class="grade-title">Excellent (80-89%)</h3>
+                                            <div class="grade-band-color excellent"></div>
+                                        </div>
+                                        <div class="grade-descriptor">
+                                            <p>Excellent foundation level understanding with strong grasp of introductory concepts. Demonstrates accurate knowledge with minimal errors. Shows clear ability to explain basic principles and their relevance.</p>
+                                        </div>
+                                    </div>
+                                    
+                                    <!-- Other grade bands would follow -->
+                                </div>
+                            </div>
+                            
+                            <!-- Other criteria content for Foundation level would follow -->
+                        </div>
+                        
+                        <!-- YEAR 1 DESCRIPTORS -->
+                        <div class="year-content active" id="year1-content">
+                            <!-- Knowledge & Understanding -->
+                            <div class="criteria-content active" id="year1-knowledge-content">
+                                <h2 class="text-xl font-semibold mb-3">Knowledge & Understanding - Year 1</h2>
+                                
+                                <div class="grade-band-container">
+                                    <!-- Exceptional: 90-100% -->
+                                    <div class="grade-band exceptional-band">
+                                        <div class="grade-header">
+                                            <h3 class="grade-title">Exceptional (90-100%)</h3>
+                                            <div class="grade-band-color exceptional"></div>
+                                        </div>
+                                        <div class="grade-descriptor">
+                                            <p>Demonstrates exceptional knowledge and understanding of core first-year subject matter. Shows comprehensive awareness of key theories and concepts with perfect accuracy. Exhibits outstanding ability to recall and explain fundamental principles beyond expected first-year level.</p>
+                                        </div>
+                                    </div>
+                                    
+                                    <!-- Excellent: 80-89% -->
+                                    <div class="grade-band excellent-band">
+                                        <div class="grade-header">
+                                            <h3 class="grade-title">Excellent (80-89%)</h3>
+                                            <div class="grade-band-color excellent"></div>
+                                        </div>
+                                        <div class="grade-descriptor">
+                                            <p>Demonstrates excellent knowledge and understanding of first-year material. Shows thorough awareness of key theories and concepts with high accuracy. Exhibits strong ability to recall and explain fundamental principles at first-year level.</p>
+                                        </div>
+                                    </div>
+                                    
+                                    <!-- Very Good: 70-79% -->
+                                    <div class="grade-band very-good-band">
+                                        <div class="grade-header">
+                                            <h3 class="grade-title">Very Good (70-79%)</h3>
+                                            <div class="grade-band-color very-good"></div>
+                                        </div>
+                                        <div class="grade-descriptor">
+                                            <p>Demonstrates very good knowledge and understanding of first-year material. Shows good awareness of key theories and concepts with consistency. Exhibits clear ability to recall and explain most fundamental principles at first-year level.</p>
+                                        </div>
+                                    </div>
+                                    
+                                    <!-- Other grade bands would follow -->
+                                </div>
+                            </div>
+                            
+                            <!-- Other criteria content for Year 1 would follow -->
+                        </div>
+                        
+                        <!-- Other year levels would follow -->
+                    </div>
+                    
+                    <!-- View All Criteria Modal -->
+                    <div id="all-criteria-modal" class="criteria-modal">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h2 class="text-xl font-bold">All Criteria Descriptions</h2>
+                                <button class="close-modal">&times;</button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="criteria-explanation mb-6">
+                                    <h3 class="text-lg font-semibold mb-2">Knowledge & Understanding</h3>
+                                    <p>This criterion assesses how well you understand and apply the subject matter. It looks at your grasp of key concepts, theories, and principles relevant to the discipline, and your ability to explain these accurately and appropriately.</p>
+                                </div>
+                                <div class="criteria-explanation mb-6">
+                                    <h3 class="text-lg font-semibold mb-2">Critical Analysis</h3>
+                                    <p>This criterion evaluates your ability to analyze, evaluate, and synthesize information. It measures how well you can develop arguments, draw conclusions, and exercise critical judgment in examining the subject matter.</p>
+                                </div>
+                                <div class="criteria-explanation mb-6">
+                                    <h3 class="text-lg font-semibold mb-2">Structure & Organization</h3>
+                                    <p>This criterion assesses the clarity, coherence, and logical flow of your work. It examines how effectively you organize and present your ideas, with appropriate use of paragraphs, sections, and transitions.</p>
+                                </div>
+                                <div class="criteria-explanation mb-6">
+                                    <h3 class="text-lg font-semibold mb-2">Research & Referencing</h3>
+                                    <p>This criterion evaluates your use of appropriate sources and your adherence to academic conventions in citation and referencing. It measures the quality, relevance, and integration of sources into your work.</p>
+                                </div>
+                                <div class="criteria-explanation">
+                                    <h3 class="text-lg font-semibold mb-2">Presentation</h3>
+                                    <p>This criterion assesses the professional quality of your work, including aspects such as formatting, spelling, grammar, punctuation, and adherence to style guidelines. It looks at how well you communicate your ideas with clarity and precision.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+    
+                <!-- Info tab content - contains the documentation -->
+                <div id="info-tab-content" class="tab-content">
+                    <h1 class="text-3xl font-bold mb-6">About These Descriptors</h1>
+
+                    <div class="info-box mb-6">
+                        <div class="info-box-title">
+                            <i class="fas fa-info-circle"></i> used across the university to ensure consistency in grading.
+                        </div>
+                        <div class="info-content">
+                            <p>Select your academic level and use the criteria tabs to view relevant descriptors.</p>
+                        </div>
+                    </div>
+    
+                    <h2 class="text-2xl font-bold mt-8 mb-4">Academic Level Progression</h2>
+                    <p class="mb-4">
+                        The descriptors reflect progressive expectations across academic levels:
+                    </p>
+                    <ul class="list-disc pl-5 mb-4">
+                        <li class="mb-2"><strong>Foundation Year:</strong> Focus on basic understanding and foundational knowledge</li>
+                        <li class="mb-2"><strong>Year 1:</strong> Developing core subject knowledge and beginning to apply concepts</li>
+                        <li class="mb-2"><strong>Year 2:</strong> Deepening understanding and developing analytical skills</li>
+                        <li class="mb-2"><strong>Year 3:</strong> Advanced knowledge application and development of critical thinking</li>
+                        <li class="mb-2"><strong>Masters Level:</strong> Sophisticated understanding and original contribution to the field</li>
+                    </ul>
+    
+                    <!-- Info box -->
+                    <div class="info-box">
+                        <div class="info-box-title">
+                            <i class="fas fa-info-circle"></i> 
+                            Using These Descriptors
+                        </div>
+                        <div class="info-content">
+                            <p class="mb-4">
+                                To effectively use these descriptors:
+                            </p>
+                            <ul class="list-disc pl-5 space-y-2">
+                                <li>First select the appropriate academic level for your assessment</li>
+                                <li>Consider all criteria when making assessment decisions</li>
+                                <li>Use the search function to quickly find specific descriptors</li>
+                                <li>Switch between criteria using the tabs at the top of the main content area</li>
+                                <li>Filter by grade band to focus on specific performance levels</li>
+                                <li>Remember that these are general guidelines and may need to be adapted for specific disciplines</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </main>
+    
+            <!-- Right sidebar -->
+            <aside class="right-sidebar">
+                <div class="right-sidebar-header">Quick Tools</div>
+            </aside>
+        </div>
+    </body>
+    <script>
+// Additional JavaScript for the rubric descriptor functionality
+document.addEventListener('DOMContentLoaded', function() {
+    // Get DOM elements
+    const searchInput = document.getElementById('search-input');
+    const mobileSearchInput = document.getElementById('mobile-search-input');
+    const yearLevelBtns = document.querySelectorAll('.year-level-btn');
+    const yearContents = document.querySelectorAll('.year-content');
+    const criteriaTabs = document.querySelectorAll('.criteria-tab');
+    const criteriaInfos = document.querySelectorAll('.criteria-info');
+    const criteriaContents = document.querySelectorAll('.criteria-content');
+    const gradeBandBtns = document.querySelectorAll('.grade-band-btn');
+    const viewAllBtn = document.getElementById('view-all-criteria-btn');
+    const allCriteriaModal = document.getElementById('all-criteria-modal');
+    const closeModalBtn = document.querySelector('.close-modal');
+    
+    // Initialize state
+    let currentYear = 'year1';
+    let currentCriteria = 'knowledge';
+    let currentGradeBand = 'all';
+    let searchTerm = '';
+    
+    // Add no results message to each criteria content
+    criteriaContents.forEach(content => {
+        const noResultsDiv = document.createElement('div');
+        noResultsDiv.className = 'no-results-message';
+        noResultsDiv.innerHTML = '<p>No matching descriptors found.</p>';
+        noResultsDiv.style.display = 'none';
+        noResultsDiv.style.textAlign = 'center';
+        noResultsDiv.style.padding = '2rem';
+        noResultsDiv.style.backgroundColor = 'var(--bg-primary)';
+        noResultsDiv.style.border = '1px solid var(--border-color)';
+        noResultsDiv.style.borderRadius = '0.5rem';
+        noResultsDiv.style.marginTop = '1rem';
+        noResultsDiv.style.color = 'var(--text-muted)';
+        content.appendChild(noResultsDiv);
+    });
+    
+    
+// Add download links for XLS format
+yearLevelBtns.forEach(btn => {
+    const year = btn.getAttribute('data-year');
+    
+    // Create a container div to hold the year button and its XLS download link
+    const containerDiv = document.createElement('div');
+    containerDiv.style.display = 'flex';
+    containerDiv.style.flexDirection = 'column';
+    containerDiv.style.alignItems = 'center';
+    containerDiv.style.gap = '0.5rem';
+    containerDiv.style.margin = '0';
+    
+    // Create the XLS download link with a clearer label
+    const downloadLink = document.createElement('a');
+    downloadLink.href = '#';
+    downloadLink.className = 'download-xls-link';
+    downloadLink.innerHTML = `<i class="fas fa-file-excel"></i> ${year.charAt(0).toUpperCase() + year.slice(1)} XLS`;
+    downloadLink.title = `Download ${year} descriptors as XLS`;
+    downloadLink.style.color = 'var(--accent-color)';
+    downloadLink.style.border = '1px solid var(--accent-color)';
+    downloadLink.style.borderRadius = '0.25rem';
+    downloadLink.style.padding = '0.25rem 0.5rem';
+    downloadLink.style.fontSize = '0.75rem';
+    downloadLink.style.textDecoration = 'none';
+    downloadLink.style.textAlign = 'center';
+    downloadLink.style.width = '100%';
+    downloadLink.style.boxSizing = 'border-box';
+    
+    // Add event listener for the download link
+    downloadLink.addEventListener('click', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        downloadXLS(year);
+    });
+    
+    // Replace the original button with our container
+    const parentElement = btn.parentNode;
+    containerDiv.appendChild(btn);
+    containerDiv.appendChild(downloadLink);
+    parentElement.appendChild(containerDiv);
+});
+    
+    // Create All Descriptors Modal
+    const allDescriptorsModal = document.createElement('div');
+    allDescriptorsModal.id = 'all-descriptors-modal';
+    allDescriptorsModal.className = 'criteria-modal';
+    allDescriptorsModal.innerHTML = `
+        <div class="modal-content" style="width: 95%; max-width: 1200px;">
+            <div class="modal-header">
+                <h2 class="text-xl font-bold">All Grading Descriptors</h2>
+                <button class="close-modal" id="close-all-descriptors">&times;</button>
+            </div>
+            <div class="modal-body" style="max-height: 80vh;">
+                <div class="year-selector mb-4">
+                    <h3 class="text-lg font-semibold mb-2">Academic Level:</h3>
+                    <div class="year-buttons" style="display: flex; gap: 0.5rem;">
+                        <button class="year-btn active" data-year="foundation">Foundation Year</button>
+                        <button class="year-btn" data-year="year1">Year 1</button>
+                        <button class="year-btn" data-year="year2">Year 2</button>
+                        <button class="year-btn" data-year="year3">Year 3</button>
+                        <button class="year-btn" data-year="masters">Masters</button>
+                    </div>
+                </div>
+                <div class="descriptors-table-container" style="overflow-x: auto;">
+                    <table class="descriptors-table" style="width: 100%; border-collapse: collapse; min-width: 1000px;">
+                        <thead>
+                            <tr>
+                                <th style="position: sticky; left: 0; background-color: var(--bg-tertiary); z-index: 10; border: 1px solid var(--border-color); padding: 0.75rem;">Criteria / Grade</th>
+                                <th style="border: 1px solid var(--border-color); padding: 0.75rem; background-color: #4caf50; color: white;">Exceptional<br>(90-100%)</th>
+                                <th style="border: 1px solid var(--border-color); padding: 0.75rem; background-color: #8bc34a; color: white;">Excellent<br>(80-89%)</th>
+                                <th style="border: 1px solid var(--border-color); padding: 0.75rem; background-color: #cddc39;">Very Good<br>(70-79%)</th>
+                                <th style="border: 1px solid var(--border-color); padding: 0.75rem; background-color: #ffeb3b;">Good<br>(60-69%)</th>
+                                <th style="border: 1px solid var(--border-color); padding: 0.75rem; background-color: #ffc107;">Satisfactory<br>(50-59%)</th>
+                                <th style="border: 1px solid var(--border-color); padding: 0.75rem; background-color: #ff9800; color: white;">Pass<br>(40-49%)</th>
+                                <th style="border: 1px solid var(--border-color); padding: 0.75rem; background-color: #ff5722; color: white;">Marginal Fail<br>(35-39%)</th>
+                                <th style="border: 1px solid var(--border-color); padding: 0.75rem; background-color: #f44336; color: white;">Clear Fail<br>(0-34%)</th>
+                            </tr>
+                        </thead>
+                        <tbody id="all-descriptors-content">
+                            <!-- Content will be filled dynamically -->
+                        </tbody>
+                    </table>
+                </div>
+                <div class="download-container mt-4" style="text-align: right;">
+                    <button id="download-all-btn" class="btn-download" style="background-color: var(--accent-color); color: white; border: none; border-radius: 0.25rem; padding: 0.5rem 1rem; cursor: pointer;">
+                        <i class="fas fa-file-excel mr-1"></i> Download as XLS
+                    </button>
+                </div>
+            </div>
+        </div>
+    `;
+    
+    document.body.appendChild(allDescriptorsModal);
+    
+    // Style the year buttons in the all descriptors modal
+    const yearBtns = document.querySelectorAll('.year-btn');
+    yearBtns.forEach(btn => {
+        btn.style.padding = '0.5rem 1rem';
+        btn.style.borderRadius = '0.25rem';
+        btn.style.backgroundColor = 'var(--bg-primary)';
+        btn.style.color = 'var(--text-secondary)';
+        btn.style.border = '1px solid var(--border-color)';
+        btn.style.cursor = 'pointer';
+        btn.style.transition = 'all 0.2s';
+        btn.style.fontWeight = '500';
+        
+        btn.addEventListener('mouseenter', function() {
+            if (!this.classList.contains('active')) {
+                this.style.backgroundColor = 'var(--accent-color)';
+                this.style.color = 'white';
+            }
+        });
+        
+        btn.addEventListener('mouseleave', function() {
+            if (!this.classList.contains('active')) {
+                this.style.backgroundColor = 'var(--bg-primary)';
+                this.style.color = 'var(--text-secondary)';
+            }
+        });
+        
+        if (btn.classList.contains('active')) {
+            btn.style.backgroundColor = 'var(--accent-color)';
+            btn.style.color = 'white';
+            btn.style.borderColor = 'var(--accent-color)';
+        }
+        
+        btn.addEventListener('click', function() {
+            yearBtns.forEach(b => {
+                b.classList.remove('active');
+                b.style.backgroundColor = 'var(--bg-primary)';
+                b.style.color = 'var(--text-secondary)';
+                b.style.borderColor = 'var(--border-color)';
+            });
+            
+            this.classList.add('active');
+            this.style.backgroundColor = 'var(--accent-color)';
+            this.style.color = 'white';
+            this.style.borderColor = 'var(--accent-color)';
+            
+            populateAllDescriptorsTable(this.getAttribute('data-year'));
+        });
+    });
+    
+    // Close button for all descriptors modal
+    const closeAllDescriptorsBtn = document.getElementById('close-all-descriptors');
+    if (closeAllDescriptorsBtn) {
+        closeAllDescriptorsBtn.addEventListener('click', function() {
+            document.getElementById('all-descriptors-modal').style.display = 'none';
+        });
+    }
+    
+    // Download all button in all descriptors modal
+    const downloadAllBtn = document.getElementById('download-all-btn');
+    if (downloadAllBtn) {
+        downloadAllBtn.addEventListener('click', function() {
+            const activeYearBtn = document.querySelector('.year-btn.active');
+            if (activeYearBtn) {
+                downloadXLS(activeYearBtn.getAttribute('data-year'));
+            }
+        });
+    }
+    
+    // Function to show all descriptors modal
+    function showAllDescriptors() {
+        const allDescriptorsModal = document.getElementById('all-descriptors-modal');
+        if (allDescriptorsModal) {
+            allDescriptorsModal.style.display = 'block';
+            populateAllDescriptorsTable('foundation'); // Default to foundation
+        }
+    }
+    
+    // Function to populate the all descriptors table
+    function populateAllDescriptorsTable(year) {
+        const tableBody = document.getElementById('all-descriptors-content');
+        if (!tableBody) return;
+        
+        // Clear previous content
+        tableBody.innerHTML = '';
+        
+        // Array of criteria
+        const criteria = [
+            { id: 'knowledge', name: 'Knowledge & Understanding' },
+            { id: 'analysis', name: 'Critical Analysis' },
+            { id: 'structure', name: 'Structure & Organization' },
+            { id: 'research', name: 'Research & Referencing' },
+            { id: 'presentation', name: 'Presentation' },
+            { id: 'professional', name: 'Professional Skills' },
+            { id: 'teamwork', name: 'Teamwork & Leadership' }
+        ];
+        
+        // Create rows for each criteria
+        criteria.forEach(criterion => {
+            const row = document.createElement('tr');
+            
+            // First cell (criteria name) - sticky position
+            const criteriaCell = document.createElement('td');
+            criteriaCell.textContent = criterion.name;
+            criteriaCell.style.position = 'sticky';
+            criteriaCell.style.left = '0';
+            criteriaCell.style.backgroundColor = 'var(--bg-tertiary)';
+            criteriaCell.style.zIndex = '5';
+            criteriaCell.style.fontWeight = 'bold';
+            criteriaCell.style.border = '1px solid var(--border-color)';
+            criteriaCell.style.padding = '0.75rem';
+            row.appendChild(criteriaCell);
+            
+            // Placeholder cells for grades - in a real implementation, these would contain the actual descriptor text
+            const grades = ['exceptional', 'excellent', 'very-good', 'good', 'satisfactory', 'pass', 'marginal-fail', 'clear-fail'];
+            
+            // Foundation year data (from the pasted content)
+            let foundationData = {};
+            if (year === 'foundation') {
+                // This is where we add the foundation year data from the second document
+                foundationData = {
+                    'analysis': {
+                        'exceptional': 'Unexpected insights are brought to the link between theory and practice.',
+                        'excellent': 'Links between theory and practice are made which go beyond those presented in the course material.',
+                        'very-good': 'Links between theory and practice are discussed beyond the information presented in the course materials.',
+                        'good': 'Links between theory and practice presented in the course materials are discussed.',
+                        'satisfactory': 'Links between theory and practice are identified.',
+                        'pass': 'Some links between theory and practice are identified, but key ones are missed.',
+                        'marginal-fail': 'Very limited or erroneous links between theory and practice are identified.',
+                        'clear-fail': 'No links between theory and practice are identified.'
+                    },
+                    'professional': {
+                        'exceptional': 'Their own attributes are evaluated in relation to those of a professional.',
+                        'excellent': 'Their own attributes are considered in relation to those of a professional.',
+                        'very-good': 'The characteristics of a professional are related loosely to their own work.',
+                        'good': 'Their own attributes are described in relation to those of a professional.',
+                        'satisfactory': 'The characteristics of a professional are identified.',
+                        'pass': 'Some characteristics of a professional are identified, but key ones are missed.',
+                        'marginal-fail': 'Very limited or erroneous characteristics of a professional are identified.',
+                        'clear-fail': 'No key characteristics of a professional are identified.'
+                    },
+                    'presentation': {
+                        'exceptional': 'Work is creatively structured and extremely clear and presented creatively to a small group of peers',
+                        'excellent': 'Work is well structured and very clear and presented fluently to a small group of peers.',
+                        'very-good': 'Work is carefully structured and clear and presented confidently to an audience of peers.',
+                        'good': 'Work is coherently structured and presented clearly to an audience of peers.',
+                        'satisfactory': 'Work is recognisably structured and presented to a small group of peers.',
+                        'pass': 'Work is poorly structured or lacking in clarity and presented to a small group of peers in a confused or incomplete way.',
+                        'marginal-fail': 'Work is unstructured or confused and presented to a small group of peers in a confused and incomplete way.',
+                        'clear-fail': 'Work which is unstructured and confused and presented to a small group of peers which are incomplete and confused.'
+                    },
+                    'teamwork': {
+                        'exceptional': 'Characteristics of successful team membership are demonstrated in the work.',
+                        'excellent': 'The characteristics of successful teams are evaluated in relation to their own work.',
+                        'very-good': 'The characteristics of successful teams are discussed and related to their own work.',
+                        'good': 'The characteristics of successful teams are identified and linked loosely to their own work.',
+                        'satisfactory': 'The characteristics of successful teams are identified.',
+                        'pass': 'Some characteristics of successful teams are identified, but key ones are missed.',
+                        'marginal-fail': 'Very few, or erroneous, characteristics of successful teams are identified.',
+                        'clear-fail': 'No characteristics of successful teams are identified.'
+                    },
+                    'knowledge': {
+                        'exceptional': 'Professional development planning is ambitious and integrates what has been learned',
+                        'excellent': 'Professional development planning shows some insight into future directions.',
+                        'very-good': 'A feasible professional development plan is described.',
+                        'good': 'A clear professional development plan is described.',
+                        'satisfactory': 'The key features of a professional development plan are described.',
+                        'pass': 'Describe some features of a professional development plan, are identified, but key ones are missed.',
+                        'marginal-fail': 'Very limited or erroneous features of a professional development plan, are identified.',
+                        'clear-fail': 'No key features of a professional development plan are identified.'
+                    },
+                    'research': {
+                        'exceptional': 'Unexpected insights are brought to new questions or situations',
+                        'excellent': 'Information beyond that presented in the course is applied to new questions or situations.',
+                        'very-good': 'Show evidence of working beyond the information presented in the course to address new questions or situations.',
+                        'good': 'Information presented in the course is applied thoughtfully to new questions or situations.',
+                        'satisfactory': 'Information presented in the course is applied to new questions or situations.',
+                        'pass': 'Information presented in the course is partially applied to new questions or situations.',
+                        'marginal-fail': 'Information presented in the course is not applied to new questions or situations, or is confused.',
+                        'clear-fail': 'New questions or situations are not addressed.'
+                    },
+                    'structure': {
+                        'exceptional': 'Unexpected insights are brought to the social and community contexts relevant to this level.',
+                        'excellent': 'Observations are made about social and community contexts which go beyond the course material.',
+                        'very-good': 'Social and community contexts within the disciplinary field are discussed thoroughly.',
+                        'good': 'Social and community contexts within the disciplinary field are identified.',
+                        'satisfactory': 'Social and community contexts within the disciplinary field are described',
+                        'pass': 'Some awareness of social and community contexts within the disciplinary field is shown.',
+                        'marginal-fail': 'Very limited awareness of social and community contexts within the disciplinary field is shown, or erroneous judgements are made.',
+                        'clear-fail': 'No awareness is shown of social and community contexts within the disciplinary field'
+                    }
+                };
+            }
+            
+            // Add grade cells
+            grades.forEach(grade => {
+                const gradeCell = document.createElement('td');
+                
+                // If this is foundation year and we have data for this criterion and grade, use it
+                if (year === 'foundation' && foundationData[criterion.id] && foundationData[criterion.id][grade]) {
+                    gradeCell.textContent = foundationData[criterion.id][grade];
+                } else {
+                    // Otherwise, use a placeholder
+                    gradeCell.textContent = `${year.charAt(0).toUpperCase() + year.slice(1)} ${criterion.name} - ${grade.replace('-', ' ')} grade descriptor`;
+                }
+                
+                gradeCell.style.border = '1px solid var(--border-color)';
+                gradeCell.style.padding = '0.75rem';
+                row.appendChild(gradeCell);
+            });
+            
+            tableBody.appendChild(row);
+        });
+        
+        // Apply alternating row colors
+        const rows = tableBody.querySelectorAll('tr');
+        rows.forEach((row, index) => {
+            if (index % 2 === 1) {
+                row.style.backgroundColor = 'var(--bg-secondary)';
+            }
+        });
+    }
+    
+    // Function to download XLS
+    function downloadXLS(year) {
+        // This is a placeholder function - in a real implementation, 
+        // it would generate and download an XLS file
+        alert(`Downloading ${year} descriptors as XLS. In a real implementation, this would generate and download an actual file.`);
+        
+        // In a real implementation, you would use a library like SheetJS (xlsx)
+        // to generate an Excel file and then trigger a download
+        console.log(`Downloading ${year} descriptors as XLS`);
+    }
+    
+    // Search functionality
+    function performSearch(term) {
+        searchTerm = term.toLowerCase().trim();
+        
+        // Get all visible descriptors in the current view
+        const currentContent = document.getElementById(`${currentYear}-${currentCriteria}-content`);
+        const visibleBands = currentContent.querySelectorAll('.grade-band');
+        const visibleDescriptors = currentContent.querySelectorAll('.grade-descriptor p');
+        const noResultsMessage = currentContent.querySelector('.no-results-message');
+        
+        // Reset highlights and visibility
+        visibleDescriptors.forEach(descriptor => {
+            const text = descriptor.innerHTML;
+            descriptor.innerHTML = text.replace(/<mark class="highlight">([^<]+)<\/mark>/g, '$1');
+        });
+        
+        visibleBands.forEach(band => {
+            // Only show bands that match both search term and grade band filter
+            if (currentGradeBand === 'all' || band.classList.contains(`${currentGradeBand}-band`)) {
+                band.style.display = 'block';
+            } else {
+                band.style.display = 'none';
+            }
+        });
+        
+        // Hide no results message by default
+        if (noResultsMessage) {
+            noResultsMessage.style.display = 'none';
+        }
+        
+        if (searchTerm === '') return applyGradeBandFilter();
+        
+        // Apply search
+        let matchFound = false;
+        
+        visibleBands.forEach(band => {
+            if (band.style.display === 'none') return;
+            
+            const descriptor = band.querySelector('.grade-descriptor p');
+            const text = descriptor.textContent;
+            
+            if (text.toLowerCase().includes(searchTerm)) {
+                matchFound = true;
+                
+                // Highlight matching text
+                const regex = new RegExp(`(${searchTerm.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')})`, 'gi');
+                descriptor.innerHTML = descriptor.textContent.replace(regex, '<mark class="highlight">$1</mark>');
+                
+                band.style.display = 'block';
+            } else {
+                band.style.display = 'none';
+            }
+        });
+        
+        // If no matches, show the no results message
+        if (!matchFound && noResultsMessage) {
+            visibleBands.forEach(band => {
+                band.style.display = 'none';
+            });
+            noResultsMessage.style.display = 'block';
+        }
+    }
+    
+    // Apply grade band filter
+    function applyGradeBandFilter() {
+        // Get all visible bands in the current view
+        const currentContent = document.getElementById(`${currentYear}-${currentCriteria}-content`);
+        const visibleBands = currentContent.querySelectorAll('.grade-band');
+        
+        if (currentGradeBand === 'all') {
+            visibleBands.forEach(band => {
+                band.style.display = 'block';
+            });
+        } else {
+            visibleBands.forEach(band => {
+                if (band.classList.contains(`${currentGradeBand}-band`)) {
+                    band.style.display = 'block';
+                } else {
+                    band.style.display = 'none';
+                }
+            });
+        }
+        
+        // Re-apply search if there's an active search term
+        if (searchTerm) {
+            performSearch(searchTerm);
+        }
+    }
+    
+    // Populate foundation year descriptors
+    function populateFoundationYearDescriptors() {
+        const foundationContent = document.getElementById('foundation-content');
+        if (!foundationContent) return;
+        
+        // Create Critical Analysis content for Foundation year
+        const foundationAnalysisContent = document.createElement('div');
+        foundationAnalysisContent.id = 'foundation-analysis-content';
+        foundationAnalysisContent.className = 'criteria-content';
+        foundationAnalysisContent.innerHTML = `
+            <h2 class="text-xl font-semibold mb-3">Critical Analysis - Foundation Year</h2>
+            
+            <div class="grade-band-container">
+                <!-- Exceptional: 90-100% -->
+                <div class="grade-band exceptional-band">
+                    <div class="grade-header">
+                        <h3 class="grade-title">Exceptional (90-100%)</h3>
+                        <div class="grade-band-color exceptional"></div>
+                    </div>
+                    <div class="grade-descriptor">
+                        <p>Unexpected insights are brought to the link between theory and practice.</p>
+                    </div>
+                </div>
+                
+                <!-- Excellent: 80-89% -->
+                <div class="grade-band excellent-band">
+                    <div class="grade-header">
+                        <h3 class="grade-title">Excellent (80-89%)</h3>
+                        <div class="grade-band-color excellent"></div>
+                    </div>
+                    <div class="grade-descriptor">
+                        <p>Links between theory and practice are made which go beyond those presented in the course material.</p>
+                    </div>
+                </div>
+                
+                <!-- Very Good: 70-79% -->
+                <div class="grade-band very-good-band">
+                    <div class="grade-header">
+                        <h3 class="grade-title">Very Good (70-79%)</h3>
+                        <div class="grade-band-color very-good"></div>
+                    </div>
+                    <div class="grade-descriptor">
+                        <p>Links between theory and practice are discussed beyond the information presented in the course materials.</p>
+                    </div>
+                </div>
+                
+                <!-- Good: 60-69% -->
+                <div class="grade-band good-band">
+                    <div class="grade-header">
+                        <h3 class="grade-title">Good (60-69%)</h3>
+                        <div class="grade-band-color good"></div>
+                    </div>
+                    <div class="grade-descriptor">
+                        <p>Links between theory and practice presented in the course materials are discussed.</p>
+                    </div>
+                </div>
+                
+                <!-- Satisfactory: 50-59% -->
+                <div class="grade-band satisfactory-band">
+                    <div class="grade-header">
+                        <h3 class="grade-title">Satisfactory (50-59%)</h3>
+                        <div class="grade-band-color satisfactory"></div>
+                    </div>
+                    <div class="grade-descriptor">
+                        <p>Links between theory and practice are identified.</p>
+                    </div>
+                </div>
+                
+                <!-- Pass: 40-49% -->
+                <div class="grade-band pass-band">
+                    <div class="grade-header">
+                        <h3 class="grade-title">Pass (40-49%)</h3>
+                        <div class="grade-band-color pass"></div>
+                    </div>
+                    <div class="grade-descriptor">
+                        <p>Some links between theory and practice are identified, but key ones are missed.</p>
+                    </div>
+                </div>
+                
+                <!-- Marginal Fail: 35-39% -->
+                <div class="grade-band marginal-fail-band">
+                    <div class="grade-header">
+                        <h3 class="grade-title">Marginal Fail (35-39%)</h3>
+                        <div class="grade-band-color marginal-fail"></div>
+                    </div>
+                    <div class="grade-descriptor">
+                        <p>Very limited or erroneous links between theory and practice are identified.</p>
+                    </div>
+                </div>
+                
+                <!-- Clear Fail: 0-34% -->
+                <div class="grade-band clear-fail-band">
+                    <div class="grade-header">
+                        <h3 class="grade-title">Clear Fail (0-34%)</h3>
+                        <div class="grade-band-color clear-fail"></div>
+                    </div>
+                    <div class="grade-descriptor">
+                        <p>No links between theory and practice are identified.</p>
+                    </div>
+                </div>
+            </div>
+        `;
+        foundationContent.appendChild(foundationAnalysisContent);
+        
+        // Create Professional Skills content for Foundation year
+        const foundationProfessionalContent = document.createElement('div');
+        foundationProfessionalContent.id = 'foundation-professional-content';
+        foundationProfessionalContent.className = 'criteria-content';
+        foundationProfessionalContent.innerHTML = `
+            <h2 class="text-xl font-semibold mb-3">Professional Skills - Foundation Year</h2>
+            
+            <div class="grade-band-container">
+                <!-- Exceptional: 90-100% -->
+                <div class="grade-band exceptional-band">
+                    <div class="grade-header">
+                        <h3 class="grade-title">Exceptional (90-100%)</h3>
+                        <div class="grade-band-color exceptional"></div>
+                    </div>
+                    <div class="grade-descriptor">
+                        <p>Their own attributes are evaluated in relation to those of a professional.</p>
+                    </div>
+                </div>
+                
+                <!-- Excellent: 80-89% -->
+                <div class="grade-band excellent-band">
+                    <div class="grade-header">
+                        <h3 class="grade-title">Excellent (80-89%)</h3>
+                        <div class="grade-band-color excellent"></div>
+                    </div>
+                    <div class="grade-descriptor">
+                        <p>Their own attributes are considered in relation to those of a professional.</p>
+                    </div>
+                </div>
+                
+                <!-- Very Good: 70-79% -->
+                <div class="grade-band very-good-band">
+                    <div class="grade-header">
+                        <h3 class="grade-title">Very Good (70-79%)</h3>
+                        <div class="grade-band-color very-good"></div>
+                    </div>
+                    <div class="grade-descriptor">
+                        <p>The characteristics of a professional are related loosely to their own work.</p>
+                    </div>
+                </div>
+                
+                <!-- Good: 60-69% -->
+                <div class="grade-band good-band">
+                    <div class="grade-header">
+                        <h3 class="grade-title">Good (60-69%)</h3>
+                        <div class="grade-band-color good"></div>
+                    </div>
+                    <div class="grade-descriptor">
+                        <p>Their own attributes are described in relation to those of a professional.</p>
+                    </div>
+                </div>
+                
+                <!-- Satisfactory: 50-59% -->
+                <div class="grade-band satisfactory-band">
+                    <div class="grade-header">
+                        <h3 class="grade-title">Satisfactory (50-59%)</h3>
+                        <div class="grade-band-color satisfactory"></div>
+                    </div>
+                    <div class="grade-descriptor">
+                        <p>The characteristics of a professional are identified.</p>
+                    </div>
+                </div>
+                
+                <!-- Pass: 40-49% -->
+                <div class="grade-band pass-band">
+                    <div class="grade-header">
+                        <h3 class="grade-title">Pass (40-49%)</h3>
+                        <div class="grade-band-color pass"></div>
+                    </div>
+                    <div class="grade-descriptor">
+                        <p>Some characteristics of a professional are identified, but key ones are missed.</p>
+                    </div>
+                </div>
+                
+                <!-- Marginal Fail: 35-39% -->
+                <div class="grade-band marginal-fail-band">
+                    <div class="grade-header">
+                        <h3 class="grade-title">Marginal Fail (35-39%)</h3>
+                        <div class="grade-band-color marginal-fail"></div>
+                    </div>
+                    <div class="grade-descriptor">
+                        <p>Very limited or erroneous characteristics of a professional are identified.</p>
+                    </div>
+                </div>
+                
+                <!-- Clear Fail: 0-34% -->
+                <div class="grade-band clear-fail-band">
+                    <div class="grade-header">
+                        <h3 class="grade-title">Clear Fail (0-34%)</h3>
+                        <div class="grade-band-color clear-fail"></div>
+                    </div>
+                    <div class="grade-descriptor">
+                        <p>No key characteristics of a professional are identified.</p>
+                    </div>
+                </div>
+            </div>
+        `;
+        foundationContent.appendChild(foundationProfessionalContent);
+        
+        // Create Presentation content for Foundation year
+        const foundationPresentationContent = document.createElement('div');
+        foundationPresentationContent.id = 'foundation-presentation-content';
+        foundationPresentationContent.className = 'criteria-content';
+        foundationPresentationContent.innerHTML = `
+            <h2 class="text-xl font-semibold mb-3">Presentation - Foundation Year</h2>
+            
+            <div class="grade-band-container">
+                <!-- Exceptional: 90-100% -->
+                <div class="grade-band exceptional-band">
+                    <div class="grade-header">
+                        <h3 class="grade-title">Exceptional (90-100%)</h3>
+                        <div class="grade-band-color exceptional"></div>
+                    </div>
+                    <div class="grade-descriptor">
+                        <p>Work is creatively structured and extremely clear and presented creatively to a small group of peers</p>
+                    </div>
+                </div>
+                
+                <!-- Excellent: 80-89% -->
+                <div class="grade-band excellent-band">
+                    <div class="grade-header">
+                        <h3 class="grade-title">Excellent (80-89%)</h3>
+                        <div class="grade-band-color excellent"></div>
+                    </div>
+                    <div class="grade-descriptor">
+                        <p>Work is well structured and very clear and presented fluently to a small group of peers.</p>
+                    </div>
+                </div>
+                
+                <!-- Very Good: 70-79% -->
+                <div class="grade-band very-good-band">
+                    <div class="grade-header">
+                        <h3 class="grade-title">Very Good (70-79%)</h3>
+                        <div class="grade-band-color very-good"></div>
+                    </div>
+                    <div class="grade-descriptor">
+                        <p>Work is carefully structured and clear and presented confidently to an audience of peers.</p>
+                    </div>
+                </div>
+                
+                <!-- Good: 60-69% -->
+                <div class="grade-band good-band">
+                    <div class="grade-header">
+                        <h3 class="grade-title">Good (60-69%)</h3>
+                        <div class="grade-band-color good"></div>
+                    </div>
+                    <div class="grade-descriptor">
+                        <p>Work is coherently structured and presented clearly to an audience of peers.</p>
+                    </div>
+                </div>
+                
+                <!-- Satisfactory: 50-59% -->
+                <div class="grade-band satisfactory-band">
+                    <div class="grade-header">
+                        <h3 class="grade-title">Satisfactory (50-59%)</h3>
+                        <div class="grade-band-color satisfactory"></div>
+                    </div>
+                    <div class="grade-descriptor">
+                        <p>Work is recognisably structured and presented to a small group of peers.</p>
+                    </div>
+                </div>
+                
+                <!-- Pass: 40-49% -->
+                <div class="grade-band pass-band">
+                    <div class="grade-header">
+                        <h3 class="grade-title">Pass (40-49%)</h3>
+                        <div class="grade-band-color pass"></div>
+                    </div>
+                    <div class="grade-descriptor">
+                        <p>Work is poorly structured or lacking in clarity and presented to a small group of peers in a confused or incomplete way.</p>
+                    </div>
+                </div>
+                
+                <!-- Marginal Fail: 35-39% -->
+                <div class="grade-band marginal-fail-band">
+                    <div class="grade-header">
+                        <h3 class="grade-title">Marginal Fail (35-39%)</h3>
+                        <div class="grade-band-color marginal-fail"></div>
+                    </div>
+                    <div class="grade-descriptor">
+                        <p>Work is unstructured or confused and presented to a small group of peers in a confused and incomplete way.</p>
+                    </div>
+                </div>
+                
+                <!-- Clear Fail: 0-34% -->
+                <div class="grade-band clear-fail-band">
+                    <div class="grade-header">
+                        <h3 class="grade-title">Clear Fail (0-34%)</h3>
+                        <div class="grade-band-color clear-fail"></div>
+                    </div>
+                    <div class="grade-descriptor">
+                        <p>Work which is unstructured and confused and presented to a small group of peers which are incomplete and confused.</p>
+                    </div>
+                </div>
+            </div>
+        `;
+        foundationContent.appendChild(foundationPresentationContent);
+        
+        // Create Teamwork content for Foundation year
+        const foundationTeamworkContent = document.createElement('div');
+        foundationTeamworkContent.id = 'foundation-teamwork-content';
+        foundationTeamworkContent.className = 'criteria-content';
+        foundationTeamworkContent.innerHTML = `
+            <h2 class="text-xl font-semibold mb-3">Teamwork & Leadership - Foundation Year</h2>
+            
+            <div class="grade-band-container">
+                <!-- Exceptional: 90-100% -->
+                <div class="grade-band exceptional-band">
+                    <div class="grade-header">
+                        <h3 class="grade-title">Exceptional (90-100%)</h3>
+                        <div class="grade-band-color exceptional"></div>
+                    </div>
+                    <div class="grade-descriptor">
+                        <p>Characteristics of successful team membership are demonstrated in the work.</p>
+                    </div>
+                </div>
+                
+                <!-- Excellent: 80-89% -->
+                <div class="grade-band excellent-band">
+                    <div class="grade-header">
+                        <h3 class="grade-title">Excellent (80-89%)</h3>
+                        <div class="grade-band-color excellent"></div>
+                    </div>
+                    <div class="grade-descriptor">
+                        <p>The characteristics of successful teams are evaluated in relation to their own work.</p>
+                    </div>
+                </div>
+                
+                <!-- Very Good: 70-79% -->
+                <div class="grade-band very-good-band">
+                    <div class="grade-header">
+                        <h3 class="grade-title">Very Good (70-79%)</h3>
+                        <div class="grade-band-color very-good"></div>
+                    </div>
+                    <div class="grade-descriptor">
+                        <p>The characteristics of successful teams are discussed and related to their own work.</p>
+                    </div>
+                </div>
+                
+                <!-- Good: 60-69% -->
+                <div class="grade-band good-band">
+                    <div class="grade-header">
+                        <h3 class="grade-title">Good (60-69%)</h3>
+                        <div class="grade-band-color good"></div>
+                    </div>
+                    <div class="grade-descriptor">
+                        <p>The characteristics of successful teams are identified and linked loosely to their own work.</p>
+                    </div>
+                </div>
+                
+                <!-- Satisfactory: 50-59% -->
+                <div class="grade-band satisfactory-band">
+                    <div class="grade-header">
+                        <h3 class="grade-title">Satisfactory (50-59%)</h3>
+                        <div class="grade-band-color satisfactory"></div>
+                    </div>
+                    <div class="grade-descriptor">
+                        <p>The characteristics of successful teams are identified.</p>
+                    </div>
+                </div>
+                
+                <!-- Pass: 40-49% -->
+                <div class="grade-band pass-band">
+                    <div class="grade-header">
+                        <h3 class="grade-title">Pass (40-49%)</h3>
+                        <div class="grade-band-color pass"></div>
+                    </div>
+                    <div class="grade-descriptor">
+                        <p>Some characteristics of successful teams are identified, but key ones are missed.</p>
+                    </div>
+                </div>
+                
+                <!-- Marginal Fail: 35-39% -->
+                <div class="grade-band marginal-fail-band">
+                    <div class="grade-header">
+                        <h3 class="grade-title">Marginal Fail (35-39%)</h3>
+                        <div class="grade-band-color marginal-fail"></div>
+                    </div>
+                    <div class="grade-descriptor">
+                        <p>Very few, or erroneous, characteristics of successful teams are identified.</p>
+                    </div>
+                </div>
+                
+                <!-- Clear Fail: 0-34% -->
+                <div class="grade-band clear-fail-band">
+                    <div class="grade-header">
+                        <h3 class="grade-title">Clear Fail (0-34%)</h3>
+                        <div class="grade-band-color clear-fail"></div>
+                    </div>
+                    <div class="grade-descriptor">
+                        <p>No characteristics of successful teams are identified.</p>
+                    </div>
+                </div>
+            </div>
+        `;
+        foundationContent.appendChild(foundationTeamworkContent);
+        
+        // Create Research & Referencing content for Foundation year
+        const foundationResearchContent = document.createElement('div');
+        foundationResearchContent.id = 'foundation-research-content';
+        foundationResearchContent.className = 'criteria-content';
+        foundationResearchContent.innerHTML = `
+            <h2 class="text-xl font-semibold mb-3">Research & Referencing - Foundation Year</h2>
+            
+            <div class="grade-band-container">
+                <!-- Exceptional: 90-100% -->
+                <div class="grade-band exceptional-band">
+                    <div class="grade-header">
+                        <h3 class="grade-title">Exceptional (90-100%)</h3>
+                        <div class="grade-band-color exceptional"></div>
+                    </div>
+                    <div class="grade-descriptor">
+                        <p>Unexpected insights are brought to new questions or situations</p>
+                    </div>
+                </div>
+                
+                <!-- Excellent: 80-89% -->
+                <div class="grade-band excellent-band">
+                    <div class="grade-header">
+                        <h3 class="grade-title">Excellent (80-89%)</h3>
+                        <div class="grade-band-color excellent"></div>
+                    </div>
+                    <div class="grade-descriptor">
+                        <p>Information beyond that presented in the course is applied to new questions or situations.</p>
+                    </div>
+                </div>
+                
+                <!-- Very Good: 70-79% -->
+                <div class="grade-band very-good-band">
+                    <div class="grade-header">
+                        <h3 class="grade-title">Very Good (70-79%)</h3>
+                        <div class="grade-band-color very-good"></div>
+                    </div>
+                    <div class="grade-descriptor">
+                        <p>Show evidence of working beyond the information presented in the course to address new questions or situations.</p>
+                    </div>
+                </div>
+                
+                <!-- Good: 60-69% -->
+                <div class="grade-band good-band">
+                    <div class="grade-header">
+                        <h3 class="grade-title">Good (60-69%)</h3>
+                        <div class="grade-band-color good"></div>
+                    </div>
+                    <div class="grade-descriptor">
+                        <p>Information presented in the course is applied thoughtfully to new questions or situations.</p>
+                    </div>
+                </div>
+                
+                <!-- Satisfactory: 50-59% -->
+                <div class="grade-band satisfactory-band">
+                    <div class="grade-header">
+                        <h3 class="grade-title">Satisfactory (50-59%)</h3>
+                        <div class="grade-band-color satisfactory"></div>
+                    </div>
+                    <div class="grade-descriptor">
+                        <p>Information presented in the course is applied to new questions or situations.</p>
+                    </div>
+                </div>
+                
+                <!-- Pass: 40-49% -->
+                <div class="grade-band pass-band">
+                    <div class="grade-header">
+                        <h3 class="grade-title">Pass (40-49%)</h3>
+                        <div class="grade-band-color pass"></div>
+                    </div>
+                    <div class="grade-descriptor">
+                        <p>Information presented in the course is partially applied to new questions or situations.</p>
+                    </div>
+                </div>
+                
+                <!-- Marginal Fail: 35-39% -->
+                <div class="grade-band marginal-fail-band">
+                    <div class="grade-header">
+                        <h3 class="grade-title">Marginal Fail (35-39%)</h3>
+                        <div class="grade-band-color marginal-fail"></div>
+                    </div>
+                    <div class="grade-descriptor">
+                        <p>Information presented in the course is not applied to new questions or situations, or is confused.</p>
+                    </div>
+                </div>
+                
+                <!-- Clear Fail: 0-34% -->
+                <div class="grade-band clear-fail-band">
+                    <div class="grade-header">
+                        <h3 class="grade-title">Clear Fail (0-34%)</h3>
+                        <div class="grade-band-color clear-fail"></div>
+                    </div>
+                    <div class="grade-descriptor">
+                        <p>New questions or situations are not addressed.</p>
+                    </div>
+                </div>
+            </div>
+        `;
+        foundationContent.appendChild(foundationResearchContent);
+        
+        // Create Structure & Organization content for Foundation year
+        const foundationStructureContent = document.createElement('div');
+        foundationStructureContent.id = 'foundation-structure-content';
+        foundationStructureContent.className = 'criteria-content';
+        foundationStructureContent.innerHTML = `
+            <h2 class="text-xl font-semibold mb-3">Structure & Organization - Foundation Year</h2>
+            
+            <div class="grade-band-container">
+                <!-- Exceptional: 90-100% -->
+                <div class="grade-band exceptional-band">
+                    <div class="grade-header">
+                        <h3 class="grade-title">Exceptional (90-100%)</h3>
+                        <div class="grade-band-color exceptional"></div>
+                    </div>
+                    <div class="grade-descriptor">
+                        <p>Unexpected insights are brought to the social and community contexts relevant to this level.</p>
+                    </div>
+                </div>
+                
+                <!-- Excellent: 80-89% -->
+                <div class="grade-band excellent-band">
+                    <div class="grade-header">
+                        <h3 class="grade-title">Excellent (80-89%)</h3>
+                        <div class="grade-band-color excellent"></div>
+                    </div>
+                    <div class="grade-descriptor">
+                        <p>Observations are made about social and community contexts which go beyond the course material.</p>
+                    </div>
+                </div>
+                
+                <!-- Very Good: 70-79% -->
+                <div class="grade-band very-good-band">
+                    <div class="grade-header">
+                        <h3 class="grade-title">Very Good (70-79%)</h3>
+                        <div class="grade-band-color very-good"></div>
+                    </div>
+                    <div class="grade-descriptor">
+                        <p>Social and community contexts within the disciplinary field are discussed thoroughly.</p>
+                    </div>
+                </div>
+                
+                <!-- Good: 60-69% -->
+                <div class="grade-band good-band">
+                    <div class="grade-header">
+                        <h3 class="grade-title">Good (60-69%)</h3>
+                        <div class="grade-band-color good"></div>
+                    </div>
+                    <div class="grade-descriptor">
+                        <p>Social and community contexts within the disciplinary field are identified.</p>
+                    </div>
+                </div>
+                
+                <!-- Satisfactory: 50-59% -->
+                <div class="grade-band satisfactory-band">
+                    <div class="grade-header">
+                        <h3 class="grade-title">Satisfactory (50-59%)</h3>
+                        <div class="grade-band-color satisfactory"></div>
+                    </div>
+                    <div class="grade-descriptor">
+                        <p>Social and community contexts within the disciplinary field are described</p>
+                    </div>
+                </div>
+                
+                <!-- Pass: 40-49% -->
+                <div class="grade-band pass-band">
+                    <div class="grade-header">
+                        <h3 class="grade-title">Pass (40-49%)</h3>
+                        <div class="grade-band-color pass"></div>
+                    </div>
+                    <div class="grade-descriptor">
+                        <p>Some awareness of social and community contexts within the disciplinary field is shown.</p>
+                    </div>
+                </div>
+                
+                <!-- Marginal Fail: 35-39% -->
+                <div class="grade-band marginal-fail-band">
+                    <div class="grade-header">
+                        <h3 class="grade-title">Marginal Fail (35-39%)</h3>
+                        <div class="grade-band-color marginal-fail"></div>
+                    </div>
+                    <div class="grade-descriptor">
+                        <p>Very limited awareness of social and community contexts within the disciplinary field is shown, or erroneous judgements are made.</p>
+                    </div>
+                </div>
+                
+                <!-- Clear Fail: 0-34% -->
+                <div class="grade-band clear-fail-band">
+                    <div class="grade-header">
+                        <h3 class="grade-title">Clear Fail (0-34%)</h3>
+                        <div class="grade-band-color clear-fail"></div>
+                    </div>
+                    <div class="grade-descriptor">
+                        <p>No awareness is shown of social and community contexts within the disciplinary field</p>
+                    </div>
+                </div>
+            </div>
+        `;
+        foundationContent.appendChild(foundationStructureContent);
+        
+        // Add Knowledge & Understanding for Foundation year
+        const foundationKnowledgeContent = document.getElementById('foundation-knowledge-content');
+        if (foundationKnowledgeContent) {
+            foundationKnowledgeContent.innerHTML = `
+                <h2 class="text-xl font-semibold mb-3">Knowledge & Understanding - Foundation Year</h2>
+                
+                <div class="grade-band-container">
+                    <!-- Exceptional: 90-100% -->
+                    <div class="grade-band exceptional-band">
+                        <div class="grade-header">
+                            <h3 class="grade-title">Exceptional (90-100%)</h3>
+                            <div class="grade-band-color exceptional"></div>
+                        </div>
+                        <div class="grade-descriptor">
+                            <p>Professional development planning is ambitious and integrates what has been learned</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Excellent: 80-89% -->
+                    <div class="grade-band excellent-band">
+                        <div class="grade-header">
+                            <h3 class="grade-title">Excellent (80-89%)</h3>
+                            <div class="grade-band-color excellent"></div>
+                        </div>
+                        <div class="grade-descriptor">
+                            <p>Professional development planning shows some insight into future directions.</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Very Good: 70-79% -->
+                    <div class="grade-band very-good-band">
+                        <div class="grade-header">
+                            <h3 class="grade-title">Very Good (70-79%)</h3>
+                            <div class="grade-band-color very-good"></div>
+                        </div>
+                        <div class="grade-descriptor">
+                            <p>A feasible professional development plan is described.</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Good: 60-69% -->
+                    <div class="grade-band good-band">
+                        <div class="grade-header">
+                            <h3 class="grade-title">Good (60-69%)</h3>
+                            <div class="grade-band-color good"></div>
+                        </div>
+                        <div class="grade-descriptor">
+                            <p>A clear professional development plan is described.</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Satisfactory: 50-59% -->
+                    <div class="grade-band satisfactory-band">
+                        <div class="grade-header">
+                            <h3 class="grade-title">Satisfactory (50-59%)</h3>
+                            <div class="grade-band-color satisfactory"></div>
+                        </div>
+                        <div class="grade-descriptor">
+                            <p>The key features of a professional development plan are described.</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Pass: 40-49% -->
+                    <div class="grade-band pass-band">
+                        <div class="grade-header">
+                            <h3 class="grade-title">Pass (40-49%)</h3>
+                            <div class="grade-band-color pass"></div>
+                        </div>
+                        <div class="grade-descriptor">
+                            <p>Describe some features of a professional development plan, are identified, but key ones are missed.</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Marginal Fail: 35-39% -->
+                    <div class="grade-band marginal-fail-band">
+                        <div class="grade-header">
+                            <h3 class="grade-title">Marginal Fail (35-39%)</h3>
+                            <div class="grade-band-color marginal-fail"></div>
+                        </div>
+                        <div class="grade-descriptor">
+                            <p>Very limited or erroneous features of a professional development plan, are identified.</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Clear Fail: 0-34% -->
+                    <div class="grade-band clear-fail-band">
+                        <div class="grade-header">
+                            <h3 class="grade-title">Clear Fail (0-34%)</h3>
+                            <div class="grade-band-color clear-fail"></div>
+                        </div>
+                        <div class="grade-descriptor">
+                            <p>No key features of a professional development plan are identified.</p>
+                        </div>
+                    </div>
+                </div>
+            `;
+        } else {
+            // If the element doesn't exist, create it
+            const foundationKnowledgeContent = document.createElement('div');
+            foundationKnowledgeContent.id = 'foundation-knowledge-content';
+            foundationKnowledgeContent.className = 'criteria-content active';
+            foundationKnowledgeContent.innerHTML = `
+                <h2 class="text-xl font-semibold mb-3">Knowledge & Understanding - Foundation Year</h2>
+                
+                <div class="grade-band-container">
+                    <!-- Exceptional: 90-100% -->
+                    <div class="grade-band exceptional-band">
+                        <div class="grade-header">
+                            <h3 class="grade-title">Exceptional (90-100%)</h3>
+                            <div class="grade-band-color exceptional"></div>
+                        </div>
+                        <div class="grade-descriptor">
+                            <p>Professional development planning is ambitious and integrates what has been learned</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Other grade bands -->
+                    <!-- ... (similar structure for other grade bands) ... -->
+                </div>
+            `;
+            foundationContent.appendChild(foundationKnowledgeContent);
+        }
+    }
+    
+    // Handle search input
+    if (searchInput) {
+        searchInput.addEventListener('input', function() {
+            performSearch(this.value);
+            if (mobileSearchInput) mobileSearchInput.value = this.value;
+        });
+    }
+    
+    if (mobileSearchInput) {
+        mobileSearchInput.addEventListener('input', function() {
+            performSearch(this.value);
+            if (searchInput) searchInput.value = this.value;
+        });
+    }
+    
+    // Year level switching
+    yearLevelBtns.forEach(btn => {
+        btn.addEventListener('click', function() {
+            const year = this.getAttribute('data-year');
+            
+            // Update active button
+            yearLevelBtns.forEach(b => b.classList.remove('active'));
+            this.classList.add('active');
+            
+            // Update content visibility
+            yearContents.forEach(content => {
+                content.classList.remove('active');
+            });
+            
+            document.getElementById(`${year}-content`).classList.add('active');
+            currentYear = year;
+            
+            // Update criteria content visibility
+            updateCriteriaContent();
+            
+            // Re-apply filters
+            applyGradeBandFilter();
+        });
+    });
+    
+    // Criteria tab switching
+    criteriaTabs.forEach(tab => {
+        tab.addEventListener('click', function() {
+            const criteria = this.getAttribute('data-criteria');
+            
+            // Update active tab
+            criteriaTabs.forEach(t => t.classList.remove('active'));
+            this.classList.add('active');
+            
+            // Update criteria info visibility
+            criteriaInfos.forEach(info => {
+                info.classList.remove('active');
+            });
+            
+            document.getElementById(`${criteria}-info`).classList.add('active');
+            
+            currentCriteria = criteria;
+            
+            // Update criteria content visibility
+            updateCriteriaContent();
+            
+            // Re-apply filters
+            applyGradeBandFilter();
+        });
+    });
+    
+    // Grade band filter
+    gradeBandBtns.forEach(btn => {
+        btn.addEventListener('click', function() {
+            const grade = this.getAttribute('data-grade');
+            
+            // Update active button
+            gradeBandBtns.forEach(b => b.classList.remove('active'));
+            this.classList.add('active');
+            
+            currentGradeBand = grade;
+            
+            // Apply filter
+            applyGradeBandFilter();
+        });
+    });
+    
+    // View All Criteria modal
+    if (viewAllBtn) {
+        viewAllBtn.addEventListener('click', function() {
+            if (allCriteriaModal) {
+                allCriteriaModal.style.display = 'block';
+            }
+        });
+    }
+    
+    if (closeModalBtn) {
+        closeModalBtn.addEventListener('click', function() {
+            if (allCriteriaModal) {
+                allCriteriaModal.style.display = 'none';
+            }
+        });
+    }
+    
+    // Close modal when clicking outside of it
+    window.addEventListener('click', function(event) {
+        if (allCriteriaModal && event.target === allCriteriaModal) {
+            allCriteriaModal.style.display = 'none';
+        }
+        
+        if (document.getElementById('all-descriptors-modal') && 
+            event.target === document.getElementById('all-descriptors-modal')) {
+            document.getElementById('all-descriptors-modal').style.display = 'none';
+        }
+    });
+    
+    // Helper function to update criteria content based on current year and criteria
+    function updateCriteriaContent() {
+        // Hide all criteria content
+        document.querySelectorAll('.criteria-content').forEach(content => {
+            content.classList.remove('active');
+        });
+        
+        // Show only the relevant content for current year and criteria
+        const targetContent = document.getElementById(`${currentYear}-${currentCriteria}-content`);
+        if (targetContent) {
+            targetContent.classList.add('active');
+        }
+    }
+    
+    // Initialize foundation year content with data from the pasted document
+    populateFoundationYearDescriptors();
+    
+    // Add a new button to view all descriptors for all criteria
+    const addViewAllDescriptorsButton = function() {
+    // Create the button if it doesn't exist
+    if (!document.getElementById('view-all-descriptors-button')) {
+        const viewAllDescriptorsButton = document.createElement('button');
+        viewAllDescriptorsButton.id = 'view-all-descriptors-button';
+        viewAllDescriptorsButton.className = 'criteria-tab'; // Use the same class as other criteria tabs
+        viewAllDescriptorsButton.innerHTML = '<i class="fas fa-th mr-1"></i> View All Matrix';
+        viewAllDescriptorsButton.style.backgroundColor = 'var(--bg-tertiary)';
+        viewAllDescriptorsButton.style.color = 'var(--text-secondary)';
+        viewAllDescriptorsButton.style.border = '1px solid var(--border-color)';
+        viewAllDescriptorsButton.style.borderRadius = '0.25rem';
+        viewAllDescriptorsButton.style.padding = '0.5rem 1rem';
+        viewAllDescriptorsButton.style.cursor = 'pointer';
+        viewAllDescriptorsButton.style.transition = 'all 0.2s';
+        
+        // Add hover effect like other criteria tabs
+        viewAllDescriptorsButton.addEventListener('mouseenter', function() {
+            this.style.backgroundColor = 'var(--accent-color)';
+            this.style.color = 'white';
+        });
+        
+        viewAllDescriptorsButton.addEventListener('mouseleave', function() {
+            if (!this.classList.contains('active')) {
+                this.style.backgroundColor = 'var(--bg-tertiary)';
+                this.style.color = 'var(--text-secondary)';
+            }
+        });
+        
+        // Insert the button in the criteria tabs container (before other tabs)
+        const criteriaTabsContainer = document.querySelector('.criteria-tabs');
+        if (criteriaTabsContainer) {
+            criteriaTabsContainer.insertBefore(viewAllDescriptorsButton, criteriaTabsContainer.firstChild);
+        }
+        
+        // Add event listener
+        viewAllDescriptorsButton.addEventListener('click', function() {
+            showAllDescriptorsModal();
+            
+            // Update visual state (optional - to make it look selected)
+            document.querySelectorAll('.criteria-tab').forEach(tab => {
+                tab.classList.remove('active');
+                tab.style.backgroundColor = 'var(--bg-tertiary)';
+                tab.style.color = 'var(--text-secondary)';
+            });
+            
+            this.classList.add('active');
+            this.style.backgroundColor = 'var(--accent-color)';
+            this.style.color = 'white';
+        });
+    }
+};
+
+// Also remove the other "View All Descriptors" button completely
+// (Delete the code that creates viewAllDescriptorsBtn)
+    
+    // Function to show all descriptors modal
+    function showAllDescriptorsModal() {
+        const allDescriptorsModal = document.getElementById('all-descriptors-modal');
+        if (allDescriptorsModal) {
+            allDescriptorsModal.style.display = 'block';
+            
+            // Get the active year button and set the content
+            const activeYearBtn = document.querySelector('.year-btn.active');
+            if (activeYearBtn) {
+                populateAllDescriptorsTable(activeYearBtn.getAttribute('data-year'));
+            } else {
+                // Default to foundation year
+                populateAllDescriptorsTable('foundation');
+                
+                // Set the foundation year button as active
+                const foundationYearBtn = document.querySelector('.year-btn[data-year="foundation"]');
+                if (foundationYearBtn) {
+                    foundationYearBtn.classList.add('active');
+                    foundationYearBtn.style.backgroundColor = 'var(--accent-color)';
+                    foundationYearBtn.style.color = 'white';
+                    foundationYearBtn.style.borderColor = 'var(--accent-color)';
+                }
+            }
+        }
+    }
+    
+    // Call the function to add the button
+    addViewAllDescriptorsButton();
+    
+    // Close modal when clicking outside of it (updating the existing handler)
+    window.addEventListener('click', function(event) {
+        if (allCriteriaModal && event.target === allCriteriaModal) {
+            allCriteriaModal.style.display = 'none';
+        }
+        
+        const allDescriptorsModal = document.getElementById('all-descriptors-modal');
+        if (allDescriptorsModal && event.target === allDescriptorsModal) {
+            allDescriptorsModal.style.display = 'none';
+        }
+    });
+
+});
+
+    </script>
+</body>
+</html>

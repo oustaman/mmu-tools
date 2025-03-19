@@ -1,0 +1,683 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mark Scaling & Classification Tool - University Portal</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="styles.css">
+    <script src="sidebar-links.js"></script>
+    <script src="core.js"></script>
+</head>
+<body>
+    <!-- Single Header -->
+    <header class="header">
+        <button class="hamburger-menu" aria-label="Toggle sidebar">
+            <i class="fas fa-bars"></i>
+        </button>
+        
+        <div class="logo">
+            <span class="logo-text">Mark Scaling Tool</span>
+        </div>
+        
+        <nav class="nav-tabs">
+            <a href="#main" class="nav-tab active">Mark Scaling</a>
+            <a href="#info" class="nav-tab">Info</a>
+        </nav>
+        
+        <!-- Centered search box (hidden on mobile) -->
+        <div class="search-container">
+            <i class="fas fa-search search-icon"></i>
+            <input type="text" id="search-input" class="search-input" placeholder="Search...">
+        </div>
+        
+        <!-- Header controls positioned above right sidebar -->
+        <div class="header-controls">
+            <!-- Font size controls -->
+            <div class="font-size-controls">
+                <div id="decrease-font" class="font-size-btn">
+                    <i class="fas fa-minus"></i>
+                </div>
+                <div class="text-label mx-2 text-muted">Text</div>
+                <div id="increase-font" class="font-size-btn">
+                    <i class="fas fa-plus"></i>
+                </div>
+            </div>
+            
+            <button class="theme-toggle" aria-label="Toggle dark/light mode">
+                <i class="fas fa-sun fa-lg"></i>
+            </button>
+            
+            <button class="toggle-right-sidebar" aria-label="Toggle right sidebar">
+                <i class="fas fa-cog fa-lg"></i>
+            </button>
+        </div>
+    </header>
+
+    <!-- Mobile search bar (only visible on smaller screens) -->
+    <div class="mobile-search-container">
+        <div class="relative w-full">
+            <i class="fas fa-search search-icon"></i>
+            <input type="text" id="mobile-search-input" class="search-input w-full" placeholder="Search...">
+        </div>
+    </div>
+
+    <!-- Main layout -->
+    <div class="layout">
+        <!-- Left sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-section">
+                <div class="sidebar-header">
+                    <span>University Links</span>
+                </div>
+                <div id="university-content" class="sidebar-content">
+                    <!-- Will be populated by sidebar-links.js -->
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main content area with tab content -->
+        <main class="main-content">
+            <!-- Main tab content - Mark Converter -->
+            <div id="main-tab-content" class="tab-content active">
+                <h1 class="text-2xl font-bold mb-4">Mark Scaling & Classification Tool</h1>
+                
+                <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-6 mb-6">
+                    <!-- Input Section -->
+                    <div>
+                        <h2 class="text-xl font-semibold mb-4">Enter Mark</h2>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div>
+                                <div class="mb-4">
+                                    <label for="mark-input" class="block text-sm font-medium mb-2">Original Mark (0-100)</label>
+                                    <input type="number" id="mark-input" min="0" max="100" value="75" 
+                                        class="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                </div>
+                                
+                                <div class="mb-4">
+                                    <label for="level-select" class="block text-sm font-medium mb-2">Academic Level</label>
+                                    <select id="level-select" class="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                        <option value="ug">Undergraduate (UG)</option>
+                                        <option value="pgt">Postgraduate Taught (PGT)</option>
+                                    </select>
+                                </div>
+                            </div>
+                            
+                            <!-- Results Section -->
+                            <div>
+                                <div id="result-container" class="p-4 bg-gray-100 dark:bg-gray-700 rounded-lg">
+                                    <div class="mb-4">
+                                        <p class="text-sm font-medium text-gray-500 dark:text-gray-400">Original Mark</p>
+                                        <p id="original-mark" class="text-lg font-bold">75</p>
+                                    </div>
+                                    
+                                    <div id="adjusted-mark-container" class="mb-4">
+                                        <p class="text-sm font-medium text-gray-500 dark:text-gray-400">Adjusted Mark</p>
+                                        <div class="flex items-center">
+                                            <p id="adjusted-mark" class="text-2xl font-bold">75</p>
+                                            <span id="adjustment-indicator" class="ml-2 text-sm px-2 py-1 rounded">
+                                                No change
+                                            </span>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="mb-4">
+                                        <p class="text-sm font-medium text-gray-500 dark:text-gray-400">UG Classification</p>
+                                        <p id="ug-classification" class="text-xl font-bold">Mid 1st</p>
+                                    </div>
+                                    
+                                    <div class="mb-4">
+                                        <p class="text-sm font-medium text-gray-500 dark:text-gray-400">PGT Classification</p>
+                                        <p id="pgt-classification" class="text-xl font-bold">Mid distinction</p>
+                                    </div>
+                                    
+                                    <!-- Boundary warning with min-height to prevent layout shift -->
+                                    <div id="boundary-warning" class="min-h-[40px] opacity-0 transition-opacity duration-300 ease-in-out">
+                                        <div class="flex items-start">
+                                            <div class="mt-0.5">
+                                                <i class="fas fa-exclamation-triangle text-orange-500"></i>
+                                            </div>
+                                            <p class="ml-2 text-sm text-orange-600 dark:text-orange-400 font-medium">
+                                                The adjustment crossed a grade boundary.
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Grade Scale Table with Adjustment Controls -->
+                <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
+                    <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-6">
+                        <h2 class="text-xl font-semibold">Mark Classification Scale</h2>
+                    </div>
+                    
+                    <!-- Mark Adjustment Controls in a clean box -->
+                    <div class="bg-gray-50 dark:bg-gray-700 rounded-lg p-4 mb-6 border border-gray-200 dark:border-gray-600">
+                        <div class="flex flex-col md:flex-row justify-between items-start md:items-center">
+                            <h3 class="text-base font-medium mb-3 md:mb-0">Mark Adjustment</h3>
+                            
+                            <div class="flex flex-wrap items-center w-full md:w-auto">
+                                <div class="flex items-center space-x-4 mr-4 mb-3 md:mb-0">
+                                    <div class="flex items-center">
+                                        <input type="radio" id="no-adjustment" name="adjustment-type" value="none" checked
+                                            class="mr-2 h-4 w-4">
+                                        <label for="no-adjustment" class="text-sm">No Adjustment</label>
+                                    </div>
+                                    
+                                    <div class="flex items-center">
+                                        <input type="radio" id="percentage-adjustment" name="adjustment-type" value="percentage"
+                                            class="mr-2 h-4 w-4">
+                                        <label for="percentage-adjustment" class="text-sm">By Percentage</label>
+                                    </div>
+                                    
+                                    <div class="flex items-center">
+                                        <input type="radio" id="fixed-adjustment" name="adjustment-type" value="fixed"
+                                            class="mr-2 h-4 w-4">
+                                        <label for="fixed-adjustment" class="text-sm">By Fixed Points</label>
+                                    </div>
+                                </div>
+                                
+                                <div class="flex items-center mb-3 md:mb-0 mr-4">
+                                    <input type="number" id="adjustment-value" value="0" step="0.5"
+                                        class="w-16 px-2 py-1 border rounded-md mr-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                        disabled>
+                                    
+                                    <div class="relative inline-block">
+                                        <select id="adjustment-direction" class="px-3 py-1 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" disabled>
+                                            <option value="increase">Increase</option>
+                                            <option value="decrease">Decrease</option>
+                                        </select>
+                                    </div>
+                                    
+                                    <span id="adjustment-unit" class="ml-2 text-sm text-gray-500">points</span>
+                                </div>
+                                
+                                <div class="flex items-center mb-3 md:mb-0 mr-4">
+                                    <input type="checkbox" id="snap-to-boundary" class="mr-2 h-4 w-4" checked>
+                                    <label for="snap-to-boundary" class="text-sm">Snap to boundaries</label>
+                                </div>
+                                
+                                <button id="update-btn" class="px-6 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                    Update
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="overflow-x-auto">
+                        <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
+                            <thead>
+                                <tr>
+                                    <th class="px-4 py-3 bg-gray-50 dark:bg-gray-800 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Mark</th>
+                                    <th id="adjusted-column-header" class="px-4 py-3 bg-gray-50 dark:bg-gray-800 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider hidden">Adjusted Mark</th>
+                                    <th class="px-4 py-3 bg-gray-50 dark:bg-gray-800 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">UG Classification</th>
+                                    <th class="px-4 py-3 bg-gray-50 dark:bg-gray-800 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">PGT Classification</th>
+                                </tr>
+                            </thead>
+                            <tbody class="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700" id="scale-table-body">
+                                <!-- This will be populated by JavaScript -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Info tab content -->
+            <div id="info-tab-content" class="tab-content">
+                <h1 class="text-3xl font-bold mb-6">About Mark Scaling & Classification Tool</h1>
+                <p class="mb-4">
+                    This tool helps you convert numeric marks to their corresponding classification for both
+                    Undergraduate (UG) and Postgraduate Taught (PGT) courses. It also allows you to apply
+                    moderation adjustments to see how they affect the final classification.
+                </p>
+
+                <h2 class="text-2xl font-bold mt-8 mb-4">Using the Mark Scaling Tool</h2>
+                <p class="mb-4">
+                    Enter a numeric mark between 0 and 100, select the academic level (Undergraduate or Postgraduate),
+                    and apply any required moderation adjustments. The tool will show both the original and adjusted marks
+                    along with their classifications.
+                </p>
+                
+                <h3 class="text-xl font-bold mt-6 mb-3">Adjustment Options</h3>
+                <p class="mb-4">
+                    You can adjust marks in two ways:
+                </p>
+                <ul class="list-disc pl-5 space-y-2 mb-4">
+                    <li><strong>Percentage adjustment</strong> - Increase or decrease marks by a percentage (e.g., reduce all marks by 5%)</li>
+                    <li><strong>Fixed points adjustment</strong> - Add or subtract a fixed number of points (e.g., decrease all marks by 2 points)</li>
+                </ul>
+                <p class="mb-4">
+                    The tool will highlight when an adjustment crosses a grade boundary, helping you understand the impact
+                    of moderation decisions.
+                </p>
+
+                <div class="info-box">
+                    <div class="info-box-title">
+                        <i class="fas fa-info-circle"></i> 
+                        Tips for Using This Tool
+                    </div>
+                    <div class="info-content">
+                        <p class="mb-4">
+                            Use this tool to quickly check grading classifications for student assessments.
+                        </p>
+                        <ul class="list-disc pl-5 space-y-2">
+                            <li>The tool will live update as you input marks and adjustments</li>
+                            <li>View both UG and PGT classifications simultaneously</li>
+                            <li>Get alerted when adjustments cross grade boundaries</li>
+                            <li>Apply percentage or fixed point adjustments for moderation</li>
+                            <li>The complete grade scale is shown in the table below the tool</li>
+                            <li>Use the print function to print the results for reference</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!-- Right sidebar -->
+        <aside class="right-sidebar">
+            <div class="right-sidebar-header">Quick Tools</div>
+            <!-- Will be populated by sidebar-links.js -->
+        </aside>
+    </div>
+
+    <script>
+        // Grade scale data
+        const gradeScale = [
+            { mark: 100, ug: "Exceptional", pgt: "Exceptional" },
+            { mark: 95, ug: "", pgt: "" },
+            { mark: 90, ug: "Outstanding", pgt: "Outstanding" },
+            { mark: 85, ug: "Very high 1st", pgt: "Very high distinction" },
+            { mark: 78, ug: "High 1st", pgt: "High distinction" },
+            { mark: 75, ug: "Mid 1st", pgt: "Mid distinction" },
+            { mark: 72, ug: "Low 1st", pgt: "Low distinction" },
+            { mark: 68, ug: "High 2.1", pgt: "High merit" },
+            { mark: 65, ug: "Mid 2.1", pgt: "Mid merit" },
+            { mark: 62, ug: "Low 2.1", pgt: "Low merit" },
+            { mark: 58, ug: "High 2.2", pgt: "High pass" },
+            { mark: 55, ug: "Mid 2.2", pgt: "Mid pass" },
+            { mark: 52, ug: "Low 2.2", pgt: "Low pass" },
+            { mark: 48, ug: "High 3rd", pgt: "Marginal fail" },
+            { mark: 45, ug: "Mid 3rd", pgt: "" },
+            { mark: 42, ug: "Low 3rd", pgt: "" },
+            { mark: 38, ug: "Marginal fail", pgt: "Clear fail" },
+            { mark: 35, ug: "", pgt: "" },
+            { mark: 32, ug: "", pgt: "" },
+            { mark: 28, ug: "Clear fail", pgt: "" },
+            { mark: 25, ug: "", pgt: "" },
+            { mark: 22, ug: "", pgt: "" },
+            { mark: 18, ug: "", pgt: "" },
+            { mark: 15, ug: "", pgt: "" },
+            { mark: 12, ug: "", pgt: "" },
+            { mark: 8, ug: "Low fail", pgt: "Low fail" },
+            { mark: 5, ug: "", pgt: "" },
+            { mark: 2, ug: "", pgt: "" },
+            { mark: 0, ug: "Non-engagement", pgt: "Non-engagement" }
+        ];
+
+        // Function to populate the grade scale table
+        function populateGradeScaleTable(adjustmentInfo = null) {
+            const tableBody = document.getElementById('scale-table-body');
+            const adjustedColumnHeader = document.getElementById('adjusted-column-header');
+            tableBody.innerHTML = '';
+            
+            // Show or hide the adjusted column header based on adjustment info
+            if (adjustmentInfo && adjustmentInfo.type !== 'none') {
+                adjustedColumnHeader.classList.remove('hidden');
+            } else {
+                adjustedColumnHeader.classList.add('hidden');
+            }
+            
+            gradeScale.forEach(grade => {
+                const row = document.createElement('tr');
+                
+                // Mark column
+                const markCell = document.createElement('td');
+                markCell.className = 'px-4 py-2 whitespace-nowrap';
+                markCell.textContent = grade.mark;
+                row.appendChild(markCell);
+                
+                // Adjusted mark column (if adjustment is active)
+                if (adjustmentInfo && adjustmentInfo.type !== 'none') {
+                    const adjustedMarkCell = document.createElement('td');
+                    adjustedMarkCell.className = 'px-4 py-2 whitespace-nowrap';
+                    
+                    // Calculate adjusted mark
+                    let adjustedMark = calculateAdjustedMark(grade.mark, adjustmentInfo);
+                    
+                    // Snap to boundaries if enabled
+                    if (adjustmentInfo.snapToBoundary) {
+                        adjustedMark = snapToNearestBoundary(adjustedMark);
+                    }
+                    
+                    // Check if grade boundary changed
+                    const originalUG = getClassification(grade.mark, 'ug');
+                    const adjustedUG = getClassification(adjustedMark, 'ug');
+                    const originalPGT = getClassification(grade.mark, 'pgt');
+                    const adjustedPGT = getClassification(adjustedMark, 'pgt');
+                    
+                    const ugChanged = originalUG !== adjustedUG;
+                    const pgtChanged = originalPGT !== adjustedPGT;
+                    const boundaryChanged = ugChanged || pgtChanged;
+                    
+                    // Style based on change
+                    if (adjustedMark > grade.mark) {
+                        adjustedMarkCell.classList.add('text-green-600', 'dark:text-green-400');
+                        adjustedMarkCell.textContent = adjustedMark.toFixed(1) + ' ↑';
+                    } else if (adjustedMark < grade.mark) {
+                        adjustedMarkCell.classList.add('text-red-600', 'dark:text-red-400');
+                        adjustedMarkCell.textContent = adjustedMark.toFixed(1) + ' ↓';
+                    } else {
+                        adjustedMarkCell.textContent = adjustedMark.toFixed(1);
+                    }
+                    
+                    // Highlight if boundary changed
+                    if (boundaryChanged) {
+                        adjustedMarkCell.classList.add('font-bold');
+                    }
+                    
+                    row.appendChild(adjustedMarkCell);
+                    
+                    // Store original and adjusted classifications for highlighting
+                    row.dataset.originalUg = originalUG;
+                    row.dataset.adjustedUg = adjustedUG;
+                    row.dataset.originalPgt = originalPGT;
+                    row.dataset.adjustedPgt = adjustedPGT;
+                }
+                
+                // UG classification column
+                const ugCell = document.createElement('td');
+                ugCell.className = 'px-4 py-2 whitespace-nowrap';
+                ugCell.textContent = grade.ug;
+                
+                // Add highlighting for UG classification changes
+                if (adjustmentInfo && adjustmentInfo.type !== 'none' && row.dataset.originalUg && row.dataset.adjustedUg && row.dataset.originalUg !== row.dataset.adjustedUg) {
+                    ugCell.classList.add('bg-yellow-100', 'dark:bg-yellow-900', 'font-semibold');
+                    
+                    // Create span to show the new classification
+                    const newClassSpan = document.createElement('span');
+                    newClassSpan.className = 'ml-2 text-green-600 dark:text-green-400';
+                    newClassSpan.textContent = `→ ${row.dataset.adjustedUg}`;
+                    ugCell.appendChild(newClassSpan);
+                }
+                
+                row.appendChild(ugCell);
+                
+                // PGT classification column
+                const pgtCell = document.createElement('td');
+                pgtCell.className = 'px-4 py-2 whitespace-nowrap';
+                pgtCell.textContent = grade.pgt;
+                
+                // Add highlighting for PGT classification changes
+                if (adjustmentInfo && adjustmentInfo.type !== 'none' && row.dataset.originalPgt && row.dataset.adjustedPgt && row.dataset.originalPgt !== row.dataset.adjustedPgt) {
+                    pgtCell.classList.add('bg-yellow-100', 'dark:bg-yellow-900', 'font-semibold');
+                    
+                    // Create span to show the new classification
+                    const newClassSpan = document.createElement('span');
+                    newClassSpan.className = 'ml-2 text-green-600 dark:text-green-400';
+                    newClassSpan.textContent = `→ ${row.dataset.adjustedPgt}`;
+                    pgtCell.appendChild(newClassSpan);
+                }
+                
+                row.appendChild(pgtCell);
+                
+                tableBody.appendChild(row);
+            });
+        }
+        
+        // Function to calculate adjusted mark based on adjustment type
+        function calculateAdjustedMark(mark, adjustmentInfo) {
+            if (!adjustmentInfo || adjustmentInfo.type === 'none' || adjustmentInfo.value === 0) {
+                return mark;
+            }
+            
+            let adjustedMark = mark;
+            
+            if (adjustmentInfo.type === 'percentage') {
+                if (adjustmentInfo.direction === 'increase') {
+                    adjustedMark = mark * (1 + adjustmentInfo.value / 100);
+                } else {
+                    adjustedMark = mark * (1 - adjustmentInfo.value / 100);
+                }
+            } else if (adjustmentInfo.type === 'fixed') {
+                if (adjustmentInfo.direction === 'increase') {
+                    adjustedMark = mark + adjustmentInfo.value;
+                } else {
+                    adjustedMark = mark - adjustmentInfo.value;
+                }
+            }
+            
+            // Ensure mark is within bounds
+            return Math.max(0, Math.min(100, adjustedMark));
+        }
+        
+        // Function to snap a mark to the nearest grade boundary in the scale
+        function snapToNearestBoundary(mark) {
+            // Special cases - exact matches and bounds
+            if (mark <= 0) return 0;
+            if (mark >= 100) return 100;
+            
+            // Find boundaries in the grade scale
+            const boundaries = gradeScale.map(item => item.mark);
+            
+            // Find the closest boundary
+            let closestBoundary = boundaries[0];
+            let minDistance = Math.abs(mark - closestBoundary);
+            
+            for (let i = 1; i < boundaries.length; i++) {
+                const boundary = boundaries[i];
+                const distance = Math.abs(mark - boundary);
+                
+                if (distance < minDistance) {
+                    minDistance = distance;
+                    closestBoundary = boundary;
+                }
+            }
+            
+            return closestBoundary;
+        }
+
+        // Function to get classification for a given mark
+        function getClassification(mark, level) {
+            // Find the correct grade bracket
+            for (let i = 0; i < gradeScale.length; i++) {
+                if (mark >= gradeScale[i].mark) {
+                    // Return classification based on level
+                    return level === 'ug' ? gradeScale[i].ug : gradeScale[i].pgt;
+                }
+            }
+            return "Unknown";
+        }
+
+        // Function to update the displayed results
+        function updateResults() {
+            const markInput = document.getElementById('mark-input');
+            const levelSelect = document.getElementById('level-select');
+            const adjustmentTypeRadios = document.querySelectorAll('input[name="adjustment-type"]');
+            const adjustmentValue = document.getElementById('adjustment-value');
+            const adjustmentDirection = document.getElementById('adjustment-direction');
+            const snapToBoundary = document.getElementById('snap-to-boundary');
+            
+            // Get the original mark
+            let originalMark = parseFloat(markInput.value);
+            
+            // Validate mark
+            if (isNaN(originalMark) || originalMark < 0) {
+                originalMark = 0;
+                markInput.value = 0;
+            } else if (originalMark > 100) {
+                originalMark = 100;
+                markInput.value = 100;
+            }
+            
+            // Get selected adjustment type
+            let selectedAdjustmentType = 'none';
+            for (const radio of adjustmentTypeRadios) {
+                if (radio.checked) {
+                    selectedAdjustmentType = radio.value;
+                    break;
+                }
+            }
+            
+            // Create adjustment info object
+            const adjustmentInfo = {
+                type: selectedAdjustmentType,
+                value: parseFloat(adjustmentValue.value) || 0,
+                direction: adjustmentDirection.value,
+                snapToBoundary: snapToBoundary.checked
+            };
+            
+            // Calculate adjusted mark
+            let adjustedMark = calculateAdjustedMark(originalMark, adjustmentInfo);
+            
+            // Snap to nearest boundary if enabled
+            if (adjustmentInfo.snapToBoundary && adjustmentInfo.type !== 'none' && adjustmentInfo.value !== 0) {
+                adjustedMark = snapToNearestBoundary(adjustedMark);
+            }
+            
+            // Prepare adjustment text
+            let adjustmentText = 'No change';
+            if (adjustmentInfo.type !== 'none' && adjustmentInfo.value !== 0) {
+                const prefix = adjustmentInfo.direction === 'increase' ? '+' : '-';
+                const unit = adjustmentInfo.type === 'percentage' ? '%' : ' points';
+                adjustmentText = `${prefix}${adjustmentInfo.value}${unit}`;
+                
+                // For the indicator, calculate actual points difference
+                const pointsDiff = Math.abs(adjustedMark - originalMark).toFixed(1);
+                adjustmentText = (adjustedMark > originalMark ? '+' : '-') + pointsDiff + ' points';
+            }
+            
+            // Get original and adjusted classifications
+            const originalUGClassification = getClassification(originalMark, 'ug');
+            const originalPGTClassification = getClassification(originalMark, 'pgt');
+            const adjustedUGClassification = getClassification(adjustedMark, 'ug');
+            const adjustedPGTClassification = getClassification(adjustedMark, 'pgt');
+            
+            // Check if adjustment crossed a grade boundary
+            const boundaryChanged = 
+                originalUGClassification !== adjustedUGClassification || 
+                originalPGTClassification !== adjustedPGTClassification;
+            
+            // Update display
+            document.getElementById('original-mark').textContent = originalMark;
+            document.getElementById('ug-classification').textContent = adjustedUGClassification;
+            document.getElementById('pgt-classification').textContent = adjustedPGTClassification;
+            
+            // Display adjusted mark if there's an adjustment
+            const adjustedMarkContainer = document.getElementById('adjusted-mark-container');
+            const boundaryWarning = document.getElementById('boundary-warning');
+            
+            if (adjustmentInfo.type !== 'none' && adjustedMark !== originalMark) {
+                adjustedMarkContainer.classList.remove('hidden', 'opacity-0');
+                document.getElementById('adjusted-mark').textContent = adjustedMark.toFixed(1);
+                
+                const adjustmentIndicator = document.getElementById('adjustment-indicator');
+                adjustmentIndicator.textContent = adjustmentText;
+                
+                // Style the adjustment indicator
+                if (adjustedMark > originalMark) {
+                    adjustmentIndicator.className = 'ml-2 text-sm px-2 py-1 rounded bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200';
+                } else {
+                    adjustmentIndicator.className = 'ml-2 text-sm px-2 py-1 rounded bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200';
+                }
+                
+                // Show boundary warning if needed
+                if (boundaryChanged) {
+                    boundaryWarning.classList.remove('opacity-0');
+                    boundaryWarning.classList.add('opacity-100');
+                } else {
+                    boundaryWarning.classList.remove('opacity-100');
+                    boundaryWarning.classList.add('opacity-0');
+                }
+            } else {
+                adjustedMarkContainer.classList.add('opacity-0');
+                boundaryWarning.classList.remove('opacity-100');
+                boundaryWarning.classList.add('opacity-0');
+            }
+            
+            // Update the grade scale table with adjustments
+            populateGradeScaleTable(adjustmentInfo);
+        }
+
+        // Function to toggle adjustment input fields
+        function toggleAdjustmentInputs() {
+            const adjustmentTypeRadios = document.querySelectorAll('input[name="adjustment-type"]');
+            const adjustmentValue = document.getElementById('adjustment-value');
+            const adjustmentDirection = document.getElementById('adjustment-direction');
+            const adjustmentUnit = document.getElementById('adjustment-unit');
+            
+            let selectedType = 'none';
+            
+            // Find the selected adjustment type
+            for (const radio of adjustmentTypeRadios) {
+                if (radio.checked) {
+                    selectedType = radio.value;
+                    break;
+                }
+            }
+            
+            // Enable/disable and set appropriate units
+            if (selectedType === 'none') {
+                adjustmentValue.disabled = true;
+                adjustmentDirection.disabled = true;
+                adjustmentUnit.textContent = 'points';
+            } else {
+                adjustmentValue.disabled = false;
+                adjustmentDirection.disabled = false;
+                
+                if (selectedType === 'percentage') {
+                    adjustmentUnit.textContent = '%';
+                } else if (selectedType === 'fixed') {
+                    adjustmentUnit.textContent = 'points';
+                }
+            }
+            
+            // Update the results
+            updateResults();
+        }
+        
+        // Initialize the application when DOM is fully loaded
+        document.addEventListener('DOMContentLoaded', function() {
+            // Populate the grade scale table
+            populateGradeScaleTable();
+            
+            // Set up event listeners
+            const markInput = document.getElementById('mark-input');
+            const levelSelect = document.getElementById('level-select');
+            const updateButton = document.getElementById('update-btn');
+            const adjustmentTypeRadios = document.querySelectorAll('input[name="adjustment-type"]');
+            const adjustmentValue = document.getElementById('adjustment-value');
+            const adjustmentDirection = document.getElementById('adjustment-direction');
+            const snapToBoundary = document.getElementById('snap-to-boundary');
+            
+            // Enable live updates
+            markInput.addEventListener('input', updateResults);
+            levelSelect.addEventListener('change', updateResults);
+            updateButton.addEventListener('click', updateResults);
+            snapToBoundary.addEventListener('change', updateResults);
+            
+            // Set up adjustment type radio listeners
+            adjustmentTypeRadios.forEach(radio => {
+                radio.addEventListener('change', toggleAdjustmentInputs);
+            });
+            
+            // Add listeners for adjustment inputs
+            adjustmentValue.addEventListener('input', updateResults);
+            adjustmentDirection.addEventListener('change', updateResults);
+            
+            // Initial setup
+            toggleAdjustmentInputs();
+            updateResults();
+            
+            // Set the current page in the right sidebar
+            if (window.sidebarLinks && window.sidebarLinks.setCurrentRightSidebarPage) {
+                window.sidebarLinks.setCurrentRightSidebarPage('Mark Scaling');
+            }
+        });
+    </script>
+</body>
+</html>

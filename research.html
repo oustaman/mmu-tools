@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>University Research Groups</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="styles.css">
+    
+    <!-- Add our JavaScript files -->
+    <script src="js/research-groups.js"></script>
+    <script src="sidebar-links.js"></script>
+    <script src="core.js"></script>
+    <script src="js/research-browser.js"></script>
+    
+    <style>
+/* Research group cards */
+.research-group-card {
+    background-color: var(--bg-primary);
+    transition: transform 0.2s, box-shadow 0.2s;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    font-size: inherit;
+}
+
+.research-group-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Make all text elements in cards responsive to font size changes */
+.research-group-card h1,
+.research-group-card h2, 
+.research-group-card h3,
+.research-group-card p,
+.research-group-card div,
+.research-group-card span,
+.research-group-card ul,
+.research-group-card li,
+.research-group-card a {
+    font-size: inherit;
+}
+
+/* Override Tailwind text size classes */
+.research-group-card .text-xs {
+    font-size: 0.75em !important;
+}
+
+.research-group-card .text-sm {
+    font-size: 0.875em !important;
+}
+
+.research-group-card .text-base {
+    font-size: 1em !important;
+}
+
+.research-group-card .text-lg {
+    font-size: 1.125em !important;
+}
+
+.research-group-card .text-xl {
+    font-size: 1.25em !important;
+}
+
+.research-group-card .text-2xl {
+    font-size: 1.5em !important;
+}
+
+/* Status badges */
+.taxonomy-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.75em !important;
+}
+
+/* Filter links */
+.department-filter, .status-filter, .tag-filter {
+    transition: all 0.2s;
+    font-size: inherit;
+}
+
+.department-filter.active, .status-filter.active, .tag-filter.active {
+    background-color: var(--accent-color);
+    color: white !important;
+    border-color: var(--accent-color) !important;
+}
+
+/* Tag filter styles */
+.tag-filter {
+    text-decoration: none;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-size: 0.875em !important;
+}
+
+.tag-filter:hover {
+    background-color: var(--accent-color) !important;
+    color: white !important;
+}
+
+/* Detail view */
+.research-group-detail {
+    background-color: var(--bg-primary);
+    border-radius: 0.5rem;
+    padding: 1.5rem;
+    border: 1px solid var(--border-color);
+    font-size: inherit;
+}
+
+/* Make detail view text responsive */
+.research-group-detail h1,
+.research-group-detail h2,
+.research-group-detail h3,
+.research-group-detail p,
+.research-group-detail div,
+.research-group-detail span,
+.research-group-detail ul,
+.research-group-detail li,
+.research-group-detail a {
+    font-size: inherit;
+}
+
+/* Special heading sizes for detail view */
+.research-group-detail h1 {
+    font-size: 1.5em !important;
+}
+
+.research-group-detail h2 {
+    font-size: 1.25em !important;
+}
+
+.research-group-detail h3 {
+    font-size: 1.125em !important;
+}
+
+/* Animated back link */
+#back-to-groups {
+    display: inline-block;
+    transition: transform 0.2s;
+    font-size: inherit;
+}
+
+#back-to-groups:hover {
+    transform: translateX(-3px);
+}
+
+/* Keyword and research area tags */
+.research-group-detail .bg-bg-tertiary {
+    transition: all 0.2s;
+    font-size: inherit;
+}
+
+.research-group-detail .bg-bg-tertiary:hover {
+    background-color: var(--accent-color);
+    color: white;
+}
+
+/* Filter badge styles */
+.filter-badge {
+    display: inline-flex;
+    align-items: center;
+    background-color: var(--bg-tertiary);
+    border-radius: 20px;
+    padding: 0.25rem 0.75rem;
+    font-size: inherit;
+    white-space: nowrap;
+    color: var(--text-primary);
+    border: 1px solid var(--border-color);
+}
+
+.filter-badge-text {
+    margin-right: 0.5rem;
+    font-size: inherit;
+}
+
+.remove-filter {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 1.125em;
+    height: 1.125em;
+    border-radius: 50%;
+    background-color: var(--bg-secondary);
+    color: var(--text-muted);
+    border: none;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-size: inherit;
+}
+
+.remove-filter:hover {
+    background-color: var(--text-muted);
+    color: white;
+}
+
+/* Clear filters button */
+#clear-filters {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.25rem 0.5rem;
+    border-radius: 0.25rem;
+    font-weight: 500;
+    transition: background-color 0.2s;
+    font-size: inherit;
+}
+
+#clear-filters:hover {
+    background-color: var(--bg-tertiary);
+    text-decoration: underline;
+}
+
+/* Loading animation */
+@keyframes pulse {
+    0% { opacity: 0.6; }
+    50% { opacity: 1; }
+    100% { opacity: 0.6; }
+}
+
+.placeholder-content p {
+    animation: pulse 1.5s infinite;
+    font-size: inherit;
+}
+
+/* Search match highlighting */
+.search-match {
+    border-color: #fcd34d !important;
+    box-shadow: 0 0 0 1px #fcd34d;
+}
+
+.search-match-indicator {
+    border-bottom: 1px solid #fce96a;
+    font-size: 0.75em !important;
+    display: flex;
+    align-items: center;
+}
+
+mark {
+    background-color: #fef3c7;
+    padding: 0 2px;
+    border-radius: 2px;
+    font-size: inherit;
+}
+
+/* Fix for lists to ensure they scale properly */
+.research-group-card ul,
+.research-group-detail ul {
+    font-size: inherit;
+    line-height: inherit;
+}
+
+.research-group-card ul li,
+.research-group-detail ul li {
+    font-size: inherit;
+    line-height: inherit;
+}
+
+/* Fix for focus areas */
+.research-group-card [class*="text-muted"] {
+    font-size: inherit;
+    line-height: inherit;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .grid {
+        grid-template-columns: repeat(1, 1fr) !important;
+    }
+    
+    .research-group-detail {
+        padding: 1rem;
+    }
+    
+    .filter-badge {
+        padding: 0.2em 0.5em;
+    }
+}
+
+/* Print styles */
+@media print {
+    .research-group-detail {
+        border: none;
+        padding: 0;
+    }
+    
+    .taxonomy-badge {
+        border: 1px solid #000;
+        color: #000 !important;
+        background-color: transparent !important;
+    }
+    
+    .search-match-indicator {
+        display: none;
+    }
+    
+    .filter-badge {
+        border: 1px solid #000;
+        background-color: #f8f8f8;
+    }
+}
+
+    </style>
+</head>
+<body>
+    <!-- Single Header -->
+    <header class="header">
+        <button class="hamburger-menu" aria-label="Toggle sidebar">
+            <i class="fas fa-bars"></i>
+        </button>
+        
+        <div class="logo">
+            <span class="logo-text">University Research Portal</span>
+        </div>
+        
+        <nav class="nav-tabs">
+            <a href="#main" class="nav-tab active">Research Groups</a>
+            <a href="#info" class="nav-tab">Info</a>
+        </nav>
+        
+        <!-- Centered search box (hidden on mobile) -->
+        <div class="search-container">
+            <i class="fas fa-search search-icon"></i>
+            <input type="text" id="search-input" class="search-input" placeholder="Search research groups...">
+        </div>
+        
+        <!-- Header controls positioned above right sidebar -->
+        <div class="header-controls">
+            <!-- Font size controls -->
+            <div class="font-size-controls">
+                <div id="decrease-font" class="font-size-btn">
+                    <i class="fas fa-minus"></i>
+                </div>
+                <div class="text-label mx-2 text-muted">Text</div>
+                <div id="increase-font" class="font-size-btn">
+                    <i class="fas fa-plus"></i>
+                </div>
+            </div>
+            
+            <button class="theme-toggle" aria-label="Toggle dark/light mode">
+                <i class="fas fa-sun fa-lg"></i>
+            </button>
+            
+            <button class="toggle-right-sidebar" aria-label="Toggle right sidebar">
+                <i class="fas fa-cog fa-lg"></i>
+            </button>
+        </div>
+    </header>
+
+    <!-- Mobile search bar (only visible on smaller screens) -->
+    <div class="mobile-search-container">
+        <div class="relative w-full">
+            <i class="fas fa-search search-icon"></i>
+            <input type="text" id="mobile-search-input" class="search-input w-full" placeholder="Search research groups...">
+        </div>
+    </div>
+
+    <!-- Main layout -->
+    <div class="layout">
+        <!-- Left sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-section">
+                <div class="sidebar-header">
+                    <span>University Links</span>
+                </div>
+                <div id="university-content" class="sidebar-content">
+                    <!-- Links populated by sidebar-links.js -->
+                </div>
+            </div>
+            
+            <div class="sidebar-section">
+                <div class="sidebar-header">
+                    <span>Research Resources</span>
+                </div>
+                <div class="sidebar-content">
+                    <a href="#" class="sidebar-link">
+                        <i class="fas fa-flask"></i> All Research Groups
+                    </a>
+                    <a href="#" class="sidebar-link">
+                        <i class="fas fa-user-graduate"></i> Find a Researcher
+                    </a>
+                    <a href="#" class="sidebar-link">
+                        <i class="fas fa-book"></i> Publications
+                    </a>
+                    <a href="#" class="sidebar-link">
+                        <i class="fas fa-chart-line"></i> Research Impact
+                    </a>
+                    <a href="#" class="sidebar-link">
+                        <i class="fas fa-money-bill-wave"></i> Funding Opportunities
+                    </a>
+                    <a href="#" class="sidebar-link">
+                        <i class="fas fa-handshake"></i> Industry Partnerships
+                    </a>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main content area with tab content -->
+        <main class="main-content">
+            <!-- Main tab content - contains research groups -->
+            <div id="main-tab-content" class="tab-content active">
+                <!-- Content will be dynamically populated by JavaScript -->
+                <div class="placeholder-content">
+                    <p>Loading research groups...</p>
+                    <p>If nothing appears, please check that the JavaScript files are properly loaded.</p>
+                </div>
+            </div>
+
+            <!-- Info tab content - contains the documentation -->
+            <div id="info-tab-content" class="tab-content">
+                <h1 class="text-3xl font-bold mb-6">About Research Groups</h1>
+                <p class="mb-4">
+                    This portal provides access to all research groups at the university. You can browse, search, and filter
+                    research groups based on various criteria.
+                </p>
+
+                <h2 class="text-2xl font-bold mt-8 mb-4">How to Use</h2>
+                <p class="mb-4">
+                    Use the search bar at the top to find specific research groups by name, description, department, or members.
+                    You can also filter by department or status using the filter options on the main page.
+                </p>
+
+                <!-- Info box -->
+                <div class="info-box">
+                    <div class="info-box-title">
+                        <i class="fas fa-info-circle"></i> 
+                        Tips for Browsing Research Groups
+                    </div>
+                    <div class="info-content">
+                        <p class="mb-4">
+                            Here are some helpful tips for navigating the research groups:
+                        </p>
+                        <ul class="list-disc pl-5 space-y-2">
+                            <li>Click on any research group card to view detailed information</li>
+                            <li>Use the department and status filters to narrow down your search</li>
+                            <li>Click on research area tags in cards to filter by that area</li>
+                            <li>Use the "Clear all filters" button to reset your selections</li>
+                            <li>Active filters appear as badges which you can click to remove individually</li>
+                            <li>When searching, cards containing your search term will be highlighted</li>
+                            <li>Adjust text size for better readability using the controls in the top-right corner</li>
+                            <li>Toggle between dark and light modes using the sun/moon icon</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <h2 class="text-2xl font-bold mt-8 mb-4">Contact</h2>
+                <p class="mb-4">
+                    For more information about research at the university or to report issues with this portal,
+                    please contact the Research Support Office at research-support@university.edu.
+                </p>
+            </div>
+        </main>
+
+        <!-- Right sidebar -->
+        <aside class="right-sidebar">
+            <div class="right-sidebar-header">Quick Tools</div>
+            <!-- Content will be dynamically populated by JavaScript -->
+        </aside>
+    </div>
+</body>
+</html>

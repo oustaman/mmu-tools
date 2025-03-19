@@ -1,0 +1,1872 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Grade Inflation Monitor</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.9.1/dist/chart.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="sidebar-links.js"></script>
+    <script src="core.js"></script>
+    <style>
+        /* Grade Inflation Monitor Specific Styles */
+        .instruction-box {
+            background-color: var(--info-box-bg);
+            border: 1px solid var(--info-box-border);
+            border-radius: 0.5rem;
+            padding: 15px;
+            margin-bottom: 20px;
+            color: var(--text-secondary);
+        }
+        
+        .year-filter-section {
+            margin-bottom: 20px;
+        }
+        
+        .year-filter-title {
+            font-size: 16px;
+            font-weight: 500;
+            margin-bottom: 10px;
+            color: var(--text-secondary);
+        }
+        
+        .year-pills-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        
+        .year-pill {
+            display: inline-block;
+            padding: 8px 15px;
+            border-radius: 30px;
+            background-color: var(--bg-tertiary);
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.2s;
+            min-width: 80px;
+            text-align: center;
+            color: var(--text-secondary);
+        }
+        
+        .year-pill:hover {
+            background-color: var(--accent-hover);
+            color: white;
+        }
+        
+        .year-pill.active {
+            background-color: var(--accent-color);
+            color: white;
+        }
+        
+        .chart-container {
+            margin-bottom: 20px;
+            padding: 15px;
+            background-color: var(--bg-primary);
+            border: 1px solid var(--border-color);
+            border-radius: 0.5rem;
+        }
+        
+        .chart-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        
+        .chart-title {
+            font-weight: 600;
+            font-size: 16px;
+            color: var(--text-primary);
+        }
+        
+        .chart-actions {
+            display: flex;
+            gap: 5px;
+        }
+        
+        .icon-button {
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            padding: 5px;
+            color: var(--text-muted);
+        }
+        
+        .icon-button:hover {
+            color: var(--accent-color);
+        }
+        
+        .trend-up {
+            color: #28a745;
+        }
+        
+        .trend-down {
+            color: #dc3545;
+        }
+        
+        .trend-stable {
+            color: var(--text-muted);
+        }
+        
+        .stats-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+            color: var(--text-primary);
+        }
+        
+        .stats-table th, .stats-table td {
+            padding: 8px 12px;
+            border: 1px solid var(--border-color);
+        }
+        
+        .stats-table th {
+            background-color: var(--bg-tertiary);
+            font-weight: 600;
+        }
+        
+        .filter-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-bottom: 20px;
+            padding: 15px;
+            background-color: var(--bg-tertiary);
+            border-radius: 0.5rem;
+        }
+        
+        .tool-button {
+            background-color: var(--button-primary-bg);
+            color: var(--button-primary-text);
+            border: 1px solid var(--button-primary-border);
+            padding: 0.5rem 1rem;
+            border-radius: 0.375rem;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            transition: all 0.2s;
+        }
+        
+        .tool-button:hover {
+            filter: brightness(0.95);
+        }
+        
+        .tool-button-secondary {
+            background-color: var(--button-secondary-bg);
+            color: var(--button-secondary-text);
+            border: 1px solid var(--button-secondary-border);
+        }
+        
+        .tool-button-secondary:hover {
+            background-color: var(--bg-tertiary);
+        }
+        
+        .action-row {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+        
+        .module-input {
+            width: 100%;
+            padding: 0.5rem 0.75rem;
+            margin-bottom: 1rem;
+            border: 1px solid var(--border-color);
+            border-radius: 0.25rem;
+            background-color: var(--bg-tertiary);
+            color: var(--text-primary);
+        }
+
+        /* Tab system for tool */
+        .tool-tabs {
+            display: flex;
+            border-bottom: 1px solid var(--border-color);
+            margin-bottom: 15px;
+        }
+        
+        .tool-tab {
+            padding: 10px 15px;
+            cursor: pointer;
+            border: 1px solid transparent;
+            border-bottom: none;
+            border-radius: 4px 4px 0 0;
+            margin-right: 5px;
+            transition: all 0.2s;
+            color: var(--text-secondary);
+        }
+        
+        .tool-tab.active {
+            background-color: var(--bg-primary);
+            border-color: var(--border-color);
+            border-bottom-color: var(--bg-primary);
+            margin-bottom: -1px;
+            color: var(--accent-color);
+            font-weight: bold;
+        }
+        
+        .tool-tab:hover:not(.active) {
+            background-color: var(--bg-tertiary);
+        }
+        
+        .tool-tab-content {
+            display: none;
+        }
+        
+        .tool-tab-content.active {
+            display: block;
+        }
+
+
+
+/* Enhanced Table Styling */
+.data-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+    font-family: Arial, sans-serif;
+    box-shadow: 0 2px 3px rgba(0,0,0,0.1);
+}
+
+.data-table th {
+    background-color: #f2f2f2;
+    border: 1px solid #ddd;
+    padding: 12px;
+    text-align: left;
+    font-weight: 600;
+    color: #333;
+}
+
+.data-table td {
+    border: 1px solid #ddd;
+    padding: 10px 12px;
+    vertical-align: middle;
+}
+
+.data-table tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+.data-table tr:hover {
+    background-color: #f0f7ff;
+}
+
+.data-table td[contenteditable="true"] {
+    background-color: #fff;
+    transition: background-color 0.2s;
+}
+
+.data-table td[contenteditable="true"]:hover {
+    background-color: #f0f7ff;
+}
+
+.data-table td[contenteditable="true"]:focus {
+    outline: 2px solid #4a90e2;
+    outline-offset: -2px;
+    background-color: #fff;
+}
+
+/* Column widths */
+.data-table th:first-child,
+.data-table td:first-child {
+    width: 15%;
+}
+
+.data-table th:nth-child(2),
+.data-table td:nth-child(2) {
+    width: 45%;
+}
+
+.data-table th:last-child,
+.data-table td:last-child {
+    width: 20%;
+    text-align: right;
+}
+
+/* Table header styling */
+.data-table thead {
+    border-bottom: 2px solid #ddd;
+}
+
+/* Make the table a little more compact if needed */
+@media screen and (max-width: 768px) {
+    .data-table th, 
+    .data-table td {
+        padding: 8px;
+    }
+}
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <button class="hamburger-menu" aria-label="Toggle sidebar">
+            <i class="fas fa-bars"></i>
+        </button>
+        
+        <div class="logo">
+        </div>
+        
+        <nav class="nav-tabs">
+            <a href="#main" class="nav-tab active">Grade Inflation Monitor</a>
+            <a href="#info" class="nav-tab">Info</a>
+        </nav>
+        
+        <!-- Centered search box (hidden on mobile) -->
+        <div class="search-container">
+            <i class="fas fa-search search-icon"></i>
+            <input type="text" id="search-input" class="search-input" placeholder="Search...">
+        </div>
+        
+        <!-- Header controls positioned above right sidebar -->
+        <div class="header-controls">
+            <!-- Font size controls -->
+            <div class="font-size-controls">
+                <div id="decrease-font" class="font-size-btn">
+                    <i class="fas fa-minus"></i>
+                </div>
+                <div class="text-label mx-2 text-muted">Text</div>
+                <div id="increase-font" class="font-size-btn">
+                    <i class="fas fa-plus"></i>
+                </div>
+            </div>
+            
+            <button class="theme-toggle" aria-label="Toggle dark/light mode">
+                <i class="fas fa-sun fa-lg"></i>
+            </button>
+            
+            <button class="toggle-right-sidebar" aria-label="Toggle right sidebar">
+                <i class="fas fa-cog fa-lg"></i>
+            </button>
+        </div>
+    </header>
+
+    <!-- Mobile search bar (only visible on smaller screens) -->
+    <div class="mobile-search-container">
+        <div class="relative w-full">
+            <i class="fas fa-search search-icon"></i>
+            <input type="text" id="mobile-search-input" class="search-input w-full" placeholder="Search...">
+        </div>
+    </div>
+
+    <!-- Main layout -->
+    <div class="layout">
+        <!-- Left sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-section">
+                <div class="sidebar-header">
+                    <span>University Links</span>
+                </div>
+                <div id="university-content" class="sidebar-content">
+                    <!-- This will be populated by sidebar-links.js -->
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main content area with tab content -->
+        <main class="main-content">
+            <!-- Main tab content - contains the grade inflation tool -->
+            <div id="main-tab-content" class="tab-content active">
+                <h1 class="text-2xl font-bold mb-4">Grade Inflation Monitor</h1>
+                <p class="mb-4">Track and analyze grading patterns over time to detect and address grade inflation.</p>
+                
+                <div class="tool-tabs no-print">
+                    <div class="tool-tab active" data-tab="data-entry">Data Entry</div>
+                    <div class="tool-tab" data-tab="analysis">Analysis</div>
+                </div>
+                
+                <!-- Data Entry Tab -->
+                <div class="tool-tab-content active" id="data-entry-tab">
+                    <div class="instruction-box">
+                        <h3 class="font-bold mb-2">How to Enter Data:</h3>
+                        <ul class="list-disc pl-5 space-y-1">
+                            <li>Enter <strong>individual student marks</strong> (not averages)</li>
+                            <li>Each row represents one student grade in a specific course/year</li>
+                            <li>Include all students from each year for accurate analysis</li>
+                            <li>You can paste data directly from Excel</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="action-row">
+                        <button id="addRow" class="tool-button"><i class="fas fa-plus mr-2"></i>Add Row</button>
+                        <button id="add5Rows" class="tool-button"><i class="fas fa-plus-circle mr-2"></i>Add 5 Rows</button>
+                        <button id="removeEmptyRows" class="tool-button tool-button-secondary"><i class="fas fa-trash-alt mr-2"></i>Remove Empty</button>
+                        <button id="clearTable" class="tool-button tool-button-secondary"><i class="fas fa-times-circle mr-2"></i>Clear All</button>
+                    </div>
+                    
+                    <div class="mb-4">
+                        <select id="sampleData" class="module-input">
+                            <option value="">-- Select Sample Data --</option>
+                            <option value="moderate">Sample: Moderate Inflation</option>
+                            <option value="significant">Sample: Significant Inflation</option>
+                            <option value="stable">Sample: Stable Grades</option>
+                        </select>
+                    </div>
+                    
+                    <table id="dataTable" class="data-table mb-4">
+                        <thead>
+                            <tr>
+                                <th>Year</th>
+                                <th>Module/Course</th>
+                                <th>Grade (%)</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td contenteditable="true">2020</td>
+                                <td contenteditable="true">CS101</td>
+                                <td contenteditable="true">68</td>
+                            </tr>
+                            <tr>
+                                <td contenteditable="true">2020</td>
+                                <td contenteditable="true">CS101</td>
+                                <td contenteditable="true">72</td>
+                            </tr>
+                            <tr>
+                                <td contenteditable="true">2021</td>
+                                <td contenteditable="true">CS101</td>
+                                <td contenteditable="true">71</td>
+                            </tr>
+                            <tr>
+                                <td contenteditable="true">2021</td>
+                                <td contenteditable="true">CS101</td>
+                                <td contenteditable="true">76</td>
+                            </tr>
+                            <tr>
+                                <td contenteditable="true">2022</td>
+                                <td contenteditable="true">CS101</td>
+                                <td contenteditable="true">75</td>
+                            </tr>
+                            <tr>
+                                <td contenteditable="true">2022</td>
+                                <td contenteditable="true">CS101</td>
+                                <td contenteditable="true">79</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    
+                    <div class="mb-4">
+                        <button id="analyzeButton" class="tool-button"><i class="fas fa-chart-line mr-2"></i>Analyze Data</button>
+                    </div>
+                </div>
+                
+                <!-- Analysis Tab -->
+                <div class="tool-tab-content" id="analysis-tab">
+                    <div class="filter-container no-print">
+                        <div class="mr-4">
+                            <label for="institutionName" class="block text-sm font-medium mb-1">Institution Name</label>
+                            <input type="text" id="institutionName" class="module-input" placeholder="Enter institution name (optional)">
+                        </div>
+                        
+                        <div class="mr-4">
+                            <label for="moduleFilter" class="block text-sm font-medium mb-1">Filter by Course/Module</label>
+                            <select id="moduleFilter" class="module-input">
+                                <option value="all">All Modules/Courses</option>
+                            </select>
+                        </div>
+                        
+                        <div>
+                            <button id="printButton" class="tool-button tool-button-secondary"><i class="fas fa-print mr-2"></i>Print Report</button>
+                        </div>
+                    </div>
+                    
+                    <div id="yearFilterContainer" class="year-filter-section no-print">
+                        <div class="year-filter-title">Compare Years</div>
+                        <div id="yearPills" class="year-pills-container"></div>
+                    </div>
+                    
+                    <!-- Analysis results will go here -->
+                    <div id="resultsContainer">
+                        <div class="info-box">
+                            <div class="info-box-title">
+                                <i class="fas fa-info-circle"></i>
+                                Analysis Pending
+                            </div>
+                            <div class="info-content">
+                                <p>Enter your grade data on the Data Entry tab and click "Analyze Data" to generate a report.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Info tab content - contains the documentation -->
+            <div id="info-tab-content" class="tab-content">
+                <h1 class="text-3xl font-bold mb-6">About Grade Inflation</h1>
+                <p class="mb-4">
+                    Grade inflation refers to the tendency for academic grades to increase over time without a corresponding increase in academic achievement. This tool helps institutions track and address this phenomenon.
+                </p>
+
+                <h2 class="text-2xl font-bold mt-8 mb-4">Why Monitor Grade Inflation?</h2>
+                <p class="mb-4">
+                    Monitoring grade inflation is crucial for maintaining academic standards and ensuring the credibility of qualifications. When grades inflate over time without corresponding improvements in student performance, it can:
+                </p>
+                <ul class="list-disc pl-5 space-y-2 mb-6">
+                    <li>Reduce the signaling value of high grades to employers and graduate schools</li>
+                    <li>Create inequities between academic cohorts over time</li>
+                    <li>Mask actual trends in educational quality and student achievement</li>
+                    <li>Lead to a compression of grades at the upper end of the scale</li>
+                </ul>
+
+                <!-- Info box -->
+                <div class="info-box">
+                    <div class="info-box-title">
+                        <i class="fas fa-info-circle"></i> 
+                        Tips for Using This Tool
+                    </div>
+                    <div class="info-content">
+                        <p class="mb-4">
+                            The Grade Inflation Monitor helps you identify trends in grading patterns over multiple years:
+                        </p>
+                        <ul class="list-disc pl-5 space-y-2">
+                            <li>Enter grade data including the year, module/course name, and grade percentage</li>
+                            <li>Click "Analyze Data" to generate statistics and visualizations</li>
+                            <li>Use filters to analyze specific courses or compare specific years</li>
+                            <li>Export charts for use in presentations and reports</li>
+                            <li>Print comprehensive reports for committee meetings</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <h2 class="text-2xl font-bold mt-8 mb-4">Addressing Grade Inflation</h2>
+                <p class="mb-4">
+                    Based on the analysis provided by this tool, institutions can take several approaches to manage grade inflation:
+                </p>
+                <ul class="list-disc pl-5 space-y-2">
+                    <li>Implement standardized rubrics and assessment criteria</li>
+                    <li>Conduct regular calibration exercises for markers</li>
+                    <li>Establish department-wide grading guidelines</li>
+                    <li>Employ statistical moderation techniques</li>
+                    <li>Use external examiners to validate assessment standards</li>
+                </ul>
+            </div>
+        </main>
+
+        <!-- Right sidebar -->
+        <aside class="right-sidebar">
+            <div class="right-sidebar-header">Quick Tools</div>
+            <!-- This will be populated by sidebar-links.js -->
+        </aside>
+    </div>
+
+    <script>
+        // Initialize when DOM is loaded
+        $(document).ready(function() {
+            // Set current page in right sidebar
+            if (window.sidebarLinks && typeof window.sidebarLinks.setCurrentRightSidebarPage === 'function') {
+                window.sidebarLinks.setCurrentRightSidebarPage("Grade Inflation Monitor");
+            }
+            
+            // Tool tabs navigation
+            $('.tool-tab').click(function() {
+                $('.tool-tab').removeClass('active');
+                $(this).addClass('active');
+                
+                var tabId = $(this).data('tab');
+                $('.tool-tab-content').removeClass('active');
+                $('#' + tabId + '-tab').addClass('active');
+            });
+            
+            // Button event handlers
+            $('#addRow').click(function() {
+                $('#dataTable tbody').append('<tr><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td></tr>');
+            });
+            
+            $('#add5Rows').click(function() {
+                for (var i = 0; i < 5; i++) {
+                    $('#dataTable tbody').append('<tr><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td></tr>');
+                }
+            });
+            
+            $('#removeEmptyRows').click(function() {
+                $('#dataTable tbody tr').each(function() {
+                    var isEmpty = true;
+                    $(this).find('td').each(function() {
+                        if ($(this).text().trim() !== '') {
+                            isEmpty = false;
+                            return false;
+                        }
+                    });
+                    if (isEmpty) {
+                        $(this).remove();
+                    }
+                });
+            });
+            
+            $('#clearTable').click(function() {
+                $('#dataTable tbody').empty();
+                $('#dataTable tbody').append('<tr><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td></tr>');
+            });
+            
+            // Sample data handler
+            $('#sampleData').change(function() {
+                var sample = $(this).val();
+                if (!sample) return;
+                
+                $('#dataTable tbody').empty();
+                
+                if (sample === 'moderate') {
+                    loadModerateInflationSample();
+                } else if (sample === 'significant') {
+                    loadSignificantInflationSample();
+                } else if (sample === 'stable') {
+                    loadStableGradesSample();
+                }
+                
+                // Update module filter
+                updateModuleFilter();
+                
+                // Auto analyze
+                analyzeData();
+            });
+            
+            // Module filter handler
+            $('#moduleFilter').change(function() {
+                analyzeData();
+            });
+            
+            // Analyze button handler
+            $('#analyzeButton').click(function() {
+                // Switch to the analysis tab
+                $('.tool-tab[data-tab="analysis"]').click();
+                analyzeData();
+            });
+            
+            // Print button handler
+            $('#printButton').click(function() {
+                window.print();
+            });
+            
+            // Excel paste support
+            document.addEventListener('paste', function(e) {
+                var clipboardData = e.clipboardData || window.clipboardData;
+                var pastedText = clipboardData.getData('text');
+                var target = document.activeElement;
+                
+                if (target && target.isContentEditable) {
+                    var rows = pastedText.split('\n').map(function(row) {
+                        return row.split('\t');
+                    });
+                    
+                    e.preventDefault();
+                    
+                    var $currentRow = $(target).closest('tr');
+                    var startRow = $currentRow.index();
+                    var startCol = $(target).index();
+                    
+                    rows.forEach(function(rowData, rowIndex) {
+                        var $targetRow = $('#dataTable tbody tr').eq(startRow + rowIndex);
+                        
+                        if ($targetRow.length === 0) {
+                            $('#dataTable tbody').append('<tr><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td></tr>');
+                            $targetRow = $('#dataTable tbody tr').last();
+                        }
+                        
+                        rowData.forEach(function(cellText, colIndex) {
+                            var $targetCell = $targetRow.find('td').eq(startCol + colIndex);
+                            if ($targetCell.length) {
+                                $targetCell.text(cellText.trim());
+                            }
+                        });
+                    });
+                    
+                    // Update module filter after pasting new data
+                    updateModuleFilter();
+                }
+            });
+        });
+        
+        // Function to export chart as image
+        function exportChart(chartId, filename) {
+            var canvas = document.getElementById(chartId);
+            if (!canvas) return;
+            
+            // Create link element
+            var link = document.createElement('a');
+            link.download = filename + '.png';
+            link.href = canvas.toDataURL('image/png');
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+        
+        // Function to copy chart to clipboard
+        function copyChartToClipboard(chartId) {
+            var canvas = document.getElementById(chartId);
+            if (!canvas) return;
+            
+            html2canvas(canvas.parentNode).then(function(canvas) {
+                canvas.toBlob(function(blob) {
+                    try {
+                        navigator.clipboard.write([
+                            new ClipboardItem({ 'image/png': blob })
+                        ]).then(function() {
+                            alert('Chart copied to clipboard!');
+                        }).catch(function(error) {
+                            console.error('Error copying chart: ', error);
+                            fallbackCopyMethod(canvas);
+                        });
+                    } catch (error) {
+                        console.error('Clipboard API not available: ', error);
+                        fallbackCopyMethod(canvas);
+                    }
+                });
+            });
+        }
+        
+        // Fallback method for copying
+        function fallbackCopyMethod(canvas) {
+            // Create temporary element
+            var img = document.createElement('img');
+            img.src = canvas.toDataURL('image/png');
+            
+            // Create temporary container
+            var container = document.createElement('div');
+            container.appendChild(img);
+            container.style.position = 'fixed';
+            container.style.left = '-9999px';
+            
+            // Add to body, select, then remove
+            document.body.appendChild(container);
+            
+            var range = document.createRange();
+            range.selectNode(container);
+            
+            var selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+            
+            try {
+                document.execCommand('copy');
+                alert('Chart copied to clipboard! (fallback method)');
+            } catch (err) {
+                alert('Unable to copy chart to clipboard. Please try using the export button instead.');
+            }
+            
+            selection.removeAllRanges();
+            document.body.removeChild(container);
+        }
+        
+        // Sample data loaders
+        function loadModerateInflationSample() {
+            var data = [
+                // 2020
+                { year: 2020, module: 'CS101', grade: 68 },
+                { year: 2020, module: 'CS101', grade: 72 },
+                { year: 2020, module: 'CS101', grade: 65 },
+                { year: 2020, module: 'CS101', grade: 70 },
+                { year: 2020, module: 'CS101', grade: 58 },
+                { year: 2020, module: 'MATH201', grade: 61 },
+                { year: 2020, module: 'MATH201', grade: 65 },
+                { year: 2020, module: 'MATH201', grade: 58 },
+                { year: 2020, module: 'MATH201', grade: 72 },
+                
+                // 2021
+                { year: 2021, module: 'CS101', grade: 71 },
+                { year: 2021, module: 'CS101', grade: 74 },
+                { year: 2021, module: 'CS101', grade: 69 },
+                { year: 2021, module: 'CS101', grade: 73 },
+                { year: 2021, module: 'CS101', grade: 62 },
+                { year: 2021, module: 'MATH201', grade: 63 },
+                { year: 2021, module: 'MATH201', grade: 68 },
+                { year: 2021, module: 'MATH201', grade: 60 },
+                { year: 2021, module: 'MATH201', grade: 74 },
+                
+                // 2022
+                { year: 2022, module: 'CS101', grade: 73 },
+                { year: 2022, module: 'CS101', grade: 78 },
+                { year: 2022, module: 'CS101', grade: 75 },
+                { year: 2022, module: 'CS101', grade: 76 },
+                { year: 2022, module: 'CS101', grade: 69 },
+                { year: 2022, module: 'MATH201', grade: 66 },
+                { year: 2022, module: 'MATH201', grade: 70 },
+                { year: 2022, module: 'MATH201', grade: 63 },
+                { year: 2022, module: 'MATH201', grade: 75 },
+                
+                // 2023
+                { year: 2023, module: 'CS101', grade: 75 },
+                { year: 2023, module: 'CS101', grade: 81 },
+                { year: 2023, module: 'CS101', grade: 79 },
+                { year: 2023, module: 'CS101', grade: 78 },
+                { year: 2023, module: 'CS101', grade: 73 },
+                { year: 2023, module: 'MATH201', grade: 69 },
+                { year: 2023, module: 'MATH201', grade: 74 },
+                { year: 2023, module: 'MATH201', grade: 67 },
+                { year: 2023, module: 'MATH201', grade: 78 }
+            ];
+            
+            loadSampleData(data);
+        }
+        
+        function loadSignificantInflationSample() {
+            var data = [
+                // 2018
+                { year: 2018, module: 'CS101', grade: 62 },
+                { year: 2018, module: 'CS101', grade: 65 },
+                { year: 2018, module: 'CS101', grade: 58 },
+                { year: 2018, module: 'CS101', grade: 71 },
+                { year: 2018, module: 'CS101', grade: 55 },
+                { year: 2018, module: 'MATH201', grade: 55 },
+                { year: 2018, module: 'MATH201', grade: 61 },
+                { year: 2018, module: 'MATH201', grade: 51 },
+                { year: 2018, module: 'MATH201', grade: 68 },
+                
+                // 2019
+                { year: 2019, module: 'CS101', grade: 66 },
+                { year: 2019, module: 'CS101', grade: 69 },
+                { year: 2019, module: 'CS101', grade: 63 },
+                { year: 2019, module: 'CS101', grade: 74 },
+                { year: 2019, module: 'CS101', grade: 60 },
+                { year: 2019, module: 'MATH201', grade: 59 },
+                { year: 2019, module: 'MATH201', grade: 64 },
+                { year: 2019, module: 'MATH201', grade: 57 },
+                { year: 2019, module: 'MATH201', grade: 72 },
+                
+                // 2020
+                { year: 2020, module: 'CS101', grade: 71 },
+                { year: 2020, module: 'CS101', grade: 75 },
+                { year: 2020, module: 'CS101', grade: 68 },
+                { year: 2020, module: 'CS101', grade: 79 },
+                { year: 2020, module: 'CS101', grade: 65 },
+                { year: 2020, module: 'MATH201', grade: 64 },
+                { year: 2020, module: 'MATH201', grade: 70 },
+                { year: 2020, module: 'MATH201', grade: 62 },
+                { year: 2020, module: 'MATH201', grade: 77 },
+                
+                // 2021
+                { year: 2021, module: 'CS101', grade: 77 },
+                { year: 2021, module: 'CS101', grade: 82 },
+                { year: 2021, module: 'CS101', grade: 75 },
+                { year: 2021, module: 'CS101', grade: 85 },
+                { year: 2021, module: 'CS101', grade: 71 },
+                { year: 2021, module: 'MATH201', grade: 73 },
+                { year: 2021, module: 'MATH201', grade: 78 },
+                { year: 2021, module: 'MATH201', grade: 69 },
+                { year: 2021, module: 'MATH201', grade: 84 },
+                
+                // 2022
+                { year: 2022, module: 'CS101', grade: 81 },
+                { year: 2022, module: 'CS101', grade: 86 },
+                { year: 2022, module: 'CS101', grade: 79 },
+                { year: 2022, module: 'CS101', grade: 88 },
+                { year: 2022, module: 'CS101', grade: 75 },
+                { year: 2022, module: 'MATH201', grade: 77 },
+                { year: 2022, module: 'MATH201', grade: 83 },
+                { year: 2022, module: 'MATH201', grade: 75 },
+                { year: 2022, module: 'MATH201', grade: 89 },
+                
+                // 2023
+                { year: 2023, module: 'CS101', grade: 85 },
+                { year: 2023, module: 'CS101', grade: 91 },
+                { year: 2023, module: 'CS101', grade: 83 },
+                { year: 2023, module: 'CS101', grade: 92 },
+                { year: 2023, module: 'CS101', grade: 80 },
+                { year: 2023, module: 'MATH201', grade: 82 },
+                { year: 2023, module: 'MATH201', grade: 87 },
+                { year: 2023, module: 'MATH201', grade: 79 },
+                { year: 2023, module: 'MATH201', grade: 93 }
+            ];
+            
+            loadSampleData(data);
+        }
+        
+        function loadStableGradesSample() {
+            var data = [
+                // 2020
+                { year: 2020, module: 'CS101', grade: 68 },
+                { year: 2020, module: 'CS101', grade: 72 },
+                { year: 2020, module: 'CS101', grade: 65 },
+                { year: 2020, module: 'CS101', grade: 73 },
+                { year: 2020, module: 'CS101', grade: 61 },
+                { year: 2020, module: 'MATH201', grade: 61 },
+                { year: 2020, module: 'MATH201', grade: 66 },
+                { year: 2020, module: 'MATH201', grade: 59 },
+                { year: 2020, module: 'MATH201', grade: 70 },
+                
+                // 2021
+                { year: 2021, module: 'CS101', grade: 67 },
+                { year: 2021, module: 'CS101', grade: 73 },
+                { year: 2021, module: 'CS101', grade: 66 },
+                { year: 2021, module: 'CS101', grade: 72 },
+                { year: 2021, module: 'CS101', grade: 60 },
+                { year: 2021, module: 'MATH201', grade: 62 },
+                { year: 2021, module: 'MATH201', grade: 67 },
+                { year: 2021, module: 'MATH201', grade: 60 },
+                { year: 2021, module: 'MATH201', grade: 71 },
+                
+                // 2022
+                { year: 2022, module: 'CS101', grade: 69 },
+                { year: 2022, module: 'CS101', grade: 74 },
+                { year: 2022, module: 'CS101', grade: 66 },
+                { year: 2022, module: 'CS101', grade: 73 },
+                { year: 2022, module: 'CS101', grade: 63 },
+                { year: 2022, module: 'MATH201', grade: 63 },
+                { year: 2022, module: 'MATH201', grade: 68 },
+                { year: 2022, module: 'MATH201', grade: 61 },
+                { year: 2022, module: 'MATH201', grade: 72 },
+                
+                // 2023
+                { year: 2023, module: 'CS101', grade: 67 },
+                { year: 2023, module: 'CS101', grade: 73 },
+                { year: 2023, module: 'CS101', grade: 65 },
+                { year: 2023, module: 'CS101', grade: 74 },
+                { year: 2023, module: 'CS101', grade: 62 },
+                { year: 2023, module: 'MATH201', grade: 61 },
+                { year: 2023, module: 'MATH201', grade: 67 },
+                { year: 2023, module: 'MATH201', grade: 59 },
+                { year: 2023, module: 'MATH201', grade: 71 }
+            ];
+            
+            loadSampleData(data);
+        }
+        
+        function loadSampleData(data) {
+            $('#dataTable tbody').empty();
+            
+            data.forEach(function(row) {
+                $('#dataTable tbody').append('<tr><td contenteditable="true">' + row.year + '</td><td contenteditable="true">' + row.module + '</td><td contenteditable="true">' + row.grade + '</td></tr>');
+            });
+        }
+        
+        // Update module filter dropdown
+        function updateModuleFilter() {
+            var data = collectTableData();
+            if (!data || data.length === 0) return;
+            
+            // Get unique modules
+            var modules = [];
+            data.forEach(function(item) {
+                if (modules.indexOf(item.module) === -1) {
+                    modules.push(item.module);
+                }
+            });
+            
+            // Sort modules
+            modules.sort();
+            
+            // Update dropdown
+            var $select = $('#moduleFilter');
+            var currentValue = $select.val();
+            
+            // Clear options except 'All'
+            $select.find('option:not(:first)').remove();
+            
+            // Add module options
+            modules.forEach(function(module) {
+                $select.append('<option value="' + module + '">' + module + '</option>');
+            });
+            
+            // Restore previous selection if valid
+            if (modules.indexOf(currentValue) !== -1) {
+                $select.val(currentValue);
+            } else {
+                $select.val('all');
+            }
+        }
+        
+        // Update year filter pills
+        function updateYearFilter(years, chartInstances) {
+            var $container = $('#yearPills');
+            $container.empty();
+            
+            // Add year pills
+            years.forEach(function(year) {
+                $container.append('<span class="year-pill" data-year="' + year + '">' + year + '</span>');
+            });
+            
+            // Add 'All Years' pill
+            $container.append('<span class="year-pill active" data-year="all">All Years</span>');
+            
+            // Store chart instances in a global variable to access them in the click handler
+            window.chartInstances = chartInstances;
+            
+            // Set up click handlers
+            $('.year-pill').click(function() {
+                // Toggle selection of this pill
+                if ($(this).data('year') === 'all') {
+                    // If 'All Years' is clicked, deselect all other pills
+                    $('.year-pill').removeClass('active');
+                    $(this).addClass('active');
+                } else {
+                    // If a specific year is clicked
+                    // Toggle this pill
+                    $(this).toggleClass('active');
+                    
+                    // If no specific years are selected, activate 'All Years'
+                    if ($('.year-pill.active').not('[data-year="all"]').length === 0) {
+                        $('.year-pill[data-year="all"]').addClass('active');
+                    } else {
+                        // If any specific year is selected, deactivate 'All Years'
+                        $('.year-pill[data-year="all"]').removeClass('active');
+                    }
+                }
+                
+                // Get selected years
+                var selectedYears = [];
+                $('.year-pill.active').each(function() {
+                    var year = $(this).data('year');
+                    if (year !== 'all') {
+                        selectedYears.push(year.toString());
+                    }
+                });
+                
+                // If 'All Years' is active or no years selected, show all years
+                var showAllYears = $('.year-pill[data-year="all"]').hasClass('active') || selectedYears.length === 0;
+                
+                // Update all charts
+                if (window.chartInstances) {
+                    window.chartInstances.forEach(function(chartInfo) {
+                        updateChartYearFilter(chartInfo.chart, chartInfo.id, selectedYears, showAllYears);
+                    });
+                }
+            });
+        }
+        
+        // Update chart based on year filter
+        function updateChartYearFilter(chart, chartId, selectedYears, showAllYears) {
+            if (chartId === 'distributionChart') {
+                // For distribution chart (showing multiple years as separate datasets)
+                chart.data.datasets.forEach(function(dataset) {
+                    if (showAllYears) {
+                        dataset.hidden = false;
+                    } else {
+                        dataset.hidden = selectedYears.indexOf(dataset.label) === -1;
+                    }
+                });
+                chart.update();
+            } else if (chartId === 'trendChart' || chartId === 'firstClassChart') {
+                // For line/bar charts with years on x-axis
+                // We'll create a temporary filter to show only selected years
+                if (showAllYears) {
+                    // Show all data points
+                    chart.data.labels.forEach(function(_, index) {
+                        chart.data.datasets.forEach(function(dataset) {
+                            dataset.originalData = dataset.originalData || [...dataset.data];
+                            dataset.data[index] = dataset.originalData[index];
+                        });
+                    });
+                } else {
+                    // Filter to show only selected years
+                    chart.data.labels.forEach(function(year, index) {
+                        chart.data.datasets.forEach(function(dataset) {
+                            dataset.originalData = dataset.originalData || [...dataset.data];
+                            
+                            if (selectedYears.indexOf(year.toString()) === -1) {
+                                // Hide this year by setting its data point to null
+                                dataset.data[index] = null;
+                            } else {
+                                // Show this year
+                                dataset.data[index] = dataset.originalData[index];
+                            }
+                        });
+                    });
+                }
+                chart.update();
+            }
+        }
+        
+        // Main analysis function
+        function analyzeData() {
+            var data = collectTableData();
+            
+            if (!data || data.length === 0) {
+                $('#resultsContainer').html('<div class="info-box"><div class="info-box-title"><i class="fas fa-info-circle"></i> No Data Available</div><div class="info-content"><p>Please enter valid grade data to analyze.</p></div></div>');
+                return;
+            }
+            
+            // Apply module filter
+            var moduleFilter = $('#moduleFilter').val();
+            if (moduleFilter !== 'all') {
+                data = data.filter(function(item) {
+                    return item.module === moduleFilter;
+                });
+                
+                if (data.length === 0) {
+                    $('#resultsContainer').html('<div class="info-box"><div class="info-box-title"><i class="fas fa-info-circle"></i> No Data Available</div><div class="info-content"><p>No data available for the selected module.</p></div></div>');
+                    return;
+                }
+            }
+            
+            var analysis = calculateAnalysis(data);
+            var html = generateReportHtml(analysis);
+            
+            $('#resultsContainer').html(html);
+            var chartInstances = createCharts(analysis);
+            
+            // Update filters
+            updateModuleFilter();
+            updateYearFilter(analysis.years, chartInstances);
+        }
+        
+        // Collect data from table
+        function collectTableData() {
+            var data = [];
+            
+            $('#dataTable tbody tr').each(function() {
+                var cells = $(this).find('td');
+                var year = cells.eq(0).text().trim();
+                var module = cells.eq(1).text().trim();
+                var grade = parseFloat(cells.eq(2).text().trim());
+                
+                if (year && module && !isNaN(grade)) {
+                    data.push({
+                        year: parseInt(year),
+                        module: module,
+                        grade: grade
+                    });
+                }
+            });
+            
+            return data;
+        }
+        
+        // Calculate statistics and analysis
+        function calculateAnalysis(data) {
+            // Group by year
+            var yearGroups = {};
+            var years = [];
+            
+            data.forEach(function(item) {
+                if (!yearGroups[item.year]) {
+                    yearGroups[item.year] = [];
+                    years.push(item.year);
+                }
+                yearGroups[item.year].push(item);
+            });
+            
+            years.sort();
+            
+            // Group by module
+            var moduleGroups = {};
+            var modules = [];
+            
+            data.forEach(function(item) {
+                if (!moduleGroups[item.module]) {
+                    moduleGroups[item.module] = [];
+                    modules.push(item.module);
+                }
+                moduleGroups[item.module].push(item);
+            });
+            
+            modules.sort();
+            
+            // Calculate yearly statistics
+            var yearlyStats = {};
+            years.forEach(function(year) {
+                var grades = yearGroups[year].map(function(item) { return item.grade; });
+                yearlyStats[year] = calculateStatistics(grades);
+                
+                // Add module breakdown
+                yearlyStats[year].moduleBreakdown = {};
+                
+                modules.forEach(function(module) {
+                    var moduleItems = yearGroups[year].filter(function(item) {
+                        return item.module === module;
+                    });
+                    
+                    if (moduleItems.length > 0) {
+                        var moduleGrades = moduleItems.map(function(item) { return item.grade; });
+                        yearlyStats[year].moduleBreakdown[module] = calculateStatistics(moduleGrades);
+                    }
+                });
+            });
+            
+            // Calculate module statistics
+            var moduleStats = {};
+            modules.forEach(function(module) {
+                var grades = moduleGroups[module].map(function(item) { return item.grade; });
+                moduleStats[module] = calculateStatistics(grades);
+                
+                // Add yearly trends
+                moduleStats[module].yearTrend = {};
+                
+                years.forEach(function(year) {
+                    var yearItems = moduleGroups[module].filter(function(item) {
+                        return item.year === year;
+                    });
+                    
+                    if (yearItems.length > 0) {
+                        var yearGrades = yearItems.map(function(item) { return item.grade; });
+                        moduleStats[module].yearTrend[year] = calculateStatistics(yearGrades);
+                    }
+                });
+            });
+            
+            // Calculate grade bands by year
+            var gradeBands = {
+                '70-100': { name: 'First/Distinction' },
+                '60-69': { name: '2:1/Merit' },
+                '50-59': { name: '2:2/Pass' },
+                '40-49': { name: 'Third' },
+                '0-39': { name: 'Fail' }
+            };
+            
+            years.forEach(function(year) {
+                var yearData = yearGroups[year];
+                
+                Object.keys(gradeBands).forEach(function(band) {
+                    var [min, max] = band.split('-').map(Number);
+                    
+                    var count = yearData.filter(function(item) {
+                        return item.grade >= min && item.grade <= max;
+                    }).length;
+                    
+                    var percentage = (count / yearData.length) * 100;
+                    
+                    if (!gradeBands[band].years) {
+                        gradeBands[band].years = {};
+                    }
+                    
+                    gradeBands[band].years[year] = {
+                        count: count,
+                        percentage: percentage
+                    };
+                });
+                
+                // Module breakdown for each band
+                modules.forEach(function(module) {
+                    var moduleYearData = yearData.filter(function(item) {
+                        return item.module === module;
+                    });
+                    
+                    if (moduleYearData.length > 0) {
+                        Object.keys(gradeBands).forEach(function(band) {
+                            var [min, max] = band.split('-').map(Number);
+                            
+                            var count = moduleYearData.filter(function(item) {
+                                return item.grade >= min && item.grade <= max;
+                            }).length;
+                            
+                            var percentage = (count / moduleYearData.length) * 100;
+                            
+                            if (!gradeBands[band].moduleYears) {
+                                gradeBands[band].moduleYears = {};
+                            }
+                            
+                            if (!gradeBands[band].moduleYears[module]) {
+                                gradeBands[band].moduleYears[module] = {};
+                            }
+                            
+                            gradeBands[band].moduleYears[module][year] = {
+                                count: count,
+                                percentage: percentage
+                            };
+                        });
+                    }
+                });
+            });
+            
+            // Calculate inflation metrics
+            var firstYear = years[0];
+            var lastYear = years[years.length - 1];
+            var yearSpan = lastYear - firstYear;
+            
+            var firstYearMean = yearlyStats[firstYear].mean;
+            var lastYearMean = yearlyStats[lastYear].mean;
+            var overallChange = lastYearMean - firstYearMean;
+            var annualChange = yearSpan > 0 ? overallChange / yearSpan : 0;
+            
+            var firstClassFirst = gradeBands['70-100'].years[firstYear].percentage;
+            var firstClassLast = gradeBands['70-100'].years[lastYear].percentage;
+            var firstClassChange = firstClassLast - firstClassFirst;
+            
+            var severity = 'none';
+            var label = 'No significant grade inflation detected';
+            
+            if (annualChange > 1.5 || firstClassChange > 15) {
+                severity = 'high';
+                label = 'Significant grade inflation detected';
+            } else if (annualChange > 0.75 || firstClassChange > 7) {
+                severity = 'medium';
+                label = 'Moderate grade inflation detected';
+            } else if (annualChange > 0.3 || firstClassChange > 3) {
+                severity = 'low';
+                label = 'Slight grade inflation detected';
+            }
+            
+            // Module-specific inflation
+            var moduleInflation = {};
+            modules.forEach(function(module) {
+                var moduleYears = Object.keys(moduleStats[module].yearTrend).map(Number).sort();
+                if (moduleYears.length < 2) return;
+                
+                var moduleFirstYear = moduleYears[0];
+                var moduleLastYear = moduleYears[moduleYears.length - 1];
+                var moduleYearSpan = moduleLastYear - moduleFirstYear;
+                
+                var moduleFirstMean = moduleStats[module].yearTrend[moduleFirstYear].mean;
+                var moduleLastMean = moduleStats[module].yearTrend[moduleLastYear].mean;
+                var moduleOverallChange = moduleLastMean - moduleFirstMean;
+                var moduleAnnualChange = moduleYearSpan > 0 ? moduleOverallChange / moduleYearSpan : 0;
+                
+                var moduleFirstClass = gradeBands['70-100'].moduleYears?.[module]?.[moduleFirstYear]?.percentage || 0;
+                var moduleLastClass = gradeBands['70-100'].moduleYears?.[module]?.[moduleLastYear]?.percentage || 0;
+                var moduleFirstClassChange = moduleLastClass - moduleFirstClass;
+                
+                var moduleSeverity = 'none';
+                var moduleLabel = 'No significant inflation';
+                
+                if (moduleAnnualChange > 1.5 || moduleFirstClassChange > 15) {
+                    moduleSeverity = 'high';
+                    moduleLabel = 'Significant inflation';
+                } else if (moduleAnnualChange > 0.75 || moduleFirstClassChange > 7) {
+                    moduleSeverity = 'medium';
+                    moduleLabel = 'Moderate inflation';
+                } else if (moduleAnnualChange > 0.3 || moduleFirstClassChange > 3) {
+                    moduleSeverity = 'low';
+                    moduleLabel = 'Slight inflation';
+                }
+                
+                moduleInflation[module] = {
+                    firstYear: moduleFirstYear,
+                    lastYear: moduleLastYear,
+                    yearSpan: moduleYearSpan,
+                    overallChange: moduleOverallChange,
+                    annualChange: moduleAnnualChange,
+                    firstClassChange: moduleFirstClassChange,
+                    severity: moduleSeverity,
+                    label: moduleLabel
+                };
+            });
+            
+            return {
+                data: data,
+                years: years,
+                modules: modules,
+                yearGroups: yearGroups,
+                moduleGroups: moduleGroups,
+                yearlyStats: yearlyStats,
+                moduleStats: moduleStats,
+                gradeBands: gradeBands,
+                inflation: {
+                    firstYear: firstYear,
+                    lastYear: lastYear,
+                    yearSpan: yearSpan,
+                    overallChange: overallChange,
+                    annualChange: annualChange,
+                    firstClassChange: firstClassChange,
+                    severity: severity,
+                    label: label
+                },
+                moduleInflation: moduleInflation
+            };
+        }
+        
+        // Calculate detailed statistics
+        function calculateStatistics(values) {
+            if (!values || values.length === 0) return null;
+            
+            // Sort values for percentiles
+            var sorted = values.slice().sort(function(a, b) { return a - b; });
+            
+            var sum = sorted.reduce(function(acc, val) { return acc + val; }, 0);
+            var mean = sum / sorted.length;
+            var min = sorted[0];
+            var max = sorted[sorted.length - 1];
+            var range = max - min;
+            
+            // Median (50th percentile)
+            var median = sorted.length % 2 === 0 
+                ? (sorted[sorted.length / 2 - 1] + sorted[sorted.length / 2]) / 2 
+                : sorted[Math.floor(sorted.length / 2)];
+            
+            // Quartiles
+            var q1Index = Math.floor(sorted.length * 0.25);
+            var q3Index = Math.floor(sorted.length * 0.75);
+            var q1 = sorted[q1Index];
+            var q3 = sorted[q3Index];
+            var iqr = q3 - q1;
+            
+            // Standard deviation
+            var squareDiffs = sorted.map(function(value) {
+                var diff = value - mean;
+                return diff * diff;
+            });
+            
+            var avgSquareDiff = squareDiffs.reduce(function(acc, val) { return acc + val; }, 0) / sorted.length;
+            var stdDev = Math.sqrt(avgSquareDiff);
+            
+            return {
+                count: sorted.length,
+                min: min,
+                max: max,
+                range: range,
+                mean: mean,
+                median: median,
+                q1: q1,
+                q3: q3,
+                iqr: iqr,
+                stdDev: stdDev
+            };
+        }
+        
+        // Generate HTML report
+        function generateReportHtml(analysis) {
+            var html = '';
+            
+            // Add institution name if provided
+            var institutionName = $('#institutionName').val().trim();
+            if (institutionName) {
+                html += '<h2 class="text-xl font-bold mb-4">' + institutionName + '</h2>';
+            }
+            
+            // Add module filter info
+            var moduleFilter = $('#moduleFilter').val();
+            var title = moduleFilter === 'all' ? 'All Modules/Courses' : moduleFilter;
+            html += '<h3 class="text-lg font-semibold mb-4">Grade Inflation Analysis: ' + title + ' (' + analysis.inflation.firstYear + '-' + analysis.inflation.lastYear + ')</h3>';
+            
+            // Add summary box
+            var severityClass = 'info-box';
+            var severityIconClass = 'fas fa-info-circle';
+            if (analysis.inflation.severity === 'high') {
+                severityIconClass = 'fas fa-exclamation-triangle';
+            } else if (analysis.inflation.severity === 'medium') {
+                severityIconClass = 'fas fa-exclamation-circle';
+            }
+            
+            html += '<div class="' + severityClass + ' mb-6">' +
+                '<div class="info-box-title">' +
+                '<i class="' + severityIconClass + '"></i>' +
+                ' ' + analysis.inflation.label +
+                '</div>' +
+                '<div class="info-content">' +
+                '<p>Average grade increased by ' + analysis.inflation.overallChange.toFixed(2) + ' points over ' + 
+                analysis.inflation.yearSpan + ' years (' + analysis.inflation.annualChange.toFixed(2) + ' points per year)</p>' +
+                '<p>First class awards (70%+) ' + (analysis.inflation.firstClassChange >= 0 ? 'increased' : 'decreased') + 
+                ' by ' + Math.abs(analysis.inflation.firstClassChange).toFixed(1) + ' percentage points</p>' +
+                '</div>' +
+                '</div>';
+            
+            // Create charts containers
+            html += '<div class="chart-container">' +
+                '<div class="chart-header">' +
+                '<div class="chart-title">Mean Grade Trend</div>' +
+                '<div class="chart-actions no-print">' +
+                '<button class="icon-button" onclick="exportChart(\'trendChart\', \'Mean_Grade_Trend\')"><i class="fas fa-download"></i></button>' +
+                '<button class="icon-button" onclick="copyChartToClipboard(\'trendChart\')"><i class="fas fa-copy"></i></button>' +
+                '</div>' +
+                '</div>' +
+                '<canvas id="trendChart" height="250"></canvas>' +
+                '</div>';
+            
+            html += '<div class="chart-container">' +
+                '<div class="chart-header">' +
+                '<div class="chart-title">Grade Distribution by Year</div>' +
+                '<div class="chart-actions no-print">' +
+                '<button class="icon-button" onclick="exportChart(\'distributionChart\', \'Grade_Distribution\')"><i class="fas fa-download"></i></button>' +
+                '<button class="icon-button" onclick="copyChartToClipboard(\'distributionChart\')"><i class="fas fa-copy"></i></button>' +
+                '</div>' +
+                '</div>' +
+                '<canvas id="distributionChart" height="250"></canvas>' +
+                '</div>';
+            
+            html += '<div class="chart-container">' +
+                '<div class="chart-header">' +
+                '<div class="chart-title">First Class Awards (70%+) by Year</div>' +
+                '<div class="chart-actions no-print">' +
+                '<button class="icon-button" onclick="exportChart(\'firstClassChart\', \'First_Class_Awards\')"><i class="fas fa-download"></i></button>' +
+                '<button class="icon-button" onclick="copyChartToClipboard(\'firstClassChart\')"><i class="fas fa-copy"></i></button>' +
+                '</div>' +
+                '</div>' +
+                '<canvas id="firstClassChart" height="250"></canvas>' +
+                '</div>';
+            
+            // Year-by-Year Statistics Table
+            html += '<h3 class="text-xl font-bold mb-2 mt-4">Year-by-Year Statistics</h3>' +
+                '<table class="stats-table">' +
+                '<tr>' +
+                '<th>Year</th>' +
+                '<th>Students</th>' +
+                '<th>Mean</th>' +
+                '<th>Median</th>' +
+                '<th>Std Dev</th>' +
+                '<th>Q1</th>' +
+                '<th>Q3</th>' +
+                '<th>First Class %</th>' +
+                '<th>YoY Change</th>' +
+                '</tr>';
+            
+            var prevYearMean = null;
+            
+            analysis.years.forEach(function(year, index) {
+                var stats = analysis.yearlyStats[year];
+                var firstClassPct = analysis.gradeBands['70-100'].years[year].percentage;
+                
+                // Calculate year-over-year change
+                var changeText = '';
+                var changeClass = '';
+                
+                if (index > 0) {
+                    var prevYear = analysis.years[index - 1];
+                    var prevMean = analysis.yearlyStats[prevYear].mean;
+                    var change = stats.mean - prevMean;
+                    var direction = change >= 0 ? '+' : '';
+                    changeText = direction + change.toFixed(2);
+                    
+                    if (change >= 0.5) {
+                        changeClass = 'trend-up';
+                    } else if (change <= -0.5) {
+                        changeClass = 'trend-down';
+                    } else {
+                        changeClass = 'trend-stable';
+                    }
+                }
+                
+                html += '<tr>' +
+                    '<td><strong>' + year + '</strong></td>' +
+                    '<td>' + stats.count + '</td>' +
+                    '<td>' + stats.mean.toFixed(2) + '</td>' +
+                    '<td>' + stats.median.toFixed(1) + '</td>' +
+                    '<td>' + stats.stdDev.toFixed(2) + '</td>' +
+                    '<td>' + stats.q1.toFixed(1) + '</td>' +
+                    '<td>' + stats.q3.toFixed(1) + '</td>' +
+                    '<td>' + firstClassPct.toFixed(1) + '%</td>' +
+                    '<td class="' + changeClass + '">' + changeText + '</td>' +
+                    '</tr>';
+                
+                prevYearMean = stats.mean;
+            });
+            
+            html += '</table>';
+            
+            // Module-specific analysis if showing all modules
+            if (moduleFilter === 'all' && analysis.modules.length > 1) {
+                html += '<h3 class="text-xl font-bold mb-2 mt-4">Module-Specific Analysis</h3>' +
+                    '<table class="stats-table">' +
+                    '<tr>' +
+                    '<th>Module</th>' +
+                    '<th>Students</th>' +
+                    '<th>Mean</th>' +
+                    '<th>Annual Change</th>' +
+                    '<th>First Class Change</th>' +
+                    '<th>Inflation Status</th>' +
+                    '</tr>';
+                
+                analysis.modules.forEach(function(module) {
+                    var moduleStats = analysis.moduleStats[module];
+                    var moduleInflation = analysis.moduleInflation[module];
+                    
+                    if (!moduleInflation) return;
+                    
+                    var inflationClass = '';
+                    if (moduleInflation.severity === 'high') {
+                        inflationClass = 'trend-up';
+                    } else if (moduleInflation.severity === 'low') {
+                        inflationClass = 'trend-stable';
+                    }
+                    
+                    html += '<tr>' +
+                        '<td><strong>' + module + '</strong></td>' +
+                        '<td>' + moduleStats.count + '</td>' +
+                        '<td>' + moduleStats.mean.toFixed(2) + '</td>' +
+                        '<td>' + moduleInflation.annualChange.toFixed(2) + ' pts/year</td>' +
+                        '<td>' + (moduleInflation.firstClassChange >= 0 ? '+' : '') + moduleInflation.firstClassChange.toFixed(1) + '%</td>' +
+                        '<td class="' + inflationClass + '">' + moduleInflation.label + '</td>' +
+                        '</tr>';
+                });
+                
+                html += '</table>';
+            }
+            
+            // Grade band distribution
+            html += '<h3 class="text-xl font-bold mb-2 mt-4">Grade Band Distribution</h3>' +
+                '<table class="stats-table">' +
+                '<tr>' +
+                '<th>Grade Band</th>';
+            
+            // Add year columns
+            analysis.years.forEach(function(year) {
+                html += '<th>' + year + '</th>';
+            });
+            
+            // Add change column
+            html += '<th>Change</th>' +
+                '</tr>';
+            
+            // Add rows for each grade band
+            var bands = ['70-100', '60-69', '50-59', '40-49', '0-39'];
+            
+            bands.forEach(function(band) {
+                var bandInfo = analysis.gradeBands[band];
+                
+                html += '<tr>' +
+                    '<td><strong>' + bandInfo.name + ' (' + band + '%)</strong></td>';
+                
+                // Add percentages for each year
+                analysis.years.forEach(function(year) {
+                    var percentage = bandInfo.years[year].percentage;
+                    html += '<td>' + percentage.toFixed(1) + '%</td>';
+                });
+                
+                // Calculate change from first to last year
+                var firstYear = analysis.years[0];
+                var lastYear = analysis.years[analysis.years.length - 1];
+                var firstPercentage = bandInfo.years[firstYear].percentage;
+                var lastPercentage = bandInfo.years[lastYear].percentage;
+                var change = lastPercentage - firstPercentage;
+                var direction = change >= 0 ? '+' : '';
+                
+                var changeClass = '';
+                if (band === '70-100' || band === '60-69') {
+                    // For top bands, increase is concerning (red)
+                    changeClass = change >= 3 ? 'trend-up' : 
+                                 change <= -3 ? 'trend-down' : 'trend-stable';
+                } else if (band === '0-39') {
+                    // For fail band, decrease is concerning (red)
+                    changeClass = change <= -3 ? 'trend-up' : 
+                                 change >= 3 ? 'trend-down' : 'trend-stable';
+                }
+                
+                html += '<td class="' + changeClass + '">' + direction + change.toFixed(1) + '%</td>' +
+                    '</tr>';
+            });
+            
+            html += '</table>';
+            
+            // Recommendations Section
+            html += '<h3 class="text-xl font-bold mb-2 mt-4">Recommendations</h3>' +
+                '<ul class="list-disc pl-5 space-y-1">';
+            
+            if (analysis.inflation.severity === 'high') {
+                html += '<li><strong>Urgent Review Needed:</strong> Significant grade inflation detected with an average annual increase of ' + 
+                    analysis.inflation.annualChange.toFixed(2) + ' grade points.</li>' +
+                    '<li><strong>Moderation Process Review:</strong> Consider implementing stricter moderation processes to ensure grading standards remain consistent.</li>' +
+                    '<li><strong>Assessment Criteria:</strong> Review and potentially revise assessment criteria to ensure appropriate challenge level.</li>' +
+                    '<li><strong>Benchmarking:</strong> Compare with sector norms to determine if this is a local or wider trend.</li>';
+            } else if (analysis.inflation.severity === 'medium') {
+                html += '<li><strong>Regular Monitoring:</strong> Moderate grade inflation detected with an average annual increase of ' + 
+                    analysis.inflation.annualChange.toFixed(2) + ' grade points.</li>' +
+                    '<li><strong>Assessment Review:</strong> Review assessment designs to ensure they maintain appropriate academic standards.</li>' +
+                    '<li><strong>Marker Calibration:</strong> Consider additional calibration exercises for markers.</li>';
+            } else if (analysis.inflation.severity === 'low') {
+                html += '<li><strong>Continued Monitoring:</strong> Slight grade inflation detected with an average annual increase of ' + 
+                    analysis.inflation.annualChange.toFixed(2) + ' grade points.</li>' +
+                    '<li><strong>Periodic Review:</strong> Maintain regular reviews of grading patterns.</li>';
+            } else {
+                html += '<li><strong>Maintain Standards:</strong> No significant grade inflation detected. Continue with current assessment practices.</li>';
+            }
+            
+            // Module-specific recommendations
+            if (moduleFilter === 'all' && analysis.modules.length > 1) {
+                var highInflationModules = analysis.modules.filter(function(module) {
+                    return analysis.moduleInflation[module]?.severity === 'high';
+                });
+                
+                if (highInflationModules.length > 0) {
+                    html += '<li><strong>Module-Specific Attention:</strong> The following modules show significant inflation and require focused review: ' + 
+                        highInflationModules.join(', ') + '.</li>';
+                }
+            }
+            
+            html += '<li><strong>Longitudinal Analysis:</strong> Continue tracking grading patterns over time to identify emerging trends.</li>' +
+                '</ul>';
+            
+            return html;
+        }
+        
+        // Create charts
+        function createCharts(analysis) {
+            // Array to store chart instances for later reference
+            var chartInstances = [];
+            
+            // Trend chart
+            var trendCtx = document.getElementById('trendChart').getContext('2d');
+            var meanValues = [];
+            var medianValues = [];
+            
+            analysis.years.forEach(function(year) {
+                meanValues.push(analysis.yearlyStats[year].mean);
+                medianValues.push(analysis.yearlyStats[year].median);
+            });
+            
+            var trendChart = new Chart(trendCtx, {
+                type: 'line',
+                data: {
+                    labels: analysis.years,
+                    datasets: [
+                        {
+                            label: 'Mean Grade',
+                            data: meanValues,
+                            borderColor: '#3b82f6',
+                            backgroundColor: 'rgba(59, 130, 246, 0.1)',
+                            borderWidth: 2,
+                            fill: true,
+                            tension: 0.3
+                        },
+                        {
+                            label: 'Median Grade',
+                            data: medianValues,
+                            borderColor: '#10b981',
+                            borderWidth: 2,
+                            borderDash: [5, 5],
+                            fill: false,
+                            tension: 0.3
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            position: 'top'
+                        },
+                        tooltip: {
+                            mode: 'index',
+                            intersect: false
+                        }
+                    },
+                    scales: {
+                        y: {
+                            min: getMinScaleValue(meanValues, medianValues),
+                            max: getMaxScaleValue(meanValues, medianValues),
+                            title: {
+                                display: true,
+                                text: 'Grade'
+                            }
+                        }
+                    }
+                }
+            });
+            
+            chartInstances.push({
+                id: 'trendChart',
+                chart: trendChart
+            });
+            
+            // Distribution chart
+            var distributionCtx = document.getElementById('distributionChart').getContext('2d');
+            var bands = ['70-100', '60-69', '50-59', '40-49', '0-39'];
+            var datasets = [];
+            
+            analysis.years.forEach(function(year, index) {
+                datasets.push({
+                    label: year.toString(),
+                    data: bands.map(function(band) {
+                        return analysis.gradeBands[band].years[year].percentage;
+                    }),
+                    backgroundColor: getColorForIndex(index)
+                });
+            });
+            
+            var distributionChart = new Chart(distributionCtx, {
+                type: 'bar',
+                data: {
+                    labels: bands.map(function(band) { 
+                        return analysis.gradeBands[band].name + ' (' + band + '%)'; 
+                    }),
+                    datasets: datasets
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            position: 'top'
+                        },
+                        tooltip: {
+                            mode: 'index',
+                            intersect: false
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            max: 100,
+                            title: {
+                                display: true,
+                                text: 'Percentage of Students'
+                            }
+                        }
+                    }
+                }
+            });
+            
+            chartInstances.push({
+                id: 'distributionChart',
+                chart: distributionChart
+            });
+            
+            // First Class chart
+            var firstClassCtx = document.getElementById('firstClassChart').getContext('2d');
+            var firstClassData = [];
+            
+            analysis.years.forEach(function(year) {
+                firstClassData.push(analysis.gradeBands['70-100'].years[year].percentage);
+            });
+            
+            var firstClassChart = new Chart(firstClassCtx, {
+                type: 'bar',
+                data: {
+                    labels: analysis.years,
+                    datasets: [
+                        {
+                            label: 'First Class Awards (%)',
+                            data: firstClassData,
+                            backgroundColor: 'rgba(59, 130, 246, 0.7)',
+                            borderColor: 'rgba(59, 130, 246, 1)',
+                            borderWidth: 1
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            position: 'top'
+                        },
+                        tooltip: {
+                            mode: 'index',
+                            intersect: false
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            max: Math.min(100, Math.ceil(Math.max(...firstClassData) * 1.2)),
+                            title: {
+                                display: true,
+                                text: 'Percentage of Students'
+                            }
+                        }
+                    }
+                }
+            });
+            
+            chartInstances.push({
+                id: 'firstClassChart',
+                chart: firstClassChart
+            });
+            
+            return chartInstances;
+        }
+        
+        // Helper to get appropriate min Y-axis value
+        function getMinScaleValue(means, medians) {
+            var min = Math.min(...means, ...medians);
+            return Math.max(0, Math.floor(min / 10) * 10 - 5); // Round down to nearest 10 minus 5
+        }
+        
+        // Helper to get appropriate max Y-axis value
+        function getMaxScaleValue(means, medians) {
+            var max = Math.max(...means, ...medians);
+            return Math.min(100, Math.ceil(max / 10) * 10 + 5); // Round up to nearest 10 plus 5
+        }
+        
+        // Helper function to get color for chart
+        function getColorForIndex(index) {
+            var colors = [
+                'rgba(59, 130, 246, 0.7)',   // Blue (accent-color)
+                'rgba(16, 185, 129, 0.7)',   // Green
+                'rgba(245, 158, 11, 0.7)',   // Amber
+                'rgba(249, 115, 22, 0.7)',   // Orange
+                'rgba(239, 68, 68, 0.7)'     // Red
+            ];
+            
+            return colors[index % colors.length];
+        }
+    </script>
+</body>
+</html>
