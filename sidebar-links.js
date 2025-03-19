@@ -1,6 +1,11 @@
 // Define sidebar links data
 const universityLinks = [
     {
+        text: "Home",
+        icon: "fas fa-home",
+        url: "index.html"
+    },
+    {
         text: "University Portal",
         icon: "fas fa-home",
         url: "https://my.mmu.ac.uk/"
@@ -87,6 +92,11 @@ const rightSidebarLinks = [
     {
         text: "Marking Tracker",
         url: "marking-dashboard.html",
+        isCurrent: false
+    },
+    {
+        text: "Mark ConsistencyChecker",
+        url: "consistency-checker.html",
         isCurrent: false
     },
     {
