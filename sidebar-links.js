@@ -95,8 +95,14 @@ const rightSidebarLinks = [
         isCurrent: false
     },
     {
-        text: "Mark ConsistencyChecker",
+        text: "Mark Consistency Checker",
         url: "consistency-checker.html",
+        isCurrent: false
+    },
+
+    {
+        text: "Mark Scaling & Classification Tool",
+        url: "mark-converter.html",
         isCurrent: false
     },
     {
