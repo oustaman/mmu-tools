@@ -1,0 +1,2311 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PhD Research Framework Builder</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .mode-selection {
+            padding: 60px 40px;
+            text-align: center;
+            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+            color: white;
+        }
+
+        .mode-selection h1 {
+            font-size: 2.5em;
+            margin-bottom: 20px;
+            font-weight: 300;
+        }
+
+        .mode-options {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        .mode-card {
+            background: rgba(255,255,255,0.1);
+            border: 2px solid rgba(255,255,255,0.2);
+            border-radius: 15px;
+            padding: 30px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .mode-card:hover {
+            background: rgba(255,255,255,0.2);
+            border-color: rgba(255,255,255,0.5);
+            transform: translateY(-5px);
+        }
+
+        .mode-card h3 {
+            font-size: 1.5em;
+            margin-bottom: 15px;
+            color: #ecf0f1;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+            display: none;
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            font-weight: 300;
+        }
+
+        .view-toggle {
+            margin: 20px 0;
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+        }
+
+        .toggle-btn {
+            background: rgba(255,255,255,0.2);
+            color: white;
+            border: 2px solid rgba(255,255,255,0.3);
+            padding: 10px 20px;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .toggle-btn.active {
+            background: white;
+            color: #2c3e50;
+        }
+
+        .canvas-view {
+            display: none;
+            padding: 40px;
+            background: #f8f9fa;
+        }
+
+        .canvas-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        .canvas-block {
+            border: 2px solid #e9ecef;
+            border-radius: 10px;
+            padding: 15px;
+            background: #f8f9fa;
+            min-height: 120px;
+            position: relative;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .canvas-block:hover {
+            border-color: #3498db;
+            background: #f1f8ff;
+        }
+
+        .canvas-block h3 {
+            font-size: 14px;
+            color: #2c3e50;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .canvas-block.wide {
+            grid-column: 1 / -1;
+        }
+
+        .canvas-input {
+            width: 100%;
+            border: none;
+            background: transparent;
+            font-size: 12px;
+            resize: none;
+            outline: none;
+            font-family: inherit;
+            padding: 5px;
+            min-height: 80px;
+        }
+
+        .info-icon {
+            background: #3498db;
+            color: white;
+            border-radius: 50%;
+            width: 18px;
+            height: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            cursor: help;
+            position: relative;
+        }
+
+        .canvas-tooltip {
+            position: absolute;
+            top: -10px;
+            right: 25px;
+            width: 200px;
+            background: #2c3e50;
+            color: white;
+            padding: 8px;
+            border-radius: 6px;
+            font-size: 11px;
+            visibility: hidden;
+            opacity: 0;
+            transition: all 0.3s;
+            z-index: 1000;
+        }
+
+        .canvas-tooltip::after {
+            content: "";
+            position: absolute;
+            top: 10px;
+            left: -5px;
+            border: 5px solid transparent;
+            border-right-color: #2c3e50;
+        }
+
+        .info-icon:hover .canvas-tooltip {
+            visibility: visible;
+            opacity: 1;
+        }
+
+        .form-container {
+            padding: 40px;
+            display: none;
+        }
+
+        .section {
+            margin-bottom: 40px;
+            border: 1px solid #e9ecef;
+            border-radius: 10px;
+            padding: 25px;
+            background: #f8f9fa;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .section.not-applicable {
+            opacity: 0.4;
+            background: #f1f1f1;
+        }
+
+        .section.not-applicable .na-toggle {
+            pointer-events: auto;
+            opacity: 1;
+        }
+
+        .section.not-applicable > *:not(.section-title) {
+            pointer-events: none;
+        }
+
+        .section:hover:not(.not-applicable) {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+        }
+
+        .section-title {
+            font-size: 1.4em;
+            color: #2c3e50;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #3498db;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .section-title-left {
+            display: flex;
+            align-items: center;
+        }
+
+        .section-number {
+            background: #3498db;
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+            font-weight: bold;
+        }
+
+        .section-controls {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .na-toggle, .duplicate-btn, .remove-section-btn {
+            background: #95a5a6;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 12px;
+            transition: all 0.3s ease;
+        }
+
+        .na-toggle.active {
+            background: #e74c3c;
+        }
+
+        .duplicate-btn {
+            background: #f39c12;
+        }
+
+        .remove-section-btn {
+            background: #e74c3c;
+        }
+
+        .field-group {
+            margin-bottom: 20px;
+        }
+
+        .field-label {
+            font-weight: 600;
+            color: #34495e;
+            margin-bottom: 8px;
+            display: block;
+        }
+
+        .why-question {
+            font-style: italic;
+            color: #7f8c8d;
+            font-size: 0.9em;
+            margin-bottom: 8px;
+        }
+
+        .checkbox-group {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .checkbox-item {
+            display: flex;
+            align-items: center;
+            padding: 10px;
+            background: white;
+            border-radius: 8px;
+            border: 2px solid #e9ecef;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .checkbox-item:hover {
+            border-color: #3498db;
+            background: #f1f8ff;
+        }
+
+        .checkbox-item input[type="checkbox"] {
+            margin-right: 10px;
+            transform: scale(1.2);
+            accent-color: #3498db;
+        }
+
+        .checkbox-item input[type="radio"] {
+            margin-right: 10px;
+            transform: scale(1.2);
+            accent-color: #3498db;
+        }
+
+        .text-input {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            font-size: 14px;
+            transition: border-color 0.3s ease;
+            font-family: inherit;
+        }
+
+        .text-input:focus {
+            outline: none;
+            border-color: #3498db;
+            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
+        }
+
+        .textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        .other-field {
+            margin-top: 10px;
+            display: none;
+        }
+
+        .other-field.show {
+            display: block;
+        }
+
+        .justification-field {
+            margin-top: 15px;
+        }
+
+        .justification-field .text-input {
+            min-height: 80px;
+            background: #fff8e1;
+            border-color: #ffc107;
+        }
+
+        .dynamic-field {
+            border: 1px solid #e9ecef;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 10px;
+            background: white;
+            position: relative;
+        }
+
+        .remove-field {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: #e74c3c;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 25px;
+            height: 25px;
+            cursor: pointer;
+            font-size: 12px;
+        }
+
+        .add-field {
+            background: #27ae60;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            margin-top: 10px;
+        }
+
+        .phd-type-selector {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            border: 2px solid #3498db;
+        }
+
+        .phd-info-box {
+            margin-top: 20px;
+            padding: 15px;
+            background: #e3f2fd;
+            border-left: 4px solid #2196f3;
+            border-radius: 0 8px 8px 0;
+            display: none;
+        }
+
+        .phd-info-box h5 {
+            color: #1976d2;
+            margin-bottom: 8px;
+        }
+
+        .tooltip {
+            position: relative;
+            display: inline-block;
+            border-bottom: 1px dotted #999;
+            cursor: help;
+        }
+
+        .tooltip .tooltiptext {
+            visibility: hidden;
+            width: 250px;
+            background-color: #2c3e50;
+            color: #fff;
+            text-align: left;
+            border-radius: 6px;
+            padding: 10px;
+            font-size: 12px;
+            position: absolute;
+            z-index: 1000;
+            bottom: 125%;
+            left: 20px; /* Moved to the right to avoid cutoff */
+            opacity: 0;
+            transition: opacity 0.3s;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+
+        .tooltip .tooltiptext::after {
+            content: "";
+            position: absolute;
+            top: 100%;
+            left: 20px;
+            margin-left: -5px;
+            border-width: 5px;
+            border-style: solid;
+            border-color: #2c3e50 transparent transparent transparent;
+        }
+
+        .tooltip:hover .tooltiptext {
+            visibility: visible;
+            opacity: 1;
+        }
+
+        .two-column {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .three-column {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 15px;
+        }
+
+        .conflict-warning {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            color: #856404;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 20px 0;
+            display: none;
+        }
+
+        .conflict-warning.show {
+            display: block;
+        }
+
+        .variables-dashboard {
+            background: white;
+            border: 2px solid #3498db;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+
+        .variables-dashboard h4 {
+            color: #2c3e50;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+        }
+
+        .dashboard-icon {
+            background: #3498db;
+            color: white;
+            border-radius: 50%;
+            width: 24px;
+            height: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 10px;
+            font-size: 12px;
+        }
+
+        .variable-card {
+            background: #f8f9fa;
+            border: 1px solid #e9ecef;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 10px;
+        }
+
+        .variable-type {
+            display: inline-block;
+            background: #17a2b8;
+            color: white;
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 10px;
+            margin-bottom: 5px;
+        }
+
+        .variable-type.quantitative {
+            background: #28a745;
+        }
+
+        .variable-type.qualitative {
+            background: #6f42c1;
+        }
+
+        .variable-type.mixed {
+            background: #fd7e14;
+        }
+
+        .compatibility-alert {
+            background: #f8d7da;
+            border: 1px solid #f5c6cb;
+            color: #721c24;
+            padding: 10px;
+            border-radius: 6px;
+            margin-top: 10px;
+            font-size: 12px;
+        }
+
+        .compatibility-good {
+            background: #d4edda;
+            border-color: #c3e6cb;
+            color: #155724;
+        }
+
+        .framework-explanation {
+            background: #e3f2fd;
+            border-left: 4px solid #2196f3;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .framework-explanation h5 {
+            color: #1976d2;
+            margin-bottom: 8px;
+        }
+
+        .actions {
+            text-align: center;
+            padding: 30px;
+            background: #f8f9fa;
+            border-top: 1px solid #e9ecef;
+        }
+
+        .btn {
+            background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin: 0 10px;
+            box-shadow: 0 4px 15px rgba(52, 152, 219, 0.3);
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(52, 152, 219, 0.4);
+        }
+
+        .btn-secondary {
+            background: linear-gradient(135deg, #95a5a6 0%, #7f8c8d 100%);
+            box-shadow: 0 4px 15px rgba(149, 165, 166, 0.3);
+        }
+
+        .btn-success {
+            background: linear-gradient(135deg, #27ae60 0%, #2ecc71 100%);
+            box-shadow: 0 4px 15px rgba(39, 174, 96, 0.3);
+        }
+
+        .summary {
+            background: #e8f5e8;
+            border-left: 4px solid #27ae60;
+            padding: 20px;
+            margin-top: 20px;
+            border-radius: 0 8px 8px 0;
+            display: none;
+        }
+
+        .summary h3 {
+            color: #27ae60;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .copy-btn {
+            background: #2ecc71;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        @media (max-width: 768px) {
+            .two-column, .three-column {
+                grid-template-columns: 1fr;
+            }
+            
+            .checkbox-group {
+                grid-template-columns: 1fr;
+            }
+            
+            .form-container {
+                padding: 20px;
+            }
+            
+            .header {
+                padding: 20px;
+            }
+            
+            .header h1 {
+                font-size: 2em;
+            }
+
+            .canvas-grid {
+                grid-template-columns: 1fr;
+                padding: 20px;
+            }
+
+            .view-toggle {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .mode-options {
+                grid-template-columns: 1fr;
+            }
+
+            .section-controls {
+                flex-direction: column;
+                gap: 5px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Mode Selection Screen -->
+        <div id="mode-selection" class="mode-selection">
+            <h1>PhD Research Framework Builder</h1>
+            <p style="font-size: 1.2em; margin-bottom: 20px;">Choose your preferred working mode</p>
+            
+            <div class="mode-options">
+                <div class="mode-card" onclick="selectMode('canvas')">
+                    <h3>📊 Canvas View</h3>
+                    <p>Quick visual overview perfect for supervisor meetings and presentations. Business Model Canvas-inspired layout that fits on a single A4 page.</p>
+                </div>
+                
+                <div class="mode-card" onclick="selectMode('detailed')">
+                    <h3>📋 Detailed View</h3>
+                    <p>Comprehensive form covering all PhD components. In-depth planning with "why" questions and justification fields to guide your methodological choices.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="header">
+            <h1>PhD Research Framework Builder</h1>
+            <p>Build your comprehensive research framework - for all types of doctoral studies</p>
+            
+            <div class="view-toggle">
+                <button class="toggle-btn active" onclick="switchView('detailed')">Detailed View</button>
+                <button class="toggle-btn" onclick="switchView('canvas')">PhD Canvas</button>
+            </div>
+        </div>
+
+        <!-- Canvas View -->
+        <div id="canvas-view" class="canvas-view">
+            <h2 style="text-align: center; margin-bottom: 30px; color: #2c3e50;">PhD Research Canvas - Click to Edit</h2>
+            <div class="canvas-grid">
+                <div class="canvas-block" onclick="editCanvasBlock('philosophy')">
+                    <h3>
+                        Research Philosophy
+                        <div class="info-icon">
+                            i
+                            <div class="canvas-tooltip">
+                                Examples: "Pragmatic epistemology for mixed methods", "Critical realist ontology", "Interpretivist approach"
+                            </div>
+                        </div>
+                    </h3>
+                    <textarea class="canvas-input" id="canvas-philosophy-input" placeholder="Your philosophical stance and justification..."></textarea>
+                </div>
+                
+                <div class="canvas-block" onclick="editCanvasBlock('type')">
+                    <h3>
+                        PhD Type
+                        <div class="info-icon">
+                            i
+                            <div class="canvas-tooltip">
+                                Examples: "Practice-based PhD in organizational psychology", "Creative practice PhD", "Traditional research PhD"
+                            </div>
+                        </div>
+                    </h3>
+                    <textarea class="canvas-input" id="canvas-type-input" placeholder="Type of PhD and focus area..."></textarea>
+                </div>
+                
+                <div class="canvas-block wide" onclick="editCanvasBlock('questions')">
+                    <h3>
+                        Research Questions & Objectives
+                        <div class="info-icon">
+                            i
+                            <div class="canvas-tooltip">
+                                Examples: "How does X influence Y?", "What are the experiences of...?", "To what extent does..."
+                            </div>
+                        </div>
+                    </h3>
+                    <textarea class="canvas-input" id="canvas-questions-input" placeholder="Main research questions and key objectives..."></textarea>
+                </div>
+                
+                <div class="canvas-block" onclick="editCanvasBlock('methodology')">
+                    <h3>
+                        Methodology
+                        <div class="info-icon">
+                            i
+                            <div class="canvas-tooltip">
+                                Examples: "Mixed methods sequential design", "Phenomenological study", "Action research cycles"
+                            </div>
+                        </div>
+                    </h3>
+                    <textarea class="canvas-input" id="canvas-methodology-input" placeholder="Research approach and design..."></textarea>
+                </div>
+                
+                <div class="canvas-block" onclick="editCanvasBlock('data')">
+                    <h3>
+                        Data & Analysis
+                        <div class="info-icon">
+                            i
+                            <div class="canvas-tooltip">
+                                Examples: "Interviews + thematic analysis", "Surveys + statistical tests", "Creative outputs + reflection"
+                            </div>
+                        </div>
+                    </h3>
+                    <textarea class="canvas-input" id="canvas-data-input" placeholder="Data collection and analysis methods..."></textarea>
+                </div>
+                
+                <div class="canvas-block" onclick="editCanvasBlock('participants')">
+                    <h3>Participants/Context</h3>
+                    <textarea class="canvas-input" id="canvas-participants-input" placeholder="Target population, sampling strategy, context..."></textarea>
+                </div>
+                
+                <div class="canvas-block" onclick="editCanvasBlock('contributions')">
+                    <h3>Key Contributions</h3>
+                    <textarea class="canvas-input" id="canvas-contributions-input" placeholder="Expected contributions to knowledge and practice..."></textarea>
+                </div>
+            </div>
+            <div class="actions">
+                <button type="button" class="btn btn-success" onclick="syncCanvasToForm()">Sync to Detailed View</button>
+                <button type="button" class="btn" onclick="copyCanvas()">Copy Canvas</button>
+            </div>
+        </div>
+
+        <!-- Detailed Form View -->
+        <form class="form-container" id="detailed-view">
+            <!-- PhD Type Selector -->
+            <div class="phd-type-selector">
+                <h3 style="margin-bottom: 15px; color: #2c3e50;">What type of PhD are you pursuing?</h3>
+                <div class="checkbox-group">
+                    <label class="checkbox-item">
+                        <input type="radio" name="phd-type" value="traditional-research" onchange="updatePhdInfo()">
+                        <span><strong>Traditional Research PhD:</strong> Hypothesis-driven, empirical research</span>
+                    </label>
+                    <label class="checkbox-item">
+                        <input type="radio" name="phd-type" value="practice-based" onchange="updatePhdInfo()">
+                        <span><strong>Practice-Based PhD:</strong> Professional practice with research component</span>
+                    </label>
+                    <label class="checkbox-item">
+                        <input type="radio" name="phd-type" value="creative-practice" onchange="updatePhdInfo()">
+                        <span><strong>Creative Practice PhD:</strong> Creative work with critical/theoretical component</span>
+                    </label>
+                    <label class="checkbox-item">
+                        <input type="radio" name="phd-type" value="professional-doctorate" onchange="updatePhdInfo()">
+                        <span><strong>Professional Doctorate:</strong> <span class="tooltip">DBA<span class="tooltiptext">Doctor of Business Administration</span></span>, <span class="tooltip">EdD<span class="tooltiptext">Doctor of Education</span></span>, etc. - workplace-focused</span>
+                    </label>
+                    <label class="checkbox-item">
+                        <input type="radio" name="phd-type" value="interdisciplinary" onchange="updatePhdInfo()">
+                        <span><strong>Interdisciplinary PhD:</strong> Cross-disciplinary research</span>
+                    </label>
+                </div>
+                
+                <!-- PhD Type Info Box -->
+                <div id="phd-info-box" class="phd-info-box">
+                    <h5>About this PhD type:</h5>
+                    <div id="phd-description"></div>
+                </div>
+            </div>
+
+            <div class="conflict-warning" id="conflict-warning">
+                <strong>⚠️ Potential Conflicts Detected:</strong>
+                <ul id="conflict-list"></ul>
+            </div>
+
+            <!-- Section 1: Research Philosophy -->
+            <div class="section" id="section-1">
+                <h2 class="section-title">
+                    <div class="section-title-left">
+                        <span class="section-number">1</span>
+                        Research Philosophy & Paradigms
+                    </div>
+                    <div class="section-controls">
+                        <button type="button" class="na-toggle" onclick="toggleNotApplicable('section-1')">To be thought later/N/A</button>
+                    </div>
+                </h2>
+                
+                <div class="field-group">
+                    <label class="field-label">Ontology (Nature of Reality)</label>
+                    <div class="why-question">Why does your view of reality matter for your research approach?</div>
+                    <div class="checkbox-group">
+                        <label class="checkbox-item">
+                            <input type="radio" name="ontology" value="objectivist" onchange="checkConflicts()">
+                            <span><strong>Objectivist:</strong> Reality exists independently</span>
+                        </label>
+                        <label class="checkbox-item">
+                            <input type="radio" name="ontology" value="subjectivist" onchange="checkConflicts()">
+                            <span><strong>Subjectivist:</strong> Reality is socially constructed</span>
+                        </label>
+                        <label class="checkbox-item">
+                            <input type="radio" name="ontology" value="critical-realist" onchange="checkConflicts()">
+                            <span><strong>Critical Realist:</strong> Reality mediated by social structures</span>
+                        </label>
+                        <label class="checkbox-item">
+                            <input type="radio" name="ontology" value="pragmatic-realist" onchange="checkConflicts()">
+                            <span><strong>Pragmatic Realist:</strong> Focus on practical outcomes over abstract reality</span>
+                        </label>
+                        <label class="checkbox-item">
+                            <input type="radio" name="ontology" value="other" onchange="toggleOtherField('ontology-other'); checkConflicts()">
+                            <span><strong>Other</strong></span>
+                        </label>
+                    </div>
+                    <div class="other-field" id="ontology-other">
+                        <input type="text" class="text-input" placeholder="Please specify your ontological position" name="ontology-other-text">
+                    </div>
+                </div>
+
+                <div class="field-group">
+                    <label class="field-label">Epistemology (Nature of Knowledge)</label>
+                    <div class="why-question">How does your view of knowledge influence your research methods?</div>
+                    <div class="checkbox-group">
+                        <label class="checkbox-item">
+                            <input type="radio" name="epistemology" value="positivist" onchange="checkConflicts()">
+                            <span><strong>Positivist:</strong> Knowledge through observation & measurement</span>
+                        </label>
+                        <label class="checkbox-item">
+                            <input type="radio" name="epistemology" value="interpretivist" onchange="checkConflicts()">
+                            <span><strong>Interpretivist:</strong> Knowledge through understanding meanings</span>
+                        </label>
+                        <label class="checkbox-item">
+                            <input type="radio" name="epistemology" value="pragmatic" onchange="checkConflicts()">
+                            <span><strong>Pragmatic:</strong> Knowledge through what works</span>
+                        </label>
+                        <label class="checkbox-item">
+                            <input type="radio" name="epistemology" value="critical-theory" onchange="checkConflicts()">
+                            <span><strong>Critical Theory:</strong> Knowledge through critique and transformation</span>
+                        </label>
+                        <label class="checkbox-item">
+                            <input type="radio" name="epistemology" value="constructivist" onchange="checkConflicts()">
+                            <span><strong>Constructivist:</strong> Knowledge is actively constructed</span>
+                        </label>
+                        <label class="checkbox-item">
+                            <input type="radio" name="epistemology" value="other" onchange="toggleOtherField('epistemology-other'); checkConflicts()">
+                            <span><strong>Other</strong></span>
+                        </label>
+                    </div>
+                    <div class="other-field" id="epistemology-other">
+                        <input type="text" class="text-input" placeholder="Please specify your epistemological position" name="epistemology-other-text">
+                    </div>
+                </div>
+
+                <div class="justification-field">
+                    <label class="field-label" for="philosophy-justification">Philosophy Justification</label>
+                    <div class="why-question">Why are these philosophical positions appropriate for your research topic and questions?</div>
+                    <textarea id="philosophy-justification" class="text-input textarea" placeholder="Explain how your philosophical stance aligns with your research approach and why these positions are most suitable for your study..."></textarea>
+                </div>
+            </div>
+
+            <!-- Section 2: Research Questions & Objectives -->
+            <div class="section" id="section-2">
+                <h2 class="section-title">
+                    <div class="section-title-left">
+                        <span class="section-number">2</span>
+                        Research Questions & Objectives
+                    </div>
+                    <div class="section-controls">
+                        <button type="button" class="na-toggle" onclick="toggleNotApplicable('section-2')">To be thought later/N/A</button>
+                    </div>
+                </h2>
+                
+                <div class="field-group">
+                    <label class="field-label" for="research-topic">Research Topic/Title</label>
+                    <input type="text" id="research-topic" class="text-input" placeholder="Enter your research topic or working title">
+                </div>
+
+                <div class="field-group">
+                    <label class="field-label">Research Questions</label>
+                    <div class="why-question">Why are these questions significant and answerable within a PhD timeframe?</div>
+                    <div id="research-questions-container">
+                        <div class="dynamic-field">
+                            <label>Main Research Question:</label>
+                            <textarea class="text-input textarea" name="research-question" placeholder="What is your primary research question?"></textarea>
+                        </div>
+                    </div>
+                    <button type="button" class="add-field" onclick="addField('research-questions-container', 'research-question', 'Research Question')">+ Add Research Question</button>
+                </div>
+
+                <div class="field-group">
+                    <label class="field-label">Research Objectives/Aims</label>
+                    <div class="why-question">How do these objectives address your research questions and contribute to knowledge?</div>
+                    <div id="objectives-container">
+                        <div class="dynamic-field">
+                            <label>Objective 1:</label>
+                            <textarea class="text-input textarea" name="objective" placeholder="Describe your first research objective"></textarea>
+                        </div>
+                    </div>
+                    <button type="button" class="add-field" onclick="addField('objectives-container', 'objective', 'Objective')">+ Add Objective</button>
+                </div>
+
+                <div class="field-group">
+                    <label class="field-label" for="research-contribution">Expected Contribution to Knowledge</label>
+                    <div class="why-question">What original contribution will your research make to the field?</div>
+                    <textarea id="research-contribution" class="text-input textarea" placeholder="Describe your expected contribution to knowledge/practice"></textarea>
+                </div>
+
+                <div class="justification-field">
+                    <label class="field-label" for="research-focus-justification">Research Focus Justification</label>
+                    <textarea id="research-focus-justification" class="text-input textarea" placeholder="Explain why these research questions and objectives are important, how they contribute to your field, and why they are appropriate for doctoral-level research..."></textarea>
+                </div>
+            </div>
+
+            <!-- Section 3: Methodology & Design -->
+            <div class="section" id="section-3">
+                <h2 class="section-title">
+                    <div class="section-title-left">
+                        <span class="section-number">3</span>
+                        Methodology & Research Design
+                    </div>
+                    <div class="section-controls">
+                        <button type="button" class="duplicate-btn" onclick="duplicateSection('section-3', 'Methodology & Research Design')">Duplicate Section</button>
+                        <button type="button" class="na-toggle" onclick="toggleNotApplicable('section-3')">To be thought later/N/A</button>
+                    </div>
+                </h2>
+                
+                <div class="field-group">
+                    <label class="field-label">Research Approach</label>
+                    <div class="why-question">Why is this approach most suitable for answering your research questions?</div>
+                    <div class="checkbox-group">
+                        <label class="checkbox-item">
+                            <input type="radio" name="approach" value="deductive" onchange="checkConflicts()">
+                            <span><strong>Deductive:</strong> Theory → Hypothesis → Testing</span>
+                        </label>
+                        <label class="checkbox-item">
+                            <input type="radio" name="approach" value="inductive" onchange="checkConflicts()">
+                            <span><strong>Inductive:</strong> Observation → Pattern → Theory</span>
+                        </label>
+                        <label class="checkbox-item">
+                            <input type="radio" name="approach" value="abductive" onchange="checkConflicts()">
+                            <span><strong>Abductive:</strong> Best explanation → Theory refinement</span>
+                        </label>
+                        <label class="checkbox-item">
+                            <input type="radio" name="approach" value="action-research" onchange="checkConflicts()">
+                            <span><strong>Action Research:</strong> Practice → Reflection → Improvement</span>
+                        </label>
+                        <label class="checkbox-item">
+                            <input type="radio" name="approach" value="design-based" onchange="checkConflicts()">
+                            <span><strong>Design-Based:</strong> Iterative design and testing</span>
+                        </label>
+                        <label class="checkbox-item">
+                            <input type="radio" name="approach" value="appreciative-inquiry" onchange="checkConflicts()">
+                            <span><strong>Appreciative Inquiry:</strong> Focus on strengths and positive change</span>
+                        </label>
+                        <label class="checkbox-item">
+                            <input type="radio" name="approach" value="participatory-research" onchange="checkConflicts()">
+                            <span><strong>Participatory Research:</strong> Community-engaged collaborative inquiry</span>
+                        </label>
+                        <label class="checkbox-item">
+                            <input type="radio" name="approach" value="practice-as-research" onchange="checkConflicts()">
+                            <span><strong>Practice-as-Research:</strong> Creative practice generates knowledge</span>
+                        </label>
+                        <label class="checkbox-item">
+                            <input type="radio" name="approach" value="research-creation" onchange="checkConflicts()">
+                            <span><strong>Research-Creation:</strong> Creative work as research methodology</span>
+                        </label>
+                        <label class="checkbox-item">
+                            <input type="radio" name="approach" value="phenomenological" onchange="checkConflicts()">
+                            <span><strong>Phenomenological:</strong> Understanding lived experiences</span>
+                        </label>
+                        <label class="checkbox-item">
+                            <input type="radio" name="approach" value="hermeneutic" onchange="checkConflicts()">
+                            <span><strong>Hermeneutic:</strong> Interpretive understanding of meaning</span>
+                        </label>
+                        <label class="checkbox-item">
+                            <input type="radio" name="approach" value="critical-inquiry" onchange="checkConflicts()">
+                            <span><strong>Critical Inquiry:</strong> Power, justice, and social transformation</span>
+                        </label>
+                        <label class="checkbox-item">
+                            <input type="radio" name="approach" value="reflective-practice" onchange="checkConflicts()">
+                            <span><strong>Reflective Practice:</strong> Learning through reflection on experience</span>
+                        </label>
+                        <label class="checkbox-item">
+                            <input type="radio" name="approach" value="intervention-research" onchange="checkConflicts()">
+                            <span><strong>Intervention Research:</strong> Developing and testing interventions</span>
+                        </label>
+                        <label class="checkbox-item">
+                            <input type="radio" name="approach" value="evaluation-research" onchange="checkConflicts()">
+                            <span><strong>Evaluation Research:</strong> Assessing program effectiveness</span>
+                        </label>
+                        <label class="checkbox-item">
+                            <input type="radio" name="approach" value="other" onchange="toggleOtherField('approach-other'); checkConflicts()">
+                            <span><strong>Other</strong></span>
+                        </label>
+                    </div>
+                    <div class="other-field" id="approach-other">
+                        <input type="text" class="text-input" placeholder="Please specify your research approach" name="approach-other-text">
+                    </div>
+                </div>
+
+                <div class="field-group">
+                    <label class="field-label">Research Design Type</label>
+                    <div class="why-question">How does this design enable you to answer your research questions rigorously?</div>
+                    <div class="checkbox-group">
+                        <label class="checkbox-item">
+                            <input type="checkbox" name="design" value="experimental">
+                            <span>Experimental (<span class="tooltip">RCT<span class="tooltiptext">Randomized Controlled Trial - participants randomly assigned to treatment/control groups</span></span>, quasi-experimental)</span>
+                        </label>
+                        <label class="checkbox-item">
+                            <input type="checkbox" name="design" value="survey">
+                            <span>Survey/Correlational</span>
+                        </label>
+                        <label class="checkbox-item">
+                            <input type="checkbox" name="design" value="phenomenology">
+                            <span>Phenomenology</span>
+                        </label>
+                        <label class="checkbox-item">
+                            <input type="checkbox" name="design" value="ethnography">
+                            <span>Ethnography</span>
+                        </label>
+                        <label class="checkbox-item">
+                            <input type="checkbox" name="design" value="grounded-theory">
+                            <span>Grounded Theory</span>
+                        </label>
+                        <label class="checkbox-item">
+                            <input type="checkbox" name="design" value="case-study">
+                            <span>Case Study</span>
+                        </label>
+                        <label class="checkbox-item">
+                            <input type="checkbox" name="design" value="mixed-methods">
+                            <span>Mixed Methods</span>
+                        </label>
+                        <label class="checkbox-item">
+                            <input type="checkbox" name="design" value="participatory-action">
+                            <span>Participatory Action Research</span>
+                        </label>
+                        <label class="checkbox-item">
+                            <input type="checkbox" name="design" value="arts-based">
+                            <span>Arts-Based Research</span>
+                        </label>
+                        <label class="checkbox-item">
+                            <input type="checkbox" name="design" value="autoethnography">
+                            <span>Autoethnography</span>
+                        </label>
+                        <label class="checkbox-item">
+                            <input type="checkbox" name="design" value="narrative">
+                            <span>Narrative Research</span>
+                        </label>
+                        <label class="checkbox-item">
+                            <input type="checkbox" name="design" value="design-research">
+                            <span>Design Research/Research Through Design</span>
+                        </label>
+                        <label class="checkbox-item">
+                            <input type="checkbox" name="design" value="other" onchange="toggleOtherField('design-other')">
+                            <span><strong>Other</strong></span>
+                        </label>
+                    </div>
+                    <div class="other-field" id="design-other">
+                        <input type="text" class="text-input" placeholder="Please specify your research design" name="design-other-text">
+                    </div>
+                </div>
+
+                <div class="justification-field">
+                    <label class="field-label" for="methodology-justification">Methodology Justification</label>
+                    <textarea id="methodology-justification" class="text-input textarea" placeholder="Explain why your chosen methodology and research design are the best fit for your research philosophy, questions, and practical constraints..."></textarea>
+                </div>
+            </div>
+
+            <!-- Section 4: Variables & Concepts -->
+            <div class="section" id="section-4">
+                <h2 class="section-title">
+                    <div class="section-title-left">
+                        <span class="section-number">4</span>
+                        Key Concepts, Operational Definitions & Variables
+                    </div>
+                    <div class="section-controls">
+                        <button type="button" class="na-toggle" onclick="toggleNotApplicable('section-4')">To be thought later/N/A</button>
+                    </div>
+                </h2>
+                
+                <div class="variables-dashboard">
+                    <h4><span class="dashboard-icon">📊</span>Variables Dashboard</h4>
+                    <div id="variables-overview">
+                        <p style="color: #7f8c8d; font-style: italic;">Add variables below to see your dashboard overview and compatibility analysis</p>
+                    </div>
+                </div>
+
+                <div class="field-group">
+                    <label class="field-label">Key Variables, Concepts & Operational Definitions</label>
+                    <div class="why-question">How will you operationalize these concepts to ensure valid measurement/analysis?</div>
+                    <div id="variables-container">
+                        <div class="dynamic-field">
+                            <label>Variable/Concept 1:</label>
+                            <div class="three-column">
+                                <div>
+                                    <label style="font-size: 12px; color: #7f8c8d;">Variable Name:</label>
+                                    <input type="text" class="text-input" name="variable-name" placeholder="Variable name" onchange="updateVariablesDashboard()">
+                                </div>
+                                <div>
+                                    <label style="font-size: 12px; color: #7f8c8d;">Type:</label>
+                                    <select class="text-input" name="variable-type" onchange="updateVariablesDashboard()">
+                                        <option value="">Select type</option>
+                                        <option value="quantitative">Quantitative (numerical)</option>
+                                        <option value="qualitative">Qualitative (categorical/descriptive)</option>
+                                        <option value="mixed">Mixed Methods</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label style="font-size: 12px; color: #7f8c8d;">Role:</label>
+                                    <select class="text-input" name="variable-role" onchange="updateVariablesDashboard()">
+                                        <option value="">Select role</option>
+                                        <option value="independent">Independent Variable</option>
+                                        <option value="dependent">Dependent Variable</option>
+                                        <option value="mediating">Mediating Variable</option>
+                                        <option value="moderating">Moderating Variable</option>
+                                        <option value="control">Control Variable</option>
+                                        <option value="theme">Qualitative Theme</option>
+                                        <option value="concept">Key Concept</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="two-column" style="margin-top: 10px;">
+                                <div>
+                                    <label style="font-size: 12px; color: #7f8c8d;">Operational Definition:</label>
+                                    <textarea class="text-input" name="variable-definition" placeholder="How will you define and measure this?" onchange="updateVariablesDashboard()"></textarea>
+                                </div>
+                                <div>
+                                    <label style="font-size: 12px; color: #7f8c8d;">Instrument/Method:</label>
+                                    <textarea class="text-input" name="variable-instrument" placeholder="What tools/methods will you use?" onchange="updateVariablesDashboard()"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <button type="button" class="add-field" onclick="addVariableField()">+ Add Variable/Concept</button>
+                </div>
+
+                <div class="justification-field">
+                    <label class="field-label" for="variables-justification">Variables & Concepts Justification</label>
+                    <textarea id="variables-justification" class="text-input textarea" placeholder="Explain why these variables and concepts are essential for answering your research questions and how your operational definitions ensure valid measurement..."></textarea>
+                </div>
+            </div>
+
+            <!-- Section 5: Participants/Context -->
+            <div class="section" id="section-5">
+                <h2 class="section-title">
+                    <div class="section-title-left">
+                        <span class="section-number">5</span>
+                        Participants/Context & Sampling
+                    </div>
+                    <div class="section-controls">
+                        <button type="button" class="duplicate-btn" onclick="duplicateSection('section-5', 'Participants/Context & Sampling')">Duplicate Section</button>
+                        <button type="button" class="na-toggle" onclick="toggleNotApplicable('section-5')">To be thought later/N/A</button>
+                    </div>
+                </h2>
+                
+                <div class="field-group">
+                    <label class="field-label">Sampling Strategy</label>
+                    <div class="why-question">Why is this sampling approach appropriate for your research design and generalizability goals?</div>
+                    <div class="checkbox-group">
+                        <label class="checkbox-item">
+                            <input type="radio" name="sampling" value="simple-random">
+                            <span>Simple Random</span>
+                        </label>
+                        <label class="checkbox-item">
+                            <input type="radio" name="sampling" value="stratified">
+                            <span>Stratified</span>
+                        </label>
+                        <label class="checkbox-item">
+                            <input type="radio" name="sampling" value="cluster">
+                            <span>Cluster</span>
+                        </label>
+                        <label class="checkbox-item">
+                            <input type="radio" name="sampling" value="convenience">
+                            <span>Convenience</span>
+                        </label>
+                        <label class="checkbox-item">
+                            <input type="radio" name="sampling" value="purposive">
+                            <span>Purposive/Theoretical</span>
+                        </label>
+                        <label class="checkbox-item">
+                            <input type="radio" name="sampling" value="snowball">
+                            <span>Snowball</span>
+                        </label>
+                        <label class="checkbox-item">
+                            <input type="radio" name="sampling" value="expert">
+                            <span>Expert/Elite Sampling</span>
+                        </label>
+                        <label class="checkbox-item">
+                            <input type="radio" name="sampling" value="maximum-variation">
+                            <span>Maximum Variation</span>
+                        </label>
+                        <label class="checkbox-item">
+                            <input type="radio" name="sampling" value="other" onchange="toggleOtherField('sampling-other')">
+                            <span><strong>Other</strong></span>
+                        </label>
+                    </div>
+                    <div class="other-field" id="sampling-other">
+                        <input type="text" class="text-input" placeholder="Please specify your sampling strategy" name="sampling-other-text">
+                    </div>
+                </div>
+
+                <div class="two-column">
+                    <div class="field-group">
+                        <label class="field-label" for="target-population">Target Population/Context</label>
+                        <div class="why-question">Why is this population/context relevant to your research questions?</div>
+                        <textarea id="target-population" class="text-input textarea" placeholder="Describe your target population or research context"></textarea>
+                    </div>
+
+                    <div class="field-group">
+                        <label class="field-label" for="sample-size">Sample Size & Justification</label>
+                        <div class="why-question">How did you determine this sample size is adequate for your research goals?</div>
+                        <textarea id="sample-size" class="text-input textarea" placeholder="Planned sample size and justification"></textarea>
+                    </div>
+                </div>
+
+                <div class="justification-field">
+                    <label class="field-label" for="sampling-justification">Sampling Strategy Justification</label>
+                    <textarea id="sampling-justification" class="text-input textarea" placeholder="Explain why this sampling approach is most appropriate for your research design, how it supports your generalizability goals, and how you'll address any limitations..."></textarea>
+                </div>
+            </div>
+
+            <!-- Section 6: Data Collection -->
+            <div class="section" id="section-6">
+                <h2 class="section-title">
+                    <div class="section-title-left">
+                        <span class="section-number">6</span>
+                        Data Collection Methods
+                    </div>
+                    <div class="section-controls">
+                        <button type="button" class="duplicate-btn" onclick="duplicateSection('section-6', 'Data Collection Methods')">Duplicate Section</button>
+                        <button type="button" class="na-toggle" onclick="toggleNotApplicable('section-6')">To be thought later/N/A</button>
+                    </div>
+                </h2>
+                
+                <div class="field-group">
+                    <label class="field-label">Data Collection Methods</label>
+                    <div class="why-question">Why are these methods most appropriate for generating the data needed to answer your research questions?</div>
+                    <div class="checkbox-group">
+                        <label class="checkbox-item">
+                            <input type="checkbox" name="data-collection" value="surveys">
+                            <span>Surveys/Questionnaires</span>
+                        </label>
+                        <label class="checkbox-item">
+                            <input type="checkbox" name="data-collection" value="interviews">
+                            <span>Interviews (structured/semi-structured/unstructured)</span>
+                        </label>
+                        <label class="checkbox-item">
+                            <input type="checkbox" name="data-collection" value="focus-groups">
+                            <span>Focus Groups</span>
+                        </label>
+                        <label class="checkbox-item">
+                            <input type="checkbox" name="data-collection" value="observation">
+                            <span>Observation (participant/non-participant)</span>
+                        </label>
+                        <label class="checkbox-item">
+                            <input type="checkbox" name="data-collection" value="experiments">
+                            <span>Experiments/Testing</span>
+                        </label>
+                        <label class="checkbox-item">
+                            <input type="checkbox" name="data-collection" value="document-analysis">
+                            <span>Document/Archival Analysis</span>
+                        </label>
+                        <label class="checkbox-item">
+                            <input type="checkbox" name="data-collection" value="secondary-data">
+                            <span>Secondary Data Analysis</span>
+                        </label>
+                        <label class="checkbox-item">
+                            <input type="checkbox" name="data-collection" value="creative-practice">
+                            <span>Creative Practice/Making</span>
+                        </label>
+                        <label class="checkbox-item">
+                            <input type="checkbox" name="data-collection" value="reflective-practice">
+                            <span>Reflective Practice Journals</span>
+                        </label>
+                        <label class="checkbox-item">
+                            <input type="checkbox" name="data-collection" value="digital-traces">
+                            <span>Digital Traces/Analytics</span>
+                        </label>
+                        <label class="checkbox-item">
+                            <input type="checkbox" name="data-collection" value="physiological">
+                            <span>Physiological Measures</span>
+                        </label>
+                        <label class="checkbox-item">
+                            <input type="checkbox" name="data-collection" value="visual-methods">
+                            <span>Visual Methods (photo-elicitation, video)</span>
+                        </label>
+                        <label class="checkbox-item">
+                            <input type="checkbox" name="data-collection" value="other" onchange="toggleOtherField('data-collection-other')">
+                            <span><strong>Other</strong></span>
+                        </label>
+                    </div>
+                    <div class="other-field" id="data-collection-other">
+                        <input type="text" class="text-input" placeholder="Please specify your data collection method" name="data-collection-other-text">
+                    </div>
+                </div>
+
+                <div class="field-group">
+                    <label class="field-label" for="data-collection-plan">Data Collection Plan</label>
+                    <div class="why-question">How will this plan ensure you collect high-quality, relevant data systematically?</div>
+                    <textarea id="data-collection-plan" class="text-input textarea" placeholder="Describe your detailed data collection procedures, timeline, and quality assurance measures"></textarea>
+                </div>
+
+                <div class="justification-field">
+                    <label class="field-label" for="data-collection-justification">Data Collection Methods Justification</label>
+                    <textarea id="data-collection-justification" class="text-input textarea" placeholder="Explain why these data collection methods are most appropriate for your research questions, how they align with your methodology, and how you'll ensure data quality..."></textarea>
+                </div>
+            </div>
+
+            <!-- Section 7: Analysis & Validity -->
+            <div class="section" id="section-7">
+                <h2 class="section-title">
+                    <div class="section-title-left">
+                        <span class="section-number">7</span>
+                        Data Analysis & Quality Assurance
+                    </div>
+                    <div class="section-controls">
+                        <button type="button" class="duplicate-btn" onclick="duplicateSection('section-7', 'Data Analysis & Quality Assurance')">Duplicate Section</button>
+                        <button type="button" class="na-toggle" onclick="toggleNotApplicable('section-7')">To be thought later/N/A</button>
+                    </div>
+                </h2>
+                
+                <div class="field-group">
+                    <label class="field-label">Analysis Methods</label>
+                    <div class="why-question">Why are these analytical approaches appropriate for your data type and research questions?</div>
+                    <div class="checkbox-group">
+                        <label class="checkbox-item">
+                            <input type="checkbox" name="analysis" value="descriptive-stats">
+                            <span>Descriptive Statistics</span>
+                        </label>
+                        <label class="checkbox-item">
+                            <input type="checkbox" name="analysis" value="inferential-stats">
+                            <span>Inferential Statistics</span>
+                        </label>
+                        <label class="checkbox-item">
+                            <input type="checkbox" name="analysis" value="thematic-analysis">
+                            <span>Thematic Analysis</span>
+                        </label>
+                        <label class="checkbox-item">
+                            <input type="checkbox" name="analysis" value="content-analysis">
+                            <span>Content Analysis</span>
+                        </label>
+                        <label class="checkbox-item">
+                            <input type="checkbox" name="analysis" value="discourse-analysis">
+                            <span>Discourse Analysis</span>
+                        </label>
+                        <label class="checkbox-item">
+                            <input type="checkbox" name="analysis" value="grounded-theory-analysis">
+                            <span>Grounded Theory Analysis</span>
+                        </label>
+                        <label class="checkbox-item">
+                            <input type="checkbox" name="analysis" value="ipa">
+                            <span><span class="tooltip">IPA<span class="tooltiptext">Interpretative Phenomenological Analysis - focuses on lived experiences and meaning-making</span></span></span>
+                        </label>
+                        <label class="checkbox-item">
+                            <input type="checkbox" name="analysis" value="narrative-analysis">
+                            <span>Narrative Analysis</span>
+                        </label>
+                        <label class="checkbox-item">
+                            <input type="checkbox" name="analysis" value="framework-analysis">
+                            <span>Framework Analysis</span>
+                        </label>
+                        <label class="checkbox-item">
+                            <input type="checkbox" name="analysis" value="multivariate">
+                            <span>Multivariate Analysis</span>
+                        </label>
+                        <label class="checkbox-item">
+                            <input type="checkbox" name="analysis" value="mixed-methods-analysis">
+                            <span>Mixed Methods Integration</span>
+                        </label>
+                        <label class="checkbox-item">
+                            <input type="checkbox" name="analysis" value="visual-analysis">
+                            <span>Visual/Creative Analysis</span>
+                        </label>
+                        <label class="checkbox-item">
+                            <input type="checkbox" name="analysis" value="other" onchange="toggleOtherField('analysis-other')">
+                            <span><strong>Other</strong></span>
+                        </label>
+                    </div>
+                    <div class="other-field" id="analysis-other">
+                        <input type="text" class="text-input" placeholder="Please specify your analysis method" name="analysis-other-text">
+                    </div>
+                </div>
+
+                <div class="field-group">
+                    <label class="field-label">Quality Assurance Measures</label>
+                    <div class="why-question">How will you ensure the quality, validity, and reliability of your research?</div>
+                    <div class="checkbox-group">
+                        <label class="checkbox-item">
+                            <input type="checkbox" name="quality" value="triangulation">
+                            <span>Triangulation (data, method, investigator)</span>
+                        </label>
+                        <label class="checkbox-item">
+                            <input type="checkbox" name="quality" value="member-checking">
+                            <span>Member Checking/Participant Validation</span>
+                        </label>
+                        <label class="checkbox-item">
+                            <input type="checkbox" name="quality" value="peer-review">
+                            <span>Peer Review/Debriefing</span>
+                        </label>
+                        <label class="checkbox-item">
+                            <input type="checkbox" name="quality" value="audit-trail">
+                            <span>Audit Trail</span>
+                        </label>
+                        <label class="checkbox-item">
+                            <input type="checkbox" name="quality" value="reflexivity">
+                            <span>Reflexivity/Researcher Positionality</span>
+                        </label>
+                        <label class="checkbox-item">
+                            <input type="checkbox" name="quality" value="thick-description">
+                            <span>Thick Description</span>
+                        </label>
+                        <label class="checkbox-item">
+                            <input type="checkbox" name="quality" value="negative-case">
+                            <span>Negative Case Analysis</span>
+                        </label>
+                        <label class="checkbox-item">
+                            <input type="checkbox" name="quality" value="inter-rater">
+                            <span>Inter-rater Reliability</span>
+                        </label>
+                        <label class="checkbox-item">
+                            <input type="checkbox" name="quality" value="pilot-testing">
+                            <span>Pilot Testing</span>
+                        </label>
+                        <label class="checkbox-item">
+                            <input type="checkbox" name="quality" value="other" onchange="toggleOtherField('quality-other')">
+                            <span><strong>Other</strong></span>
+                        </label>
+                    </div>
+                    <div class="other-field" id="quality-other">
+                        <input type="text" class="text-input" placeholder="Please specify your quality assurance measure" name="quality-other-text">
+                    </div>
+                </div>
+
+                <div class="justification-field">
+                    <label class="field-label" for="analysis-justification">Analysis & Quality Assurance Justification</label>
+                    <textarea id="analysis-justification" class="text-input textarea" placeholder="Explain why these analytical approaches and quality assurance measures are most appropriate for your data type, research questions, and methodological approach..."></textarea>
+                </div>
+            </div>
+
+            <!-- Section 8: Theoretical Framework -->
+            <div class="section" id="section-8">
+                <h2 class="section-title">
+                    <div class="section-title-left">
+                        <span class="section-number">8</span>
+                        Theoretical & Conceptual Framework
+                    </div>
+                    <div class="section-controls">
+                        <button type="button" class="duplicate-btn" onclick="duplicateSection('section-8', 'Theoretical & Conceptual Framework')">Add Framework</button>
+                        <button type="button" class="na-toggle" onclick="toggleNotApplicable('section-8')">To be thought later/N/A</button>
+                    </div>
+                </h2>
+
+                <div class="framework-explanation">
+                    <h5>When to Use Theoretical vs Conceptual Frameworks:</h5>
+                    <p><strong>Theoretical Framework:</strong> Use when established theories can explain your phenomenon. You're testing or applying existing theory to new contexts.</p>
+                    <p><strong>Conceptual Framework:</strong> Use when existing theories are insufficient. You're developing new understanding or combining concepts from multiple theories.</p>
+                    <p><strong>Both:</strong> Common in PhD research - theoretical framework provides foundation, conceptual framework shows your novel contribution.</p>
+                </div>
+                
+                <div class="field-group">
+                    <label class="field-label" for="theoretical-framework">Theoretical Framework</label>
+                    <div class="why-question">Why are these theories most relevant for understanding your research phenomenon?</div>
+                    <textarea id="theoretical-framework" class="text-input textarea" placeholder="Describe the existing theories that guide your research and provide the foundation for your study"></textarea>
+                </div>
+
+                <div class="field-group">
+                    <label class="field-label" for="conceptual-framework">Conceptual Framework</label>
+                    <div class="why-question">How does your conceptual model advance understanding beyond existing theories?</div>
+                    <textarea id="conceptual-framework" class="text-input textarea" placeholder="Describe your conceptual model showing relationships between concepts and how it builds on/extends existing theory"></textarea>
+                </div>
+
+                <div class="justification-field">
+                    <label class="field-label" for="framework-justification">Framework Selection Justification</label>
+                    <textarea id="framework-justification" class="text-input textarea" placeholder="Explain why you chose these theoretical/conceptual frameworks, how they support your research objectives, and how they guide your methodology..."></textarea>
+                </div>
+            </div>
+
+            <!-- Section 9: Ethics & Limitations -->
+            <div class="section" id="section-9">
+                <h2 class="section-title">
+                    <div class="section-title-left">
+                        <span class="section-number">9</span>
+                        Ethics & Limitations
+                    </div>
+                    <div class="section-controls">
+                        <button type="button" class="na-toggle" onclick="toggleNotApplicable('section-9')">To be thought later/N/A</button>
+                    </div>
+                </h2>
+                
+                <div class="field-group">
+                    <label class="field-label">Ethical Considerations</label>
+                    <div class="why-question">How do you ensure your research meets the highest ethical standards?</div>
+                    <div class="checkbox-group">
+                        <label class="checkbox-item">
+                            <input type="checkbox" name="ethics" value="irb-approval">
+                            <span><span class="tooltip">IRB<span class="tooltiptext">Institutional Review Board - ethics committee that reviews research involving human subjects</span></span>/Ethics Committee Approval</span>
+                        </label>
+                        <label class="checkbox-item">
+                            <input type="checkbox" name="ethics" value="informed-consent">
+                            <span>Informed Consent</span>
+                        </label>
+                        <label class="checkbox-item">
+                            <input type="checkbox" name="ethics" value="confidentiality">
+                            <span>Confidentiality & Anonymity</span>
+                        </label>
+                        <label class="checkbox-item">
+                            <input type="checkbox" name="ethics" value="right-to-withdraw">
+                            <span>Right to Withdraw</span>
+                        </label>
+                        <label class="checkbox-item">
+                            <input type="checkbox" name="ethics" value="risk-assessment">
+                            <span>Risk Assessment & Mitigation</span>
+                        </label>
+                        <label class="checkbox-item">
+                            <input type="checkbox" name="ethics" value="data-protection">
+                            <span>Data Protection & <span class="tooltip">GDPR<span class="tooltiptext">General Data Protection Regulation - EU data privacy law with global impact</span></span> Compliance</span>
+                        </label>
+                        <label class="checkbox-item">
+                            <input type="checkbox" name="ethics" value="vulnerable-populations">
+                            <span>Special Considerations for Vulnerable Populations</span>
+                        </label>
+                        <label class="checkbox-item">
+                            <input type="checkbox" name="ethics" value="cultural-sensitivity">
+                            <span>Cultural Sensitivity & Indigenous Rights</span>
+                        </label>
+                        <label class="checkbox-item">
+                            <input type="checkbox" name="ethics" value="other" onchange="toggleOtherField('ethics-other')">
+                            <span><strong>Other</strong></span>
+                        </label>
+                    </div>
+                    <div class="other-field" id="ethics-other">
+                        <input type="text" class="text-input" placeholder="Please specify your ethical consideration" name="ethics-other-text">
+                    </div>
+                </div>
+
+                <div class="field-group">
+                    <label class="field-label" for="limitations">Study Limitations</label>
+                    <div class="why-question">How do these limitations affect the interpretation and generalizability of your findings?</div>
+                    <textarea id="limitations" class="text-input textarea" placeholder="Identify potential limitations of your study and how you will address them"></textarea>
+                </div>
+
+                <div class="field-group">
+                    <label class="field-label" for="risks-mitigation">Risks & Mitigation Strategies</label>
+                    <div class="why-question">What contingency plans do you have if things don't go as expected?</div>
+                    <textarea id="risks-mitigation" class="text-input textarea" placeholder="Identify potential risks to your research and your mitigation strategies"></textarea>
+                </div>
+
+                <div class="justification-field">
+                    <label class="field-label" for="ethics-justification">Ethical Considerations Justification</label>
+                    <textarea id="ethics-justification" class="text-input textarea" placeholder="Explain how these ethical measures protect participants and ensure research integrity, and how you'll address potential ethical challenges..."></textarea>
+                </div>
+            </div>
+
+            <!-- Section 10: Timeline & Resources -->
+            <div class="section" id="section-10">
+                <h2 class="section-title">
+                    <div class="section-title-left">
+                        <span class="section-number">10</span>
+                        Timeline & Resources
+                    </div>
+                    <div class="section-controls">
+                        <button type="button" class="na-toggle" onclick="toggleNotApplicable('section-10')">To be thought later/N/A</button>
+                    </div>
+                </h2>
+                
+                <div class="field-group">
+                    <label class="field-label" for="timeline">Research Timeline</label>
+                    <div class="why-question">How does this timeline align with your institution's requirements and personal circumstances?</div>
+                    <textarea id="timeline" class="text-input textarea" placeholder="Outline your research timeline with key milestones (by year/semester)"></textarea>
+                </div>
+
+                <div class="field-group">
+                    <label class="field-label" for="resources">Required Resources</label>
+                    <div class="why-question">How will you secure the resources needed for successful completion?</div>
+                    <textarea id="resources" class="text-input textarea" placeholder="List resources needed (funding, equipment, software, access, travel, etc.)"></textarea>
+                </div>
+
+                <div class="justification-field">
+                    <label class="field-label" for="timeline-justification">Timeline & Resources Justification</label>
+                    <textarea id="timeline-justification" class="text-input textarea" placeholder="Explain why this timeline is realistic, how you'll secure necessary resources, and what contingency plans you have if delays occur..."></textarea>
+                </div>
+            </div>
+        </form>
+
+        <div class="actions">
+            <button type="button" class="btn" onclick="generateSummary()">Generate Framework Summary</button>
+            <button type="button" class="btn btn-secondary" onclick="clearForm()">Clear Form</button>
+        </div>
+
+        <div id="summary" class="summary">
+            <h3>Your PhD Research Framework Summary 
+                <button class="copy-btn" onclick="copySummary()">Copy Summary</button>
+            </h3>
+            <div id="summary-content"></div>
+        </div>
+    </div>
+
+    <script>
+        let sectionCounter = 0;
+        let fieldCounters = {
+            'research-question': 1,
+            'objective': 1,
+            'variable': 1
+        };
+
+        function selectMode(mode) {
+            document.getElementById('mode-selection').style.display = 'none';
+            document.querySelector('.header').style.display = 'block';
+            
+            if (mode === 'canvas') {
+                switchView('canvas');
+            } else {
+                switchView('detailed');
+            }
+        }
+
+        function switchView(view) {
+            const detailedView = document.getElementById('detailed-view');
+            const canvasView = document.getElementById('canvas-view');
+            const buttons = document.querySelectorAll('.toggle-btn');
+            
+            buttons.forEach(btn => btn.classList.remove('active'));
+            
+            if (view === 'canvas') {
+                detailedView.style.display = 'none';
+                canvasView.style.display = 'block';
+                buttons[1].classList.add('active');
+                syncFormToCanvas();
+            } else {
+                detailedView.style.display = 'block';
+                canvasView.style.display = 'none';
+                buttons[0].classList.add('active');
+            }
+        }
+
+        function updatePhdInfo() {
+            const selectedType = document.querySelector('input[name="phd-type"]:checked')?.value;
+            const infoBox = document.getElementById('phd-info-box');
+            const description = document.getElementById('phd-description');
+            
+            if (selectedType) {
+                const descriptions = {
+                    'traditional-research': 'Focus on hypothesis testing, empirical data collection, and contributing to academic knowledge. Typically involves quantitative or qualitative studies testing theories or exploring phenomena within established disciplinary boundaries.',
+                    'practice-based': 'Combines professional practice with research to improve workplace performance and generate practical knowledge. Often involves action research, case studies, or intervention studies within professional contexts.',
+                    'creative-practice': 'Creative work (art, design, performance, etc.) forms the research methodology itself. The creative process and outputs generate new knowledge alongside written critical reflection and theoretical engagement.',
+                    'professional-doctorate': 'Applied research addressing real-world professional challenges. Examples include DBA (business), EdD (education), DClinPsy (clinical psychology). Focus on improving practice and organizational outcomes.',
+                    'interdisciplinary': 'Crosses traditional disciplinary boundaries to address complex problems requiring multiple perspectives. Requires integration of theories, methods, and approaches from different fields.'
+                };
+                
+                description.textContent = descriptions[selectedType];
+                infoBox.style.display = 'block';
+            } else {
+                infoBox.style.display = 'none';
+            }
+        }
+
+        function toggleOtherField(fieldId) {
+            const field = document.getElementById(fieldId);
+            const trigger = event.target;
+            
+            if (trigger.checked && trigger.value === 'other') {
+                field.classList.add('show');
+            } else {
+                field.classList.remove('show');
+            }
+        }
+
+        function toggleNotApplicable(sectionId) {
+            const section = document.getElementById(sectionId);
+            const button = section.querySelector('.na-toggle');
+            
+            if (section.classList.contains('not-applicable')) {
+                section.classList.remove('not-applicable');
+                button.classList.remove('active');
+                button.textContent = 'To be thought later/N/A';
+            } else {
+                section.classList.add('not-applicable');
+                button.classList.add('active');
+                button.textContent = 'Mark as Applicable';
+            }
+        }
+
+        function addField(containerId, fieldName, label) {
+            const container = document.getElementById(containerId);
+            const count = ++fieldCounters[fieldName];
+            
+            const fieldDiv = document.createElement('div');
+            fieldDiv.className = 'dynamic-field';
+            fieldDiv.innerHTML = `
+                <button type="button" class="remove-field" onclick="removeField(this)">×</button>
+                <label>${label} ${count}:</label>
+                <textarea class="text-input textarea" name="${fieldName}" placeholder="Enter ${label.toLowerCase()} ${count}"></textarea>
+            `;
+            
+            container.appendChild(fieldDiv);
+        }
+
+        function addVariableField() {
+            const container = document.getElementById('variables-container');
+            const count = ++fieldCounters['variable'];
+            
+            const fieldDiv = document.createElement('div');
+            fieldDiv.className = 'dynamic-field';
+            fieldDiv.innerHTML = `
+                <button type="button" class="remove-field" onclick="removeField(this); updateVariablesDashboard()">×</button>
+                <label>Variable/Concept ${count}:</label>
+                <div class="three-column">
+                    <div>
+                        <label style="font-size: 12px; color: #7f8c8d;">Variable Name:</label>
+                        <input type="text" class="text-input" name="variable-name" placeholder="Variable name" onchange="updateVariablesDashboard()">
+                    </div>
+                    <div>
+                        <label style="font-size: 12px; color: #7f8c8d;">Type:</label>
+                        <select class="text-input" name="variable-type" onchange="updateVariablesDashboard()">
+                            <option value="">Select type</option>
+                            <option value="quantitative">Quantitative (numerical)</option>
+                            <option value="qualitative">Qualitative (categorical/descriptive)</option>
+                            <option value="mixed">Mixed Methods</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label style="font-size: 12px; color: #7f8c8d;">Role:</label>
+                        <select class="text-input" name="variable-role" onchange="updateVariablesDashboard()">
+                            <option value="">Select role</option>
+                            <option value="independent">Independent Variable</option>
+                            <option value="dependent">Dependent Variable</option>
+                            <option value="mediating">Mediating Variable</option>
+                            <option value="moderating">Moderating Variable</option>
+                            <option value="control">Control Variable</option>
+                            <option value="theme">Qualitative Theme</option>
+                            <option value="concept">Key Concept</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="two-column" style="margin-top: 10px;">
+                    <div>
+                        <label style="font-size: 12px; color: #7f8c8d;">Operational Definition:</label>
+                        <textarea class="text-input" name="variable-definition" placeholder="How will you define and measure this?" onchange="updateVariablesDashboard()"></textarea>
+                    </div>
+                    <div>
+                        <label style="font-size: 12px; color: #7f8c8d;">Instrument/Method:</label>
+                        <textarea class="text-input" name="variable-instrument" placeholder="What tools/methods will you use?" onchange="updateVariablesDashboard()"></textarea>
+                    </div>
+                </div>
+            `;
+            
+            container.appendChild(fieldDiv);
+            updateVariablesDashboard();
+        }
+
+        function removeField(button) {
+            button.parentElement.remove();
+        }
+
+        function duplicateSection(baseSectionId, title) {
+            const baseSection = document.getElementById(baseSectionId);
+            const newSection = baseSection.cloneNode(true);
+            
+            // Update section ID
+            sectionCounter++;
+            const newSectionId = baseSectionId + '-' + sectionCounter;
+            newSection.id = newSectionId;
+            
+            // Update title
+            const titleElement = newSection.querySelector('.section-title-left');
+            titleElement.innerHTML = `
+                <span class="section-number">${baseSectionId.split('-')[1]}</span>
+                ${title} (Study ${sectionCounter + 1})
+            `;
+            
+            // Add remove button
+            const controls = newSection.querySelector('.section-controls');
+            const removeBtn = document.createElement('button');
+            removeBtn.type = 'button';
+            removeBtn.className = 'remove-section-btn';
+            removeBtn.textContent = 'Remove';
+            removeBtn.onclick = () => newSection.remove();
+            controls.appendChild(removeBtn);
+            
+            // Update input names to be unique
+            const inputs = newSection.querySelectorAll('input, textarea, select');
+            inputs.forEach(input => {
+                if (input.name) {
+                    input.name = input.name + '-' + sectionCounter;
+                }
+                input.value = '';
+                if (input.type === 'checkbox' || input.type === 'radio') {
+                    input.checked = false;
+                }
+            });
+            
+            // Update other field IDs
+            const otherFields = newSection.querySelectorAll('.other-field');
+            otherFields.forEach(field => {
+                if (field.id) {
+                    field.id = field.id + '-' + sectionCounter;
+                }
+                field.classList.remove('show');
+            });
+            
+            // Insert after the base section
+            baseSection.parentNode.insertBefore(newSection, baseSection.nextSibling);
+        }
+
+        function editCanvasBlock(blockType) {
+            const input = document.getElementById(`canvas-${blockType}-input`);
+            input.focus();
+        }
+
+        function syncFormToCanvas() {
+            // Update canvas from form data
+            const formData = new FormData(document.querySelector('form'));
+            
+            // Philosophy
+            const ontology = formData.get('ontology') || '';
+            const epistemology = formData.get('epistemology') || '';
+            const philosophy = document.getElementById('philosophy-justification')?.value || '';
+            document.getElementById('canvas-philosophy-input').value = 
+                `${ontology ? ontology + ' ontology' : ''}${epistemology ? (ontology ? ', ' : '') + epistemology + ' epistemology' : ''}${philosophy ? '\n' + philosophy.substring(0, 100) + '...' : ''}`;
+
+            // Type
+            const phdType = formData.get('phd-type') || '';
+            document.getElementById('canvas-type-input').value = phdType.replace('-', ' ');
+
+            // Questions
+            const topic = document.getElementById('research-topic')?.value || '';
+            const questions = Array.from(document.querySelectorAll('textarea[name="research-question"]'))
+                .map(ta => ta.value)
+                .filter(q => q.trim())
+                .slice(0, 2);
+            document.getElementById('canvas-questions-input').value = 
+                `${topic ? 'Topic: ' + topic + '\n' : ''}${questions.length > 0 ? 'Questions:\n' + questions.map(q => '• ' + q.substring(0, 80) + '...').join('\n') : ''}`;
+
+            // Methodology
+            const approach = formData.get('approach') || '';
+            const designs = formData.getAll('design').slice(0, 2);
+            document.getElementById('canvas-methodology-input').value = 
+                `${approach ? 'Approach: ' + approach + '\n' : ''}${designs.length > 0 ? 'Design: ' + designs.join(', ') : ''}`;
+
+            // Data
+            const collection = formData.getAll('data-collection').slice(0, 3);
+            const analysis = formData.getAll('analysis').slice(0, 2);
+            document.getElementById('canvas-data-input').value = 
+                `${collection.length > 0 ? 'Collection: ' + collection.join(', ') + '\n' : ''}${analysis.length > 0 ? 'Analysis: ' + analysis.join(', ') : ''}`;
+
+            // Participants
+            const population = document.getElementById('target-population')?.value || '';
+            const sampling = formData.get('sampling') || '';
+            document.getElementById('canvas-participants-input').value = 
+                `${population ? population.substring(0, 120) + '...\n' : ''}${sampling ? 'Sampling: ' + sampling : ''}`;
+
+            // Contributions
+            const contribution = document.getElementById('research-contribution')?.value || '';
+            document.getElementById('canvas-contributions-input').value = 
+                contribution.substring(0, 150) + (contribution.length > 150 ? '...' : '');
+        }
+
+        function syncCanvasToForm() {
+            // Basic sync - update main fields from canvas
+            const topic = extractFromCanvas('questions', 'Topic: ');
+            if (document.getElementById('research-topic')) {
+                document.getElementById('research-topic').value = topic;
+            }
+            
+            const contribution = document.getElementById('canvas-contributions-input').value;
+            if (document.getElementById('research-contribution')) {
+                document.getElementById('research-contribution').value = contribution;
+            }
+            
+            alert('Canvas synced to detailed view. Switch to Detailed View to see updates.');
+        }
+
+        function extractFromCanvas(blockType, prefix) {
+            const value = document.getElementById(`canvas-${blockType}-input`).value;
+            if (!value) return '';
+            
+            if (prefix && value.includes(prefix)) {
+                const start = value.indexOf(prefix) + prefix.length;
+                const end = value.indexOf('\n', start);
+                return end > -1 ? value.substring(start, end) : value.substring(start);
+            }
+            
+            return value;
+        }
+
+        function copyCanvas() {
+            const canvasInputs = document.querySelectorAll('.canvas-input');
+            let canvasText = 'PhD RESEARCH CANVAS\n\n';
+            
+            canvasInputs.forEach((input, index) => {
+                const titles = ['Research Philosophy', 'PhD Type', 'Research Questions & Objectives', 'Methodology', 'Data & Analysis', 'Participants/Context', 'Key Contributions'];
+                const content = input.value || '(not specified)';
+                canvasText += `${titles[index].toUpperCase()}:\n${content}\n\n`;
+            });
+            
+            navigator.clipboard.writeText(canvasText).then(() => {
+                alert('Canvas copied to clipboard!');
+            });
+        }
+
+        function updateVariablesDashboard() {
+            const variables = Array.from(document.querySelectorAll('#variables-container .dynamic-field')).map(field => {
+                return {
+                    name: field.querySelector('input[name="variable-name"]')?.value || '',
+                    type: field.querySelector('select[name="variable-type"]')?.value || '',
+                    role: field.querySelector('select[name="variable-role"]')?.value || '',
+                    definition: field.querySelector('textarea[name="variable-definition"]')?.value || '',
+                    instrument: field.querySelector('textarea[name="variable-instrument"]')?.value || ''
+                };
+            }).filter(v => v.name.trim());
+
+            const overviewDiv = document.getElementById('variables-overview');
+            
+            if (variables.length === 0) {
+                overviewDiv.innerHTML = '<p style="color: #7f8c8d; font-style: italic;">Add variables below to see your dashboard overview and compatibility analysis</p>';
+                return;
+            }
+
+            let html = '';
+            
+            // Variable summary
+            const quantCount = variables.filter(v => v.type === 'quantitative').length;
+            const qualCount = variables.filter(v => v.type === 'qualitative').length;
+            const mixedCount = variables.filter(v => v.type === 'mixed').length;
+            
+            html += `<div style="display: flex; gap: 20px; margin-bottom: 15px;">`;
+            html += `<div><strong>Total Variables:</strong> ${variables.length}</div>`;
+            html += `<div><strong>Quantitative:</strong> ${quantCount}</div>`;
+            html += `<div><strong>Qualitative:</strong> ${qualCount}</div>`;
+            html += `<div><strong>Mixed:</strong> ${mixedCount}</div>`;
+            html += `</div>`;
+
+            // Individual variable cards
+            variables.forEach(variable => {
+                html += `
+                    <div class="variable-card">
+                        <span class="variable-type ${variable.type}">${variable.type || 'unspecified'}</span>
+                        <h5 style="margin: 5px 0; color: #2c3e50;">${variable.name} ${variable.role ? '(' + variable.role + ')' : ''}</h5>
+                        ${variable.definition ? '<p style="font-size: 12px; color: #7f8c8d;">' + variable.definition.substring(0, 100) + '...</p>' : ''}
+                        ${variable.instrument ? '<p style="font-size: 11px; color: #34495e;"><strong>Instrument:</strong> ' + variable.instrument.substring(0, 80) + '...</p>' : ''}
+                    </div>
+                `;
+            });
+
+            // Compatibility analysis
+            if (quantCount > 0 && qualCount > 0) {
+                html += `
+                    <div class="compatibility-alert">
+                        <strong>⚠️ Mixed Variable Types Detected</strong><br>
+                        You have both quantitative and qualitative variables. Consider:
+                        <ul style="margin: 5px 0 0 20px; font-size: 11px;">
+                            <li>How will you integrate findings from different data types?</li>
+                            <li>Do you need a mixed methods analysis approach?</li>
+                            <li>How do these variables relate to each other conceptually?</li>
+                        </ul>
+                    </div>
+                `;
+            } else if (quantCount > 0) {
+                html += `
+                    <div class="compatibility-alert compatibility-good">
+                        <strong>✓ Quantitative Focus</strong><br>
+                        Your variables align well with statistical analysis approaches. Ensure you have appropriate sample sizes and measurement instruments.
+                    </div>
+                `;
+            } else if (qualCount > 0) {
+                html += `
+                    <div class="compatibility-alert compatibility-good">
+                        <strong>✓ Qualitative Focus</strong><br>
+                        Your variables align well with interpretive analysis approaches. Ensure your data collection methods can capture rich, meaningful data.
+                    </div>
+                `;
+            }
+
+            overviewDiv.innerHTML = html;
+        }
+
+        function checkConflicts() {
+            const conflicts = [];
+            const ontology = document.querySelector('input[name="ontology"]:checked')?.value;
+            const epistemology = document.querySelector('input[name="epistemology"]:checked')?.value;
+            const approach = document.querySelector('input[name="approach"]:checked')?.value;
+
+            // Check for philosophical conflicts
+            if (ontology === 'objectivist' && epistemology === 'interpretivist') {
+                conflicts.push('Objectivist ontology typically conflicts with interpretivist epistemology');
+            }
+            
+            if (ontology === 'subjectivist' && epistemology === 'positivist') {
+                conflicts.push('Subjectivist ontology typically conflicts with positivist epistemology');
+            }
+
+            if (epistemology === 'positivist' && approach === 'inductive') {
+                conflicts.push('Positivist epistemology typically uses deductive rather than inductive approaches');
+            }
+
+            if (epistemology === 'interpretivist' && approach === 'deductive') {
+                conflicts.push('Interpretivist epistemology typically uses inductive rather than deductive approaches');
+            }
+
+            // Show/hide conflicts
+            const warningDiv = document.getElementById('conflict-warning');
+            const conflictList = document.getElementById('conflict-list');
+            
+            if (conflicts.length > 0) {
+                conflictList.innerHTML = conflicts.map(c => `<li>${c}</li>`).join('');
+                warningDiv.classList.add('show');
+            } else {
+                warningDiv.classList.remove('show');
+            }
+        }
+
+        function generateSummary() {
+            const sections = document.querySelectorAll('.section:not(.not-applicable)');
+            const summary = document.getElementById('summary');
+            const content = document.getElementById('summary-content');
+            
+            let summaryHTML = '';
+            
+            // PhD Type
+            const phdType = document.querySelector('input[name="phd-type"]:checked')?.value;
+            if (phdType) {
+                summaryHTML += `<h4>PhD Type</h4><p>${phdType.replace('-', ' ').toUpperCase()}</p>`;
+            }
+            
+            // Research Philosophy
+            const ontology = document.querySelector('input[name="ontology"]:checked')?.value;
+            const epistemology = document.querySelector('input[name="epistemology"]:checked')?.value;
+            
+            if (ontology || epistemology) {
+                summaryHTML += '<h4>Research Philosophy</h4>';
+                if (ontology) summaryHTML += `<p><strong>Ontology:</strong> ${ontology}</p>`;
+                if (epistemology) summaryHTML += `<p><strong>Epistemology:</strong> ${epistemology}</p>`;
+            }
+            
+            // Research Focus
+            const topic = document.getElementById('research-topic')?.value;
+            const questions = Array.from(document.querySelectorAll('textarea[name="research-question"]'))
+                .map(ta => ta.value)
+                .filter(q => q.trim());
+            
+            if (topic || questions.length > 0) {
+                summaryHTML += '<h4>Research Focus</h4>';
+                if (topic) summaryHTML += `<p><strong>Topic:</strong> ${topic}</p>`;
+                if (questions.length > 0) {
+                    summaryHTML += '<p><strong>Research Questions:</strong></p><ul>';
+                    questions.forEach(q => summaryHTML += `<li>${q}</li>`);
+                    summaryHTML += '</ul>';
+                }
+            }
+            
+            // Variables Summary
+            const variables = Array.from(document.querySelectorAll('#variables-container .dynamic-field')).map(field => {
+                return {
+                    name: field.querySelector('input[name="variable-name"]')?.value || '',
+                    type: field.querySelector('select[name="variable-type"]')?.value || '',
+                    role: field.querySelector('select[name="variable-role"]')?.value || ''
+                };
+            }).filter(v => v.name.trim());
+
+            if (variables.length > 0) {
+                summaryHTML += '<h4>Key Variables</h4>';
+                variables.forEach(v => {
+                    summaryHTML += `<p><strong>${v.name}</strong> (${v.type} ${v.role})</p>`;
+                });
+            }
+            
+            // Methodology
+            const approach = document.querySelector('input[name="approach"]:checked')?.value;
+            const designs = Array.from(document.querySelectorAll('input[name="design"]:checked')).map(cb => cb.value);
+            
+            if (approach || designs.length > 0) {
+                summaryHTML += '<h4>Methodology</h4>';
+                if (approach) summaryHTML += `<p><strong>Approach:</strong> ${approach}</p>`;
+                if (designs.length > 0) summaryHTML += `<p><strong>Design:</strong> ${designs.join(', ')}</p>`;
+            }
+            
+            // Data Collection & Analysis
+            const dataCollection = Array.from(document.querySelectorAll('input[name="data-collection"]:checked')).map(cb => cb.value);
+            const analysis = Array.from(document.querySelectorAll('input[name="analysis"]:checked')).map(cb => cb.value);
+            
+            if (dataCollection.length > 0 || analysis.length > 0) {
+                summaryHTML += '<h4>Data Collection & Analysis</h4>';
+                if (dataCollection.length > 0) summaryHTML += `<p><strong>Collection:</strong> ${dataCollection.join(', ')}</p>`;
+                if (analysis.length > 0) summaryHTML += `<p><strong>Analysis:</strong> ${analysis.join(', ')}</p>`;
+            }
+            
+            // Sampling
+            const sampling = document.querySelector('input[name="sampling"]:checked')?.value;
+            const population = document.getElementById('target-population')?.value;
+            
+            if (sampling || population) {
+                summaryHTML += '<h4>Participants/Context</h4>';
+                if (sampling) summaryHTML += `<p><strong>Sampling:</strong> ${sampling}</p>`;
+                if (population) summaryHTML += `<p><strong>Population:</strong> ${population.substring(0, 200)}${population.length > 200 ? '...' : ''}</p>`;
+            }
+            
+            // Quality Assurance
+            const quality = Array.from(document.querySelectorAll('input[name="quality"]:checked')).map(cb => cb.value);
+            
+            if (quality.length > 0) {
+                summaryHTML += '<h4>Quality Assurance</h4>';
+                summaryHTML += `<p>${quality.join(', ')}</p>`;
+            }
+            
+            // Ethics
+            const ethics = Array.from(document.querySelectorAll('input[name="ethics"]:checked')).map(cb => cb.value);
+            
+            if (ethics.length > 0) {
+                summaryHTML += '<h4>Ethical Considerations</h4>';
+                summaryHTML += `<p>${ethics.join(', ')}</p>`;
+            }
+
+            // Expected Contribution
+            const contribution = document.getElementById('research-contribution')?.value;
+            if (contribution) {
+                summaryHTML += '<h4>Expected Contribution</h4>';
+                summaryHTML += `<p>${contribution}</p>`;
+            }
+            
+            if (summaryHTML) {
+                content.innerHTML = summaryHTML;
+                summary.style.display = 'block';
+                summary.scrollIntoView({ behavior: 'smooth' });
+            } else {
+                alert('Please fill out some fields first to generate a summary.');
+            }
+        }
+
+        function copySummary() {
+            const summaryContent = document.getElementById('summary-content');
+            const textContent = summaryContent.innerText;
+            
+            navigator.clipboard.writeText(textContent).then(() => {
+                alert('Summary copied to clipboard!');
+            }).catch(() => {
+                alert('Failed to copy to clipboard. Please select and copy manually.');
+            });
+        }
+        
+        function clearForm() {
+            if (confirm('Are you sure you want to clear all form data?')) {
+                document.querySelector('form').reset();
+                document.getElementById('summary').style.display = 'none';
+                
+                // Reset counters
+                sectionCounter = 0;
+                fieldCounters = {
+                    'research-question': 1,
+                    'objective': 1,
+                    'variable': 1
+                };
+                
+                // Remove extra dynamic fields
+                document.querySelectorAll('.dynamic-field .remove-field').forEach(btn => btn.click());
+                
+                // Remove extra sections
+                document.querySelectorAll('.remove-section-btn').forEach(btn => btn.click());
+                
+                // Hide other fields
+                document.querySelectorAll('.other-field').forEach(field => field.classList.remove('show'));
+                
+                // Clear canvas
+                document.querySelectorAll('.canvas-input').forEach(input => input.value = '');
+                
+                // Reset variables dashboard
+                updateVariablesDashboard();
+                
+                // Reset NA sections
+                document.querySelectorAll('.section.not-applicable').forEach(section => {
+                    section.classList.remove('not-applicable');
+                    const button = section.querySelector('.na-toggle');
+                    button.classList.remove('active');
+                    button.textContent = 'To be thought later/N/A';
+                });
+
+                // Hide PhD type info
+                document.getElementById('phd-info-box').style.display = 'none';
+            }
+        }
+        
+        // Auto-save functionality
+        let formState = {};
+        
+        function saveFormState() {
+            const inputs = document.querySelectorAll('input, textarea, select');
+            inputs.forEach(input => {
+                if (input.type === 'checkbox' || input.type === 'radio') {
+                    formState[input.name + '_' + input.value] = input.checked;
+                } else {
+                    formState[input.id || input.name] = input.value;
+                }
+            });
+        }
+        
+        function loadFormState() {
+            Object.keys(formState).forEach(key => {
+                if (key.includes('_') && !key.includes('-')) {
+                    const [name, value] = key.split('_');
+                    const input = document.querySelector(`input[name="${name}"][value="${value}"]`);
+                    if (input) input.checked = formState[key];
+                } else {
+                    const input = document.getElementById(key) || document.querySelector(`[name="${key}"]`);
+                    if (input) input.value = formState[key];
+                }
+            });
+        }
+        
+        // Event listeners
+        document.addEventListener('input', saveFormState);
+        document.addEventListener('change', saveFormState);
+        document.addEventListener('change', checkConflicts);
+        
+        // Initialize
+        window.addEventListener('load', () => {
+            loadFormState();
+            updateVariablesDashboard();
+            updatePhdInfo();
+        });
+    </script>
+</body>
+</html>
