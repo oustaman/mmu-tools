@@ -1,0 +1,1826 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MMU Clearing Reference Tool</title>
+    <style>
+        :root {
+            --primary-color: #0066cc;
+            --secondary-color: #004499;
+            --accent-color: #ff6b35;
+            --background-color: #ffffff;
+            --surface-color: #f8f9fa;
+            --text-color: #212529;
+            --text-secondary: #6c757d;
+            --border-color: #dee2e6;
+            --success-color: #28a745;
+            --warning-color: #ffc107;
+            --danger-color: #dc3545;
+            --focus-color: #0056b3;
+            --sidebar-width: 280px;
+            --font-size-base: 16px;
+            --font-size-small: 14px;
+            --font-size-large: 18px;
+            --font-size-xl: 20px;
+        }
+
+        [data-theme="dark"] {
+            --background-color: #1a1a1a;
+            --surface-color: #2d2d2d;
+            --text-color: #ffffff;
+            --text-secondary: #b0b0b0;
+            --border-color: #404040;
+            --primary-color: #4da6ff;
+            --secondary-color: #0066cc;
+        }
+
+        [data-font-size="small"] {
+            --font-size-base: 14px;
+            --font-size-small: 12px;
+            --font-size-large: 16px;
+            --font-size-xl: 18px;
+        }
+
+        [data-font-size="large"] {
+            --font-size-base: 18px;
+            --font-size-small: 16px;
+            --font-size-large: 20px;
+            --font-size-xl: 22px;
+        }
+
+        [data-font-size="xl"] {
+            --font-size-base: 20px;
+            --font-size-small: 18px;
+            --font-size-large: 22px;
+            --font-size-xl: 24px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            font-size: var(--font-size-base);
+            line-height: 1.6;
+            color: var(--text-color);
+            background-color: var(--background-color);
+            transition: all 0.3s ease;
+        }
+
+        .skip-link {
+            position: absolute;
+            top: -40px;
+            left: 6px;
+            background: var(--primary-color);
+            color: white;
+            padding: 8px;
+            text-decoration: none;
+            z-index: 1000;
+            border-radius: 4px;
+        }
+
+        .skip-link:focus {
+            top: 6px;
+        }
+
+        .accessibility-toolbar {
+            background: var(--surface-color);
+            border-bottom: 1px solid var(--border-color);
+            padding: 0.5rem;
+            display: flex;
+            gap: 0.5rem;
+            justify-content: flex-end;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .accessibility-toolbar button {
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 0.5rem;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: var(--font-size-small);
+            transition: background-color 0.2s;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .accessibility-toolbar button:hover,
+        .accessibility-toolbar button:focus {
+            background: var(--secondary-color);
+            outline: 2px solid var(--focus-color);
+            outline-offset: 2px;
+        }
+
+        .accessibility-toolbar button.active {
+            background: var(--accent-color);
+        }
+
+        .app-container {
+            display: flex;
+            min-height: calc(100vh - 60px);
+        }
+
+        .sidebar {
+            width: var(--sidebar-width);
+            background: var(--surface-color);
+            border-right: 1px solid var(--border-color);
+            overflow-y: auto;
+            position: sticky;
+            top: 60px;
+            height: calc(100vh - 60px);
+            transition: transform 0.3s ease;
+        }
+
+        .sidebar.collapsed {
+            transform: translateX(-100%);
+        }
+
+        .mobile-header {
+            display: none;
+            background: var(--surface-color);
+            border-bottom: 1px solid var(--border-color);
+            padding: 1rem;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .burger-menu {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--text-color);
+            padding: 0.5rem;
+        }
+
+        .search-container {
+            padding: 1rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 0.75rem;
+            font-size: var(--font-size-base);
+            border: 2px solid var(--border-color);
+            border-radius: 8px;
+            background: var(--background-color);
+            color: var(--text-color);
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(0, 102, 204, 0.1);
+        }
+
+        .nav-menu {
+            padding: 1rem 0;
+        }
+
+        .nav-item {
+            display: block;
+            padding: 0.75rem 1rem;
+            color: var(--text-color);
+            text-decoration: none;
+            border: none;
+            background: none;
+            width: 100%;
+            text-align: left;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-size: var(--font-size-small);
+            border-radius: 6px;
+            margin-bottom: 0.25rem;
+        }
+
+        .nav-item:hover,
+        .nav-item:focus {
+            background: var(--primary-color);
+            color: white;
+            outline: none;
+        }
+
+        .nav-item.active {
+            background: var(--primary-color);
+            color: white;
+            border-right: 3px solid var(--accent-color);
+        }
+
+        .main-content {
+            flex: 1;
+            padding: 2rem;
+            overflow-y: auto;
+            max-width: calc(100vw - var(--sidebar-width));
+        }
+
+        .content-section {
+            display: none;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .content-section.active {
+            display: block;
+        }
+
+        .search-results {
+            display: none;
+        }
+
+        .search-results.active {
+            display: block;
+        }
+
+        .search-result-item {
+            background: var(--surface-color);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .search-result-item:hover {
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            border-color: var(--primary-color);
+        }
+
+        .search-result-title {
+            font-weight: 600;
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+        }
+
+        .search-result-section {
+            font-size: var(--font-size-small);
+            color: var(--text-secondary);
+            margin-bottom: 0.5rem;
+        }
+
+        .search-result-content {
+            line-height: 1.5;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .card {
+            background: var(--surface-color);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .card h2 {
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+            font-size: var(--font-size-xl);
+            border-bottom: 2px solid var(--primary-color);
+            padding-bottom: 0.5rem;
+        }
+
+        .card h3 {
+            color: var(--secondary-color);
+            margin: 1.5rem 0 1rem 0;
+            font-size: var(--font-size-large);
+        }
+
+        .table-container {
+            overflow-x: auto;
+            margin: 1rem 0;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: var(--background-color);
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        th, td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid var(--border-color);
+            vertical-align: top;
+        }
+
+        th {
+            background: var(--primary-color);
+            color: white;
+            font-weight: 600;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+
+        tr:hover {
+            background: var(--surface-color);
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            background: var(--primary-color);
+            color: white;
+            border-radius: 12px;
+            font-size: var(--font-size-small);
+            font-weight: 500;
+            margin: 0.25rem;
+        }
+
+        .badge.success {
+            background: var(--success-color);
+        }
+
+        .badge.warning {
+            background: var(--warning-color);
+            color: var(--text-color);
+        }
+
+        .badge.danger {
+            background: var(--danger-color);
+        }
+
+        .decision-tree {
+            background: var(--surface-color);
+            border: 2px solid var(--primary-color);
+            border-radius: 12px;
+            padding: 2rem;
+            margin: 1rem 0;
+            font-family: 'Courier New', monospace;
+            white-space: pre;
+            line-height: 1.6;
+            font-size: var(--font-size-base);
+            color: var(--text-color);
+            overflow-x: auto;
+        }
+
+        .decision-tree .start {
+            color: #2d5a27;
+            font-weight: 700;
+            font-size: var(--font-size-large);
+        }
+
+        [data-theme="dark"] .decision-tree .start {
+            color: #90ee90;
+        }
+
+        .decision-tree .question {
+            color: #1a5490;
+            font-weight: 600;
+        }
+
+        [data-theme="dark"] .decision-tree .question {
+            color: #87ceeb;
+        }
+
+        .decision-tree .action {
+            color: #cc4125;
+            font-weight: 500;
+        }
+
+        [data-theme="dark"] .decision-tree .action {
+            color: #ffa07a;
+        }
+
+        .decision-tree .note {
+            color: #495057;
+            font-style: italic;
+        }
+
+        [data-theme="dark"] .decision-tree .note {
+            color: #adb5bd;
+        }
+
+        .contact-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1rem;
+            margin: 1rem 0;
+        }
+
+        .contact-card {
+            background: var(--surface-color);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 1rem;
+        }
+
+        .contact-card h4 {
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+        }
+
+        .contact-card a {
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+
+        .contact-card a:hover,
+        .contact-card a:focus {
+            text-decoration: underline;
+            outline: 2px solid var(--focus-color);
+            outline-offset: 2px;
+        }
+
+        .timeline {
+            position: relative;
+            padding-left: 2rem;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 0.5rem;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: var(--primary-color);
+        }
+
+        .timeline-item {
+            position: relative;
+            margin-bottom: 2rem;
+            background: var(--surface-color);
+            padding: 1rem;
+            border-radius: 8px;
+            border-left: 4px solid var(--primary-color);
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -1.75rem;
+            top: 1rem;
+            width: 1rem;
+            height: 1rem;
+            background: var(--primary-color);
+            border-radius: 50%;
+            border: 3px solid var(--background-color);
+        }
+
+        .highlight {
+            background: rgba(255, 235, 59, 0.3);
+            padding: 0.2rem 0.4rem;
+            border-radius: 4px;
+            border: 1px solid #ffeb3b;
+        }
+
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border: 0;
+        }
+
+        .phonetic-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 0.5rem;
+            margin: 1rem 0;
+        }
+
+        .phonetic-item {
+            background: var(--surface-color);
+            border: 1px solid var(--border-color);
+            padding: 0.5rem;
+            text-align: center;
+            border-radius: 4px;
+        }
+
+        .phonetic-letter {
+            font-weight: bold;
+            color: var(--primary-color);
+            font-size: var(--font-size-large);
+        }
+
+        .alert {
+            padding: 1rem;
+            border-radius: 8px;
+            margin: 1rem 0;
+            border-left: 4px solid;
+        }
+
+        .alert-info {
+            background: rgba(0, 102, 204, 0.1);
+            border-left-color: var(--primary-color);
+            color: var(--primary-color);
+        }
+
+        .alert-warning {
+            background: rgba(255, 193, 7, 0.1);
+            border-left-color: var(--warning-color);
+            color: #856404;
+        }
+
+        .alert-success {
+            background: rgba(40, 167, 69, 0.1);
+            border-left-color: var(--success-color);
+            color: #155724;
+        }
+
+        [data-theme="dark"] .alert-warning {
+            color: var(--warning-color);
+        }
+
+        [data-theme="dark"] .alert-success {
+            color: var(--success-color);
+        }
+
+        @media (max-width: 768px) {
+            .sidebar {
+                position: fixed;
+                top: 0;
+                left: 0;
+                height: 100vh;
+                z-index: 200;
+                transform: translateX(-100%);
+            }
+
+            .sidebar.open {
+                transform: translateX(0);
+            }
+
+            .mobile-header {
+                display: flex;
+            }
+
+            .accessibility-toolbar {
+                padding: 0.25rem;
+                gap: 0.25rem;
+            }
+
+            .accessibility-toolbar button {
+                width: 36px;
+                height: 36px;
+                font-size: 12px;
+            }
+
+            .main-content {
+                max-width: 100vw;
+                padding: 1rem;
+            }
+
+            .app-container {
+                flex-direction: column;
+                min-height: calc(100vh - 120px);
+            }
+
+            table {
+                font-size: var(--font-size-small);
+            }
+
+            th, td {
+                padding: 0.5rem;
+            }
+
+            .contact-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .decision-tree {
+                font-size: var(--font-size-small);
+                padding: 1rem;
+                overflow-x: auto;
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            * {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+
+        .sidebar-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 199;
+        }
+
+        .sidebar-overlay.active {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+    
+    <div class="accessibility-toolbar" role="toolbar" aria-label="Accessibility Options">
+        <button id="dark-mode-toggle" type="button" aria-pressed="false" aria-label="Toggle dark mode">🌙</button>
+        <button id="font-size-small" type="button" aria-pressed="false" aria-label="Small font size">A-</button>
+        <button id="font-size-normal" type="button" aria-pressed="true" aria-label="Normal font size">A</button>
+        <button id="font-size-large" type="button" aria-pressed="false" aria-label="Large font size">A+</button>
+        <button id="font-size-xl" type="button" aria-pressed="false" aria-label="Extra large font size">A++</button>
+        <button id="reset-settings" type="button" aria-label="Reset settings">↻</button>
+    </div>
+
+    <div class="mobile-header">
+        <button class="burger-menu" id="mobile-menu-toggle" aria-label="Toggle navigation menu">☰</button>
+        <h1>MMU Clearing Tool</h1>
+    </div>
+
+    <div class="sidebar-overlay" id="sidebar-overlay"></div>
+
+    <div class="app-container">
+        <nav class="sidebar" id="sidebar" role="navigation" aria-label="Main navigation">
+            <div class="search-container">
+                <label for="search" class="sr-only">Search the clearing guide</label>
+                <input type="search" id="search" class="search-input" placeholder="Search all content..." aria-describedby="search-help">
+                <div id="search-help" class="sr-only">Search through all sections of the clearing guide</div>
+            </div>
+
+            <div class="nav-menu">
+                <button class="nav-item active" data-section="what-is-clearing">📋 What is Clearing</button>
+                <button class="nav-item" data-section="key-terminology">🏷️ Key Terminology</button>
+                <button class="nav-item" data-section="decision-tree">🌳 Decision Tree</button>
+                <button class="nav-item" data-section="high-level-flow">⚡ High-level Flow</button>
+                <button class="nav-item" data-section="call-checklist">✅ Call to Convert Checklist</button>
+                <button class="nav-item" data-section="ucas-referral">🎯 UCAS Referral Rules</button>
+                <button class="nav-item" data-section="applicant-scenarios">🎭 Applicant Scenarios</button>
+                <button class="nav-item" data-section="advanced-entry">📋 Advanced Entry/Portfolio</button>
+                <button class="nav-item" data-section="entry-requirements">📊 Entry Requirements (Sample)</button>
+                <button class="nav-item" data-section="phone-capacity">📞 Phone Line Capacity</button>
+                <button class="nav-item" data-section="phonetic-alphabet">🔤 Phonetic Alphabet</button>
+                <button class="nav-item" data-section="timeline">📅 Timeline & Embargo</button>
+                <button class="nav-item" data-section="quick-start">🚀 Quick-Start Checklist</button>
+                <button class="nav-item" data-section="contacts">👥 Contacts</button>
+                <button class="nav-item" data-section="useful-links">🔗 Useful Links</button>
+            </div>
+        </nav>
+
+        <main class="main-content" id="main-content">
+            <div id="search-results" class="search-results">
+                <h2>Search Results</h2>
+                <div id="search-results-content"></div>
+            </div>
+
+            <div id="what-is-clearing" class="content-section active">
+                <div class="card">
+                    <h2>What is Clearing?</h2>
+                    <div class="alert alert-info">
+                        <strong>Definition:</strong> Clearing is essentially a UK-specific last‑minute matching service: universities with unused slots, and students still looking for somewhere to study.
+                    </div>
+                    
+                    <h3>The Clearing Process</h3>
+                    <div class="table-container">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th scope="col">Stage</th>
+                                    <th scope="col">What Happens</th>
+                                    <th scope="col">Typical Timeframe</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>1️⃣ <strong>Apply to a course</strong></td>
+                                    <td>Students submit an application through UCAS.</td>
+                                    <td>2–3 weeks (before the deadline)</td>
+                                </tr>
+                                <tr>
+                                    <td>2️⃣ <strong>Wait for offers</strong></td>
+                                    <td>Universities review profiles and send offers or "wait‑lists."</td>
+                                    <td>Up to 4 weeks after application</td>
+                                </tr>
+                                <tr>
+                                    <td>3️⃣ <strong>Acceptance</strong></td>
+                                    <td>Students accept an offer, pay a deposit, and are confirmed.</td>
+                                    <td>Immediate once they confirm acceptance</td>
+                                </tr>
+                                <tr>
+                                    <td>4️⃣ <strong>Clearing (if no offer)</strong></td>
+                                    <td>Students who didn't get accepted—or withdrew—can search for open places in universities that have vacancies.</td>
+                                    <td>Begins somewhere mid‑April; runs until the start of term</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <div id="key-terminology" class="content-section">
+                <div class="card">
+                    <h2>Key Terminology</h2>
+                    <div class="table-container">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th scope="col">Term</th>
+                                    <th scope="col">Meaning in Context</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><span class="badge">UF</span></td>
+                                    <td>Unconditional Offer (already confirmed)</td>
+                                </tr>
+                                <tr>
+                                    <td><span class="badge warning">CF</span></td>
+                                    <td>Conditional Offer (needs further info/conditions met)</td>
+                                </tr>
+                                <tr>
+                                    <td><span class="badge success">Clearing Hub</span></td>
+                                    <td>Dedicated system for students without offers</td>
+                                </tr>
+                                <tr>
+                                    <td><span class="badge danger">Call to Convert</span></td>
+                                    <td>Action item where you convert a provisional offer into an official one</td>
+                                </tr>
+                                <tr>
+                                    <td><span class="badge">Consideration</span></td>
+                                    <td>"Advanced entry" or "Portfolio interview" – needs department review</td>
+                                </tr>
+                                <tr>
+                                    <td><span class="badge">UCAS Code</span></td>
+                                    <td>Unique 3‑letter code for each course (e.g., M40 + course code)</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <div id="decision-tree" class="content-section">
+                <div class="card">
+                    <h2>Quick Decision Tree for Call-Handlers</h2>
+                    <div class="decision-tree" role="img" aria-label="Decision tree flowchart for handling clearing calls"><span class="start">START</span>
+│
+├─ <span class="question">Student holds an offer with MMU?</span>
+│   ├─ <strong>Yes</strong> → <span class="action">go to Confirmation Box</span> <span class="note">(no action needed)</span>
+│   └─ <strong>No</strong> → proceed
+│
+├─ <span class="question">Is the student a UK/EU home or International?</span>
+│   ├─ <strong>Home/EU</strong> → <span class="action">normal flow</span>
+│   └─ <strong>International</strong> → <span class="action">use international script + visa checks</span>
+│
+├─ <span class="question">Does the student have an existing provisional offer?</span>
+│   ├─ <strong>Yes</strong> → <span class="action">Call to Convert</span> <span class="note">(you)</span>
+│   └─ <strong>No</strong> → <span class="action">Consideration / Interview / Portfolio?</span> <span class="note">(send to admissions)</span>
+│
+└─ <span class="question">Duplicate inquiry?</span> → <span class="action">Merge / Note and close</span></div>
+                </div>
+            </div>
+
+            <div id="high-level-flow" class="content-section">
+                <div class="card">
+                    <h2>High-level Flow – From "Results Day" to "Student Accepted"</h2>
+                    <div class="table-container">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th scope="col">Step</th>
+                                    <th scope="col">What Happens</th>
+                                    <th scope="col">Who Does It?</th>
+                                    <th scope="col">Key Notes</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><strong>A</strong></td>
+                                    <td>Results released (8 am onward)</td>
+                                    <td>Admissions & IT</td>
+                                    <td>Most B.Tech results come early; international ones are prioritised.</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>B</strong></td>
+                                    <td>Students with <em>no</em> offer → enter <strong>Clearing Hub</strong></td>
+                                    <td>Call‑centre staff</td>
+                                    <td>12 phone lines start mid‑August, run until the end of the term.</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>C</strong></td>
+                                    <td>Students already holding an offer (UF/CF) → <strong>Confirmation Box</strong></td>
+                                    <td>Admissions team</td>
+                                    <td>They're confirmed automatically; no clearing needed.</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>D</strong></td>
+                                    <td>Call‑handlers receive inquiries in Cherwell / Chairwell</td>
+                                    <td>Call‑handlers & IT</td>
+                                    <td>1 / 3 of all inquiries are duplicates – keep track!</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>E</strong></td>
+                                    <td>"Call to Convert" (provisional offer already made) → you call student, confirm course, send official UCAS email.</td>
+                                    <td>Academic staff (you)</td>
+                                    <td>10-15 min max per call; aim for 2‑3 attempts.</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>F</strong></td>
+                                    <td>"Consideration / Interview / Portfolio" → send form to admissions or international team.</td>
+                                    <td>Admissions / International</td>
+                                    <td>Decision made by the relevant team, not you.</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>G</strong></td>
+                                    <td>Student accepts via UCAS (post‑referral) → official confirmation sent; accommodation triggers after system sync.</td>
+                                    <td>IT & Accommodation office</td>
+                                    <td>Wait 8 weeks for finance; advise students to apply ASAP.</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <div id="call-checklist" class="content-section">
+                <div class="card">
+                    <h2>"Call to Convert" Checklist</h2>
+                    <div class="alert alert-warning">
+                        <strong>Important:</strong> Maximum 10-15 minutes per call. Aim for 2-3 attempts before moving on.
+                    </div>
+
+                    <div class="table-container">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th scope="col">Item</th>
+                                    <th scope="col">How to Do It</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><strong>1. Verify qualifications</strong></td>
+                                    <td>Check entry‑requirements table in Cherwell; match A‑levels, GCSEs, etc.</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>2. Confirm course & UCAS code</strong></td>
+                                    <td>Open the "Course" field → drop‑down list. If you think a better fit exists, change it and re‑send offer.</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>3. Prepare the call script</strong></td>
+                                    <td>
+                                        • Greet warmly<br>
+                                        • Explain what they'll get (course details, projects, etc.)<br>
+                                        • Ask if any questions<br>
+                                        • Tell them to refer themselves on UCAS after 1 pm tomorrow
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><strong>4. Make the call</strong></td>
+                                    <td>3‑5 attempts; leave voicemail with clear next steps.</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>5. Record outcome in Cherwell</strong></td>
+                                    <td>
+                                        – "Call to Convert Complete" → click button<br>
+                                        – Add any notes (e.g., "student wants to change from Geography to History").
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><strong>6. Send UCAS email</strong></td>
+                                    <td>Auto‑generated after you click "Complete"; double‑check UCAS code matches course.</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <div id="ucas-referral" class="content-section">
+                <div class="card">
+                    <h2>UCAS Referral Rules (for students)</h2>
+                    
+                    <div class="alert alert-warning">
+                        <strong>Remember:</strong> Students who have an existing offer with MMU must NOT "self‑release" into clearing—this would lose their accommodation.
+                    </div>
+
+                    <div class="table-container">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th scope="col">Situation</th>
+                                    <th scope="col">What student must do</th>
+                                    <th scope="col">When they can refer</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><strong>No offer elsewhere</strong></td>
+                                    <td>Create UCAS reference, select <em>Clearing</em> as first choice, enter your UCAS code</td>
+                                    <td>After 1 pm tomorrow</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Holding another university's offer</strong></td>
+                                    <td>Decline that place on UCAS hub, then refer to us</td>
+                                    <td>Same day (after decline)</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Already holding our UF/CF</strong></td>
+                                    <td>No referral needed; we'll change the course if they want a different one.</td>
+                                    <td>–</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <div id="applicant-scenarios" class="content-section">
+                <div class="card">
+                    <h2>Potential Applicant Scenarios</h2>
+                    <div class="table-container">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th scope="col">Scenario</th>
+                                    <th scope="col">Action & Notes</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><strong>Not holding any offers</strong></td>
+                                    <td>
+                                        • Eligible for Clearing, so you can make an offer.<br>
+                                        • <strong>Must</strong> refer themselves to Manchester Met <strong>within 48 hours</strong>.<br>
+                                        • Give: Uni code <strong>M40</strong> and UCAS course code.
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Not applied through UCAS yet</strong></td>
+                                    <td>
+                                        • Can offer, but must apply via UCAS and refer themselves to Manchester Met within <strong>48 hours</strong> (likely to take longer).<br>
+                                        • Uni code: <strong>M40</strong> and UCAS course code.
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Holding offer at another university</strong></td>
+                                    <td>
+                                        • You can offer, but applicant must <strong>self-release into Clearing</strong> via UCAS Hub to accept our new offer.<br>
+                                        • <strong>Must</strong> refer themselves to Manchester Met within <strong>48 hours</strong>.<br>
+                                        • Give: Uni code <strong>M40</strong> and UCAS course code.
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Holding a Manchester Met offer (UF)</strong></td>
+                                    <td>
+                                        • Treat as Clearing call.<br>
+                                        • Applicant does <strong>not</strong> need to release into Clearing (avoids losing accommodation).<br>
+                                        • A changed course offer can be made by Admissions.
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Insurance with Manchester Met</strong></td>
+                                    <td>
+                                        • If already Unconditional Firm at other HEI, need to <strong>self-release into Clearing</strong> and come back to Manchester Met via Clearing.<br>
+                                        • If Conditional Firm at another university and wants to go firm with us, applicant must be <strong>rejected</strong> from firm offer at other HEI.
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Wants a different course after provisional offer</strong></td>
+                                    <td>
+                                        • Change course in Cherwell → send new UCAS email.<br>
+                                        • No need for a new call if they already spoke to you.
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><strong>International student missing visa documents</strong></td>
+                                    <td>
+                                        • Pass to International Admissions.<br>
+                                        • Do <strong>not</strong> make Call to Convert.
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Duplicate inquiry from same student</strong></td>
+                                    <td>• Merge records or note "duplicate" and close.</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Student declines our offer but wants another course at MMU</strong></td>
+                                    <td>• Update course via "Change Course Offer" in system → no accommodation loss.</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <div id="advanced-entry" class="content-section">
+                <div class="card">
+                    <h2>Handling Advanced Entry / Portfolio / Interview</h2>
+                    <ol>
+                        <li><strong>Receive form</strong> → Attach transcript or portfolio link.</li>
+                        <li><strong>Review quickly</strong> (you don't decide, but note any issues).</li>
+                        <li><strong>Forward to Admissions/International</strong> via "Pass to Team" button.</li>
+                        <li><strong>Admissions makes offer/reject</strong> and updates Cherwell.</li>
+                    </ol>
+
+                    <div class="alert alert-info">
+                        <strong>Tip:</strong> If you're unsure about a portfolio, drop a quick note in the form: "Need to review portfolio; will pass to admissions." This keeps everyone on the same page.
+                    </div>
+                </div>
+            </div>
+
+            <div id="entry-requirements" class="content-section">
+                <div class="card">
+                    <h2>Entry Requirements Snapshot (Sample)</h2>
+                    <div class="table-container">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th scope="col">Course</th>
+                                    <th scope="col">Minimum A‑level Points</th>
+                                    <th scope="col">GCSEs Needed</th>
+                                    <th scope="col">Special Notes</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>English & Creative Writing</td>
+                                    <td>80 UCAS points</td>
+                                    <td>A-C or Grade 4 in English</td>
+                                    <td>—</td>
+                                </tr>
+                                <tr>
+                                    <td>Biology (B.Tech)</td>
+                                    <td>90 points</td>
+                                    <td>5 GCSEs including Maths, Science</td>
+                                    <td>—</td>
+                                </tr>
+                                <tr>
+                                    <td>Fine Art</td>
+                                    <td>70 points</td>
+                                    <td>No specific GCSE; portfolio required</td>
+                                    <td>Portfolio review needed</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <div id="phone-capacity" class="content-section">
+                <div class="card">
+                    <h2>Phone‑Line Capacity & Waiting Times</h2>
+                    <div class="table-container">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th scope="col">Time Slot</th>
+                                    <th scope="col">Avg Wait Time</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>08:00–11:00</td>
+                                    <td>&lt; 5 min</td>
+                                </tr>
+                                <tr>
+                                    <td>11:00–12:00</td>
+                                    <td>7 min</td>
+                                </tr>
+                                <tr>
+                                    <td>12:00–13:00</td>
+                                    <td>10 min</td>
+                                </tr>
+                                <tr>
+                                    <td>13:00+</td>
+                                    <td>&lt; 5 min</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="alert alert-info">
+                        <strong>Tip:</strong> If you're a new staff member, start early to catch the peak (08‑11 am).
+                    </div>
+                </div>
+            </div>
+
+            <div id="phonetic-alphabet" class="content-section">
+                <div class="card">
+                    <h2>Phonetic Alphabet</h2>
+                    <p>Handy when audio quality is poor (typically poor audio when on VOIP calls)</p>
+                    <div class="phonetic-grid">
+                        <div class="phonetic-item">
+                            <div class="phonetic-letter">A</div>
+                            <div>Alpha</div>
+                            <div>Australia</div>
+                        </div>
+                        <div class="phonetic-item">
+                            <div class="phonetic-letter">B</div>
+                            <div>Bravo</div>
+                            <div>Brazil</div>
+                        </div>
+                        <div class="phonetic-item">
+                            <div class="phonetic-letter">C</div>
+                            <div>Charlie</div>
+                            <div>Canada</div>
+                        </div>
+                        <div class="phonetic-item">
+                            <div class="phonetic-letter">D</div>
+                            <div>Delta</div>
+                            <div>Denmark</div>
+                        </div>
+                        <div class="phonetic-item">
+                            <div class="phonetic-letter">E</div>
+                            <div>Echo</div>
+                            <div>Egypt</div>
+                        </div>
+                        <div class="phonetic-item">
+                            <div class="phonetic-letter">F</div>
+                            <div>Foxtrot</div>
+                            <div>France</div>
+                        </div>
+                        <div class="phonetic-item">
+                            <div class="phonetic-letter">G</div>
+                            <div>Golf</div>
+                            <div>Germany</div>
+                        </div>
+                        <div class="phonetic-item">
+                            <div class="phonetic-letter">H</div>
+                            <div>Hotel</div>
+                            <div>Hungary</div>
+                        </div>
+                        <div class="phonetic-item">
+                            <div class="phonetic-letter">I</div>
+                            <div>India</div>
+                            <div>India</div>
+                        </div>
+                        <div class="phonetic-item">
+                            <div class="phonetic-letter">J</div>
+                            <div>Juliet</div>
+                            <div>Japan</div>
+                        </div>
+                        <div class="phonetic-item">
+                            <div class="phonetic-letter">K</div>
+                            <div>Kilo</div>
+                            <div>Kenya</div>
+                        </div>
+                        <div class="phonetic-item">
+                            <div class="phonetic-letter">L</div>
+                            <div>Lima</div>
+                            <div>Lebanon</div>
+                        </div>
+                        <div class="phonetic-item">
+                            <div class="phonetic-letter">M</div>
+                            <div>Mike</div>
+                            <div>Mexico</div>
+                        </div>
+                        <div class="phonetic-item">
+                            <div class="phonetic-letter">N</div>
+                            <div>November</div>
+                            <div>Norway</div>
+                        </div>
+                        <div class="phonetic-item">
+                            <div class="phonetic-letter">O</div>
+                            <div>Oscar</div>
+                            <div>Oman</div>
+                        </div>
+                        <div class="phonetic-item">
+                            <div class="phonetic-letter">P</div>
+                            <div>Papa</div>
+                            <div>Peru</div>
+                        </div>
+                        <div class="phonetic-item">
+                            <div class="phonetic-letter">Q</div>
+                            <div>Quebec</div>
+                            <div>Qatar</div>
+                        </div>
+                        <div class="phonetic-item">
+                            <div class="phonetic-letter">R</div>
+                            <div>Romeo</div>
+                            <div>Romania</div>
+                        </div>
+                        <div class="phonetic-item">
+                            <div class="phonetic-letter">S</div>
+                            <div>Sierra</div>
+                            <div>Spain</div>
+                        </div>
+                        <div class="phonetic-item">
+                            <div class="phonetic-letter">T</div>
+                            <div>Tango</div>
+                            <div>Thailand</div>
+                        </div>
+                        <div class="phonetic-item">
+                            <div class="phonetic-letter">U</div>
+                            <div>Uniform</div>
+                            <div>Ukraine</div>
+                        </div>
+                        <div class="phonetic-item">
+                            <div class="phonetic-letter">V</div>
+                            <div>Victor</div>
+                            <div>Vietnam</div>
+                        </div>
+                        <div class="phonetic-item">
+                            <div class="phonetic-letter">W</div>
+                            <div>Whisky</div>
+                            <div>Wales</div>
+                        </div>
+                        <div class="phonetic-item">
+                            <div class="phonetic-letter">X</div>
+                            <div>X-Ray</div>
+                            <div>(use X-Ray)</div>
+                        </div>
+                        <div class="phonetic-item">
+                            <div class="phonetic-letter">Y</div>
+                            <div>Yankee</div>
+                            <div>Yemen</div>
+                        </div>
+                        <div class="phonetic-item">
+                            <div class="phonetic-letter">Z</div>
+                            <div>Zulu</div>
+                            <div>Zambia</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="timeline" class="content-section">
+                <div class="card">
+                    <h2>Clearing Timeline & Embargo Periods</h2>
+                    <div class="table-container">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th scope="col">Phase</th>
+                                    <th scope="col">Dates</th>
+                                    <th scope="col">Notes</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><strong>Applicant's Early Research Phase</strong></td>
+                                    <td>1 May – 20 June</td>
+                                    <td>Manchester Met Clearing website live since 1 May</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Pre-Clearing</strong></td>
+                                    <td>Late June – 4 July</td>
+                                    <td>Preparation stage</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Early Clearing</strong></td>
+                                    <td>5 July – 13 August</td>
+                                    <td>Subject listings live since 5 July; support needed from this point</td>
+                                </tr>
+                                <tr style="background: rgba(255, 193, 7, 0.1);">
+                                    <td><strong>🚫 SQA Embargo (Scottish)</strong></td>
+                                    <td>28 July 18:00 – 5 August 09:00</td>
+                                    <td>No communication with offer holders during this period</td>
+                                </tr>
+                                <tr style="background: rgba(255, 193, 7, 0.1);">
+                                    <td><strong>🚫 JCQ Embargo (England)</strong></td>
+                                    <td>8 August 08:00 – 14 August 08:00</td>
+                                    <td>No communication with offer holders during this period</td>
+                                </tr>
+                                <tr style="background: rgba(255, 107, 53, 0.1);">
+                                    <td><strong>🔥 A Level Results Day Peak</strong></td>
+                                    <td>14–15 August</td>
+                                    <td>Highest call volume - Clearing Hub open: 14 to 22 August</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Late Clearing 1</strong></td>
+                                    <td>16–29 August</td>
+                                    <td>Continued clearing activities</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Late Clearing 2</strong></td>
+                                    <td>1 September – Close</td>
+                                    <td>Final clearing period</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <div id="quick-start" class="content-section">
+                <div class="card">
+                    <h2>Quick‑Start Checklist (Before Your Shift)</h2>
+                    <ol>
+                        <li>Log into Cherwell → check your dashboard for new "Call to Convert" items.</li>
+                        <li>Verify you have the correct phone system licence (Horizon Webex).</li>
+                        <li>Open the UCAS code list in your department folder (SharePoint).</li>
+                        <li>Read the latest "Clearing Policy" PDF (posted on SharePoint).</li>
+                        <li>Note any upcoming deadlines: 1 pm tomorrow for referrals, 21st Aug for GCSE reset.</li>
+                    </ol>
+                </div>
+            </div>
+
+            <div id="contacts" class="content-section">
+                <div class="card">
+                    <h2>Contacts</h2>
+                    <h3>General Contacts</h3>
+                    <p>In case of queries or struggling with anything, shoot message to the following:</p>
+                    
+                    <div class="contact-grid">
+                        <div class="contact-card">
+                            <h4>General Admissions</h4>
+                            <a href="mailto:admissions@mmu.ac.uk">admissions@mmu.ac.uk</a>
+                        </div>
+                        <div class="contact-card">
+                            <h4>International Admissions</h4>
+                            <a href="mailto:international@mmu.ac.uk">international@mmu.ac.uk</a>
+                        </div>
+                        <div class="contact-card">
+                            <h4>Cherwell Support</h4>
+                            <a href="mailto:cherwell@mmu.ac.uk">cherwell@mmu.ac.uk</a>
+                        </div>
+                        <div class="contact-card">
+                            <h4>Clearing Hub Email</h4>
+                            <a href="mailto:clearinghub@mmu.ac.uk">clearinghub@mmu.ac.uk</a>
+                        </div>
+                        <div class="contact-card">
+                            <h4>Student Finance</h4>
+                            <a href="mailto:finance@mmu.ac.uk">finance@mmu.ac.uk</a>
+                            <p>(for quick queries)</p>
+                        </div>
+                    </div>
+
+                    <h3>Expert Colleagues</h3>
+                    <p>Direct clearing questions (Teams or Email) to colleagues with tons of experience and expertise:</p>
+                    
+                    <div class="contact-grid">
+                        <div class="contact-card">
+                            <h4>Peter Riley</h4>
+                            <a href="mailto:p.riley@mmu.ac.uk">p.riley@mmu.ac.uk</a>
+                        </div>
+                        <div class="contact-card">
+                            <h4>Sally Merrell</h4>
+                            <a href="mailto:s.a.merrell@mmu.ac.uk">s.a.merrell@mmu.ac.uk</a>
+                        </div>
+                        <div class="contact-card">
+                            <h4>Benedikte Joergensen</h4>
+                            <a href="mailto:b.joergensen@mmu.ac.uk">b.joergensen@mmu.ac.uk</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="useful-links" class="content-section">
+                <div class="card">
+                    <h2>Useful Links</h2>
+                    <div class="table-container">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th scope="col">#</th>
+                                    <th scope="col">What It Is</th>
+                                    <th scope="col">URL</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><strong>A</strong></td>
+                                    <td>Staff Information Form – to gain access to Cherwell & Horizon</td>
+                                    <td><a href="https://forms.office.com/e/8WhHnRd0iH" target="_blank" rel="noopener">https://forms.office.com/e/8WhHnRd0iH</a></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>B</strong></td>
+                                    <td>Training materials & recording (SharePoint)</td>
+                                    <td><a href="https://stummuac.sharepoint.com/sites/pro-itd-cac2025/Academic%20Training%20Material/Forms/AllItems.aspx" target="_blank" rel="noopener">Academic Training Material</a></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>C</strong></td>
+                                    <td>Copy of the presentation (PowerPoint)</td>
+                                    <td><a href="https://stummuac.sharepoint.com/:p:/r/sites/pro-itd-cac2025/Academic%20Training%20Material/C%26C%20Academic%20staff%20briefing%202025_august.pptx" target="_blank" rel="noopener">Academic Staff Briefing 2025</a></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>D</strong></td>
+                                    <td>UCAS Tariff 2025</td>
+                                    <td><a href="https://stummuac.sharepoint.com/:b:/r/sites/pro-itd-cac2025/Academic%20Training%20Material/Training%20materials%20-%20%27green%20folder%27/UCAS%20Tariff%202025.pdf" target="_blank" rel="noopener">UCAS Tariff 2025.pdf</a></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>E</strong></td>
+                                    <td>Webex - Android</td>
+                                    <td><a href="https://stummuac.sharepoint.com/:b:/r/sites/pro-itd-cac2025/Academic%20Training%20Material/Horizon%20Webex%20-%20Android/Horizon%20Webex%20User%20Guide%20-%20ANDROID.pdf" target="_blank" rel="noopener">Horizon Webex User Guide - ANDROID.pdf</a></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>F</strong></td>
+                                    <td>Webex - iOS</td>
+                                    <td><a href="https://stummuac.sharepoint.com/:b:/r/sites/pro-itd-cac2025/Academic%20Training%20Material/Horizon%20Webex%20-%20iOS/Horizon%20Webex%20User%20Guide%20-%20iOS.pdf" target="_blank" rel="noopener">Horizon Webex User Guide - iOS.pdf</a></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        class ClearingTool {
+            constructor() {
+                this.initializeSettings();
+                this.attachEventListeners();
+                this.setupNavigation();
+                this.setupSearch();
+                this.loadUserPreferences();
+            }
+
+            initializeSettings() {
+                this.settings = {
+                    theme: 'light',
+                    fontSize: 'normal'
+                };
+                
+                this.sections = [
+                    'what-is-clearing', 'key-terminology', 'decision-tree', 'high-level-flow',
+                    'call-checklist', 'ucas-referral', 'applicant-scenarios', 'advanced-entry',
+                    'entry-requirements', 'phone-capacity', 'phonetic-alphabet',
+                    'timeline', 'quick-start', 'contacts', 'useful-links'
+                ];
+            }
+
+            attachEventListeners() {
+                // Dark mode toggle
+                document.getElementById('dark-mode-toggle').addEventListener('click', () => {
+                    this.toggleDarkMode();
+                });
+
+                // Font size controls
+                document.getElementById('font-size-small').addEventListener('click', () => {
+                    this.setFontSize('small');
+                });
+                document.getElementById('font-size-normal').addEventListener('click', () => {
+                    this.setFontSize('normal');
+                });
+                document.getElementById('font-size-large').addEventListener('click', () => {
+                    this.setFontSize('large');
+                });
+                document.getElementById('font-size-xl').addEventListener('click', () => {
+                    this.setFontSize('xl');
+                });
+
+                // Reset settings
+                document.getElementById('reset-settings').addEventListener('click', () => {
+                    this.resetSettings();
+                });
+
+                // Mobile menu toggle
+                document.getElementById('mobile-menu-toggle').addEventListener('click', () => {
+                    this.toggleMobileMenu();
+                });
+
+                // Sidebar overlay click
+                document.getElementById('sidebar-overlay').addEventListener('click', () => {
+                    this.closeMobileMenu();
+                });
+
+                // Accessibility toolbar keyboard navigation
+                document.querySelectorAll('.accessibility-toolbar button').forEach(button => {
+                    button.addEventListener('keydown', (e) => {
+                        if (e.key === 'Enter' || e.key === ' ') {
+                            e.preventDefault();
+                            button.click();
+                        }
+                    });
+                });
+            }
+
+            toggleDarkMode() {
+                this.settings.theme = this.settings.theme === 'light' ? 'dark' : 'light';
+                this.applyTheme();
+                this.saveUserPreferences();
+            }
+
+            setFontSize(size) {
+                this.settings.fontSize = size;
+                this.applyFontSize();
+                this.updateFontSizeButtons();
+                this.saveUserPreferences();
+            }
+
+            applyTheme() {
+                document.documentElement.setAttribute('data-theme', this.settings.theme);
+                const button = document.getElementById('dark-mode-toggle');
+                button.textContent = this.settings.theme === 'dark' ? '☀️' : '🌙';
+                button.setAttribute('aria-pressed', this.settings.theme === 'dark');
+                button.classList.toggle('active', this.settings.theme === 'dark');
+            }
+
+            applyFontSize() {
+                document.documentElement.setAttribute('data-font-size', this.settings.fontSize);
+            }
+
+            updateFontSizeButtons() {
+                const buttons = ['font-size-small', 'font-size-normal', 'font-size-large', 'font-size-xl'];
+                buttons.forEach(id => {
+                    const button = document.getElementById(id);
+                    const isActive = id.includes(this.settings.fontSize);
+                    button.setAttribute('aria-pressed', isActive);
+                    button.classList.toggle('active', isActive);
+                });
+            }
+
+            resetSettings() {
+                this.settings = {
+                    theme: 'light',
+                    fontSize: 'normal'
+                };
+                this.applyTheme();
+                this.applyFontSize();
+                this.updateFontSizeButtons();
+                this.saveUserPreferences();
+            }
+
+            toggleMobileMenu() {
+                const sidebar = document.getElementById('sidebar');
+                const overlay = document.getElementById('sidebar-overlay');
+                
+                sidebar.classList.toggle('open');
+                overlay.classList.toggle('active');
+            }
+
+            closeMobileMenu() {
+                const sidebar = document.getElementById('sidebar');
+                const overlay = document.getElementById('sidebar-overlay');
+                
+                sidebar.classList.remove('open');
+                overlay.classList.remove('active');
+            }
+
+            saveUserPreferences() {
+                try {
+                    console.log('Settings would be saved:', this.settings);
+                } catch (e) {
+                    console.log('Settings cannot be persisted in this environment');
+                }
+            }
+
+            loadUserPreferences() {
+                try {
+                    this.applyTheme();
+                    this.applyFontSize();
+                    this.updateFontSizeButtons();
+                } catch (e) {
+                    console.log('No saved settings found');
+                }
+            }
+
+            setupNavigation() {
+                const navItems = document.querySelectorAll('.nav-item');
+                
+                navItems.forEach(item => {
+                    item.addEventListener('click', (e) => {
+                        const section = e.target.dataset.section;
+                        this.showSection(section);
+                        this.closeMobileMenu();
+                    });
+
+                    item.addEventListener('keydown', (e) => {
+                        if (e.key === 'Enter' || e.key === ' ') {
+                            e.preventDefault();
+                            const section = e.target.dataset.section;
+                            this.showSection(section);
+                            this.closeMobileMenu();
+                        }
+                    });
+                });
+            }
+
+            showSection(sectionId) {
+                // Hide search results
+                const searchResults = document.getElementById('search-results');
+                searchResults.classList.remove('active');
+
+                // Hide all sections
+                this.sections.forEach(id => {
+                    const section = document.getElementById(id);
+                    if (section) {
+                        section.classList.remove('active');
+                    }
+                });
+
+                // Show target section
+                const targetSection = document.getElementById(sectionId);
+                if (targetSection) {
+                    targetSection.classList.add('active');
+                }
+
+                // Update navigation
+                document.querySelectorAll('.nav-item').forEach(item => {
+                    item.classList.toggle('active', item.dataset.section === sectionId);
+                });
+
+                // Clear search
+                const searchInput = document.getElementById('search');
+                searchInput.value = '';
+            }
+
+            setupSearch() {
+                const searchInput = document.getElementById('search');
+                let searchTimeout;
+
+                searchInput.addEventListener('input', (e) => {
+                    clearTimeout(searchTimeout);
+                    searchTimeout = setTimeout(() => {
+                        this.performSearch(e.target.value);
+                    }, 300);
+                });
+
+                searchInput.addEventListener('keydown', (e) => {
+                    if (e.key === 'Escape') {
+                        e.target.value = '';
+                        this.clearSearch();
+                        e.target.blur();
+                    }
+                });
+            }
+
+            performSearch(query) {
+                const searchTerm = query.toLowerCase().trim();
+                
+                if (!searchTerm) {
+                    this.clearSearch();
+                    return;
+                }
+
+                const results = this.searchAllContent(searchTerm);
+                this.displaySearchResults(results, searchTerm);
+            }
+
+            searchAllContent(searchTerm) {
+                const results = [];
+
+                this.sections.forEach(sectionId => {
+                    const section = document.getElementById(sectionId);
+                    if (!section) return;
+
+                    const sectionTitle = this.getSectionTitle(sectionId);
+                    const content = section.textContent.toLowerCase();
+                    
+                    if (content.includes(searchTerm)) {
+                        // Find specific matches within the section
+                        const cards = section.querySelectorAll('.card');
+                        
+                        cards.forEach(card => {
+                            const cardContent = card.textContent.toLowerCase();
+                            if (cardContent.includes(searchTerm)) {
+                                const cardTitle = card.querySelector('h2, h3')?.textContent || sectionTitle;
+                                const preview = this.getSearchPreview(card.textContent, searchTerm);
+                                
+                                results.push({
+                                    section: sectionTitle,
+                                    sectionId: sectionId,
+                                    title: cardTitle,
+                                    content: preview,
+                                    element: card
+                                });
+                            }
+                        });
+
+                        // If no cards found, search in the entire section
+                        if (section.querySelectorAll('.card').length === 0) {
+                            const preview = this.getSearchPreview(section.textContent, searchTerm);
+                            results.push({
+                                section: sectionTitle,
+                                sectionId: sectionId,
+                                title: sectionTitle,
+                                content: preview,
+                                element: section
+                            });
+                        }
+                    }
+                });
+
+                return results;
+            }
+
+            getSectionTitle(sectionId) {
+                const navItem = document.querySelector(`[data-section="${sectionId}"]`);
+                return navItem ? navItem.textContent : sectionId.replace(/-/g, ' ');
+            }
+
+            getSearchPreview(text, searchTerm, maxLength = 200) {
+                const lowerText = text.toLowerCase();
+                const index = lowerText.indexOf(searchTerm.toLowerCase());
+                
+                if (index === -1) return text.substring(0, maxLength) + '...';
+                
+                const start = Math.max(0, index - 50);
+                const end = Math.min(text.length, index + searchTerm.length + 100);
+                
+                let preview = text.substring(start, end);
+                if (start > 0) preview = '...' + preview;
+                if (end < text.length) preview = preview + '...';
+                
+                return preview;
+            }
+
+            displaySearchResults(results, searchTerm) {
+                const searchResults = document.getElementById('search-results');
+                const searchResultsContent = document.getElementById('search-results-content');
+                
+                // Hide all sections
+                this.sections.forEach(id => {
+                    const section = document.getElementById(id);
+                    if (section) {
+                        section.classList.remove('active');
+                    }
+                });
+
+                // Update nav
+                document.querySelectorAll('.nav-item').forEach(item => {
+                    item.classList.remove('active');
+                });
+
+                if (results.length === 0) {
+                    searchResultsContent.innerHTML = `
+                        <div class="alert alert-info">
+                            <strong>No results found</strong> for "${searchTerm}". Try different keywords.
+                        </div>
+                    `;
+                } else {
+                    searchResultsContent.innerHTML = results.map(result => `
+                        <div class="search-result-item" onclick="clearingTool.goToSection('${result.sectionId}')" style="cursor: pointer;">
+                            <div class="search-result-title">${result.title}</div>
+                            <div class="search-result-section">From: ${result.section}</div>
+                            <div class="search-result-content">${this.highlightSearchTerm(result.content, searchTerm)}</div>
+                        </div>
+                    `).join('');
+                }
+
+                searchResults.classList.add('active');
+            }
+
+            highlightSearchTerm(text, searchTerm) {
+                const regex = new RegExp(`(${searchTerm})`, 'gi');
+                return text.replace(regex, '<span class="highlight">$1</span>');
+            }
+
+            goToSection(sectionId) {
+                this.showSection(sectionId);
+            }
+
+            clearSearch() {
+                const searchResults = document.getElementById('search-results');
+                searchResults.classList.remove('active');
+                
+                // Show the first section by default
+                this.showSection('what-is-clearing');
+            }
+        }
+
+        // Initialize the application
+        let clearingTool;
+        document.addEventListener('DOMContentLoaded', () => {
+            clearingTool = new ClearingTool();
+
+            // Add keyboard navigation support
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Tab') {
+                    document.body.classList.add('keyboard-navigation');
+                }
+            });
+
+            document.addEventListener('mousedown', () => {
+                document.body.classList.remove('keyboard-navigation');
+            });
+
+            // Screen reader announcement
+            const announcement = document.createElement('div');
+            announcement.setAttribute('aria-live', 'polite');
+            announcement.setAttribute('aria-atomic', 'true');
+            announcement.className = 'sr-only';
+            announcement.textContent = 'MMU Clearing Reference Tool loaded. Use the sidebar to navigate and search to find information.';
+            document.body.appendChild(announcement);
+
+            setTimeout(() => {
+                if (announcement.parentNode) {
+                    announcement.parentNode.removeChild(announcement);
+                }
+            }, 3000);
+        });
+
+        // Add keyboard navigation styles
+        const keyboardStyles = document.createElement('style');
+        keyboardStyles.textContent = `
+            body.keyboard-navigation *:focus {
+                outline: 3px solid var(--focus-color) !important;
+                outline-offset: 2px !important;
+            }
+        `;
+        document.head.appendChild(keyboardStyles);
+    </script>
+</body>
+</html>
