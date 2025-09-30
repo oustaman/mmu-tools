@@ -34,6 +34,23 @@
             background-color: var(--bg-primary);
             color: var(--text-primary);
         }
+        
+        .canvas-button {
+            transition: all 0.2s ease;
+            cursor: pointer;
+            display: inline-block;
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.25rem;
+            font-weight: 600;
+            text-decoration: none;
+            border: 2px solid var(--text-primary);
+            background-color: transparent;
+            color: var(--text-primary);
+        }
+        
+        .canvas-button:hover {
+            text-decoration: underline;
+        }
     </style>
 </head>
 <body class="min-h-screen flex flex-col">
@@ -163,6 +180,11 @@
                 <p class="mt-8 text-xl font-semibold p-4 rounded" style="background-color: var(--bg-secondary);">
                     You're being assessed on the PROCESS, not the topic
                 </p>
+                <div class="mt-6 text-center">
+                    <a href="https://www.dropbox.com/scl/fi/0dynwbjnggjn8gngh18r7/DMT-Assignment-Brief.docx?rlkey=uq0zf11na2wjprbgct5ggqcf2&st=ksndeuf1&dl=0" target="_blank" class="canvas-button" aria-label="View full assessment brief">
+                        View Full Assessment Brief
+                    </a>
+                </div>
             </div>
 
             <!-- Slide 6: Portfolio Structure -->
@@ -217,7 +239,38 @@
                 </p>
             </div>
 
-            <!-- Slide 8: Today's Goal -->
+            <!-- Slide 8: MMU Library Tips -->
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-4xl font-bold mb-6">MMU Library: Your Research Superpower</h2>
+                <div class="mb-4 p-4 rounded" style="background-color: var(--bg-secondary); border: 2px solid var(--border-color);">
+                    <p class="text-lg font-semibold">Access: <a href="https://www.mmu.ac.uk/library/" target="_blank" style="color: var(--accent-color); text-decoration: underline;">mmu.ac.uk/library</a> (login with your student credentials)</p>
+                </div>
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
+                    <div class="p-4 rounded border-2" style="border-color: var(--border-color);">
+                        <p class="font-bold mb-2 text-lg">Key Databases for Digital Media:</p>
+                        <ul class="space-y-2 text-base">
+                            <li>• <strong><a href="https://www.mmu.ac.uk/library/using-the-library/find/databases/web-of-science" target="_blank" style="color: var(--accent-color); text-decoration: underline;">Web of Science</a></strong> - Academic articles</li>
+                            <li>• <strong><a href="https://www.mmu.ac.uk/library/using-the-library/find/databases/ieee-xplore" target="_blank" style="color: var(--accent-color); text-decoration: underline;">IEEE Xplore</a></strong> - Tech & computing</li>
+                            <li>• <strong><a href="https://www.mmu.ac.uk/library/using-the-library/find/databases/acm-digital-library" target="_blank" style="color: var(--accent-color); text-decoration: underline;">ACM Digital Library</a></strong> - Computing research</li>
+                            <li>• <strong><a href="https://www.mmu.ac.uk/library/using-the-library/find/databases/jstor" target="_blank" style="color: var(--accent-color); text-decoration: underline;">JSTOR</a></strong> - Arts & humanities</li>
+                        </ul>
+                    </div>
+                    <div class="p-4 rounded border-2" style="border-color: var(--border-color);">
+                        <p class="font-bold mb-2 text-lg">Quick Hacks:</p>
+                        <ul class="space-y-2 text-base">
+                            <li>• Use <strong>"Find it @ MMU"</strong> button for full text</li>
+                            <li>• <strong>Off-campus?</strong> VPN or OpenAthens access</li>
+                            <li>• Can't find full text? Request via <strong>library support</strong></li>
+                            <li>• Use <strong>subject librarians</strong> - free expert help!</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="mt-4 p-4 rounded" style="background-color: var(--bg-secondary);">
+                    <p class="text-lg"><strong>Pro tip:</strong> Google Scholar finds articles, but MMU library gets you the full PDF for free. Always check "Find it @ MMU" before paying for anything!</p>
+                </div>
+            </div>
+
+            <!-- Slide 9: Today's Goal -->
             <div class="slide flex-col justify-center h-[70vh]">
                 <h2 class="text-4xl font-bold mb-8">Today's Goal</h2>
                 <ul class="space-y-6 text-2xl">
@@ -243,7 +296,7 @@
                 </p>
             </div>
 
-            <!-- Slide 9: Example 1 - 36 Days of Type -->
+            <!-- Slide 10: Example 1 - 36 Days of Type -->
             <div class="slide flex-col justify-center h-[70vh]">
                 <h2 class="text-4xl font-bold mb-6">Real-World Example: 36 Days of Type</h2>
                 <div class="mb-6 p-4 rounded" style="background-color: var(--bg-secondary); border: 2px solid var(--border-color);">
@@ -261,7 +314,7 @@
                         <li>• Creativity works within constraints (you can be original even with common topics)</li>
                     </ul>
                 </div>
-                <p class="text-sm mt-4" style="color: var(--text-secondary);">Find it: Instagram #36daysoftype | Behance | www.36daysoftype.com</p>
+                <p class="text-sm mt-4" style="color: var(--text-secondary);">Find it: <a href="https://www.instagram.com/explore/tags/36daysoftype/" target="_blank" style="color: var(--accent-color); text-decoration: underline;">Instagram #36daysoftype</a> | <a href="https://www.behance.net/search/projects/36days%20of%20type" target="_blank" style="color: var(--accent-color); text-decoration: underline;">Behance</a> | <a href="https://www.36daysoftype.com/" target="_blank" style="color: var(--accent-color); text-decoration: underline;">36daysoftype.com</a></p>
             </div>
 
             <!-- Slide 10: Example 2 - Daily UI Challenge -->
@@ -282,7 +335,7 @@
                         <li>• Two people researching "AI in design" can produce completely different portfolios</li>
                     </ul>
                 </div>
-                <p class="text-sm mt-4" style="color: var(--text-secondary);">Find it: collectui.com | Dribbble #dailyui | www.dailyui.co</p>
+                <p class="text-sm mt-4" style="color: var(--text-secondary);">Find it: <a href="https://collectui.com/challenges" target="_blank" style="color: var(--accent-color); text-decoration: underline;">collectui.com</a> | <a href="https://dribbble.com/search/shots/popular/web-design?q=dailyui" target="_blank" style="color: var(--accent-color); text-decoration: underline;">Dribbble #dailyui</a> | <a href="https://www.dailyui.co/" target="_blank" style="color: var(--accent-color); text-decoration: underline;">dailyui.co</a></p>
             </div>
 
             <!-- Slide 11: Example 3 - News Coverage Comparison -->
@@ -303,7 +356,53 @@
                         <li>• Multiple sources give you a fuller picture than a single source</li>
                     </ul>
                 </div>
-                <p class="text-sm mt-4" style="color: var(--text-secondary);">Try it: Pick any tech news story and compare BBC News, TechCrunch, The Guardian, The Verge</p>
+                <p class="text-sm mt-4" style="color: var(--text-secondary);">Try it: <a href="https://www.bbc.com/news/technology" target="_blank" style="color: var(--accent-color); text-decoration: underline;">BBC News</a> | <a href="https://techcrunch.com/" target="_blank" style="color: var(--accent-color); text-decoration: underline;">TechCrunch</a> | <a href="https://www.theguardian.com/uk/technology" target="_blank" style="color: var(--accent-color); text-decoration: underline;">The Guardian</a> | <a href="https://www.theverge.com/" target="_blank" style="color: var(--accent-color); text-decoration: underline;">The Verge</a></p>
+            </div>
+
+            <!-- Slide 12: Academic Standards -->
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-4xl font-bold mb-6">From Social Media to Academic Standards</h2>
+                <div class="mb-6 p-4 rounded" style="background-color: var(--bg-secondary); border: 2px solid var(--border-color);">
+                    <p class="text-xl">The examples we just looked at are mostly informal social media - creative, inspiring, but largely unregulated.</p>
+                </div>
+                <div class="mb-6">
+                    <p class="text-2xl font-semibold mb-4">At university, we do things properly:</p>
+                    <ul class="space-y-3 text-lg">
+                        <li>• <strong>Due process</strong> - systematic research methods</li>
+                        <li>• <strong>Ethical standards</strong> - proper attribution, avoiding plagiarism</li>
+                        <li>• <strong>Library resources</strong> - catalog, databases, and expert support at the center of your work</li>
+                        <li>• <strong>Academic rigor</strong> - even when studying informal phenomena like TikTok or memes</li>
+                    </ul>
+                </div>
+                <div class="p-4 rounded" style="background-color: var(--bg-secondary);">
+                    <p class="text-lg font-semibold mb-2">This is a journey:</p>
+                    <p class="text-lg">You won't learn everything in a single session. But by the time you graduate, you'll be far more systematic and structured in how you think and how you work - whether you're analyzing social media trends or developing new technologies.</p>
+                </div>
+            </div>
+
+            <!-- Slide 13: Today's Activity -->
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-4xl font-bold mb-6">Now: Your Turn!</h2>
+                <div class="mb-6 p-5 rounded" style="background-color: var(--bg-secondary); border: 2px solid var(--border-color);">
+                    <p class="text-2xl font-semibold mb-3">Today's Activity: Research Topic Selection Canvas</p>
+                    <p class="text-lg">A digital tool to help you develop your research topic step-by-step</p>
+                </div>
+                <div class="mb-6">
+                    <p class="text-xl font-semibold mb-3">What you'll do:</p>
+                    <ul class="space-y-3 text-lg">
+                        <li>• Work through 7 guided sections to define your topic</li>
+                        <li>• Explore topic areas, motivations, and research questions</li>
+                        <li>• Build your initial keywords and focus</li>
+                        <li>• Create your final topic statement for the portfolio</li>
+                    </ul>
+                </div>
+                <div class="mt-6 p-5 rounded text-center" style="background-color: var(--bg-secondary); border: 2px solid var(--border-color);">
+                    <p class="text-xl font-bold mb-4">Open the Canvas:</p>
+                    <a href="research-topic-canvas.html" target="_blank" class="canvas-button" aria-label="Launch Research Topic Canvas">
+                        Launch Research Topic Canvas →
+                    </a>
+                </div>
+                <p class="text-sm mt-4 text-center" style="color: var(--text-secondary);">Takes approximately 25-30 minutes | Save your work as you go</p>
             </div>
         </div>
     </main>
@@ -313,7 +412,7 @@
             <button id="prevBtn" class="px-6 py-2 rounded border font-medium" style="border-color: var(--border-color);" aria-label="Previous slide">
                 ← Previous
             </button>
-            <span id="slideCounter" class="text-lg" style="color: var(--text-secondary);">1 / 8</span>
+            <span id="slideCounter" class="text-lg" style="color: var(--text-secondary);">1 / 14</span>
             <button id="nextBtn" class="px-6 py-2 rounded border font-medium" style="border-color: var(--border-color);" aria-label="Next slide">
                 Next →
             </button>
