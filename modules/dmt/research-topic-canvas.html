@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Research Topic Selection Canvas</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        :root {
+            --bg-primary: #ffffff;
+            --bg-secondary: #f8f9fa;
+            --text-primary: #1f2937;
+            --text-secondary: #4b5563;
+            --border-color: #d1d5db;
+            --accent-color: #60a5fa;
+            --accent-bg: #e0f2fe;
+            --accent-text: #0c4a6e;
+            --canvas-bg: #fefaf5;
+            --canvas-border: #d4a574;
+        }
+        
+        .dark-mode {
+            --bg-primary: #1f2937;
+            --bg-secondary: #111827;
+            --text-primary: #f3f4f6;
+            --text-secondary: #d1d5db;
+            --border-color: #6b7280;
+            --accent-color: #7dd3fc;
+            --accent-bg: #164e63;
+            --accent-text: #e0f2fe;
+            --canvas-bg: #2d1f17;
+            --canvas-border: #9ca3af;
+        }
+        
+        body {
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+        }
+        
+        .canvas-box {
+            background-color: var(--canvas-bg);
+            border: 2px solid var(--canvas-border);
+            border-radius: 0.5rem;
+            padding: 1.5rem;
+            min-height: 180px;
+            transition: all 0.3s ease;
+        }
+        
+        .canvas-box:hover {
+            border-color: var(--accent-color);
+        }
+        
+        .canvas-box textarea {
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            border: 2px solid var(--border-color);
+            border-radius: 0.375rem;
+            padding: 0.75rem;
+            width: 100%;
+            min-height: 100px;
+            font-size: 0.95rem;
+            resize: vertical;
+        }
+        
+        .canvas-box textarea:focus {
+            outline: none;
+            border-color: var(--accent-color);
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.2);
+        }
+        
+        .suggestion-tag {
+            display: inline-block;
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            padding: 0.4rem 0.85rem;
+            border-radius: 1rem;
+            font-size: 0.85rem;
+            font-weight: 500;
+            margin: 0.25rem;
+            cursor: pointer;
+            border: 2px solid var(--border-color);
+            transition: all 0.2s ease;
+        }
+        
+        .suggestion-tag:hover {
+            background-color: var(--accent-color);
+            color: white;
+            border-color: var(--accent-color);
+        }
+        
+        .suggestion-tag.custom {
+            font-style: italic;
+            border-style: dashed;
+        }
+        
+        .step-number {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 2rem;
+            height: 2rem;
+            background-color: var(--accent-color);
+            color: white;
+            border-radius: 50%;
+            font-weight: bold;
+            margin-right: 0.75rem;
+            flex-shrink: 0;
+        }
+        
+        @media print {
+            .no-print { display: none; }
+        }
+    </style>
+</head>
+<body class="min-h-screen p-4">
+    <!-- Header -->
+    <header class="max-w-7xl mx-auto mb-6 no-print">
+        <div class="flex justify-between items-center mb-4">
+            <div>
+                <h1 class="text-3xl font-bold">Research Topic Selection Canvas</h1>
+                <p class="text-lg mt-1" style="color: var(--text-secondary);">Session 1 Activity - Digital Media Technologies</p>
+            </div>
+            <div class="flex gap-2">
+                <button id="printBtn" class="px-4 py-2 rounded border-2 font-medium" style="border-color: var(--border-color);" aria-label="Print canvas">
+                    Print
+                </button>
+                <button id="clearBtn" class="px-4 py-2 rounded border-2 font-medium" style="border-color: var(--border-color);" aria-label="Clear all">
+                    Clear
+                </button>
+                <button id="darkModeToggle" class="px-4 py-2 rounded border-2 font-medium" style="border-color: var(--border-color);" aria-label="Toggle dark mode">
+                    <span id="modeIcon">Dark Mode</span>
+                </button>
+            </div>
+        </div>
+        <div class="p-4 rounded border-2" style="background-color: var(--bg-secondary); border-color: var(--border-color);">
+            <p class="font-medium"><strong>Instructions:</strong> Work through each section in order. The suggestions are starting points - you're encouraged to think beyond them and explore your own ideas! Click tags to use them, or type freely.</p>
+        </div>
+    </header>
+
+    <!-- Canvas Grid -->
+    <main class="max-w-7xl mx-auto">
+        <!-- Row 1: Topic Area + Personal Interest -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 mb-4">
+            <!-- Box 1: Topic Area -->
+            <div class="canvas-box">
+                <div class="flex items-center mb-3">
+                    <span class="step-number">1</span>
+                    <h2 class="text-xl font-bold">Topic Area</h2>
+                </div>
+                <p class="text-sm mb-3 font-medium" style="color: var(--text-secondary);">What digital media area interests you? Choose a general area first.</p>
+                <div class="mb-3 flex flex-wrap">
+                    <span class="suggestion-tag" data-target="topicArea">AI in creative work</span>
+                    <span class="suggestion-tag" data-target="topicArea">Social media platforms</span>
+                    <span class="suggestion-tag" data-target="topicArea">User experience design</span>
+                    <span class="suggestion-tag" data-target="topicArea">Digital accessibility</span>
+                    <span class="suggestion-tag" data-target="topicArea">Virtual reality</span>
+                    <span class="suggestion-tag" data-target="topicArea">Augmented reality</span>
+                    <span class="suggestion-tag" data-target="topicArea">Gaming design</span>
+                    <span class="suggestion-tag" data-target="topicArea">Web development</span>
+                    <span class="suggestion-tag" data-target="topicArea">Mobile apps</span>
+                    <span class="suggestion-tag" data-target="topicArea">Digital ethics</span>
+                    <span class="suggestion-tag" data-target="topicArea">Content creation</span>
+                    <span class="suggestion-tag" data-target="topicArea">Streaming platforms</span>
+                    <span class="suggestion-tag" data-target="topicArea">E-commerce</span>
+                    <span class="suggestion-tag" data-target="topicArea">Digital marketing</span>
+                    <span class="suggestion-tag" data-target="topicArea">Data visualization</span>
+                    <span class="suggestion-tag" data-target="topicArea">Animation</span>
+                    <span class="suggestion-tag" data-target="topicArea">3D modeling</span>
+                    <span class="suggestion-tag" data-target="topicArea">Sound design</span>
+                    <span class="suggestion-tag" data-target="topicArea">Video production</span>
+                    <span class="suggestion-tag" data-target="topicArea">Photography</span>
+                    <span class="suggestion-tag custom" data-target="topicArea">...your own idea!</span>
+                </div>
+                <textarea id="topicArea" placeholder="Type your topic area here - go beyond the suggestions if you have other ideas..."></textarea>
+            </div>
+
+            <!-- Box 2: Why This Interests You -->
+            <div class="canvas-box">
+                <div class="flex items-center mb-3">
+                    <span class="step-number">2</span>
+                    <h2 class="text-xl font-bold">Why This Interests You</h2>
+                </div>
+                <p class="text-sm mb-3 font-medium" style="color: var(--text-secondary);">What makes this topic personally relevant or professionally important?</p>
+                <div class="mb-3 flex flex-wrap">
+                    <span class="suggestion-tag" data-target="whyInterest">Career aspirations</span>
+                    <span class="suggestion-tag" data-target="whyInterest">Current industry trends</span>
+                    <span class="suggestion-tag" data-target="whyInterest">Personal experience</span>
+                    <span class="suggestion-tag" data-target="whyInterest">Family or friends affected</span>
+                    <span class="suggestion-tag" data-target="whyInterest">Industry disruption</span>
+                    <span class="suggestion-tag" data-target="whyInterest">Skill gap to fill</span>
+                    <span class="suggestion-tag" data-target="whyInterest">Social impact concerns</span>
+                    <span class="suggestion-tag" data-target="whyInterest">Technological advancement</span>
+                    <span class="suggestion-tag" data-target="whyInterest">Cultural relevance</span>
+                    <span class="suggestion-tag" data-target="whyInterest">Economic opportunity</span>
+                    <span class="suggestion-tag" data-target="whyInterest">Environmental impact</span>
+                    <span class="suggestion-tag" data-target="whyInterest">Ethical questions</span>
+                    <span class="suggestion-tag" data-target="whyInterest">Accessibility needs</span>
+                    <span class="suggestion-tag" data-target="whyInterest">Creative expression</span>
+                    <span class="suggestion-tag" data-target="whyInterest">Problem-solving interest</span>
+                    <span class="suggestion-tag custom" data-target="whyInterest">...your own reason!</span>
+                </div>
+                <textarea id="whyInterest" placeholder="Explain what draws you to this topic and why it matters to you..."></textarea>
+            </div>
+        </div>
+
+        <!-- Row 2: What You Want to Learn + Specific Focus -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 mb-4">
+            <!-- Box 3: What You Want to Learn -->
+            <div class="canvas-box">
+                <div class="flex items-center mb-3">
+                    <span class="step-number">3</span>
+                    <h2 class="text-xl font-bold">What You Want to Learn</h2>
+                </div>
+                <p class="text-sm mb-3 font-medium" style="color: var(--text-secondary);">What specific questions do you want to answer about this topic?</p>
+                <div class="mb-3 flex flex-wrap">
+                    <span class="suggestion-tag" data-target="whatLearn">How does it work technically?</span>
+                    <span class="suggestion-tag" data-target="whatLearn">What are the effects on users?</span>
+                    <span class="suggestion-tag" data-target="whatLearn">What are best practices?</span>
+                    <span class="suggestion-tag" data-target="whatLearn">What are the challenges?</span>
+                    <span class="suggestion-tag" data-target="whatLearn">How is it evolving?</span>
+                    <span class="suggestion-tag" data-target="whatLearn">What are alternatives?</span>
+                    <span class="suggestion-tag" data-target="whatLearn">Who benefits most?</span>
+                    <span class="suggestion-tag" data-target="whatLearn">Who is excluded?</span>
+                    <span class="suggestion-tag" data-target="whatLearn">What are the costs?</span>
+                    <span class="suggestion-tag" data-target="whatLearn">What are ethical concerns?</span>
+                    <span class="suggestion-tag" data-target="whatLearn">How do professionals use it?</span>
+                    <span class="suggestion-tag" data-target="whatLearn">What skills are needed?</span>
+                    <span class="suggestion-tag" data-target="whatLearn">What's the history?</span>
+                    <span class="suggestion-tag" data-target="whatLearn">What's the future direction?</span>
+                    <span class="suggestion-tag" data-target="whatLearn">What are common mistakes?</span>
+                    <span class="suggestion-tag" data-target="whatLearn">How to measure success?</span>
+                    <span class="suggestion-tag custom" data-target="whatLearn">...your own questions!</span>
+                </div>
+                <textarea id="whatLearn" placeholder="List the questions you want to explore - be specific and curious..."></textarea>
+            </div>
+
+            <!-- Box 4: Specific Focus -->
+            <div class="canvas-box">
+                <div class="flex items-center mb-3">
+                    <span class="step-number">4</span>
+                    <h2 class="text-xl font-bold">Specific Focus</h2>
+                </div>
+                <p class="text-sm mb-3 font-medium" style="color: var(--text-secondary);">Narrow down: What specific aspect, platform, audience, or context?</p>
+                <div class="mb-3 flex flex-wrap">
+                    <span class="suggestion-tag" data-target="specificFocus">Instagram</span>
+                    <span class="suggestion-tag" data-target="specificFocus">TikTok</span>
+                    <span class="suggestion-tag" data-target="specificFocus">YouTube</span>
+                    <span class="suggestion-tag" data-target="specificFocus">LinkedIn</span>
+                    <span class="suggestion-tag" data-target="specificFocus">Discord</span>
+                    <span class="suggestion-tag" data-target="specificFocus">Teenagers</span>
+                    <span class="suggestion-tag" data-target="specificFocus">Young adults (18-25)</span>
+                    <span class="suggestion-tag" data-target="specificFocus">Professionals</span>
+                    <span class="suggestion-tag" data-target="specificFocus">Educators</span>
+                    <span class="suggestion-tag" data-target="specificFocus">Small businesses</span>
+                    <span class="suggestion-tag" data-target="specificFocus">Content creators</span>
+                    <span class="suggestion-tag" data-target="specificFocus">2020-2025 period</span>
+                    <span class="suggestion-tag" data-target="specificFocus">UK context</span>
+                    <span class="suggestion-tag" data-target="specificFocus">Global perspective</span>
+                    <span class="suggestion-tag" data-target="specificFocus">Mobile platforms</span>
+                    <span class="suggestion-tag" data-target="specificFocus">Desktop applications</span>
+                    <span class="suggestion-tag" data-target="specificFocus">Creative industries</span>
+                    <span class="suggestion-tag" data-target="specificFocus">Healthcare sector</span>
+                    <span class="suggestion-tag" data-target="specificFocus">Education sector</span>
+                    <span class="suggestion-tag" data-target="specificFocus">Entertainment industry</span>
+                    <span class="suggestion-tag custom" data-target="specificFocus">...your own angle!</span>
+                </div>
+                <textarea id="specificFocus" placeholder="Get specific - choose a particular platform, audience, time period, or context..."></textarea>
+            </div>
+        </div>
+
+        <!-- Row 3: Initial Keywords (Full Width) -->
+        <div class="grid grid-cols-1 gap-4 mb-4">
+            <div class="canvas-box">
+                <div class="flex items-center mb-3">
+                    <span class="step-number">5</span>
+                    <h2 class="text-xl font-bold">Initial Keywords & Concepts</h2>
+                </div>
+                <p class="text-sm mb-3 font-medium" style="color: var(--text-secondary);">List key terms, synonyms, and related concepts. Think of different ways to describe your topic - professional terms, casual language, technical jargon, alternative phrasings.</p>
+                <div class="mb-3 flex flex-wrap">
+                    <span class="suggestion-tag" data-target="keywords">artificial intelligence</span>
+                    <span class="suggestion-tag" data-target="keywords">AI</span>
+                    <span class="suggestion-tag" data-target="keywords">machine learning</span>
+                    <span class="suggestion-tag" data-target="keywords">automation</span>
+                    <span class="suggestion-tag" data-target="keywords">algorithm</span>
+                    <span class="suggestion-tag" data-target="keywords">graphic design</span>
+                    <span class="suggestion-tag" data-target="keywords">visual design</span>
+                    <span class="suggestion-tag" data-target="keywords">user interface</span>
+                    <span class="suggestion-tag" data-target="keywords">user experience</span>
+                    <span class="suggestion-tag" data-target="keywords">UX/UI</span>
+                    <span class="suggestion-tag" data-target="keywords">digital media</span>
+                    <span class="suggestion-tag" data-target="keywords">social media</span>
+                    <span class="suggestion-tag" data-target="keywords">platform</span>
+                    <span class="suggestion-tag" data-target="keywords">application</span>
+                    <span class="suggestion-tag" data-target="keywords">technology</span>
+                    <span class="suggestion-tag" data-target="keywords">impact</span>
+                    <span class="suggestion-tag" data-target="keywords">effect</span>
+                    <span class="suggestion-tag" data-target="keywords">influence</span>
+                    <span class="suggestion-tag" data-target="keywords">transformation</span>
+                    <span class="suggestion-tag" data-target="keywords">change</span>
+                    <span class="suggestion-tag" data-target="keywords">workflow</span>
+                    <span class="suggestion-tag" data-target="keywords">process</span>
+                    <span class="suggestion-tag" data-target="keywords">creative</span>
+                    <span class="suggestion-tag" data-target="keywords">innovation</span>
+                    <span class="suggestion-tag" data-target="keywords">digital</span>
+                    <span class="suggestion-tag" data-target="keywords">online</span>
+                    <span class="suggestion-tag" data-target="keywords">interactive</span>
+                    <span class="suggestion-tag" data-target="keywords">engagement</span>
+                    <span class="suggestion-tag" data-target="keywords">accessibility</span>
+                    <span class="suggestion-tag" data-target="keywords">inclusive</span>
+                    <span class="suggestion-tag custom" data-target="keywords">...and many more!</span>
+                </div>
+                <textarea id="keywords" style="min-height: 120px;" placeholder="Example: 'artificial intelligence, AI, machine learning, automation, graphic design, visual design, creativity, impact, effect, transformation, workflow' - use commas to separate terms"></textarea>
+            </div>
+        </div>
+
+        <!-- Row 4: Research Questions + Final Topic Statement -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 mb-4">
+            <!-- Box 6: Potential Research Questions -->
+            <div class="canvas-box">
+                <div class="flex items-center mb-3">
+                    <span class="step-number">6</span>
+                    <h2 class="text-xl font-bold">Potential Research Questions</h2>
+                </div>
+                <p class="text-sm mb-3 font-medium" style="color: var(--text-secondary);">Turn your topic into 2-3 specific, focused questions you could investigate.</p>
+                <div class="mb-3 flex flex-wrap">
+                    <span class="suggestion-tag" data-target="questions">How does [X] affect [Y]?</span>
+                    <span class="suggestion-tag" data-target="questions">What is the impact of [X] on [Y]?</span>
+                    <span class="suggestion-tag" data-target="questions">Why do [users/designers] choose [X]?</span>
+                    <span class="suggestion-tag" data-target="questions">What are benefits and challenges of [X]?</span>
+                    <span class="suggestion-tag" data-target="questions">How can [X] improve [Y]?</span>
+                    <span class="suggestion-tag" data-target="questions">What role does [X] play in [context]?</span>
+                    <span class="suggestion-tag" data-target="questions">How has [X] evolved over time?</span>
+                    <span class="suggestion-tag" data-target="questions">What makes [X] effective/ineffective?</span>
+                    <span class="suggestion-tag" data-target="questions">How do professionals use [X]?</span>
+                    <span class="suggestion-tag" data-target="questions">What are ethical implications of [X]?</span>
+                    <span class="suggestion-tag custom" data-target="questions">...your own questions!</span>
+                </div>
+                <textarea id="questions" placeholder="Write 2-3 focused, specific questions - replace [X] and [Y] with your actual topic elements..."></textarea>
+            </div>
+
+            <!-- Box 7: Final Topic Statement -->
+            <div class="canvas-box" style="background-color: var(--accent-bg); border-color: var(--accent-color);">
+                <div class="flex items-center mb-3">
+                    <span class="step-number" style="background-color: var(--accent-color); color: white;">✓</span>
+                    <h2 class="text-xl font-bold" style="color: var(--accent-text);">Final Topic Statement</h2>
+                </div>
+                <p class="text-sm mb-3 font-medium" style="color: var(--accent-text); opacity: 0.85;">Combine everything above into one clear, specific sentence describing your research topic.</p>
+                <textarea id="finalTopic" style="min-height: 140px; background-color: var(--bg-primary); color: var(--text-primary); border-color: var(--accent-color);" placeholder="Example: 'The impact of AI-powered design tools on professional graphic designers' creative workflows and skill development in the UK creative industries'"></textarea>
+                <p class="text-xs mt-2 font-medium" style="color: var(--accent-text); opacity: 0.8;">This is what you'll submit and use for your portfolio!</p>
+            </div>
+        </div>
+
+        <!-- Additional Notes Section -->
+        <div class="grid grid-cols-1 gap-4 mb-6">
+            <div class="canvas-box">
+                <h2 class="text-lg font-bold mb-3">Additional Notes, Ideas & Concerns</h2>
+                <p class="text-sm mb-3 font-medium" style="color: var(--text-secondary);">Any other thoughts? Initial sources you've found? Challenges you anticipate? Connections to other topics?</p>
+                <textarea id="notes" style="min-height: 100px;" placeholder="Optional: Add any other thoughts, concerns, or ideas you want to capture..."></textarea>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="max-w-7xl mx-auto mt-8 p-4 rounded no-print" style="background-color: var(--bg-secondary); border: 2px solid var(--border-color);">
+        <p class="font-medium"><strong>Next Steps:</strong> Once you've completed this canvas, share your final topic statement with the group. Save your work (print or screenshot) - you'll need these keywords for Week 2 when we start building search strategies!</p>
+    </footer>
+
+    <script>
+        let isDarkMode = false;
+        const darkModeToggle = document.getElementById('darkModeToggle');
+        const modeIcon = document.getElementById('modeIcon');
+        const printBtn = document.getElementById('printBtn');
+        const clearBtn = document.getElementById('clearBtn');
+
+        function toggleDarkMode() {
+            isDarkMode = !isDarkMode;
+            document.body.classList.toggle('dark-mode');
+            modeIcon.textContent = isDarkMode ? 'Light Mode' : 'Dark Mode';
+        }
+
+        document.querySelectorAll('.suggestion-tag').forEach(tag => {
+            tag.addEventListener('click', function() {
+                const targetId = this.getAttribute('data-target');
+                const textarea = document.getElementById(targetId);
+                const text = this.textContent;
+                
+                if (textarea.value.trim() === '') {
+                    textarea.value = text;
+                } else {
+                    textarea.value += ', ' + text;
+                }
+                
+                textarea.focus();
+            });
+        });
+
+        function clearAll() {
+            if (confirm('Are you sure you want to clear all content? This cannot be undone.')) {
+                document.querySelectorAll('textarea').forEach(textarea => {
+                    textarea.value = '';
+                });
+            }
+        }
+
+        function printCanvas() {
+            window.print();
+        }
+
+        darkModeToggle.addEventListener('click', toggleDarkMode);
+        clearBtn.addEventListener('click', clearAll);
+        printBtn.addEventListener('click', printCanvas);
+    </script>
+</body>
+</html>

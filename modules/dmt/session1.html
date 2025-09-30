@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Session 1: Module Introduction</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .slide { display: none; }
+        .slide.active { display: flex; }
+        
+        :root {
+            --bg-primary: #ffffff;
+            --bg-secondary: #f9fafb;
+            --text-primary: #111827;
+            --text-secondary: #4b5563;
+            --border-color: #e5e7eb;
+            --font-size: 1;
+        }
+        
+        .dark-mode {
+            --bg-primary: #1f2937;
+            --bg-secondary: #111827;
+            --text-primary: #f9fafb;
+            --text-secondary: #d1d5db;
+            --border-color: #374151;
+        }
+        
+        html {
+            font-size: calc(var(--font-size) * 16px);
+        }
+        
+        body {
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col">
+    <header class="border-b p-4" style="border-color: var(--border-color);">
+        <div class="max-w-7xl mx-auto flex justify-between items-center">
+            <h1 class="text-lg font-semibold">Digital Media Technologies - Session 1</h1>
+            <div class="flex gap-2">
+                <button id="decreaseFont" class="px-3 py-2 rounded border" style="border-color: var(--border-color);" aria-label="Decrease font size">A-</button>
+                <button id="increaseFont" class="px-3 py-2 rounded border" style="border-color: var(--border-color);" aria-label="Increase font size">A+</button>
+                <button id="darkModeToggle" class="px-4 py-2 rounded border" style="border-color: var(--border-color);" aria-label="Toggle dark mode">
+                    <span id="modeIcon">🌙</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <main class="flex-1 flex items-center justify-center p-8">
+        <div class="w-full max-w-5xl">
+            <!-- Slide 1: Title -->
+            <div class="slide active flex-col items-center justify-center text-center h-[70vh]">
+                <h2 class="text-5xl font-bold mb-6">Digital Media Technologies</h2>
+                <h3 class="text-3xl mb-8" style="color: var(--text-secondary);">Session 1: Module Introduction</h3>
+                <p class="text-xl" style="color: var(--text-secondary);">Week 1 of 11</p>
+            </div>
+
+            <!-- Slide 2: The Reality Check -->
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-4xl font-bold mb-8">The Reality Check</h2>
+                <h3 class="text-2xl mb-6 font-semibold">Every digital media professional researches</h3>
+                <ul class="space-y-4 text-xl">
+                    <li class="flex items-start">
+                        <span class="mr-3">•</span>
+                        <span><strong>Designers</strong> research user needs, trends, accessibility standards</span>
+                    </li>
+                    <li class="flex items-start">
+                        <span class="mr-3">•</span>
+                        <span><strong>Developers</strong> research technologies, frameworks, solutions to problems</span>
+                    </li>
+                    <li class="flex items-start">
+                        <span class="mr-3">•</span>
+                        <span><strong>Content creators</strong> research audiences, platforms, competitors</span>
+                    </li>
+                    <li class="flex items-start">
+                        <span class="mr-3">•</span>
+                        <span><strong>Project managers</strong> research methodologies, tools, case studies</span>
+                    </li>
+                </ul>
+                <p class="mt-8 text-xl font-semibold p-4 rounded" style="background-color: var(--bg-secondary);">
+                    Research isn't academic busywork - it's daily professional practice
+                </p>
+            </div>
+
+            <!-- Slide 3: The Problem -->
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-4xl font-bold mb-8">The Problem</h2>
+                <h3 class="text-2xl mb-6 font-semibold">But most people search badly</h3>
+                <ul class="space-y-5 text-xl">
+                    <li class="flex items-start">
+                        <span class="mr-3">•</span>
+                        <span>Google's first page ≠ best information</span>
+                    </li>
+                    <li class="flex items-start">
+                        <span class="mr-3">•</span>
+                        <span>Can't distinguish quality sources from junk</span>
+                    </li>
+                    <li class="flex items-start">
+                        <span class="mr-3">•</span>
+                        <span>Waste hours finding what they need</span>
+                    </li>
+                    <li class="flex items-start">
+                        <span class="mr-3">•</span>
+                        <span>Miss crucial information that's "hidden" in databases</span>
+                    </li>
+                </ul>
+                <p class="mt-8 text-xl font-semibold p-4 rounded" style="background-color: var(--bg-secondary);">
+                    Knowing HOW to find things is a superpower
+                </p>
+            </div>
+
+            <!-- Slide 4: What This Module Teaches You -->
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-4xl font-bold mb-8">What This Module Teaches You</h2>
+                <ul class="space-y-5 text-xl">
+                    <li class="flex items-start">
+                        <span class="mr-3">✓</span>
+                        <span>Plan systematic searches (not random Googling)</span>
+                    </li>
+                    <li class="flex items-start">
+                        <span class="mr-3">✓</span>
+                        <span>Access academic databases (not just public web)</span>
+                    </li>
+                    <li class="flex items-start">
+                        <span class="mr-3">✓</span>
+                        <span>Evaluate source quality (not trust everything)</span>
+                    </li>
+                    <li class="flex items-start">
+                        <span class="mr-3">✓</span>
+                        <span>Manage references professionally (not lose track)</span>
+                    </li>
+                </ul>
+                <p class="mt-8 text-xl font-semibold p-4 rounded" style="background-color: var(--bg-secondary);">
+                    Practical skills you'll use in every project
+                </p>
+            </div>
+
+            <!-- Slide 5: Your Assessment -->
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-4xl font-bold mb-8">Your Assessment: The Portfolio</h2>
+                <ul class="space-y-5 text-xl">
+                    <li class="flex items-start">
+                        <span class="mr-3">•</span>
+                        <span><strong>2,250 words</strong> documenting YOUR research journey</span>
+                    </li>
+                    <li class="flex items-start">
+                        <span class="mr-3">•</span>
+                        <span><strong>5 sections</strong> showing your process</span>
+                    </li>
+                    <li class="flex items-start">
+                        <span class="mr-3">•</span>
+                        <span><strong>Not a research paper</strong> - a skills demonstration</span>
+                    </li>
+                    <li class="flex items-start">
+                        <span class="mr-3">•</span>
+                        <span><strong>Due Week 11</strong></span>
+                    </li>
+                </ul>
+                <p class="mt-8 text-xl font-semibold p-4 rounded" style="background-color: var(--bg-secondary);">
+                    You're being assessed on the PROCESS, not the topic
+                </p>
+            </div>
+
+            <!-- Slide 6: Portfolio Structure -->
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-4xl font-bold mb-8">Portfolio Structure Overview</h2>
+                <div class="space-y-4 text-lg">
+                    <div class="p-4 rounded border" style="border-color: var(--border-color);">
+                        <strong>Section 1:</strong> How you planned your search
+                    </div>
+                    <div class="p-4 rounded border" style="border-color: var(--border-color);">
+                        <strong>Section 2:</strong> How you navigated databases
+                    </div>
+                    <div class="p-4 rounded border" style="border-color: var(--border-color);">
+                        <strong>Section 3:</strong> How you evaluated sources
+                    </div>
+                    <div class="p-4 rounded border" style="border-color: var(--border-color);">
+                        <strong>Section 4:</strong> How you managed citations
+                    </div>
+                    <div class="p-4 rounded border" style="border-color: var(--border-color);">
+                        <strong>Section 5:</strong> What you learned (reflection)
+                    </div>
+                </div>
+                <p class="mt-8 text-xl font-semibold p-4 rounded" style="background-color: var(--bg-secondary);">
+                    Each week builds one section
+                </p>
+            </div>
+
+            <!-- Slide 7: How This Works -->
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-4xl font-bold mb-8">How This Works</h2>
+                <h3 class="text-2xl mb-6 font-semibold">Our Approach</h3>
+                <ul class="space-y-5 text-xl">
+                    <li class="flex items-start">
+                        <span class="mr-3">•</span>
+                        <span><strong>2 hours scheduled</strong>, ~1 hour core teaching</span>
+                    </li>
+                    <li class="flex items-start">
+                        <span class="mr-3">•</span>
+                        <span><strong>Extra time</strong> for questions and individual support</span>
+                    </li>
+                    <li class="flex items-start">
+                        <span class="mr-3">•</span>
+                        <span><strong>Hands-on activities</strong> every session</span>
+                    </li>
+                    <li class="flex items-start">
+                        <span class="mr-3">•</span>
+                        <span><strong>Flexible pace</strong> - we adapt to your needs</span>
+                    </li>
+                </ul>
+                <p class="mt-8 text-xl font-semibold p-4 rounded" style="background-color: var(--bg-secondary);">
+                    This is practical and collaborative
+                </p>
+            </div>
+
+            <!-- Slide 8: Today's Goal -->
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-4xl font-bold mb-8">Today's Goal</h2>
+                <ul class="space-y-6 text-2xl">
+                    <li class="flex items-start">
+                        <span class="mr-3">1.</span>
+                        <span>Choose your research topic</span>
+                    </li>
+                    <li class="flex items-start">
+                        <span class="mr-3">2.</span>
+                        <span>Understand the assessment</span>
+                    </li>
+                    <li class="flex items-start">
+                        <span class="mr-3">3.</span>
+                        <span>Ask any questions</span>
+                    </li>
+                    <li class="flex items-start">
+                        <span class="mr-3">4.</span>
+                        <span>Leave ready for Week 2</span>
+                    </li>
+                </ul>
+                <p class="mt-10 text-2xl font-semibold p-4 rounded" style="background-color: var(--bg-secondary);">
+                    By the end of today, you're started
+                </p>
+            </div>
+
+            <!-- Slide 9: Example 1 - 36 Days of Type -->
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-4xl font-bold mb-6">Real-World Example: 36 Days of Type</h2>
+                <div class="mb-6 p-4 rounded" style="background-color: var(--bg-secondary); border: 2px solid var(--border-color);">
+                    <p class="text-lg"><strong>What it is:</strong> Annual typography challenge where thousands of designers worldwide create their own version of the same letter or number each day for 36 days</p>
+                </div>
+                <div class="mb-6">
+                    <p class="text-xl font-semibold mb-3">Why this matters for your research:</p>
+                    <p class="text-lg" style="color: var(--text-secondary);">Same brief (design the letter "A"), but every designer approaches it differently - minimalist, 3D, animated, illustrative, abstract. This is exactly what happens with research topics!</p>
+                </div>
+                <div class="p-4 rounded" style="background-color: var(--bg-secondary);">
+                    <p class="text-lg font-semibold mb-3">Key Takeaways:</p>
+                    <ul class="space-y-2 text-lg">
+                        <li>• Your topic choice is just the starting point - your angle makes it unique</li>
+                        <li>• Different perspectives on the same subject all have value</li>
+                        <li>• Creativity works within constraints (you can be original even with common topics)</li>
+                    </ul>
+                </div>
+                <p class="text-sm mt-4" style="color: var(--text-secondary);">Find it: Instagram #36daysoftype | Behance | www.36daysoftype.com</p>
+            </div>
+
+            <!-- Slide 10: Example 2 - Daily UI Challenge -->
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-4xl font-bold mb-6">Real-World Example: Daily UI Challenge</h2>
+                <div class="mb-6 p-4 rounded" style="background-color: var(--bg-secondary); border: 2px solid var(--border-color);">
+                    <p class="text-lg"><strong>What it is:</strong> 100-day challenge where designers receive the same UI prompt (like "design a sign-up page") and create their interpretation. Over 500,000 designers, 20+ million different solutions</p>
+                </div>
+                <div class="mb-6">
+                    <p class="text-xl font-semibold mb-3">Why this matters for your research:</p>
+                    <p class="text-lg" style="color: var(--text-secondary);">Everyone starts with "design a checkout page" but some focus on accessibility, others on mobile, others on e-commerce vs. banking. The research question you ask determines what you find.</p>
+                </div>
+                <div class="p-4 rounded" style="background-color: var(--bg-secondary);">
+                    <p class="text-lg font-semibold mb-3">Key Takeaways:</p>
+                    <ul class="space-y-2 text-lg">
+                        <li>• The questions you ask shape the research you do</li>
+                        <li>• Narrowing your focus makes your work stronger (not weaker)</li>
+                        <li>• Two people researching "AI in design" can produce completely different portfolios</li>
+                    </ul>
+                </div>
+                <p class="text-sm mt-4" style="color: var(--text-secondary);">Find it: collectui.com | Dribbble #dailyui | www.dailyui.co</p>
+            </div>
+
+            <!-- Slide 11: Example 3 - News Coverage Comparison -->
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-4xl font-bold mb-6">Real-World Example: Same Event, Different Coverage</h2>
+                <div class="mb-6 p-4 rounded" style="background-color: var(--bg-secondary); border: 2px solid var(--border-color);">
+                    <p class="text-lg"><strong>What it is:</strong> The same tech event (Apple launch, Meta rebrand, TikTok regulation) covered by The Guardian, BBC, TechCrunch, The Verge, Financial Times - same story, completely different angles and emphasis</p>
+                </div>
+                <div class="mb-6">
+                    <p class="text-xl font-semibold mb-3">Why this matters for your research:</p>
+                    <p class="text-lg" style="color: var(--text-secondary);">Each outlet asks different questions: "What's the business impact?" vs "How does this affect users?" vs "What's the technical innovation?" Different databases and sources give you different perspectives - just like news outlets.</p>
+                </div>
+                <div class="p-4 rounded" style="background-color: var(--bg-secondary);">
+                    <p class="text-lg font-semibold mb-3">Key Takeaways:</p>
+                    <ul class="space-y-2 text-lg">
+                        <li>• Where you look determines what you find (databases = different perspectives)</li>
+                        <li>• Your audience shapes how you present information</li>
+                        <li>• Multiple sources give you a fuller picture than a single source</li>
+                    </ul>
+                </div>
+                <p class="text-sm mt-4" style="color: var(--text-secondary);">Try it: Pick any tech news story and compare BBC News, TechCrunch, The Guardian, The Verge</p>
+            </div>
+        </div>
+    </main>
+
+    <footer class="border-t p-4" style="border-color: var(--border-color);">
+        <div class="max-w-7xl mx-auto flex justify-between items-center">
+            <button id="prevBtn" class="px-6 py-2 rounded border font-medium" style="border-color: var(--border-color);" aria-label="Previous slide">
+                ← Previous
+            </button>
+            <span id="slideCounter" class="text-lg" style="color: var(--text-secondary);">1 / 8</span>
+            <button id="nextBtn" class="px-6 py-2 rounded border font-medium" style="border-color: var(--border-color);" aria-label="Next slide">
+                Next →
+            </button>
+        </div>
+    </footer>
+
+    <script>
+        let currentSlide = 0;
+        let isDarkMode = false;
+        let fontSize = 1;
+        const slides = document.querySelectorAll('.slide');
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+        const slideCounter = document.getElementById('slideCounter');
+        const darkModeToggle = document.getElementById('darkModeToggle');
+        const modeIcon = document.getElementById('modeIcon');
+        const increaseFont = document.getElementById('increaseFont');
+        const decreaseFont = document.getElementById('decreaseFont');
+
+        function showSlide(n) {
+            slides[currentSlide].classList.remove('active');
+            currentSlide = (n + slides.length) % slides.length;
+            slides[currentSlide].classList.add('active');
+            slideCounter.textContent = `${currentSlide + 1} / ${slides.length}`;
+            
+            prevBtn.disabled = currentSlide === 0;
+            nextBtn.disabled = currentSlide === slides.length - 1;
+            prevBtn.style.opacity = currentSlide === 0 ? '0.5' : '1';
+            nextBtn.style.opacity = currentSlide === slides.length - 1 ? '0.5' : '1';
+        }
+
+        function nextSlide() {
+            if (currentSlide < slides.length - 1) showSlide(currentSlide + 1);
+        }
+
+        function prevSlide() {
+            if (currentSlide > 0) showSlide(currentSlide - 1);
+        }
+
+        function toggleDarkMode() {
+            isDarkMode = !isDarkMode;
+            document.body.classList.toggle('dark-mode');
+            modeIcon.textContent = isDarkMode ? '☀️' : '🌙';
+        }
+
+        function updateFontSize() {
+            document.documentElement.style.setProperty('--font-size', fontSize);
+        }
+
+        function increaseFontSize() {
+            if (fontSize < 1.5) {
+                fontSize += 0.1;
+                updateFontSize();
+            }
+        }
+
+        function decreaseFontSize() {
+            if (fontSize > 0.7) {
+                fontSize -= 0.1;
+                updateFontSize();
+            }
+        }
+
+        prevBtn.addEventListener('click', prevSlide);
+        nextBtn.addEventListener('click', nextSlide);
+        darkModeToggle.addEventListener('click', toggleDarkMode);
+        increaseFont.addEventListener('click', increaseFontSize);
+        decreaseFont.addEventListener('click', decreaseFontSize);
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight') nextSlide();
+            if (e.key === 'ArrowLeft') prevSlide();
+        });
+
+        showSlide(0);
+    </script>
+</body>
+</html>

@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Session 2: Keywords & Search Planning</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .slide { display: none; }
+        .slide.active { display: flex; }
+        
+        :root {
+            --bg-primary: #ffffff;
+            --bg-secondary: #f9fafb;
+            --text-primary: #111827;
+            --text-secondary: #4b5563;
+            --border-color: #e5e7eb;
+            --accent-color: #3b82f6;
+            --font-size: 1;
+        }
+        
+        .dark-mode {
+            --bg-primary: #1f2937;
+            --bg-secondary: #111827;
+            --text-primary: #f9fafb;
+            --text-secondary: #d1d5db;
+            --border-color: #374151;
+            --accent-color: #60a5fa;
+        }
+        
+        html {
+            font-size: calc(var(--font-size) * 16px);
+        }
+        
+        body {
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+        }
+        
+        .code-box {
+            font-family: 'Courier New', monospace;
+            padding: 1rem;
+            border-radius: 0.5rem;
+            border: 1px solid var(--border-color);
+            background-color: var(--bg-secondary);
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col">
+    <header class="border-b p-4" style="border-color: var(--border-color);">
+        <div class="max-w-7xl mx-auto flex justify-between items-center">
+            <h1 class="text-lg font-semibold">Digital Media Technologies - Session 2</h1>
+            <div class="flex gap-2">
+                <button id="decreaseFont" class="px-3 py-2 rounded border" style="border-color: var(--border-color);" aria-label="Decrease font size">A-</button>
+                <button id="increaseFont" class="px-3 py-2 rounded border" style="border-color: var(--border-color);" aria-label="Increase font size">A+</button>
+                <button id="darkModeToggle" class="px-4 py-2 rounded border" style="border-color: var(--border-color);" aria-label="Toggle dark mode">
+                    <span id="modeIcon">🌙</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <main class="flex-1 flex items-center justify-center p-8">
+        <div class="w-full max-w-5xl">
+            <!-- Slide 1: Title -->
+            <div class="slide active flex-col items-center justify-center text-center h-[70vh]">
+                <h2 class="text-5xl font-bold mb-6">Session 2</h2>
+                <h3 class="text-3xl mb-8" style="color: var(--text-secondary);">Keywords & Search Planning</h3>
+                <p class="text-xl" style="color: var(--text-secondary);">From Topic to Search Strategy</p>
+            </div>
+
+            <!-- Slide 2: The Problem with Natural Language -->
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-4xl font-bold mb-8">The Problem with Natural Language</h2>
+                <div class="space-y-6">
+                    <div class="p-4 rounded" style="background-color: var(--bg-secondary);">
+                        <p class="text-lg mb-2" style="color: var(--text-secondary);">You think:</p>
+                        <p class="text-xl">"I want to learn about how Instagram affects young people's mental health"</p>
+                    </div>
+                    <div class="p-4 rounded" style="background-color: var(--bg-secondary);">
+                        <p class="text-lg mb-2" style="color: var(--text-secondary);">Database thinks:</p>
+                        <p class="text-xl">"Instagram" OR "affects" OR "young people's" OR "mental health"?</p>
+                    </div>
+                    <ul class="space-y-3 text-xl">
+                        <li>• Too broad → thousands of irrelevant results</li>
+                        <li>• Too narrow → zero results</li>
+                    </ul>
+                </div>
+                <p class="mt-8 text-xl font-semibold p-4 rounded" style="background-color: var(--bg-secondary);">
+                    Databases don't understand sentences - they match WORDS
+                </p>
+            </div>
+
+            <!-- Slide 3: The Keyword Strategy -->
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-4xl font-bold mb-8">The Keyword Strategy</h2>
+                <ul class="space-y-5 text-xl">
+                    <li class="flex items-start">
+                        <span class="mr-3">1.</span>
+                        <span>Break your topic into <strong>CONCEPTS</strong></span>
+                    </li>
+                    <li class="flex items-start">
+                        <span class="mr-3">2.</span>
+                        <span>Find <strong>SYNONYMS</strong> for each concept</span>
+                    </li>
+                    <li class="flex items-start">
+                        <span class="mr-3">3.</span>
+                        <span>Combine them <strong>systematically</strong></span>
+                    </li>
+                </ul>
+                <div class="mt-8 p-4 rounded" style="background-color: var(--bg-secondary);">
+                    <p class="text-lg mb-2">Example:</p>
+                    <p class="text-xl">"Social media" = Instagram, Facebook, TikTok, Twitter, Snapchat</p>
+                </div>
+                <p class="mt-6 text-xl font-semibold p-4 rounded" style="background-color: var(--bg-secondary);">
+                    Think like a database, not like a human
+                </p>
+            </div>
+
+            <!-- Slide 4: Example Breakdown -->
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-4xl font-bold mb-8">Example Breakdown</h2>
+                <div class="p-4 rounded mb-6" style="background-color: var(--bg-secondary);">
+                    <p class="text-2xl font-semibold">Topic: "AI impact on graphic design"</p>
+                </div>
+                <div class="space-y-4 text-lg">
+                    <div class="p-4 rounded border" style="border-color: var(--border-color);">
+                        <strong>Concept 1: AI</strong><br>
+                        <span style="color: var(--text-secondary);">→ artificial intelligence, machine learning, automation, generative AI</span>
+                    </div>
+                    <div class="p-4 rounded border" style="border-color: var(--border-color);">
+                        <strong>Concept 2: Graphic design</strong><br>
+                        <span style="color: var(--text-secondary);">→ visual design, visual communication, branding, typography</span>
+                    </div>
+                    <div class="p-4 rounded border" style="border-color: var(--border-color);">
+                        <strong>Concept 3: Impact</strong><br>
+                        <span style="color: var(--text-secondary);">→ effect, influence, change, transformation</span>
+                    </div>
+                </div>
+                <p class="mt-6 text-xl font-semibold p-4 rounded" style="background-color: var(--bg-secondary);">
+                    One topic = multiple keyword combinations
+                </p>
+            </div>
+
+            <!-- Slide 5: Boolean Operators -->
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-4xl font-bold mb-8">Boolean Operators: Your Search Superpowers</h2>
+                <div class="space-y-6 text-xl">
+                    <div class="p-4 rounded border" style="border-color: var(--border-color);">
+                        <strong class="text-2xl">AND</strong>
+                        <p style="color: var(--text-secondary);">Both terms must appear</p>
+                    </div>
+                    <div class="p-4 rounded border" style="border-color: var(--border-color);">
+                        <strong class="text-2xl">OR</strong>
+                        <p style="color: var(--text-secondary);">Either term can appear</p>
+                    </div>
+                    <div class="p-4 rounded border" style="border-color: var(--border-color);">
+                        <strong class="text-2xl">NOT</strong>
+                        <p style="color: var(--text-secondary);">Exclude terms</p>
+                    </div>
+                </div>
+                <p class="mt-8 text-xl font-semibold p-4 rounded" style="background-color: var(--bg-secondary);">
+                    These operators control your search precision
+                </p>
+            </div>
+
+            <!-- Slide 6: Boolean in Action -->
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-4xl font-bold mb-8">Boolean in Action</h2>
+                <div class="space-y-5 text-lg">
+                    <div class="code-box">
+                        <strong>AI AND graphic design</strong><br>
+                        <span style="color: var(--text-secondary);">Results must contain BOTH terms</span>
+                    </div>
+                    <div class="code-box">
+                        <strong>Instagram OR TikTok</strong><br>
+                        <span style="color: var(--text-secondary);">Results can contain EITHER term</span>
+                    </div>
+                    <div class="code-box">
+                        <strong>design NOT fashion</strong><br>
+                        <span style="color: var(--text-secondary);">Exclude fashion design results</span>
+                    </div>
+                    <div class="code-box">
+                        <strong>(Instagram OR TikTok) AND mental health</strong><br>
+                        <span style="color: var(--text-secondary);">Combine operators with parentheses</span>
+                    </div>
+                </div>
+                <p class="mt-6 text-xl font-semibold p-4 rounded" style="background-color: var(--bg-secondary);">
+                    Operators let you be specific
+                </p>
+            </div>
+
+            <!-- Slide 7: Search Strategy -->
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-4xl font-bold mb-8">Search Strategy: Start Broad, Then Narrow</h2>
+                <div class="space-y-6 text-xl">
+                    <div class="flex items-start">
+                        <span class="font-bold mr-4" style="color: var(--accent-color);">1</span>
+                        <div>
+                            <strong>First search:</strong> Use broad terms, see what exists
+                        </div>
+                    </div>
+                    <div class="flex items-start">
+                        <span class="font-bold mr-4" style="color: var(--accent-color);">2</span>
+                        <div>
+                            <strong>Second search:</strong> Add more specific terms
+                        </div>
+                    </div>
+                    <div class="flex items-start">
+                        <span class="font-bold mr-4" style="color: var(--accent-color);">3</span>
+                        <div>
+                            <strong>Third search:</strong> Combine concepts with AND
+                        </div>
+                    </div>
+                    <div class="flex items-start">
+                        <span class="font-bold mr-4" style="color: var(--accent-color);">✓</span>
+                        <div>
+                            <strong>Keep track</strong> of what works!
+                        </div>
+                    </div>
+                </div>
+                <p class="mt-8 text-xl font-semibold p-4 rounded" style="background-color: var(--bg-secondary);">
+                    Searching is iterative, not one-and-done
+                </p>
+            </div>
+
+            <!-- Slide 8: Academic vs Google Scholar vs Google -->
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-4xl font-bold mb-8">Three Different Tools</h2>
+                <div class="space-y-5 text-lg">
+                    <div class="p-5 rounded border" style="border-color: var(--border-color);">
+                        <strong class="text-xl">Google</strong><br>
+                        <span style="color: var(--text-secondary);">Public web, SEO-influenced, advertising-driven</span>
+                    </div>
+                    <div class="p-5 rounded border" style="border-color: var(--border-color);">
+                        <strong class="text-xl">Google Scholar</strong><br>
+                        <span style="color: var(--text-secondary);">Academic papers, free (mostly), good starting point</span>
+                    </div>
+                    <div class="p-5 rounded border" style="border-color: var(--border-color);">
+                        <strong class="text-xl">Academic Databases</strong><br>
+                        <span style="color: var(--text-secondary);">Peer-reviewed, university access, highest quality</span>
+                    </div>
+                </div>
+                <p class="mt-8 text-xl font-semibold p-4 rounded" style="background-color: var(--bg-secondary);">
+                    Different tools for different needs
+                </p>
+            </div>
+
+            <!-- Slide 9: Documentation Matters -->
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-4xl font-bold mb-8">Documentation Matters</h2>
+                <ul class="space-y-5 text-xl">
+                    <li class="flex items-start">
+                        <span class="mr-3">•</span>
+                        <span>Keep a <strong>search log</strong> (you'll need it for your portfolio!)</span>
+                    </li>
+                    <li class="flex items-start">
+                        <span class="mr-3">•</span>
+                        <span>Note: keywords used, database, results count, what worked</span>
+                    </li>
+                    <li class="flex items-start">
+                        <span class="mr-3">•</span>
+                        <span>This becomes <strong>Section 1</strong> of your assessment</span>
+                    </li>
+                </ul>
+                <div class="mt-8 p-4 rounded" style="background-color: var(--bg-secondary);">
+                    <p class="text-lg mb-2" style="color: var(--text-secondary);">Example log entry:</p>
+                    <p class="text-lg">"AI AND design" → Google Scholar → 847,000 results → too broad</p>
+                </div>
+                <p class="mt-6 text-xl font-semibold p-4 rounded" style="background-color: var(--bg-secondary);">
+                    Track your process as you go
+                </p>
+            </div>
+
+            <!-- Slide 10: Today's Goal -->
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-4xl font-bold mb-8">Today's Goal</h2>
+                <ul class="space-y-6 text-2xl">
+                    <li class="flex items-start">
+                        <span class="mr-3">1.</span>
+                        <span>Create keyword map for YOUR topic</span>
+                    </li>
+                    <li class="flex items-start">
+                        <span class="mr-3">2.</span>
+                        <span>Test 2-3 searches on Google Scholar</span>
+                    </li>
+                    <li class="flex items-start">
+                        <span class="mr-3">3.</span>
+                        <span>See what works, what doesn't</span>
+                    </li>
+                    <li class="flex items-start">
+                        <span class="mr-3">4.</span>
+                        <span>Start building your search log</span>
+                    </li>
+                </ul>
+                <p class="mt-10 text-2xl font-semibold p-4 rounded" style="background-color: var(--bg-secondary);">
+                    Practical practice, not theory
+                </p>
+            </div>
+        </div>
+    </main>
+
+    <footer class="border-t p-4" style="border-color: var(--border-color);">
+        <div class="max-w-7xl mx-auto flex justify-between items-center">
+            <button id="prevBtn" class="px-6 py-2 rounded border font-medium" style="border-color: var(--border-color);" aria-label="Previous slide">
+                ← Previous
+            </button>
+            <span id="slideCounter" class="text-lg" style="color: var(--text-secondary);">1 / 10</span>
+            <button id="nextBtn" class="px-6 py-2 rounded border font-medium" style="border-color: var(--border-color);" aria-label="Next slide">
+                Next →
+            </button>
+        </div>
+    </footer>
+
+    <script>
+        let currentSlide = 0;
+        let isDarkMode = false;
+        let fontSize = 1;
+        const slides = document.querySelectorAll('.slide');
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+        const slideCounter = document.getElementById('slideCounter');
+        const darkModeToggle = document.getElementById('darkModeToggle');
+        const modeIcon = document.getElementById('modeIcon');
+        const increaseFont = document.getElementById('increaseFont');
+        const decreaseFont = document.getElementById('decreaseFont');
+
+        function showSlide(n) {
+            slides[currentSlide].classList.remove('active');
+            currentSlide = (n + slides.length) % slides.length;
+            slides[currentSlide].classList.add('active');
+            slideCounter.textContent = `${currentSlide + 1} / ${slides.length}`;
+            
+            prevBtn.disabled = currentSlide === 0;
+            nextBtn.disabled = currentSlide === slides.length - 1;
+            prevBtn.style.opacity = currentSlide === 0 ? '0.5' : '1';
+            nextBtn.style.opacity = currentSlide === slides.length - 1 ? '0.5' : '1';
+        }
+
+        function nextSlide() {
+            if (currentSlide < slides.length - 1) showSlide(currentSlide + 1);
+        }
+
+        function prevSlide() {
+            if (currentSlide > 0) showSlide(currentSlide - 1);
+        }
+
+        function toggleDarkMode() {
+            isDarkMode = !isDarkMode;
+            document.body.classList.toggle('dark-mode');
+            modeIcon.textContent = isDarkMode ? '☀️' : '🌙';
+        }
+
+        function updateFontSize() {
+            document.documentElement.style.setProperty('--font-size', fontSize);
+        }
+
+        function increaseFontSize() {
+            if (fontSize < 1.5) {
+                fontSize += 0.1;
+                updateFontSize();
+            }
+        }
+
+        function decreaseFontSize() {
+            if (fontSize > 0.7) {
+                fontSize -= 0.1;
+                updateFontSize();
+            }
+        }
+
+        prevBtn.addEventListener('click', prevSlide);
+        nextBtn.addEventListener('click', nextSlide);
+        darkModeToggle.addEventListener('click', toggleDarkMode);
+        increaseFont.addEventListener('click', increaseFontSize);
+        decreaseFont.addEventListener('click', decreaseFontSize);
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight') nextSlide();
+            if (e.key === 'ArrowLeft') prevSlide();
+        });
+
+        showSlide(0);
+    </script>
+</body>
+</html>
