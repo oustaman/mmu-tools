@@ -83,6 +83,10 @@
                             class="tab-btn px-4 py-2 rounded-lg font-semibold whitespace-nowrap transition-colors text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700">
                         Continued Monitoring
                     </button>
+                    <button onclick="showSection('master')" 
+                            class="tab-btn px-4 py-2 rounded-lg font-semibold whitespace-nowrap transition-colors text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700">
+                        📋 Master Sheet
+                    </button>
                     <button onclick="showSection('summary')" 
                             class="tab-btn px-4 py-2 rounded-lg font-semibold whitespace-nowrap transition-colors text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700">
                         Summary
@@ -372,6 +376,420 @@
                             </tr>
                         </tbody>
                     </table>
+                </div>
+            </div>
+
+            <!-- Master Sheet Section -->
+            <div id="master" class="section hidden">
+                <h2 class="text-3xl font-bold text-gray-900 dark:text-white mb-6 pb-3 border-b-2 border-primary-light dark:border-primary-dark">
+                    📋 Master Process Sheet - Complete Overview
+                </h2>
+
+                <div class="bg-primary-light dark:bg-primary-dark rounded-lg p-6 mb-8 text-white">
+                    <p class="text-lg">
+                        <strong>This master sheet contains the complete Student Engagement Monitoring process.</strong> It shows all decision points, actions, and outcomes for both Early Engagement (Weeks 1-2) and Continued Monitoring phases in unified formats.
+                    </p>
+                </div>
+
+                <h3 class="text-2xl font-bold text-gray-900 dark:text-white mb-4 mt-8">Complete Process Diagram</h3>
+                
+                <div class="bg-gray-100 dark:bg-gray-800 rounded-lg p-6 space-y-4 mb-8">
+                    <!-- Starting Point -->
+                    <div class="bg-white dark:bg-gray-700 border-4 border-primary-light dark:border-primary-dark rounded-lg p-4 max-w-3xl mx-auto">
+                        <p class="font-bold text-gray-900 dark:text-white text-center text-xl">📅 STUDENT ATTENDANCE MONITORING</p>
+                        <p class="text-gray-700 dark:text-gray-300 text-center mt-2">Two monitoring phases: Early Engagement & Continued Monitoring</p>
+                    </div>
+
+                    <!-- Split into two paths -->
+                    <div class="grid md:grid-cols-2 gap-6 max-w-6xl mx-auto">
+                        <!-- LEFT PATH: EARLY ENGAGEMENT -->
+                        <div class="space-y-4 bg-white dark:bg-gray-700 rounded-lg p-4 border-2 border-secondary-light dark:border-secondary-dark">
+                            <div class="bg-secondary-light dark:bg-gray-600 text-white rounded-lg p-3 text-center font-bold">
+                                PATH A: EARLY ENGAGEMENT (Weeks 1-2)
+                            </div>
+                            
+                            <div class="bg-white dark:bg-gray-700 border-2 border-warning-light dark:border-warning-dark rounded-lg p-3">
+                                <p class="font-semibold text-gray-900 dark:text-white text-sm">❓ DECISION 1A</p>
+                                <p class="text-gray-700 dark:text-gray-300 text-sm">0% attendance in BOTH Week 1 & Week 2?</p>
+                            </div>
+                            
+                            <div class="text-center text-sm">
+                                <span class="text-danger-light dark:text-danger-dark font-bold">↓ YES</span> | 
+                                <span class="text-success-light dark:text-success-dark font-bold">NO → Continue monitoring</span>
+                            </div>
+                            
+                            <div class="bg-white dark:bg-gray-700 border-2 border-success-light dark:border-success-dark rounded-lg p-3">
+                                <p class="font-semibold text-gray-900 dark:text-white text-sm">✓ ACTION 1A</p>
+                                <p class="text-gray-700 dark:text-gray-300 text-sm">Include on withdrawal report</p>
+                            </div>
+                            
+                            <div class="text-center text-xl text-primary-light dark:text-primary-dark">↓</div>
+                            
+                            <div class="bg-white dark:bg-gray-700 border-2 border-danger-light dark:border-danger-dark rounded-lg p-3">
+                                <p class="font-semibold text-gray-900 dark:text-white text-sm">⚠ ACTION 2A</p>
+                                <p class="text-gray-700 dark:text-gray-300 text-sm">Send Academic Warning<br/><em>(2 weeks to respond)</em></p>
+                            </div>
+                            
+                            <div class="text-center text-xl text-primary-light dark:text-primary-dark">↓</div>
+                            
+                            <div class="bg-white dark:bg-gray-700 border-2 border-warning-light dark:border-warning-dark rounded-lg p-3">
+                                <p class="font-semibold text-gray-900 dark:text-white text-sm">❓ DECISION 2A</p>
+                                <p class="text-gray-700 dark:text-gray-300 text-sm">Student contacts within 2 weeks?</p>
+                            </div>
+                            
+                            <div class="grid grid-cols-2 gap-2 text-xs">
+                                <div class="bg-white dark:bg-gray-700 border-2 border-success-light dark:border-success-dark rounded p-2">
+                                    <p class="font-semibold text-success-light dark:text-success-dark">YES</p>
+                                    <p class="text-gray-700 dark:text-gray-300">✓ Continue monitoring</p>
+                                    <p class="text-gray-700 dark:text-gray-300 mt-1">PT: Note on Presto Flow</p>
+                                </div>
+                                <div class="bg-white dark:bg-gray-700 border-2 border-danger-light dark:border-danger-dark rounded p-2">
+                                    <p class="font-semibold text-danger-light dark:text-danger-dark">NO</p>
+                                    <p class="text-gray-700 dark:text-gray-300">✗ Withdrawal process</p>
+                                    <p class="text-gray-700 dark:text-gray-300 mt-1">Student withdrawn</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- RIGHT PATH: CONTINUED MONITORING -->
+                        <div class="space-y-4 bg-white dark:bg-gray-700 rounded-lg p-4 border-2 border-secondary-light dark:border-secondary-dark">
+                            <div class="bg-secondary-light dark:bg-gray-600 text-white rounded-lg p-3 text-center font-bold">
+                                PATH B: CONTINUED MONITORING (Ongoing)
+                            </div>
+                            
+                            <div class="bg-white dark:bg-gray-700 border-2 border-success-light dark:border-success-dark rounded-lg p-3">
+                                <p class="font-semibold text-gray-900 dark:text-white text-sm">✓ ONGOING</p>
+                                <p class="text-gray-700 dark:text-gray-300 text-sm">Continuous attendance monitoring</p>
+                            </div>
+                            
+                            <div class="text-center text-xl text-primary-light dark:text-primary-dark">↓</div>
+                            
+                            <div class="bg-white dark:bg-gray-700 border-2 border-warning-light dark:border-warning-dark rounded-lg p-3">
+                                <p class="font-semibold text-gray-900 dark:text-white text-sm">❓ DECISION 1B</p>
+                                <p class="text-gray-700 dark:text-gray-300 text-sm">&lt;50% attendance for 3 weeks?</p>
+                            </div>
+                            
+                            <div class="text-center text-sm">
+                                <span class="text-danger-light dark:text-danger-dark font-bold">↓ YES</span> | 
+                                <span class="text-success-light dark:text-success-dark font-bold">NO → Continue monitoring</span>
+                            </div>
+                            
+                            <div class="bg-white dark:bg-gray-700 border-2 border-success-light dark:border-success-dark rounded-lg p-3">
+                                <p class="font-semibold text-gray-900 dark:text-white text-sm">✓ ACTION 1B</p>
+                                <p class="text-gray-700 dark:text-gray-300 text-sm">Flag for Academic Warning</p>
+                            </div>
+                            
+                            <div class="text-center text-xl text-primary-light dark:text-primary-dark">↓</div>
+                            
+                            <div class="bg-white dark:bg-gray-700 border-2 border-success-light dark:border-success-dark rounded-lg p-3">
+                                <p class="font-semibold text-gray-900 dark:text-white text-sm">✓ ACTION 2B</p>
+                                <p class="text-gray-700 dark:text-gray-300 text-sm">SPT reviews & adds PRESTO notes</p>
+                            </div>
+                            
+                            <div class="text-center text-xl text-primary-light dark:text-primary-dark">↓</div>
+                            
+                            <div class="bg-white dark:bg-gray-700 border-2 border-warning-light dark:border-warning-dark rounded-lg p-3">
+                                <p class="font-semibold text-gray-900 dark:text-white text-sm">❓ DECISION 2B</p>
+                                <p class="text-gray-700 dark:text-gray-300 text-sm">Exceptional circumstances?</p>
+                            </div>
+                            
+                            <div class="text-center text-sm">
+                                <span class="text-success-light dark:text-success-dark font-bold">YES → Do not send warning</span> | 
+                                <span class="text-danger-light dark:text-danger-dark font-bold">NO ↓</span>
+                            </div>
+                            
+                            <div class="bg-white dark:bg-gray-700 border-2 border-danger-light dark:border-danger-dark rounded-lg p-3">
+                                <p class="font-semibold text-gray-900 dark:text-white text-sm">⚠ ACTION 3B</p>
+                                <p class="text-gray-700 dark:text-gray-300 text-sm">Send Academic Warning<br/><em>(2 weeks to respond)</em></p>
+                            </div>
+                            
+                            <div class="text-center text-xl text-primary-light dark:text-primary-dark">↓</div>
+                            
+                            <div class="bg-white dark:bg-gray-700 border-2 border-warning-light dark:border-warning-dark rounded-lg p-3">
+                                <p class="font-semibold text-gray-900 dark:text-white text-sm">❓ DECISION 3B</p>
+                                <p class="text-gray-700 dark:text-gray-300 text-sm">Student contacts within 2 weeks?</p>
+                            </div>
+                            
+                            <div class="grid grid-cols-2 gap-2 text-xs">
+                                <div class="bg-white dark:bg-gray-700 border-2 border-success-light dark:border-success-dark rounded p-2">
+                                    <p class="font-semibold text-success-light dark:text-success-dark">YES</p>
+                                    <p class="text-gray-700 dark:text-gray-300">✓ Support provided</p>
+                                    <p class="text-gray-700 dark:text-gray-300 mt-1">Engagement Team offers support</p>
+                                    <p class="text-gray-700 dark:text-gray-300">PT: Note on Presto Flow</p>
+                                </div>
+                                <div class="bg-white dark:bg-gray-700 border-2 border-danger-light dark:border-danger-dark rounded p-2">
+                                    <p class="font-semibold text-danger-light dark:text-danger-dark">NO</p>
+                                    <p class="text-gray-700 dark:text-gray-300">✗ Withdrawal process</p>
+                                    <p class="text-gray-700 dark:text-gray-300 mt-1">Student withdrawn</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- PT Actions Summary -->
+                    <div class="bg-primary-light dark:bg-primary-dark rounded-lg p-4 max-w-6xl mx-auto mt-6 text-white">
+                        <p class="font-bold text-lg mb-2">🎓 Personal Tutor (PT) Actions Throughout:</p>
+                        <ul class="space-y-1 text-sm">
+                            <li>• Discuss attendance during PT meetings (ongoing)</li>
+                            <li>• If student contacts about AW, forward to SPT immediately</li>
+                            <li>• Note on Presto Flow when student makes contact re: AW</li>
+                            <li>• If in doubt, contact the Senior Personal Tutor</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <h3 class="text-2xl font-bold text-gray-900 dark:text-white mb-4 mt-12">Complete Process Table - All Steps</h3>
+                
+                <div class="overflow-x-auto mb-8">
+                    <table class="w-full bg-white dark:bg-gray-800 rounded-lg shadow-lg overflow-hidden">
+                        <thead class="bg-primary-light dark:bg-primary-dark text-white">
+                            <tr>
+                                <th class="px-4 py-3 text-left font-semibold">Phase</th>
+                                <th class="px-4 py-3 text-left font-semibold">Step ID</th>
+                                <th class="px-4 py-3 text-left font-semibold">Type</th>
+                                <th class="px-4 py-3 text-left font-semibold">Description</th>
+                                <th class="px-4 py-3 text-left font-semibold">Trigger/Condition</th>
+                                <th class="px-4 py-3 text-left font-semibold">Action Required</th>
+                                <th class="px-4 py-3 text-left font-semibold">Responsible Party</th>
+                                <th class="px-4 py-3 text-left font-semibold">Outcome</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-gray-200 dark:divide-gray-700">
+                            <!-- EARLY ENGAGEMENT PHASE -->
+                            <tr class="bg-secondary-light dark:bg-gray-700">
+                                <td colspan="8" class="px-4 py-3 font-bold text-white text-center">PHASE A: EARLY ENGAGEMENT (WEEKS 1-2)</td>
+                            </tr>
+                            
+                            <tr class="hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
+                                <td class="px-4 py-3 text-gray-700 dark:text-gray-300">Early</td>
+                                <td class="px-4 py-3 font-semibold text-gray-900 dark:text-white">1A-Decision</td>
+                                <td class="px-4 py-3 text-warning-light dark:text-warning-dark font-semibold">Decision Point</td>
+                                <td class="px-4 py-3 text-gray-700 dark:text-gray-300">Initial attendance check</td>
+                                <td class="px-4 py-3 text-gray-700 dark:text-gray-300">0% attendance in BOTH Week 1 AND Week 2</td>
+                                <td class="px-4 py-3 text-gray-700 dark:text-gray-300">Review attendance records</td>
+                                <td class="px-4 py-3 text-gray-700 dark:text-gray-300">Engagement Team</td>
+                                <td class="px-4 py-3 text-gray-700 dark:text-gray-300">If YES → proceed to 2A-Action<br/>If NO → continue standard monitoring</td>
+                            </tr>
+                            
+                            <tr class="hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
+                                <td class="px-4 py-3 text-gray-700 dark:text-gray-300">Early</td>
+                                <td class="px-4 py-3 font-semibold text-gray-900 dark:text-white">2A-Action</td>
+                                <td class="px-4 py-3 text-success-light dark:text-success-dark font-semibold">Action</td>
+                                <td class="px-4 py-3 text-gray-700 dark:text-gray-300">Include on withdrawal report</td>
+                                <td class="px-4 py-3 text-gray-700 dark:text-gray-300">Following 1A-Decision (YES)</td>
+                                <td class="px-4 py-3 text-gray-700 dark:text-gray-300">Add student to withdrawal report list</td>
+                                <td class="px-4 py-3 text-gray-700 dark:text-gray-300">Engagement Team</td>
+                                <td class="px-4 py-3 text-gray-700 dark:text-gray-300">Student flagged for intervention</td>
+                            </tr>
+                            
+                            <tr class="hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
+                                <td class="px-4 py-3 text-gray-700 dark:text-gray-300">Early</td>
+                                <td class="px-4 py-3 font-semibold text-gray-900 dark:text-white">3A-Action</td>
+                                <td class="px-4 py-3 text-danger-light dark:text-danger-dark font-semibold">Warning</td>
+                                <td class="px-4 py-3 text-gray-700 dark:text-gray-300">Send Academic Warning</td>
+                                <td class="px-4 py-3 text-gray-700 dark:text-gray-300">Following 2A-Action</td>
+                                <td class="px-4 py-3 text-gray-700 dark:text-gray-300">Send formal Academic Warning letter/email to student (2 weeks to respond)</td>
+                                <td class="px-4 py-3 text-gray-700 dark:text-gray-300">Engagement Team / SPT</td>
+                                <td class="px-4 py-3 text-gray-700 dark:text-gray-300">Student formally notified, 2-week response period begins</td>
+                            </tr>
+                            
+                            <tr class="hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
+                                <td class="px-4 py-3 text-gray-700 dark:text-gray-300">Early</td>
+                                <td class="px-4 py-3 font-semibold text-gray-900 dark:text-white">4A-Decision</td>
+                                <td class="px-4 py-3 text-warning-light dark:text-warning-dark font-semibold">Decision Point</td>
+                                <td class="px-4 py-3 text-gray-700 dark:text-gray-300">Check for student response</td>
+                                <td class="px-4 py-3 text-gray-700 dark:text-gray-300">After 2-week response period</td>
+                                <td class="px-4 py-3 text-gray-700 dark:text-gray-300">Check if student contacted Engagement Team or SPT</td>
+                                <td class="px-4 py-3 text-gray-700 dark:text-gray-300">Engagement Team / SPT</td>
+                                <td class="px-4 py-3 text-gray-700 dark:text-gray-300">If YES → 5A-Outcome (Continue)<br/>If NO → 6A-Outcome (Withdraw)</td>
+                            </tr>
+                            
+                            <tr class="hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors bg-green-50 dark:bg-green-900/20">
+                                <td class="px-4 py-3 text-gray-700 dark:text-gray-300">Early</td>
+                                <td class="px-4 py-3 font-semibold text-gray-900 dark:text-white">5A-Outcome</td>
+                                <td class="px-4 py-3 text-success-light dark:text-success-dark font-semibold">Positive Outcome</td>
+                                <td class="px-4 py-3 text-gray-700 dark:text-gray-300">Continue monitoring</td>
+                                <td class="px-4 py-3 text-gray-700 dark:text-gray-300">Student contacted within 2 weeks</td>
+                                <td class="px-4 py-3 text-gray-700 dark:text-gray-300">Note on Presto Flow. Continue standard monitoring.</td>
+                                <td class="px-4 py-3 text-gray-700 dark:text-gray-300">Personal Tutor / Engagement Team</td>
+                                <td class="px-4 py-3 text-gray-700 dark:text-gray-300">Student remains enrolled, ongoing monitoring continues</td>
+                            </tr>
+                            
+                            <tr class="hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors bg-red-50 dark:bg-red-900/20">
+                                <td class="px-4 py-3 text-gray-700 dark:text-gray-300">Early</td>
+                                <td class="px-4 py-3 font-semibold text-gray-900 dark:text-white">6A-Outcome</td>
+                                <td class="px-4 py-3 text-danger-light dark:text-danger-dark font-semibold">Negative Outcome</td>
+                                <td class="px-4 py-3 text-gray-700 dark:text-gray-300">Withdrawal process</td>
+                                <td class="px-4 py-3 text-gray-700 dark:text-gray-300">No contact within 2 weeks</td>
+                                <td class="px-4 py-3 text-gray-700 dark:text-gray-300">Begin formal withdrawal process</td>
+                                <td class="px-4 py-3 text-gray-700 dark:text-gray-300">SPT / Registry</td>
+                                <td class="px-4 py-3 text-gray-700 dark:text-gray-300">Student withdrawn from program</td>
+                            </tr>
+
+                            <!-- CONTINUED MONITORING PHASE -->
+                            <tr class="bg-secondary-light dark:bg-gray-700">
+                                <td colspan="8" class="px-4 py-3 font-bold text-white text-center">PHASE B: CONTINUED MONITORING (ONGOING)</td>
+                            </tr>
+                            
+                            <tr class="hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
+                                <td class="px-4 py-3 text-gray-700 dark:text-gray-300">Continued</td>
+                                <td class="px-4 py-3 font-semibold text-gray-900 dark:text-white">1B-Ongoing</td>
+                                <td class="px-4 py-3 text-success-light dark:text-success-dark font-semibold">Monitoring</td>
+                                <td class="px-4 py-3 text-gray-700 dark:text-gray-300">Ongoing attendance monitoring</td>
+                                <td class="px-4 py-3 text-gray-700 dark:text-gray-300">Continuous throughout semester</td>
+                                <td class="px-4 py-3 text-gray-700 dark:text-gray-300">Track weekly attendance for all students</td>
+                                <td class="px-4 py-3 text-gray-700 dark:text-gray-300">Engagement Team / Academic Staff</td>
+                                <td class="px-4 py-3 text-gray-700 dark:text-gray-300">Attendance data updated regularly</td>
+                            </tr>
+                            
+                            <tr class="hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
+                                <td class="px-4 py-3 text-gray-700 dark:text-gray-300">Continued</td>
+                                <td class="px-4 py-3 font-semibold text-gray-900 dark:text-white">2B-Decision</td>
+                                <td class="px-4 py-3 text-warning-light dark:text-warning-dark font-semibold">Decision Point</td>
+                                <td class="px-4 py-3 text-gray-700 dark:text-gray-300">Attendance threshold check</td>
+                                <td class="px-4 py-3 text-gray-700 dark:text-gray-300">&lt;50% attendance for 3 consecutive weeks</td>
+                                <td class="px-4 py-3 text-gray-700 dark:text-gray-300">Review attendance records for 3-week pattern</td>
+                                <td class="px-4 py-3 text-gray-700 dark:text-gray-300">Engagement Team</td>
+                                <td class="px-4 py-3 text-gray-700 dark:text-gray-300">If YES → proceed to 3B-Action<br/>If NO → continue standard monitoring</td>
+                            </tr>
+                            
+                            <tr class="hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
+                                <td class="px-4 py-3 text-gray-700 dark:text-gray-300">Continued</td>
+                                <td class="px-4 py-3 font-semibold text-gray-900 dark:text-white">3B-Action</td>
+                                <td class="px-4 py-3 text-success-light dark:text-success-dark font-semibold">Action</td>
+                                <td class="px-4 py-3 text-gray-700 dark:text-gray-300">Flag for Academic Warning</td>
+                                <td class="px-4 py-3 text-gray-700 dark:text-gray-300">Following 2B-Decision (YES)</td>
+                                <td class="px-4 py-3 text-gray-700 dark:text-gray-300">Flag student in system for warning review</td>
+                                <td class="px-4 py-3 text-gray-700 dark:text-gray-300">Engagement Team</td>
+                                <td class="px-4 py-3 text-gray-700 dark:text-gray-300">Student flagged for SPT review</td>
+                            </tr>
+                            
+                            <tr class="hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
+                                <td class="px-4 py-3 text-gray-700 dark:text-gray-300">Continued</td>
+                                <td class="px-4 py-3 font-semibold text-gray-900 dark:text-white">4B-Action</td>
+                                <td class="px-4 py-3 text-success-light dark:text-success-dark font-semibold">Action</td>
+                                <td class="px-4 py-3 text-gray-700 dark:text-gray-300">SPT review and documentation</td>
+                                <td class="px-4 py-3 text-gray-700 dark:text-gray-300">Following 3B-Action</td>
+                                <td class="px-4 py-3 text-gray-700 dark:text-gray-300">Review flagged students, add notes to PRESTO system</td>
+                                <td class="px-4 py-3 text-gray-700 dark:text-gray-300">Senior Personal Tutor (SPT)</td>
+                                <td class="px-4 py-3 text-gray-700 dark:text-gray-300">Documentation completed in PRESTO</td>
+                            </tr>
+                            
+                            <tr class="hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
+                                <td class="px-4 py-3 text-gray-700 dark:text-gray-300">Continued</td>
+                                <td class="px-4 py-3 font-semibold text-gray-900 dark:text-white">5B-Decision</td>
+                                <td class="px-4 py-3 text-warning-light dark:text-warning-dark font-semibold">Decision Point</td>
+                                <td class="px-4 py-3 text-gray-700 dark:text-gray-300">Exceptional circumstances check</td>
+                                <td class="px-4 py-3 text-gray-700 dark:text-gray-300">After SPT review</td>
+                                <td class="px-4 py-3 text-gray-700 dark:text-gray-300">Determine if exceptional circumstances exist</td>
+                                <td class="px-4 py-3 text-gray-700 dark:text-gray-300">SPT</td>
+                                <td class="px-4 py-3 text-gray-700 dark:text-gray-300">If YES → do not send warning, document circumstances<br/>If NO → proceed to 6B-Action</td>
+                            </tr>
+                            
+                            <tr class="hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
+                                <td class="px-4 py-3 text-gray-700 dark:text-gray-300">Continued</td>
+                                <td class="px-4 py-3 font-semibold text-gray-900 dark:text-white">6B-Action</td>
+                                <td class="px-4 py-3 text-danger-light dark:text-danger-dark font-semibold">Warning</td>
+                                <td class="px-4 py-3 text-gray-700 dark:text-gray-300">Send Academic Warning</td>
+                                <td class="px-4 py-3 text-gray-700 dark:text-gray-300">3 weeks &lt;50% attendance + no exceptional circumstances</td>
+                                <td class="px-4 py-3 text-gray-700 dark:text-gray-300">Send formal Academic Warning letter/email to student (2 weeks to respond)</td>
+                                <td class="px-4 py-3 text-gray-700 dark:text-gray-300">Engagement Team / SPT</td>
+                                <td class="px-4 py-3 text-gray-700 dark:text-gray-300">Student formally notified, 2-week response period begins</td>
+                            </tr>
+                            
+                            <tr class="hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
+                                <td class="px-4 py-3 text-gray-700 dark:text-gray-300">Continued</td>
+                                <td class="px-4 py-3 font-semibold text-gray-900 dark:text-white">7B-Decision</td>
+                                <td class="px-4 py-3 text-warning-light dark:text-warning-dark font-semibold">Decision Point</td>
+                                <td class="px-4 py-3 text-gray-700 dark:text-gray-300">Check for student response</td>
+                                <td class="px-4 py-3 text-gray-700 dark:text-gray-300">After 2-week response period</td>
+                                <td class="px-4 py-3 text-gray-700 dark:text-gray-300">Check if student contacted Engagement Team or SPT</td>
+                                <td class="px-4 py-3 text-gray-700 dark:text-gray-300">Engagement Team / SPT</td>
+                                <td class="px-4 py-3 text-gray-700 dark:text-gray-300">If YES → 8B-Outcome (Support)<br/>If NO → 9B-Outcome (Withdraw)</td>
+                            </tr>
+                            
+                            <tr class="hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors bg-green-50 dark:bg-green-900/20">
+                                <td class="px-4 py-3 text-gray-700 dark:text-gray-300">Continued</td>
+                                <td class="px-4 py-3 font-semibold text-gray-900 dark:text-white">8B-Outcome</td>
+                                <td class="px-4 py-3 text-success-light dark:text-success-dark font-semibold">Positive Outcome</td>
+                                <td class="px-4 py-3 text-gray-700 dark:text-gray-300">Support and continue monitoring</td>
+                                <td class="px-4 py-3 text-gray-700 dark:text-gray-300">Student contacted within 2 weeks</td>
+                                <td class="px-4 py-3 text-gray-700 dark:text-gray-300">Engagement Team offers support, signposts to PT. Note on Presto Flow.</td>
+                                <td class="px-4 py-3 text-gray-700 dark:text-gray-300">Engagement Team / Personal Tutor</td>
+                                <td class="px-4 py-3 text-gray-700 dark:text-gray-300">Student receives support, remains enrolled, close monitoring continues</td>
+                            </tr>
+                            
+                            <tr class="hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors bg-red-50 dark:bg-red-900/20">
+                                <td class="px-4 py-3 text-gray-700 dark:text-gray-300">Continued</td>
+                                <td class="px-4 py-3 font-semibold text-gray-900 dark:text-white">9B-Outcome</td>
+                                <td class="px-4 py-3 text-danger-light dark:text-danger-dark font-semibold">Negative Outcome</td>
+                                <td class="px-4 py-3 text-gray-700 dark:text-gray-300">Withdrawal process</td>
+                                <td class="px-4 py-3 text-gray-700 dark:text-gray-300">No contact within 2 weeks</td>
+                                <td class="px-4 py-3 text-gray-700 dark:text-gray-300">Begin formal withdrawal process</td>
+                                <td class="px-4 py-3 text-gray-700 dark:text-gray-300">SPT / Registry</td>
+                                <td class="px-4 py-3 text-gray-700 dark:text-gray-300">Student withdrawn from program</td>
+                            </tr>
+
+                            <!-- KEY CHANGE ROW -->
+                            <tr class="bg-warning-light dark:bg-gray-700">
+                                <td colspan="8" class="px-4 py-3 font-bold text-white">⚠ KEY CHANGE: If students increase attendance after a warning but then drop below 50% again (without mitigating circumstances), they are at risk of withdrawal WITHOUT another Academic Warning</td>
+                            </tr>
+
+                            <!-- PERSONAL TUTOR ACTIONS -->
+                            <tr class="bg-primary-light dark:bg-primary-dark">
+                                <td colspan="8" class="px-4 py-3 font-bold text-white text-center">PERSONAL TUTOR ACTIONS (APPLICABLE TO ALL STEPS)</td>
+                            </tr>
+                            
+                            <tr class="hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
+                                <td class="px-4 py-3 text-gray-700 dark:text-gray-300">All Phases</td>
+                                <td class="px-4 py-3 font-semibold text-gray-900 dark:text-white">PT-1</td>
+                                <td class="px-4 py-3 text-primary-light dark:text-primary-dark font-semibold">PT Action</td>
+                                <td class="px-4 py-3 text-gray-700 dark:text-gray-300">Discuss attendance during PT meetings</td>
+                                <td class="px-4 py-3 text-gray-700 dark:text-gray-300">Regular PT meetings (ongoing)</td>
+                                <td class="px-4 py-3 text-gray-700 dark:text-gray-300">Proactively discuss attendance with students</td>
+                                <td class="px-4 py-3 text-gray-700 dark:text-gray-300">Personal Tutor</td>
+                                <td class="px-4 py-3 text-gray-700 dark:text-gray-300">Early identification of issues</td>
+                            </tr>
+                            
+                            <tr class="hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
+                                <td class="px-4 py-3 text-gray-700 dark:text-gray-300">All Phases</td>
+                                <td class="px-4 py-3 font-semibold text-gray-900 dark:text-white">PT-2</td>
+                                <td class="px-4 py-3 text-primary-light dark:text-primary-dark font-semibold">PT Action</td>
+                                <td class="px-4 py-3 text-gray-700 dark:text-gray-300">Forward AW contact to SPT</td>
+                                <td class="px-4 py-3 text-gray-700 dark:text-gray-300">When student contacts PT about Academic Warning</td>
+                                <td class="px-4 py-3 text-gray-700 dark:text-gray-300">Immediately forward student contact to SPT</td>
+                                <td class="px-4 py-3 text-gray-700 dark:text-gray-300">Personal Tutor</td>
+                                <td class="px-4 py-3 text-gray-700 dark:text-gray-300">SPT informed of student engagement</td>
+                            </tr>
+                            
+                            <tr class="hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
+                                <td class="px-4 py-3 text-gray-700 dark:text-gray-300">All Phases</td>
+                                <td class="px-4 py-3 font-semibold text-gray-900 dark:text-white">PT-3</td>
+                                <td class="px-4 py-3 text-primary-light dark:text-primary-dark font-semibold">PT Action</td>
+                                <td class="px-4 py-3 text-gray-700 dark:text-gray-300">Document on Presto Flow</td>
+                                <td class="px-4 py-3 text-gray-700 dark:text-gray-300">After student makes contact re: AW</td>
+                                <td class="px-4 py-3 text-gray-700 dark:text-gray-300">Add note on Presto Flow that student has been in contact regarding AW</td>
+                                <td class="px-4 py-3 text-gray-700 dark:text-gray-300">Personal Tutor</td>
+                                <td class="px-4 py-3 text-gray-700 dark:text-gray-300">Contact documented in system</td>
+                            </tr>
+                            
+                            <tr class="hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
+                                <td class="px-4 py-3 text-gray-700 dark:text-gray-300">All Phases</td>
+                                <td class="px-4 py-3 font-semibold text-gray-900 dark:text-white">PT-4</td>
+                                <td class="px-4 py-3 text-primary-light dark:text-primary-dark font-semibold">PT Action</td>
+                                <td class="px-4 py-3 text-gray-700 dark:text-gray-300">Escalate when in doubt</td>
+                                <td class="px-4 py-3 text-gray-700 dark:text-gray-300">Any uncertainty about process</td>
+                                <td class="px-4 py-3 text-gray-700 dark:text-gray-300">Contact Senior Personal Tutor for guidance</td>
+                                <td class="px-4 py-3 text-gray-700 dark:text-gray-300">Personal Tutor</td>
+                                <td class="px-4 py-3 text-gray-700 dark:text-gray-300">Clear guidance obtained</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="bg-success-light dark:bg-success-dark rounded-lg p-6 text-center">
+                    <p class="text-xl font-bold text-white">📋 This master sheet contains all 20+ decision points, actions, and outcomes</p>
+                    <p class="text-white mt-2">Use this as your complete reference for any student engagement situation</p>
                 </div>
             </div>
 
