@@ -1,0 +1,685 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Boolean Search Builder</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        :root {
+            --bg-primary: #ffffff;
+            --bg-secondary: #f9fafb;
+            --text-primary: #111827;
+            --text-secondary: #4b5563;
+            --border-color: #e5e7eb;
+            --accent-color: #3b82f6;
+        }
+        
+        .dark-mode {
+            --bg-primary: #1f2937;
+            --bg-secondary: #111827;
+            --text-primary: #f9fafb;
+            --text-secondary: #d1d5db;
+            --border-color: #374151;
+            --accent-color: #60a5fa;
+        }
+        
+        body {
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+        }
+
+        .term-block {
+            transition: all 0.2s;
+        }
+
+        .term-block:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .search-output {
+            font-family: 'Courier New', monospace;
+            background-color: var(--bg-secondary);
+            border: 2px solid var(--accent-color);
+        }
+
+        select, input {
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            border-color: var(--border-color);
+        }
+
+        .impact-narrow {
+            background-color: #fee2e2;
+            color: #991b1b;
+        }
+
+        .impact-broad {
+            background-color: #dbeafe;
+            color: #1e40af;
+        }
+
+        .dark-mode .impact-narrow {
+            background-color: #7f1d1d;
+            color: #fecaca;
+        }
+
+        .dark-mode .impact-broad {
+            background-color: #1e3a8a;
+            color: #bfdbfe;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .tab-btn {
+            padding: 0.75rem 1.5rem;
+            border-bottom: 3px solid transparent;
+            transition: all 0.2s;
+        }
+
+        .tab-btn.active {
+            border-bottom-color: var(--accent-color);
+            font-weight: 600;
+        }
+
+        .concept-box {
+            border: 2px solid var(--accent-color);
+            border-radius: 0.5rem;
+            padding: 1.5rem;
+            background-color: var(--bg-secondary);
+        }
+
+        .synonym-bubble {
+            display: inline-block;
+            padding: 0.5rem 1rem;
+            margin: 0.25rem;
+            border-radius: 9999px;
+            background-color: var(--accent-color);
+            color: white;
+            font-size: 0.9rem;
+        }
+
+        .dark-mode .synonym-bubble {
+            background-color: var(--accent-color);
+        }
+
+        .arrow {
+            text-align: center;
+            font-size: 2rem;
+            color: var(--accent-color);
+            margin: 1rem 0;
+        }
+
+        .operator-badge {
+            display: inline-block;
+            padding: 0.5rem 1rem;
+            margin: 0.5rem;
+            border-radius: 0.5rem;
+            font-weight: bold;
+            font-family: monospace;
+        }
+
+        .and-badge {
+            background-color: #fee2e2;
+            color: #991b1b;
+        }
+
+        .or-badge {
+            background-color: #dbeafe;
+            color: #1e40af;
+        }
+
+        .dark-mode .and-badge {
+            background-color: #7f1d1d;
+            color: #fecaca;
+        }
+
+        .dark-mode .or-badge {
+            background-color: #1e3a8a;
+            color: #bfdbfe;
+        }
+    </style>
+</head>
+<body class="min-h-screen p-8">
+    <div class="max-w-6xl mx-auto">
+        <!-- Header -->
+        <div class="flex justify-between items-center mb-8">
+            <h1 class="text-4xl font-bold">Boolean Search Builder</h1>
+            <button id="darkModeToggle" class="px-4 py-2 rounded border" style="border-color: var(--border-color);">
+                <span id="modeIcon">🌙</span>
+            </button>
+        </div>
+
+        <!-- Tabs -->
+        <div class="flex gap-4 mb-8 border-b" style="border-color: var(--border-color);">
+            <button class="tab-btn active" data-tab="builder">
+                🔧 Build Search
+            </button>
+            <button class="tab-btn" data-tab="visual">
+                📊 Visual Guide
+            </button>
+        </div>
+
+        <!-- Tab 1: Builder -->
+        <div id="builder-tab" class="tab-content active">
+            <p class="text-lg mb-8" style="color: var(--text-secondary);">
+                Build advanced search queries by combining terms with Boolean operators. Watch how your search changes in real-time!
+            </p>
+
+            <!-- Search Terms Section -->
+            <div class="mb-8">
+                <h2 class="text-2xl font-bold mb-4">1. Add Your Search Terms</h2>
+                <div id="termsContainer" class="space-y-4"></div>
+                <button id="addTermBtn" class="mt-4 px-4 py-2 rounded font-medium text-white" style="background-color: var(--accent-color);">
+                    + Add Term
+                </button>
+            </div>
+
+            <!-- Output Section -->
+            <div class="mb-8">
+                <h2 class="text-2xl font-bold mb-4">2. Your Search Query</h2>
+                <div class="search-output p-6 rounded-lg text-xl min-h-[100px] flex items-center justify-center">
+                    <span id="searchOutput" class="text-center">Add terms above to build your search</span>
+                </div>
+            </div>
+
+            <!-- Impact Indicator -->
+            <div id="impactIndicator" class="mb-8 p-6 rounded-lg hidden">
+                <h3 class="text-xl font-bold mb-2">Search Impact:</h3>
+                <p id="impactText" class="text-lg"></p>
+            </div>
+
+            <!-- Examples Section -->
+            <div class="border-t pt-8" style="border-color: var(--border-color);">
+                <h2 class="text-2xl font-bold mb-4">Quick Examples</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <button class="example-btn p-4 rounded border text-left hover:shadow-lg transition" style="border-color: var(--border-color);" data-example="basic">
+                        <strong>Basic AND Search</strong><br>
+                        <span style="color: var(--text-secondary);">AI AND design</span>
+                    </button>
+                    <button class="example-btn p-4 rounded border text-left hover:shadow-lg transition" style="border-color: var(--border-color);" data-example="or">
+                        <strong>OR for Synonyms</strong><br>
+                        <span style="color: var(--text-secondary);">Instagram OR TikTok OR Facebook</span>
+                    </button>
+                    <button class="example-btn p-4 rounded border text-left hover:shadow-lg transition" style="border-color: var(--border-color);" data-example="not">
+                        <strong>Exclude with NOT</strong><br>
+                        <span style="color: var(--text-secondary);">design NOT fashion</span>
+                    </button>
+                    <button class="example-btn p-4 rounded border text-left hover:shadow-lg transition" style="border-color: var(--border-color);" data-example="complex">
+                        <strong>Complex Query</strong><br>
+                        <span style="color: var(--text-secondary);">(Instagram OR TikTok) AND "mental health"</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Tips Section -->
+            <div class="mt-8 p-6 rounded-lg" style="background-color: var(--bg-secondary);">
+                <h3 class="text-xl font-bold mb-3">💡 Pro Tips</h3>
+                <ul class="space-y-2" style="color: var(--text-secondary);">
+                    <li>• Use AND to narrow your search (fewer results, more specific)</li>
+                    <li>• Use OR to broaden your search (more results, includes synonyms)</li>
+                    <li>• Use NOT to exclude unwanted topics</li>
+                    <li>• Use quotes for exact phrases: "social media"</li>
+                    <li>• Use parentheses to group terms: (term1 OR term2) AND term3</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Tab 2: Visual Guide -->
+        <div id="visual-tab" class="tab-content">
+            <h2 class="text-3xl font-bold mb-6">How to Build Search Keywords: Visual Guide</h2>
+            
+            <!-- Step 1: Topic -->
+            <div class="mb-8">
+                <div class="text-center mb-4">
+                    <span class="inline-block px-4 py-2 rounded-full font-bold text-white" style="background-color: var(--accent-color);">STEP 1</span>
+                </div>
+                <h3 class="text-2xl font-bold mb-4 text-center">Start with Your Topic</h3>
+                <div class="max-w-2xl mx-auto p-6 rounded-lg text-center text-xl" style="background-color: var(--bg-secondary); border: 3px solid var(--accent-color);">
+                    "How does social media affect teenagers' mental health?"
+                </div>
+            </div>
+
+            <div class="arrow">↓</div>
+
+            <!-- Step 2: Break into Concepts -->
+            <div class="mb-8">
+                <div class="text-center mb-4">
+                    <span class="inline-block px-4 py-2 rounded-full font-bold text-white" style="background-color: var(--accent-color);">STEP 2</span>
+                </div>
+                <h3 class="text-2xl font-bold mb-4 text-center">Break into Main Concepts</h3>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div class="concept-box">
+                        <h4 class="font-bold text-lg mb-3 text-center">Concept 1</h4>
+                        <p class="text-center text-xl font-semibold">Social Media</p>
+                    </div>
+                    <div class="concept-box">
+                        <h4 class="font-bold text-lg mb-3 text-center">Concept 2</h4>
+                        <p class="text-center text-xl font-semibold">Teenagers</p>
+                    </div>
+                    <div class="concept-box">
+                        <h4 class="font-bold text-lg mb-3 text-center">Concept 3</h4>
+                        <p class="text-center text-xl font-semibold">Mental Health</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="arrow">↓</div>
+
+            <!-- Step 3: Find Synonyms -->
+            <div class="mb-8">
+                <div class="text-center mb-4">
+                    <span class="inline-block px-4 py-2 rounded-full font-bold text-white" style="background-color: var(--accent-color);">STEP 3</span>
+                </div>
+                <h3 class="text-2xl font-bold mb-4 text-center">Find Synonyms for Each Concept</h3>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div class="concept-box">
+                        <h4 class="font-bold text-lg mb-3 text-center">Social Media</h4>
+                        <div class="text-center">
+                            <span class="synonym-bubble">Instagram</span>
+                            <span class="synonym-bubble">TikTok</span>
+                            <span class="synonym-bubble">Facebook</span>
+                            <span class="synonym-bubble">Twitter</span>
+                            <span class="synonym-bubble">Snapchat</span>
+                        </div>
+                    </div>
+                    <div class="concept-box">
+                        <h4 class="font-bold text-lg mb-3 text-center">Teenagers</h4>
+                        <div class="text-center">
+                            <span class="synonym-bubble">adolescents</span>
+                            <span class="synonym-bubble">youth</span>
+                            <span class="synonym-bubble">young people</span>
+                            <span class="synonym-bubble">teens</span>
+                        </div>
+                    </div>
+                    <div class="concept-box">
+                        <h4 class="font-bold text-lg mb-3 text-center">Mental Health</h4>
+                        <div class="text-center">
+                            <span class="synonym-bubble">wellbeing</span>
+                            <span class="synonym-bubble">psychology</span>
+                            <span class="synonym-bubble">depression</span>
+                            <span class="synonym-bubble">anxiety</span>
+                            <span class="synonym-bubble">self-esteem</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="arrow">↓</div>
+
+            <!-- Step 4: Combine with Operators -->
+            <div class="mb-8">
+                <div class="text-center mb-4">
+                    <span class="inline-block px-4 py-2 rounded-full font-bold text-white" style="background-color: var(--accent-color);">STEP 4</span>
+                </div>
+                <h3 class="text-2xl font-bold mb-4 text-center">Combine with Boolean Operators</h3>
+                
+                <div class="space-y-6">
+                    <!-- OR within concepts -->
+                    <div class="p-6 rounded-lg" style="background-color: var(--bg-secondary);">
+                        <h4 class="font-bold text-lg mb-3">Use <span class="or-badge">OR</span> within each concept (synonyms)</h4>
+                        <div class="code-box text-center text-lg">
+                            Instagram OR TikTok OR Facebook
+                        </div>
+                        <p class="mt-2 text-center" style="color: var(--text-secondary);">This finds articles mentioning ANY of these platforms</p>
+                    </div>
+
+                    <!-- AND between concepts -->
+                    <div class="p-6 rounded-lg" style="background-color: var(--bg-secondary);">
+                        <h4 class="font-bold text-lg mb-3">Use <span class="and-badge">AND</span> between different concepts</h4>
+                        <div class="code-box text-center text-lg">
+                            (Instagram OR TikTok) AND (adolescents OR teens) AND (depression OR anxiety)
+                        </div>
+                        <p class="mt-2 text-center" style="color: var(--text-secondary);">This finds articles that discuss ALL three concepts</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="arrow">↓</div>
+
+            <!-- Step 5: Final Search -->
+            <div class="mb-8">
+                <div class="text-center mb-4">
+                    <span class="inline-block px-4 py-2 rounded-full font-bold text-white" style="background-color: var(--accent-color);">FINAL RESULT</span>
+                </div>
+                <h3 class="text-2xl font-bold mb-4 text-center">Your Complete Search Query</h3>
+                <div class="search-output p-6 rounded-lg text-lg text-center">
+                    (Instagram OR TikTok OR Facebook) AND (adolescents OR teens OR "young people") AND (depression OR anxiety OR wellbeing OR "mental health")
+                </div>
+                <p class="mt-4 text-center text-lg" style="color: var(--text-secondary);">
+                    This search will find articles about social media platforms' impact on teenagers' mental health, using multiple synonyms for precision.
+                </p>
+            </div>
+
+            <!-- Key Principles -->
+            <div class="mt-12 p-8 rounded-lg" style="background-color: var(--bg-secondary); border: 2px solid var(--accent-color);">
+                <h3 class="text-2xl font-bold mb-4">🎯 Key Principles</h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 text-lg">
+                    <div>
+                        <h4 class="font-bold mb-2 flex items-center gap-2">
+                            <span class="or-badge">OR</span> = Broader
+                        </h4>
+                        <p style="color: var(--text-secondary);">Use within concepts to include synonyms. More results, covers variations.</p>
+                    </div>
+                    <div>
+                        <h4 class="font-bold mb-2 flex items-center gap-2">
+                            <span class="and-badge">AND</span> = Narrower
+                        </h4>
+                        <p style="color: var(--text-secondary);">Use between concepts to require all topics. Fewer results, more specific.</p>
+                    </div>
+                    <div>
+                        <h4 class="font-bold mb-2">📝 Use Quotation Marks</h4>
+                        <p style="color: var(--text-secondary);">"mental health" finds exact phrase, not separate words scattered in text.</p>
+                    </div>
+                    <div>
+                        <h4 class="font-bold mb-2">( ) Use Parentheses</h4>
+                        <p style="color: var(--text-secondary);">Group related terms: (term1 OR term2) to control search logic.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let terms = [];
+        let termIdCounter = 0;
+        let isDarkMode = false;
+        let currentTab = 'builder';
+
+        const termsContainer = document.getElementById('termsContainer');
+        const addTermBtn = document.getElementById('addTermBtn');
+        const searchOutput = document.getElementById('searchOutput');
+        const impactIndicator = document.getElementById('impactIndicator');
+        const impactText = document.getElementById('impactText');
+        const darkModeToggle = document.getElementById('darkModeToggle');
+        const modeIcon = document.getElementById('modeIcon');
+
+        const presetTerms = {
+            'AI': ['artificial intelligence', 'machine learning', 'automation', 'generative AI'],
+            'Design': ['graphic design', 'visual design', 'branding', 'typography'],
+            'Social Media': ['Instagram', 'TikTok', 'Facebook', 'Twitter', 'Snapchat'],
+            'Mental Health': ['wellbeing', 'psychology', 'depression', 'anxiety'],
+            'Technology': ['digital', 'tech', 'innovation', 'computing'],
+            'Custom': []
+        };
+
+        // Tab switching
+        document.querySelectorAll('.tab-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const tabName = btn.dataset.tab;
+                
+                // Update active states
+                document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+                document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+                
+                btn.classList.add('active');
+                document.getElementById(`${tabName}-tab`).classList.add('active');
+                currentTab = tabName;
+            });
+        });
+
+        function createTermBlock(id) {
+            const block = document.createElement('div');
+            block.className = 'term-block p-4 rounded-lg border';
+            block.style.borderColor = 'var(--border-color)';
+            block.style.backgroundColor = 'var(--bg-secondary)';
+            block.id = `term-${id}`;
+
+            block.innerHTML = `
+                <div class="flex items-start gap-4">
+                    <div class="flex-1 space-y-3">
+                        <div>
+                            <label class="block text-sm font-medium mb-1">Select Category or Custom</label>
+                            <select class="term-select w-full p-2 rounded border" data-id="${id}">
+                                <option value="AI">AI</option>
+                                <option value="Design">Design</option>
+                                <option value="Social Media">Social Media</option>
+                                <option value="Mental Health">Mental Health</option>
+                                <option value="Technology">Technology</option>
+                                <option value="Custom" selected>Custom (Type Your Own)</option>
+                            </select>
+                        </div>
+                        <div class="custom-input-container">
+                            <label class="block text-sm font-medium mb-1">Your Search Term</label>
+                            <input type="text" class="custom-input w-full p-2 rounded border" data-id="${id}" placeholder="Type your search term...">
+                        </div>
+                        <div class="preset-container hidden">
+                            <label class="block text-sm font-medium mb-1">Choose Term</label>
+                            <select class="preset-select w-full p-2 rounded border" data-id="${id}"></select>
+                        </div>
+                        <div class="flex items-center gap-4">
+                            <label class="flex items-center gap-2">
+                                <input type="checkbox" class="exact-phrase" data-id="${id}">
+                                <span class="text-sm">Use "quotation marks" (exact phrase)</span>
+                            </label>
+                        </div>
+                        ${id > 0 ? `
+                        <div>
+                            <label class="block text-sm font-medium mb-1">Operator Before This Term</label>
+                            <select class="operator-select p-2 rounded border" data-id="${id}">
+                                <option value="AND">AND (both must appear)</option>
+                                <option value="OR">OR (either can appear)</option>
+                                <option value="NOT">NOT (exclude this term)</option>
+                            </select>
+                        </div>
+                        ` : ''}
+                    </div>
+                    <button class="remove-btn px-3 py-2 rounded border text-red-600 hover:bg-red-50" data-id="${id}" style="border-color: var(--border-color);">
+                        ✕
+                    </button>
+                </div>
+            `;
+
+            return block;
+        }
+
+        function addTerm() {
+            const id = termIdCounter++;
+            const block = createTermBlock(id);
+            termsContainer.appendChild(block);
+
+            terms.push({
+                id: id,
+                type: 'Custom',
+                value: '',
+                operator: id === 0 ? null : 'AND',
+                exactPhrase: false
+            });
+
+            attachEventListeners(block, id);
+            updateSearch();
+        }
+
+        function attachEventListeners(block, id) {
+            const termSelect = block.querySelector('.term-select');
+            const customInput = block.querySelector('.custom-input');
+            const presetSelect = block.querySelector('.preset-select');
+            const exactPhrase = block.querySelector('.exact-phrase');
+            const operatorSelect = block.querySelector('.operator-select');
+            const removeBtn = block.querySelector('.remove-btn');
+            const customContainer = block.querySelector('.custom-input-container');
+            const presetContainer = block.querySelector('.preset-container');
+
+            termSelect.addEventListener('change', (e) => {
+                const category = e.target.value;
+                const term = terms.find(t => t.id === id);
+                term.type = category;
+
+                if (category === 'Custom') {
+                    customContainer.classList.remove('hidden');
+                    presetContainer.classList.add('hidden');
+                    term.value = customInput.value;
+                } else {
+                    customContainer.classList.add('hidden');
+                    presetContainer.classList.remove('hidden');
+                    
+                    presetSelect.innerHTML = presetTerms[category]
+                        .map(t => `<option value="${t}">${t}</option>`)
+                        .join('');
+                    
+                    term.value = presetSelect.value;
+                }
+                updateSearch();
+            });
+
+            customInput.addEventListener('input', (e) => {
+                const term = terms.find(t => t.id === id);
+                term.value = e.target.value;
+                updateSearch();
+            });
+
+            presetSelect.addEventListener('change', (e) => {
+                const term = terms.find(t => t.id === id);
+                term.value = e.target.value;
+                updateSearch();
+            });
+
+            exactPhrase.addEventListener('change', (e) => {
+                const term = terms.find(t => t.id === id);
+                term.exactPhrase = e.target.checked;
+                updateSearch();
+            });
+
+            if (operatorSelect) {
+                operatorSelect.addEventListener('change', (e) => {
+                    const term = terms.find(t => t.id === id);
+                    term.operator = e.target.value;
+                    updateSearch();
+                });
+            }
+
+            removeBtn.addEventListener('click', () => {
+                terms = terms.filter(t => t.id !== id);
+                block.remove();
+                updateSearch();
+            });
+        }
+
+        function updateSearch() {
+            if (terms.length === 0 || terms.every(t => !t.value)) {
+                searchOutput.textContent = 'Add terms above to build your search';
+                impactIndicator.classList.add('hidden');
+                return;
+            }
+
+            let query = '';
+            let andCount = 0;
+            let orCount = 0;
+            let notCount = 0;
+
+            terms.forEach((term, index) => {
+                if (!term.value) return;
+
+                let termStr = term.exactPhrase ? `"${term.value}"` : term.value;
+
+                if (index === 0) {
+                    query = termStr;
+                } else {
+                    query += ` ${term.operator} ${termStr}`;
+                    if (term.operator === 'AND') andCount++;
+                    if (term.operator === 'OR') orCount++;
+                    if (term.operator === 'NOT') notCount++;
+                }
+            });
+
+            searchOutput.textContent = query || 'Add terms above to build your search';
+
+            // Show impact
+            impactIndicator.classList.remove('hidden');
+            impactIndicator.classList.remove('impact-narrow', 'impact-broad');
+
+            if (andCount > orCount || notCount > 0) {
+                impactIndicator.classList.add('impact-narrow');
+                impactText.textContent = `📉 This search will return FEWER, more specific results (${andCount} AND${notCount > 0 ? `, ${notCount} NOT` : ''})`;
+            } else if (orCount > andCount) {
+                impactIndicator.classList.add('impact-broad');
+                impactText.textContent = `📈 This search will return MORE, broader results (${orCount} OR operators)`;
+            } else {
+                impactText.textContent = `⚖️ Balanced search - mix of specific and broad terms`;
+            }
+        }
+
+        function loadExample(type) {
+            terms = [];
+            termIdCounter = 0;
+            termsContainer.innerHTML = '';
+
+            const examples = {
+                basic: [
+                    { type: 'AI', value: 'AI', operator: null, exactPhrase: false },
+                    { type: 'Design', value: 'design', operator: 'AND', exactPhrase: false }
+                ],
+                or: [
+                    { type: 'Social Media', value: 'Instagram', operator: null, exactPhrase: false },
+                    { type: 'Social Media', value: 'TikTok', operator: 'OR', exactPhrase: false },
+                    { type: 'Social Media', value: 'Facebook', operator: 'OR', exactPhrase: false }
+                ],
+                not: [
+                    { type: 'Design', value: 'design', operator: null, exactPhrase: false },
+                    { type: 'Custom', value: 'fashion', operator: 'NOT', exactPhrase: false }
+                ],
+                complex: [
+                    { type: 'Social Media', value: 'Instagram', operator: null, exactPhrase: false },
+                    { type: 'Social Media', value: 'TikTok', operator: 'OR', exactPhrase: false },
+                    { type: 'Mental Health', value: 'mental health', operator: 'AND', exactPhrase: true }
+                ]
+            };
+
+            examples[type].forEach(ex => {
+                const id = termIdCounter++;
+                const block = createTermBlock(id);
+                termsContainer.appendChild(block);
+
+                terms.push({
+                    id: id,
+                    type: ex.type,
+                    value: ex.value,
+                    operator: ex.operator,
+                    exactPhrase: ex.exactPhrase
+                });
+
+                const termSelect = block.querySelector('.term-select');
+                const customInput = block.querySelector('.custom-input');
+                const exactPhrase = block.querySelector('.exact-phrase');
+                const operatorSelect = block.querySelector('.operator-select');
+
+                termSelect.value = ex.type;
+                customInput.value = ex.value;
+                exactPhrase.checked = ex.exactPhrase;
+                if (operatorSelect && ex.operator) {
+                    operatorSelect.value = ex.operator;
+                }
+
+                termSelect.dispatchEvent(new Event('change'));
+                attachEventListeners(block, id);
+            });
+
+            updateSearch();
+        }
+
+        function toggleDarkMode() {
+            isDarkMode = !isDarkMode;
+            document.body.classList.toggle('dark-mode');
+            modeIcon.textContent = isDarkMode ? '☀️' : '🌙';
+        }
+
+        addTermBtn.addEventListener('click', addTerm);
+        darkModeToggle.addEventListener('click', toggleDarkMode);
+
+        document.querySelectorAll('.example-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                loadExample(btn.dataset.example);
+            });
+        });
+
+        addTerm();
+    </script>
+</body>
+</html>
