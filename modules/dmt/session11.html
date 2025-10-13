@@ -1,0 +1,537 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Session 11: Final Support & Submission</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .slide { display: none; }
+        .slide.active { display: flex; }
+        
+        :root {
+            --bg-primary: #ffffff;
+            --bg-secondary: #f9fafb;
+            --text-primary: #111827;
+            --text-secondary: #4b5563;
+            --border-color: #e5e7eb;
+            --accent-color: #3b82f6;
+            --font-size: 1;
+        }
+        
+        .dark-mode {
+            --bg-primary: #1f2937;
+            --bg-secondary: #111827;
+            --text-primary: #f9fafb;
+            --text-secondary: #d1d5db;
+            --border-color: #374151;
+            --accent-color: #60a5fa;
+        }
+        
+        html {
+            font-size: calc(var(--font-size) * 16px);
+        }
+        
+        body {
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col">
+    <header class="border-b p-4" style="border-color: var(--border-color);">
+        <div class="max-w-7xl mx-auto flex justify-between items-center">
+            <h1 class="text-lg font-semibold">Digital Media Technologies - Session 11</h1>
+            <div class="flex gap-2">
+                <button id="decreaseFont" class="px-3 py-2 rounded border" style="border-color: var(--border-color);" aria-label="Decrease font size">A-</button>
+                <button id="increaseFont" class="px-3 py-2 rounded border" style="border-color: var(--border-color);" aria-label="Increase font size">A+</button>
+                <button id="darkModeToggle" class="px-4 py-2 rounded border" style="border-color: var(--border-color);" aria-label="Toggle dark mode">
+                    <span id="modeIcon">🌙</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <main class="flex-1 flex items-center justify-center p-8">
+        <div class="w-full max-w-5xl">
+            <!-- Slide 1: Title -->
+            <div class="slide active flex-col items-center justify-center text-center h-[70vh]">
+                <h2 class="text-5xl font-bold mb-6">Session 11</h2>
+                <h3 class="text-3xl mb-8" style="color: var(--text-secondary);">Final Support & Submission</h3>
+                <p class="text-xl" style="color: var(--text-secondary);">Last Checks & Moodle Upload</p>
+            </div>
+
+            <!-- Slide 2: Session Overview -->
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-4xl font-bold mb-8">Today's Plan</h2>
+                <div class="space-y-6 text-xl">
+                    <div class="p-5 rounded border" style="border-color: var(--border-color); background-color: #dbeafe;">
+                        <strong class="text-2xl">Final Review Session</strong><br>
+                        <span style="color: #1e40af;">Last chance for questions and clarifications</span>
+                    </div>
+                    <div class="p-5 rounded border" style="border-color: var(--border-color); background-color: #dcfce7;">
+                        <strong class="text-2xl">Submission Process Walkthrough</strong><br>
+                        <span style="color: #166534;">Step-by-step guide to uploading on Moodle</span>
+                    </div>
+                    <div class="p-5 rounded border" style="border-color: var(--border-color); background-color: #fef9c3;">
+                        <strong class="text-2xl">Individual Support</strong><br>
+                        <span style="color: #854d0e;">Last-minute troubleshooting and help</span>
+                    </div>
+                </div>
+                <p class="mt-8 text-xl font-semibold p-4 rounded" style="background-color: var(--bg-secondary);">
+                    Most students should submit TODAY
+                </p>
+            </div>
+
+            <!-- Slide 3: Pre-Submission Checklist -->
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-4xl font-bold mb-8">Final Pre-Submission Checklist</h2>
+                <div class="space-y-4 text-xl">
+                    <div class="p-4 rounded border" style="border-color: var(--border-color);">
+                        <strong>□ Complete:</strong> All 5 sections written and reviewed
+                    </div>
+                    <div class="p-4 rounded border" style="border-color: var(--border-color);">
+                        <strong>□ Word count:</strong> 2,000-2,500 words (±10%)
+                    </div>
+                    <div class="p-4 rounded border" style="border-color: var(--border-color);">
+                        <strong>□ Bibliography:</strong> Alphabetized, properly formatted
+                    </div>
+                    <div class="p-4 rounded border" style="border-color: var(--border-color);">
+                        <strong>□ Formatting:</strong> Consistent throughout, page numbers added
+                    </div>
+                    <div class="p-4 rounded border" style="border-color: var(--border-color);">
+                        <strong>□ File type:</strong> PDF or DOCX as specified
+                    </div>
+                    <div class="p-4 rounded border" style="border-color: var(--border-color);">
+                        <strong>□ Filename:</strong> Following naming convention (StudentID_Surname_DMT)
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 4: File Preparation -->
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-4xl font-bold mb-8">Preparing Your File for Submission</h2>
+                <div class="space-y-5 text-xl">
+                    <div class="flex items-start">
+                        <span class="font-bold mr-4" style="color: var(--accent-color);">1</span>
+                        <div>
+                            <strong>Save as PDF (recommended)</strong><br>
+                            <span style="color: var(--text-secondary);">Preserves formatting across all devices<br>
+                            File → Save As → PDF</span>
+                        </div>
+                    </div>
+                    <div class="flex items-start">
+                        <span class="font-bold mr-4" style="color: var(--accent-color);">2</span>
+                        <div>
+                            <strong>Check file opens correctly</strong><br>
+                            <span style="color: var(--text-secondary);">Open your saved file to verify everything looks right</span>
+                        </div>
+                    </div>
+                    <div class="flex items-start">
+                        <span class="font-bold mr-4" style="color: var(--accent-color);">3</span>
+                        <div>
+                            <strong>Rename following convention</strong><br>
+                            <span style="color: var(--text-secondary);">StudentID_Surname_AssignmentName.pdf<br>
+                            Example: 12345678_Smith_DMT_Report.pdf</span>
+                        </div>
+                    </div>
+                </div>
+                <p class="mt-8 text-xl font-semibold p-4 rounded" style="background-color: #fee2e2;">
+                    <span style="color: #991b1b;">Keep a backup copy on your computer!</span>
+                </p>
+            </div>
+
+            <!-- Slide 5: Submission Deadline -->
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-4xl font-bold mb-8">Submission Deadline Information</h2>
+                <div class="space-y-6 text-lg">
+                    <div class="p-6 rounded border" style="border-color: var(--border-color); background-color: #fee2e2;">
+                        <p class="text-2xl font-bold mb-4" style="color: #991b1b;">Deadline: [See Moodle for exact date/time]</p>
+                        <p class="text-xl" style="color: #991b1b;">Submit BEFORE the deadline - don't wait until the last minute!</p>
+                    </div>
+                    <div class="p-4 rounded" style="background-color: var(--bg-secondary);">
+                        <strong class="text-xl">Late submissions:</strong><br>
+                        <span style="color: var(--text-secondary);">• Penalties apply as per university regulations<br>
+                        • Check MMU's late submission policy on Moodle<br>
+                        • Extensions require prior approval</span>
+                    </div>
+                </div>
+                <p class="mt-6 text-xl font-semibold p-4 rounded" style="background-color: #dcfce7;">
+                    <span style="color: #166534;">Submit early if possible - aim for at least 24 hours before deadline</span>
+                </p>
+            </div>
+
+            <!-- Slide 6: Moodle Submission Steps -->
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-4xl font-bold mb-8">Moodle Submission: Step-by-Step</h2>
+                <div class="space-y-4 text-xl">
+                    <div class="flex items-start">
+                        <span class="font-bold mr-4" style="color: var(--accent-color);">1</span>
+                        <span>Log into Moodle and navigate to the DMT module</span>
+                    </div>
+                    <div class="flex items-start">
+                        <span class="font-bold mr-4" style="color: var(--accent-color);">2</span>
+                        <span>Find the assignment submission link</span>
+                    </div>
+                    <div class="flex items-start">
+                        <span class="font-bold mr-4" style="color: var(--accent-color);">3</span>
+                        <span>Click "Add submission"</span>
+                    </div>
+                    <div class="flex items-start">
+                        <span class="font-bold mr-4" style="color: var(--accent-color);">4</span>
+                        <span>Drag and drop or browse to upload your file</span>
+                    </div>
+                    <div class="flex items-start">
+                        <span class="font-bold mr-4" style="color: var(--accent-color);">5</span>
+                        <span>Check file uploaded correctly (preview if available)</span>
+                    </div>
+                    <div class="flex items-start">
+                        <span class="font-bold mr-4" style="color: var(--accent-color);">6</span>
+                        <span>Click "Save changes" (NOT submit yet)</span>
+                    </div>
+                    <div class="flex items-start">
+                        <span class="font-bold mr-4" style="color: var(--accent-color);">7</span>
+                        <span>Review submission, then click "Submit assignment"</span>
+                    </div>
+                    <div class="flex items-start">
+                        <span class="font-bold mr-4" style="color: var(--accent-color);">8</span>
+                        <span>Confirm submission when prompted</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 7: After You Submit -->
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-4xl font-bold mb-8">After Submitting</h2>
+                <div class="space-y-5 text-xl">
+                    <div class="p-4 rounded border" style="border-color: var(--border-color); background-color: #dcfce7;">
+                        <strong>✓ Check for confirmation</strong><br>
+                        <span style="color: #166534;">You should see "Submitted for grading" status<br>
+                        Take a screenshot as proof of submission</span>
+                    </div>
+                    <div class="p-4 rounded border" style="border-color: var(--border-color); background-color: #dcfce7;">
+                        <strong>✓ Check your email</strong><br>
+                        <span style="color: #166534;">Moodle sends a confirmation email<br>
+                        If you don't receive one, check your submission status</span>
+                    </div>
+                    <div class="p-4 rounded border" style="border-color: var(--border-color); background-color: #dbeafe;">
+                        <strong>Can you edit after submitting?</strong><br>
+                        <span style="color: #1e40af;">Yes, BEFORE the deadline you can resubmit<br>
+                        Only the latest version will be marked</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 8: Troubleshooting -->
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-4xl font-bold mb-8">Common Submission Problems</h2>
+                <div class="space-y-4 text-lg">
+                    <div class="p-4 rounded border" style="border-color: var(--border-color);">
+                        <strong>Problem: File won't upload</strong><br>
+                        <span style="color: var(--text-secondary);">→ Check file size (max usually 100MB)<br>
+                        → Try different browser<br>
+                        → Contact IT support immediately</span>
+                    </div>
+                    <div class="p-4 rounded border" style="border-color: var(--border-color);">
+                        <strong>Problem: Can't find submission link</strong><br>
+                        <span style="color: var(--text-secondary);">→ Check you're in the correct module<br>
+                        → Look in the "Assessment" section<br>
+                        → Contact tutor if still can't find</span>
+                    </div>
+                    <div class="p-4 rounded border" style="border-color: var(--border-color);">
+                        <strong>Problem: Technical issues at deadline</strong><br>
+                        <span style="color: var(--text-secondary);">→ Email tutor immediately with evidence<br>
+                        → Submit as soon as possible<br>
+                        → Document the technical problem</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 9: Turnitin Information -->
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-4xl font-bold mb-8">Turnitin Similarity Check</h2>
+                <div class="space-y-5 text-xl">
+                    <div class="p-4 rounded" style="background-color: #dbeafe;">
+                        <strong class="text-xl">What is Turnitin?</strong><br>
+                        <span style="color: #1e40af;">Plagiarism detection software that checks your work against:<br>
+                        • Internet sources<br>
+                        • Academic databases<br>
+                        • Other student submissions</span>
+                    </div>
+                    <div class="p-4 rounded" style="background-color: var(--bg-secondary);">
+                        <strong class="text-xl">What's a normal similarity score?</strong><br>
+                        <span style="color: var(--text-secondary);">• 0-15%: Excellent<br>
+                        • 15-25%: Usually acceptable<br>
+                        • 25%+: May be investigated<br>
+                        (Some matches like bibliography are normal)</span>
+                    </div>
+                </div>
+                <p class="mt-6 text-xl font-semibold p-4 rounded" style="background-color: #fee2e2;">
+                    <span style="color: #991b1b;">All work must be your own original content</span>
+                </p>
+            </div>
+
+            <!-- Slide 10: What Happens Next -->
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-4xl font-bold mb-8">After Submission: What to Expect</h2>
+                <div class="space-y-5 text-xl">
+                    <div class="flex items-start">
+                        <span class="mr-3">📝</span>
+                        <div>
+                            <strong>Marking process:</strong><br>
+                            <span style="color: var(--text-secondary);">Your work will be marked within 3-4 weeks</span>
+                        </div>
+                    </div>
+                    <div class="flex items-start">
+                        <span class="mr-3">📊</span>
+                        <div>
+                            <strong>Feedback:</strong><br>
+                            <span style="color: var(--text-secondary);">You'll receive written feedback and a rubric<br>
+                            Shows how you performed against each criterion</span>
+                        </div>
+                    </div>
+                    <div class="flex items-start">
+                        <span class="mr-3">💬</span>
+                        <div>
+                            <strong>Feedback discussion:</strong><br>
+                            <span style="color: var(--text-secondary);">You can request a feedback meeting during office hours</span>
+                        </div>
+                    </div>
+                    <div class="flex items-start">
+                        <span class="mr-3">📈</span>
+                        <div>
+                            <strong>Grade release:</strong><br>
+                            <span style="color: var(--text-secondary);">Grades released after moderation and exam board approval</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 11: Academic Integrity Reminder -->
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-4xl font-bold mb-8">Academic Integrity Reminder</h2>
+                <div class="space-y-5 text-lg">
+                    <div class="p-4 rounded" style="background-color: #dcfce7;">
+                        <strong class="text-xl">✓ You CAN:</strong><br>
+                        <span style="color: #166534;">• Use AI for brainstorming and checking grammar<br>
+                        • Discuss ideas with classmates<br>
+                        • Get help from tutors<br>
+                        • Use tools like Grammarly for proofreading</span>
+                    </div>
+                    <div class="p-4 rounded" style="background-color: #fee2e2;">
+                        <strong class="text-xl">✗ You CANNOT:</strong><br>
+                        <span style="color: #991b1b;">• Submit AI-generated content as your own work<br>
+                        • Copy from other students<br>
+                        • Copy from sources without citation<br>
+                        • Have someone else write your report</span>
+                    </div>
+                </div>
+                <p class="mt-6 text-xl font-semibold p-4 rounded" style="background-color: var(--bg-secondary);">
+                    All submitted work must be your own original content
+                </p>
+            </div>
+
+            <!-- Slide 12: Individual Support Available -->
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-4xl font-bold mb-8">Getting Help Today</h2>
+                <div class="space-y-5 text-xl">
+                    <div class="p-4 rounded" style="background-color: var(--bg-secondary);">
+                        <strong>Tutor is available for:</strong>
+                    </div>
+                    <ul class="space-y-4">
+                        <li class="flex items-start">
+                            <span class="mr-3">•</span>
+                            <span>Quick questions about requirements</span>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="mr-3">•</span>
+                            <span>Last-minute clarifications</span>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="mr-3">•</span>
+                            <span>Technical issues with submission</span>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="mr-3">•</span>
+                            <span>Quick format checks</span>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="mr-3">•</span>
+                            <span>Submission process guidance</span>
+                        </li>
+                    </ul>
+                </div>
+                <p class="mt-8 text-xl font-semibold p-4 rounded" style="background-color: #dbeafe;">
+                    <span style="color: #1e40af;">This is your last chance for in-person support!</span>
+                </p>
+            </div>
+
+            <!-- Slide 13: After This Module -->
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-4xl font-bold mb-8">Skills You've Developed</h2>
+                <div class="space-y-4 text-xl">
+                    <p class="text-xl mb-4">Throughout this module, you've learned:</p>
+                    <ul class="space-y-4">
+                        <li class="flex items-start">
+                            <span class="mr-3">✓</span>
+                            <span>How to develop effective research strategies</span>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="mr-3">✓</span>
+                            <span>How to navigate and compare academic databases</span>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="mr-3">✓</span>
+                            <span>How to evaluate sources critically using CRAAP test</span>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="mr-3">✓</span>
+                            <span>How to cite and reference properly in Harvard style</span>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="mr-3">✓</span>
+                            <span>How to reflect on and document your learning process</span>
+                        </li>
+                    </ul>
+                </div>
+                <p class="mt-8 text-xl font-semibold p-4 rounded" style="background-color: var(--bg-secondary);">
+                    These are foundational skills for all academic work
+                </p>
+            </div>
+
+            <!-- Slide 14: Celebration & Acknowledgment -->
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-4xl font-bold mb-8">You've Come a Long Way!</h2>
+                <div class="space-y-6 text-xl">
+                    <p class="text-2xl">From Week 1 to Week 11:</p>
+                    <ul class="space-y-4">
+                        <li class="flex items-start">
+                            <span class="mr-3">🎯</span>
+                            <span>Selected and refined a research topic</span>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="mr-3">🔍</span>
+                            <span>Mastered Boolean search strategies</span>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="mr-3">📚</span>
+                            <span>Explored multiple academic databases</span>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="mr-3">⭐</span>
+                            <span>Collected and evaluated quality sources</span>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="mr-3">📝</span>
+                            <span>Written a comprehensive research report</span>
+                        </li>
+                    </ul>
+                </div>
+                <p class="mt-8 text-2xl font-semibold p-4 rounded" style="background-color: #dcfce7;">
+                    <span style="color: #166534;">Well done! 🎉</span>
+                </p>
+            </div>
+
+            <!-- Slide 15: Final Slide -->
+            <div class="slide flex-col items-center justify-center text-center h-[70vh]">
+                <h2 class="text-5xl font-bold mb-8">Ready to Submit?</h2>
+                <div class="space-y-6 text-2xl">
+                    <p>✓ Final checks complete</p>
+                    <p>✓ File prepared and renamed</p>
+                    <p>✓ Ready to upload to Moodle</p>
+                </div>
+                <div class="mt-12 p-6 rounded" style="background-color: #dcfce7;">
+                    <p class="text-3xl font-bold mb-4" style="color: #166534;">Good luck!</p>
+                    <p class="text-xl" style="color: #166534;">Submit with confidence - you've done the work!</p>
+                </div>
+                <p class="mt-8 text-lg" style="color: var(--text-secondary);">
+                    Questions? Ask now or contact via email/office hours
+                </p>
+            </div>
+        </div>
+    </main>
+
+    <footer class="border-t p-4" style="border-color: var(--border-color);">
+        <div class="max-w-7xl mx-auto flex justify-between items-center">
+            <button id="prevBtn" class="px-6 py-2 rounded border font-medium" style="border-color: var(--border-color);" aria-label="Previous slide">
+                ← Previous
+            </button>
+            <span id="slideCounter" class="text-lg" style="color: var(--text-secondary);">1 / 15</span>
+            <button id="nextBtn" class="px-6 py-2 rounded border font-medium" style="border-color: var(--border-color);" aria-label="Next slide">
+                Next →
+            </button>
+        </div>
+    </footer>
+
+    <script>
+        let currentSlide = 0;
+        let isDarkMode = false;
+        let fontSize = 1;
+        const slides = document.querySelectorAll('.slide');
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+        const slideCounter = document.getElementById('slideCounter');
+        const darkModeToggle = document.getElementById('darkModeToggle');
+        const modeIcon = document.getElementById('modeIcon');
+        const increaseFont = document.getElementById('increaseFont');
+        const decreaseFont = document.getElementById('decreaseFont');
+
+        function showSlide(n) {
+            slides[currentSlide].classList.remove('active');
+            currentSlide = (n + slides.length) % slides.length;
+            slides[currentSlide].classList.add('active');
+            slideCounter.textContent = `${currentSlide + 1} / ${slides.length}`;
+            
+            prevBtn.disabled = currentSlide === 0;
+            nextBtn.disabled = currentSlide === slides.length - 1;
+            prevBtn.style.opacity = currentSlide === 0 ? '0.5' : '1';
+            nextBtn.style.opacity = currentSlide === slides.length - 1 ? '0.5' : '1';
+        }
+
+        function nextSlide() {
+            if (currentSlide < slides.length - 1) showSlide(currentSlide + 1);
+        }
+
+        function prevSlide() {
+            if (currentSlide > 0) showSlide(currentSlide - 1);
+        }
+
+        function toggleDarkMode() {
+            isDarkMode = !isDarkMode;
+            document.body.classList.toggle('dark-mode');
+            modeIcon.textContent = isDarkMode ? '☀️' : '🌙';
+        }
+
+        function updateFontSize() {
+            document.documentElement.style.setProperty('--font-size', fontSize);
+        }
+
+        function increaseFontSize() {
+            if (fontSize < 1.5) {
+                fontSize += 0.1;
+                updateFontSize();
+            }
+        }
+
+        function decreaseFontSize() {
+            if (fontSize > 0.7) {
+                fontSize -= 0.1;
+                updateFontSize();
+            }
+        }
+
+        prevBtn.addEventListener('click', prevSlide);
+        nextBtn.addEventListener('click', nextSlide);
+        darkModeToggle.addEventListener('click', toggleDarkMode);
+        increaseFont.addEventListener('click', increaseFontSize);
+        decreaseFont.addEventListener('click', decreaseFontSize);
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight') nextSlide();
+            if (e.key === 'ArrowLeft') prevSlide();
+        });
+
+        showSlide(0);
+    </script>
+</body>
+</html>

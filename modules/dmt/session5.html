@@ -1,0 +1,595 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Session 5: Source Evaluation</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .slide { display: none; }
+        .slide.active { display: flex; }
+        
+        :root {
+            --bg-primary: #ffffff;
+            --bg-secondary: #f9fafb;
+            --text-primary: #111827;
+            --text-secondary: #4b5563;
+            --border-color: #e5e7eb;
+            --accent-color: #3b82f6;
+            --font-size: 1;
+        }
+        
+        .dark-mode {
+            --bg-primary: #1f2937;
+            --bg-secondary: #111827;
+            --text-primary: #f9fafb;
+            --text-secondary: #d1d5db;
+            --border-color: #374151;
+            --accent-color: #60a5fa;
+        }
+        
+        html {
+            font-size: calc(var(--font-size) * 16px);
+        }
+        
+        body {
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col">
+    <header class="border-b p-4" style="border-color: var(--border-color);">
+        <div class="max-w-7xl mx-auto flex justify-between items-center">
+            <h1 class="text-lg font-semibold">Digital Media Technologies - Session 5</h1>
+            <div class="flex gap-2">
+                <button id="decreaseFont" class="px-3 py-2 rounded border" style="border-color: var(--border-color);" aria-label="Decrease font size">A-</button>
+                <button id="increaseFont" class="px-3 py-2 rounded border" style="border-color: var(--border-color);" aria-label="Increase font size">A+</button>
+                <button id="darkModeToggle" class="px-4 py-2 rounded border" style="border-color: var(--border-color);" aria-label="Toggle dark mode">
+                    <span id="modeIcon">🌙</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <main class="flex-1 flex items-center justify-center p-8">
+        <div class="w-full max-w-5xl">
+            <!-- Slide 1: Title -->
+            <div class="slide active flex-col items-center justify-center text-center h-[70vh]">
+                <h2 class="text-5xl font-bold mb-6">Session 5</h2>
+                <h3 class="text-3xl mb-8" style="color: var(--text-secondary);">Source Evaluation</h3>
+                <p class="text-xl" style="color: var(--text-secondary);">From 8 Candidates to Your Final 4</p>
+            </div>
+
+            <!-- Slide 2: Why Evaluation Matters -->
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-4xl font-bold mb-8">Why Source Evaluation Matters</h2>
+                <div class="space-y-6 text-xl">
+                    <div class="p-4 rounded" style="background-color: var(--bg-secondary);">
+                        <p class="mb-4">Not all sources are created equal, even in academic databases:</p>
+                    </div>
+                    <ul class="space-y-4">
+                        <li class="flex items-start">
+                            <span class="mr-3">⚠️</span>
+                            <span>Some journals are <strong>predatory</strong> (pay-to-publish, no peer review)</span>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="mr-3">⚠️</span>
+                            <span>Some sources are <strong>outdated</strong> or superseded by newer research</span>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="mr-3">⚠️</span>
+                            <span>Some have <strong>hidden biases</strong> or commercial interests</span>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="mr-3">⚠️</span>
+                            <span>Some are simply <strong>not relevant</strong> despite matching keywords</span>
+                        </li>
+                    </ul>
+                </div>
+                <p class="mt-8 text-xl font-semibold p-4 rounded" style="background-color: var(--bg-secondary);">
+                    Critical evaluation protects your research quality
+                </p>
+            </div>
+
+            <!-- Slide 3: The CRAAP Test Introduction -->
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-4xl font-bold mb-8">The CRAAP Test Framework</h2>
+                <div class="p-4 rounded mb-6" style="background-color: #dbeafe;">
+                    <p class="text-xl" style="color: #1e40af;">A systematic way to evaluate any source:</p>
+                </div>
+                <div class="space-y-4 text-2xl">
+                    <div class="p-4 rounded border" style="border-color: var(--border-color);">
+                        <strong style="color: var(--accent-color);">C</strong>urrency
+                    </div>
+                    <div class="p-4 rounded border" style="border-color: var(--border-color);">
+                        <strong style="color: var(--accent-color);">R</strong>elevance
+                    </div>
+                    <div class="p-4 rounded border" style="border-color: var(--border-color);">
+                        <strong style="color: var(--accent-color);">A</strong>uthority
+                    </div>
+                    <div class="p-4 rounded border" style="border-color: var(--border-color);">
+                        <strong style="color: var(--accent-color);">A</strong>ccuracy
+                    </div>
+                    <div class="p-4 rounded border" style="border-color: var(--border-color);">
+                        <strong style="color: var(--accent-color);">P</strong>urpose
+                    </div>
+                </div>
+                <p class="mt-6 text-xl font-semibold p-4 rounded" style="background-color: var(--bg-secondary);">
+                    Apply all five criteria to each source
+                </p>
+            </div>
+
+            <!-- Slide 4: Currency -->
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-4xl font-bold mb-8">Currency: Timeliness of Information</h2>
+                <div class="space-y-4 text-lg">
+                    <p class="text-xl mb-4"><strong>Questions to ask:</strong></p>
+                    <ul class="space-y-4">
+                        <li class="flex items-start">
+                            <span class="mr-3">•</span>
+                            <span>When was this published?</span>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="mr-3">•</span>
+                            <span>Has the information been updated or revised?</span>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="mr-3">•</span>
+                            <span>Is this current enough for my topic?</span>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="mr-3">•</span>
+                            <span>Are the links/references still working and current?</span>
+                        </li>
+                    </ul>
+                </div>
+                <div class="mt-8 space-y-3">
+                    <div class="p-4 rounded" style="background-color: #dcfce7;">
+                        <span style="color: #166534;"><strong>Fast-changing topics:</strong> Need sources from last 2-5 years<br>
+                        (AI, social media, technology)</span>
+                    </div>
+                    <div class="p-4 rounded" style="background-color: #dbeafe;">
+                        <span style="color: #1e40af;"><strong>Slower-changing topics:</strong> Older sources acceptable<br>
+                        (art history, philosophy, foundational theories)</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 5: Relevance -->
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-4xl font-bold mb-8">Relevance: Fit with Your Needs</h2>
+                <div class="space-y-4 text-lg">
+                    <p class="text-xl mb-4"><strong>Questions to ask:</strong></p>
+                    <ul class="space-y-4">
+                        <li class="flex items-start">
+                            <span class="mr-3">•</span>
+                            <span>Does this directly address my research topic?</span>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="mr-3">•</span>
+                            <span>Is this at an appropriate level? (Not too basic, not too advanced)</span>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="mr-3">•</span>
+                            <span>Who is the intended audience?</span>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="mr-3">•</span>
+                            <span>Would I actually cite this in my work?</span>
+                        </li>
+                    </ul>
+                </div>
+                <div class="mt-8 p-4 rounded" style="background-color: #fef9c3;">
+                    <p class="text-xl" style="color: #854d0e;">
+                        <strong>Red flag:</strong> If you're struggling to see how this source helps your argument, it's probably not relevant enough
+                    </p>
+                </div>
+                <p class="mt-4 text-xl font-semibold p-4 rounded" style="background-color: var(--bg-secondary);">
+                    Relevance is about YOUR specific needs
+                </p>
+            </div>
+
+            <!-- Slide 6: Authority Part 1 -->
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-4xl font-bold mb-8">Authority: Credibility of Author & Publisher</h2>
+                <div class="space-y-4 text-lg">
+                    <p class="text-xl mb-4"><strong>Questions about the author:</strong></p>
+                    <ul class="space-y-3">
+                        <li class="flex items-start">
+                            <span class="mr-3">•</span>
+                            <span>Who is the author? What are their credentials?</span>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="mr-3">•</span>
+                            <span>Are they affiliated with a university or research institution?</span>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="mr-3">•</span>
+                            <span>Have they published other work on this topic?</span>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="mr-3">•</span>
+                            <span>Do other scholars cite their work?</span>
+                        </li>
+                    </ul>
+                </div>
+                <div class="mt-8 p-4 rounded" style="background-color: #dcfce7;">
+                    <p class="text-lg" style="color: #166534;">
+                        <strong>Good sign:</strong> Author has PhD, works at university, has published multiple peer-reviewed articles
+                    </p>
+                </div>
+            </div>
+
+            <!-- Slide 7: Authority Part 2 -->
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-4xl font-bold mb-8">Authority: Publisher Reputation</h2>
+                <div class="space-y-4 text-lg">
+                    <p class="text-xl mb-4"><strong>Questions about the publisher:</strong></p>
+                    <ul class="space-y-3">
+                        <li class="flex items-start">
+                            <span class="mr-3">•</span>
+                            <span>Who published this? Reputable journal or publisher?</span>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="mr-3">•</span>
+                            <span>Is it peer-reviewed?</span>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="mr-3">•</span>
+                            <span>Is the journal indexed in major databases?</span>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="mr-3">•</span>
+                            <span>Does the publisher have editorial standards?</span>
+                        </li>
+                    </ul>
+                </div>
+                <div class="mt-8 space-y-3">
+                    <div class="p-4 rounded" style="background-color: #dcfce7;">
+                        <span style="color: #166534;"><strong>Trusted:</strong> Oxford University Press, Sage, Taylor & Francis, IEEE</span>
+                    </div>
+                    <div class="p-4 rounded" style="background-color: #fee2e2;">
+                        <span style="color: #991b1b;"><strong>Warning:</strong> Unknown publishers, pay-to-publish journals, no peer review process</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 8: Accuracy -->
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-4xl font-bold mb-8">Accuracy: Reliability of Information</h2>
+                <div class="space-y-4 text-lg">
+                    <p class="text-xl mb-4"><strong>Questions to ask:</strong></p>
+                    <ul class="space-y-4">
+                        <li class="flex items-start">
+                            <span class="mr-3">•</span>
+                            <span>Does the source provide evidence for claims?</span>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="mr-3">•</span>
+                            <span>Are there citations and references?</span>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="mr-3">•</span>
+                            <span>Can you verify the information elsewhere?</span>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="mr-3">•</span>
+                            <span>Are there obvious errors or typos?</span>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="mr-3">•</span>
+                            <span>Does it use appropriate methodology?</span>
+                        </li>
+                    </ul>
+                </div>
+                <p class="mt-8 text-xl font-semibold p-4 rounded" style="background-color: var(--bg-secondary);">
+                    Academic sources should always back up claims with evidence
+                </p>
+            </div>
+
+            <!-- Slide 9: Purpose & Bias -->
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-4xl font-bold mb-8">Purpose: Why Was This Created?</h2>
+                <div class="space-y-4 text-lg">
+                    <p class="text-xl mb-4"><strong>Questions to ask:</strong></p>
+                    <ul class="space-y-3">
+                        <li class="flex items-start">
+                            <span class="mr-3">•</span>
+                            <span>What is the purpose? Inform, persuade, sell, entertain?</span>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="mr-3">•</span>
+                            <span>Does the author have a conflict of interest?</span>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="mr-3">•</span>
+                            <span>Is there advertising or commercial influence?</span>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="mr-3">•</span>
+                            <span>Is the language objective or emotionally charged?</span>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="mr-3">•</span>
+                            <span>Are multiple perspectives presented?</span>
+                        </li>
+                    </ul>
+                </div>
+                <div class="mt-6 p-4 rounded" style="background-color: #fef9c3;">
+                    <p class="text-lg" style="color: #854d0e;">
+                        <strong>Remember:</strong> All sources have some bias. The question is whether it's transparent and acknowledged.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Slide 10: Comparing Sources -->
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-4xl font-bold mb-8">Comparing Your Sources Side-by-Side</h2>
+                <div class="space-y-5 text-lg">
+                    <p class="text-xl mb-4">Create a comparison table with your 6-8 sources:</p>
+                    <div class="p-4 rounded border" style="border-color: var(--border-color); background-color: var(--bg-secondary);">
+                        <table class="w-full text-left">
+                            <tr class="border-b" style="border-color: var(--border-color);">
+                                <th class="p-2">Source</th>
+                                <th class="p-2">Type</th>
+                                <th class="p-2">Currency</th>
+                                <th class="p-2">Authority</th>
+                                <th class="p-2">Relevance</th>
+                            </tr>
+                            <tr class="border-b" style="border-color: var(--border-color);">
+                                <td class="p-2">Smith (2023)</td>
+                                <td class="p-2">Journal</td>
+                                <td class="p-2">✓</td>
+                                <td class="p-2">✓</td>
+                                <td class="p-2">High</td>
+                            </tr>
+                            <tr>
+                                <td class="p-2">Jones (2015)</td>
+                                <td class="p-2">Book</td>
+                                <td class="p-2">⚠️</td>
+                                <td class="p-2">✓</td>
+                                <td class="p-2">Medium</td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+                <p class="mt-8 text-xl font-semibold p-4 rounded" style="background-color: var(--bg-secondary);">
+                    Visual comparison reveals strengths and weaknesses
+                </p>
+            </div>
+
+            <!-- Slide 11: The 4 Source Type Requirement -->
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-4xl font-bold mb-8">Selecting Your Final 4 Sources</h2>
+                <div class="p-4 rounded mb-6" style="background-color: #dbeafe;">
+                    <p class="text-xl" style="color: #1e40af;"><strong>Assignment requirement:</strong> 4 sources of DIFFERENT types</p>
+                </div>
+                <div class="space-y-4 text-lg">
+                    <p class="text-xl mb-4">Strategy for selection:</p>
+                    <ul class="space-y-4">
+                        <li class="flex items-start">
+                            <span class="mr-3">1.</span>
+                            <span><strong>Start with your strongest source</strong> - usually a recent peer-reviewed journal article</span>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="mr-3">2.</span>
+                            <span><strong>Pick complementary types</strong> - one that provides context (book), one with data (report)</span>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="mr-3">3.</span>
+                            <span><strong>Ensure all pass CRAAP test</strong> - don't include weak sources just to meet type requirement</span>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="mr-3">4.</span>
+                            <span><strong>Check they work together</strong> - do they build a cohesive argument?</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Slide 12: Rejected Sources -->
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-4xl font-bold mb-8">Documenting Rejected Sources</h2>
+                <div class="p-4 rounded mb-6" style="background-color: #fef9c3;">
+                    <p class="text-xl" style="color: #854d0e;"><strong>Assignment requirement:</strong> Explain why you rejected at least 1 source</p>
+                </div>
+                <div class="space-y-5 text-lg">
+                    <p class="text-xl mb-4">Good reasons to reject a source:</p>
+                    <ul class="space-y-3">
+                        <li class="flex items-start">
+                            <span class="mr-3">❌</span>
+                            <span><strong>Too old:</strong> Published 15 years ago, field has moved on</span>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="mr-3">❌</span>
+                            <span><strong>Not relevant enough:</strong> Only tangentially related to my topic</span>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="mr-3">❌</span>
+                            <span><strong>Weak authority:</strong> Author unknown, journal not peer-reviewed</span>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="mr-3">❌</span>
+                            <span><strong>Poor quality:</strong> No evidence, methodology unclear</span>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="mr-3">❌</span>
+                            <span><strong>Wrong type:</strong> Already have 2 journal articles, needed a book</span>
+                        </li>
+                    </ul>
+                </div>
+                <p class="mt-6 text-xl font-semibold p-4 rounded" style="background-color: var(--bg-secondary);">
+                    Rejection shows critical thinking
+                </p>
+            </div>
+
+            <!-- Slide 13: Example Evaluation -->
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-4xl font-bold mb-8">Example: Evaluating a Journal Article</h2>
+                <div class="space-y-4 text-lg">
+                    <div class="p-4 rounded border" style="border-color: var(--border-color);">
+                        <strong>Source:</strong> "AI in Graphic Design" by Dr. Jane Smith, Design Studies Journal, 2023
+                    </div>
+                    <div class="space-y-3">
+                        <div class="p-3 rounded" style="background-color: #dcfce7;">
+                            <strong>Currency:</strong> ✓ Published this year, very current
+                        </div>
+                        <div class="p-3 rounded" style="background-color: #dcfce7;">
+                            <strong>Relevance:</strong> ✓ Directly addresses my topic on AI and design
+                        </div>
+                        <div class="p-3 rounded" style="background-color: #dcfce7;">
+                            <strong>Authority:</strong> ✓ Author is Professor of Design, 20+ publications
+                        </div>
+                        <div class="p-3 rounded" style="background-color: #dcfce7;">
+                            <strong>Accuracy:</strong> ✓ 45 references, clear methodology, peer-reviewed
+                        </div>
+                        <div class="p-3 rounded" style="background-color: #dcfce7;">
+                            <strong>Purpose:</strong> ✓ Academic research, objective analysis
+                        </div>
+                    </div>
+                </div>
+                <p class="mt-6 text-xl font-semibold p-4 rounded" style="background-color: var(--bg-secondary);">
+                    <strong>Decision: KEEP</strong> - Strong source across all criteria
+                </p>
+            </div>
+
+            <!-- Slide 14: Common Evaluation Mistakes -->
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-4xl font-bold mb-8">Avoid These Evaluation Mistakes</h2>
+                <div class="space-y-4 text-lg">
+                    <div class="p-4 rounded border" style="border-color: var(--border-color); background-color: #fee2e2;">
+                        <strong>❌ Keeping sources just because you found them first</strong><br>
+                        <span style="color: #991b1b;">Be willing to replace weak sources with better ones</span>
+                    </div>
+                    <div class="p-4 rounded border" style="border-color: var(--border-color); background-color: #fee2e2;">
+                        <strong>❌ Choosing sources only by title</strong><br>
+                        <span style="color: #991b1b;">Read abstracts and apply full CRAAP test</span>
+                    </div>
+                    <div class="p-4 rounded border" style="border-color: var(--border-color); background-color: #fee2e2;">
+                        <strong>❌ Ignoring the type requirement</strong><br>
+                        <span style="color: #991b1b;">Plan for 4 different types from the start</span>
+                    </div>
+                    <div class="p-4 rounded border" style="border-color: var(--border-color); background-color: #fee2e2;">
+                        <strong>❌ Not documenting your process</strong><br>
+                        <span style="color: #991b1b;">Take notes on why you kept or rejected each source</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 15: Today's Goal -->
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-4xl font-bold mb-8">Today's Activities</h2>
+                <ul class="space-y-6 text-2xl">
+                    <li class="flex items-start">
+                        <span class="mr-3">1.</span>
+                        <span>Apply CRAAP test to all 6-8 sources you collected</span>
+                    </li>
+                    <li class="flex items-start">
+                        <span class="mr-3">2.</span>
+                        <span>Create a comparison table rating each source</span>
+                    </li>
+                    <li class="flex items-start">
+                        <span class="mr-3">3.</span>
+                        <span>Select your final 4 sources (different types)</span>
+                    </li>
+                    <li class="flex items-start">
+                        <span class="mr-3">4.</span>
+                        <span>Write justification for why each was selected</span>
+                    </li>
+                    <li class="flex items-start">
+                        <span class="mr-3">5.</span>
+                        <span>Document at least 1 rejected source with explanation</span>
+                    </li>
+                </ul>
+                <p class="mt-10 text-2xl font-semibold p-4 rounded" style="background-color: var(--bg-secondary);">
+                    Quality over quantity - choose wisely
+                </p>
+            </div>
+        </div>
+    </main>
+
+    <footer class="border-t p-4" style="border-color: var(--border-color);">
+        <div class="max-w-7xl mx-auto flex justify-between items-center">
+            <button id="prevBtn" class="px-6 py-2 rounded border font-medium" style="border-color: var(--border-color);" aria-label="Previous slide">
+                ← Previous
+            </button>
+            <span id="slideCounter" class="text-lg" style="color: var(--text-secondary);">1 / 15</span>
+            <button id="nextBtn" class="px-6 py-2 rounded border font-medium" style="border-color: var(--border-color);" aria-label="Next slide">
+                Next →
+            </button>
+        </div>
+    </footer>
+
+    <script>
+        let currentSlide = 0;
+        let isDarkMode = false;
+        let fontSize = 1;
+        const slides = document.querySelectorAll('.slide');
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+        const slideCounter = document.getElementById('slideCounter');
+        const darkModeToggle = document.getElementById('darkModeToggle');
+        const modeIcon = document.getElementById('modeIcon');
+        const increaseFont = document.getElementById('increaseFont');
+        const decreaseFont = document.getElementById('decreaseFont');
+
+        function showSlide(n) {
+            slides[currentSlide].classList.remove('active');
+            currentSlide = (n + slides.length) % slides.length;
+            slides[currentSlide].classList.add('active');
+            slideCounter.textContent = `${currentSlide + 1} / ${slides.length}`;
+            
+            prevBtn.disabled = currentSlide === 0;
+            nextBtn.disabled = currentSlide === slides.length - 1;
+            prevBtn.style.opacity = currentSlide === 0 ? '0.5' : '1';
+            nextBtn.style.opacity = currentSlide === slides.length - 1 ? '0.5' : '1';
+        }
+
+        function nextSlide() {
+            if (currentSlide < slides.length - 1) showSlide(currentSlide + 1);
+        }
+
+        function prevSlide() {
+            if (currentSlide > 0) showSlide(currentSlide - 1);
+        }
+
+        function toggleDarkMode() {
+            isDarkMode = !isDarkMode;
+            document.body.classList.toggle('dark-mode');
+            modeIcon.textContent = isDarkMode ? '☀️' : '🌙';
+        }
+
+        function updateFontSize() {
+            document.documentElement.style.setProperty('--font-size', fontSize);
+        }
+
+        function increaseFontSize() {
+            if (fontSize < 1.5) {
+                fontSize += 0.1;
+                updateFontSize();
+            }
+        }
+
+        function decreaseFontSize() {
+            if (fontSize > 0.7) {
+                fontSize -= 0.1;
+                updateFontSize();
+            }
+        }
+
+        prevBtn.addEventListener('click', prevSlide);
+        nextBtn.addEventListener('click', nextSlide);
+        darkModeToggle.addEventListener('click', toggleDarkMode);
+        increaseFont.addEventListener('click', increaseFontSize);
+        decreaseFont.addEventListener('click', decreaseFontSize);
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight') nextSlide();
+            if (e.key === 'ArrowLeft') prevSlide();
+        });
+
+        showSlide(0);
+    </script>
+</body>
+</html>

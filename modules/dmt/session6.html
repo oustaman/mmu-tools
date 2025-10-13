@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Session 6: Citation Workshop</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .slide { display: none; }
+        .slide.active { display: flex; }
+        
+        :root {
+            --bg-primary: #ffffff;
+            --bg-secondary: #f9fafb;
+            --text-primary: #111827;
+            --text-secondary: #4b5563;
+            --border-color: #e5e7eb;
+            --accent-color: #3b82f6;
+            --font-size: 1;
+        }
+        
+        .dark-mode {
+            --bg-primary: #1f2937;
+            --bg-secondary: #111827;
+            --text-primary: #f9fafb;
+            --text-secondary: #d1d5db;
+            --border-color: #374151;
+            --accent-color: #60a5fa;
+        }
+        
+        html {
+            font-size: calc(var(--font-size) * 16px);
+        }
+        
+        body {
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+        }
+        
+        .code-box {
+            font-family: 'Courier New', monospace;
+            padding: 1rem;
+            border-radius: 0.5rem;
+            border: 1px solid var(--border-color);
+            background-color: var(--bg-secondary);
+            font-size: 0.9em;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col">
+    <header class="border-b p-4" style="border-color: var(--border-color);">
+        <div class="max-w-7xl mx-auto flex justify-between items-center">
+            <h1 class="text-lg font-semibold">Digital Media Technologies - Session 6</h1>
+            <div class="flex gap-2">
+                <button id="decreaseFont" class="px-3 py-2 rounded border" style="border-color: var(--border-color);" aria-label="Decrease font size">A-</button>
+                <button id="increaseFont" class="px-3 py-2 rounded border" style="border-color: var(--border-color);" aria-label="Increase font size">A+</button>
+                <button id="darkModeToggle" class="px-4 py-2 rounded border" style="border-color: var(--border-color);" aria-label="Toggle dark mode">
+                    <span id="modeIcon">🌙</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <main class="flex-1 flex items-center justify-center p-8">
+        <div class="w-full max-w-5xl">
+            <!-- Slide 1: Title -->
+            <div class="slide active flex-col items-center justify-center text-center h-[70vh]">
+                <h2 class="text-5xl font-bold mb-6">Session 6</h2>
+                <h3 class="text-3xl mb-8" style="color: var(--text-secondary);">Citation Workshop</h3>
+                <p class="text-xl" style="color: var(--text-secondary);">Harvard Referencing Mastery</p>
+            </div>
+
+            <!-- Slide 2: Why Citations Matter -->
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-4xl font-bold mb-8">Why Citations Matter</h2>
+                <div class="space-y-5 text-xl">
+                    <div class="p-4 rounded border" style="border-color: var(--border-color);">
+                        <strong>Give credit</strong><br>
+                        <span style="color: var(--text-secondary);">Acknowledge others' work and ideas</span>
+                    </div>
+                    <div class="p-4 rounded border" style="border-color: var(--border-color);">
+                        <strong>Avoid plagiarism</strong><br>
+                        <span style="color: var(--text-secondary);">Protect yourself academically and legally</span>
+                    </div>
+                    <div class="p-4 rounded border" style="border-color: var(--border-color);">
+                        <strong>Enable verification</strong><br>
+                        <span style="color: var(--text-secondary);">Readers can find and check your sources</span>
+                    </div>
+                    <div class="p-4 rounded border" style="border-color: var(--border-color);">
+                        <strong>Show your research</strong><br>
+                        <span style="color: var(--text-secondary);">Demonstrate depth and breadth of reading</span>
+                    </div>
+                </div>
+                <p class="mt-8 text-xl font-semibold p-4 rounded" style="background-color: var(--bg-secondary);">
+                    Citations build credibility and integrity
+                </p>
+            </div>
+
+            <!-- Slide 3: Two Parts of Citation -->
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-4xl font-bold mb-8">Two Parts of Every Citation</h2>
+                <div class="space-y-6 text-lg">
+                    <div class="p-5 rounded border" style="border-color: var(--border-color); background-color: #dbeafe;">
+                        <strong class="text-2xl">1. In-Text Citation</strong><br>
+                        <span style="color: #1e40af;">Brief reference in your writing<br>
+                        Tells the reader: "This idea came from someone else"<br><br>
+                        Example: <em>Recent studies show AI is transforming design (Smith, 2023).</em></span>
+                    </div>
+                    <div class="p-5 rounded border" style="border-color: var(--border-color); background-color: #dcfce7;">
+                        <strong class="text-2xl">2. Reference List / Bibliography</strong><br>
+                        <span style="color: #166534;">Full details at end of your paper<br>
+                        Tells the reader: "Here's where to find it"<br><br>
+                        Example: <em>Smith, J. (2023) 'AI in graphic design', Design Studies, 45(2), pp. 123-145.</em></span>
+                    </div>
+                </div>
+                <p class="mt-6 text-xl font-semibold p-4 rounded" style="background-color: var(--bg-secondary);">
+                    Both parts must be present for proper citation
+                </p>
+            </div>
+
+            <!-- Slide 4: Harvard Style Overview -->
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-4xl font-bold mb-8">Harvard Referencing Style</h2>
+                <div class="space-y-5 text-lg">
+                    <div class="p-4 rounded" style="background-color: var(--bg-secondary);">
+                        <p class="text-xl mb-4">Author-date system used worldwide</p>
+                    </div>
+                    <ul class="space-y-4">
+                        <li class="flex items-start">
+                            <span class="mr-3">•</span>
+                            <span><strong>In-text:</strong> Author surname and year in parentheses</span>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="mr-3">•</span>
+                            <span><strong>Reference list:</strong> Alphabetical by author surname</span>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="mr-3">•</span>
+                            <span><strong>Punctuation matters:</strong> Commas, full stops, italics all have rules</span>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="mr-3">•</span>
+                            <span><strong>Different sources, different formats:</strong> Books, journals, websites each have their own pattern</span>
+                        </li>
+                    </ul>
+                </div>
+                <p class="mt-8 text-xl font-semibold p-4 rounded" style="background-color: #fef9c3;">
+                    <span style="color: #854d0e;">Use MMU Cite Them Right Harvard as your guide</span>
+                </p>
+            </div>
+
+            <!-- Slide 5: In-Text Citations Basic -->
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-4xl font-bold mb-8">In-Text Citations: The Basics</h2>
+                <div class="space-y-5 text-lg">
+                    <div class="p-4 rounded border" style="border-color: var(--border-color);">
+                        <strong class="text-xl">One author:</strong>
+                        <div class="code-box mt-2">
+                            AI is transforming design practices (Smith, 2023).
+                        </div>
+                    </div>
+                    <div class="p-4 rounded border" style="border-color: var(--border-color);">
+                        <strong class="text-xl">Two authors:</strong>
+                        <div class="code-box mt-2">
+                            Recent research confirms this trend (Smith and Jones, 2023).
+                        </div>
+                    </div>
+                    <div class="p-4 rounded border" style="border-color: var(--border-color);">
+                        <strong class="text-xl">Three or more authors:</strong>
+                        <div class="code-box mt-2">
+                            Multiple studies support this view (Smith et al., 2023).
+                        </div>
+                    </div>
+                </div>
+                <p class="mt-8 text-xl font-semibold p-4 rounded" style="background-color: var(--bg-secondary);">
+                    "et al." means "and others" - use for 3+ authors
+                </p>
+            </div>
+
+            <!-- Slide 6: In-Text Citations Advanced -->
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-4xl font-bold mb-8">In-Text Citations: Author as Part of Sentence</h2>
+                <div class="space-y-5 text-lg">
+                    <div class="p-4 rounded border" style="border-color: var(--border-color);">
+                        <strong class="text-xl">Author in parentheses:</strong>
+                        <div class="code-box mt-2">
+                            Recent studies show AI is transforming design (Smith, 2023).
+                        </div>
+                        <span style="color: var(--text-secondary);">Use when focusing on the idea</span>
+                    </div>
+                    <div class="p-4 rounded border" style="border-color: var(--border-color);">
+                        <strong class="text-xl">Author in sentence:</strong>
+                        <div class="code-box mt-2">
+                            Smith (2023) argues that AI is transforming design.
+                        </div>
+                        <span style="color: var(--text-secondary);">Use when focusing on the author's contribution</span>
+                    </div>
+                    <div class="p-4 rounded border" style="border-color: var(--border-color);">
+                        <strong class="text-xl">With direct quote:</strong>
+                        <div class="code-box mt-2">
+                            Smith (2023, p. 45) states that AI "fundamentally changes creative work".
+                        </div>
+                        <span style="color: var(--text-secondary);">Always include page number for quotes</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 7: Multiple Citations -->
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-4xl font-bold mb-8">Citing Multiple Sources</h2>
+                <div class="space-y-5 text-lg">
+                    <div class="p-4 rounded border" style="border-color: var(--border-color);">
+                        <strong class="text-xl">Multiple sources for one point:</strong>
+                        <div class="code-box mt-2">
+                            Several studies confirm this trend (Smith, 2023; Jones, 2022; Brown, 2021).
+                        </div>
+                        <span style="color: var(--text-secondary);">Separate with semicolons, order chronologically or alphabetically</span>
+                    </div>
+                    <div class="p-4 rounded border" style="border-color: var(--border-color);">
+                        <strong class="text-xl">Same author, different years:</strong>
+                        <div class="code-box mt-2">
+                            Smith's research has evolved over time (Smith, 2021, 2022, 2023).
+                        </div>
+                        <span style="color: var(--text-secondary);">List years chronologically</span>
+                    </div>
+                    <div class="p-4 rounded border" style="border-color: var(--border-color);">
+                        <strong class="text-xl">Same author, same year:</strong>
+                        <div class="code-box mt-2">
+                            Smith published extensively on this topic (Smith, 2023a, 2023b).
+                        </div>
+                        <span style="color: var(--text-secondary);">Use a, b, c to distinguish - must match reference list</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 8: Reference List Journal Article -->
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-4xl font-bold mb-8">Reference List: Journal Articles</h2>
+                <div class="space-y-4 text-lg">
+                    <div class="p-4 rounded" style="background-color: #dbeafe;">
+                        <p class="text-xl mb-2" style="color: #1e40af;"><strong>Standard format:</strong></p>
+                        <div class="code-box">
+                            Author(s) (Year) 'Article title', Journal Name, Volume(Issue), pp. page range.
+                        </div>
+                    </div>
+                    <div class="p-4 rounded border" style="border-color: var(--border-color);">
+                        <strong class="text-xl">Example - Print journal:</strong>
+                        <div class="code-box mt-2">
+                            Smith, J. (2023) 'Artificial intelligence in graphic design', Design Studies, 45(2), pp. 123-145.
+                        </div>
+                    </div>
+                    <div class="p-4 rounded border" style="border-color: var(--border-color);">
+                        <strong class="text-xl">Example - Online journal:</strong>
+                        <div class="code-box mt-2">
+                            Smith, J. (2023) 'Artificial intelligence in graphic design', Design Studies, 45(2), pp. 123-145. Available at: https://doi.org/10.1234/example (Accessed: 15 October 2024).
+                        </div>
+                    </div>
+                </div>
+                <p class="mt-4 text-lg p-4 rounded" style="background-color: var(--bg-secondary);">
+                    Note: Article title in 'single quotes', Journal name in <em>italics</em>
+                </p>
+            </div>
+
+            <!-- Slide 9: Reference List Books -->
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-4xl font-bold mb-8">Reference List: Books</h2>
+                <div class="space-y-4 text-lg">
+                    <div class="p-4 rounded" style="background-color: #dbeafe;">
+                        <p class="text-xl mb-2" style="color: #1e40af;"><strong>Standard format:</strong></p>
+                        <div class="code-box">
+                            Author(s) (Year) Book Title. Edition. Place: Publisher.
+                        </div>
+                    </div>
+                    <div class="p-4 rounded border" style="border-color: var(--border-color);">
+                        <strong class="text-xl">Example - Whole book:</strong>
+                        <div class="code-box mt-2">
+                            Jones, P. (2022) Design and Technology. 2nd edn. London: Routledge.
+                        </div>
+                    </div>
+                    <div class="p-4 rounded border" style="border-color: var(--border-color);">
+                        <strong class="text-xl">Example - Book chapter:</strong>
+                        <div class="code-box mt-2">
+                            Brown, L. (2021) 'Digital workflows', in Williams, R. (ed.) Creative Technologies. Manchester: Manchester University Press, pp. 45-67.
+                        </div>
+                    </div>
+                </div>
+                <p class="mt-4 text-lg p-4 rounded" style="background-color: var(--bg-secondary);">
+                    Note: Book titles in <em>italics</em>, chapter titles in 'single quotes'
+                </p>
+            </div>
+
+            <!-- Slide 10: Reference List Websites -->
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-4xl font-bold mb-8">Reference List: Websites & Reports</h2>
+                <div class="space-y-4 text-lg">
+                    <div class="p-4 rounded border" style="border-color: var(--border-color);">
+                        <strong class="text-xl">Website or webpage:</strong>
+                        <div class="code-box mt-2">
+                            BBC News (2023) AI transforms creative industries. Available at: https://www.bbc.co.uk/news/technology-12345678 (Accessed: 15 October 2024).
+                        </div>
+                    </div>
+                    <div class="p-4 rounded border" style="border-color: var(--border-color);">
+                        <strong class="text-xl">Organizational report:</strong>
+                        <div class="code-box mt-2">
+                            Department for Digital, Culture, Media and Sport (2023) Creative Industries Report 2023. London: HMSO.
+                        </div>
+                    </div>
+                    <div class="p-4 rounded border" style="border-color: var(--border-color);">
+                        <strong class="text-xl">PDF report online:</strong>
+                        <div class="code-box mt-2">
+                            World Economic Forum (2023) Future of Jobs Report 2023. Available at: https://www.weforum.org/reports/future-of-jobs (Accessed: 15 October 2024).
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 11: Common Mistakes -->
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-4xl font-bold mb-8">Common Citation Mistakes</h2>
+                <div class="space-y-4 text-lg">
+                    <div class="p-4 rounded border" style="border-color: var(--border-color); background-color: #fee2e2;">
+                        <strong>❌ Forgetting in-text citations</strong><br>
+                        <span style="color: #991b1b;">Every reference list entry must be cited in your text</span>
+                    </div>
+                    <div class="p-4 rounded border" style="border-color: var(--border-color); background-color: #fee2e2;">
+                        <strong>❌ Wrong punctuation</strong><br>
+                        <span style="color: #991b1b;">Commas, full stops, and parentheses all matter - follow the format exactly</span>
+                    </div>
+                    <div class="p-4 rounded border" style="border-color: var(--border-color); background-color: #fee2e2;">
+                        <strong>❌ Italics vs quotes confusion</strong><br>
+                        <span style="color: #991b1b;">Books/journals = italics. Articles/chapters = 'quotes'</span>
+                    </div>
+                    <div class="p-4 rounded border" style="border-color: var(--border-color); background-color: #fee2e2;">
+                        <strong>❌ No access date for websites</strong><br>
+                        <span style="color: #991b1b;">Always include when you accessed online sources</span>
+                    </div>
+                    <div class="p-4 rounded border" style="border-color: var(--border-color); background-color: #fee2e2;">
+                        <strong>❌ Not alphabetizing reference list</strong><br>
+                        <span style="color: #991b1b;">Must be in alphabetical order by author surname</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 12: Paraphrasing vs Quoting -->
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-4xl font-bold mb-8">Paraphrasing vs. Direct Quotes</h2>
+                <div class="space-y-5 text-lg">
+                    <div class="p-4 rounded border" style="border-color: var(--border-color); background-color: #dcfce7;">
+                        <strong class="text-xl">Paraphrasing (preferred):</strong><br>
+                        <span style="color: #166534;">Put the idea in your own words<br>
+                        Shows you understand the concept<br>
+                        Still needs citation!<br><br>
+                        Example: Smith (2023) argues that artificial intelligence has fundamentally altered how designers approach their creative work.</span>
+                    </div>
+                    <div class="p-4 rounded border" style="border-color: var(--border-color); background-color: #fef9c3;">
+                        <strong class="text-xl">Direct quotes (use sparingly):</strong><br>
+                        <span style="color: #854d0e;">Copy exact words in "quotation marks"<br>
+                        Use only when the exact wording matters<br>
+                        Must include page number<br><br>
+                        Example: Smith (2023, p. 45) states that AI "fundamentally changes the nature of creative work".</span>
+                    </div>
+                </div>
+                <p class="mt-4 text-xl font-semibold p-4 rounded" style="background-color: var(--bg-secondary);">
+                    Aim for 80% paraphrasing, 20% quotes
+                </p>
+            </div>
+
+            <!-- Slide 13: Reference Management -->
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-4xl font-bold mb-8">Tools to Help You Cite</h2>
+                <div class="space-y-5 text-lg">
+                    <div class="p-4 rounded border" style="border-color: var(--border-color);">
+                        <strong class="text-xl">MMU Cite Them Right Online</strong><br>
+                        <span style="color: var(--text-secondary);">Free for MMU students - comprehensive Harvard guide<br>
+                        Examples for every source type imaginable</span>
+                    </div>
+                    <div class="p-4 rounded border" style="border-color: var(--border-color);">
+                        <strong class="text-xl">Reference generators in databases</strong><br>
+                        <span style="color: var(--text-secondary);">Many databases have "Cite" buttons<br>
+                        Always double-check the output</span>
+                    </div>
+                    <div class="p-4 rounded border" style="border-color: var(--border-color);">
+                        <strong class="text-xl">Citation managers (optional)</strong><br>
+                        <span style="color: var(--text-secondary);">Zotero, Mendeley, EndNote<br>
+                        Organize sources and generate bibliographies</span>
+                    </div>
+                </div>
+                <p class="mt-8 text-xl font-semibold p-4 rounded" style="background-color: #fee2e2;">
+                    <span style="color: #991b1b;">Warning: Tools can make mistakes - always verify!</span>
+                </p>
+            </div>
+
+            <!-- Slide 14: Building Your Bibliography -->
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-4xl font-bold mb-8">Creating Your Bibliography</h2>
+                <div class="space-y-6 text-xl">
+                    <div class="flex items-start">
+                        <span class="font-bold mr-4" style="color: var(--accent-color);">1</span>
+                        <div>
+                            <strong>Format each source correctly</strong><br>
+                            <span style="color: var(--text-secondary);">Use Cite Them Right for the exact format</span>
+                        </div>
+                    </div>
+                    <div class="flex items-start">
+                        <span class="font-bold mr-4" style="color: var(--accent-color);">2</span>
+                        <div>
+                            <strong>Arrange alphabetically</strong><br>
+                            <span style="color: var(--text-secondary);">By author surname, A-Z</span>
+                        </div>
+                    </div>
+                    <div class="flex items-start">
+                        <span class="font-bold mr-4" style="color: var(--accent-color);">3</span>
+                        <div>
+                            <strong>Use hanging indent</strong><br>
+                            <span style="color: var(--text-secondary);">First line flush left, subsequent lines indented</span>
+                        </div>
+                    </div>
+                    <div class="flex items-start">
+                        <span class="font-bold mr-4" style="color: var(--accent-color);">4</span>
+                        <div>
+                            <strong>Double-check every entry</strong><br>
+                            <span style="color: var(--text-secondary);">Punctuation, italics, spelling</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 15: Today's Goal -->
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-4xl font-bold mb-8">Today's Activities</h2>
+                <ul class="space-y-6 text-2xl">
+                    <li class="flex items-start">
+                        <span class="mr-3">1.</span>
+                        <span>Create reference list entries for your 4 sources</span>
+                    </li>
+                    <li class="flex items-start">
+                        <span class="mr-3">2.</span>
+                        <span>Practice writing in-text citations for each source</span>
+                    </li>
+                    <li class="flex items-start">
+                        <span class="mr-3">3.</span>
+                        <span>Write one paragraph using all 4 sources with proper citations</span>
+                    </li>
+                    <li class="flex items-start">
+                        <span class="mr-3">4.</span>
+                        <span>Format your reference list correctly (alphabetical, hanging indent)</span>
+                    </li>
+                    <li class="flex items-start">
+                        <span class="mr-3">5.</span>
+                        <span>Cross-check everything against Cite Them Right</span>
+                    </li>
+                </ul>
+                <p class="mt-10 text-2xl font-semibold p-4 rounded" style="background-color: var(--bg-secondary);">
+                    Section 4 of your report is citation examples + bibliography
+                </p>
+            </div>
+        </div>
+    </main>
+
+    <footer class="border-t p-4" style="border-color: var(--border-color);">
+        <div class="max-w-7xl mx-auto flex justify-between items-center">
+            <button id="prevBtn" class="px-6 py-2 rounded border font-medium" style="border-color: var(--border-color);" aria-label="Previous slide">
+                ← Previous
+            </button>
+            <span id="slideCounter" class="text-lg" style="color: var(--text-secondary);">1 / 15</span>
+            <button id="nextBtn" class="px-6 py-2 rounded border font-medium" style="border-color: var(--border-color);" aria-label="Next slide">
+                Next →
+            </button>
+        </div>
+    </footer>
+
+    <script>
+        let currentSlide = 0;
+        let isDarkMode = false;
+        let fontSize = 1;
+        const slides = document.querySelectorAll('.slide');
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+        const slideCounter = document.getElementById('slideCounter');
+        const darkModeToggle = document.getElementById('darkModeToggle');
+        const modeIcon = document.getElementById('modeIcon');
+        const increaseFont = document.getElementById('increaseFont');
+        const decreaseFont = document.getElementById('decreaseFont');
+
+        function showSlide(n) {
+            slides[currentSlide].classList.remove('active');
+            currentSlide = (n + slides.length) % slides.length;
+            slides[currentSlide].classList.add('active');
+            slideCounter.textContent = `${currentSlide + 1} / ${slides.length}`;
+            
+            prevBtn.disabled = currentSlide === 0;
+            nextBtn.disabled = currentSlide === slides.length - 1;
+            prevBtn.style.opacity = currentSlide === 0 ? '0.5' : '1';
+            nextBtn.style.opacity = currentSlide === slides.length - 1 ? '0.5' : '1';
+        }
+
+        function nextSlide() {
+            if (currentSlide < slides.length - 1) showSlide(currentSlide + 1);
+        }
+
+        function prevSlide() {
+            if (currentSlide > 0) showSlide(currentSlide - 1);
+        }
+
+        function toggleDarkMode() {
+            isDarkMode = !isDarkMode;
+            document.body.classList.toggle('dark-mode');
+            modeIcon.textContent = isDarkMode ? '☀️' : '🌙';
+        }
+
+        function updateFontSize() {
+            document.documentElement.style.setProperty('--font-size', fontSize);
+        }
+
+        function increaseFontSize() {
+            if (fontSize < 1.5) {
+                fontSize += 0.1;
+                updateFontSize();
+            }
+        }
+
+        function decreaseFontSize() {
+            if (fontSize > 0.7) {
+                fontSize -= 0.1;
+                updateFontSize();
+            }
+        }
+
+        prevBtn.addEventListener('click', prevSlide);
+        nextBtn.addEventListener('click', nextSlide);
+        darkModeToggle.addEventListener('click', toggleDarkMode);
+        increaseFont.addEventListener('click', increaseFontSize);
+        decreaseFont.addEventListener('click', decreaseFontSize);
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight') nextSlide();
+            if (e.key === 'ArrowLeft') prevSlide();
+        });
+
+        showSlide(0);
+    </script>
+</body>
+</html>

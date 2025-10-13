@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Session 8: MIDTERM Progress Review</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .slide { display: none; }
+        .slide.active { display: flex; }
+        
+        :root {
+            --bg-primary: #ffffff;
+            --bg-secondary: #f9fafb;
+            --text-primary: #111827;
+            --text-secondary: #4b5563;
+            --border-color: #e5e7eb;
+            --accent-color: #3b82f6;
+            --font-size: 1;
+        }
+        
+        .dark-mode {
+            --bg-primary: #1f2937;
+            --bg-secondary: #111827;
+            --text-primary: #f9fafb;
+            --text-secondary: #d1d5db;
+            --border-color: #374151;
+            --accent-color: #60a5fa;
+        }
+        
+        html {
+            font-size: calc(var(--font-size) * 16px);
+        }
+        
+        body {
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col">
+    <header class="border-b p-4" style="border-color: var(--border-color);">
+        <div class="max-w-7xl mx-auto flex justify-between items-center">
+            <h1 class="text-lg font-semibold">Digital Media Technologies - Session 8</h1>
+            <div class="flex gap-2">
+                <button id="decreaseFont" class="px-3 py-2 rounded border" style="border-color: var(--border-color);" aria-label="Decrease font size">A-</button>
+                <button id="increaseFont" class="px-3 py-2 rounded border" style="border-color: var(--border-color);" aria-label="Increase font size">A+</button>
+                <button id="darkModeToggle" class="px-4 py-2 rounded border" style="border-color: var(--border-color);" aria-label="Toggle dark mode">
+                    <span id="modeIcon">🌙</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <main class="flex-1 flex items-center justify-center p-8">
+        <div class="w-full max-w-5xl">
+            <!-- Slide 1: Title -->
+            <div class="slide active flex-col items-center justify-center text-center h-[70vh]">
+                <h2 class="text-5xl font-bold mb-6">Session 8</h2>
+                <h3 class="text-3xl mb-8" style="color: var(--text-secondary);">MIDTERM Progress Review</h3>
+                <p class="text-xl" style="color: var(--text-secondary);">Individual Consultations & Feedback</p>
+            </div>
+
+            <!-- Slide 2: Today's Format -->
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-4xl font-bold mb-8">Today's Session Format</h2>
+                <div class="space-y-6 text-xl">
+                    <div class="p-5 rounded border" style="border-color: var(--border-color); background-color: #dbeafe;">
+                        <strong class="text-2xl">Individual Consultations</strong><br>
+                        <span style="color: #1e40af;">15-minute one-on-one meetings with the tutor<br>
+                        Discuss your progress, get feedback, ask questions</span>
+                    </div>
+                    <div class="p-5 rounded border" style="border-color: var(--border-color); background-color: #dcfce7;">
+                        <strong class="text-2xl">Independent Work</strong><br>
+                        <span style="color: #166534;">Continue working on your report<br>
+                        Review example assessments provided<br>
+                        Peer review with classmates</span>
+                    </div>
+                </div>
+                <p class="mt-8 text-xl font-semibold p-4 rounded" style="background-color: var(--bg-secondary);">
+                    Sign up for your consultation slot at the start of class
+                </p>
+            </div>
+
+            <!-- Slide 3: Progress Check -->
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-4xl font-bold mb-8">Where You Should Be Now</h2>
+                <div class="space-y-4 text-xl">
+                    <div class="p-4 rounded border" style="border-color: var(--border-color); background-color: #dcfce7;">
+                        <strong>✓ Completed:</strong><br>
+                        <span style="color: #166534;">Sections 1 & 2 drafted (Research Planning & Database Navigation)</span>
+                    </div>
+                    <div class="p-4 rounded border" style="border-color: var(--border-color); background-color: #dcfce7;">
+                        <strong>✓ Collected:</strong><br>
+                        <span style="color: #166534;">4 final sources of different types, properly saved</span>
+                    </div>
+                    <div class="p-4 rounded border" style="border-color: var(--border-color); background-color: #dcfce7;">
+                        <strong>✓ Prepared:</strong><br>
+                        <span style="color: #166534;">Reference list entries and in-text citation examples</span>
+                    </div>
+                </div>
+                <p class="mt-8 text-xl font-semibold p-4 rounded" style="background-color: #fef9c3;">
+                    <span style="color: #854d0e;">If you're behind, use today to catch up</span>
+                </p>
+            </div>
+
+            <!-- Slide 4: Consultation Preparation -->
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-4xl font-bold mb-8">Preparing for Your Consultation</h2>
+                <div class="space-y-5 text-xl">
+                    <p class="text-xl mb-4"><strong>Bring with you:</strong></p>
+                    <ul class="space-y-4">
+                        <li class="flex items-start">
+                            <span class="mr-3">📄</span>
+                            <span>Draft of Sections 1 & 2 (printed or digital)</span>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="mr-3">📚</span>
+                            <span>List of your 4 selected sources</span>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="mr-3">❓</span>
+                            <span>Specific questions or concerns</span>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="mr-3">📊</span>
+                            <span>Any materials you want feedback on</span>
+                        </li>
+                    </ul>
+                </div>
+                <p class="mt-8 text-xl font-semibold p-4 rounded" style="background-color: var(--bg-secondary);">
+                    Make the most of your 15 minutes
+                </p>
+            </div>
+
+            <!-- Slide 5: Example Questions -->
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-4xl font-bold mb-8">Good Questions to Ask</h2>
+                <div class="space-y-4 text-lg">
+                    <ul class="space-y-4">
+                        <li class="flex items-start">
+                            <span class="mr-3">•</span>
+                            <span>"Is my topic focused enough, or should I narrow it further?"</span>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="mr-3">•</span>
+                            <span>"Do my 4 sources provide good variety and quality?"</span>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="mr-3">•</span>
+                            <span>"Is my keyword table detailed enough?"</span>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="mr-3">•</span>
+                            <span>"Am I on track with my writing style and depth?"</span>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="mr-3">•</span>
+                            <span>"How can I improve my database comparison section?"</span>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="mr-3">•</span>
+                            <span>"Are my citations formatted correctly?"</span>
+                        </li>
+                    </ul>
+                </div>
+                <p class="mt-8 text-xl font-semibold p-4 rounded" style="background-color: var(--bg-secondary);">
+                    Be specific - the more focused your question, the better the feedback
+                </p>
+            </div>
+
+            <!-- Slide 6: Feedback Focus -->
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-4xl font-bold mb-8">What We'll Discuss in Consultations</h2>
+                <div class="space-y-5 text-xl">
+                    <div class="p-4 rounded border" style="border-color: var(--border-color);">
+                        <strong>Content quality</strong><br>
+                        <span style="color: var(--text-secondary);">Are you demonstrating research skills effectively?</span>
+                    </div>
+                    <div class="p-4 rounded border" style="border-color: var(--border-color);">
+                        <strong>Structure & organization</strong><br>
+                        <span style="color: var(--text-secondary);">Is your report well-organized and logical?</span>
+                    </div>
+                    <div class="p-4 rounded border" style="border-color: var(--border-color);">
+                        <strong>Evidence & detail</strong><br>
+                        <span style="color: var(--text-secondary);">Are you providing specific examples and numbers?</span>
+                    </div>
+                    <div class="p-4 rounded border" style="border-color: var(--border-color);">
+                        <strong>Areas for improvement</strong><br>
+                        <span style="color: var(--text-secondary);">What should you focus on in remaining sections?</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 7: Example Assessments -->
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-4xl font-bold mb-8">Reviewing Example Assessments</h2>
+                <div class="space-y-5 text-xl">
+                    <div class="p-4 rounded" style="background-color: var(--bg-secondary);">
+                        <strong>Available on Moodle:</strong>
+                    </div>
+                    <ul class="space-y-4">
+                        <li class="flex items-start">
+                            <span class="mr-3">📄</span>
+                            <span><strong>High-scoring example</strong> (70-85%)<br>
+                            <span style="color: var(--text-secondary);">Note the level of detail, specific examples, clear organization</span></span>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="mr-3">📄</span>
+                            <span><strong>Good example</strong> (60-69%)<br>
+                            <span style="color: var(--text-secondary);">Solid work but with room for improvement</span></span>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="mr-3">💬</span>
+                            <span><strong>Annotated feedback</strong><br>
+                            <span style="color: var(--text-secondary);">See what markers look for and common mistakes</span></span>
+                        </li>
+                    </ul>
+                </div>
+                <p class="mt-8 text-xl font-semibold p-4 rounded" style="background-color: var(--bg-secondary);">
+                    Use these as benchmarks, not templates to copy
+                </p>
+            </div>
+
+            <!-- Slide 8: Peer Review -->
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-4xl font-bold mb-8">Peer Review Activity</h2>
+                <div class="space-y-5 text-xl">
+                    <div class="p-4 rounded" style="background-color: #dbeafe;">
+                        <strong class="text-xl">Exchange drafts with a classmate:</strong>
+                    </div>
+                    <div class="space-y-4">
+                        <div class="flex items-start">
+                            <span class="font-bold mr-4" style="color: var(--accent-color);">1</span>
+                            <div>
+                                <strong>Read Section 1</strong><br>
+                                <span style="color: var(--text-secondary);">Can you understand their topic and search strategy?</span>
+                            </div>
+                        </div>
+                        <div class="flex items-start">
+                            <span class="font-bold mr-4" style="color: var(--accent-color);">2</span>
+                            <div>
+                                <strong>Check for specifics</strong><br>
+                                <span style="color: var(--text-secondary);">Do they include actual search terms, numbers, database names?</span>
+                            </div>
+                        </div>
+                        <div class="flex items-start">
+                            <span class="font-bold mr-4" style="color: var(--accent-color);">3</span>
+                            <div>
+                                <strong>Give constructive feedback</strong><br>
+                                <span style="color: var(--text-secondary);">What's working well? What could be clearer?</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 9: Common Issues -->
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-4xl font-bold mb-8">Common Issues at Midterm</h2>
+                <div class="space-y-4 text-lg">
+                    <div class="p-4 rounded border" style="border-color: var(--border-color); background-color: #fee2e2;">
+                        <strong>❌ Too descriptive, not enough reflection</strong><br>
+                        <span style="color: #991b1b;">Don't just describe what you did - explain why and what you learned</span>
+                    </div>
+                    <div class="p-4 rounded border" style="border-color: var(--border-color); background-color: #fee2e2;">
+                        <strong>❌ Vague language, missing specifics</strong><br>
+                        <span style="color: #991b1b;">Include actual search terms, result numbers, database names</span>
+                    </div>
+                    <div class="p-4 rounded border" style="border-color: var(--border-color); background-color: #fee2e2;">
+                        <strong>❌ Poor source variety</strong><br>
+                        <span style="color: #991b1b;">Need 4 different types - all journal articles doesn't count</span>
+                    </div>
+                    <div class="p-4 rounded border" style="border-color: var(--border-color); background-color: #fee2e2;">
+                        <strong>❌ Citation errors</strong><br>
+                        <span style="color: #991b1b;">Check punctuation, italics, and format against Cite Them Right</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 10: Next Steps -->
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-4xl font-bold mb-8">Moving Forward: Your Action Plan</h2>
+                <div class="space-y-5 text-xl">
+                    <div class="p-4 rounded" style="background-color: var(--bg-secondary);">
+                        <strong>After today's session:</strong>
+                    </div>
+                    <ul class="space-y-4">
+                        <li class="flex items-start">
+                            <span class="mr-3">📝</span>
+                            <span>Revise Sections 1 & 2 based on feedback</span>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="mr-3">📊</span>
+                            <span>Next week: Complete Sections 3 & 4 (Source Evaluation & Citations)</span>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="mr-3">💭</span>
+                            <span>Week 10: Write Section 5 (Reflection)</span>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="mr-3">✅</span>
+                            <span>Week 11: Final review and submission</span>
+                        </li>
+                    </ul>
+                </div>
+                <p class="mt-8 text-xl font-semibold p-4 rounded" style="background-color: #dcfce7;">
+                    <span style="color: #166534;">You're halfway through - stay on track!</span>
+                </p>
+            </div>
+        </div>
+    </main>
+
+    <footer class="border-t p-4" style="border-color: var(--border-color);">
+        <div class="max-w-7xl mx-auto flex justify-between items-center">
+            <button id="prevBtn" class="px-6 py-2 rounded border font-medium" style="border-color: var(--border-color);" aria-label="Previous slide">
+                ← Previous
+            </button>
+            <span id="slideCounter" class="text-lg" style="color: var(--text-secondary);">1 / 10</span>
+            <button id="nextBtn" class="px-6 py-2 rounded border font-medium" style="border-color: var(--border-color);" aria-label="Next slide">
+                Next →
+            </button>
+        </div>
+    </footer>
+
+    <script>
+        let currentSlide = 0;
+        let isDarkMode = false;
+        let fontSize = 1;
+        const slides = document.querySelectorAll('.slide');
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+        const slideCounter = document.getElementById('slideCounter');
+        const darkModeToggle = document.getElementById('darkModeToggle');
+        const modeIcon = document.getElementById('modeIcon');
+        const increaseFont = document.getElementById('increaseFont');
+        const decreaseFont = document.getElementById('decreaseFont');
+
+        function showSlide(n) {
+            slides[currentSlide].classList.remove('active');
+            currentSlide = (n + slides.length) % slides.length;
+            slides[currentSlide].classList.add('active');
+            slideCounter.textContent = `${currentSlide + 1} / ${slides.length}`;
+            
+            prevBtn.disabled = currentSlide === 0;
+            nextBtn.disabled = currentSlide === slides.length - 1;
+            prevBtn.style.opacity = currentSlide === 0 ? '0.5' : '1';
+            nextBtn.style.opacity = currentSlide === slides.length - 1 ? '0.5' : '1';
+        }
+
+        function nextSlide() {
+            if (currentSlide < slides.length - 1) showSlide(currentSlide + 1);
+        }
+
+        function prevSlide() {
+            if (currentSlide > 0) showSlide(currentSlide - 1);
+        }
+
+        function toggleDarkMode() {
+            isDarkMode = !isDarkMode;
+            document.body.classList.toggle('dark-mode');
+            modeIcon.textContent = isDarkMode ? '☀️' : '🌙';
+        }
+
+        function updateFontSize() {
+            document.documentElement.style.setProperty('--font-size', fontSize);
+        }
+
+        function increaseFontSize() {
+            if (fontSize < 1.5) {
+                fontSize += 0.1;
+                updateFontSize();
+            }
+        }
+
+        function decreaseFontSize() {
+            if (fontSize > 0.7) {
+                fontSize -= 0.1;
+                updateFontSize();
+            }
+        }
+
+        prevBtn.addEventListener('click', prevSlide);
+        nextBtn.addEventListener('click', nextSlide);
+        darkModeToggle.addEventListener('click', toggleDarkMode);
+        increaseFont.addEventListener('click', increaseFontSize);
+        decreaseFont.addEventListener('click', decreaseFontSize);
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight') nextSlide();
+            if (e.key === 'ArrowLeft') prevSlide();
+        });
+
+        showSlide(0);
+    </script>
+</body>
+</html>

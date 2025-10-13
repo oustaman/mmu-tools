@@ -1,0 +1,552 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Session 7: Assessment Writing (Sections 1-2)</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .slide { display: none; }
+        .slide.active { display: flex; }
+        
+        :root {
+            --bg-primary: #ffffff;
+            --bg-secondary: #f9fafb;
+            --text-primary: #111827;
+            --text-secondary: #4b5563;
+            --border-color: #e5e7eb;
+            --accent-color: #3b82f6;
+            --font-size: 1;
+        }
+        
+        .dark-mode {
+            --bg-primary: #1f2937;
+            --bg-secondary: #111827;
+            --text-primary: #f9fafb;
+            --text-secondary: #d1d5db;
+            --border-color: #374151;
+            --accent-color: #60a5fa;
+        }
+        
+        html {
+            font-size: calc(var(--font-size) * 16px);
+        }
+        
+        body {
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col">
+    <header class="border-b p-4" style="border-color: var(--border-color);">
+        <div class="max-w-7xl mx-auto flex justify-between items-center">
+            <h1 class="text-lg font-semibold">Digital Media Technologies - Session 7</h1>
+            <div class="flex gap-2">
+                <button id="decreaseFont" class="px-3 py-2 rounded border" style="border-color: var(--border-color);" aria-label="Decrease font size">A-</button>
+                <button id="increaseFont" class="px-3 py-2 rounded border" style="border-color: var(--border-color);" aria-label="Increase font size">A+</button>
+                <button id="darkModeToggle" class="px-4 py-2 rounded border" style="border-color: var(--border-color);" aria-label="Toggle dark mode">
+                    <span id="modeIcon">🌙</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <main class="flex-1 flex items-center justify-center p-8">
+        <div class="w-full max-w-5xl">
+            <!-- Slide 1: Title -->
+            <div class="slide active flex-col items-center justify-center text-center h-[70vh]">
+                <h2 class="text-5xl font-bold mb-6">Session 7</h2>
+                <h3 class="text-3xl mb-8" style="color: var(--text-secondary);">Assessment Writing</h3>
+                <p class="text-xl" style="color: var(--text-secondary);">Sections 1-2: Research Planning & Database Navigation</p>
+            </div>
+
+            <!-- Slide 2: Report Overview -->
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-4xl font-bold mb-8">Your Report Structure</h2>
+                <div class="space-y-3 text-lg">
+                    <div class="p-4 rounded border" style="border-color: var(--border-color); background-color: #dbeafe;">
+                        <strong>Section 1:</strong> Research Planning & Strategy (400 words)
+                    </div>
+                    <div class="p-4 rounded border" style="border-color: var(--border-color); background-color: #dbeafe;">
+                        <strong>Section 2:</strong> Database Navigation & Search Results (500 words)
+                    </div>
+                    <div class="p-4 rounded border" style="border-color: var(--border-color);">
+                        <strong>Section 3:</strong> Source Evaluation & Selection (600 words)
+                    </div>
+                    <div class="p-4 rounded border" style="border-color: var(--border-color);">
+                        <strong>Section 4:</strong> Citation & Reference Management (450 words)
+                    </div>
+                    <div class="p-4 rounded border" style="border-color: var(--border-color);">
+                        <strong>Section 5:</strong> Research Process Reflection (300 words)
+                    </div>
+                </div>
+                <p class="mt-6 text-xl font-semibold p-4 rounded" style="background-color: var(--bg-secondary);">
+                    Today: Focus on Sections 1 & 2
+                </p>
+            </div>
+
+            <!-- Slide 3: Section 1 Overview -->
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-4xl font-bold mb-8">Section 1: Research Planning & Strategy</h2>
+                <div class="p-4 rounded mb-6" style="background-color: #fef9c3;">
+                    <p class="text-xl" style="color: #854d0e;"><strong>Word count:</strong> 400 words</p>
+                </div>
+                <div class="space-y-4 text-lg">
+                    <p class="text-xl mb-4"><strong>What to include:</strong></p>
+                    <ul class="space-y-4">
+                        <li class="flex items-start">
+                            <span class="mr-3">1.</span>
+                            <span><strong>Research topic selection</strong> - clearly defined topic</span>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="mr-3">2.</span>
+                            <span><strong>Keyword development</strong> - table showing progression of searches</span>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="mr-3">3.</span>
+                            <span><strong>Boolean operators</strong> - how you used AND, OR, NOT</span>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="mr-3">4.</span>
+                            <span><strong>Database selection rationale</strong> - why you chose specific databases</span>
+                        </li>
+                    </ul>
+                </div>
+                <p class="mt-6 text-xl font-semibold p-4 rounded" style="background-color: var(--bg-secondary);">
+                    Tell the story of how you planned your research
+                </p>
+            </div>
+
+            <!-- Slide 4: Section 1 Topic Selection -->
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-4xl font-bold mb-8">Writing About Topic Selection</h2>
+                <div class="space-y-5 text-lg">
+                    <div class="p-4 rounded" style="background-color: var(--bg-secondary);">
+                        <strong>What to write:</strong>
+                    </div>
+                    <ul class="space-y-4">
+                        <li class="flex items-start">
+                            <span class="mr-3">•</span>
+                            <span>State your topic clearly and specifically</span>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="mr-3">•</span>
+                            <span>Explain why this topic interests you</span>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="mr-3">•</span>
+                            <span>Mention if you narrowed or refined it from an initial idea</span>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="mr-3">•</span>
+                            <span>Note the scope - what aspects you'll focus on</span>
+                        </li>
+                    </ul>
+                </div>
+                <div class="mt-6 p-4 rounded border" style="border-color: var(--border-color); background-color: #dcfce7;">
+                    <strong class="text-xl">Example:</strong><br>
+                    <span style="color: #166534;">"My research topic focuses on the impact of artificial intelligence on graphic design workflows. I selected this topic because of recent developments in AI image generation tools and their implications for professional designers. Initially, I considered exploring AI in creative industries broadly, but narrowed it to graphic design specifically to allow for more focused research."</span>
+                </div>
+            </div>
+
+            <!-- Slide 5: Section 1 Keyword Table -->
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-4xl font-bold mb-8">Keyword Development Table</h2>
+                <div class="space-y-5 text-lg">
+                    <p class="text-xl mb-4">Show how your keywords evolved through multiple searches:</p>
+                    <div class="p-4 rounded border" style="border-color: var(--border-color); background-color: var(--bg-secondary);">
+                        <table class="w-full text-left text-base">
+                            <tr class="border-b" style="border-color: var(--border-color);">
+                                <th class="p-2">Search #</th>
+                                <th class="p-2">Keywords Used</th>
+                                <th class="p-2">Results</th>
+                                <th class="p-2">Refinement</th>
+                            </tr>
+                            <tr class="border-b" style="border-color: var(--border-color);">
+                                <td class="p-2">1</td>
+                                <td class="p-2">AI design</td>
+                                <td class="p-2">50,000</td>
+                                <td class="p-2">Too broad</td>
+                            </tr>
+                            <tr class="border-b" style="border-color: var(--border-color);">
+                                <td class="p-2">2</td>
+                                <td class="p-2">AI AND "graphic design"</td>
+                                <td class="p-2">8,500</td>
+                                <td class="p-2">More focused</td>
+                            </tr>
+                            <tr>
+                                <td class="p-2">3</td>
+                                <td class="p-2">(AI OR "artificial intelligence") AND "graphic design" AND workflow</td>
+                                <td class="p-2">342</td>
+                                <td class="p-2">Manageable</td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+                <p class="mt-6 text-xl font-semibold p-4 rounded" style="background-color: var(--bg-secondary);">
+                    Show your iterative process
+                </p>
+            </div>
+
+            <!-- Slide 6: Section 1 Boolean Operators -->
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-4xl font-bold mb-8">Explaining Your Boolean Strategy</h2>
+                <div class="space-y-5 text-lg">
+                    <div class="p-4 rounded" style="background-color: var(--bg-secondary);">
+                        <strong>What to explain:</strong>
+                    </div>
+                    <ul class="space-y-4">
+                        <li class="flex items-start">
+                            <span class="mr-3">•</span>
+                            <span>How you used AND to narrow results</span>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="mr-3">•</span>
+                            <span>How you used OR to capture synonyms</span>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="mr-3">•</span>
+                            <span>Whether you used NOT to exclude topics</span>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="mr-3">•</span>
+                            <span>How you combined operators for complex searches</span>
+                        </li>
+                    </ul>
+                </div>
+                <div class="mt-6 p-4 rounded border" style="border-color: var(--border-color); background-color: #dcfce7;">
+                    <strong class="text-xl">Example:</strong><br>
+                    <span style="color: #166534;">"I used the OR operator to capture different terms for artificial intelligence (AI OR 'machine learning' OR 'generative AI'), then combined this with AND to require 'graphic design' must appear. This ensured I captured relevant articles regardless of which AI terminology authors used."</span>
+                </div>
+            </div>
+
+            <!-- Slide 7: Section 1 Database Rationale -->
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-4xl font-bold mb-8">Database Selection Rationale</h2>
+                <div class="space-y-5 text-lg">
+                    <div class="p-4 rounded" style="background-color: var(--bg-secondary);">
+                        <strong>Explain why you chose each database:</strong>
+                    </div>
+                    <ul class="space-y-4">
+                        <li class="flex items-start">
+                            <span class="mr-3">•</span>
+                            <span>Subject coverage - does it match your topic?</span>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="mr-3">•</span>
+                            <span>Source types - journals, books, conference papers?</span>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="mr-3">•</span>
+                            <span>Currency - how recent are the sources?</span>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="mr-3">•</span>
+                            <span>Access - full-text availability?</span>
+                        </li>
+                    </ul>
+                </div>
+                <div class="mt-6 p-4 rounded border" style="border-color: var(--border-color); background-color: #dcfce7;">
+                    <strong class="text-xl">Example:</strong><br>
+                    <span style="color: #166534;">"I selected Academic Search Complete for its multidisciplinary coverage, JSTOR for access to established design journals, and IEEE Xplore for technology-focused perspectives on AI. This combination ensured I accessed both design theory and technical implementation research."</span>
+                </div>
+            </div>
+
+            <!-- Slide 8: Section 2 Overview -->
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-4xl font-bold mb-8">Section 2: Database Navigation & Search Results</h2>
+                <div class="p-4 rounded mb-6" style="background-color: #fef9c3;">
+                    <p class="text-xl" style="color: #854d0e;"><strong>Word count:</strong> 500 words</p>
+                </div>
+                <div class="space-y-4 text-lg">
+                    <p class="text-xl mb-4"><strong>What to include:</strong></p>
+                    <ul class="space-y-4">
+                        <li class="flex items-start">
+                            <span class="mr-3">1.</span>
+                            <span><strong>Comparison of 3 academic databases</strong> - features, strengths, limitations</span>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="mr-3">2.</span>
+                            <span><strong>Search refinement process</strong> - how you adjusted searches</span>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="mr-3">3.</span>
+                            <span><strong>Results analysis</strong> - what you found, quality, relevance</span>
+                        </li>
+                    </ul>
+                </div>
+                <p class="mt-8 text-xl font-semibold p-4 rounded" style="background-color: var(--bg-secondary);">
+                    Demonstrate your search expertise
+                </p>
+            </div>
+
+            <!-- Slide 9: Section 2 Database Comparison -->
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-4xl font-bold mb-8">Comparing Your 3 Databases</h2>
+                <div class="space-y-4 text-lg">
+                    <p class="text-xl mb-4">Create a comparison discussing:</p>
+                    <div class="p-4 rounded border" style="border-color: var(--border-color);">
+                        <strong>For each database, discuss:</strong><br>
+                        <ul class="mt-2 space-y-2 ml-4">
+                            <li>• Subject coverage and scope</li>
+                            <li>• Types of sources available</li>
+                            <li>• Date range of materials</li>
+                            <li>• Search interface and features</li>
+                            <li>• Full-text availability</li>
+                            <li>• Quality/relevance of results for YOUR topic</li>
+                        </ul>
+                    </div>
+                </div>
+                <p class="mt-6 text-xl font-semibold p-4 rounded" style="background-color: var(--bg-secondary);">
+                    Don't just describe - compare and evaluate
+                </p>
+            </div>
+
+            <!-- Slide 10: Section 2 Example Comparison -->
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-4xl font-bold mb-8">Database Comparison Example</h2>
+                <div class="p-4 rounded border" style="border-color: var(--border-color); background-color: #dcfce7;">
+                    <p style="color: #166534;">
+                        "Academic Search Complete provided the broadest coverage with over 8,500 results for my initial search. However, many results were tangentially related to my topic. The database's advanced filters proved useful for narrowing by publication type and date range.<br><br>
+                        
+                        JSTOR offered fewer results (approximately 340) but with higher relevance, focusing on established design journals. The main limitation was the 'moving wall' which meant the most recent articles from the past year were unavailable.<br><br>
+                        
+                        IEEE Xplore provided the most technical perspective with 156 results, primarily from computer science and engineering conferences. While these sources offered valuable technical insights, they required more interpretation to relate to design practice."
+                    </p>
+                </div>
+            </div>
+
+            <!-- Slide 11: Section 2 Search Refinement -->
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-4xl font-bold mb-8">Documenting Search Refinement</h2>
+                <div class="space-y-5 text-lg">
+                    <div class="p-4 rounded" style="background-color: var(--bg-secondary);">
+                        <strong>Show how you adjusted your approach:</strong>
+                    </div>
+                    <ul class="space-y-4">
+                        <li class="flex items-start">
+                            <span class="mr-3">•</span>
+                            <span>What filters did you apply? (date, peer-reviewed, full-text)</span>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="mr-3">•</span>
+                            <span>Did you search in specific fields? (title, abstract, full-text)</span>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="mr-3">•</span>
+                            <span>How did results change with each refinement?</span>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="mr-3">•</span>
+                            <span>What worked well? What didn't?</span>
+                        </li>
+                    </ul>
+                </div>
+                <div class="mt-6 p-4 rounded border" style="border-color: var(--border-color); background-color: #dcfce7;">
+                    <strong class="text-xl">Example:</strong><br>
+                    <span style="color: #166534;">"Initially, searching full-text returned too many irrelevant results. Restricting my search to titles and abstracts reduced results from 8,500 to 450, with significantly higher relevance. Adding a date filter (2018-2024) further narrowed to 287 results."</span>
+                </div>
+            </div>
+
+            <!-- Slide 12: Section 2 Results Analysis -->
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-4xl font-bold mb-8">Analyzing Your Results</h2>
+                <div class="space-y-5 text-lg">
+                    <div class="p-4 rounded" style="background-color: var(--bg-secondary);">
+                        <strong>Discuss what you discovered:</strong>
+                    </div>
+                    <ul class="space-y-4">
+                        <li class="flex items-start">
+                            <span class="mr-3">•</span>
+                            <span>Quantity - how many results in each database?</span>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="mr-3">•</span>
+                            <span>Quality - were results relevant and authoritative?</span>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="mr-3">•</span>
+                            <span>Currency - how recent were the sources?</span>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="mr-3">•</span>
+                            <span>Access - could you get full-text easily?</span>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="mr-3">•</span>
+                            <span>Patterns - any themes or gaps in the literature?</span>
+                        </li>
+                    </ul>
+                </div>
+                <p class="mt-6 text-xl font-semibold p-4 rounded" style="background-color: var(--bg-secondary);">
+                    Be specific with numbers and observations
+                </p>
+            </div>
+
+            <!-- Slide 13: Writing Tips -->
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-4xl font-bold mb-8">Writing Tips for Sections 1-2</h2>
+                <div class="space-y-4 text-lg">
+                    <div class="p-4 rounded border" style="border-color: var(--border-color); background-color: #dcfce7;">
+                        <strong>✓ Use first person</strong><br>
+                        <span style="color: #166534;">"I selected...", "I refined...", "My strategy was..."</span>
+                    </div>
+                    <div class="p-4 rounded border" style="border-color: var(--border-color); background-color: #dcfce7;">
+                        <strong>✓ Be specific and detailed</strong><br>
+                        <span style="color: #166534;">Include actual numbers, database names, search terms</span>
+                    </div>
+                    <div class="p-4 rounded border" style="border-color: var(--border-color); background-color: #dcfce7;">
+                        <strong>✓ Show your thinking</strong><br>
+                        <span style="color: #166534;">Explain why you made decisions, not just what you did</span>
+                    </div>
+                    <div class="p-4 rounded border" style="border-color: var(--border-color); background-color: #dcfce7;">
+                        <strong>✓ Include evidence</strong><br>
+                        <span style="color: #166534;">Screenshots in appendix, tables in main text</span>
+                    </div>
+                    <div class="p-4 rounded border" style="border-color: var(--border-color); background-color: #fee2e2;">
+                        <strong>✗ Don't just list</strong><br>
+                        <span style="color: #991b1b;">Write in paragraphs, not bullet points</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 14: Common Mistakes -->
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-4xl font-bold mb-8">Common Mistakes to Avoid</h2>
+                <div class="space-y-4 text-lg">
+                    <div class="p-4 rounded border" style="border-color: var(--border-color); background-color: #fee2e2;">
+                        <strong>❌ Too vague</strong><br>
+                        <span style="color: #991b1b;">"I searched for information" → Be specific about what and where</span>
+                    </div>
+                    <div class="p-4 rounded border" style="border-color: var(--border-color); background-color: #fee2e2;">
+                        <strong>❌ Just describing databases</strong><br>
+                        <span style="color: #991b1b;">Don't copy from database "About" pages - discuss YOUR experience</span>
+                    </div>
+                    <div class="p-4 rounded border" style="border-color: var(--border-color); background-color: #fee2e2;">
+                        <strong>❌ No evidence of refinement</strong><br>
+                        <span style="color: #991b1b;">Show multiple search attempts, not just one perfect search</span>
+                    </div>
+                    <div class="p-4 rounded border" style="border-color: var(--border-color); background-color: #fee2e2;">
+                        <strong>❌ Ignoring word count</strong><br>
+                        <span style="color: #991b1b;">Section 1 = 400 words, Section 2 = 500 words (±10%)</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 15: Today's Goal -->
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-4xl font-bold mb-8">Today's Activities</h2>
+                <ul class="space-y-6 text-2xl">
+                    <li class="flex items-start">
+                        <span class="mr-3">1.</span>
+                        <span>Write Section 1 (Research Planning & Strategy) - 400 words</span>
+                    </li>
+                    <li class="flex items-start">
+                        <span class="mr-3">2.</span>
+                        <span>Create your keyword development table</span>
+                    </li>
+                    <li class="flex items-start">
+                        <span class="mr-3">3.</span>
+                        <span>Write Section 2 (Database Navigation) - 500 words</span>
+                    </li>
+                    <li class="flex items-start">
+                        <span class="mr-3">4.</span>
+                        <span>Compare your 3 databases with specific examples</span>
+                    </li>
+                    <li class="flex items-start">
+                        <span class="mr-3">5.</span>
+                        <span>Review, edit, check word counts</span>
+                    </li>
+                </ul>
+                <p class="mt-10 text-2xl font-semibold p-4 rounded" style="background-color: var(--bg-secondary);">
+                    First draft complete by end of session
+                </p>
+            </div>
+        </div>
+    </main>
+
+    <footer class="border-t p-4" style="border-color: var(--border-color);">
+        <div class="max-w-7xl mx-auto flex justify-between items-center">
+            <button id="prevBtn" class="px-6 py-2 rounded border font-medium" style="border-color: var(--border-color);" aria-label="Previous slide">
+                ← Previous
+            </button>
+            <span id="slideCounter" class="text-lg" style="color: var(--text-secondary);">1 / 15</span>
+            <button id="nextBtn" class="px-6 py-2 rounded border font-medium" style="border-color: var(--border-color);" aria-label="Next slide">
+                Next →
+            </button>
+        </div>
+    </footer>
+
+    <script>
+        let currentSlide = 0;
+        let isDarkMode = false;
+        let fontSize = 1;
+        const slides = document.querySelectorAll('.slide');
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+        const slideCounter = document.getElementById('slideCounter');
+        const darkModeToggle = document.getElementById('darkModeToggle');
+        const modeIcon = document.getElementById('modeIcon');
+        const increaseFont = document.getElementById('increaseFont');
+        const decreaseFont = document.getElementById('decreaseFont');
+
+        function showSlide(n) {
+            slides[currentSlide].classList.remove('active');
+            currentSlide = (n + slides.length) % slides.length;
+            slides[currentSlide].classList.add('active');
+            slideCounter.textContent = `${currentSlide + 1} / ${slides.length}`;
+            
+            prevBtn.disabled = currentSlide === 0;
+            nextBtn.disabled = currentSlide === slides.length - 1;
+            prevBtn.style.opacity = currentSlide === 0 ? '0.5' : '1';
+            nextBtn.style.opacity = currentSlide === slides.length - 1 ? '0.5' : '1';
+        }
+
+        function nextSlide() {
+            if (currentSlide < slides.length - 1) showSlide(currentSlide + 1);
+        }
+
+        function prevSlide() {
+            if (currentSlide > 0) showSlide(currentSlide - 1);
+        }
+
+        function toggleDarkMode() {
+            isDarkMode = !isDarkMode;
+            document.body.classList.toggle('dark-mode');
+            modeIcon.textContent = isDarkMode ? '☀️' : '🌙';
+        }
+
+        function updateFontSize() {
+            document.documentElement.style.setProperty('--font-size', fontSize);
+        }
+
+        function increaseFontSize() {
+            if (fontSize < 1.5) {
+                fontSize += 0.1;
+                updateFontSize();
+            }
+        }
+
+        function decreaseFontSize() {
+            if (fontSize > 0.7) {
+                fontSize -= 0.1;
+                updateFontSize();
+            }
+        }
+
+        prevBtn.addEventListener('click', prevSlide);
+        nextBtn.addEventListener('click', nextSlide);
+        darkModeToggle.addEventListener('click', toggleDarkMode);
+        increaseFont.addEventListener('click', increaseFontSize);
+        decreaseFont.addEventListener('click', decreaseFontSize);
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight') nextSlide();
+            if (e.key === 'ArrowLeft') prevSlide();
+        });
+
+        showSlide(0);
+    </script>
+</body>
+</html>

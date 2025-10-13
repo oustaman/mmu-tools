@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Session 3: Database Exploration</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .slide { display: none; }
+        .slide.active { display: flex; }
+        
+        :root {
+            --bg-primary: #ffffff;
+            --bg-secondary: #f9fafb;
+            --text-primary: #111827;
+            --text-secondary: #4b5563;
+            --border-color: #e5e7eb;
+            --accent-color: #3b82f6;
+            --font-size: 1;
+        }
+        
+        .dark-mode {
+            --bg-primary: #1f2937;
+            --bg-secondary: #111827;
+            --text-primary: #f9fafb;
+            --text-secondary: #d1d5db;
+            --border-color: #374151;
+            --accent-color: #60a5fa;
+        }
+        
+        html {
+            font-size: calc(var(--font-size) * 16px);
+        }
+        
+        body {
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+        }
+        
+        .code-box {
+            font-family: 'Courier New', monospace;
+            padding: 1rem;
+            border-radius: 0.5rem;
+            border: 1px solid var(--border-color);
+            background-color: var(--bg-secondary);
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col">
+    <header class="border-b p-4" style="border-color: var(--border-color);">
+        <div class="max-w-7xl mx-auto flex justify-between items-center">
+            <h1 class="text-lg font-semibold">Digital Media Technologies - Session 3</h1>
+            <div class="flex gap-2">
+                <button id="decreaseFont" class="px-3 py-2 rounded border" style="border-color: var(--border-color);" aria-label="Decrease font size">A-</button>
+                <button id="increaseFont" class="px-3 py-2 rounded border" style="border-color: var(--border-color);" aria-label="Increase font size">A+</button>
+                <button id="darkModeToggle" class="px-4 py-2 rounded border" style="border-color: var(--border-color);" aria-label="Toggle dark mode">
+                    <span id="modeIcon">🌙</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <main class="flex-1 flex items-center justify-center p-8">
+        <div class="w-full max-w-5xl">
+            <!-- Slide 1: Title -->
+            <div class="slide active flex-col items-center justify-center text-center h-[70vh]">
+                <h2 class="text-5xl font-bold mb-6">Session 3</h2>
+                <h3 class="text-3xl mb-8" style="color: var(--text-secondary);">Database Exploration</h3>
+                <p class="text-xl" style="color: var(--text-secondary);">Finding Quality Academic Sources</p>
+            </div>
+
+            <!-- Slide 2: Beyond Google -->
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-4xl font-bold mb-8">Beyond Google: Why Databases Matter</h2>
+                <div class="space-y-5 text-lg">
+                    <div class="p-4 rounded border" style="border-color: var(--border-color);">
+                        <strong class="text-xl">Google finds:</strong><br>
+                        <span style="color: var(--text-secondary);">• Everything on the public web<br>• Blogs, news, Wikipedia, random sites<br>• SEO-optimized content (not necessarily quality)</span>
+                    </div>
+                    <div class="p-4 rounded border" style="border-color: var(--border-color); background-color: #dcfce7;">
+                        <strong class="text-xl">Academic Databases find:</strong><br>
+                        <span style="color: #166534;">• Peer-reviewed research<br>• Scholarly journals and books<br>• Quality-controlled content</span>
+                    </div>
+                </div>
+                <p class="mt-8 text-xl font-semibold p-4 rounded" style="background-color: var(--bg-secondary);">
+                    For university work, databases give you credible sources
+                </p>
+            </div>
+
+            <!-- Slide 3: What Are Academic Databases? -->
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-4xl font-bold mb-8">What Are Academic Databases?</h2>
+                <div class="space-y-4 text-lg">
+                    <p class="text-xl mb-4">Think of them as <strong>specialized libraries</strong> containing millions of academic resources:</p>
+                    <ul class="space-y-4">
+                        <li class="flex items-start">
+                            <span class="mr-3">📚</span>
+                            <span><strong>Journal articles</strong> - research studies published in academic journals</span>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="mr-3">📖</span>
+                            <span><strong>Books and chapters</strong> - scholarly monographs and edited collections</span>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="mr-3">📊</span>
+                            <span><strong>Conference papers</strong> - presentations from academic conferences</span>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="mr-3">📄</span>
+                            <span><strong>Reports</strong> - research reports from institutions and organizations</span>
+                        </li>
+                    </ul>
+                </div>
+                <p class="mt-8 text-xl font-semibold p-4 rounded" style="background-color: var(--bg-secondary);">
+                    Curated collections of credible research
+                </p>
+            </div>
+
+            <!-- Slide 4: Types of Databases -->
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-4xl font-bold mb-8">Types of Academic Databases</h2>
+                <div class="space-y-4 text-lg">
+                    <div class="p-4 rounded border" style="border-color: var(--border-color);">
+                        <strong class="text-xl">Multidisciplinary</strong><br>
+                        <span style="color: var(--text-secondary);">Cover all subjects - good starting point<br>Examples: Academic Search Complete, JSTOR, ProQuest</span>
+                    </div>
+                    <div class="p-4 rounded border" style="border-color: var(--border-color);">
+                        <strong class="text-xl">Subject-Specific</strong><br>
+                        <span style="color: var(--text-secondary);">Focus on one field - more specialized<br>Examples: PsycINFO (psychology), IEEE Xplore (engineering)</span>
+                    </div>
+                    <div class="p-4 rounded border" style="border-color: var(--border-color);">
+                        <strong class="text-xl">Free vs. Subscription</strong><br>
+                        <span style="color: var(--text-secondary);">Google Scholar (free) vs. university databases (paid, but free for students)</span>
+                    </div>
+                </div>
+                <p class="mt-6 text-xl font-semibold p-4 rounded" style="background-color: var(--bg-secondary);">
+                    Different databases for different needs
+                </p>
+            </div>
+
+            <!-- Slide 5: Accessing Databases -->
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-4xl font-bold mb-8">How to Access Library Databases</h2>
+                <div class="space-y-6 text-xl">
+                    <div class="flex items-start">
+                        <span class="font-bold mr-4" style="color: var(--accent-color);">1</span>
+                        <div>
+                            <strong>Go to your university library website</strong><br>
+                            <span style="color: var(--text-secondary);">Usually library.youruni.ac.uk or similar</span>
+                        </div>
+                    </div>
+                    <div class="flex items-start">
+                        <span class="font-bold mr-4" style="color: var(--accent-color);">2</span>
+                        <div>
+                            <strong>Log in with your university credentials</strong><br>
+                            <span style="color: var(--text-secondary);">Same login as Moodle/email</span>
+                        </div>
+                    </div>
+                    <div class="flex items-start">
+                        <span class="font-bold mr-4" style="color: var(--accent-color);">3</span>
+                        <div>
+                            <strong>Look for "Databases" or "Find Articles"</strong><br>
+                            <span style="color: var(--text-secondary);">Browse by subject or search by name</span>
+                        </div>
+                    </div>
+                </div>
+                <p class="mt-8 text-xl font-semibold p-4 rounded" style="background-color: var(--bg-secondary);">
+                    Your library pays - you get free access
+                </p>
+            </div>
+
+            <!-- Slide 6: Comparing Databases Framework -->
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-4xl font-bold mb-8">How to Compare Databases</h2>
+                <div class="space-y-4 text-lg">
+                    <p class="text-xl mb-4">For your assignment, compare 3 databases using these criteria:</p>
+                    <ul class="space-y-4">
+                        <li class="flex items-start">
+                            <span class="mr-3">•</span>
+                            <span><strong>Coverage:</strong> What subjects? What types of sources?</span>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="mr-3">•</span>
+                            <span><strong>Date range:</strong> How far back does it go?</span>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="mr-3">•</span>
+                            <span><strong>Full-text availability:</strong> Can you read articles immediately?</span>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="mr-3">•</span>
+                            <span><strong>Search features:</strong> What filters and tools available?</span>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="mr-3">•</span>
+                            <span><strong>Results quality:</strong> Are results relevant to your topic?</span>
+                        </li>
+                    </ul>
+                </div>
+                <p class="mt-6 text-xl font-semibold p-4 rounded" style="background-color: var(--bg-secondary);">
+                    Test the same search in each database
+                </p>
+            </div>
+
+            <!-- Slide 7: Database Example 1 -->
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-4xl font-bold mb-8">Example: Google Scholar</h2>
+                <div class="space-y-5 text-lg">
+                    <div class="p-4 rounded" style="background-color: #dbeafe;">
+                        <strong class="text-xl">Strengths:</strong><br>
+                        <span style="color: #1e40af;">✓ Free and easy to access<br>✓ Covers all subjects<br>✓ Shows citation counts<br>✓ Simple interface</span>
+                    </div>
+                    <div class="p-4 rounded" style="background-color: #fee2e2;">
+                        <strong class="text-xl">Limitations:</strong><br>
+                        <span style="color: #991b1b;">✗ Not all sources are peer-reviewed<br>✗ Limited search filters<br>✗ No quality control<br>✗ Full-text often behind paywalls</span>
+                    </div>
+                </div>
+                <p class="mt-8 text-xl font-semibold p-4 rounded" style="background-color: var(--bg-secondary);">
+                    Good starting point, but verify quality
+                </p>
+            </div>
+
+            <!-- Slide 8: Database Example 2 -->
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-4xl font-bold mb-8">Example: JSTOR</h2>
+                <div class="space-y-5 text-lg">
+                    <div class="p-4 rounded" style="background-color: #dbeafe;">
+                        <strong class="text-xl">Strengths:</strong><br>
+                        <span style="color: #1e40af;">✓ High-quality, peer-reviewed journals<br>✓ Full-text PDFs available<br>✓ Covers humanities and social sciences<br>✓ Archive goes back decades</span>
+                    </div>
+                    <div class="p-4 rounded" style="background-color: #fee2e2;">
+                        <strong class="text-xl">Limitations:</strong><br>
+                        <span style="color: #991b1b;">✗ Moving wall - newest articles delayed<br>✗ Limited STEM coverage<br>✗ Requires institutional access</span>
+                    </div>
+                </div>
+                <p class="mt-8 text-xl font-semibold p-4 rounded" style="background-color: var(--bg-secondary);">
+                    Excellent for established research
+                </p>
+            </div>
+
+            <!-- Slide 9: Database Example 3 -->
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-4xl font-bold mb-8">Example: Academic Search Complete</h2>
+                <div class="space-y-5 text-lg">
+                    <div class="p-4 rounded" style="background-color: #dbeafe;">
+                        <strong class="text-xl">Strengths:</strong><br>
+                        <span style="color: #1e40af;">✓ Multidisciplinary - covers everything<br>✓ Current articles (no moving wall)<br>✓ Advanced search features<br>✓ Full-text for most articles</span>
+                    </div>
+                    <div class="p-4 rounded" style="background-color: #fee2e2;">
+                        <strong class="text-xl">Limitations:</strong><br>
+                        <span style="color: #991b1b;">✗ Can be overwhelming - too many results<br>✗ Interface takes getting used to<br>✗ Quality varies by journal</span>
+                    </div>
+                </div>
+                <p class="mt-8 text-xl font-semibold p-4 rounded" style="background-color: var(--bg-secondary);">
+                    Great all-rounder for most topics
+                </p>
+            </div>
+
+            <!-- Slide 10: Finding Full-Text -->
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-4xl font-bold mb-8">Getting Full-Text Articles</h2>
+                <div class="space-y-6 text-xl">
+                    <div class="flex items-start">
+                        <span class="font-bold mr-4" style="color: var(--accent-color);">1</span>
+                        <div>
+                            <strong>Look for PDF or Full-Text links</strong><br>
+                            <span style="color: var(--text-secondary);">Usually clearly labeled in search results</span>
+                        </div>
+                    </div>
+                    <div class="flex items-start">
+                        <span class="font-bold mr-4" style="color: var(--accent-color);">2</span>
+                        <div>
+                            <strong>Check "Find It @ Your Library" buttons</strong><br>
+                            <span style="color: var(--text-secondary);">Links to other databases with full-text</span>
+                        </div>
+                    </div>
+                    <div class="flex items-start">
+                        <span class="font-bold mr-4" style="color: var(--accent-color);">3</span>
+                        <div>
+                            <strong>Request through Inter-Library Loan</strong><br>
+                            <span style="color: var(--text-secondary);">If not available, your library can get it (takes 3-7 days)</span>
+                        </div>
+                    </div>
+                </div>
+                <p class="mt-8 text-xl font-semibold p-4 rounded" style="background-color: var(--bg-secondary);">
+                    Never pay for articles - use library resources
+                </p>
+            </div>
+
+            <!-- Slide 11: Using Filters -->
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-4xl font-bold mb-8">Refining Results with Filters</h2>
+                <div class="space-y-4 text-lg">
+                    <p class="text-xl mb-4">Most databases let you narrow results after searching:</p>
+                    <ul class="space-y-4">
+                        <li class="flex items-start">
+                            <span class="mr-3">📅</span>
+                            <span><strong>Date range:</strong> Last 5 years, last 10 years, specific years</span>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="mr-3">📑</span>
+                            <span><strong>Source type:</strong> Academic journals, books, conference papers</span>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="mr-3">✓</span>
+                            <span><strong>Peer-reviewed only:</strong> Ensures scholarly quality</span>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="mr-3">📄</span>
+                            <span><strong>Full-text only:</strong> Show only articles you can read immediately</span>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="mr-3">🌍</span>
+                            <span><strong>Language:</strong> English, or include other languages</span>
+                        </li>
+                    </ul>
+                </div>
+                <p class="mt-6 text-xl font-semibold p-4 rounded" style="background-color: var(--bg-secondary);">
+                    Filters help manage thousands of results
+                </p>
+            </div>
+
+            <!-- Slide 12: Advanced Search Features -->
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-4xl font-bold mb-8">Advanced Search Features</h2>
+                <div class="space-y-5 text-lg">
+                    <div class="p-4 rounded border" style="border-color: var(--border-color);">
+                        <strong class="text-xl">Search fields:</strong><br>
+                        <span style="color: var(--text-secondary);">Search in title, abstract, full-text, or author name</span>
+                    </div>
+                    <div class="p-4 rounded border" style="border-color: var(--border-color);">
+                        <strong class="text-xl">Subject headings:</strong><br>
+                        <span style="color: var(--text-secondary);">Databases tag articles with controlled vocabulary - very precise</span>
+                    </div>
+                    <div class="p-4 rounded border" style="border-color: var(--border-color);">
+                        <strong class="text-xl">Citation tracking:</strong><br>
+                        <span style="color: var(--text-secondary);">Find articles that cite a key source (forward search)<br>Or see what a source cites (backward search)</span>
+                    </div>
+                </div>
+                <p class="mt-8 text-xl font-semibold p-4 rounded" style="background-color: var(--bg-secondary);">
+                    These features save time and improve results
+                </p>
+            </div>
+
+            <!-- Slide 13: Saving and Organizing -->
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-4xl font-bold mb-8">Saving and Exporting Results</h2>
+                <div class="space-y-5 text-xl">
+                    <div class="flex items-start">
+                        <span class="mr-3">💾</span>
+                        <span><strong>Create folders:</strong> Most databases let you save results to your account</span>
+                    </div>
+                    <div class="flex items-start">
+                        <span class="mr-3">📧</span>
+                        <span><strong>Email results:</strong> Send articles to yourself for later</span>
+                    </div>
+                    <div class="flex items-start">
+                        <span class="mr-3">📋</span>
+                        <span><strong>Export citations:</strong> Download references in various formats</span>
+                    </div>
+                    <div class="flex items-start">
+                        <span class="mr-3">🔗</span>
+                        <span><strong>Copy permalink:</strong> Get a stable URL to return to the article</span>
+                    </div>
+                </div>
+                <p class="mt-8 text-xl font-semibold p-4 rounded" style="background-color: var(--bg-secondary);">
+                    Don't lose track of good sources
+                </p>
+            </div>
+
+            <!-- Slide 14: Common Problems -->
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-4xl font-bold mb-8">Troubleshooting Database Issues</h2>
+                <div class="space-y-4 text-lg">
+                    <div class="p-4 rounded border" style="border-color: var(--border-color);">
+                        <strong>Problem: Can't access database</strong><br>
+                        <span style="color: var(--text-secondary);">→ Check you're logged in. Try accessing from campus network or use VPN</span>
+                    </div>
+                    <div class="p-4 rounded border" style="border-color: var(--border-color);">
+                        <strong>Problem: Can't find full-text</strong><br>
+                        <span style="color: var(--text-secondary);">→ Look for "Find It" links or try another database. Ask library for help</span>
+                    </div>
+                    <div class="p-4 rounded border" style="border-color: var(--border-color);">
+                        <strong>Problem: Too many/too few results</strong><br>
+                        <span style="color: var(--text-secondary);">→ Adjust Boolean operators and filters. Review Session 2 on search strategy</span>
+                    </div>
+                    <div class="p-4 rounded border" style="border-color: var(--border-color);">
+                        <strong>Problem: Results not relevant</strong><br>
+                        <span style="color: var(--text-secondary);">→ Try different keywords. Check if you're searching the right subject area</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 15: Today's Goal -->
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-4xl font-bold mb-8">Today's Activities</h2>
+                <ul class="space-y-6 text-2xl">
+                    <li class="flex items-start">
+                        <span class="mr-3">1.</span>
+                        <span>Access 3 different academic databases through the library</span>
+                    </li>
+                    <li class="flex items-start">
+                        <span class="mr-3">2.</span>
+                        <span>Run the same search in each database</span>
+                    </li>
+                    <li class="flex items-start">
+                        <span class="mr-3">3.</span>
+                        <span>Compare coverage, features, and results quality</span>
+                    </li>
+                    <li class="flex items-start">
+                        <span class="mr-3">4.</span>
+                        <span>Practice finding and saving full-text articles</span>
+                    </li>
+                    <li class="flex items-start">
+                        <span class="mr-3">5.</span>
+                        <span>Document your findings for Section 2 of your report</span>
+                    </li>
+                </ul>
+                <p class="mt-10 text-2xl font-semibold p-4 rounded" style="background-color: var(--bg-secondary);">
+                    Hands-on exploration builds confidence
+                </p>
+            </div>
+        </div>
+    </main>
+
+    <footer class="border-t p-4" style="border-color: var(--border-color);">
+        <div class="max-w-7xl mx-auto flex justify-between items-center">
+            <button id="prevBtn" class="px-6 py-2 rounded border font-medium" style="border-color: var(--border-color);" aria-label="Previous slide">
+                ← Previous
+            </button>
+            <span id="slideCounter" class="text-lg" style="color: var(--text-secondary);">1 / 15</span>
+            <button id="nextBtn" class="px-6 py-2 rounded border font-medium" style="border-color: var(--border-color);" aria-label="Next slide">
+                Next →
+            </button>
+        </div>
+    </footer>
+
+    <script>
+        let currentSlide = 0;
+        let isDarkMode = false;
+        let fontSize = 1;
+        const slides = document.querySelectorAll('.slide');
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+        const slideCounter = document.getElementById('slideCounter');
+        const darkModeToggle = document.getElementById('darkModeToggle');
+        const modeIcon = document.getElementById('modeIcon');
+        const increaseFont = document.getElementById('increaseFont');
+        const decreaseFont = document.getElementById('decreaseFont');
+
+        function showSlide(n) {
+            slides[currentSlide].classList.remove('active');
+            currentSlide = (n + slides.length) % slides.length;
+            slides[currentSlide].classList.add('active');
+            slideCounter.textContent = `${currentSlide + 1} / ${slides.length}`;
+            
+            prevBtn.disabled = currentSlide === 0;
+            nextBtn.disabled = currentSlide === slides.length - 1;
+            prevBtn.style.opacity = currentSlide === 0 ? '0.5' : '1';
+            nextBtn.style.opacity = currentSlide === slides.length - 1 ? '0.5' : '1';
+        }
+
+        function nextSlide() {
+            if (currentSlide < slides.length - 1) showSlide(currentSlide + 1);
+        }
+
+        function prevSlide() {
+            if (currentSlide > 0) showSlide(currentSlide - 1);
+        }
+
+        function toggleDarkMode() {
+            isDarkMode = !isDarkMode;
+            document.body.classList.toggle('dark-mode');
+            modeIcon.textContent = isDarkMode ? '☀️' : '🌙';
+        }
+
+        function updateFontSize() {
+            document.documentElement.style.setProperty('--font-size', fontSize);
+        }
+
+        function increaseFontSize() {
+            if (fontSize < 1.5) {
+                fontSize += 0.1;
+                updateFontSize();
+            }
+        }
+
+        function decreaseFontSize() {
+            if (fontSize > 0.7) {
+                fontSize -= 0.1;
+                updateFontSize();
+            }
+        }
+
+        prevBtn.addEventListener('click', prevSlide);
+        nextBtn.addEventListener('click', nextSlide);
+        darkModeToggle.addEventListener('click', toggleDarkMode);
+        increaseFont.addEventListener('click', increaseFontSize);
+        decreaseFont.addEventListener('click', decreaseFontSize);
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight') nextSlide();
+            if (e.key === 'ArrowLeft') prevSlide();
+        });
+
+        showSlide(0);
+    </script>
+</body>
+</html>

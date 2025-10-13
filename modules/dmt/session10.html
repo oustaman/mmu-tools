@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Session 10: Reflection & Finalization</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .slide { display: none; }
+        .slide.active { display: flex; }
+        
+        :root {
+            --bg-primary: #ffffff;
+            --bg-secondary: #f9fafb;
+            --text-primary: #111827;
+            --text-secondary: #4b5563;
+            --border-color: #e5e7eb;
+            --accent-color: #3b82f6;
+            --font-size: 1;
+        }
+        
+        .dark-mode {
+            --bg-primary: #1f2937;
+            --bg-secondary: #111827;
+            --text-primary: #f9fafb;
+            --text-secondary: #d1d5db;
+            --border-color: #374151;
+            --accent-color: #60a5fa;
+        }
+        
+        html {
+            font-size: calc(var(--font-size) * 16px);
+        }
+        
+        body {
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col">
+    <header class="border-b p-4" style="border-color: var(--border-color);">
+        <div class="max-w-7xl mx-auto flex justify-between items-center">
+            <h1 class="text-lg font-semibold">Digital Media Technologies - Session 10</h1>
+            <div class="flex gap-2">
+                <button id="decreaseFont" class="px-3 py-2 rounded border" style="border-color: var(--border-color);" aria-label="Decrease font size">A-</button>
+                <button id="increaseFont" class="px-3 py-2 rounded border" style="border-color: var(--border-color);" aria-label="Increase font size">A+</button>
+                <button id="darkModeToggle" class="px-4 py-2 rounded border" style="border-color: var(--border-color);" aria-label="Toggle dark mode">
+                    <span id="modeIcon">🌙</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <main class="flex-1 flex items-center justify-center p-8">
+        <div class="w-full max-w-5xl">
+            <!-- Slide 1: Title -->
+            <div class="slide active flex-col items-center justify-center text-center h-[70vh]">
+                <h2 class="text-5xl font-bold mb-6">Session 10</h2>
+                <h3 class="text-3xl mb-8" style="color: var(--text-secondary);">Reflection & Finalization</h3>
+                <p class="text-xl" style="color: var(--text-secondary);">Section 5 & Final Polish</p>
+            </div>
+
+            <!-- Slide 2: The Final Section -->
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-4xl font-bold mb-8">Section 5: Research Process Reflection</h2>
+                <div class="p-4 rounded mb-6" style="background-color: #fef9c3;">
+                    <p class="text-xl" style="color: #854d0e;"><strong>Word count:</strong> 300 words</p>
+                </div>
+                <div class="space-y-4 text-lg">
+                    <p class="text-xl mb-4"><strong>What to include:</strong></p>
+                    <ul class="space-y-4">
+                        <li class="flex items-start">
+                            <span class="mr-3">1.</span>
+                            <span><strong>Challenges encountered</strong> - what difficulties did you face?</span>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="mr-3">2.</span>
+                            <span><strong>Skills development reflection</strong> - what did you learn?</span>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="mr-3">3.</span>
+                            <span><strong>Future improvement plan</strong> (optional) - how will you use these skills?</span>
+                        </li>
+                    </ul>
+                </div>
+                <p class="mt-8 text-xl font-semibold p-4 rounded" style="background-color: var(--bg-secondary);">
+                    This is your chance to show critical self-awareness
+                </p>
+            </div>
+
+            <!-- Slide 3: Challenges to Discuss -->
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-4xl font-bold mb-8">Reflecting on Challenges</h2>
+                <div class="space-y-5 text-lg">
+                    <div class="p-4 rounded" style="background-color: var(--bg-secondary);">
+                        <strong>Be honest about what was difficult:</strong>
+                    </div>
+                    <ul class="space-y-4">
+                        <li class="flex items-start">
+                            <span class="mr-3">•</span>
+                            <span><strong>Search challenges:</strong> Too many/few results, finding right keywords</span>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="mr-3">•</span>
+                            <span><strong>Database navigation:</strong> Learning different interfaces, accessing full-text</span>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="mr-3">•</span>
+                            <span><strong>Source evaluation:</strong> Judging quality, finding variety of types</span>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="mr-3">•</span>
+                            <span><strong>Citation management:</strong> Getting format right, maintaining consistency</span>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="mr-3">•</span>
+                            <span><strong>Time management:</strong> Balancing depth with deadlines</span>
+                        </li>
+                    </ul>
+                </div>
+                <p class="mt-6 text-xl font-semibold p-4 rounded" style="background-color: #dcfce7;">
+                    <span style="color: #166534;">Identifying challenges shows maturity and self-awareness</span>
+                </p>
+            </div>
+
+            <!-- Slide 4: How You Overcame Challenges -->
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-4xl font-bold mb-8">Explaining How You Overcame Challenges</h2>
+                <div class="space-y-5 text-lg">
+                    <p class="text-xl mb-4"><strong>Don't just list problems - explain solutions:</strong></p>
+                    <div class="p-4 rounded border" style="border-color: var(--border-color); background-color: #dcfce7;">
+                        <strong class="text-xl">Example - Problem & Solution:</strong><br>
+                        <span style="color: #166534;">"Initially, I struggled with finding relevant sources, as my first search returned over 50,000 results that were too broad. I overcame this by systematically narrowing my keywords using Boolean AND operators and applying date filters (2018-2024). This reduced results to a manageable 342 articles while maintaining relevance. I learned that effective searching requires multiple iterations rather than expecting perfect results immediately."</span>
+                    </div>
+                </div>
+                <p class="mt-6 text-xl font-semibold p-4 rounded" style="background-color: var(--bg-secondary);">
+                    Show problem-solving skills and learning
+                </p>
+            </div>
+
+            <!-- Slide 5: Skills Development -->
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-4xl font-bold mb-8">Reflecting on Skills Development</h2>
+                <div class="space-y-5 text-lg">
+                    <div class="p-4 rounded" style="background-color: var(--bg-secondary);">
+                        <strong>What did you learn through this process?</strong>
+                    </div>
+                    <ul class="space-y-4">
+                        <li class="flex items-start">
+                            <span class="mr-3">📚</span>
+                            <span><strong>Research skills:</strong> Developing search strategies, evaluating sources critically</span>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="mr-3">💻</span>
+                            <span><strong>Technical competence:</strong> Navigating databases, using advanced search features</span>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="mr-3">✍️</span>
+                            <span><strong>Academic writing:</strong> Proper citation, structured reporting, evidence-based argumentation</span>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="mr-3">🎯</span>
+                            <span><strong>Information literacy:</strong> Distinguishing quality sources, understanding peer review</span>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="mr-3">⚡</span>
+                            <span><strong>Professional skills:</strong> Project management, documentation, attention to detail</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Slide 6: From Skills to Application -->
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-4xl font-bold mb-8">Connecting Skills to Future Work</h2>
+                <div class="space-y-5 text-lg">
+                    <p class="text-xl mb-4"><strong>How will these skills benefit you?</strong></p>
+                    <ul class="space-y-4">
+                        <li class="flex items-start">
+                            <span class="mr-3">•</span>
+                            <span><strong>Future assignments:</strong> You'll research more efficiently for essays and projects</span>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="mr-3">•</span>
+                            <span><strong>Dissertation/thesis:</strong> Essential skills for major research projects</span>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="mr-3">•</span>
+                            <span><strong>Professional practice:</strong> Researching industry trends, staying current</span>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="mr-3">•</span>
+                            <span><strong>Critical thinking:</strong> Evaluating information in any context</span>
+                        </li>
+                    </ul>
+                </div>
+                <div class="mt-6 p-4 rounded border" style="border-color: var(--border-color); background-color: #dcfce7;">
+                    <strong class="text-xl">Example:</strong><br>
+                    <span style="color: #166534;">"These research skills will be invaluable for my final year project, where I'll need to conduct a comprehensive literature review. Understanding how to systematically search databases and evaluate sources critically will enable me to build a strong theoretical foundation for my work."</span>
+                </div>
+            </div>
+
+            <!-- Slide 7: Writing Effective Reflection -->
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-4xl font-bold mb-8">Writing Effective Reflection</h2>
+                <div class="space-y-4 text-lg">
+                    <div class="p-4 rounded border" style="border-color: var(--border-color); background-color: #dcfce7;">
+                        <strong>✓ Be specific and concrete</strong><br>
+                        <span style="color: #166534;">Give examples from your actual experience</span>
+                    </div>
+                    <div class="p-4 rounded border" style="border-color: var(--border-color); background-color: #dcfce7;">
+                        <strong>✓ Balance challenges with solutions</strong><br>
+                        <span style="color: #166534;">Show how you grew through difficulties</span>
+                    </div>
+                    <div class="p-4 rounded border" style="border-color: var(--border-color); background-color: #dcfce7;">
+                        <strong>✓ Connect to learning outcomes</strong><br>
+                        <span style="color: #166534;">Link back to module goals</span>
+                    </div>
+                    <div class="p-4 rounded border" style="border-color: var(--border-color); background-color: #fee2e2;">
+                        <strong>✗ Don't be too negative</strong><br>
+                        <span style="color: #991b1b;">Focus on learning, not just complaining</span>
+                    </div>
+                    <div class="p-4 rounded border" style="border-color: var(--border-color); background-color: #fee2e2;">
+                        <strong>✗ Don't be superficial</strong><br>
+                        <span style="color: #991b1b;">"It was interesting" → What specifically did you learn?</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 8: Final Formatting Checks -->
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-4xl font-bold mb-8">Final Formatting Checklist</h2>
+                <div class="space-y-4 text-xl">
+                    <div class="p-4 rounded border" style="border-color: var(--border-color);">
+                        <strong>□ Word count:</strong> 2,000-2,500 words total (±10%)
+                    </div>
+                    <div class="p-4 rounded border" style="border-color: var(--border-color);">
+                        <strong>□ Sections clearly labeled:</strong> 1, 2, 3, 4, 5 with headings
+                    </div>
+                    <div class="p-4 rounded border" style="border-color: var(--border-color);">
+                        <strong>□ Font and spacing:</strong> Readable font (e.g., Arial 12pt), 1.5 or double spacing
+                    </div>
+                    <div class="p-4 rounded border" style="border-color: var(--border-color);">
+                        <strong>□ Page numbers:</strong> All pages numbered
+                    </div>
+                    <div class="p-4 rounded border" style="border-color: var(--border-color);">
+                        <strong>□ Bibliography:</strong> Alphabetized, hanging indent, consistent format
+                    </div>
+                    <div class="p-4 rounded border" style="border-color: var(--border-color);">
+                        <strong>□ Images:</strong> Embedded in document (if included in appendices)
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 9: Content Quality Check -->
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-4xl font-bold mb-8">Content Quality Checklist</h2>
+                <div class="space-y-4 text-xl">
+                    <div class="p-4 rounded border" style="border-color: var(--border-color);">
+                        <strong>□ All required evidence included:</strong> Topic, keywords, databases, sources, citations
+                    </div>
+                    <div class="p-4 rounded border" style="border-color: var(--border-color);">
+                        <strong>□ Specific details:</strong> Actual search terms, numbers, database names throughout
+                    </div>
+                    <div class="p-4 rounded border" style="border-color: var(--border-color);">
+                        <strong>□ Critical analysis:</strong> Not just description - explain and evaluate
+                    </div>
+                    <div class="p-4 rounded border" style="border-color: var(--border-color);">
+                        <strong>□ 4 different source types:</strong> Clearly identified and properly evaluated
+                    </div>
+                    <div class="p-4 rounded border" style="border-color: var(--border-color);">
+                        <strong>□ Citations correct:</strong> All formatted per MMU Harvard style
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 10: Proofreading Strategy -->
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-4xl font-bold mb-8">Effective Proofreading Strategy</h2>
+                <div class="space-y-5 text-xl">
+                    <div class="flex items-start">
+                        <span class="font-bold mr-4" style="color: var(--accent-color);">1</span>
+                        <div>
+                            <strong>Take a break first</strong><br>
+                            <span style="color: var(--text-secondary);">Come back with fresh eyes (at least a few hours later)</span>
+                        </div>
+                    </div>
+                    <div class="flex items-start">
+                        <span class="font-bold mr-4" style="color: var(--accent-color);">2</span>
+                        <div>
+                            <strong>Read aloud</strong><br>
+                            <span style="color: var(--text-secondary);">Helps catch awkward phrasing and errors</span>
+                        </div>
+                    </div>
+                    <div class="flex items-start">
+                        <span class="font-bold mr-4" style="color: var(--accent-color);">3</span>
+                        <div>
+                            <strong>Check one type of error at a time</strong><br>
+                            <span style="color: var(--text-secondary);">First spelling, then grammar, then citations, then formatting</span>
+                        </div>
+                    </div>
+                    <div class="flex items-start">
+                        <span class="font-bold mr-4" style="color: var(--accent-color);">4</span>
+                        <div>
+                            <strong>Use spell-check but don't rely on it</strong><br>
+                            <span style="color: var(--text-secondary);">It won't catch everything (e.g., "their" vs "there")</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 11: Common Last-Minute Errors -->
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-4xl font-bold mb-8">Common Last-Minute Errors to Check</h2>
+                <div class="space-y-4 text-lg">
+                    <div class="p-4 rounded border" style="border-color: var(--border-color); background-color: #fee2e2;">
+                        <strong>❌ Inconsistent formatting</strong><br>
+                        <span style="color: #991b1b;">Different fonts, spacing, or heading styles</span>
+                    </div>
+                    <div class="p-4 rounded border" style="border-color: var(--border-color); background-color: #fee2e2;">
+                        <strong>❌ Missing page numbers</strong><br>
+                        <span style="color: #991b1b;">Easy to forget but looks unprofessional</span>
+                    </div>
+                    <div class="p-4 rounded border" style="border-color: var(--border-color); background-color: #fee2e2;">
+                        <strong>❌ Bibliography not alphabetized</strong><br>
+                        <span style="color: #991b1b;">Must be A-Z by author surname</span>
+                    </div>
+                    <div class="p-4 rounded border" style="border-color: var(--border-color); background-color: #fee2e2;">
+                        <strong>❌ Tables or images not labeled</strong><br>
+                        <span style="color: #991b1b;">All visuals should have captions</span>
+                    </div>
+                    <div class="p-4 rounded border" style="border-color: var(--border-color); background-color: #fee2e2;">
+                        <strong>❌ Wrong file format or name</strong><br>
+                        <span style="color: #991b1b;">Check submission requirements (PDF vs DOCX, naming convention)</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 12: Appendices (Optional) -->
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-4xl font-bold mb-8">Optional Appendices</h2>
+                <div class="space-y-5 text-lg">
+                    <div class="p-4 rounded" style="background-color: #dbeafe;">
+                        <strong class="text-xl">Appendices do NOT count toward word count</strong><br>
+                        <span style="color: #1e40af;">Use them to provide supporting evidence without cluttering your main text</span>
+                    </div>
+                    <div class="space-y-3">
+                        <p class="text-xl mb-2"><strong>What to include in appendices:</strong></p>
+                        <ul class="space-y-3">
+                            <li>• Screenshots of search results or database interfaces</li>
+                            <li>• Complete search logs with all attempts</li>
+                            <li>• Additional tables or charts</li>
+                            <li>• Anything that supports your narrative but would disrupt flow in main text</li>
+                        </ul>
+                    </div>
+                </div>
+                <p class="mt-6 text-xl font-semibold p-4 rounded" style="background-color: var(--bg-secondary);">
+                    Label clearly: Appendix A, Appendix B, etc.
+                </p>
+            </div>
+
+            <!-- Slide 13: The Rubric -->
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-4xl font-bold mb-8">Understanding the Marking Criteria</h2>
+                <div class="space-y-4 text-lg">
+                    <p class="text-xl mb-4"><strong>Your work is assessed on three criteria:</strong></p>
+                    <div class="p-4 rounded border" style="border-color: var(--border-color);">
+                        <strong class="text-xl">1. Professionalism</strong><br>
+                        <span style="color: var(--text-secondary);">Initiative, creativity, motivation, self-management</span>
+                    </div>
+                    <div class="p-4 rounded border" style="border-color: var(--border-color);">
+                        <strong class="text-xl">2. Communication</strong><br>
+                        <span style="color: var(--text-secondary);">Clear, accurate expression using appropriate media (ICT)</span>
+                    </div>
+                    <div class="p-4 rounded border" style="border-color: var(--border-color);">
+                        <strong class="text-xl">3. Professional Development</strong><br>
+                        <span style="color: var(--text-secondary);">Reflecting on progress, taking appropriate action</span>
+                    </div>
+                </div>
+                <p class="mt-6 text-xl font-semibold p-4 rounded" style="background-color: var(--bg-secondary);">
+                    Review the full rubric in your assignment brief
+                </p>
+            </div>
+
+            <!-- Slide 14: Grade Boundaries -->
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-4xl font-bold mb-8">What Different Grades Look Like</h2>
+                <div class="space-y-3 text-lg">
+                    <div class="p-4 rounded border" style="border-color: var(--border-color); background-color: #f3e8ff;">
+                        <strong>70-85% (Distinction):</strong> Exceptional depth, creativity, very clear communication, ambitious professional development planning
+                    </div>
+                    <div class="p-4 rounded border" style="border-color: var(--border-color); background-color: #dbeafe;">
+                        <strong>60-69% (Merit):</strong> Clear professionalism, well-structured and confident presentation, feasible development plan
+                    </div>
+                    <div class="p-4 rounded border" style="border-color: var(--border-color); background-color: #dcfce7;">
+                        <strong>50-59% (Pass):</strong> Professional characteristics described, coherent structure, clear development plan
+                    </div>
+                    <div class="p-4 rounded border" style="border-color: var(--border-color); background-color: #fef9c3;">
+                        <strong>40-49% (Marginal Pass):</strong> Key characteristics identified, recognizable structure, key features described
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 15: Today's Goal -->
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-4xl font-bold mb-8">Today's Activities</h2>
+                <ul class="space-y-6 text-2xl">
+                    <li class="flex items-start">
+                        <span class="mr-3">1.</span>
+                        <span>Write Section 5: Reflection (300 words)</span>
+                    </li>
+                    <li class="flex items-start">
+                        <span class="mr-3">2.</span>
+                        <span>Run through ALL formatting checks</span>
+                    </li>
+                    <li class="flex items-start">
+                        <span class="mr-3">3.</span>
+                        <span>Proofread your entire report carefully</span>
+                    </li>
+                    <li class="flex items-start">
+                        <span class="mr-3">4.</span>
+                        <span>Check word count (2,000-2,500 total)</span>
+                    </li>
+                    <li class="flex items-start">
+                        <span class="mr-3">5.</span>
+                        <span>Prepare appendices if needed (optional)</span>
+                    </li>
+                    <li class="flex items-start">
+                        <span class="mr-3">6.</span>
+                        <span>Have report ready for final review next week</span>
+                    </li>
+                </ul>
+                <p class="mt-8 text-2xl font-semibold p-4 rounded" style="background-color: var(--bg-secondary);">
+                    Next week: Final checks and submission!
+                </p>
+            </div>
+        </div>
+    </main>
+
+    <footer class="border-t p-4" style="border-color: var(--border-color);">
+        <div class="max-w-7xl mx-auto flex justify-between items-center">
+            <button id="prevBtn" class="px-6 py-2 rounded border font-medium" style="border-color: var(--border-color);" aria-label="Previous slide">
+                ← Previous
+            </button>
+            <span id="slideCounter" class="text-lg" style="color: var(--text-secondary);">1 / 15</span>
+            <button id="nextBtn" class="px-6 py-2 rounded border font-medium" style="border-color: var(--border-color);" aria-label="Next slide">
+                Next →
+            </button>
+        </div>
+    </footer>
+
+    <script>
+        let currentSlide = 0;
+        let isDarkMode = false;
+        let fontSize = 1;
+        const slides = document.querySelectorAll('.slide');
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+        const slideCounter = document.getElementById('slideCounter');
+        const darkModeToggle = document.getElementById('darkModeToggle');
+        const modeIcon = document.getElementById('modeIcon');
+        const increaseFont = document.getElementById('increaseFont');
+        const decreaseFont = document.getElementById('decreaseFont');
+
+        function showSlide(n) {
+            slides[currentSlide].classList.remove('active');
+            currentSlide = (n + slides.length) % slides.length;
+            slides[currentSlide].classList.add('active');
+            slideCounter.textContent = `${currentSlide + 1} / ${slides.length}`;
+            
+            prevBtn.disabled = currentSlide === 0;
+            nextBtn.disabled = currentSlide === slides.length - 1;
+            prevBtn.style.opacity = currentSlide === 0 ? '0.5' : '1';
+            nextBtn.style.opacity = currentSlide === slides.length - 1 ? '0.5' : '1';
+        }
+
+        function nextSlide() {
+            if (currentSlide < slides.length - 1) showSlide(currentSlide + 1);
+        }
+
+        function prevSlide() {
+            if (currentSlide > 0) showSlide(currentSlide - 1);
+        }
+
+        function toggleDarkMode() {
+            isDarkMode = !isDarkMode;
+            document.body.classList.toggle('dark-mode');
+            modeIcon.textContent = isDarkMode ? '☀️' : '🌙';
+        }
+
+        function updateFontSize() {
+            document.documentElement.style.setProperty('--font-size', fontSize);
+        }
+
+        function increaseFontSize() {
+            if (fontSize < 1.5) {
+                fontSize += 0.1;
+                updateFontSize();
+            }
+        }
+
+        function decreaseFontSize() {
+            if (fontSize > 0.7) {
+                fontSize -= 0.1;
+                updateFontSize();
+            }
+        }
+
+        prevBtn.addEventListener('click', prevSlide);
+        nextBtn.addEventListener('click', nextSlide);
+        darkModeToggle.addEventListener('click', toggleDarkMode);
+        increaseFont.addEventListener('click', increaseFontSize);
+        decreaseFont.addEventListener('click', decreaseFontSize);
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight') nextSlide();
+            if (e.key === 'ArrowLeft') prevSlide();
+        });
+
+        showSlide(0);
+    </script>
+</body>
+</html>
