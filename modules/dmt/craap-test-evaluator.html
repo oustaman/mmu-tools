@@ -1,0 +1,658 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CRAAP Test Evaluator</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        :root {
+            --bg-primary: #ffffff;
+            --bg-secondary: #f9fafb;
+            --text-primary: #111827;
+            --text-secondary: #4b5563;
+            --border-color: #e5e7eb;
+            --accent-color: #3b82f6;
+            --font-size: 1;
+        }
+        
+        .dark-mode {
+            --bg-primary: #1f2937;
+            --bg-secondary: #111827;
+            --text-primary: #f9fafb;
+            --text-secondary: #d1d5db;
+            --border-color: #374151;
+            --accent-color: #60a5fa;
+        }
+        
+        html {
+            font-size: calc(var(--font-size) * 16px);
+        }
+        
+        body {
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+        }
+
+        .slider {
+            -webkit-appearance: none;
+            width: 100%;
+            height: 8px;
+            border-radius: 5px;
+            background: var(--border-color);
+            outline: none;
+        }
+
+        .slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: var(--accent-color);
+            cursor: pointer;
+        }
+
+        .slider::-moz-range-thumb {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: var(--accent-color);
+            cursor: pointer;
+            border: none;
+        }
+
+        .score-bar {
+            height: 30px;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+        }
+
+        @media print {
+            .no-print {
+                display: none !important;
+            }
+            body {
+                background: white;
+                color: black;
+            }
+        }
+    </style>
+</head>
+<body class="min-h-screen">
+    <header class="border-b p-4 no-print" style="border-color: var(--border-color);">
+        <div class="max-w-7xl mx-auto flex justify-between items-center">
+            <div>
+                <h1 class="text-2xl font-bold">CRAAP Test Evaluator</h1>
+                <p class="text-sm" style="color: var(--text-secondary);">Session 5 - Digital Media Technologies</p>
+            </div>
+            <div class="flex gap-2">
+                <button id="decreaseFont" class="px-3 py-2 rounded border" style="border-color: var(--border-color);" aria-label="Decrease font size">A-</button>
+                <button id="increaseFont" class="px-3 py-2 rounded border" style="border-color: var(--border-color);" aria-label="Increase font size">A+</button>
+                <button id="darkModeToggle" class="px-4 py-2 rounded border" style="border-color: var(--border-color);" aria-label="Toggle dark mode">
+                    <span id="modeIcon">🌙</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <main class="max-w-6xl mx-auto p-8">
+        <!-- Instructions -->
+        <div class="mb-8 p-6 rounded-lg border" style="border-color: var(--border-color); background-color: var(--bg-secondary);">
+            <h2 class="text-xl font-bold mb-3">📋 How to Use This Tool</h2>
+            <ul class="space-y-2" style="color: var(--text-secondary);">
+                <li>• Enter source details (title, author, year)</li>
+                <li>• Rate each CRAAP criterion using the sliders (1=Poor, 5=Excellent)</li>
+                <li>• Review the auto-generated evaluation summary</li>
+                <li>• Save up to 4 sources and compare them</li>
+                <li>• Use this for <strong>Section 3</strong> of your assignment</li>
+            </ul>
+        </div>
+
+        <!-- Source Details -->
+        <div class="mb-8 p-6 rounded-lg border" style="border-color: var(--border-color); background-color: var(--bg-secondary);">
+            <h2 class="text-2xl font-bold mb-4">Source Information</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                    <label class="block text-sm font-semibold mb-2">Source Title</label>
+                    <input type="text" id="sourceTitle" placeholder="e.g., AI in Graphic Design" class="w-full p-2 rounded border" style="border-color: var(--border-color); background-color: var(--bg-primary);">
+                </div>
+                <div>
+                    <label class="block text-sm font-semibold mb-2">Author(s)</label>
+                    <input type="text" id="sourceAuthor" placeholder="e.g., Smith, J." class="w-full p-2 rounded border" style="border-color: var(--border-color); background-color: var(--bg-primary);">
+                </div>
+                <div>
+                    <label class="block text-sm font-semibold mb-2">Year</label>
+                    <input type="text" id="sourceYear" placeholder="e.g., 2023" class="w-full p-2 rounded border" style="border-color: var(--border-color); background-color: var(--bg-primary);">
+                </div>
+                <div>
+                    <label class="block text-sm font-semibold mb-2">Source Type</label>
+                    <select id="sourceType" class="w-full p-2 rounded border" style="border-color: var(--border-color); background-color: var(--bg-primary);">
+                        <option value="">Select type...</option>
+                        <option value="Journal Article">Journal Article</option>
+                        <option value="Book Chapter">Book Chapter</option>
+                        <option value="Research Report">Research Report</option>
+                        <option value="Conference Paper">Conference Paper</option>
+                        <option value="Website">Website</option>
+                        <option value="Other">Other</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <!-- CRAAP Criteria Evaluation -->
+        <div class="mb-8 space-y-6">
+            <!-- Currency -->
+            <div class="p-6 rounded-lg border" style="border-color: var(--border-color); background-color: var(--bg-secondary);">
+                <div class="flex justify-between items-center mb-3">
+                    <h3 class="text-xl font-bold" style="color: var(--accent-color);">📅 Currency - Timeliness</h3>
+                    <span id="currencyValue" class="text-2xl font-bold">3</span>
+                </div>
+                <input type="range" min="1" max="5" value="3" class="slider" id="currencySlider">
+                <div class="flex justify-between text-sm mt-2" style="color: var(--text-secondary);">
+                    <span>1 - Outdated</span>
+                    <span>5 - Very Current</span>
+                </div>
+                <div class="mt-3">
+                    <label class="block text-sm font-semibold mb-2">Notes (optional)</label>
+                    <textarea id="currencyNotes" rows="2" placeholder="When was it published? Is it current enough for your topic?" class="w-full p-2 rounded border text-sm" style="border-color: var(--border-color); background-color: var(--bg-primary);"></textarea>
+                </div>
+            </div>
+
+            <!-- Relevance -->
+            <div class="p-6 rounded-lg border" style="border-color: var(--border-color); background-color: var(--bg-secondary);">
+                <div class="flex justify-between items-center mb-3">
+                    <h3 class="text-xl font-bold" style="color: var(--accent-color);">🎯 Relevance - Importance to Your Needs</h3>
+                    <span id="relevanceValue" class="text-2xl font-bold">3</span>
+                </div>
+                <input type="range" min="1" max="5" value="3" class="slider" id="relevanceSlider">
+                <div class="flex justify-between text-sm mt-2" style="color: var(--text-secondary);">
+                    <span>1 - Not Relevant</span>
+                    <span>5 - Highly Relevant</span>
+                </div>
+                <div class="mt-3">
+                    <label class="block text-sm font-semibold mb-2">Notes (optional)</label>
+                    <textarea id="relevanceNotes" rows="2" placeholder="How directly does it address your research question?" class="w-full p-2 rounded border text-sm" style="border-color: var(--border-color); background-color: var(--bg-primary);"></textarea>
+                </div>
+            </div>
+
+            <!-- Authority -->
+            <div class="p-6 rounded-lg border" style="border-color: var(--border-color); background-color: var(--bg-secondary);">
+                <div class="flex justify-between items-center mb-3">
+                    <h3 class="text-xl font-bold" style="color: var(--accent-color);">👤 Authority - Source Credibility</h3>
+                    <span id="authorityValue" class="text-2xl font-bold">3</span>
+                </div>
+                <input type="range" min="1" max="5" value="3" class="slider" id="authoritySlider">
+                <div class="flex justify-between text-sm mt-2" style="color: var(--text-secondary);">
+                    <span>1 - Unknown/Weak</span>
+                    <span>5 - Highly Credible</span>
+                </div>
+                <div class="mt-3">
+                    <label class="block text-sm font-semibold mb-2">Notes (optional)</label>
+                    <textarea id="authorityNotes" rows="2" placeholder="Who's the author? What are their credentials? Is it peer-reviewed?" class="w-full p-2 rounded border text-sm" style="border-color: var(--border-color); background-color: var(--bg-primary);"></textarea>
+                </div>
+            </div>
+
+            <!-- Accuracy -->
+            <div class="p-6 rounded-lg border" style="border-color: var(--border-color); background-color: var(--bg-secondary);">
+                <div class="flex justify-between items-center mb-3">
+                    <h3 class="text-xl font-bold" style="color: var(--accent-color);">✓ Accuracy - Reliability & Correctness</h3>
+                    <span id="accuracyValue" class="text-2xl font-bold">3</span>
+                </div>
+                <input type="range" min="1" max="5" value="3" class="slider" id="accuracySlider">
+                <div class="flex justify-between text-sm mt-2" style="color: var(--text-secondary);">
+                    <span>1 - Unreliable</span>
+                    <span>5 - Very Accurate</span>
+                </div>
+                <div class="mt-3">
+                    <label class="block text-sm font-semibold mb-2">Notes (optional)</label>
+                    <textarea id="accuracyNotes" rows="2" placeholder="Is evidence provided? Are there citations? Can you verify the information?" class="w-full p-2 rounded border text-sm" style="border-color: var(--border-color); background-color: var(--bg-primary);"></textarea>
+                </div>
+            </div>
+
+            <!-- Purpose -->
+            <div class="p-6 rounded-lg border" style="border-color: var(--border-color); background-color: var(--bg-secondary);">
+                <div class="flex justify-between items-center mb-3">
+                    <h3 class="text-xl font-bold" style="color: var(--accent-color);">🎭 Purpose - Reason for Existing</h3>
+                    <span id="purposeValue" class="text-2xl font-bold">3</span>
+                </div>
+                <input type="range" min="1" max="5" value="3" class="slider" id="purposeSlider">
+                <div class="flex justify-between text-sm mt-2" style="color: var(--text-secondary);">
+                    <span>1 - Biased/Commercial</span>
+                    <span>5 - Objective/Educational</span>
+                </div>
+                <div class="mt-3">
+                    <label class="block text-sm font-semibold mb-2">Notes (optional)</label>
+                    <textarea id="purposeNotes" rows="2" placeholder="Why was this created? Any conflicts of interest? Is it objective?" class="w-full p-2 rounded border text-sm" style="border-color: var(--border-color); background-color: var(--bg-primary);"></textarea>
+                </div>
+            </div>
+        </div>
+
+        <!-- Overall Score & Visual -->
+        <div class="mb-8 p-6 rounded-lg border" style="border-color: var(--border-color); background-color: var(--bg-secondary);">
+            <h2 class="text-2xl font-bold mb-4">Overall Assessment</h2>
+            <div class="mb-6">
+                <div class="flex justify-between items-center mb-2">
+                    <span class="text-xl font-semibold">Total Score:</span>
+                    <span id="totalScore" class="text-3xl font-bold" style="color: var(--accent-color);">15 / 25</span>
+                </div>
+                <div class="w-full bg-gray-200 rounded-full h-8 dark:bg-gray-700">
+                    <div id="totalScoreBar" class="score-bar h-8 rounded-full flex items-center justify-center text-white font-semibold" style="width: 60%; background-color: var(--accent-color);">
+                        60%
+                    </div>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-5 gap-3 mb-6">
+                <div class="text-center">
+                    <div class="text-sm font-semibold mb-2">Currency</div>
+                    <div id="currencyBar" class="score-bar mx-auto" style="width: 100%; background-color: #3b82f6;"></div>
+                    <div id="currencyScore" class="text-sm mt-1" style="color: var(--text-secondary);">3/5</div>
+                </div>
+                <div class="text-center">
+                    <div class="text-sm font-semibold mb-2">Relevance</div>
+                    <div id="relevanceBar" class="score-bar mx-auto" style="width: 100%; background-color: #3b82f6;"></div>
+                    <div id="relevanceScore" class="text-sm mt-1" style="color: var(--text-secondary);">3/5</div>
+                </div>
+                <div class="text-center">
+                    <div class="text-sm font-semibold mb-2">Authority</div>
+                    <div id="authorityBar" class="score-bar mx-auto" style="width: 100%; background-color: #3b82f6;"></div>
+                    <div id="authorityScore" class="text-sm mt-1" style="color: var(--text-secondary);">3/5</div>
+                </div>
+                <div class="text-center">
+                    <div class="text-sm font-semibold mb-2">Accuracy</div>
+                    <div id="accuracyBar" class="score-bar mx-auto" style="width: 100%; background-color: #3b82f6;"></div>
+                    <div id="accuracyScore" class="text-sm mt-1" style="color: var(--text-secondary);">3/5</div>
+                </div>
+                <div class="text-center">
+                    <div class="text-sm font-semibold mb-2">Purpose</div>
+                    <div id="purposeBar" class="score-bar mx-auto" style="width: 100%; background-color: #3b82f6;"></div>
+                    <div id="purposeScore" class="text-sm mt-1" style="color: var(--text-secondary);">3/5</div>
+                </div>
+            </div>
+
+            <div id="recommendation" class="p-4 rounded-lg text-center text-lg font-semibold"></div>
+        </div>
+
+        <!-- Auto-Generated Evaluation -->
+        <div class="mb-8 p-6 rounded-lg border" style="border-color: var(--border-color); background-color: var(--bg-secondary);">
+            <h2 class="text-2xl font-bold mb-4">Auto-Generated Evaluation Summary</h2>
+            <div id="evaluationText" class="prose max-w-none" style="color: var(--text-primary);"></div>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="flex gap-4 mb-8 no-print justify-center flex-wrap">
+            <button id="saveBtn" class="px-8 py-3 rounded font-semibold text-white" style="background-color: var(--accent-color);">
+                💾 Save Source
+            </button>
+            <button id="clearBtn" class="px-6 py-3 rounded border font-semibold" style="border-color: var(--border-color);">
+                🔄 Clear & Start New
+            </button>
+            <button id="compareBtn" class="px-6 py-3 rounded border font-semibold" style="border-color: var(--border-color);">
+                📊 Compare Saved Sources
+            </button>
+            <button id="printBtn" class="px-6 py-3 rounded border font-semibold" style="border-color: var(--border-color);">
+                🖨️ Print/Save
+            </button>
+        </div>
+
+        <!-- Saved Sources -->
+        <div id="savedSourcesSection" class="hidden mb-8">
+            <h2 class="text-2xl font-bold mb-4">Saved Sources (<span id="savedCount">0</span>/4)</h2>
+            <div id="savedSourcesList" class="grid grid-cols-1 md:grid-cols-2 gap-4"></div>
+        </div>
+
+        <!-- Comparison View -->
+        <div id="comparisonSection" class="hidden">
+            <div class="mb-4 p-4 rounded-lg" style="background-color: #dbeafe;">
+                <h2 class="text-2xl font-bold mb-2" style="color: #1e40af;">📊 Source Comparison</h2>
+                <p style="color: #1e40af;">Compare your evaluated sources side-by-side</p>
+            </div>
+            <div id="comparisonTable" class="overflow-x-auto"></div>
+        </div>
+    </main>
+
+    <script>
+        let isDarkMode = false;
+        let fontSize = 1;
+        let savedSources = [];
+
+        // Dark mode toggle
+        document.getElementById('darkModeToggle').addEventListener('click', () => {
+            isDarkMode = !isDarkMode;
+            document.body.classList.toggle('dark-mode');
+            document.getElementById('modeIcon').textContent = isDarkMode ? '☀️' : '🌙';
+        });
+
+        // Font size controls
+        document.getElementById('increaseFont').addEventListener('click', () => {
+            if (fontSize < 1.5) {
+                fontSize += 0.1;
+                document.documentElement.style.setProperty('--font-size', fontSize);
+            }
+        });
+
+        document.getElementById('decreaseFont').addEventListener('click', () => {
+            if (fontSize > 0.7) {
+                fontSize -= 0.1;
+                document.documentElement.style.setProperty('--font-size', fontSize);
+            }
+        });
+
+        // Slider interactions
+        const sliders = {
+            currency: document.getElementById('currencySlider'),
+            relevance: document.getElementById('relevanceSlider'),
+            authority: document.getElementById('authoritySlider'),
+            accuracy: document.getElementById('accuracySlider'),
+            purpose: document.getElementById('purposeSlider')
+        };
+
+        Object.keys(sliders).forEach(key => {
+            sliders[key].addEventListener('input', (e) => {
+                document.getElementById(`${key}Value`).textContent = e.target.value;
+                updateScores();
+            });
+        });
+
+        function updateScores() {
+            const scores = {
+                currency: parseInt(sliders.currency.value),
+                relevance: parseInt(sliders.relevance.value),
+                authority: parseInt(sliders.authority.value),
+                accuracy: parseInt(sliders.accuracy.value),
+                purpose: parseInt(sliders.purpose.value)
+            };
+
+            const total = Object.values(scores).reduce((a, b) => a + b, 0);
+            const percentage = (total / 25) * 100;
+
+            // Update total score
+            document.getElementById('totalScore').textContent = `${total} / 25`;
+            document.getElementById('totalScoreBar').style.width = percentage + '%';
+            document.getElementById('totalScoreBar').textContent = Math.round(percentage) + '%';
+
+            // Update individual bars
+            Object.keys(scores).forEach(key => {
+                const bar = document.getElementById(`${key}Bar`);
+                const scoreText = document.getElementById(`${key}Score`);
+                const barPercentage = (scores[key] / 5) * 100;
+                
+                bar.style.height = (scores[key] * 6) + 'px';
+                bar.style.backgroundColor = getColorForScore(scores[key]);
+                scoreText.textContent = `${scores[key]}/5`;
+            });
+
+            // Update recommendation
+            const recommendation = document.getElementById('recommendation');
+            if (percentage >= 80) {
+                recommendation.textContent = '✅ Excellent Source - Highly Recommended';
+                recommendation.style.backgroundColor = '#dcfce7';
+                recommendation.style.color = '#166534';
+            } else if (percentage >= 60) {
+                recommendation.textContent = '✓ Good Source - Acceptable for Use';
+                recommendation.style.backgroundColor = '#dbeafe';
+                recommendation.style.color = '#1e40af';
+            } else if (percentage >= 40) {
+                recommendation.textContent = '⚠️ Moderate Quality - Use with Caution';
+                recommendation.style.backgroundColor = '#fef9c3';
+                recommendation.style.color = '#854d0e';
+            } else {
+                recommendation.textContent = '❌ Weak Source - Consider Rejecting';
+                recommendation.style.backgroundColor = '#fee2e2';
+                recommendation.style.color = '#991b1b';
+            }
+
+            // Generate evaluation text
+            generateEvaluationText(scores);
+        }
+
+        function getColorForScore(score) {
+            if (score >= 4) return '#22c55e'; // green
+            if (score >= 3) return '#3b82f6'; // blue
+            if (score >= 2) return '#f59e0b'; // orange
+            return '#ef4444'; // red
+        }
+
+        function generateEvaluationText(scores) {
+            const title = document.getElementById('sourceTitle').value || 'This source';
+            const author = document.getElementById('sourceAuthor').value;
+            const year = document.getElementById('sourceYear').value;
+            
+            const currencyText = getScoreText('currency', scores.currency);
+            const relevanceText = getScoreText('relevance', scores.relevance);
+            const authorityText = getScoreText('authority', scores.authority);
+            const accuracyText = getScoreText('accuracy', scores.accuracy);
+            const purposeText = getScoreText('purpose', scores.purpose);
+
+            let text = `<p><strong>${title}</strong>`;
+            if (author) text += ` by ${author}`;
+            if (year) text += ` (${year})`;
+            text += ` has been evaluated using the CRAAP test:</p>`;
+
+            text += `<p><strong>Currency:</strong> ${currencyText}</p>`;
+            text += `<p><strong>Relevance:</strong> ${relevanceText}</p>`;
+            text += `<p><strong>Authority:</strong> ${authorityText}</p>`;
+            text += `<p><strong>Accuracy:</strong> ${accuracyText}</p>`;
+            text += `<p><strong>Purpose:</strong> ${purposeText}</p>`;
+
+            const total = Object.values(scores).reduce((a, b) => a + b, 0);
+            const percentage = (total / 25) * 100;
+
+            text += `<p class="mt-4 font-semibold">Overall, this source scores ${total}/25 (${Math.round(percentage)}%), `;
+            if (percentage >= 80) {
+                text += 'indicating it is an excellent, highly credible source appropriate for academic research.</p>';
+            } else if (percentage >= 60) {
+                text += 'indicating it is a good quality source that can be used in academic work.</p>';
+            } else if (percentage >= 40) {
+                text += 'suggesting moderate quality that should be used with caution and supplemented with stronger sources.</p>';
+            } else {
+                text += 'indicating significant weaknesses that make it unsuitable for academic use.</p>';
+            }
+
+            document.getElementById('evaluationText').innerHTML = text;
+        }
+
+        function getScoreText(criterion, score) {
+            const texts = {
+                currency: {
+                    5: 'The source is very current and up-to-date, published recently and highly relevant for time-sensitive topics.',
+                    4: 'The source is current with recent publication date, appropriate for most research needs.',
+                    3: 'The source has moderate currency, published within an acceptable timeframe.',
+                    2: 'The source is somewhat dated, which may limit its applicability to current research.',
+                    1: 'The source is outdated and may contain obsolete information.'
+                },
+                relevance: {
+                    5: 'The source is highly relevant, directly addressing the research question with appropriate depth and scope.',
+                    4: 'The source is clearly relevant with good alignment to the research needs.',
+                    3: 'The source has moderate relevance, touching on key aspects of the research topic.',
+                    2: 'The source is tangentially relevant with limited direct application.',
+                    1: 'The source is not relevant to the research question.'
+                },
+                authority: {
+                    5: 'The source demonstrates excellent authority with credentialed authors, institutional backing, and peer review.',
+                    4: 'The source shows strong authority with qualified authors and reputable publication.',
+                    3: 'The source has moderate authority with identifiable authors and reasonable credentials.',
+                    2: 'The source has questionable authority with unclear credentials or unknown authors.',
+                    1: 'The source lacks authority with no identifiable credentials or expertise.'
+                },
+                accuracy: {
+                    5: 'The source is highly accurate with comprehensive evidence, citations, and verifiable information.',
+                    4: 'The source demonstrates good accuracy with clear evidence and proper documentation.',
+                    3: 'The source shows moderate accuracy with some supporting evidence.',
+                    2: 'The source has limited accuracy with sparse evidence or questionable claims.',
+                    1: 'The source is unreliable with unsubstantiated claims or obvious errors.'
+                },
+                purpose: {
+                    5: 'The source has an objective, educational purpose with no apparent bias or commercial interest.',
+                    4: 'The source is primarily educational with minimal bias.',
+                    3: 'The source has a mixed purpose with some bias but useful information.',
+                    2: 'The source shows significant bias or commercial intent that affects objectivity.',
+                    1: 'The source is clearly biased, promotional, or created for commercial purposes.'
+                }
+            };
+            return texts[criterion][score];
+        }
+
+        // Save source
+        document.getElementById('saveBtn').addEventListener('click', () => {
+            if (savedSources.length >= 4) {
+                alert('You can only save up to 4 sources. Delete one to add another.');
+                return;
+            }
+
+            const sourceData = {
+                title: document.getElementById('sourceTitle').value || 'Untitled Source',
+                author: document.getElementById('sourceAuthor').value,
+                year: document.getElementById('sourceYear').value,
+                type: document.getElementById('sourceType').value,
+                scores: {
+                    currency: parseInt(sliders.currency.value),
+                    relevance: parseInt(sliders.relevance.value),
+                    authority: parseInt(sliders.authority.value),
+                    accuracy: parseInt(sliders.accuracy.value),
+                    purpose: parseInt(sliders.purpose.value)
+                },
+                notes: {
+                    currency: document.getElementById('currencyNotes').value,
+                    relevance: document.getElementById('relevanceNotes').value,
+                    authority: document.getElementById('authorityNotes').value,
+                    accuracy: document.getElementById('accuracyNotes').value,
+                    purpose: document.getElementById('purposeNotes').value
+                },
+                evaluation: document.getElementById('evaluationText').innerHTML
+            };
+
+            savedSources.push(sourceData);
+            updateSavedSourcesList();
+            alert(`"${sourceData.title}" has been saved!`);
+        });
+
+        // Clear form
+        document.getElementById('clearBtn').addEventListener('click', () => {
+            if (confirm('Clear all fields and start evaluating a new source?')) {
+                document.querySelectorAll('input[type="text"], textarea, select').forEach(el => el.value = '');
+                Object.values(sliders).forEach(slider => slider.value = 3);
+                updateScores();
+            }
+        });
+
+        // Compare sources
+        document.getElementById('compareBtn').addEventListener('click', () => {
+            if (savedSources.length < 2) {
+                alert('Save at least 2 sources to compare them.');
+                return;
+            }
+            generateComparison();
+            document.getElementById('comparisonSection').classList.remove('hidden');
+            document.getElementById('comparisonSection').scrollIntoView({ behavior: 'smooth' });
+        });
+
+        // Print
+        document.getElementById('printBtn').addEventListener('click', () => {
+            window.print();
+        });
+
+        function updateSavedSourcesList() {
+            const section = document.getElementById('savedSourcesSection');
+            const list = document.getElementById('savedSourcesList');
+            const count = document.getElementById('savedCount');
+
+            count.textContent = savedSources.length;
+            section.classList.remove('hidden');
+
+            list.innerHTML = savedSources.map((source, index) => {
+                const total = Object.values(source.scores).reduce((a, b) => a + b, 0);
+                const percentage = (total / 25) * 100;
+                return `
+                    <div class="p-4 rounded-lg border" style="border-color: var(--border-color); background-color: var(--bg-secondary);">
+                        <div class="flex justify-between items-start mb-2">
+                            <div class="flex-1">
+                                <h3 class="font-bold">${source.title}</h3>
+                                ${source.author ? `<p class="text-sm" style="color: var(--text-secondary);">${source.author}</p>` : ''}
+                                ${source.year ? `<p class="text-sm" style="color: var(--text-secondary);">${source.year}</p>` : ''}
+                            </div>
+                            <button onclick="deleteSource(${index})" class="px-3 py-1 rounded text-sm" style="background-color: #fee2e2; color: #991b1b;">Delete</button>
+                        </div>
+                        <div class="text-sm mb-2">
+                            <strong>Score:</strong> ${total}/25 (${Math.round(percentage)}%)
+                        </div>
+                        <div class="flex gap-2 text-xs">
+                            <span>C: ${source.scores.currency}</span>
+                            <span>R: ${source.scores.relevance}</span>
+                            <span>A: ${source.scores.authority}</span>
+                            <span>Ac: ${source.scores.accuracy}</span>
+                            <span>P: ${source.scores.purpose}</span>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function deleteSource(index) {
+            if (confirm('Delete this source?')) {
+                savedSources.splice(index, 1);
+                updateSavedSourcesList();
+                if (savedSources.length === 0) {
+                    document.getElementById('savedSourcesSection').classList.add('hidden');
+                }
+            }
+        }
+
+        function generateComparison() {
+            let tableHTML = `
+                <table class="w-full border-collapse text-sm">
+                    <thead>
+                        <tr style="background-color: var(--accent-color); color: white;">
+                            <th class="border p-3 text-left" style="border-color: var(--border-color);">Criteria</th>
+            `;
+
+            savedSources.forEach(source => {
+                tableHTML += `<th class="border p-3 text-left" style="border-color: var(--border-color);">${source.title}</th>`;
+            });
+
+            tableHTML += `</tr></thead><tbody>`;
+
+            // Add rows for each criterion
+            const criteria = ['currency', 'relevance', 'authority', 'accuracy', 'purpose'];
+            const criteriaLabels = {
+                currency: 'Currency',
+                relevance: 'Relevance',
+                authority: 'Authority',
+                accuracy: 'Accuracy',
+                purpose: 'Purpose'
+            };
+
+            criteria.forEach(criterion => {
+                tableHTML += `<tr>
+                    <td class="border p-3 font-semibold" style="border-color: var(--border-color); background-color: var(--bg-secondary);">${criteriaLabels[criterion]}</td>`;
+                
+                savedSources.forEach(source => {
+                    const score = source.scores[criterion];
+                    const color = getColorForScore(score);
+                    tableHTML += `<td class="border p-3 text-center font-bold" style="border-color: var(--border-color); color: ${color};">${score}/5</td>`;
+                });
+
+                tableHTML += `</tr>`;
+            });
+
+            // Add total row
+            tableHTML += `<tr style="background-color: var(--bg-secondary);">
+                <td class="border p-3 font-bold" style="border-color: var(--border-color);">Total Score</td>`;
+            
+            savedSources.forEach(source => {
+                const total = Object.values(source.scores).reduce((a, b) => a + b, 0);
+                const percentage = (total / 25) * 100;
+                tableHTML += `<td class="border p-3 text-center font-bold" style="border-color: var(--border-color);">${total}/25 (${Math.round(percentage)}%)</td>`;
+            });
+
+            tableHTML += `</tr></tbody></table>`;
+
+            document.getElementById('comparisonTable').innerHTML = tableHTML;
+        }
+
+        // Initialize
+        updateScores();
+    </script>
+</body>
+</html>

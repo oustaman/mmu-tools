@@ -1,0 +1,596 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Database Comparison Tool</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        :root {
+            --bg-primary: #ffffff;
+            --bg-secondary: #f9fafb;
+            --text-primary: #111827;
+            --text-secondary: #4b5563;
+            --border-color: #e5e7eb;
+            --accent-color: #3b82f6;
+            --font-size: 1;
+        }
+        
+        .dark-mode {
+            --bg-primary: #1f2937;
+            --bg-secondary: #111827;
+            --text-primary: #f9fafb;
+            --text-secondary: #d1d5db;
+            --border-color: #374151;
+            --accent-color: #60a5fa;
+        }
+        
+        html {
+            font-size: calc(var(--font-size) * 16px);
+        }
+        
+        body {
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+        }
+        
+        .database-card {
+            transition: all 0.3s ease;
+        }
+        
+        .database-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        @media print {
+            .no-print {
+                display: none !important;
+            }
+            body {
+                background: white;
+                color: black;
+            }
+        }
+    </style>
+</head>
+<body class="min-h-screen">
+    <header class="border-b p-4 no-print" style="border-color: var(--border-color);">
+        <div class="max-w-7xl mx-auto flex justify-between items-center">
+            <div>
+                <h1 class="text-2xl font-bold">Database Comparison Tool</h1>
+                <p class="text-sm" style="color: var(--text-secondary);">Session 3 - Digital Media Technologies</p>
+            </div>
+            <div class="flex gap-2">
+                <button id="decreaseFont" class="px-3 py-2 rounded border" style="border-color: var(--border-color);" aria-label="Decrease font size">A-</button>
+                <button id="increaseFont" class="px-3 py-2 rounded border" style="border-color: var(--border-color);" aria-label="Increase font size">A+</button>
+                <button id="darkModeToggle" class="px-4 py-2 rounded border" style="border-color: var(--border-color);" aria-label="Toggle dark mode">
+                    <span id="modeIcon">🌙</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <main class="max-w-7xl mx-auto p-8">
+        <!-- Instructions -->
+        <div class="mb-8 p-6 rounded-lg border" style="border-color: var(--border-color); background-color: var(--bg-secondary);">
+            <h2 class="text-xl font-bold mb-3">📋 Instructions</h2>
+            <ul class="space-y-2" style="color: var(--text-secondary);">
+                <li>• Select 3 academic databases you explored today (or type your own)</li>
+                <li>• Fill in the comparison criteria for each database</li>
+                <li>• Use this information for <strong>Section 2</strong> of your assignment</li>
+                <li>• Click "Generate Comparison" to see your results</li>
+                <li>• Save or print your comparison for your records</li>
+            </ul>
+        </div>
+
+        <!-- Database Selection and Forms -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+            <!-- Database 1 -->
+            <div class="database-card p-6 rounded-lg border" style="border-color: var(--border-color); background-color: var(--bg-secondary);">
+                <h3 class="text-xl font-bold mb-4" style="color: var(--accent-color);">Database 1</h3>
+                
+                <div class="space-y-4">
+                    <div>
+                        <label class="block text-sm font-semibold mb-2">Database Name</label>
+                        <select id="db1-name" class="w-full p-2 rounded border" style="border-color: var(--border-color); background-color: var(--bg-primary);">
+                            <option value="">Select or type your own...</option>
+                            <optgroup label="Multidisciplinary">
+                                <option value="Academic Search Complete">Academic Search Complete (EBSCO)</option>
+                                <option value="ProQuest Central">ProQuest Central</option>
+                                <option value="Web of Science">Web of Science</option>
+                                <option value="Scopus">Scopus</option>
+                                <option value="JSTOR">JSTOR</option>
+                                <option value="Google Scholar">Google Scholar</option>
+                            </optgroup>
+                            <optgroup label="Arts & Humanities">
+                                <option value="Art & Architecture Complete">Art & Architecture Complete</option>
+                                <option value="Arts & Humanities Citation Index">Arts & Humanities Citation Index</option>
+                                <option value="MLA International Bibliography">MLA International Bibliography</option>
+                                <option value="Project MUSE">Project MUSE</option>
+                            </optgroup>
+                            <optgroup label="Technology & Engineering">
+                                <option value="IEEE Xplore">IEEE Xplore</option>
+                                <option value="ACM Digital Library">ACM Digital Library</option>
+                                <option value="Compendex">Compendex (Engineering Village)</option>
+                                <option value="Inspec">Inspec</option>
+                            </optgroup>
+                            <optgroup label="Social Sciences">
+                                <option value="PsycINFO">PsycINFO</option>
+                                <option value="Sociological Abstracts">Sociological Abstracts</option>
+                                <option value="Social Sciences Citation Index">Social Sciences Citation Index</option>
+                            </optgroup>
+                            <optgroup label="Business & Management">
+                                <option value="Business Source Complete">Business Source Complete</option>
+                                <option value="Emerald Insight">Emerald Insight</option>
+                                <option value="ABI/INFORM">ABI/INFORM</option>
+                            </optgroup>
+                            <optgroup label="Science & Medicine">
+                                <option value="PubMed">PubMed</option>
+                                <option value="Science Citation Index">Science Citation Index</option>
+                                <option value="CINAHL">CINAHL (Nursing & Health)</option>
+                            </optgroup>
+                            <optgroup label="Media & Communications">
+                                <option value="Communication & Mass Media Complete">Communication & Mass Media Complete</option>
+                                <option value="Film & Television Literature Index">Film & Television Literature Index</option>
+                            </optgroup>
+                            <option value="custom">📝 Type my own database</option>
+                        </select>
+                        <input type="text" id="db1-name-custom" placeholder="Enter database name here" class="w-full p-2 rounded border mt-2 hidden" style="border-color: var(--border-color); background-color: var(--bg-primary);">
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-semibold mb-2">Subject Coverage</label>
+                        <textarea id="db1-coverage" rows="2" placeholder="What subjects does it cover?" class="w-full p-2 rounded border" style="border-color: var(--border-color); background-color: var(--bg-primary);"></textarea>
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-semibold mb-2">Number of Results</label>
+                        <input type="text" id="db1-results" placeholder="e.g., 8,500" class="w-full p-2 rounded border" style="border-color: var(--border-color); background-color: var(--bg-primary);">
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-semibold mb-2">Full-Text Availability</label>
+                        <select id="db1-fulltext" class="w-full p-2 rounded border" style="border-color: var(--border-color); background-color: var(--bg-primary);">
+                            <option value="">Select...</option>
+                            <option value="Excellent - Most articles available immediately">Excellent - Most articles available immediately</option>
+                            <option value="Good - Many articles available">Good - Many articles available</option>
+                            <option value="Limited - Some articles available">Limited - Some articles available</option>
+                            <option value="Poor - Few articles available, mostly abstracts">Poor - Few articles available, mostly abstracts</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-semibold mb-2">Key Features</label>
+                        <textarea id="db1-features" rows="3" placeholder="e.g., Advanced filters, citation tracking, export options..." class="w-full p-2 rounded border" style="border-color: var(--border-color); background-color: var(--bg-primary);"></textarea>
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-semibold mb-2">Strengths</label>
+                        <textarea id="db1-strengths" rows="2" placeholder="What worked well?" class="w-full p-2 rounded border" style="border-color: var(--border-color); background-color: var(--bg-primary);"></textarea>
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-semibold mb-2">Limitations</label>
+                        <textarea id="db1-limitations" rows="2" placeholder="What were the drawbacks?" class="w-full p-2 rounded border" style="border-color: var(--border-color); background-color: var(--bg-primary);"></textarea>
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-semibold mb-2">Relevance to Your Topic</label>
+                        <select id="db1-relevance" class="w-full p-2 rounded border" style="border-color: var(--border-color); background-color: var(--bg-primary);">
+                            <option value="">Select...</option>
+                            <option value="High - Very relevant, high-quality results">High - Very relevant, high-quality results</option>
+                            <option value="Medium - Some relevant results">Medium - Some relevant results</option>
+                            <option value="Low - Few relevant results">Low - Few relevant results</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Database 2 -->
+            <div class="database-card p-6 rounded-lg border" style="border-color: var(--border-color); background-color: var(--bg-secondary);">
+                <h3 class="text-xl font-bold mb-4" style="color: var(--accent-color);">Database 2</h3>
+                
+                <div class="space-y-4">
+                    <div>
+                        <label class="block text-sm font-semibold mb-2">Database Name</label>
+                        <select id="db2-name" class="w-full p-2 rounded border" style="border-color: var(--border-color); background-color: var(--bg-primary);">
+                            <option value="">Select or type your own...</option>
+                            <optgroup label="Multidisciplinary">
+                                <option value="Academic Search Complete">Academic Search Complete (EBSCO)</option>
+                                <option value="ProQuest Central">ProQuest Central</option>
+                                <option value="Web of Science">Web of Science</option>
+                                <option value="Scopus">Scopus</option>
+                                <option value="JSTOR">JSTOR</option>
+                                <option value="Google Scholar">Google Scholar</option>
+                            </optgroup>
+                            <optgroup label="Arts & Humanities">
+                                <option value="Art & Architecture Complete">Art & Architecture Complete</option>
+                                <option value="Arts & Humanities Citation Index">Arts & Humanities Citation Index</option>
+                                <option value="MLA International Bibliography">MLA International Bibliography</option>
+                                <option value="Project MUSE">Project MUSE</option>
+                            </optgroup>
+                            <optgroup label="Technology & Engineering">
+                                <option value="IEEE Xplore">IEEE Xplore</option>
+                                <option value="ACM Digital Library">ACM Digital Library</option>
+                                <option value="Compendex">Compendex (Engineering Village)</option>
+                                <option value="Inspec">Inspec</option>
+                            </optgroup>
+                            <optgroup label="Social Sciences">
+                                <option value="PsycINFO">PsycINFO</option>
+                                <option value="Sociological Abstracts">Sociological Abstracts</option>
+                                <option value="Social Sciences Citation Index">Social Sciences Citation Index</option>
+                            </optgroup>
+                            <optgroup label="Business & Management">
+                                <option value="Business Source Complete">Business Source Complete</option>
+                                <option value="Emerald Insight">Emerald Insight</option>
+                                <option value="ABI/INFORM">ABI/INFORM</option>
+                            </optgroup>
+                            <optgroup label="Science & Medicine">
+                                <option value="PubMed">PubMed</option>
+                                <option value="Science Citation Index">Science Citation Index</option>
+                                <option value="CINAHL">CINAHL (Nursing & Health)</option>
+                            </optgroup>
+                            <optgroup label="Media & Communications">
+                                <option value="Communication & Mass Media Complete">Communication & Mass Media Complete</option>
+                                <option value="Film & Television Literature Index">Film & Television Literature Index</option>
+                            </optgroup>
+                            <option value="custom">📝 Type my own database</option>
+                        </select>
+                        <input type="text" id="db2-name-custom" placeholder="Enter database name here" class="w-full p-2 rounded border mt-2 hidden" style="border-color: var(--border-color); background-color: var(--bg-primary);">
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-semibold mb-2">Subject Coverage</label>
+                        <textarea id="db2-coverage" rows="2" placeholder="What subjects does it cover?" class="w-full p-2 rounded border" style="border-color: var(--border-color); background-color: var(--bg-primary);"></textarea>
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-semibold mb-2">Number of Results</label>
+                        <input type="text" id="db2-results" placeholder="e.g., 342" class="w-full p-2 rounded border" style="border-color: var(--border-color); background-color: var(--bg-primary);">
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-semibold mb-2">Full-Text Availability</label>
+                        <select id="db2-fulltext" class="w-full p-2 rounded border" style="border-color: var(--border-color); background-color: var(--bg-primary);">
+                            <option value="">Select...</option>
+                            <option value="Excellent - Most articles available immediately">Excellent - Most articles available immediately</option>
+                            <option value="Good - Many articles available">Good - Many articles available</option>
+                            <option value="Limited - Some articles available">Limited - Some articles available</option>
+                            <option value="Poor - Few articles available, mostly abstracts">Poor - Few articles available, mostly abstracts</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-semibold mb-2">Key Features</label>
+                        <textarea id="db2-features" rows="3" placeholder="e.g., Advanced filters, citation tracking, export options..." class="w-full p-2 rounded border" style="border-color: var(--border-color); background-color: var(--bg-primary);"></textarea>
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-semibold mb-2">Strengths</label>
+                        <textarea id="db2-strengths" rows="2" placeholder="What worked well?" class="w-full p-2 rounded border" style="border-color: var(--border-color); background-color: var(--bg-primary);"></textarea>
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-semibold mb-2">Limitations</label>
+                        <textarea id="db2-limitations" rows="2" placeholder="What were the drawbacks?" class="w-full p-2 rounded border" style="border-color: var(--border-color); background-color: var(--bg-primary);"></textarea>
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-semibold mb-2">Relevance to Your Topic</label>
+                        <select id="db2-relevance" class="w-full p-2 rounded border" style="border-color: var(--border-color); background-color: var(--bg-primary);">
+                            <option value="">Select...</option>
+                            <option value="High - Very relevant, high-quality results">High - Very relevant, high-quality results</option>
+                            <option value="Medium - Some relevant results">Medium - Some relevant results</option>
+                            <option value="Low - Few relevant results">Low - Few relevant results</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Database 3 -->
+            <div class="database-card p-6 rounded-lg border" style="border-color: var(--border-color); background-color: var(--bg-secondary);">
+                <h3 class="text-xl font-bold mb-4" style="color: var(--accent-color);">Database 3</h3>
+                
+                <div class="space-y-4">
+                    <div>
+                        <label class="block text-sm font-semibold mb-2">Database Name</label>
+                        <select id="db3-name" class="w-full p-2 rounded border" style="border-color: var(--border-color); background-color: var(--bg-primary);">
+                            <option value="">Select or type your own...</option>
+                            <optgroup label="Multidisciplinary">
+                                <option value="Academic Search Complete">Academic Search Complete (EBSCO)</option>
+                                <option value="ProQuest Central">ProQuest Central</option>
+                                <option value="Web of Science">Web of Science</option>
+                                <option value="Scopus">Scopus</option>
+                                <option value="JSTOR">JSTOR</option>
+                                <option value="Google Scholar">Google Scholar</option>
+                            </optgroup>
+                            <optgroup label="Arts & Humanities">
+                                <option value="Art & Architecture Complete">Art & Architecture Complete</option>
+                                <option value="Arts & Humanities Citation Index">Arts & Humanities Citation Index</option>
+                                <option value="MLA International Bibliography">MLA International Bibliography</option>
+                                <option value="Project MUSE">Project MUSE</option>
+                            </optgroup>
+                            <optgroup label="Technology & Engineering">
+                                <option value="IEEE Xplore">IEEE Xplore</option>
+                                <option value="ACM Digital Library">ACM Digital Library</option>
+                                <option value="Compendex">Compendex (Engineering Village)</option>
+                                <option value="Inspec">Inspec</option>
+                            </optgroup>
+                            <optgroup label="Social Sciences">
+                                <option value="PsycINFO">PsycINFO</option>
+                                <option value="Sociological Abstracts">Sociological Abstracts</option>
+                                <option value="Social Sciences Citation Index">Social Sciences Citation Index</option>
+                            </optgroup>
+                            <optgroup label="Business & Management">
+                                <option value="Business Source Complete">Business Source Complete</option>
+                                <option value="Emerald Insight">Emerald Insight</option>
+                                <option value="ABI/INFORM">ABI/INFORM</option>
+                            </optgroup>
+                            <optgroup label="Science & Medicine">
+                                <option value="PubMed">PubMed</option>
+                                <option value="Science Citation Index">Science Citation Index</option>
+                                <option value="CINAHL">CINAHL (Nursing & Health)</option>
+                            </optgroup>
+                            <optgroup label="Media & Communications">
+                                <option value="Communication & Mass Media Complete">Communication & Mass Media Complete</option>
+                                <option value="Film & Television Literature Index">Film & Television Literature Index</option>
+                            </optgroup>
+                            <option value="custom">📝 Type my own database</option>
+                        </select>
+                        <input type="text" id="db3-name-custom" placeholder="Enter database name here" class="w-full p-2 rounded border mt-2 hidden" style="border-color: var(--border-color); background-color: var(--bg-primary);">
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-semibold mb-2">Subject Coverage</label>
+                        <textarea id="db3-coverage" rows="2" placeholder="What subjects does it cover?" class="w-full p-2 rounded border" style="border-color: var(--border-color); background-color: var(--bg-primary);"></textarea>
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-semibold mb-2">Number of Results</label>
+                        <input type="text" id="db3-results" placeholder="e.g., 156" class="w-full p-2 rounded border" style="border-color: var(--border-color); background-color: var(--bg-primary);">
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-semibold mb-2">Full-Text Availability</label>
+                        <select id="db3-fulltext" class="w-full p-2 rounded border" style="border-color: var(--border-color); background-color: var(--bg-primary);">
+                            <option value="">Select...</option>
+                            <option value="Excellent - Most articles available immediately">Excellent - Most articles available immediately</option>
+                            <option value="Good - Many articles available">Good - Many articles available</option>
+                            <option value="Limited - Some articles available">Limited - Some articles available</option>
+                            <option value="Poor - Few articles available, mostly abstracts">Poor - Few articles available, mostly abstracts</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-semibold mb-2">Key Features</label>
+                        <textarea id="db3-features" rows="3" placeholder="e.g., Advanced filters, citation tracking, export options..." class="w-full p-2 rounded border" style="border-color: var(--border-color); background-color: var(--bg-primary);"></textarea>
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-semibold mb-2">Strengths</label>
+                        <textarea id="db3-strengths" rows="2" placeholder="What worked well?" class="w-full p-2 rounded border" style="border-color: var(--border-color); background-color: var(--bg-primary);"></textarea>
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-semibold mb-2">Limitations</label>
+                        <textarea id="db3-limitations" rows="2" placeholder="What were the drawbacks?" class="w-full p-2 rounded border" style="border-color: var(--border-color); background-color: var(--bg-primary);"></textarea>
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-semibold mb-2">Relevance to Your Topic</label>
+                        <select id="db3-relevance" class="w-full p-2 rounded border" style="border-color: var(--border-color); background-color: var(--bg-primary);">
+                            <option value="">Select...</option>
+                            <option value="High - Very relevant, high-quality results">High - Very relevant, high-quality results</option>
+                            <option value="Medium - Some relevant results">Medium - Some relevant results</option>
+                            <option value="Low - Few relevant results">Low - Few relevant results</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="flex gap-4 mb-8 no-print justify-center">
+            <button id="generateBtn" class="px-8 py-3 rounded font-semibold text-white text-lg" style="background-color: var(--accent-color);">
+                📊 Generate Comparison
+            </button>
+            <button id="clearBtn" class="px-8 py-3 rounded border font-semibold" style="border-color: var(--border-color);">
+                🔄 Clear All
+            </button>
+            <button id="printBtn" class="px-8 py-3 rounded border font-semibold" style="border-color: var(--border-color);">
+                🖨️ Print/Save
+            </button>
+        </div>
+
+        <!-- Comparison Output -->
+        <div id="output" class="hidden">
+            <div class="mb-4 p-4 rounded-lg" style="background-color: #dcfce7; border: 2px solid #166534;">
+                <h2 class="text-2xl font-bold mb-2" style="color: #166534;">✅ Comparison Generated!</h2>
+                <p style="color: #166534;">Use this comparison for Section 2 of your assignment. You can copy the text below or print this page.</p>
+            </div>
+
+            <div class="mb-6 p-6 rounded-lg border" style="border-color: var(--border-color); background-color: var(--bg-secondary);">
+                <h2 class="text-2xl font-bold mb-4">Database Comparison Summary</h2>
+                <div id="summaryTable" class="overflow-x-auto"></div>
+            </div>
+
+            <div class="p-6 rounded-lg border" style="border-color: var(--border-color); background-color: var(--bg-secondary);">
+                <h2 class="text-2xl font-bold mb-4">Detailed Analysis</h2>
+                <div id="detailedAnalysis" class="space-y-6"></div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        let isDarkMode = false;
+        let fontSize = 1;
+
+        // Dark mode toggle
+        document.getElementById('darkModeToggle').addEventListener('click', () => {
+            isDarkMode = !isDarkMode;
+            document.body.classList.toggle('dark-mode');
+            document.getElementById('modeIcon').textContent = isDarkMode ? '☀️' : '🌙';
+        });
+
+        // Font size controls
+        document.getElementById('increaseFont').addEventListener('click', () => {
+            if (fontSize < 1.5) {
+                fontSize += 0.1;
+                document.documentElement.style.setProperty('--font-size', fontSize);
+            }
+        });
+
+        document.getElementById('decreaseFont').addEventListener('click', () => {
+            if (fontSize > 0.7) {
+                fontSize -= 0.1;
+                document.documentElement.style.setProperty('--font-size', fontSize);
+            }
+        });
+
+        // Show custom name input when "custom" is selected
+        ['db1', 'db2', 'db3'].forEach(db => {
+            document.getElementById(`${db}-name`).addEventListener('change', (e) => {
+                const customInput = document.getElementById(`${db}-name-custom`);
+                if (e.target.value === 'custom') {
+                    customInput.classList.remove('hidden');
+                    customInput.focus();
+                } else {
+                    customInput.classList.add('hidden');
+                }
+            });
+        });
+
+        // Generate comparison
+        document.getElementById('generateBtn').addEventListener('click', () => {
+            const data = collectData();
+            
+            if (!validateData(data)) {
+                alert('Please fill in at least the database names for all three databases.');
+                return;
+            }
+
+            generateComparison(data);
+            document.getElementById('output').classList.remove('hidden');
+            document.getElementById('output').scrollIntoView({ behavior: 'smooth' });
+        });
+
+        // Clear all
+        document.getElementById('clearBtn').addEventListener('click', () => {
+            if (confirm('Are you sure you want to clear all data? This cannot be undone.')) {
+                document.querySelectorAll('input, textarea, select').forEach(el => {
+                    el.value = '';
+                });
+                ['db1', 'db2', 'db3'].forEach(db => {
+                    document.getElementById(`${db}-name-custom`).classList.add('hidden');
+                });
+                document.getElementById('output').classList.add('hidden');
+            }
+        });
+
+        // Print
+        document.getElementById('printBtn').addEventListener('click', () => {
+            window.print();
+        });
+
+        function collectData() {
+            const databases = [];
+            for (let i = 1; i <= 3; i++) {
+                const dbName = document.getElementById(`db${i}-name`).value;
+                databases.push({
+                    name: dbName === 'custom' ? document.getElementById(`db${i}-name-custom`).value : dbName,
+                    coverage: document.getElementById(`db${i}-coverage`).value,
+                    results: document.getElementById(`db${i}-results`).value,
+                    fulltext: document.getElementById(`db${i}-fulltext`).value,
+                    features: document.getElementById(`db${i}-features`).value,
+                    strengths: document.getElementById(`db${i}-strengths`).value,
+                    limitations: document.getElementById(`db${i}-limitations`).value,
+                    relevance: document.getElementById(`db${i}-relevance`).value
+                });
+            }
+            return databases;
+        }
+
+        function validateData(data) {
+            return data.every(db => db.name && db.name.trim() !== '');
+        }
+
+        function generateComparison(data) {
+            // Generate summary table
+            let tableHTML = `
+                <table class="w-full border-collapse text-sm">
+                    <thead>
+                        <tr style="background-color: var(--accent-color); color: white;">
+                            <th class="border p-3 text-left" style="border-color: var(--border-color);">Criteria</th>
+                            <th class="border p-3 text-left" style="border-color: var(--border-color);">${data[0].name || 'Database 1'}</th>
+                            <th class="border p-3 text-left" style="border-color: var(--border-color);">${data[1].name || 'Database 2'}</th>
+                            <th class="border p-3 text-left" style="border-color: var(--border-color);">${data[2].name || 'Database 3'}</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="border p-3 font-semibold" style="border-color: var(--border-color); background-color: var(--bg-secondary);">Subject Coverage</td>
+                            <td class="border p-3" style="border-color: var(--border-color);">${data[0].coverage || 'N/A'}</td>
+                            <td class="border p-3" style="border-color: var(--border-color);">${data[1].coverage || 'N/A'}</td>
+                            <td class="border p-3" style="border-color: var(--border-color);">${data[2].coverage || 'N/A'}</td>
+                        </tr>
+                        <tr>
+                            <td class="border p-3 font-semibold" style="border-color: var(--border-color); background-color: var(--bg-secondary);">Results Count</td>
+                            <td class="border p-3" style="border-color: var(--border-color);">${data[0].results || 'N/A'}</td>
+                            <td class="border p-3" style="border-color: var(--border-color);">${data[1].results || 'N/A'}</td>
+                            <td class="border p-3" style="border-color: var(--border-color);">${data[2].results || 'N/A'}</td>
+                        </tr>
+                        <tr>
+                            <td class="border p-3 font-semibold" style="border-color: var(--border-color); background-color: var(--bg-secondary);">Full-Text Access</td>
+                            <td class="border p-3" style="border-color: var(--border-color);">${data[0].fulltext || 'N/A'}</td>
+                            <td class="border p-3" style="border-color: var(--border-color);">${data[1].fulltext || 'N/A'}</td>
+                            <td class="border p-3" style="border-color: var(--border-color);">${data[2].fulltext || 'N/A'}</td>
+                        </tr>
+                        <tr>
+                            <td class="border p-3 font-semibold" style="border-color: var(--border-color); background-color: var(--bg-secondary);">Relevance</td>
+                            <td class="border p-3" style="border-color: var(--border-color);">${data[0].relevance || 'N/A'}</td>
+                            <td class="border p-3" style="border-color: var(--border-color);">${data[1].relevance || 'N/A'}</td>
+                            <td class="border p-3" style="border-color: var(--border-color);">${data[2].relevance || 'N/A'}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            `;
+            document.getElementById('summaryTable').innerHTML = tableHTML;
+
+            // Generate detailed analysis
+            let detailedHTML = '';
+            data.forEach((db, index) => {
+                detailedHTML += `
+                    <div class="p-4 rounded border" style="border-color: var(--border-color);">
+                        <h3 class="text-xl font-bold mb-3" style="color: var(--accent-color);">${db.name || `Database ${index + 1}`}</h3>
+                        
+                        ${db.features ? `
+                            <div class="mb-3">
+                                <strong class="block mb-1">Key Features:</strong>
+                                <p style="color: var(--text-secondary);">${db.features}</p>
+                            </div>
+                        ` : ''}
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            ${db.strengths ? `
+                                <div class="p-3 rounded" style="background-color: #dcfce7;">
+                                    <strong class="block mb-1" style="color: #166534;">✓ Strengths:</strong>
+                                    <p style="color: #166534;">${db.strengths}</p>
+                                </div>
+                            ` : ''}
+                            
+                            ${db.limitations ? `
+                                <div class="p-3 rounded" style="background-color: #fee2e2;">
+                                    <strong class="block mb-1" style="color: #991b1b;">✗ Limitations:</strong>
+                                    <p style="color: #991b1b;">${db.limitations}</p>
+                                </div>
+                            ` : ''}
+                        </div>
+                    </div>
+                `;
+            });
+            document.getElementById('detailedAnalysis').innerHTML = detailedHTML;
+        }
+    </script>
+</body>
+</html>
