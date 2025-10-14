@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Digital Media Technologies - Module Resources</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        :root {
+            --bg-primary: #ffffff;
+            --bg-secondary: #f9fafb;
+            --text-primary: #111827;
+            --text-secondary: #4b5563;
+            --border-color: #e5e7eb;
+            --accent-color: #3b82f6;
+            --font-size: 1;
+        }
+        
+        .dark-mode {
+            --bg-primary: #1f2937;
+            --bg-secondary: #111827;
+            --text-primary: #f9fafb;
+            --text-secondary: #d1d5db;
+            --border-color: #374151;
+            --accent-color: #60a5fa;
+        }
+        
+        html {
+            font-size: calc(var(--font-size) * 16px);
+        }
+        
+        body {
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+        }
+
+        .tool-card, .session-card {
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .tool-card:hover, .session-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .hero-gradient {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+    </style>
+</head>
+<body class="min-h-screen">
+    <!-- Header -->
+    <header class="border-b p-4" style="border-color: var(--border-color);">
+        <div class="max-w-7xl mx-auto flex justify-between items-center">
+            <div>
+                <h1 class="text-2xl font-bold">Digital Media Technologies</h1>
+                <p class="text-sm" style="color: var(--text-secondary);">Module Resources & Tools</p>
+            </div>
+            <div class="flex gap-2">
+                <button id="decreaseFont" class="px-3 py-2 rounded border" style="border-color: var(--border-color);" aria-label="Decrease font size">A-</button>
+                <button id="increaseFont" class="px-3 py-2 rounded border" style="border-color: var(--border-color);" aria-label="Increase font size">A+</button>
+                <button id="darkModeToggle" class="px-4 py-2 rounded border" style="border-color: var(--border-color);" aria-label="Toggle dark mode">
+                    <span id="modeIcon">🌙</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <div class="hero-gradient text-white py-12">
+        <div class="max-w-7xl mx-auto px-8 text-center">
+            <h2 class="text-4xl font-bold mb-4">Digital Academic Research Skills Portfolio</h2>
+            <p class="text-xl mb-6">Your complete resource hub for Session 1-11</p>
+            <div class="flex gap-4 justify-center text-sm">
+                <div class="bg-white bg-opacity-20 rounded-lg px-6 py-3">
+                    <div class="font-bold text-2xl">11</div>
+                    <div>Sessions</div>
+                </div>
+                <div class="bg-white bg-opacity-20 rounded-lg px-6 py-3">
+                    <div class="font-bold text-2xl">4</div>
+                    <div>Tools</div>
+                </div>
+                <div class="bg-white bg-opacity-20 rounded-lg px-6 py-3">
+                    <div class="font-bold text-2xl">2,250</div>
+                    <div>Words Assignment</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <main class="max-w-7xl mx-auto p-8">
+        <!-- Interactive Tools Section -->
+        <section class="mb-12">
+            <div class="flex items-center gap-3 mb-6">
+                <h2 class="text-3xl font-bold">🛠️ Interactive Tools</h2>
+            </div>
+            <p class="mb-6" style="color: var(--text-secondary);">Hands-on tools to support your research and assignment writing</p>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <!-- Research Topic Canvas -->
+                <div class="tool-card p-6 rounded-lg border" style="border-color: var(--border-color); background-color: var(--bg-secondary);" onclick="window.location.href='research-topic-canvas.html'">
+                    <div class="text-4xl mb-4">🎯</div>
+                    <h3 class="text-xl font-bold mb-2">Research Topic Canvas</h3>
+                    <p class="text-sm mb-4" style="color: var(--text-secondary);">Visual tool to brainstorm and refine your research topic</p>
+                    <div class="text-xs font-semibold px-3 py-1 rounded inline-block" style="background-color: #dbeafe; color: #1e40af;">
+                        Session 1
+                    </div>
+                </div>
+
+                <!-- Boolean Builder -->
+                <div class="tool-card p-6 rounded-lg border" style="border-color: var(--border-color); background-color: var(--bg-secondary);" onclick="window.location.href='boolean_builder.html'">
+                    <div class="text-4xl mb-4">🔍</div>
+                    <h3 class="text-xl font-bold mb-2">Boolean Search Builder</h3>
+                    <p class="text-sm mb-4" style="color: var(--text-secondary);">Build complex search queries with AND, OR, NOT operators</p>
+                    <div class="text-xs font-semibold px-3 py-1 rounded inline-block" style="background-color: #dbeafe; color: #1e40af;">
+                        Session 2
+                    </div>
+                </div>
+
+                <!-- Database Comparison Tool -->
+                <div class="tool-card p-6 rounded-lg border" style="border-color: var(--border-color); background-color: var(--bg-secondary);" onclick="window.location.href='database-comparison-tool.html'">
+                    <div class="text-4xl mb-4">📊</div>
+                    <h3 class="text-xl font-bold mb-2">Database Comparison</h3>
+                    <p class="text-sm mb-4" style="color: var(--text-secondary);">Compare 3 databases side-by-side for your assignment</p>
+                    <div class="text-xs font-semibold px-3 py-1 rounded inline-block" style="background-color: #dbeafe; color: #1e40af;">
+                        Session 3
+                    </div>
+                </div>
+
+                <!-- CRAAP Test Evaluator -->
+                <div class="tool-card p-6 rounded-lg border" style="border-color: var(--border-color); background-color: var(--bg-secondary);" onclick="window.location.href='craap-test-evaluator.html'">
+                    <div class="text-4xl mb-4">⭐</div>
+                    <h3 class="text-xl font-bold mb-2">CRAAP Test Evaluator</h3>
+                    <p class="text-sm mb-4" style="color: var(--text-secondary);">Evaluate and score sources using the CRAAP framework</p>
+                    <div class="text-xs font-semibold px-3 py-1 rounded inline-block" style="background-color: #dbeafe; color: #1e40af;">
+                        Session 5
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Weekly Sessions Section -->
+        <section>
+            <div class="flex items-center gap-3 mb-6">
+                <h2 class="text-3xl font-bold">📅 Weekly Sessions</h2>
+            </div>
+            <p class="mb-6" style="color: var(--text-secondary);">Interactive slide presentations for each week</p>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                <!-- Session 1 -->
+                <div class="session-card p-5 rounded-lg border" style="border-color: var(--border-color); background-color: var(--bg-secondary);" onclick="window.location.href='session1.html'">
+                    <div class="flex items-start gap-4">
+                        <div class="text-3xl font-bold" style="color: var(--accent-color);">01</div>
+                        <div class="flex-1">
+                            <h3 class="font-bold text-lg mb-1">Module Introduction</h3>
+                            <p class="text-sm" style="color: var(--text-secondary);">Research Topic Canvas, Assessment Overview</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Session 2 -->
+                <div class="session-card p-5 rounded-lg border" style="border-color: var(--border-color); background-color: var(--bg-secondary);" onclick="window.location.href='session2.html'">
+                    <div class="flex items-start gap-4">
+                        <div class="text-3xl font-bold" style="color: var(--accent-color);">02</div>
+                        <div class="flex-1">
+                            <h3 class="font-bold text-lg mb-1">Keywords & Search Planning</h3>
+                            <p class="text-sm" style="color: var(--text-secondary);">Boolean operators, Search strategy development</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Session 3 -->
+                <div class="session-card p-5 rounded-lg border" style="border-color: var(--border-color); background-color: var(--bg-secondary);" onclick="window.location.href='session3.html'">
+                    <div class="flex items-start gap-4">
+                        <div class="text-3xl font-bold" style="color: var(--accent-color);">03</div>
+                        <div class="flex-1">
+                            <h3 class="font-bold text-lg mb-1">Database Exploration</h3>
+                            <p class="text-sm" style="color: var(--text-secondary);">Comparing databases, Finding full-text</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Session 4 -->
+                <div class="session-card p-5 rounded-lg border" style="border-color: var(--border-color); background-color: var(--bg-secondary);" onclick="window.location.href='session4.html'">
+                    <div class="flex items-start gap-4">
+                        <div class="text-3xl font-bold" style="color: var(--accent-color);">04</div>
+                        <div class="flex-1">
+                            <h3 class="font-bold text-lg mb-1">Source Collection</h3>
+                            <p class="text-sm" style="color: var(--text-secondary);">Finding 6-8 potential sources, Source types</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Session 5 -->
+                <div class="session-card p-5 rounded-lg border" style="border-color: var(--border-color); background-color: var(--bg-secondary);" onclick="window.location.href='session5.html'">
+                    <div class="flex items-start gap-4">
+                        <div class="text-3xl font-bold" style="color: var(--accent-color);">05</div>
+                        <div class="flex-1">
+                            <h3 class="font-bold text-lg mb-1">Source Evaluation</h3>
+                            <p class="text-sm" style="color: var(--text-secondary);">CRAAP test, Selecting final 4 sources</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Session 6 -->
+                <div class="session-card p-5 rounded-lg border" style="border-color: var(--border-color); background-color: var(--bg-secondary);" onclick="window.location.href='session6.html'">
+                    <div class="flex items-start gap-4">
+                        <div class="text-3xl font-bold" style="color: var(--accent-color);">06</div>
+                        <div class="flex-1">
+                            <h3 class="font-bold text-lg mb-1">Citation Workshop</h3>
+                            <p class="text-sm" style="color: var(--text-secondary);">Harvard referencing, Bibliography creation</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Session 7 -->
+                <div class="session-card p-5 rounded-lg border" style="border-color: var(--border-color); background-color: var(--bg-secondary);" onclick="window.location.href='session7.html'">
+                    <div class="flex items-start gap-4">
+                        <div class="text-3xl font-bold" style="color: var(--accent-color);">07</div>
+                        <div class="flex-1">
+                            <h3 class="font-bold text-lg mb-1">Assessment Writing (1-2)</h3>
+                            <p class="text-sm" style="color: var(--text-secondary);">Research Planning & Database Navigation</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Session 8 -->
+                <div class="session-card p-5 rounded-lg border" style="border-color: var(--border-color); background-color: #fef9c3;" onclick="window.location.href='session8.html'">
+                    <div class="flex items-start gap-4">
+                        <div class="text-3xl font-bold" style="color: #854d0e;">08</div>
+                        <div class="flex-1">
+                            <h3 class="font-bold text-lg mb-1">MIDTERM Progress Review</h3>
+                            <p class="text-sm" style="color: #854d0e;">Individual consultations, Feedback session</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Session 9 -->
+                <div class="session-card p-5 rounded-lg border" style="border-color: var(--border-color); background-color: var(--bg-secondary);" onclick="window.location.href='session9.html'">
+                    <div class="flex items-start gap-4">
+                        <div class="text-3xl font-bold" style="color: var(--accent-color);">09</div>
+                        <div class="flex-1">
+                            <h3 class="font-bold text-lg mb-1">Assessment Writing (3-4)</h3>
+                            <p class="text-sm" style="color: var(--text-secondary);">Source Evaluation & Citation Management</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Session 10 -->
+                <div class="session-card p-5 rounded-lg border" style="border-color: var(--border-color); background-color: var(--bg-secondary);" onclick="window.location.href='session10.html'">
+                    <div class="flex items-start gap-4">
+                        <div class="text-3xl font-bold" style="color: var(--accent-color);">10</div>
+                        <div class="flex-1">
+                            <h3 class="font-bold text-lg mb-1">Reflection & Finalization</h3>
+                            <p class="text-sm" style="color: var(--text-secondary);">Section 5, Final formatting checks</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Session 11 -->
+                <div class="session-card p-5 rounded-lg border" style="border-color: var(--border-color); background-color: #dcfce7;" onclick="window.location.href='session11.html'">
+                    <div class="flex items-start gap-4">
+                        <div class="text-3xl font-bold" style="color: #166534;">11</div>
+                        <div class="flex-1">
+                            <h3 class="font-bold text-lg mb-1">Final Support & Submission</h3>
+                            <p class="text-sm" style="color: #166534;">Last checks, Moodle upload, Celebration!</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Assignment Overview -->
+        <section class="mt-12 p-6 rounded-lg border" style="border-color: var(--border-color); background-color: var(--bg-secondary);">
+            <h2 class="text-2xl font-bold mb-4">📝 Assignment Overview</h2>
+            <div class="grid grid-cols-1 md:grid-cols-5 gap-4 text-center">
+                <div>
+                    <div class="text-2xl font-bold mb-1" style="color: var(--accent-color);">400</div>
+                    <div class="text-sm" style="color: var(--text-secondary);">Section 1<br>Research Planning</div>
+                </div>
+                <div>
+                    <div class="text-2xl font-bold mb-1" style="color: var(--accent-color);">500</div>
+                    <div class="text-sm" style="color: var(--text-secondary);">Section 2<br>Database Navigation</div>
+                </div>
+                <div>
+                    <div class="text-2xl font-bold mb-1" style="color: var(--accent-color);">600</div>
+                    <div class="text-sm" style="color: var(--text-secondary);">Section 3<br>Source Evaluation</div>
+                </div>
+                <div>
+                    <div class="text-2xl font-bold mb-1" style="color: var(--accent-color);">450</div>
+                    <div class="text-sm" style="color: var(--text-secondary);">Section 4<br>Citation Management</div>
+                </div>
+                <div>
+                    <div class="text-2xl font-bold mb-1" style="color: var(--accent-color);">300</div>
+                    <div class="text-sm" style="color: var(--text-secondary);">Section 5<br>Reflection</div>
+                </div>
+            </div>
+            <div class="mt-6 text-center">
+                <p class="text-lg font-semibold">Total: 2,250 words (±10%)</p>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="border-t mt-12 p-8" style="border-color: var(--border-color);">
+        <div class="max-w-7xl mx-auto text-center" style="color: var(--text-secondary);">
+            <p class="mb-2">Digital Media Technologies - Unit Code: 443Z0010</p>
+            <p class="text-sm">Manchester Metropolitan University</p>
+        </div>
+    </footer>
+
+    <script>
+        let isDarkMode = false;
+        let fontSize = 1;
+
+        // Dark mode toggle
+        document.getElementById('darkModeToggle').addEventListener('click', () => {
+            isDarkMode = !isDarkMode;
+            document.body.classList.toggle('dark-mode');
+            document.getElementById('modeIcon').textContent = isDarkMode ? '☀️' : '🌙';
+        });
+
+        // Font size controls
+        document.getElementById('increaseFont').addEventListener('click', () => {
+            if (fontSize < 1.5) {
+                fontSize += 0.1;
+                document.documentElement.style.setProperty('--font-size', fontSize);
+            }
+        });
+
+        document.getElementById('decreaseFont').addEventListener('click', () => {
+            if (fontSize > 0.7) {
+                fontSize -= 0.1;
+                document.documentElement.style.setProperty('--font-size', fontSize);
+            }
+        });
+    </script>
+</body>
+</html>
