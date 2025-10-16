@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UCD Principles Library - UXCI</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        :root {
+            --bg-primary: #ffffff;
+            --bg-secondary: #f9fafb;
+            --text-primary: #111827;
+            --text-secondary: #4b5563;
+            --border-color: #e5e7eb;
+            --accent-color: #8b5cf6;
+            --accent-hover: #7c3aed;
+            --font-size: 1;
+        }
+        
+        .dark-mode {
+            --bg-primary: #1f2937;
+            --bg-secondary: #111827;
+            --text-primary: #f9fafb;
+            --text-secondary: #9ca3af;
+            --border-color: #374151;
+            --accent-color: #a78bfa;
+            --accent-hover: #c4b5fd;
+        }
+        
+        html {
+            font-size: calc(var(--font-size) * 16px);
+        }
+        
+        body {
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+        }
+
+        .principle-card {
+            transition: all 0.2s ease;
+            cursor: pointer;
+        }
+
+        .principle-card:hover {
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .category-badge {
+            font-size: 0.75rem;
+            padding: 0.25rem 0.5rem;
+            border-radius: 0.25rem;
+        }
+
+        .hidden { display: none; }
+    </style>
+</head>
+<body class="min-h-screen">
+    <header class="border-b p-4" style="border-color: var(--border-color);">
+        <div class="max-w-7xl mx-auto flex justify-between items-center flex-wrap gap-4">
+            <div>
+                <h1 class="text-2xl font-bold">🎨 UCD Principles Library</h1>
+                <p class="text-sm" style="color: var(--text-secondary);">Browse 30 user-centered design principles for your assessment</p>
+            </div>
+            <div class="flex gap-2">
+                <button id="decreaseFont" class="px-3 py-2 rounded border" style="border-color: var(--border-color);" aria-label="Decrease font size">A-</button>
+                <button id="increaseFont" class="px-3 py-2 rounded border" style="border-color: var(--border-color);" aria-label="Increase font size">A+</button>
+                <button id="darkModeToggle" class="px-4 py-2 rounded border" style="border-color: var(--border-color);" aria-label="Toggle dark mode">
+                    <span id="modeIcon">🌙</span>
+                </button>
+                <button onclick="window.location.href='uxci_index_page.html'" class="px-4 py-2 rounded border" style="border-color: var(--border-color);">
+                    ← Back
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <main class="max-w-7xl mx-auto p-8">
+        <!-- Info Section -->
+        <div class="mb-8 p-6 rounded-lg border" style="border-color: var(--accent-color); background-color: #faf5ff;">
+            <h2 class="text-2xl font-bold mb-3">Choose ANY 2 Principles for Your Assessment</h2>
+            <p class="text-sm mb-4" style="color: var(--text-secondary);">Select principles that best fit your project and demonstrate them clearly in your hand-drawn sketches. Each principle includes examples of how to apply it.</p>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
+                <div class="p-3 rounded" style="background-color: white;">
+                    <strong>✓ Do:</strong> Choose principles relevant to your user problems
+                </div>
+                <div class="p-3 rounded" style="background-color: white;">
+                    <strong>✓ Do:</strong> Show specific examples in your sketches
+                </div>
+                <div class="p-3 rounded" style="background-color: white;">
+                    <strong>✓ Do:</strong> Explain WHY these principles matter for your users
+                </div>
+            </div>
+        </div>
+
+        <!-- Category Filter -->
+        <div class="mb-6 flex gap-3 flex-wrap">
+            <button onclick="filterCategory('all')" class="category-filter active px-4 py-2 rounded border font-semibold" style="border-color: var(--accent-color); background-color: var(--accent-color); color: white;">
+                All Principles
+            </button>
+            <button onclick="filterCategory('nielsen')" class="category-filter px-4 py-2 rounded border" style="border-color: var(--border-color);">
+                📋 Nielsen's Heuristics
+            </button>
+            <button onclick="filterCategory('norman')" class="category-filter px-4 py-2 rounded border" style="border-color: var(--border-color);">
+                🎯 Norman's Principles
+            </button>
+            <button onclick="filterCategory('gestalt')" class="category-filter px-4 py-2 rounded border" style="border-color: var(--border-color);">
+                👁️ Gestalt Principles
+            </button>
+            <button onclick="filterCategory('accessibility')" class="category-filter px-4 py-2 rounded border" style="border-color: var(--border-color);">
+                ♿ Accessibility
+            </button>
+            <button onclick="filterCategory('usability')" class="category-filter px-4 py-2 rounded border" style="border-color: var(--border-color);">
+                ⚡ Usability
+            </button>
+        </div>
+
+        <!-- Search Bar -->
+        <div class="mb-6">
+            <input type="text" id="searchInput" onkeyup="searchPrinciples()" class="w-full p-3 rounded border" style="border-color: var(--border-color);" placeholder="🔍 Search principles...">
+        </div>
+
+        <!-- Principles Grid -->
+        <div id="principlesGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4"></div>
+    </main>
+
+    <script>
+        const principles = {
+            nielsen: [
+                {
+                    name: "Visibility of System Status",
+                    description: "The system should always keep users informed about what is going on through appropriate feedback within a reasonable time.",
+                    examples: "Loading indicators, progress bars, notification badges, 'message sent' confirmations, real-time status updates",
+                    application: "Show when an action is processing, when it's complete, or if there's an error. Users should never wonder 'did that work?'"
+                },
+                {
+                    name: "Match Between System and Real World",
+                    description: "The system should speak the users' language, using words, phrases, and concepts familiar to the user rather than system-oriented terms.",
+                    examples: "Use 'shopping cart' not 'order array', calendar icons for dates, trash can for delete, folder metaphors for organization",
+                    application: "Use terminology your target users understand. Avoid technical jargon. Follow real-world conventions."
+                },
+                {
+                    name: "User Control and Freedom",
+                    description: "Users often choose system functions by mistake and need a clearly marked 'emergency exit' to leave the unwanted state.",
+                    examples: "Undo/redo buttons, cancel buttons, back navigation, exit options, 'are you sure?' confirmations for destructive actions",
+                    application: "Always provide ways to reverse actions. Let users escape from any state easily. Don't trap users in processes."
+                },
+                {
+                    name: "Consistency and Standards",
+                    description: "Users should not have to wonder whether different words, situations, or actions mean the same thing. Follow platform conventions.",
+                    examples: "Consistent button styles, same icons for same actions, predictable navigation placement, standard form layouts",
+                    application: "Keep UI elements consistent throughout. Follow platform guidelines (iOS/Android). Use familiar patterns."
+                },
+                {
+                    name: "Error Prevention",
+                    description: "Even better than good error messages is a careful design that prevents problems from occurring in the first place.",
+                    examples: "Disable submit until form is valid, confirmation dialogs for destructive actions, constraints on inputs, helpful defaults",
+                    application: "Design to prevent errors before they happen. Use constraints, confirmations, and smart defaults."
+                },
+                {
+                    name: "Recognition Rather Than Recall",
+                    description: "Minimize memory load by making objects, actions, and options visible. Instructions should be visible or easily retrievable.",
+                    examples: "Show recent searches, visible menu options, preview images, autocomplete suggestions, persistent navigation",
+                    application: "Don't make users remember information. Show options rather than requiring memory. Keep important info visible."
+                },
+                {
+                    name: "Flexibility and Efficiency of Use",
+                    description: "Accelerators may speed up interaction for expert users such that the system can cater to both inexperienced and experienced users.",
+                    examples: "Keyboard shortcuts, gesture controls, customizable dashboards, quick actions, batch operations, templates",
+                    application: "Provide shortcuts for power users while keeping basic functions accessible for beginners."
+                },
+                {
+                    name: "Aesthetic and Minimalist Design",
+                    description: "Dialogues should not contain irrelevant or rarely needed information. Every extra unit of information competes with relevant information.",
+                    examples: "Clean layouts, focused content, progressive disclosure, prioritized information, white space usage",
+                    application: "Remove unnecessary elements. Show only essential information. Use progressive disclosure for advanced features."
+                },
+                {
+                    name: "Help Users Recognize, Diagnose, and Recover from Errors",
+                    description: "Error messages should be expressed in plain language, precisely indicate the problem, and constructively suggest a solution.",
+                    examples: "Clear error messages, specific problem identification, actionable suggestions, helpful error states, recovery options",
+                    application: "Write human-friendly error messages. Explain what went wrong and how to fix it. Provide recovery paths."
+                },
+                {
+                    name: "Help and Documentation",
+                    description: "It's best if the system doesn't need explanation, but it may be necessary to provide help and documentation that's easy to search and focused on user tasks.",
+                    examples: "Contextual help, tooltips, onboarding tutorials, searchable FAQs, embedded assistance, help center access",
+                    application: "Provide help when needed without forcing it. Make documentation searchable and task-focused."
+                }
+            ],
+            norman: [
+                {
+                    name: "Visibility",
+                    description: "The more visible functions are, the more likely users will be able to know what to do next. Make important functions easily discoverable.",
+                    examples: "Clear button labels, obvious clickable elements, visible navigation, prominent CTAs, distinct interactive elements",
+                    application: "Make actions and options visible. Users shouldn't have to hunt for functionality."
+                },
+                {
+                    name: "Feedback",
+                    description: "Feedback provides information about what action has been done and what result has been accomplished. Users need immediate feedback.",
+                    examples: "Button state changes on click, form validation messages, success notifications, loading states, sound/haptic feedback",
+                    application: "Acknowledge every user action immediately. Show results of actions clearly."
+                },
+                {
+                    name: "Affordance",
+                    description: "An object's properties that show the possible actions users can take with it. The design makes clear how the object should be used.",
+                    examples: "Buttons look pressable, links look clickable, sliders look draggable, text fields look editable",
+                    application: "Design elements should suggest how they're meant to be used. Make interactive elements obvious."
+                },
+                {
+                    name: "Mapping",
+                    description: "The relationship between controls and their effects should be obvious. Natural mapping creates intuitive interfaces.",
+                    examples: "Volume slider moves up for louder, scroll wheel direction matches content movement, steering wheel turns match direction",
+                    application: "Controls should naturally map to their results. Use spatial and cultural expectations."
+                },
+                {
+                    name: "Constraints",
+                    description: "Limiting the possible actions prevents users from making errors. Guide users toward correct use through design.",
+                    examples: "Disabled buttons when action isn't available, input masks for phone numbers, limited menu options, guided workflows",
+                    application: "Restrict incorrect actions. Guide users down the right path through design constraints."
+                },
+                {
+                    name: "Consistency",
+                    description: "Using similar elements for similar tasks. Consistent design is easier to learn and reduces cognitive load.",
+                    examples: "Same color for all CTAs, consistent icon usage, uniform spacing, predictable navigation structure",
+                    application: "Keep similar elements looking and behaving similarly across the entire product."
+                }
+            ],
+            gestalt: [
+                {
+                    name: "Proximity",
+                    description: "Objects that are near each other appear to be grouped together. Use spacing to show relationships between elements.",
+                    examples: "Form fields grouped by section, related menu items close together, white space separating different content areas",
+                    application: "Place related items close together. Use white space to separate unrelated content."
+                },
+                {
+                    name: "Similarity",
+                    description: "Objects that share visual characteristics are perceived as related or part of a group.",
+                    examples: "All buttons same color, similar cards for similar content types, consistent icon styles for related actions",
+                    application: "Make similar elements look similar. Use consistent styling for related functions."
+                },
+                {
+                    name: "Closure",
+                    description: "The mind fills in gaps to create complete shapes. Users perceive complete objects even when information is missing.",
+                    examples: "Progress indicators, partial borders suggesting containers, loading skeletons, incomplete shapes that still convey meaning",
+                    application: "You don't need to show everything. Users will fill in gaps if given enough visual cues."
+                },
+                {
+                    name: "Continuity",
+                    description: "Elements arranged on a line or curve are perceived as more related than elements not on the line or curve.",
+                    examples: "Navigation bars, timelines, step indicators, aligned form fields, flowing content layouts",
+                    application: "Arrange related elements along visual lines. Use alignment to show relationships."
+                },
+                {
+                    name: "Figure-Ground",
+                    description: "The eye differentiates an object from its surrounding area. Create clear distinction between foreground and background.",
+                    examples: "Modal overlays with dimmed backgrounds, cards on colored backgrounds, nav bars distinct from content",
+                    application: "Make important content stand out from its background. Use contrast and layering effectively."
+                },
+                {
+                    name: "Common Region",
+                    description: "Elements within a bounded area are perceived as grouped. Containers create visual groupings.",
+                    examples: "Cards, boxes, panels, sections with background colors, bordered areas grouping related content",
+                    application: "Use containers to group related elements. Backgrounds and borders create clear groupings."
+                }
+            ],
+            accessibility: [
+                {
+                    name: "Perceivable",
+                    description: "Information and UI components must be presentable to users in ways they can perceive (WCAG Principle).",
+                    examples: "Alt text for images, captions for videos, sufficient color contrast, text that can be resized, multiple sensory channels",
+                    application: "Ensure all users can perceive content regardless of disabilities. Provide text alternatives."
+                },
+                {
+                    name: "Operable",
+                    description: "UI components and navigation must be operable by all users, including those using assistive technologies.",
+                    examples: "Keyboard navigation, sufficient time for reading, no seizure-inducing flashing, clear focus indicators, skip links",
+                    application: "Make all functionality available from keyboard. Don't rely solely on mouse/touch."
+                },
+                {
+                    name: "Understandable",
+                    description: "Information and operation of the UI must be understandable to all users.",
+                    examples: "Clear language, predictable navigation, input assistance, error identification and recovery, consistent labeling",
+                    application: "Use clear language. Make navigation predictable. Help users avoid and correct mistakes."
+                },
+                {
+                    name: "Robust",
+                    description: "Content must be robust enough to be interpreted by a wide variety of user agents, including assistive technologies.",
+                    examples: "Semantic HTML, ARIA labels where needed, valid code, compatible with screen readers and assistive tech",
+                    application: "Use proper HTML semantics. Ensure compatibility with assistive technologies."
+                },
+                {
+                    name: "Color Contrast",
+                    description: "Sufficient contrast between text and background ensures readability for users with visual impairments.",
+                    examples: "4.5:1 ratio for normal text, 3:1 for large text, avoid color as only indicator, test with contrast checkers",
+                    application: "Check all text has sufficient contrast. Don't rely on color alone to convey information."
+                },
+                {
+                    name: "Keyboard Accessibility",
+                    description: "All functionality must be available using only a keyboard, without requiring specific timings for keystrokes.",
+                    examples: "Tab navigation, visible focus indicators, keyboard shortcuts documented, no keyboard traps, logical tab order",
+                    application: "Test everything with keyboard only. Ensure clear focus states and logical navigation order."
+                }
+            ],
+            usability: [
+                {
+                    name: "Learnability",
+                    description: "How easy is it for users to accomplish basic tasks the first time they encounter the design?",
+                    examples: "Intuitive icons, clear labels, onboarding flows, familiar patterns, progressive disclosure, contextual help",
+                    application: "Make first-time use easy. Use familiar patterns. Provide guidance without overwhelming."
+                },
+                {
+                    name: "Efficiency",
+                    description: "Once users learn the design, how quickly can they perform tasks?",
+                    examples: "Shortcuts, quick actions, smart defaults, batch operations, recently used items, saved preferences",
+                    application: "Reduce steps for common tasks. Remember user choices. Provide shortcuts for frequent actions."
+                },
+                {
+                    name: "Memorability",
+                    description: "When users return after not using the system, how easily can they reestablish proficiency?",
+                    examples: "Consistent design, clear visual hierarchy, memorable icons, logical organization, persistent navigation",
+                    application: "Keep designs consistent. Use memorable visual elements. Don't make users relearn."
+                },
+                {
+                    name: "Error Tolerance",
+                    description: "How many errors do users make, how severe are they, and how easily can they recover?",
+                    examples: "Undo functions, auto-save, validation before submission, forgiving search, confirmation dialogs",
+                    application: "Prevent errors where possible. Make recovery easy when errors occur."
+                },
+                {
+                    name: "Satisfaction",
+                    description: "How pleasant is it to use the design? Does it meet user needs and expectations?",
+                    examples: "Pleasant aesthetics, smooth animations, delightful micro-interactions, achievement feedback, emotional design",
+                    application: "Create enjoyable experiences. Balance function with delight. Meet emotional needs."
+                },
+                {
+                    name: "Clarity",
+                    description: "Information and functionality should be clear and unambiguous to users.",
+                    examples: "Clear headings, descriptive labels, simple language, obvious CTAs, visual hierarchy, focused content",
+                    application: "Make purpose and functionality obvious. Remove ambiguity. Use clear, simple language."
+                },
+                {
+                    name: "Simplicity",
+                    description: "Keep designs as simple as possible while maintaining functionality. Avoid unnecessary complexity.",
+                    examples: "Single-purpose screens, minimal steps, focused features, clear priorities, reduced cognitive load",
+                    application: "Remove unnecessary elements. Simplify workflows. Focus on core user goals."
+                },
+                {
+                    name: "Familiarity",
+                    description: "Use patterns and conventions users already know from other applications and experiences.",
+                    examples: "Standard icons, common UI patterns, platform conventions, expected behaviors, familiar terminology",
+                    application: "Don't reinvent the wheel. Use established patterns. Match user expectations."
+                }
+            ]
+        };
+
+        function createPrincipleCard(principle, category) {
+            const div = document.createElement('div');
+            div.className = 'principle-card p-6 rounded-lg border';
+            div.style.borderColor = 'var(--border-color)';
+            div.style.backgroundColor = 'var(--bg-secondary)';
+            div.dataset.category = category;
+            div.dataset.name = principle.name.toLowerCase();
+            
+            const categoryColors = {
+                'nielsen': '#ddd6fe',
+                'norman': '#fae8ff',
+                'gestalt': '#dbeafe',
+                'accessibility': '#dcfce7',
+                'usability': '#fef3c7'
+            };
+            
+            const categoryLabels = {
+                'nielsen': 'Nielsen Heuristic',
+                'norman': 'Norman Principle',
+                'gestalt': 'Gestalt Principle',
+                'accessibility': 'Accessibility',
+                'usability': 'Usability'
+            };
+            
+            div.innerHTML = `
+                <div class="flex items-start justify-between mb-3">
+                    <h3 class="font-bold text-lg flex-1">${principle.name}</h3>
+                    <span class="category-badge ml-2" style="background-color: ${categoryColors[category]};">${categoryLabels[category]}</span>
+                </div>
+                <p class="text-sm mb-3" style="color: var(--text-secondary);">${principle.description}</p>
+                <div class="mb-3">
+                    <p class="text-xs font-bold mb-1">💡 Examples:</p>
+                    <p class="text-xs" style="color: var(--text-secondary);">${principle.examples}</p>
+                </div>
+                <div class="p-3 rounded text-xs" style="background-color: var(--bg-primary);">
+                    <p class="font-bold mb-1">📌 How to Apply:</p>
+                    <p style="color: var(--text-secondary);">${principle.application}</p>
+                </div>
+            `;
+            
+            return div;
+        }
+
+        function renderAllPrinciples() {
+            const grid = document.getElementById('principlesGrid');
+            grid.innerHTML = '';
+            
+            Object.keys(principles).forEach(category => {
+                principles[category].forEach(principle => {
+                    const card = createPrincipleCard(principle, category);
+                    grid.appendChild(card);
+                });
+            });
+        }
+
+        function filterCategory(cat) {
+            const cards = document.querySelectorAll('#principlesGrid .principle-card');
+            const buttons = document.querySelectorAll('.category-filter');
+            
+            // Update button styles
+            buttons.forEach(btn => {
+                btn.style.backgroundColor = '';
+                btn.style.color = '';
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+            event.target.style.backgroundColor = 'var(--accent-color)';
+            event.target.style.color = 'white';
+            
+            // Filter cards
+            cards.forEach(card => {
+                if (cat === 'all' || card.dataset.category === cat) {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
+
+        function searchPrinciples() {
+            const input = document.getElementById('searchInput').value.toLowerCase();
+            const cards = document.querySelectorAll('#principlesGrid .principle-card');
+            
+            cards.forEach(card => {
+                const name = card.dataset.name;
+                const text = card.textContent.toLowerCase();
+                if (name.includes(input) || text.includes(input)) {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
+
+        // Initialize
+        renderAllPrinciples();
+
+        // Dark mode and font size controls
+        let isDarkMode = false;
+        let fontSize = 1;
+
+        document.getElementById('darkModeToggle').addEventListener('click', () => {
+            isDarkMode = !isDarkMode;
+            document.body.classList.toggle('dark-mode');
+            document.getElementById('modeIcon').textContent = isDarkMode ? '☀️' : '🌙';
+            localStorage.setItem('uxci_darkMode', isDarkMode);
+        });
+
+        document.getElementById('increaseFont').addEventListener('click', () => {
+            if (fontSize < 1.5) {
+                fontSize += 0.1;
+                document.documentElement.style.setProperty('--font-size', fontSize);
+                localStorage.setItem('uxci_fontSize', fontSize);
+            }
+        });
+
+        document.getElementById('decreaseFont').addEventListener('click', () => {
+            if (fontSize > 0.7) {
+                fontSize -= 0.1;
+                document.documentElement.style.setProperty('--font-size', fontSize);
+                localStorage.setItem('uxci_fontSize', fontSize);
+            }
+        });
+
+        // Load saved preferences
+        const savedDarkMode = localStorage.getItem('uxci_darkMode') === 'true';
+        const savedFontSize = parseFloat(localStorage.getItem('uxci_fontSize')) || 1;
+        
+        if (savedDarkMode) {
+            document.body.classList.add('dark-mode');
+            document.getElementById('modeIcon').textContent = '☀️';
+            isDarkMode = true;
+        }
+        
+        fontSize = savedFontSize;
+        document.documentElement.style.setProperty('--font-size', fontSize);
+    </script>
+</body>
+</html>

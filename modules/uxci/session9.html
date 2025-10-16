@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Session 9: Problem-Solution Evaluation</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .slide { display: none; }
+        .slide.active { display: flex; }
+        :root {
+            --bg-primary: #ffffff; --bg-secondary: #f9fafb; --text-primary: #111827;
+            --text-secondary: #4b5563; --border-color: #e5e7eb; --accent-color: #8b5cf6; --font-size: 1;
+        }
+        .dark-mode {
+            --bg-primary: #1f2937; --bg-secondary: #111827; --text-primary: #f9fafb;
+            --text-secondary: #d1d5db; --border-color: #374151; --accent-color: #a78bfa;
+        }
+        html { font-size: calc(var(--font-size) * 16px); }
+        body { background-color: var(--bg-primary); color: var(--text-primary); }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col">
+    <header class="border-b p-4" style="border-color: var(--border-color);">
+        <div class="max-w-7xl mx-auto flex justify-between items-center">
+            <h1 class="text-lg font-semibold">User Experience for Creative Industries - Session 9</h1>
+            <div class="flex gap-2">
+                <button id="decreaseFont" class="px-3 py-2 rounded border">A-</button>
+                <button id="increaseFont" class="px-3 py-2 rounded border">A+</button>
+                <button id="darkModeToggle" class="px-4 py-2 rounded border"><span id="modeIcon">🌙</span></button>
+            </div>
+        </div>
+    </header>
+
+    <main class="flex-1 flex items-center justify-center p-8">
+        <div class="w-full max-w-5xl">
+            <div class="slide active flex-col items-center justify-center text-center h-[70vh]">
+                <h2 class="text-5xl font-bold mb-6">Session 9</h2>
+                <h3 class="text-3xl mb-8" style="color: var(--text-secondary);">Problem-Solution Evaluation</h3>
+                <p class="text-xl" style="color: var(--text-secondary);">Week 9 of 11</p>
+            </div>
+
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-4xl font-bold mb-8">Where We Are</h2>
+                <ul class="space-y-4 text-xl">
+                    <li>✓ You've designed your solution</li>
+                    <li>✓ You've tested and evaluated it</li>
+                    <li>✓ Now: Articulate the value of your work</li>
+                </ul>
+                <p class="mt-8 text-2xl font-semibold p-4 rounded" style="background-color: var(--bg-secondary);">
+                    Today: Write Section 3 of your slide deck
+                </p>
+            </div>
+
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-4xl font-bold mb-6">Section 3: Evaluation & Recommendations</h2>
+                <div class="space-y-4">
+                    <div class="p-5 rounded" style="background-color: #fef3c7; border-left: 4px solid #f59e0b;">
+                        <p class="text-xl font-bold">Problem Analysis</p>
+                        <p class="text-base" style="color: var(--text-secondary);">200-250 words: What problems existed before?</p>
+                    </div>
+                    <div class="p-5 rounded" style="background-color: #dbeafe; border-left: 4px solid #3b82f6;">
+                        <p class="text-xl font-bold">Solution Evaluation</p>
+                        <p class="text-base" style="color: var(--text-secondary);">200-250 words: How does your design solve them?</p>
+                    </div>
+                    <div class="p-5 rounded" style="background-color: #dcfce7; border-left: 4px solid #16a34a;">
+                        <p class="text-xl font-bold">Recommendations</p>
+                        <p class="text-base" style="color: var(--text-secondary);">150-200 words: What's next?</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-4xl font-bold mb-8">Critical Evaluation Framework</h2>
+                <div class="mb-6 p-5 rounded" style="background-color: var(--bg-secondary); border: 2px solid var(--border-color);">
+                    <p class="text-2xl">Ask yourself honestly:</p>
+                </div>
+                <ul class="space-y-5 text-xl">
+                    <li class="flex items-start"><span class="mr-3">❓</span><span>Does your design actually solve the problem?</span></li>
+                    <li class="flex items-start"><span class="mr-3">📊</span><span>How do you know it works?</span></li>
+                    <li class="flex items-start"><span class="mr-3">📝</span><span>What's your evidence?</span></li>
+                    <li class="flex items-start"><span class="mr-3">⚖️</span><span>What trade-offs did you make?</span></li>
+                </ul>
+            </div>
+
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-3xl font-bold mb-6">Problem Analysis: What to Include</h2>
+                <div class="mb-4 p-4 rounded" style="background-color: #fef3c7; border: 2px solid #f59e0b;">
+                    <p class="text-lg font-bold">200-250 words covering:</p>
+                </div>
+                <ul class="space-y-4 text-base">
+                    <li class="flex items-start"><span class="mr-3">1.</span><span><strong>What problems existed:</strong> Specific issues users faced</span></li>
+                    <li class="flex items-start"><span class="mr-3">2.</span><span><strong>Evidence:</strong> Data, quotes, observations proving these problems</span></li>
+                    <li class="flex items-start"><span class="mr-3">3.</span><span><strong>Why it mattered:</strong> Impact on users (time, frustration, task failure)</span></li>
+                    <li class="flex items-start"><span class="mr-3">4.</span><span><strong>Context:</strong> When/where these problems occurred</span></li>
+                </ul>
+                <p class="mt-6 text-base p-3 rounded" style="background-color: var(--bg-secondary);">
+                    This is either "enhancing existing experience" OR "creating new experience"
+                </p>
+            </div>
+
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-3xl font-bold mb-4">Example: Problem Analysis</h2>
+                <div class="p-5 rounded text-base" style="background-color: #fef3c7; border: 2px solid #f59e0b;">
+                    <p class="font-bold mb-3">Library Study Room Booking (234 words)</p>
+                    <p class="mb-3">Students at MMU struggled to find and book available study rooms efficiently. The current booking system required users to navigate through multiple menus—clicking from the library homepage to services, then facilities, then booking—taking an average of 7 clicks and 3 minutes to reach the availability calendar. User reviews on app stores showed consistent complaints: "By the time I found a room, it was already taken" and "Too slow, just gave up."</p>
+                    <p class="mb-3">Analytics data revealed a 73% abandonment rate on the booking flow, with most users leaving after the second screen. Observational research showed students checking multiple times throughout the day, wasting 10-15 minutes between lectures trying to secure study space. During exam periods, this problem intensified, with booking times extending to 5+ minutes due to high demand and limited availability information.</p>
+                    <p>This inefficiency directly impacted students' academic performance and stress levels. Lost study time meant less preparation for assessments, while the frustration of the booking process discouraged library use entirely. Students reported choosing less optimal study environments (cafés, home) simply to avoid the booking system, undermining the library's role as a primary learning space.</p>
+                </div>
+            </div>
+
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-4xl font-bold mb-6">Activity: Write Problem Analysis (20 min)</h2>
+                <div class="mb-6 p-5 rounded" style="background-color: #dbeafe; border: 2px solid #3b82f6;">
+                    <p class="text-xl font-semibold">Draft your Problem Analysis now</p>
+                </div>
+                <div class="space-y-3 text-base">
+                    <div class="p-3 rounded" style="background-color: var(--bg-secondary);">
+                        <strong>Start with:</strong> What was the problem?
+                    </div>
+                    <div class="p-3 rounded" style="background-color: var(--bg-secondary);">
+                        <strong>Add evidence:</strong> Reviews, data, observations, quotes
+                    </div>
+                    <div class="p-3 rounded" style="background-color: var(--bg-secondary);">
+                        <strong>Explain impact:</strong> Why did this matter to users?
+                    </div>
+                    <div class="p-3 rounded" style="background-color: var(--bg-secondary);">
+                        <strong>Check word count:</strong> Aim for 200-250 words
+                    </div>
+                </div>
+            </div>
+
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-3xl font-bold mb-6">Solution Evaluation: What to Include</h2>
+                <div class="mb-4 p-4 rounded" style="background-color: #dbeafe; border: 2px solid #3b82f6;">
+                    <p class="text-lg font-bold">200-250 words covering:</p>
+                </div>
+                <ul class="space-y-4 text-base">
+                    <li class="flex items-start"><span class="mr-3">1.</span><span><strong>How design addresses problems:</strong> Specific solutions for each issue</span></li>
+                    <li class="flex items-start"><span class="mr-3">2.</span><span><strong>Features that solve pain points:</strong> What you built and why</span></li>
+                    <li class="flex items-start"><span class="mr-3">3.</span><span><strong>Expected improvements:</strong> Better UX outcomes (quantify if possible)</span></li>
+                    <li class="flex items-start"><span class="mr-3">4.</span><span><strong>Success metrics:</strong> How you'd measure if it works</span></li>
+                </ul>
+            </div>
+
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-3xl font-bold mb-6">Before/After Comparison</h2>
+                <div class="grid grid-cols-2 gap-5">
+                    <div class="p-5 rounded" style="background-color: #fee2e2; border: 2px solid #dc2626;">
+                        <p class="font-bold text-lg mb-3" style="color: #dc2626;">❌ Before</p>
+                        <ul class="space-y-2 text-sm">
+                            <li>• 7 clicks to see availability</li>
+                            <li>• 3 minutes average booking time</li>
+                            <li>• 73% abandonment rate</li>
+                            <li>• No real-time updates</li>
+                            <li>• Hidden availability info</li>
+                        </ul>
+                    </div>
+                    <div class="p-5 rounded" style="background-color: #dcfce7; border: 2px solid #16a34a;">
+                        <p class="font-bold text-lg mb-3" style="color: #16a34a;">✅ After</p>
+                        <ul class="space-y-2 text-sm">
+                            <li>• Availability shown immediately on home</li>
+                            <li>• 30 seconds to complete booking</li>
+                            <li>• Expected <30% abandonment</li>
+                            <li>• Color-coded real-time status</li>
+                            <li>• Instant visibility</li>
+                        </ul>
+                    </div>
+                </div>
+                <p class="mt-4 text-base p-3 rounded" style="background-color: #dbeafe;">
+                    Quantify improvements where possible - numbers are powerful!
+                </p>
+            </div>
+
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-3xl font-bold mb-4">Example: Solution Evaluation</h2>
+                <div class="p-5 rounded text-base" style="background-color: #dbeafe; border: 2px solid #3b82f6;">
+                    <p class="font-bold mb-3">Library Study Room Booking Solution (221 words)</p>
+                    <p class="mb-3">My design addresses the core availability problem by displaying all free study rooms directly on the home screen, using color-coding (green=available now, yellow=available soon, grey=booked). This eliminates the 7-click navigation process entirely. Users can see room status, capacity, and equipment at a glance, applying filters without leaving the main view.</p>
+                    <p class="mb-3">The booking flow is reduced to two steps: select room and confirm time. Real-time updates prevent the "already taken" frustration by showing live availability as other students book. Error prevention is built in through availability constraints—users cannot select unavailable slots, and the system confirms bookings immediately.</p>
+                    <p>Expected improvements include reducing booking time from 3 minutes to approximately 30 seconds, cutting abandonment rates from 73% to under 30%, and eliminating navigation confusion entirely. Success would be measured through: completion rates, time-on-task metrics, user satisfaction surveys, and reduced support requests about the booking system. The design applies visibility of system status (Heuristic #1) and error prevention (Heuristic #5), directly addressing the usability issues identified in research.</p>
+                </div>
+            </div>
+
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-4xl font-bold mb-6">Activity: Write Solution Evaluation (20 min)</h2>
+                <div class="mb-6 p-5 rounded" style="background-color: #dbeafe; border: 2px solid #3b82f6;">
+                    <p class="text-xl font-semibold">Draft your Solution Evaluation now</p>
+                </div>
+                <div class="space-y-3 text-base">
+                    <div class="p-3 rounded" style="background-color: var(--bg-secondary);">
+                        <strong>Explain:</strong> How your design solves each problem
+                    </div>
+                    <div class="p-3 rounded" style="background-color: var(--bg-secondary);">
+                        <strong>Be specific:</strong> Which features address which pain points
+                    </div>
+                    <div class="p-3 rounded" style="background-color: var(--bg-secondary);">
+                        <strong>Quantify:</strong> Expected improvements (time, errors, satisfaction)
+                    </div>
+                    <div class="p-3 rounded" style="background-color: var(--bg-secondary);">
+                        <strong>Metrics:</strong> How would you measure success?
+                    </div>
+                </div>
+            </div>
+
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-4xl font-bold mb-8">Evidence-Based Claims</h2>
+                <div class="mb-6 p-5 rounded" style="background-color: #fef3c7; border: 2px solid #f59e0b;">
+                    <p class="text-xl">Don't just say "it's better" - explain WHY</p>
+                </div>
+                <div class="grid grid-cols-2 gap-5">
+                    <div class="p-4 rounded" style="background-color: #fee2e2; border: 2px solid #dc2626;">
+                        <p class="font-bold mb-2">❌ Weak Claims:</p>
+                        <ul class="text-sm space-y-1">
+                            <li>• "My design is better"</li>
+                            <li>• "Users will like it"</li>
+                            <li>• "It's more intuitive"</li>
+                            <li>• "Solves all problems"</li>
+                        </ul>
+                    </div>
+                    <div class="p-4 rounded" style="background-color: #dcfce7; border: 2px solid #16a34a;">
+                        <p class="font-bold mb-2">✅ Strong Claims:</p>
+                        <ul class="text-sm space-y-1">
+                            <li>• "Reduces clicks from 7 to 2"</li>
+                            <li>• "Shows status immediately (Heuristic 1)"</li>
+                            <li>• "Prevents booking errors"</li>
+                            <li>• "Testing revealed 3 major improvements"</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-3xl font-bold mb-6">Recommendations: What to Include</h2>
+                <div class="mb-4 p-4 rounded" style="background-color: #dcfce7; border: 2px solid #16a34a;">
+                    <p class="text-lg font-bold">150-200 words covering:</p>
+                </div>
+                <ul class="space-y-4 text-base">
+                    <li class="flex items-start"><span class="mr-3">1.</span><span><strong>Next steps:</strong> What should be developed next?</span></li>
+                    <li class="flex items-start"><span class="mr-3">2.</span><span><strong>Additional testing:</strong> What needs validation?</span></li>
+                    <li class="flex items-start"><span class="mr-3">3.</span><span><strong>Future features:</strong> What could be added later?</span></li>
+                    <li class="flex items-start"><span class="mr-3">4.</span><span><strong>Implementation:</strong> Realistic considerations</span></li>
+                    <li class="flex items-start"><span class="mr-3">5.</span><span><strong>Scalability:</strong> How could this grow?</span></li>
+                </ul>
+            </div>
+
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-4xl font-bold mb-6">What Makes Good Recommendations?</h2>
+                <div class="space-y-4">
+                    <div class="p-4 rounded" style="background-color: var(--bg-secondary); border-left: 4px solid #16a34a;">
+                        <p class="font-bold mb-2">Specific</p>
+                        <p class="text-sm">Not "improve it" but "add push notifications for booking confirmations"</p>
+                    </div>
+                    <div class="p-4 rounded" style="background-color: var(--bg-secondary); border-left: 4px solid #3b82f6;">
+                        <p class="font-bold mb-2">Actionable</p>
+                        <p class="text-sm">Something that can actually be done with resources available</p>
+                    </div>
+                    <div class="p-4 rounded" style="background-color: var(--bg-secondary); border-left: 4px solid #f59e0b;">
+                        <p class="font-bold mb-2">Realistic</p>
+                        <p class="text-sm">Acknowledges constraints (time, budget, technical limitations)</p>
+                    </div>
+                    <div class="p-4 rounded" style="background-color: var(--bg-secondary); border-left: 4px solid #8b5cf6;">
+                        <p class="font-bold mb-2">Prioritized</p>
+                        <p class="text-sm">What's most important to do first?</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-4xl font-bold mb-8">What You've Learned Today</h2>
+                <ul class="space-y-5 text-xl">
+                    <li>✓ How to write problem analysis with evidence</li>
+                    <li>✓ How to evaluate solutions critically</li>
+                    <li>✓ Before/after comparison technique</li>
+                    <li>✓ Evidence-based design claims</li>
+                    <li>✓ Professional recommendation writing</li>
+                </ul>
+                <p class="mt-8 text-xl font-semibold p-4 rounded" style="background-color: var(--bg-secondary);">
+                    Section 3 of your slide deck is now complete!
+                </p>
+            </div>
+
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-4xl font-bold mb-8">Homework</h2>
+                <ul class="space-y-5 text-xl">
+                    <li class="flex items-start"><span class="mr-3">1.</span><span><strong>Complete ALL of Section 3</strong> (Problem + Solution + Recommendations)</span></li>
+                    <li class="flex items-start"><span class="mr-3">2.</span><span><strong>Refine based on feedback</strong> from today's activities</span></li>
+                    <li class="flex items-start"><span class="mr-3">3.</span><span><strong>Check word counts:</strong> ~600 words total for Section 3</span></li>
+                    <li class="flex items-start"><span class="mr-3">4.</span><span><strong>Bring to next session</strong> for slide deck assembly workshop</span></li>
+                </ul>
+                <div class="mt-10 p-5 rounded text-center" style="background-color: var(--bg-secondary); border: 2px solid var(--accent-color);">
+                    <p class="text-2xl font-bold mb-2">Next Week: Slide Deck Workshop</p>
+                    <p class="text-lg" style="color: var(--text-secondary);">Assemble everything into your final submission!</p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="border-t p-4">
+        <div class="max-w-7xl mx-auto flex justify-between items-center">
+            <button id="prevBtn" class="px-6 py-2 rounded border font-medium">← Previous</button>
+            <span id="slideCounter" class="text-lg">1 / 16</span>
+            <button id="nextBtn" class="px-6 py-2 rounded border font-medium">Next →</button>
+        </div>
+    </footer>
+
+    <script>
+        let currentSlide = 0; const slides = document.querySelectorAll('.slide');
+        function showSlide(n) {
+            slides[currentSlide].classList.remove('active'); currentSlide = (n + slides.length) % slides.length;
+            slides[currentSlide].classList.add('active');
+            document.getElementById('slideCounter').textContent = `${currentSlide + 1} / ${slides.length}`;
+            document.getElementById('prevBtn').disabled = currentSlide === 0;
+            document.getElementById('nextBtn').disabled = currentSlide === slides.length - 1;
+        }
+        document.getElementById('prevBtn').addEventListener('click', () => { if(currentSlide > 0) showSlide(currentSlide - 1); });
+        document.getElementById('nextBtn').addEventListener('click', () => { if(currentSlide < slides.length - 1) showSlide(currentSlide + 1); });
+        document.getElementById('darkModeToggle').addEventListener('click', () => {
+            document.body.classList.toggle('dark-mode');
+            document.getElementById('modeIcon').textContent = document.body.classList.contains('dark-mode') ? '☀️' : '🌙';
+        });
+        let fontSize = 1;
+        document.getElementById('increaseFont').addEventListener('click', () => { if(fontSize < 1.5) { fontSize += 0.1; document.documentElement.style.setProperty('--font-size', fontSize); }});
+        document.getElementById('decreaseFont').addEventListener('click', () => { if(fontSize > 0.7) { fontSize -= 0.1; document.documentElement.style.setProperty('--font-size', fontSize); }});
+        document.addEventListener('keydown', (e) => { if(e.key === 'ArrowRight') document.getElementById('nextBtn').click(); if(e.key === 'ArrowLeft') document.getElementById('prevBtn').click(); });
+        showSlide(0);
+    </script>
+</body>
+</html>

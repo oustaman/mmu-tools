@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Session 5: From Ideas to Paper</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .slide { display: none; }
+        .slide.active { display: flex; }
+        :root {
+            --bg-primary: #ffffff; --bg-secondary: #f9fafb; --text-primary: #111827;
+            --text-secondary: #4b5563; --border-color: #e5e7eb; --accent-color: #8b5cf6; --font-size: 1;
+        }
+        .dark-mode {
+            --bg-primary: #1f2937; --bg-secondary: #111827; --text-primary: #f9fafb;
+            --text-secondary: #d1d5db; --border-color: #374151; --accent-color: #a78bfa;
+        }
+        html { font-size: calc(var(--font-size) * 16px); }
+        body { background-color: var(--bg-primary); color: var(--text-primary); }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col">
+    <header class="border-b p-4" style="border-color: var(--border-color);">
+        <div class="max-w-7xl mx-auto flex justify-between items-center">
+            <h1 class="text-lg font-semibold">User Experience for Creative Industries - Session 5</h1>
+            <div class="flex gap-2">
+                <button id="decreaseFont" class="px-3 py-2 rounded border">A-</button>
+                <button id="increaseFont" class="px-3 py-2 rounded border">A+</button>
+                <button id="darkModeToggle" class="px-4 py-2 rounded border"><span id="modeIcon">🌙</span></button>
+            </div>
+        </div>
+    </header>
+
+    <main class="flex-1 flex items-center justify-center p-8">
+        <div class="w-full max-w-5xl">
+            <div class="slide active flex-col items-center justify-center text-center h-[70vh]">
+                <h2 class="text-5xl font-bold mb-6">Session 5</h2>
+                <h3 class="text-3xl mb-8" style="color: var(--text-secondary);">From Ideas to Paper</h3>
+                <p class="text-xl" style="color: var(--text-secondary);">Week 5 of 11</p>
+            </div>
+
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-4xl font-bold mb-8">Progress Check</h2>
+                <ul class="space-y-4 text-xl">
+                    <li>✓ Service chosen</li>
+                    <li>✓ Problem identified with evidence</li>
+                    <li>✓ 2 UCD principles selected</li>
+                    <li>✓ 2 artefacts created</li>
+                </ul>
+                <p class="mt-8 text-2xl font-semibold p-4 rounded" style="background-color: var(--bg-secondary);">
+                    Today: Start prototyping - sketching your solution!
+                </p>
+            </div>
+
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-4xl font-bold mb-8">Today's Goal</h2>
+                <div class="mb-6 p-5 rounded" style="background-color: #dbeafe; border: 2px solid #3b82f6;">
+                    <p class="text-2xl font-bold">Learn to sketch UI screens by hand</p>
+                </div>
+                <ul class="space-y-5 text-xl">
+                    <li class="flex items-start"><span class="mr-3">✏️</span><span>Overcome fear of sketching</span></li>
+                    <li class="flex items-start"><span class="mr-3">📱</span><span>Learn basic mobile UI patterns</span></li>
+                    <li class="flex items-start"><span class="mr-3">🎨</span><span>Practice rapid ideation</span></li>
+                    <li class="flex items-start"><span class="mr-3">📋</span><span>Start your 6-10 prototype screens</span></li>
+                </ul>
+            </div>
+
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-4xl font-bold mb-8">Why Hand-Drawn Sketches?</h2>
+                <h3 class="text-2xl mb-6 font-semibold">Honest answer: We want you focused on UX, not software</h3>
+                <div class="grid grid-cols-2 gap-5">
+                    <div class="p-4 rounded" style="background-color: #dcfce7; border: 2px solid #16a34a;">
+                        <p class="font-bold mb-2 text-lg">Sketching Benefits:</p>
+                        <ul class="space-y-2 text-base">
+                            <li>• 10x faster than Figma</li>
+                            <li>• No learning curve</li>
+                            <li>• Focus on function not pixels</li>
+                            <li>• Industry standard for ideation</li>
+                            <li>• Easy to iterate</li>
+                        </ul>
+                    </div>
+                    <div class="p-4 rounded" style="background-color: #fee2e2; border: 2px solid #dc2626;">
+                        <p class="font-bold mb-2 text-lg">Digital Tool Problems:</p>
+                        <ul class="space-y-2 text-base">
+                            <li>• Steep learning curve</li>
+                            <li>• Software crashes/bugs</li>
+                            <li>• Perfectionism trap</li>
+                            <li>• Time spent on looks not UX</li>
+                            <li>• Technical barriers</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-4xl font-bold mb-8">You Don't Need Art Skills</h2>
+                <div class="mb-6 p-5 rounded" style="background-color: var(--bg-secondary); border: 2px solid var(--border-color);">
+                    <p class="text-2xl">Seriously. Boxes and lines are enough.</p>
+                </div>
+                <div class="grid grid-cols-3 gap-4 text-center">
+                    <div class="p-4 rounded" style="background-color: var(--bg-secondary);">
+                        <div class="text-6xl mb-3">⬜</div>
+                        <p class="font-bold">Rectangle</p>
+                        <p class="text-sm" style="color: var(--text-secondary);">= Screen, button, box</p>
+                    </div>
+                    <div class="p-4 rounded" style="background-color: var(--bg-secondary);">
+                        <div class="text-6xl mb-3">⭕</div>
+                        <p class="font-bold">Circle</p>
+                        <p class="text-sm" style="color: var(--text-secondary);">= Icon, profile pic, button</p>
+                    </div>
+                    <div class="p-4 rounded" style="background-color: var(--bg-secondary);">
+                        <div class="text-6xl mb-3">━━</div>
+                        <p class="font-bold">Lines</p>
+                        <p class="text-sm" style="color: var(--text-secondary);">= Text, dividers</p>
+                    </div>
+                </div>
+                <p class="mt-6 text-xl font-semibold p-4 rounded" style="background-color: #fef3c7;">
+                    Rough sketches are more honest - they invite feedback
+                </p>
+            </div>
+
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-3xl font-bold mb-6">Mobile Screen Basics</h2>
+                <div class="grid grid-cols-2 gap-5">
+                    <div>
+                        <div class="p-4 rounded border-4 mx-auto" style="width: 200px; height: 400px; border-color: var(--border-color); background-color: var(--bg-secondary);">
+                            <div class="h-8 border-b-2 mb-2" style="border-color: var(--border-color);">
+                                <p class="text-xs text-center mt-2">Top Bar / Status</p>
+                            </div>
+                            <div class="h-48 border-2 mb-2" style="border-color: var(--border-color);">
+                                <p class="text-xs text-center mt-20">Main Content Area</p>
+                            </div>
+                            <div class="h-32 border-2" style="border-color: var(--border-color);">
+                                <p class="text-xs text-center mt-12">Bottom Nav (optional)</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <p class="text-lg font-semibold mb-3">Keep it roughly phone-shaped:</p>
+                        <ul class="space-y-3 text-base">
+                            <li>• Portrait orientation</li>
+                            <li>• Top status/title bar</li>
+                            <li>• Scrollable content area</li>
+                            <li>• Navigation (top or bottom)</li>
+                            <li>• Thumb-friendly hit areas</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-3xl font-bold mb-6">Common UI Patterns</h2>
+                <div class="grid grid-cols-2 gap-4 text-sm">
+                    <div class="p-3 rounded" style="background-color: var(--bg-secondary);">
+                        <p class="font-bold mb-2">Navigation Bar:</p>
+                        <p>Top bar with back button, title, action buttons</p>
+                    </div>
+                    <div class="p-3 rounded" style="background-color: var(--bg-secondary);">
+                        <p class="font-bold mb-2">Cards:</p>
+                        <p>Boxes with image + text + action</p>
+                    </div>
+                    <div class="p-3 rounded" style="background-color: var(--bg-secondary);">
+                        <p class="font-bold mb-2">Lists:</p>
+                        <p>Vertical stack of items (contacts, messages)</p>
+                    </div>
+                    <div class="p-3 rounded" style="background-color: var(--bg-secondary);">
+                        <p class="font-bold mb-2">Forms:</p>
+                        <p>Input fields stacked vertically with labels</p>
+                    </div>
+                    <div class="p-3 rounded" style="background-color: var(--bg-secondary);">
+                        <p class="font-bold mb-2">Tabs:</p>
+                        <p>Horizontal navigation between sections</p>
+                    </div>
+                    <div class="p-3 rounded" style="background-color: var(--bg-secondary);">
+                        <p class="font-bold mb-2">Search Bar:</p>
+                        <p>Input at top with magnifying glass icon</p>
+                    </div>
+                    <div class="p-3 rounded" style="background-color: var(--bg-secondary);">
+                        <p class="font-bold mb-2">Bottom Sheet:</p>
+                        <p>Modal that slides up from bottom</p>
+                    </div>
+                    <div class="p-3 rounded" style="background-color: var(--bg-secondary);">
+                        <p class="font-bold mb-2">FAB Button:</p>
+                        <p>Floating Action Button (main action)</p>
+                    </div>
+                </div>
+                <p class="mt-4 text-base p-3 rounded" style="background-color: #dbeafe;">
+                    Use familiar patterns - users already know how they work
+                </p>
+            </div>
+
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-4xl font-bold mb-8">Demo Time: Sketching a Login Screen</h2>
+                <div class="p-5 rounded" style="background-color: var(--bg-secondary); border: 2px solid var(--border-color);">
+                    <p class="text-xl mb-4">Watch as I sketch a simple login screen:</p>
+                    <ol class="space-y-3 text-lg">
+                        <li>1. Draw phone outline (rectangle)</li>
+                        <li>2. Add top bar with "Login" title</li>
+                        <li>3. Draw logo area (circle or square)</li>
+                        <li>4. Two input boxes (Email, Password)</li>
+                        <li>5. Primary button ("Login")</li>
+                        <li>6. Link ("Forgot password?")</li>
+                        <li>7. Annotate (what happens when clicked?)</li>
+                    </ol>
+                </div>
+                <p class="mt-6 text-lg text-center font-semibold">Takes about 2 minutes!</p>
+            </div>
+
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-4xl font-bold mb-8">Crazy 8s Exercise</h2>
+                <div class="mb-6 p-5 rounded" style="background-color: #dbeafe; border: 2px solid #3b82f6;">
+                    <p class="text-2xl font-bold mb-3">8 sketches in 8 minutes</p>
+                    <p class="text-lg">A rapid ideation technique to overcome perfectionism</p>
+                </div>
+                <ul class="space-y-4 text-lg">
+                    <li class="flex items-start"><span class="mr-3">1.</span><span>Fold paper into 8 sections (or use 8 boxes)</span></li>
+                    <li class="flex items-start"><span class="mr-3">2.</span><span>Pick ONE screen to sketch (e.g., home screen)</span></li>
+                    <li class="flex items-start"><span class="mr-3">3.</span><span>Draw 8 different versions - 1 minute each</span></li>
+                    <li class="flex items-start"><span class="mr-3">4.</span><span>No erasing! Just move to next box</span></li>
+                </ul>
+                <p class="mt-6 text-xl font-semibold p-4 rounded" style="background-color: #fef3c7;">
+                    Goal: Volume over perfection. Explore many ideas quickly.
+                </p>
+            </div>
+
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-4xl font-bold mb-6">Activity: Crazy 8s (10 min)</h2>
+                <div class="mb-6 p-5 rounded" style="background-color: #dbeafe; border: 2px solid #3b82f6;">
+                    <p class="text-xl font-semibold mb-3">Your Task:</p>
+                    <p class="text-lg mb-3">Pick a screen from YOUR app (home, booking, search, etc.)</p>
+                    <p class="text-lg">Sketch 8 variations in 8 minutes!</p>
+                </div>
+                <div class="p-4 rounded" style="background-color: var(--bg-secondary);">
+                    <p class="font-semibold mb-2">Variations can be:</p>
+                    <ul class="text-base space-y-1">
+                        <li>• Different layouts</li>
+                        <li>• Different navigation styles</li>
+                        <li>• More/fewer elements</li>
+                        <li>• Different visual hierarchies</li>
+                    </ul>
+                </div>
+                <p class="mt-6 text-2xl text-center font-semibold">⏱️ Ready? Go!</p>
+            </div>
+
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-4xl font-bold mb-8">Share & Discuss</h2>
+                <div class="space-y-6 text-xl">
+                    <p>Show your Crazy 8s to the person next to you:</p>
+                    <ul class="space-y-4">
+                        <li class="flex items-start"><span class="mr-3">•</span><span>Which version works best? Why?</span></li>
+                        <li class="flex items-start"><span class="mr-3">•</span><span>Which is most clear/usable?</span></li>
+                        <li class="flex items-start"><span class="mr-3">•</span><span>What would you combine from different versions?</span></li>
+                        <li class="flex items-start"><span class="mr-3">•</span><span>What surprised you?</span></li>
+                    </ul>
+                </div>
+                <p class="mt-8 text-lg font-semibold p-4 rounded" style="background-color: var(--bg-secondary);">
+                    Often your 7th or 8th idea is the best - you need to get past the obvious first
+                </p>
+            </div>
+
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-4xl font-bold mb-8">Now: Sketch Your Main Screen</h2>
+                <div class="mb-6 p-5 rounded" style="background-color: var(--bg-secondary); border: 2px solid var(--border-color);">
+                    <p class="text-xl">Pick the BEST version from your Crazy 8s and develop it</p>
+                </div>
+                <ul class="space-y-4 text-lg">
+                    <li class="flex items-start"><span class="mr-3">1.</span><span>Make it bigger, clearer, more detailed</span></li>
+                    <li class="flex items-start"><span class="mr-3">2.</span><span>Add annotations (what do buttons do?)</span></li>
+                    <li class="flex items-start"><span class="mr-3">3.</span><span>Label everything clearly</span></li>
+                    <li class="flex items-start"><span class="mr-3">4.</span><span>Show how your 2 UCD principles appear</span></li>
+                </ul>
+            </div>
+
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-4xl font-bold mb-6">Activity: Detailed Main Screen (15 min)</h2>
+                <div class="mb-6 p-5 rounded" style="background-color: #dbeafe; border: 2px solid #3b82f6;">
+                    <p class="text-xl">Create your first proper prototype screen</p>
+                </div>
+                <div class="space-y-4 text-base">
+                    <div class="p-3 rounded" style="background-color: var(--bg-secondary);">
+                        <strong>Tips:</strong> Draw bigger than Crazy 8s, use whole page if needed
+                    </div>
+                    <div class="p-3 rounded" style="background-color: var(--bg-secondary);">
+                        <strong>Include:</strong> All UI elements, navigation, main content, actions
+                    </div>
+                    <div class="p-3 rounded" style="background-color: var(--bg-secondary);">
+                        <strong>Annotate:</strong> Add arrows and notes explaining interactions
+                    </div>
+                    <div class="p-3 rounded" style="background-color: var(--bg-secondary);">
+                        <strong>Show principles:</strong> Where is accessibility? Consistency? Error prevention?
+                    </div>
+                </div>
+            </div>
+
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-4xl font-bold mb-8">Annotation Matters</h2>
+                <h3 class="text-2xl mb-6">Your sketches need notes explaining interactions</h3>
+                <div class="grid grid-cols-2 gap-5">
+                    <div class="p-4 rounded" style="background-color: #fee2e2; border: 2px solid #dc2626;">
+                        <p class="font-bold mb-2">❌ Bad Annotation:</p>
+                        <ul class="space-y-2 text-sm">
+                            <li>• Just drawing with no labels</li>
+                            <li>• "Button" (what does it do?)</li>
+                            <li>• No indication of state changes</li>
+                        </ul>
+                    </div>
+                    <div class="p-4 rounded" style="background-color: #dcfce7; border: 2px solid #16a34a;">
+                        <p class="font-bold mb-2">✅ Good Annotation:</p>
+                        <ul class="space-y-2 text-sm">
+                            <li>• "Search button → filters screen"</li>
+                            <li>• "Shows loading spinner while fetching"</li>
+                            <li>• "Disabled until form valid"</li>
+                            <li>• "Confirms before deleting"</li>
+                        </ul>
+                    </div>
+                </div>
+                <p class="mt-6 text-lg font-semibold p-4 rounded" style="background-color: #dbeafe;">
+                    Annotations show you understand the UX, not just the visuals
+                </p>
+            </div>
+
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-4xl font-bold mb-8">Your Assessment Needs 6-10 Screens</h2>
+                <div class="mb-6 p-5 rounded" style="background-color: var(--bg-secondary); border: 2px solid var(--border-color);">
+                    <p class="text-xl">Component A: Hand-drawn sketches showing key user journey</p>
+                </div>
+                <p class="text-lg mb-4 font-semibold">What screens do you need?</p>
+                <ul class="space-y-3 text-base">
+                    <li>• <strong>Entry point:</strong> How users start (splash, login, home)</li>
+                    <li>• <strong>Main task screens:</strong> Core functionality (booking, searching, creating)</li>
+                    <li>• <strong>Supporting screens:</strong> Settings, profile, help</li>
+                    <li>• <strong>Success state:</strong> Completion confirmation</li>
+                    <li>• <strong>Error states:</strong> What if something goes wrong?</li>
+                </ul>
+            </div>
+
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-3xl font-bold mb-6">Plan Your Screens Now</h2>
+                <div class="mb-6 p-5 rounded" style="background-color: #dbeafe; border: 2px solid #3b82f6;">
+                    <p class="text-lg">Quick activity: List the 6-10 screens you need</p>
+                </div>
+                <div class="p-4 rounded" style="background-color: var(--bg-secondary);">
+                    <p class="font-semibold mb-3">Example for library booking app:</p>
+                    <ol class="text-base space-y-2">
+                        <li>1. Home screen (available rooms)</li>
+                        <li>2. Search/filter screen</li>
+                        <li>3. Room details screen</li>
+                        <li>4. Booking form</li>
+                        <li>5. Confirmation screen</li>
+                        <li>6. My bookings screen</li>
+                        <li>7. Error screen (no rooms available)</li>
+                    </ol>
+                </div>
+            </div>
+
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-4xl font-bold mb-8">Sketch Templates Available</h2>
+                <div class="mb-6 p-5 rounded" style="background-color: var(--bg-secondary); border: 2px solid var(--border-color);">
+                    <p class="text-xl">Download from the module website:</p>
+                </div>
+                <ul class="space-y-4 text-lg">
+                    <li class="flex items-start"><span class="mr-3">📄</span><span>Blank mobile screen templates (PDF to print)</span></li>
+                    <li class="flex items-start"><span class="mr-3">📐</span><span>Grid templates for alignment</span></li>
+                    <li class="flex items-start"><span class="mr-3">📱</span><span>Different device sizes</span></li>
+                </ul>
+                <p class="mt-8 text-lg font-semibold p-4 rounded" style="background-color: #fef3c7;">
+                    Or just use blank paper - whatever works for you!
+                </p>
+            </div>
+
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-4xl font-bold mb-8">What You've Learned Today</h2>
+                <ul class="space-y-5 text-xl">
+                    <li>✓ How to sketch UI screens by hand</li>
+                    <li>✓ Basic mobile UI patterns</li>
+                    <li>✓ Rapid ideation with Crazy 8s</li>
+                    <li>✓ Importance of annotation</li>
+                    <li>✓ Planning your 6-10 screens</li>
+                </ul>
+                <p class="mt-8 text-xl font-semibold p-4 rounded" style="background-color: var(--bg-secondary);">
+                    You can now start prototyping your solution!
+                </p>
+            </div>
+
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-4xl font-bold mb-8">Homework</h2>
+                <ul class="space-y-5 text-xl">
+                    <li class="flex items-start"><span class="mr-3">1.</span><span><strong>Sketch all 6-10 screens</strong> for your prototype</span></li>
+                    <li class="flex items-start"><span class="mr-3">2.</span><span><strong>Annotate them</strong> - explain what happens</span></li>
+                    <li class="flex items-start"><span class="mr-3">3.</span><span><strong>Show your 2 principles</strong> clearly in the sketches</span></li>
+                    <li class="flex items-start"><span class="mr-3">4.</span><span><strong>Photograph/scan them</strong> - clear, readable images</span></li>
+                </ul>
+                <div class="mt-10 p-5 rounded text-center" style="background-color: #fef9c3; border: 2px solid #f59e0b;">
+                    <p class="text-2xl font-bold mb-2">Next Week: MIDTERM CHECK-IN</p>
+                    <p class="text-lg" style="color: #854d0e;">1-on-1 feedback sessions - bring everything you've done so far!</p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="border-t p-4">
+        <div class="max-w-7xl mx-auto flex justify-between items-center">
+            <button id="prevBtn" class="px-6 py-2 rounded border font-medium">← Previous</button>
+            <span id="slideCounter" class="text-lg">1 / 20</span>
+            <button id="nextBtn" class="px-6 py-2 rounded border font-medium">Next →</button>
+        </div>
+    </footer>
+
+    <script>
+        let currentSlide = 0; const slides = document.querySelectorAll('.slide');
+        function showSlide(n) {
+            slides[currentSlide].classList.remove('active'); currentSlide = (n + slides.length) % slides.length;
+            slides[currentSlide].classList.add('active');
+            document.getElementById('slideCounter').textContent = `${currentSlide + 1} / ${slides.length}`;
+            document.getElementById('prevBtn').disabled = currentSlide === 0;
+            document.getElementById('nextBtn').disabled = currentSlide === slides.length - 1;
+        }
+        document.getElementById('prevBtn').addEventListener('click', () => { if(currentSlide > 0) showSlide(currentSlide - 1); });
+        document.getElementById('nextBtn').addEventListener('click', () => { if(currentSlide < slides.length - 1) showSlide(currentSlide + 1); });
+        document.getElementById('darkModeToggle').addEventListener('click', () => {
+            document.body.classList.toggle('dark-mode');
+            document.getElementById('modeIcon').textContent = document.body.classList.contains('dark-mode') ? '☀️' : '🌙';
+        });
+        let fontSize = 1;
+        document.getElementById('increaseFont').addEventListener('click', () => { if(fontSize < 1.5) { fontSize += 0.1; document.documentElement.style.setProperty('--font-size', fontSize); }});
+        document.getElementById('decreaseFont').addEventListener('click', () => { if(fontSize > 0.7) { fontSize -= 0.1; document.documentElement.style.setProperty('--font-size', fontSize); }});
+        document.addEventListener('keydown', (e) => { if(e.key === 'ArrowRight') document.getElementById('nextBtn').click(); if(e.key === 'ArrowLeft') document.getElementById('prevBtn').click(); });
+        showSlide(0);
+    </script>
+</body>
+</html>

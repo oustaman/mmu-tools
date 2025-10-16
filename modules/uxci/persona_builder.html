@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Persona Builder - UXCI</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        :root {
+            --bg-primary: #ffffff;
+            --bg-secondary: #f9fafb;
+            --text-primary: #111827;
+            --text-secondary: #4b5563;
+            --border-color: #e5e7eb;
+            --accent-color: #8b5cf6;
+            --accent-hover: #7c3aed;
+            --font-size: 1;
+        }
+        
+        .dark-mode {
+            --bg-primary: #1f2937;
+            --bg-secondary: #111827;
+            --text-primary: #f9fafb;
+            --text-secondary: #9ca3af;
+            --border-color: #374151;
+            --accent-color: #a78bfa;
+            --accent-hover: #c4b5fd;
+        }
+        
+        html {
+            font-size: calc(var(--font-size) * 16px);
+        }
+        
+        body {
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+        }
+
+        .persona-preview {
+            position: sticky;
+            top: 20px;
+        }
+
+        input, textarea, select {
+            transition: border-color 0.2s;
+        }
+
+        input:focus, textarea:focus, select:focus {
+            outline: none;
+            border-color: var(--accent-color);
+        }
+
+        @media print {
+            .no-print { display: none; }
+            .persona-preview { box-shadow: none !important; }
+        }
+    </style>
+</head>
+<body class="min-h-screen">
+    <header class="border-b p-4 no-print" style="border-color: var(--border-color);">
+        <div class="max-w-7xl mx-auto flex justify-between items-center flex-wrap gap-4">
+            <div>
+                <h1 class="text-2xl font-bold">👤 Persona Builder</h1>
+                <p class="text-sm" style="color: var(--text-secondary);">Create detailed user personas for your project</p>
+            </div>
+            <div class="flex gap-2">
+                <button id="decreaseFont" class="px-3 py-2 rounded border" style="border-color: var(--border-color);" aria-label="Decrease font size">A-</button>
+                <button id="increaseFont" class="px-3 py-2 rounded border" style="border-color: var(--border-color);" aria-label="Increase font size">A+</button>
+                <button id="darkModeToggle" class="px-4 py-2 rounded border" style="border-color: var(--border-color);" aria-label="Toggle dark mode">
+                    <span id="modeIcon">🌙</span>
+                </button>
+                <button onclick="window.location.href='uxci_index_page.html'" class="px-4 py-2 rounded border" style="border-color: var(--border-color);">
+                    ← Back
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <main class="max-w-7xl mx-auto p-8">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            <!-- Form Section -->
+            <div class="no-print">
+                <div class="p-6 rounded-lg border" style="border-color: var(--border-color); background-color: var(--bg-secondary);">
+                    <h2 class="text-xl font-bold mb-4">Build Your Persona</h2>
+                    
+                    <!-- Basic Info -->
+                    <div class="mb-6">
+                        <h3 class="font-bold mb-3" style="color: var(--accent-color);">Basic Information</h3>
+                        
+                        <div class="mb-3">
+                            <label class="block text-sm font-medium mb-1">Name *</label>
+                            <input type="text" id="name" class="w-full p-2 rounded border" style="border-color: var(--border-color);" placeholder="e.g., Sarah Chen">
+                        </div>
+
+                        <div class="grid grid-cols-2 gap-3 mb-3">
+                            <div>
+                                <label class="block text-sm font-medium mb-1">Age</label>
+                                <input type="number" id="age" class="w-full p-2 rounded border" style="border-color: var(--border-color);" placeholder="25">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium mb-1">Gender</label>
+                                <input type="text" id="gender" class="w-full p-2 rounded border" style="border-color: var(--border-color);" placeholder="Female">
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="block text-sm font-medium mb-1">Occupation</label>
+                            <input type="text" id="occupation" class="w-full p-2 rounded border" style="border-color: var(--border-color);" placeholder="e.g., Graduate Student">
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="block text-sm font-medium mb-1">Location</label>
+                            <input type="text" id="location" class="w-full p-2 rounded border" style="border-color: var(--border-color);" placeholder="e.g., Manchester, UK">
+                        </div>
+                    </div>
+
+                    <!-- Tech Savviness -->
+                    <div class="mb-6">
+                        <label class="block text-sm font-medium mb-2">Tech Savviness</label>
+                        <select id="techLevel" class="w-full p-2 rounded border" style="border-color: var(--border-color);">
+                            <option value="Low">Low - Struggles with technology</option>
+                            <option value="Medium" selected>Medium - Comfortable with common apps</option>
+                            <option value="High">High - Very tech-literate, early adopter</option>
+                        </select>
+                    </div>
+
+                    <!-- Bio/Context -->
+                    <div class="mb-6">
+                        <label class="block text-sm font-medium mb-1">Bio / Context</label>
+                        <textarea id="bio" rows="3" class="w-full p-2 rounded border" style="border-color: var(--border-color);" placeholder="Brief background about this person's life, habits, and context..."></textarea>
+                    </div>
+
+                    <!-- Goals -->
+                    <div class="mb-6">
+                        <h3 class="font-bold mb-2" style="color: var(--accent-color);">Goals & Motivations</h3>
+                        <textarea id="goals" rows="4" class="w-full p-2 rounded border" style="border-color: var(--border-color);" placeholder="What does this person want to achieve? What motivates them?
+
+Example:
+• Find study rooms quickly between classes
+• Collaborate with group members efficiently
+• Maximize productive study time"></textarea>
+                    </div>
+
+                    <!-- Pain Points -->
+                    <div class="mb-6">
+                        <h3 class="font-bold mb-2" style="color: var(--accent-color);">Pain Points & Frustrations</h3>
+                        <textarea id="painPoints" rows="4" class="w-full p-2 rounded border" style="border-color: var(--border-color);" placeholder="What frustrates this person? What problems do they face?
+
+Example:
+• Current booking system is slow and confusing
+• Wastes 10+ minutes trying to book rooms
+• Often finds rooms already taken"></textarea>
+                    </div>
+
+                    <!-- Quote -->
+                    <div class="mb-6">
+                        <label class="block text-sm font-medium mb-1">Quote (Optional)</label>
+                        <input type="text" id="quote" class="w-full p-2 rounded border italic" style="border-color: var(--border-color);" placeholder='"I just want to book a room without the hassle!"'>
+                    </div>
+
+                    <!-- Actions -->
+                    <div class="flex gap-3">
+                        <button onclick="clearForm()" class="px-4 py-2 rounded border" style="border-color: var(--border-color);">
+                            Clear
+                        </button>
+                        <button onclick="window.print()" class="px-4 py-2 rounded text-white flex-1" style="background-color: var(--accent-color);">
+                            🖨️ Print/Save as PDF
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Preview Section -->
+            <div>
+                <div class="persona-preview p-8 rounded-lg border shadow-lg" style="border-color: var(--border-color); background-color: white;">
+                    <div class="text-center mb-6">
+                        <div class="w-32 h-32 rounded-full mx-auto mb-4 flex items-center justify-center text-6xl" style="background-color: var(--bg-secondary);">
+                            👤
+                        </div>
+                        <h2 id="previewName" class="text-3xl font-bold mb-1">Persona Name</h2>
+                        <p id="previewOccupation" class="text-lg" style="color: var(--text-secondary);">Occupation</p>
+                    </div>
+
+                    <!-- Demographics -->
+                    <div class="grid grid-cols-3 gap-4 mb-6 p-4 rounded" style="background-color: var(--bg-secondary);">
+                        <div class="text-center">
+                            <div class="text-2xl font-bold" style="color: var(--accent-color);" id="previewAge">--</div>
+                            <div class="text-xs" style="color: var(--text-secondary);">Age</div>
+                        </div>
+                        <div class="text-center">
+                            <div class="text-2xl font-bold" style="color: var(--accent-color);" id="previewGender">--</div>
+                            <div class="text-xs" style="color: var(--text-secondary);">Gender</div>
+                        </div>
+                        <div class="text-center">
+                            <div class="text-2xl font-bold" style="color: var(--accent-color);" id="previewTech">--</div>
+                            <div class="text-xs" style="color: var(--text-secondary);">Tech</div>
+                        </div>
+                    </div>
+
+                    <div class="mb-4">
+                        <div class="text-xs font-bold mb-1" style="color: var(--text-secondary);">📍 LOCATION</div>
+                        <div id="previewLocation">--</div>
+                    </div>
+
+                    <!-- Bio -->
+                    <div class="mb-6 p-4 rounded" style="background-color: var(--bg-secondary);">
+                        <div class="text-xs font-bold mb-2" style="color: var(--text-secondary);">ABOUT</div>
+                        <div id="previewBio" class="text-sm" style="color: var(--text-primary);">No bio yet...</div>
+                    </div>
+
+                    <!-- Goals -->
+                    <div class="mb-6">
+                        <div class="text-xs font-bold mb-2" style="color: var(--accent-color);">🎯 GOALS & MOTIVATIONS</div>
+                        <div id="previewGoals" class="text-sm whitespace-pre-line" style="color: var(--text-primary);">No goals yet...</div>
+                    </div>
+
+                    <!-- Pain Points -->
+                    <div class="mb-6">
+                        <div class="text-xs font-bold mb-2" style="color: #dc2626;">😤 PAIN POINTS & FRUSTRATIONS</div>
+                        <div id="previewPainPoints" class="text-sm whitespace-pre-line" style="color: var(--text-primary);">No pain points yet...</div>
+                    </div>
+
+                    <!-- Quote -->
+                    <div id="quoteSection" class="mt-6 p-4 rounded border-l-4 hidden" style="border-color: var(--accent-color); background-color: var(--bg-secondary);">
+                        <div class="text-sm italic" id="previewQuote"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        // Update preview in real-time
+        function updatePreview() {
+            document.getElementById('previewName').textContent = document.getElementById('name').value || 'Persona Name';
+            document.getElementById('previewOccupation').textContent = document.getElementById('occupation').value || 'Occupation';
+            document.getElementById('previewAge').textContent = document.getElementById('age').value || '--';
+            document.getElementById('previewGender').textContent = document.getElementById('gender').value || '--';
+            document.getElementById('previewTech').textContent = document.getElementById('techLevel').value || '--';
+            document.getElementById('previewLocation').textContent = document.getElementById('location').value || '--';
+            document.getElementById('previewBio').textContent = document.getElementById('bio').value || 'No bio yet...';
+            document.getElementById('previewGoals').textContent = document.getElementById('goals').value || 'No goals yet...';
+            document.getElementById('previewPainPoints').textContent = document.getElementById('painPoints').value || 'No pain points yet...';
+            
+            const quote = document.getElementById('quote').value;
+            if (quote) {
+                document.getElementById('quoteSection').classList.remove('hidden');
+                document.getElementById('previewQuote').textContent = '"' + quote + '"';
+            } else {
+                document.getElementById('quoteSection').classList.add('hidden');
+            }
+        }
+
+        function clearForm() {
+            if (confirm('Clear all fields and start over?')) {
+                document.querySelectorAll('input, textarea, select').forEach(el => {
+                    if (el.type === 'text' || el.type === 'number' || el.tagName === 'TEXTAREA') {
+                        el.value = '';
+                    } else if (el.tagName === 'SELECT') {
+                        el.selectedIndex = 1; // Medium tech level
+                    }
+                });
+                updatePreview();
+            }
+        }
+
+        // Add event listeners to all inputs
+        document.querySelectorAll('input, textarea, select').forEach(element => {
+            element.addEventListener('input', updatePreview);
+            element.addEventListener('change', updatePreview);
+        });
+
+        // Initial preview update
+        updatePreview();
+
+        // Dark mode and font size controls
+        let isDarkMode = false;
+        let fontSize = 1;
+
+        document.getElementById('darkModeToggle').addEventListener('click', () => {
+            isDarkMode = !isDarkMode;
+            document.body.classList.toggle('dark-mode');
+            document.getElementById('modeIcon').textContent = isDarkMode ? '☀️' : '🌙';
+            localStorage.setItem('uxci_darkMode', isDarkMode);
+        });
+
+        document.getElementById('increaseFont').addEventListener('click', () => {
+            if (fontSize < 1.5) {
+                fontSize += 0.1;
+                document.documentElement.style.setProperty('--font-size', fontSize);
+                localStorage.setItem('uxci_fontSize', fontSize);
+            }
+        });
+
+        document.getElementById('decreaseFont').addEventListener('click', () => {
+            if (fontSize > 0.7) {
+                fontSize -= 0.1;
+                document.documentElement.style.setProperty('--font-size', fontSize);
+                localStorage.setItem('uxci_fontSize', fontSize);
+            }
+        });
+
+        // Load saved preferences
+        const savedDarkMode = localStorage.getItem('uxci_darkMode') === 'true';
+        const savedFontSize = parseFloat(localStorage.getItem('uxci_fontSize')) || 1;
+        
+        if (savedDarkMode) {
+            document.body.classList.add('dark-mode');
+            document.getElementById('modeIcon').textContent = '☀️';
+            isDarkMode = true;
+        }
+        
+        fontSize = savedFontSize;
+        document.documentElement.style.setProperty('--font-size', fontSize);
+    </script>
+</body>
+</html>

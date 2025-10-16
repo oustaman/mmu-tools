@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Session 2: Finding the Real Problem</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .slide { display: none; }
+        .slide.active { display: flex; }
+        
+        :root {
+            --bg-primary: #ffffff;
+            --bg-secondary: #f9fafb;
+            --text-primary: #111827;
+            --text-secondary: #4b5563;
+            --border-color: #e5e7eb;
+            --accent-color: #8b5cf6;
+            --font-size: 1;
+        }
+        
+        .dark-mode {
+            --bg-primary: #1f2937;
+            --bg-secondary: #111827;
+            --text-primary: #f9fafb;
+            --text-secondary: #d1d5db;
+            --border-color: #374151;
+            --accent-color: #a78bfa;
+        }
+        
+        html {
+            font-size: calc(var(--font-size) * 16px);
+        }
+        
+        body {
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col">
+    <header class="border-b p-4" style="border-color: var(--border-color);">
+        <div class="max-w-7xl mx-auto flex justify-between items-center">
+            <h1 class="text-lg font-semibold">User Experience for Creative Industries - Session 2</h1>
+            <div class="flex gap-2">
+                <button id="decreaseFont" class="px-3 py-2 rounded border" style="border-color: var(--border-color);">A-</button>
+                <button id="increaseFont" class="px-3 py-2 rounded border" style="border-color: var(--border-color);">A+</button>
+                <button id="darkModeToggle" class="px-4 py-2 rounded border" style="border-color: var(--border-color);">
+                    <span id="modeIcon">🌙</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <main class="flex-1 flex items-center justify-center p-8">
+        <div class="w-full max-w-5xl">
+            <!-- Slide 1: Title -->
+            <div class="slide active flex-col items-center justify-center text-center h-[70vh]">
+                <h2 class="text-5xl font-bold mb-6">Session 2</h2>
+                <h3 class="text-3xl mb-8" style="color: var(--text-secondary);">Finding the Real Problem</h3>
+                <p class="text-xl" style="color: var(--text-secondary);">Week 2 of 11</p>
+            </div>
+
+            <!-- Slide 2: Last Week Recap -->
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-4xl font-bold mb-8">Quick Recap: Last Week</h2>
+                <ul class="space-y-5 text-xl">
+                    <li class="flex items-start">
+                        <span class="mr-3">✓</span>
+                        <span>UX = How people feel when interacting with something</span>
+                    </li>
+                    <li class="flex items-start">
+                        <span class="mr-3">✓</span>
+                        <span>Bad UX costs money, good UX is invisible</span>
+                    </li>
+                    <li class="flex items-start">
+                        <span class="mr-3">✓</span>
+                        <span>Your assessment: Prototype + Artefacts + Slide Deck</span>
+                    </li>
+                    <li class="flex items-start">
+                        <span class="mr-3">✓</span>
+                        <span>You should be thinking about service selection</span>
+                    </li>
+                </ul>
+                <p class="mt-8 text-xl font-semibold p-4 rounded" style="background-color: var(--bg-secondary);">
+                    Today: We learn how to find and define the REAL problem
+                </p>
+            </div>
+
+            <!-- Slide 3: The Mistake Everyone Makes -->
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-4xl font-bold mb-8">The Mistake Everyone Makes</h2>
+                <div class="mb-6 p-5 rounded" style="background-color: #fee2e2; border: 2px solid #dc2626;">
+                    <p class="text-2xl font-bold mb-3" style="color: #dc2626;">Jumping Straight to Solutions</p>
+                    <p class="text-xl" style="color: #7f1d1d;">
+                        "The app needs a chatbot!"<br>
+                        "We should add more colors!"<br>
+                        "Make it like Instagram!"
+                    </p>
+                </div>
+                <div class="mt-6 p-5 rounded" style="background-color: #dcfce7; border: 2px solid #16a34a;">
+                    <p class="text-2xl font-bold mb-3" style="color: #16a34a;">The Right Way</p>
+                    <p class="text-xl" style="color: #166534;">
+                        First understand the problem.<br>
+                        Then solve it.
+                    </p>
+                </div>
+                <p class="mt-8 text-xl font-semibold p-4 rounded" style="background-color: var(--bg-secondary);">
+                    Good UX starts with understanding what's actually wrong
+                </p>
+            </div>
+
+            <!-- Slide 4: Real Example - Nokia -->
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-4xl font-bold mb-6">Real Example: Nokia's Mistake</h2>
+                <div class="mb-6 p-5 rounded" style="background-color: var(--bg-secondary); border: 2px solid var(--border-color);">
+                    <p class="text-lg font-semibold mb-3">The Situation (2007):</p>
+                    <p class="text-lg" style="color: var(--text-secondary);">Nokia was the world's largest phone manufacturer. iPhone launched.</p>
+                </div>
+                <div class="mb-4 p-4 rounded" style="background-color: #fee2e2;">
+                    <p class="text-lg font-semibold mb-2" style="color: #dc2626;">What Nokia thought the problem was:</p>
+                    <p class="text-base" style="color: #7f1d1d;">"We need better hardware. More features. Faster processors."</p>
+                </div>
+                <div class="mb-4 p-4 rounded" style="background-color: #dcfce7;">
+                    <p class="text-lg font-semibold mb-2" style="color: #16a34a;">What the real problem was:</p>
+                    <p class="text-base" style="color: #166534;">"People want simple, intuitive software. Touch interfaces. Apps that just work."</p>
+                </div>
+                <p class="mt-4 text-lg font-semibold p-4 rounded" style="background-color: var(--bg-secondary);">
+                    Result: Nokia went from market leader to almost bankrupt in 5 years
+                </p>
+            </div>
+
+            <!-- Slide 5: Symptoms vs Problems -->
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-4xl font-bold mb-8">Symptoms vs. Root Problems</h2>
+                <div class="grid grid-cols-2 gap-6">
+                    <div class="p-5 rounded" style="background-color: #fef3c7; border: 2px solid #f59e0b;">
+                        <p class="text-xl font-bold mb-4" style="color: #92400e;">🤒 Symptoms (What you see)</p>
+                        <ul class="space-y-3 text-base">
+                            <li>"Users don't click the button"</li>
+                            <li>"People abandon the checkout"</li>
+                            <li>"No one uses this feature"</li>
+                            <li>"Complaints about the app"</li>
+                        </ul>
+                    </div>
+                    <div class="p-5 rounded" style="background-color: #dcfce7; border: 2px solid #16a34a;">
+                        <p class="text-xl font-bold mb-4" style="color: #166534;">🎯 Root Problems (Why it happens)</p>
+                        <ul class="space-y-3 text-base">
+                            <li>"Button isn't visible enough"</li>
+                            <li>"Checkout has too many steps"</li>
+                            <li>"Feature doesn't solve user needs"</li>
+                            <li>"App is too complicated"</li>
+                        </ul>
+                    </div>
+                </div>
+                <p class="mt-8 text-xl font-semibold p-4 rounded" style="background-color: var(--bg-secondary);">
+                    Always dig deeper than the surface symptom
+                </p>
+            </div>
+
+            <!-- Slide 6: The 5 Whys Technique -->
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-4xl font-bold mb-6">The 5 Whys Technique</h2>
+                <div class="mb-6 p-5 rounded" style="background-color: var(--bg-secondary); border: 2px solid var(--border-color);">
+                    <p class="text-xl">A simple method from Toyota to find root causes: Keep asking "Why?" until you find the real problem</p>
+                </div>
+                <div class="space-y-3">
+                    <div class="p-3 rounded border-l-4" style="border-color: var(--accent-color); background-color: var(--bg-secondary);">
+                        <strong>Problem:</strong> Users abandon the library booking app
+                    </div>
+                    <div class="p-3 rounded border-l-4 ml-6" style="border-color: var(--accent-color); background-color: var(--bg-secondary);">
+                        <strong>Why?</strong> They can't find available study rooms
+                    </div>
+                    <div class="p-3 rounded border-l-4 ml-12" style="border-color: var(--accent-color); background-color: var(--bg-secondary);">
+                        <strong>Why?</strong> The calendar view is confusing
+                    </div>
+                    <div class="p-3 rounded border-l-4 ml-18" style="border-color: var(--accent-color); background-color: var(--bg-secondary);">
+                        <strong>Why?</strong> It shows ALL rooms, not just available ones
+                    </div>
+                    <div class="p-3 rounded border-l-4 ml-24" style="border-color: var(--accent-color); background-color: var(--bg-secondary);">
+                        <strong>Why?</strong> No filter for "available now"
+                    </div>
+                    <div class="p-4 rounded mt-4" style="background-color: #dcfce7;">
+                        <strong style="color: #16a34a;">Root cause:</strong> Missing a simple availability filter
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 7: Practice - Your Turn -->
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-4xl font-bold mb-6">Practice: 5 Whys</h2>
+                <div class="mb-6 p-5 rounded" style="background-color: #dbeafe; border: 2px solid #3b82f6;">
+                    <p class="text-2xl font-bold mb-3">Scenario:</p>
+                    <p class="text-xl">Students never use the university's gym booking app</p>
+                </div>
+                <div class="p-5 rounded" style="background-color: var(--bg-secondary);">
+                    <p class="text-xl font-semibold mb-4">Work in pairs for 5 minutes:</p>
+                    <ul class="space-y-3 text-lg">
+                        <li>1. Ask "Why?" to find deeper reasons</li>
+                        <li>2. Keep going until you find the root cause</li>
+                        <li>3. Write down your chain of whys</li>
+                        <li>4. We'll share findings as a class</li>
+                    </ul>
+                </div>
+                <p class="mt-6 text-lg text-center font-semibold">⏱️ Start now!</p>
+            </div>
+
+            <!-- Slide 8: User Research Intro -->
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-4xl font-bold mb-8">How Do We Find Problems?</h2>
+                <h3 class="text-2xl mb-6 font-semibold">Through User Research</h3>
+                <ul class="space-y-5 text-xl">
+                    <li class="flex items-start">
+                        <span class="mr-3">👤</span>
+                        <span><strong>Interviews</strong> - Talk to real users about their experiences</span>
+                    </li>
+                    <li class="flex items-start">
+                        <span class="mr-3">👀</span>
+                        <span><strong>Observation</strong> - Watch people use the service/product</span>
+                    </li>
+                    <li class="flex items-start">
+                        <span class="mr-3">📊</span>
+                        <span><strong>Surveys</strong> - Gather data from many users</span>
+                    </li>
+                    <li class="flex items-start">
+                        <span class="mr-3">📝</span>
+                        <span><strong>Desk Research</strong> - Reviews, complaints, existing data</span>
+                    </li>
+                </ul>
+                <p class="mt-8 text-xl font-semibold p-4 rounded" style="background-color: var(--bg-secondary);">
+                    Your assessment: You'll document your research methods
+                </p>
+            </div>
+
+            <!-- Slide 9: Good Research Questions -->
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-4xl font-bold mb-8">Asking Good Research Questions</h2>
+                <div class="grid grid-cols-2 gap-6">
+                    <div class="p-5 rounded" style="background-color: #fee2e2; border: 2px solid #dc2626;">
+                        <p class="text-xl font-bold mb-4" style="color: #dc2626;">❌ Bad Questions</p>
+                        <ul class="space-y-3 text-base">
+                            <li>"Do you like this app?"<br><span style="color: #7f1d1d; font-size: 0.9em;">→ Too vague</span></li>
+                            <li>"Would you use a chatbot?"<br><span style="color: #7f1d1d; font-size: 0.9em;">→ Leading question</span></li>
+                            <li>"What features do you want?"<br><span style="color: #7f1d1d; font-size: 0.9em;">→ Users aren't designers</span></li>
+                        </ul>
+                    </div>
+                    <div class="p-5 rounded" style="background-color: #dcfce7; border: 2px solid #16a34a;">
+                        <p class="text-xl font-bold mb-4" style="color: #166534;">✅ Good Questions</p>
+                        <ul class="space-y-3 text-base">
+                            <li>"What's frustrating about...?"<br><span style="color: #166534; font-size: 0.9em;">→ Uncovers pain points</span></li>
+                            <li>"Tell me about last time you..."<br><span style="color: #166534; font-size: 0.9em;">→ Gets real stories</span></li>
+                            <li>"What prevents you from...?"<br><span style="color: #166534; font-size: 0.9em;">→ Finds barriers</span></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 10: Problem Statement Framework -->
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-4xl font-bold mb-6">Writing a Problem Statement</h2>
+                <div class="mb-6 p-5 rounded" style="background-color: var(--bg-secondary); border: 2px solid var(--border-color);">
+                    <p class="text-xl font-semibold mb-3">Format:</p>
+                    <p class="text-lg" style="color: var(--text-secondary);">
+                        [User group] needs a way to [user need] because [insight/problem]
+                    </p>
+                </div>
+                <div class="space-y-4">
+                    <div class="p-4 rounded" style="background-color: #dcfce7;">
+                        <p class="text-base"><strong>Example 1:</strong> Students need a way to find available study spaces quickly because the current booking system shows all rooms regardless of availability, forcing them to check each room individually.</p>
+                    </div>
+                    <div class="p-4 rounded" style="background-color: #dcfce7;">
+                        <p class="text-base"><strong>Example 2:</strong> Local residents need a way to report potholes easily because the council website requires login, multiple forms, and doesn't provide status updates, leading to unreported issues.</p>
+                    </div>
+                </div>
+                <p class="mt-6 text-lg font-semibold p-4 rounded" style="background-color: var(--bg-secondary);">
+                    This becomes part of Section 3 in your slide deck
+                </p>
+            </div>
+
+            <!-- Slide 11: Evidence-Based Problems -->
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-4xl font-bold mb-8">Problems Need Evidence</h2>
+                <h3 class="text-2xl mb-6 font-semibold">Don't just guess - prove it</h3>
+                <ul class="space-y-5 text-xl">
+                    <li class="flex items-start">
+                        <span class="mr-3">📊</span>
+                        <span><strong>Data:</strong> "70% cart abandonment rate" (analytics)</span>
+                    </li>
+                    <li class="flex items-start">
+                        <span class="mr-3">💬</span>
+                        <span><strong>Quotes:</strong> "I gave up after the 4th screen" (user interviews)</span>
+                    </li>
+                    <li class="flex items-start">
+                        <span class="mr-3">⭐</span>
+                        <span><strong>Reviews:</strong> "App crashes during payment" (app store reviews)</span>
+                    </li>
+                    <li class="flex items-start">
+                        <span class="mr-3">🎯</span>
+                        <span><strong>Observations:</strong> "Users clicked back button 5 times" (usability tests)</span>
+                    </li>
+                </ul>
+                <p class="mt-8 text-xl font-semibold p-4 rounded" style="background-color: var(--bg-secondary);">
+                    Section 3 of your assessment requires this evidence
+                </p>
+            </div>
+
+            <!-- Slide 12: Case Study - Airbnb -->
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-4xl font-bold mb-6">Case Study: Airbnb's Research</h2>
+                <div class="mb-4 p-4 rounded" style="background-color: var(--bg-secondary); border: 2px solid var(--border-color);">
+                    <p class="text-lg"><strong>Early problem:</strong> Listings weren't getting bookings</p>
+                </div>
+                <div class="mb-4 p-4 rounded" style="background-color: #fef3c7;">
+                    <p class="text-base font-semibold mb-2">What they thought:</p>
+                    <p class="text-base" style="color: #92400e;">"Need better marketing, more features, lower prices"</p>
+                </div>
+                <div class="mb-4 p-4 rounded" style="background-color: #dbeafe;">
+                    <p class="text-base font-semibold mb-2">What research revealed:</p>
+                    <p class="text-base" style="color: #1e40af;">"Listings with professional photos get 2-3x more bookings"</p>
+                </div>
+                <div class="p-4 rounded" style="background-color: #dcfce7;">
+                    <p class="text-base font-semibold mb-2">The real problem:</p>
+                    <p class="text-base" style="color: #166534;">Poor quality photos made listings look unappealing and untrustworthy</p>
+                </div>
+                <p class="mt-4 text-lg font-semibold p-4 rounded" style="background-color: var(--bg-secondary);">
+                    Solution: Free professional photography service → Bookings doubled
+                </p>
+            </div>
+
+            <!-- Slide 13: For Your Project -->
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-4xl font-bold mb-8">For Your Assessment</h2>
+                <h3 class="text-2xl mb-6 font-semibold">What you need to do:</h3>
+                <ul class="space-y-5 text-xl">
+                    <li class="flex items-start">
+                        <span class="mr-3">1.</span>
+                        <span>Choose your service (library, gym, cafe, council, etc.)</span>
+                    </li>
+                    <li class="flex items-start">
+                        <span class="mr-3">2.</span>
+                        <span>Identify the problems (use 5 Whys, research methods)</span>
+                    </li>
+                    <li class="flex items-start">
+                        <span class="mr-3">3.</span>
+                        <span>Gather evidence (reviews, observations, interviews)</span>
+                    </li>
+                    <li class="flex items-start">
+                        <span class="mr-3">4.</span>
+                        <span>Write a clear problem statement</span>
+                    </li>
+                </ul>
+                <p class="mt-8 text-xl font-semibold p-4 rounded" style="background-color: var(--bg-secondary);">
+                    This becomes "Problem Analysis" in Section 3 of your slide deck
+                </p>
+            </div>
+
+            <!-- Slide 14: Common Mistakes -->
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-4xl font-bold mb-8">Common Mistakes to Avoid</h2>
+                <div class="space-y-4">
+                    <div class="p-4 rounded border-l-4" style="border-color: #dc2626; background-color: #fee2e2;">
+                        <p class="text-lg font-semibold mb-2" style="color: #dc2626;">Assuming you know the problem</p>
+                        <p class="text-base" style="color: #7f1d1d;">→ Do research first, assumptions second</p>
+                    </div>
+                    <div class="p-4 rounded border-l-4" style="border-color: #dc2626; background-color: #fee2e2;">
+                        <p class="text-lg font-semibold mb-2" style="color: #dc2626;">Solving symptoms, not root causes</p>
+                        <p class="text-base" style="color: #7f1d1d;">→ Use 5 Whys to dig deeper</p>
+                    </div>
+                    <div class="p-4 rounded border-l-4" style="border-color: #dc2626; background-color: #fee2e2;">
+                        <p class="text-lg font-semibold mb-2" style="color: #dc2626;">Defining problems as solutions</p>
+                        <p class="text-base" style="color: #7f1d1d;">→ "Needs a chatbot" is a solution, not a problem</p>
+                    </div>
+                    <div class="p-4 rounded border-l-4" style="border-color: #dc2626; background-color: #fee2e2;">
+                        <p class="text-lg font-semibold mb-2" style="color: #dc2626;">No evidence to back claims</p>
+                        <p class="text-base" style="color: #7f1d1d;">→ Show data, quotes, observations</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 15: Activity Time -->
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-4xl font-bold mb-6">Activity: Problem Statement Workshop</h2>
+                <div class="mb-6 p-5 rounded" style="background-color: #dbeafe; border: 2px solid #3b82f6;">
+                    <p class="text-xl font-semibold mb-3">Your Task (20 minutes):</p>
+                    <ol class="space-y-3 text-lg">
+                        <li>1. Pick a service you're considering for your project</li>
+                        <li>2. Use 5 Whys to find a root problem</li>
+                        <li>3. Write a problem statement using the framework</li>
+                        <li>4. List 2-3 pieces of evidence for this problem</li>
+                    </ol>
+                </div>
+                <div class="p-4 rounded" style="background-color: var(--bg-secondary);">
+                    <p class="text-lg font-semibold mb-2">Format:</p>
+                    <p class="text-base" style="color: var(--text-secondary);">[User group] needs a way to [need] because [problem/insight]</p>
+                </div>
+                <p class="mt-6 text-xl text-center font-semibold">We'll share these in 20 minutes!</p>
+            </div>
+
+            <!-- Slide 16: Sharing & Feedback -->
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-4xl font-bold mb-8">Share Your Problem Statements</h2>
+                <div class="mb-8 p-5 rounded" style="background-color: var(--bg-secondary); border: 2px solid var(--border-color);">
+                    <p class="text-xl font-semibold mb-3">Feedback Framework:</p>
+                    <ul class="space-y-2 text-lg">
+                        <li>✓ Is the user group clearly defined?</li>
+                        <li>✓ Is the need specific and actionable?</li>
+                        <li>✓ Does the "because" explain the root problem?</li>
+                        <li>✓ Is there evidence to support it?</li>
+                    </ul>
+                </div>
+                <p class="text-xl text-center font-semibold">Volunteers to share first? 🙋</p>
+            </div>
+
+            <!-- Slide 17: Next Steps -->
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-4xl font-bold mb-8">What You've Learned Today</h2>
+                <ul class="space-y-5 text-xl">
+                    <li class="flex items-start">
+                        <span class="mr-3">✓</span>
+                        <span>How to find root problems (not symptoms)</span>
+                    </li>
+                    <li class="flex items-start">
+                        <span class="mr-3">✓</span>
+                        <span>The 5 Whys technique</span>
+                    </li>
+                    <li class="flex items-start">
+                        <span class="mr-3">✓</span>
+                        <span>User research methods overview</span>
+                    </li>
+                    <li class="flex items-start">
+                        <span class="mr-3">✓</span>
+                        <span>How to write a problem statement</span>
+                    </li>
+                    <li class="flex items-start">
+                        <span class="mr-3">✓</span>
+                        <span>The importance of evidence</span>
+                    </li>
+                </ul>
+                <p class="mt-8 text-xl font-semibold p-4 rounded" style="background-color: var(--bg-secondary);">
+                    This forms the foundation of your Section 3: Problem Analysis
+                </p>
+            </div>
+
+            <!-- Slide 18: Homework -->
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-4xl font-bold mb-8">Before Next Week</h2>
+                <ul class="space-y-5 text-xl">
+                    <li class="flex items-start">
+                        <span class="mr-3">1.</span>
+                        <span><strong>Finalize your service choice</strong> - Bring it to next session</span>
+                    </li>
+                    <li class="flex items-start">
+                        <span class="mr-3">2.</span>
+                        <span><strong>Do initial research</strong> - Read reviews, observe users, note problems</span>
+                    </li>
+                    <li class="flex items-start">
+                        <span class="mr-3">3.</span>
+                        <span><strong>Refine your problem statement</strong> - Based on today's feedback</span>
+                    </li>
+                    <li class="flex items-start">
+                        <span class="mr-3">4.</span>
+                        <span><strong>Gather evidence</strong> - Screenshots, quotes, data to support your problem</span>
+                    </li>
+                </ul>
+                <div class="mt-10 p-5 rounded text-center" style="background-color: var(--bg-secondary); border: 2px solid var(--accent-color);">
+                    <p class="text-2xl font-bold mb-2">Next Week: Design Principles Through Examples</p>
+                    <p class="text-lg" style="color: var(--text-secondary);">Good/bad UX examples, Nielsen's heuristics, Learning to analyze designs</p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="border-t p-4" style="border-color: var(--border-color);">
+        <div class="max-w-7xl mx-auto flex justify-between items-center">
+            <button id="prevBtn" class="px-6 py-2 rounded border font-medium" style="border-color: var(--border-color);">← Previous</button>
+            <span id="slideCounter" class="text-lg" style="color: var(--text-secondary);">1 / 18</span>
+            <button id="nextBtn" class="px-6 py-2 rounded border font-medium" style="border-color: var(--border-color);">Next →</button>
+        </div>
+    </footer>
+
+    <script>
+        let currentSlide = 0;
+        let isDarkMode = false;
+        let fontSize = 1;
+        const slides = document.querySelectorAll('.slide');
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+        const slideCounter = document.getElementById('slideCounter');
+
+        function showSlide(n) {
+            slides[currentSlide].classList.remove('active');
+            currentSlide = (n + slides.length) % slides.length;
+            slides[currentSlide].classList.add('active');
+            slideCounter.textContent = `${currentSlide + 1} / ${slides.length}`;
+            prevBtn.disabled = currentSlide === 0;
+            nextBtn.disabled = currentSlide === slides.length - 1;
+            prevBtn.style.opacity = currentSlide === 0 ? '0.5' : '1';
+            nextBtn.style.opacity = currentSlide === slides.length - 1 ? '0.5' : '1';
+        }
+
+        prevBtn.addEventListener('click', () => { if (currentSlide > 0) showSlide(currentSlide - 1); });
+        nextBtn.addEventListener('click', () => { if (currentSlide < slides.length - 1) showSlide(currentSlide + 1); });
+        
+        document.getElementById('darkModeToggle').addEventListener('click', () => {
+            isDarkMode = !isDarkMode;
+            document.body.classList.toggle('dark-mode');
+            document.getElementById('modeIcon').textContent = isDarkMode ? '☀️' : '🌙';
+        });
+
+        document.getElementById('increaseFont').addEventListener('click', () => {
+            if (fontSize < 1.5) { fontSize += 0.1; document.documentElement.style.setProperty('--font-size', fontSize); }
+        });
+
+        document.getElementById('decreaseFont').addEventListener('click', () => {
+            if (fontSize > 0.7) { fontSize -= 0.1; document.documentElement.style.setProperty('--font-size', fontSize); }
+        });
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight') nextBtn.click();
+            if (e.key === 'ArrowLeft') prevBtn.click();
+        });
+
+        showSlide(0);
+    </script>
+</body>
+</html>

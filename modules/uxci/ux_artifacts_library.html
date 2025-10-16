@@ -1,0 +1,999 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UX Artifacts Library - UXCI</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        :root {
+            --bg-primary: #ffffff;
+            --bg-secondary: #f9fafb;
+            --text-primary: #111827;
+            --text-secondary: #4b5563;
+            --border-color: #e5e7eb;
+            --accent-color: #8b5cf6;
+            --accent-hover: #7c3aed;
+            --font-size: 1;
+        }
+        
+        .dark-mode {
+            --bg-primary: #1f2937;
+            --bg-secondary: #111827;
+            --text-primary: #f9fafb;
+            --text-secondary: #9ca3af;
+            --border-color: #374151;
+            --accent-color: #a78bfa;
+            --accent-hover: #c4b5fd;
+        }
+        
+        html {
+            font-size: calc(var(--font-size) * 16px);
+        }
+        
+        body {
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+        }
+
+        .artifact-card {
+            transition: all 0.2s ease;
+            cursor: pointer;
+        }
+
+        .artifact-card:hover {
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .difficulty-badge {
+            font-size: 0.75rem;
+            padding: 0.25rem 0.5rem;
+            border-radius: 0.25rem;
+        }
+
+        .tab-button {
+            transition: all 0.2s;
+            cursor: pointer;
+        }
+
+        .tab-button.active {
+            background-color: var(--accent-color);
+            color: white;
+        }
+
+        .hidden { display: none; }
+    </style>
+</head>
+<body class="min-h-screen">
+    <header class="border-b p-4" style="border-color: var(--border-color);">
+        <div class="max-w-7xl mx-auto flex justify-between items-center flex-wrap gap-4">
+            <div>
+                <h1 class="text-2xl font-bold">📚 UX Artifacts Library</h1>
+                <p class="text-sm" style="color: var(--text-secondary);">Comprehensive guide to choosing the right artifacts for your assessment</p>
+            </div>
+            <div class="flex gap-2">
+                <button id="decreaseFont" class="px-3 py-2 rounded border" style="border-color: var(--border-color);" aria-label="Decrease font size">A-</button>
+                <button id="increaseFont" class="px-3 py-2 rounded border" style="border-color: var(--border-color);" aria-label="Increase font size">A+</button>
+                <button id="darkModeToggle" class="px-4 py-2 rounded border" style="border-color: var(--border-color);" aria-label="Toggle dark mode">
+                    <span id="modeIcon">🌙</span>
+                </button>
+                <button onclick="window.location.href='uxci_index_page.html'" class="px-4 py-2 rounded border" style="border-color: var(--border-color);">
+                    ← Back
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <main class="max-w-7xl mx-auto p-8">
+        <!-- Tab Navigation -->
+        <div class="mb-8 flex gap-2 border-b" style="border-color: var(--border-color);">
+            <button onclick="showTab('selector')" id="tab-selector" class="tab-button active px-6 py-3 font-semibold">
+                🎯 Artifact Selector
+            </button>
+            <button onclick="showTab('library')" id="tab-library" class="tab-button px-6 py-3 font-semibold" style="color: var(--text-secondary);">
+                📖 Browse All Artifacts
+            </button>
+        </div>
+
+        <!-- SELECTOR TAB -->
+        <div id="selector-tab">
+            <div class="mb-8 p-6 rounded-lg border" style="border-color: var(--accent-color); background-color: #faf5ff;">
+                <h2 class="text-2xl font-bold mb-3">🎯 Find the Right Artifacts for Your Project</h2>
+                <p class="text-sm" style="color: var(--text-secondary);">Answer a few questions to get personalized artifact recommendations for your assessment.</p>
+            </div>
+
+            <!-- Question 1: Stage -->
+            <div class="mb-6 p-6 rounded-lg border" style="border-color: var(--border-color); background-color: var(--bg-secondary);">
+                <h3 class="text-lg font-bold mb-4">1. What stage are you at in your UX process?</h3>
+                <div class="space-y-2">
+                    <label class="flex items-start gap-3 p-3 rounded cursor-pointer hover:bg-white border" style="border-color: var(--border-color);">
+                        <input type="radio" name="stage" value="research" class="mt-1">
+                        <div>
+                            <div class="font-semibold">🔍 User Research</div>
+                            <div class="text-sm" style="color: var(--text-secondary);">Understanding users, their needs, and pain points</div>
+                        </div>
+                    </label>
+                    <label class="flex items-start gap-3 p-3 rounded cursor-pointer hover:bg-white border" style="border-color: var(--border-color);">
+                        <input type="radio" name="stage" value="design" class="mt-1">
+                        <div>
+                            <div class="font-semibold">✏️ Design</div>
+                            <div class="text-sm" style="color: var(--text-secondary);">Creating wireframes, prototypes, and visual designs</div>
+                        </div>
+                    </label>
+                    <label class="flex items-start gap-3 p-3 rounded cursor-pointer hover:bg-white border" style="border-color: var(--border-color);">
+                        <input type="radio" name="stage" value="testing" class="mt-1">
+                        <div>
+                            <div class="font-semibold">🔬 Testing & Evaluation</div>
+                            <div class="text-sm" style="color: var(--text-secondary);">Validating designs and gathering user feedback</div>
+                        </div>
+                    </label>
+                </div>
+            </div>
+
+            <!-- Question 2: Time Available -->
+            <div class="mb-6 p-6 rounded-lg border" style="border-color: var(--border-color); background-color: var(--bg-secondary);">
+                <h3 class="text-lg font-bold mb-4">2. How much time do you have?</h3>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+                    <label class="p-4 rounded cursor-pointer hover:bg-white border text-center" style="border-color: var(--border-color);">
+                        <input type="radio" name="time" value="quick" class="mb-2">
+                        <div class="font-semibold">⚡ Quick</div>
+                        <div class="text-xs" style="color: var(--text-secondary);">1-4 hours</div>
+                    </label>
+                    <label class="p-4 rounded cursor-pointer hover:bg-white border text-center" style="border-color: var(--border-color);">
+                        <input type="radio" name="time" value="moderate" class="mb-2">
+                        <div class="font-semibold">⏱️ Moderate</div>
+                        <div class="text-xs" style="color: var(--text-secondary);">1-3 days</div>
+                    </label>
+                    <label class="p-4 rounded cursor-pointer hover:bg-white border text-center" style="border-color: var(--border-color);">
+                        <input type="radio" name="time" value="extensive" class="mb-2">
+                        <div class="font-semibold">📅 Extensive</div>
+                        <div class="text-xs" style="color: var(--text-secondary);">1+ week</div>
+                    </label>
+                </div>
+            </div>
+
+            <!-- Question 3: Experience Level -->
+            <div class="mb-6 p-6 rounded-lg border" style="border-color: var(--border-color); background-color: var(--bg-secondary);">
+                <h3 class="text-lg font-bold mb-4">3. What's your UX experience level?</h3>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+                    <label class="p-4 rounded cursor-pointer hover:bg-white border text-center" style="border-color: var(--border-color);">
+                        <input type="radio" name="difficulty" value="low" class="mb-2">
+                        <div class="font-semibold">🌱 Beginner</div>
+                        <div class="text-xs" style="color: var(--text-secondary);">New to UX</div>
+                    </label>
+                    <label class="p-4 rounded cursor-pointer hover:bg-white border text-center" style="border-color: var(--border-color);">
+                        <input type="radio" name="difficulty" value="medium" class="mb-2">
+                        <div class="font-semibold">🌿 Intermediate</div>
+                        <div class="text-xs" style="color: var(--text-secondary);">Some experience</div>
+                    </label>
+                    <label class="p-4 rounded cursor-pointer hover:bg-white border text-center" style="border-color: var(--border-color);">
+                        <input type="radio" name="difficulty" value="high" class="mb-2">
+                        <div class="font-semibold">🌳 Advanced</div>
+                        <div class="text-xs" style="color: var(--text-secondary);">Experienced</div>
+                    </label>
+                </div>
+            </div>
+
+            <!-- Get Recommendations Button -->
+            <div class="text-center mb-8">
+                <button onclick="getRecommendations()" class="px-8 py-4 rounded-lg text-white font-bold text-lg" style="background-color: var(--accent-color);">
+                    Get My Recommendations →
+                </button>
+            </div>
+
+            <!-- Recommendations Results -->
+            <div id="recommendations" class="hidden">
+                <div class="mb-6 p-6 rounded-lg border" style="border-color: var(--accent-color); background-color: #dcfce7;">
+                    <h2 class="text-2xl font-bold mb-3" style="color: #166534;">✨ Your Recommended Artifacts</h2>
+                    <p class="text-sm mb-4" style="color: #166534;">Based on your selections, here are the best artifacts for your project:</p>
+                    <div id="recommendedArtifacts" class="space-y-4"></div>
+                </div>
+
+                <div class="p-4 rounded-lg" style="background-color: #fef3c7;">
+                    <p class="text-sm" style="color: #92400e;"><strong>💡 Tip:</strong> Choose 2 artifacts from different categories (Research, Design, Testing) to show a complete UX process.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- LIBRARY TAB -->
+        <div id="library-tab" class="hidden">
+            <!-- Category Filter -->
+            <div class="mb-6 flex gap-3 flex-wrap">
+                <button onclick="filterCategory('all')" class="category-filter active px-4 py-2 rounded border font-semibold" style="border-color: var(--accent-color); background-color: var(--accent-color); color: white;">
+                    All Artifacts
+                </button>
+                <button onclick="filterCategory('research')" class="category-filter px-4 py-2 rounded border" style="border-color: var(--border-color);">
+                    🔍 Research
+                </button>
+                <button onclick="filterCategory('design')" class="category-filter px-4 py-2 rounded border" style="border-color: var(--border-color);">
+                    ✏️ Design
+                </button>
+                <button onclick="filterCategory('testing')" class="category-filter px-4 py-2 rounded border" style="border-color: var(--border-color);">
+                    🔬 Testing
+                </button>
+                <button onclick="filterCategory('strategy')" class="category-filter px-4 py-2 rounded border" style="border-color: var(--border-color);">
+                    📈 Strategy
+                </button>
+            </div>
+
+            <!-- Search Bar -->
+            <div class="mb-6">
+                <input type="text" id="searchInput" onkeyup="searchArtifacts()" class="w-full p-3 rounded border" style="border-color: var(--border-color);" placeholder="🔍 Search artifacts...">
+            </div>
+
+            <!-- Artifacts Grid -->
+            <div id="artifactsGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4"></div>
+        </div>
+    </main>
+
+    <script>
+        const artifacts = {
+            research: [
+                {
+                    name: "User Personas",
+                    description: "Fictional characters representing different user segments, detailing their needs, behaviors, and pain points.",
+                    time: "1-2 days",
+                    difficulty: "Medium",
+                    tools: "Figma, Adobe XD, Miro, Google Docs",
+                    format: "Document, Image, PDF",
+                    links: ["https://maze.co/guides/user-personas/building-personas/", "https://www.justinmind.com/blog/user-persona-templates"]
+                },
+                {
+                    name: "SWOT Analysis",
+                    description: "Strategic planning tool analyzing strengths, weaknesses, opportunities, and threats related to a product.",
+                    time: "2-4 hours",
+                    difficulty: "Low",
+                    tools: "Google Docs, Miro, PowerPoint",
+                    format: "Document, Chart",
+                    links: ["https://www.kickassux.com/ux-library/swot-analysis"]
+                },
+                {
+                    name: "Card Sorting Results",
+                    description: "Findings from users organizing content into categories, helping inform navigation and structure.",
+                    time: "1-2 days",
+                    difficulty: "Medium",
+                    tools: "OptimalSort, Miro, Excel",
+                    format: "Document, Spreadsheet, Chart",
+                    links: ["https://maze.co/guides/card-sorting/ux-card-sorting/", "https://www.nngroup.com/articles/card-sorting-definition/"]
+                },
+                {
+                    name: "Diary Studies",
+                    description: "Longitudinal research where users log their experiences over time, providing deep insights into behavior patterns.",
+                    time: "Several weeks to months",
+                    difficulty: "High",
+                    tools: "Notion, Google Docs, Excel",
+                    format: "Document, Spreadsheet",
+                    links: ["https://maze.co/guides/ux-research/diary-research/", "https://www.nngroup.com/articles/diary-studies/"]
+                },
+                {
+                    name: "Ethnographic Studies",
+                    description: "In-depth research studying users in their natural environments over time to gain cultural insights.",
+                    time: "Several weeks to months",
+                    difficulty: "High",
+                    tools: "Notepad, Audio Recorder, Camera, Google Docs",
+                    format: "Document, Audio, Video",
+                    links: ["https://www.techved.com/blog/how-to-conduct-ethnographic-research-for-UX", "https://indeemo.com/what-is-mobile-ethnography"]
+                },
+                {
+                    name: "Survey Results/Analysis",
+                    description: "Compiled data and insights from user surveys, presented in charts or graphs for clarity.",
+                    time: "2-3 days",
+                    difficulty: "Medium",
+                    tools: "Excel, Google Sheets, Tableau",
+                    format: "Spreadsheet, Charts, Document",
+                    links: ["https://openfieldx.com/ux-survey-analysis-best-practices/"]
+                },
+                {
+                    name: "Market Research Reports",
+                    description: "Comprehensive analysis of market trends, audience demographics, and competitor activities.",
+                    time: "1 week or more",
+                    difficulty: "High",
+                    tools: "Google Docs, Excel, Tableau",
+                    format: "Document, Charts",
+                    links: ["https://www.uxdesigninstitute.com/blog/presenting-ux-research-findings/"]
+                },
+                {
+                    name: "Mind Maps",
+                    description: "Visual diagrams representing ideas and their relationships, used for brainstorming and structuring concepts.",
+                    time: "1-2 hours",
+                    difficulty: "Low",
+                    tools: "Miro, MindMeister, Figma",
+                    format: "Graphic, Image, Document",
+                    links: ["https://www.edrawmind.com/article/ux-mind-map.html"]
+                },
+                {
+                    name: "Brainstorming Notes",
+                    description: "Raw notes from ideation sessions where teams generate and explore new ideas.",
+                    time: "1-2 hours",
+                    difficulty: "Low",
+                    tools: "Google Docs, Paper and pen",
+                    format: "Document",
+                    links: ["https://www.bitbean.com/blog/ux-ideation-techniques-for-web-designers/"]
+                },
+                {
+                    name: "User Interviews",
+                    description: "Conversations with users to gather insights into their needs, motivations, and challenges.",
+                    time: "1-3 hours per interview",
+                    difficulty: "Medium",
+                    tools: "Zoom, Google Meet, Notion, Otter.ai",
+                    format: "Document, Audio",
+                    links: ["https://www.userinterviews.com/ux-research-field-guide-chapter/user-interviews", "https://xtensio.com/how-to-conduct-user-interviews/"]
+                },
+                {
+                    name: "User Surveys",
+                    description: "Structured questionnaires used to collect quantitative and qualitative data from users.",
+                    time: "1-2 days",
+                    difficulty: "Low to Medium",
+                    tools: "Google Forms, Typeform, SurveyMonkey",
+                    format: "Document, Charts",
+                    links: ["https://qualaroo.com/blog/ux-survey/"]
+                },
+                {
+                    name: "Empathy Maps",
+                    description: "Visual tools used to understand what users think, feel, say, and do to empathize with their experiences.",
+                    time: "1-2 hours",
+                    difficulty: "Low",
+                    tools: "Miro, Figma, Paper and markers",
+                    format: "Graphic, Image, Document",
+                    links: ["https://www.uxmatters.com/mt/archives/2023/02/empathy-maps-and-how-to-build-them.php", "https://www.nngroup.com/articles/empathy-mapping/"]
+                },
+                {
+                    name: "Journey Maps",
+                    description: "Visual representations of the steps users take to achieve a goal, identifying pain points and opportunities.",
+                    time: "1-2 days",
+                    difficulty: "Medium",
+                    tools: "Miro, Figma, Adobe XD",
+                    format: "Graphic, Image, Document",
+                    links: ["https://www.nngroup.com/articles/journey-mapping-101", "https://www.looppanel.com/blog/how-to-do-ux-journey-mapping-a-detailed-guide"]
+                },
+                {
+                    name: "Competitor Analysis",
+                    description: "An examination of competitors' products to evaluate their strengths and weaknesses and identify opportunities.",
+                    time: "1-2 days",
+                    difficulty: "Medium",
+                    tools: "Google Sheets, Notion, Excel",
+                    format: "Document, Spreadsheet",
+                    links: ["https://usabilitygeek.com/how-to-do-ux-competitor-analysis/", "https://www.looppanel.com/blog/competitor-analysis"]
+                },
+                {
+                    name: "Contextual Inquiries",
+                    description: "Observational research conducted in users' natural environments to understand how they interact with a product.",
+                    time: "Several hours to days",
+                    difficulty: "High",
+                    tools: "Notepad, Camera, Miro, Google Docs",
+                    format: "Notes, Images, Audio",
+                    links: ["https://www.nngroup.com/articles/contextual-inquiry/"]
+                },
+                {
+                    name: "Affinity Diagrams",
+                    description: "A method for organizing qualitative data into themes or categories, helping teams find patterns in research.",
+                    time: "2-4 hours",
+                    difficulty: "Medium",
+                    tools: "Miro, Mural, Sticky notes",
+                    format: "Image, Document",
+                    links: ["https://www.nngroup.com/articles/affinity-diagram/", "https://userpeek.com/blog/affinity-diagram-ux/"]
+                },
+                {
+                    name: "Task Analysis",
+                    description: "A detailed breakdown of the steps users take to complete specific tasks, highlighting decision points and interactions.",
+                    time: "1-2 days",
+                    difficulty: "Medium",
+                    tools: "Google Sheets, Miro, Figma",
+                    format: "Document, Spreadsheet, Graphic",
+                    links: ["https://maze.co/blog/task-analysis/", "https://www.nngroup.com/articles/task-analysis/"]
+                }
+            ],
+            design: [
+                {
+                    name: "Sketches",
+                    description: "Quick, low-fidelity drawings used to visually represent ideas early in the design process.",
+                    time: "30 minutes to 2 hours",
+                    difficulty: "Low",
+                    tools: "Paper and pen, Figma, Adobe XD",
+                    format: "Image, Graphic",
+                    links: ["https://uxdesign.cc/how-to-start-sketching-and-wireframing-84a821f092e2"]
+                },
+                {
+                    name: "Wireframes",
+                    description: "Low-fidelity layouts that represent the structure of a page or screen without detailed design elements.",
+                    time: "1-2 days",
+                    difficulty: "Medium",
+                    tools: "Figma, Sketch, Adobe XD",
+                    format: "Graphic, Image",
+                    links: ["https://www.uxdesigninstitute.com/blog/what-is-wireframing/", "https://careerfoundry.com/en/blog/ux-design/what-is-a-wireframe-guide/"]
+                },
+                {
+                    name: "Wireflows",
+                    description: "A combination of wireframes and user flows to illustrate layout and interaction patterns in a product.",
+                    time: "2-3 days",
+                    difficulty: "Medium",
+                    tools: "Figma, Sketch, Adobe XD, Miro",
+                    format: "Graphic, Image, Document",
+                    links: ["https://www.visily.ai/blog/what-is-wireflow-in-ux-design/", "https://alvarotrigo.com/blog/wireflows/"]
+                },
+                {
+                    name: "User Flows",
+                    description: "Diagrams outlining the steps users take to complete tasks, mapping interactions with the product.",
+                    time: "1-2 days",
+                    difficulty: "Medium",
+                    tools: "Figma, Miro, Adobe XD",
+                    format: "Graphic, Image, Document",
+                    links: ["https://careerfoundry.com/en/blog/ux-design/what-are-user-flows/"]
+                },
+                {
+                    name: "Task Flows",
+                    description: "Step-by-step outlines of how users will complete tasks within the product.",
+                    time: "1-2 days",
+                    difficulty: "Medium",
+                    tools: "Figma, Miro, Adobe XD",
+                    format: "Graphic, Image, Document",
+                    links: ["https://careerfoundry.com/en/blog/ux-design/how-to-create-a-user-flow"]
+                },
+                {
+                    name: "Storyboards",
+                    description: "Narrative sequences of illustrations showing how users will interact with a product over time.",
+                    time: "1 day",
+                    difficulty: "Medium",
+                    tools: "Figma, Sketch, Miro",
+                    format: "Graphic, Image",
+                    links: ["https://www.uxdesigninstitute.com/blog/ux-storyboard/", "https://careerfoundry.com/en/blog/ui-design/best-storyboard-examples/"]
+                },
+                {
+                    name: "Low-Fidelity Prototypes",
+                    description: "Simpler, less detailed prototypes used for early testing of basic interactions and flows.",
+                    time: "1-2 days",
+                    difficulty: "Medium",
+                    tools: "Figma, Adobe XD, InVision",
+                    format: "Interactive Prototype",
+                    links: ["https://www.figma.com/resource-library/low-fidelity-prototyping/", "https://www.thinklions.com/blog/low-fidelity-prototype/"]
+                },
+                {
+                    name: "High-Fidelity Prototypes",
+                    description: "Interactive simulations that closely mimic the final product in both design and functionality.",
+                    time: "3-5 days",
+                    difficulty: "High",
+                    tools: "Figma, Adobe XD, InVision",
+                    format: "Interactive Prototype",
+                    links: ["https://www.figma.com/resource-library/high-fidelity-prototyping/"]
+                },
+                {
+                    name: "Clickable Prototypes",
+                    description: "Interactive models allowing users to click through and navigate a product's screens or pages.",
+                    time: "1-3 days",
+                    difficulty: "Medium",
+                    tools: "Figma, InVision, Marvel",
+                    format: "Interactive Prototype",
+                    links: ["https://www.uxpin.com/studio/blog/create-interactive-prototypes/"]
+                },
+                {
+                    name: "UI Mockups",
+                    description: "High-fidelity designs showing the visual appearance of a user interface, including colors and typography.",
+                    time: "1-2 days",
+                    difficulty: "High",
+                    tools: "Figma, Sketch, Adobe XD",
+                    format: "Graphic, Image",
+                    links: ["https://www.visily.ai/blog/how-to-create-ui-mockups", "https://uizard.io/blog/guide-to-app-mockups/"]
+                },
+                {
+                    name: "Responsive Design Mockups",
+                    description: "Designs showing how a product will appear and function across different screen sizes and devices.",
+                    time: "2-3 days",
+                    difficulty: "High",
+                    tools: "Figma, Sketch, Adobe XD",
+                    format: "Image, Graphic",
+                    links: ["https://uxplanet.org/complete-guide-to-designing-mobile-app-and-website-mockups-1869aaa03627"]
+                },
+                {
+                    name: "Information Architecture",
+                    description: "The practice of structuring and organizing information logically to enhance findability and usability.",
+                    time: "1-2 days",
+                    difficulty: "Medium to High",
+                    tools: "Miro, Figma, Axure",
+                    format: "Document, Graphic",
+                    links: ["https://careerfoundry.com/en/blog/ux-design/a-beginners-guide-to-information-architecture/"]
+                },
+                {
+                    name: "Sitemaps",
+                    description: "Hierarchical diagrams representing the structure and organization within a website or app.",
+                    time: "2-4 hours",
+                    difficulty: "Low to Medium",
+                    tools: "Miro, Figma, Google Sheets",
+                    format: "Graphic, Image, Document",
+                    links: ["https://uxdesign.cc/how-to-create-a-ux-sitemap-a-simple-guideline-8786c16f85c1"]
+                },
+                {
+                    name: "Design Systems",
+                    description: "Comprehensive sets of design standards and components that ensure consistency across a product.",
+                    time: "Ongoing (weeks to setup)",
+                    difficulty: "High",
+                    tools: "Figma, Adobe XD, Sketch, ZeroHeight",
+                    format: "Components Library",
+                    links: ["https://www.figma.com/blog/design-systems-101-what-is-a-design-system/"]
+                },
+                {
+                    name: "Style Guides",
+                    description: "Documentation outlining the visual and interaction elements, such as colors and typography, ensuring consistency.",
+                    time: "2-3 days",
+                    difficulty: "Medium to High",
+                    tools: "Figma, Sketch, Adobe XD",
+                    format: "Document, Image",
+                    links: ["https://www.uxmatters.com/mt/archives/2019/11/creating-a-ux-design-style-guide.php"]
+                },
+                {
+                    name: "Mood Boards",
+                    description: "Collages of images, colors, and textures that convey the visual and emotional direction of a design.",
+                    time: "1-2 days",
+                    difficulty: "Medium",
+                    tools: "Pinterest, Figma, Adobe XD, Canva",
+                    format: "Image, Graphic",
+                    links: ["https://www.uxdesigninstitute.com/blog/mood-boards-for-ui-designers/", "https://www.nngroup.com/articles/mood-boards/"]
+                },
+                {
+                    name: "Iconography",
+                    description: "A set of custom icons used throughout the product, ensuring consistency and clarity in visual communication.",
+                    time: "1-2 days",
+                    difficulty: "Medium to High",
+                    tools: "Figma, Adobe Illustrator, Sketch",
+                    format: "SVG, PNG, Graphic",
+                    links: ["https://uxcel.com/blog/beginners-guide-to-iconography"]
+                },
+                {
+                    name: "Typography Scale",
+                    description: "A guide to the font sizes, weights, and spacing used in a design to create visual hierarchy and consistency.",
+                    time: "1-2 days",
+                    difficulty: "Medium",
+                    tools: "Figma, Adobe XD, Sketch",
+                    format: "Document, Image",
+                    links: ["https://blog.logrocket.com/ux-design/typographic-scaling/"]
+                },
+                {
+                    name: "Design Annotations",
+                    description: "Notes attached to wireframes or mockups explaining design decisions, interactions, and behavior.",
+                    time: "1-2 days",
+                    difficulty: "Medium",
+                    tools: "Figma, Adobe XD, Google Docs",
+                    format: "Document, Graphic",
+                    links: ["https://ux4sight.com/blog/design-to-dev-app-handoff-dont-drop-the-annotated-doc", "https://decode.agency/article/wireframe-annotations/"]
+                },
+                {
+                    name: "Content Inventory/Audit",
+                    description: "A detailed listing of all content within a site or app, used for redesign or content strategy.",
+                    time: "2-5 days",
+                    difficulty: "Medium to High",
+                    tools: "Google Sheets, Excel, Screaming Frog",
+                    format: "Spreadsheet, Document",
+                    links: ["https://www.uxpin.com/studio/blog/content-inventory/"]
+                },
+                {
+                    name: "Interaction Models",
+                    description: "Diagrams illustrating how users will interact with the product, showing inputs, outputs, and decisions.",
+                    time: "1-2 days",
+                    difficulty: "Medium",
+                    tools: "Figma, Miro, Adobe XD",
+                    format: "Graphic, Document",
+                    links: ["https://www.uxmatters.com/mt/archives/2012/01/defining-an-interaction-model-the-cornerstone-of-application-design.php"]
+                },
+                {
+                    name: "Design Specs",
+                    description: "Detailed documentation explaining the design elements and interactions for developers to implement.",
+                    time: "1-2 weeks",
+                    difficulty: "High",
+                    tools: "Figma, Adobe XD, Google Docs",
+                    format: "Document",
+                    links: ["https://dworkz.com/article/9-steps-on-how-to-write-design-specifications-that-fit-into-the-ux-design/"]
+                }
+            ],
+            testing: [
+                {
+                    name: "Heuristic Evaluations",
+                    description: "Expert assessments of a user interface based on usability principles to identify potential problems.",
+                    time: "1-2 days",
+                    difficulty: "Medium to High",
+                    tools: "Figma, Adobe XD, Google Docs",
+                    format: "Document",
+                    links: ["https://maze.co/guides/usability-testing/heuristic-evaluation/"]
+                },
+                {
+                    name: "Usability Test Plans",
+                    description: "Documents outlining the goals, methodology, and logistics of testing a product with real users.",
+                    time: "1-2 days",
+                    difficulty: "Medium",
+                    tools: "Google Docs, Notion, Excel",
+                    format: "Document",
+                    links: ["https://maze.co/guides/usability-testing/plan/", "https://medium.com/@userfocus/the-1-page-usability-test-plan-dbc8c3d7fb54"]
+                },
+                {
+                    name: "Usability Test Reports",
+                    description: "Summaries of insights gained from observing users interact with the product, identifying usability issues.",
+                    time: "1-3 days",
+                    difficulty: "Medium to High",
+                    tools: "Google Docs, Notion, Excel, PowerPoint",
+                    format: "Document, Charts, Presentation",
+                    links: ["https://xtensio.com/how-to-write-a-usability-testing-report/"]
+                },
+                {
+                    name: "A/B Testing Results",
+                    description: "Comparative data from testing two or more versions of a design to determine which performs better.",
+                    time: "1-2 weeks",
+                    difficulty: "Medium",
+                    tools: "Google Optimize, Optimizely, Excel",
+                    format: "Document, Spreadsheet, Charts",
+                    links: ["https://www.uxpin.com/studio/blog/ab-testing-in-ux-design-when-and-why/"]
+                },
+                {
+                    name: "Heatmaps",
+                    description: "Visual representations of user behavior on a page, such as clicks, scroll depth, or areas of focus.",
+                    time: "1-2 days",
+                    difficulty: "Medium",
+                    tools: "Hotjar, Crazy Egg, Google Analytics",
+                    format: "Graphic, Image, Charts",
+                    links: ["https://blog.logrocket.com/ux-design/use-heatmaps-improve-ux/"]
+                },
+                {
+                    name: "Session Recordings",
+                    description: "Video recordings showing how users interact with a product, often used to diagnose usability issues.",
+                    time: "1-2 days for analysis",
+                    difficulty: "Medium",
+                    tools: "Hotjar, FullStory, Google Analytics",
+                    format: "Video, Document",
+                    links: ["https://www.uxtweak.com/help/session-recording-guide", "https://uxcam.com/blog/session-recording-full-guide/"]
+                },
+                {
+                    name: "First-Click Testing Reports",
+                    description: "Insights into whether users click where they should on their first interaction with a design.",
+                    time: "1-2 days",
+                    difficulty: "Medium",
+                    tools: "UsabilityHub, Optimizely, Excel",
+                    format: "Document, Charts",
+                    links: ["https://www.looppanel.com/blog/first-click-testing-a-comprehensive-guide-to-improving-user-experience"]
+                },
+                {
+                    name: "Eye-Tracking Results",
+                    description: "Data showing where users' eyes focus on a screen, helping designers understand visual priorities.",
+                    time: "1-2 weeks",
+                    difficulty: "High",
+                    tools: "Tobii Studio, Eye-tracking hardware",
+                    format: "Charts, Video, Document",
+                    links: ["https://www.uxstudioteam.com/ux-blog/eye-tracking-in-ux-research", "https://courseux.com/eye-tracking/"]
+                },
+                {
+                    name: "Clickstream Analysis",
+                    description: "Analysis of the paths users take through a site or app, helping identify friction points or patterns.",
+                    time: "1 week",
+                    difficulty: "High",
+                    tools: "Google Analytics, Adobe Analytics",
+                    format: "Document, Spreadsheet, Charts",
+                    links: ["https://www.loop11.com/clickstream/"]
+                },
+                {
+                    name: "User Feedback Reports",
+                    description: "Aggregated data from user surveys or reviews, offering insights into user satisfaction and areas for improvement.",
+                    time: "1-2 days",
+                    difficulty: "Medium",
+                    tools: "Google Forms, Typeform, Excel",
+                    format: "Document, Spreadsheet",
+                    links: ["https://www.uxtweak.com/user-feedback/ways-to-capture/", "https://usersnap.com/blog/customer-feedback-analysis-guide/"]
+                },
+                {
+                    name: "Accessibility Audits",
+                    description: "Assessments to ensure a product meets accessibility standards for users with disabilities.",
+                    time: "3-5 days",
+                    difficulty: "High",
+                    tools: "WAVE, Axe, Google Lighthouse",
+                    format: "Document, Spreadsheet, Charts",
+                    links: ["https://makeitclear.com/how-to-do-a-ux-accessibility-evaluation/"]
+                },
+                {
+                    name: "Surveys/Feedback Forms",
+                    description: "User feedback collected after interactions, offering insights into satisfaction and areas for improvement.",
+                    time: "1-2 days",
+                    difficulty: "Low",
+                    tools: "Google Forms, SurveyMonkey, Typeform",
+                    format: "Document, Spreadsheet",
+                    links: ["https://www.interaction-design.org/literature/article/ux-surveys", "https://blog.hubspot.com/website/feedback-form-template"]
+                },
+                {
+                    name: "Analytics Dashboards",
+                    description: "Visual summaries of user data, showing metrics like engagement, conversion rates, and retention.",
+                    time: "1-2 weeks",
+                    difficulty: "High",
+                    tools: "Google Analytics, Tableau, Excel",
+                    format: "Dashboard, Chart",
+                    links: ["https://userpilot.com/blog/analytics-dashboard/"]
+                },
+                {
+                    name: "Conversion Funnels",
+                    description: "Diagrams showing the stages users go through before completing a goal, such as a purchase or sign-up.",
+                    time: "2-3 days",
+                    difficulty: "Medium",
+                    tools: "Google Analytics, Hotjar, Excel",
+                    format: "Graphic, Chart",
+                    links: ["https://contentsquare.com/blog/how-a-good-ux-plays-a-role-in-conversion-funnel-optimization/"]
+                }
+            ],
+            strategy: [
+                {
+                    name: "UX Strategy Documents",
+                    description: "High-level plans aligning UX efforts with business goals, outlining objectives and key metrics.",
+                    time: "1-2 weeks",
+                    difficulty: "High",
+                    tools: "Google Docs, Notion",
+                    format: "Document",
+                    links: ["https://blog.uxtweak.com/ux-strategy/", "https://slickplan.com/blog/ux-strategy"]
+                },
+                {
+                    name: "Product Roadmaps",
+                    description: "Strategic timelines showing the planned development and release of product features.",
+                    time: "1-2 weeks",
+                    difficulty: "High",
+                    tools: "Productboard, Asana, Google Sheets",
+                    format: "Document, Spreadsheet",
+                    links: ["https://userpilot.com/blog/ux-roadmap/", "https://www.nngroup.com/articles/roadmap-types/"]
+                },
+                {
+                    name: "Feature Backlogs",
+                    description: "Lists of features or improvements to be made to a product, prioritized by importance or feasibility.",
+                    time: "Ongoing",
+                    difficulty: "Medium",
+                    tools: "Jira, Trello, Google Sheets",
+                    format: "Document, Spreadsheet",
+                    links: ["https://boxesandarrows.com/integrating-ux-into-the-product-backlog/"]
+                },
+                {
+                    name: "User Stories",
+                    description: "Short, goal-oriented descriptions of a feature from the user's perspective, guiding development.",
+                    time: "1-2 days",
+                    difficulty: "Medium",
+                    tools: "Jira, Trello, Google Docs",
+                    format: "Document, Spreadsheet",
+                    links: ["https://careerfoundry.com/en/blog/ux-design/ultimate-guide-ux-user-stories/"]
+                },
+                {
+                    name: "Use Case Documents",
+                    description: "Descriptions of specific scenarios where users will interact with a product to achieve a goal.",
+                    time: "1-2 days",
+                    difficulty: "Medium",
+                    tools: "Google Docs, Notion",
+                    format: "Document",
+                    links: ["https://www.figma.com/resource-library/what-is-a-use-case/"]
+                },
+                {
+                    name: "Acceptance Criteria",
+                    description: "Conditions that must be met for a feature or product to be considered complete and ready for release.",
+                    time: "1-2 days",
+                    difficulty: "Medium",
+                    tools: "Google Docs, Jira",
+                    format: "Document",
+                    links: ["https://uxplanet.org/acceptance-criteria-for-user-stories-and-their-role-in-product-development-676db1fb4c99"]
+                },
+                {
+                    name: "Customer Support Logs",
+                    description: "Records of common user issues or requests, used to inform future improvements.",
+                    time: "Ongoing",
+                    difficulty: "Low",
+                    tools: "Zendesk, Excel, Google Docs",
+                    format: "Document, Spreadsheet",
+                    links: ["https://recurly.com/blog/ux-customer-support/"]
+                }
+            ]
+        };
+
+        function showTab(tab) {
+            // Hide all tabs
+            document.getElementById('selector-tab').classList.add('hidden');
+            document.getElementById('library-tab').classList.add('hidden');
+            
+            // Remove active from all buttons
+            document.querySelectorAll('.tab-button').forEach(btn => {
+                btn.classList.remove('active');
+                btn.style.color = 'var(--text-secondary)';
+                btn.style.backgroundColor = '';
+            });
+            
+            // Show selected tab
+            if (tab === 'selector') {
+                document.getElementById('selector-tab').classList.remove('hidden');
+                document.getElementById('tab-selector').classList.add('active');
+                document.getElementById('tab-selector').style.color = 'white';
+            } else {
+                document.getElementById('library-tab').classList.remove('hidden');
+                document.getElementById('tab-library').classList.add('active');
+                document.getElementById('tab-library').style.color = 'white';
+                renderAllArtifacts();
+            }
+        }
+
+        function getRecommendations() {
+            const stage = document.querySelector('input[name="stage"]:checked');
+            const time = document.querySelector('input[name="time"]:checked');
+            const difficulty = document.querySelector('input[name="difficulty"]:checked');
+            
+            if (!stage || !time || !difficulty) {
+                alert('Please answer all questions to get recommendations!');
+                return;
+            }
+            
+            const stageValue = stage.value;
+            const timeValue = time.value;
+            const difficultyValue = difficulty.value;
+            
+            let recommended = [];
+            
+            // Filter by stage
+            let categoryArtifacts = artifacts[stageValue];
+            
+            // Filter by difficulty and time
+            categoryArtifacts.forEach(artifact => {
+                let match = true;
+                
+                // Check difficulty
+                if (difficultyValue === 'low' && artifact.difficulty === 'High') match = false;
+                if (difficultyValue === 'medium' && artifact.difficulty === 'High') match = false;
+                
+                // Check time
+                if (timeValue === 'quick' && (artifact.time.includes('day') || artifact.time.includes('week'))) match = false;
+                if (timeValue === 'moderate' && artifact.time.includes('week')) match = false;
+                
+                if (match) recommended.push({...artifact, category: stageValue});
+            });
+            
+            // Show recommendations
+            const resultsDiv = document.getElementById('recommendations');
+            const artifactsDiv = document.getElementById('recommendedArtifacts');
+            
+            resultsDiv.classList.remove('hidden');
+            artifactsDiv.innerHTML = '';
+            
+            if (recommended.length === 0) {
+                artifactsDiv.innerHTML = '<p class="text-sm">No artifacts match your criteria. Try adjusting your filters.</p>';
+            } else {
+                recommended.slice(0, 5).forEach(artifact => {
+                    const card = createArtifactCard(artifact, artifact.category);
+                    artifactsDiv.appendChild(card);
+                });
+            }
+            
+            // Scroll to results
+            resultsDiv.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+
+        function createArtifactCard(artifact, category) {
+            const div = document.createElement('div');
+            div.className = 'artifact-card p-4 rounded-lg border';
+            div.style.borderColor = 'var(--border-color)';
+            div.style.backgroundColor = 'white';
+            
+            const difficultyColors = {
+                'Low': '#dcfce7',
+                'Low to Medium': '#fef3c7',
+                'Medium': '#fef3c7',
+                'Medium to High': '#fed7aa',
+                'High': '#fecaca'
+            };
+            
+            const categoryEmoji = {
+                'research': '🔍',
+                'design': '✏️',
+                'testing': '🔬',
+                'strategy': '📈'
+            };
+            
+            div.innerHTML = `
+                <div class="flex items-start justify-between mb-3">
+                    <h3 class="font-bold text-lg">${categoryEmoji[category]} ${artifact.name}</h3>
+                    <span class="difficulty-badge" style="background-color: ${difficultyColors[artifact.difficulty]};">${artifact.difficulty}</span>
+                </div>
+                <p class="text-sm mb-3" style="color: var(--text-secondary);">${artifact.description}</p>
+                <div class="grid grid-cols-2 gap-2 text-xs mb-3" style="color: var(--text-secondary);">
+                    <div><strong>⏱️ Time:</strong> ${artifact.time}</div>
+                    <div><strong>📁 Format:</strong> ${artifact.format.split(',')[0]}</div>
+                </div>
+                <div class="text-xs mb-3" style="color: var(--text-secondary);">
+                    <strong>🛠️ Tools:</strong> ${artifact.tools}
+                </div>
+                <div class="flex gap-2 flex-wrap">
+                    ${artifact.links.map(link => `<a href="${link}" target="_blank" class="text-xs px-2 py-1 rounded" style="background-color: var(--accent-color); color: white;">Guide →</a>`).join('')}
+                </div>
+            `;
+            
+            return div;
+        }
+
+        function renderAllArtifacts() {
+            const grid = document.getElementById('artifactsGrid');
+            grid.innerHTML = '';
+            
+            Object.keys(artifacts).forEach(category => {
+                artifacts[category].forEach(artifact => {
+                    const card = createArtifactCard(artifact, category);
+                    card.dataset.category = category;
+                    card.dataset.name = artifact.name.toLowerCase();
+                    grid.appendChild(card);
+                });
+            });
+        }
+
+        function filterCategory(cat) {
+            const cards = document.querySelectorAll('#artifactsGrid .artifact-card');
+            const buttons = document.querySelectorAll('.category-filter');
+            
+            // Update button styles
+            buttons.forEach(btn => {
+                btn.style.backgroundColor = '';
+                btn.style.color = '';
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+            event.target.style.backgroundColor = 'var(--accent-color)';
+            event.target.style.color = 'white';
+            
+            // Filter cards
+            cards.forEach(card => {
+                if (cat === 'all' || card.dataset.category === cat) {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
+
+        function searchArtifacts() {
+            const input = document.getElementById('searchInput').value.toLowerCase();
+            const cards = document.querySelectorAll('#artifactsGrid .artifact-card');
+            
+            cards.forEach(card => {
+                const name = card.dataset.name;
+                if (name.includes(input)) {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
+
+        // Initialize
+        renderAllArtifacts();
+
+        // Dark mode and font size controls
+        let isDarkMode = false;
+        let fontSize = 1;
+
+        document.getElementById('darkModeToggle').addEventListener('click', () => {
+            isDarkMode = !isDarkMode;
+            document.body.classList.toggle('dark-mode');
+            document.getElementById('modeIcon').textContent = isDarkMode ? '☀️' : '🌙';
+            localStorage.setItem('uxci_darkMode', isDarkMode);
+        });
+
+        document.getElementById('increaseFont').addEventListener('click', () => {
+            if (fontSize < 1.5) {
+                fontSize += 0.1;
+                document.documentElement.style.setProperty('--font-size', fontSize);
+                localStorage.setItem('uxci_fontSize', fontSize);
+            }
+        });
+
+        document.getElementById('decreaseFont').addEventListener('click', () => {
+            if (fontSize > 0.7) {
+                fontSize -= 0.1;
+                document.documentElement.style.setProperty('--font-size', fontSize);
+                localStorage.setItem('uxci_fontSize', fontSize);
+            }
+        });
+
+        // Load saved preferences
+        const savedDarkMode = localStorage.getItem('uxci_darkMode') === 'true';
+        const savedFontSize = parseFloat(localStorage.getItem('uxci_fontSize')) || 1;
+        
+        if (savedDarkMode) {
+            document.body.classList.add('dark-mode');
+            document.getElementById('modeIcon').textContent = '☀️';
+            isDarkMode = true;
+        }
+        
+        fontSize = savedFontSize;
+        document.documentElement.style.setProperty('--font-size', fontSize);
+    </script>
+</body>
+</html>

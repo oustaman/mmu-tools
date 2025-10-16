@@ -1,0 +1,695 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Session 1: Bad UX Show and Tell</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .slide { display: none; }
+        .slide.active { display: flex; }
+        
+        :root {
+            --bg-primary: #ffffff;
+            --bg-secondary: #f9fafb;
+            --text-primary: #111827;
+            --text-secondary: #4b5563;
+            --border-color: #e5e7eb;
+            --accent-color: #8b5cf6;
+            --font-size: 1;
+        }
+        
+        .dark-mode {
+            --bg-primary: #1f2937;
+            --bg-secondary: #111827;
+            --text-primary: #f9fafb;
+            --text-secondary: #d1d5db;
+            --border-color: #374151;
+            --accent-color: #a78bfa;
+        }
+        
+        html {
+            font-size: calc(var(--font-size) * 16px);
+        }
+        
+        body {
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+        }
+        
+        .activity-card {
+            transition: all 0.2s ease;
+            cursor: pointer;
+            border: 2px solid var(--border-color);
+        }
+        
+        .activity-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 20px rgba(139, 92, 246, 0.2);
+            border-color: var(--accent-color);
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col">
+    <header class="border-b p-4" style="border-color: var(--border-color);">
+        <div class="max-w-7xl mx-auto flex justify-between items-center">
+            <h1 class="text-lg font-semibold">User Experience for Creative Industries - Session 1</h1>
+            <div class="flex gap-2">
+                <button id="decreaseFont" class="px-3 py-2 rounded border" style="border-color: var(--border-color);" aria-label="Decrease font size">A-</button>
+                <button id="increaseFont" class="px-3 py-2 rounded border" style="border-color: var(--border-color);" aria-label="Increase font size">A+</button>
+                <button id="darkModeToggle" class="px-4 py-2 rounded border" style="border-color: var(--border-color);" aria-label="Toggle dark mode">
+                    <span id="modeIcon">🌙</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <main class="flex-1 flex items-center justify-center p-8">
+        <div class="w-full max-w-5xl">
+            <!-- Slide 1: Title -->
+            <div class="slide active flex-col items-center justify-center text-center h-[70vh]">
+                <h2 class="text-5xl font-bold mb-6">User Experience for Creative Industries</h2>
+                <h3 class="text-3xl mb-8" style="color: var(--text-secondary);">Session 1: Bad UX Show and Tell</h3>
+                <p class="text-xl" style="color: var(--text-secondary);">Week 1 of 11</p>
+            </div>
+
+            <!-- Slide 2: Welcome -->
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-4xl font-bold mb-8">Welcome! 👋</h2>
+                <h3 class="text-2xl mb-6 font-semibold">This module is about making things better</h3>
+                <ul class="space-y-5 text-xl">
+                    <li class="flex items-start">
+                        <span class="mr-3">•</span>
+                        <span>You already use dozens of apps and services daily</span>
+                    </li>
+                    <li class="flex items-start">
+                        <span class="mr-3">•</span>
+                        <span>Some feel effortless. Others? Frustrating as hell.</span>
+                    </li>
+                    <li class="flex items-start">
+                        <span class="mr-3">•</span>
+                        <span>Ever wondered why?</span>
+                    </li>
+                    <li class="flex items-start">
+                        <span class="mr-3">•</span>
+                        <span><strong>That's what UX is about</strong> - understanding and fixing those frustrations</span>
+                    </li>
+                </ul>
+                <p class="mt-8 text-xl font-semibold p-4 rounded" style="background-color: var(--bg-secondary);">
+                    Today: We start by looking at what makes UX bad (and what makes it good)
+                </p>
+            </div>
+
+            <!-- Slide 3: Quick Question -->
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-4xl font-bold mb-8">Quick Question</h2>
+                <div class="text-center mb-10">
+                    <p class="text-3xl mb-8 font-semibold">What app or service did you use today that frustrated you?</p>
+                    <p class="text-xl" style="color: var(--text-secondary);">Think of one example. We'll share shortly.</p>
+                </div>
+                <div class="mt-8 p-6 rounded" style="background-color: var(--bg-secondary); border: 2px solid var(--border-color);">
+                    <p class="text-lg mb-3"><strong>It could be:</strong></p>
+                    <ul class="space-y-2 text-lg">
+                        <li>• A website that wouldn't let you complete a task</li>
+                        <li>• An app with confusing navigation</li>
+                        <li>• A service that made you wait or gave unclear instructions</li>
+                        <li>• Something that just felt... wrong</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Slide 4: What is UX? -->
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-4xl font-bold mb-8">What is User Experience (UX)?</h2>
+                <div class="mb-6 p-5 rounded" style="background-color: var(--bg-secondary); border: 2px solid var(--border-color);">
+                    <p class="text-2xl font-semibold mb-3">Simple definition:</p>
+                    <p class="text-xl">How a person feels when interacting with a product, service, or system</p>
+                </div>
+                <ul class="space-y-4 text-xl">
+                    <li class="flex items-start">
+                        <span class="mr-3">•</span>
+                        <span><strong>Not just about looks</strong> - it's about how it works</span>
+                    </li>
+                    <li class="flex items-start">
+                        <span class="mr-3">•</span>
+                        <span><strong>Not just digital</strong> - applies to physical spaces, services, anything people interact with</span>
+                    </li>
+                    <li class="flex items-start">
+                        <span class="mr-3">•</span>
+                        <span><strong>Not just one moment</strong> - it's the entire journey</span>
+                    </li>
+                </ul>
+                <p class="mt-8 text-xl font-semibold p-4 rounded" style="background-color: var(--bg-secondary);">
+                    Good UX = People can do what they need to do, easily, without thinking about it
+                </p>
+            </div>
+
+            <!-- Slide 5: Bad UX Costs Real Money -->
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-4xl font-bold mb-8">Bad UX Costs Real Money</h2>
+                <ul class="space-y-5 text-xl">
+                    <li class="flex items-start">
+                        <span class="mr-3">💰</span>
+                        <span><strong>$62 billion</strong> lost annually in the US due to poor customer experiences</span>
+                    </li>
+                    <li class="flex items-start">
+                        <span class="mr-3">📱</span>
+                        <span><strong>88%</strong> of users won't return to a website after a bad experience</span>
+                    </li>
+                    <li class="flex items-start">
+                        <span class="mr-3">⏱️</span>
+                        <span><strong>70%</strong> of online shopping carts are abandoned due to poor UX</span>
+                    </li>
+                    <li class="flex items-start">
+                        <span class="mr-3">🚀</span>
+                        <span>Companies that invest in UX see <strong>ROI of $100 for every $1</strong> spent</span>
+                    </li>
+                </ul>
+                <p class="mt-8 text-xl font-semibold p-4 rounded" style="background-color: var(--bg-secondary);">
+                    UX isn't just "nice to have" - it's business critical
+                </p>
+            </div>
+
+            <!-- Slide 6: Examples of Bad UX -->
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-4xl font-bold mb-6">Classic Bad UX Examples</h2>
+                <div class="grid grid-cols-1 gap-4">
+                    <div class="p-4 rounded border-2" style="border-color: var(--border-color);">
+                        <p class="font-bold text-lg mb-2">🔐 Password Requirements Hell</p>
+                        <p class="text-base" style="color: var(--text-secondary);">"Must be 8-12 characters, include uppercase, lowercase, number, special character, not used in last 5 passwords..." Then you forget it immediately.</p>
+                    </div>
+                    <div class="p-4 rounded border-2" style="border-color: var(--border-color);">
+                        <p class="font-bold text-lg mb-2">🍪 Cookie Pop-ups</p>
+                        <p class="text-base" style="color: var(--text-secondary);">"We value your privacy" while showing 400 toggles to opt-out of tracking. Dark patterns at their finest.</p>
+                    </div>
+                    <div class="p-4 rounded border-2" style="border-color: var(--border-color);">
+                        <p class="font-bold text-lg mb-2">📱 Unsubscribe Nightmares</p>
+                        <p class="text-base" style="color: var(--text-secondary);">Click "unsubscribe" → login required → answer survey → "you'll stop receiving emails in 10 business days."</p>
+                    </div>
+                    <div class="p-4 rounded border-2" style="border-color: var(--border-color);">
+                        <p class="font-bold text-lg mb-2">🎯 Where's the Button?</p>
+                        <p class="text-base" style="color: var(--text-secondary);">Apps where you can't find the basic action you need. Hidden menus, unclear icons, no navigation breadcrumbs.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 7: What Makes These Bad? -->
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-4xl font-bold mb-8">What Makes These Bad?</h2>
+                <ul class="space-y-5 text-xl">
+                    <li class="flex items-start">
+                        <span class="mr-3">❌</span>
+                        <span><strong>They make users think too much</strong> - cognitive overload</span>
+                    </li>
+                    <li class="flex items-start">
+                        <span class="mr-3">❌</span>
+                        <span><strong>They prioritize business over user needs</strong> - dark patterns</span>
+                    </li>
+                    <li class="flex items-start">
+                        <span class="mr-3">❌</span>
+                        <span><strong>They hide important information</strong> - poor visibility</span>
+                    </li>
+                    <li class="flex items-start">
+                        <span class="mr-3">❌</span>
+                        <span><strong>They don't give feedback</strong> - is it loading? Did it work?</span>
+                    </li>
+                    <li class="flex items-start">
+                        <span class="mr-3">❌</span>
+                        <span><strong>They ignore accessibility</strong> - not everyone interacts the same way</span>
+                    </li>
+                </ul>
+                <p class="mt-8 text-xl font-semibold p-4 rounded" style="background-color: var(--bg-secondary);">
+                    Good UX does the opposite of all of these
+                </p>
+            </div>
+
+            <!-- Slide 8: Examples of Good UX -->
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-4xl font-bold mb-6">Good UX: When You Don't Notice It</h2>
+                <div class="grid grid-cols-1 gap-4">
+                    <div class="p-4 rounded border-2" style="border-color: var(--border-color);">
+                        <p class="font-bold text-lg mb-2">✅ Spotify Discover Weekly</p>
+                        <p class="text-base" style="color: var(--text-secondary);">Appears every Monday with personalized music. You don't have to think - it just knows what you might like.</p>
+                    </div>
+                    <div class="p-4 rounded border-2" style="border-color: var(--border-color);">
+                        <p class="font-bold text-lg mb-2">✅ Google Maps Auto-Rerouting</p>
+                        <p class="text-base" style="color: var(--text-secondary);">Traffic ahead? Instantly shows you a better route without asking. Anticipates your needs.</p>
+                    </div>
+                    <div class="p-4 rounded border-2" style="border-color: var(--border-color);">
+                        <p class="font-bold text-lg mb-2">✅ Amazon One-Click Purchase</p>
+                        <p class="text-base" style="color: var(--text-secondary);">Removes friction from buying. Fewer steps = higher conversion (even if it makes you spend more!).</p>
+                    </div>
+                    <div class="p-4 rounded border-2" style="border-color: var(--border-color);">
+                        <p class="font-bold text-lg mb-2">✅ Uber's Simplicity</p>
+                        <p class="text-base" style="color: var(--text-secondary);">See car location in real-time. No phone calls, no credit cards at the end. Just... works.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 9: This Module -->
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-4xl font-bold mb-8">What You'll Learn This Module</h2>
+                <ul class="space-y-5 text-xl">
+                    <li class="flex items-start">
+                        <span class="mr-3">1.</span>
+                        <span><strong>User Research</strong> - How to actually understand what people need</span>
+                    </li>
+                    <li class="flex items-start">
+                        <span class="mr-3">2.</span>
+                        <span><strong>Design Principles</strong> - Nielsen's heuristics, accessibility, usability rules</span>
+                    </li>
+                    <li class="flex items-start">
+                        <span class="mr-3">3.</span>
+                        <span><strong>Prototyping</strong> - Sketching ideas quickly (no fancy software needed!)</span>
+                    </li>
+                    <li class="flex items-start">
+                        <span class="mr-3">4.</span>
+                        <span><strong>Testing</strong> - How to evaluate designs and find problems</span>
+                    </li>
+                    <li class="flex items-start">
+                        <span class="mr-3">5.</span>
+                        <span><strong>Critical Evaluation</strong> - Thinking like a UX professional</span>
+                    </li>
+                </ul>
+                <p class="mt-8 text-xl font-semibold p-4 rounded" style="background-color: var(--bg-secondary);">
+                    By Week 11, you'll have a complete UX project in your portfolio
+                </p>
+            </div>
+
+            <!-- Slide 10: Your Assessment -->
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-4xl font-bold mb-8">Your Assessment: Three Parts</h2>
+                <div class="grid grid-cols-1 gap-5">
+                    <div class="p-5 rounded border-2" style="border-color: var(--accent-color); background-color: var(--bg-secondary);">
+                        <p class="text-2xl font-bold mb-3" style="color: var(--accent-color);">1. Prototype</p>
+                        <p class="text-lg mb-2"><strong>Hand-drawn sketches (6-10 screens) + Flow diagram</strong></p>
+                        <p class="text-base" style="color: var(--text-secondary);">Mobile app for a small-to-medium scale service. Must show 2 UCD principles.</p>
+                    </div>
+                    <div class="p-5 rounded border-2" style="border-color: var(--accent-color); background-color: var(--bg-secondary);">
+                        <p class="text-2xl font-bold mb-3" style="color: var(--accent-color);">2. Two UX Artefacts</p>
+                        <p class="text-lg mb-2"><strong>Personas, journey maps, wireframes, test plans, etc.</strong></p>
+                        <p class="text-base" style="color: var(--text-secondary);">Documents your UX process and thinking.</p>
+                    </div>
+                    <div class="p-5 rounded border-2" style="border-color: var(--accent-color); background-color: var(--bg-secondary);">
+                        <p class="text-2xl font-bold mb-3" style="color: var(--accent-color);">3. Slide Deck Report</p>
+                        <p class="text-lg mb-2"><strong>10-24 slides, ~1,700-2,000 words</strong></p>
+                        <p class="text-base" style="color: var(--text-secondary);">Structured report explaining your design process, evaluation, and recommendations.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 11: Why Hand-Drawn? -->
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-4xl font-bold mb-8">Why Hand-Drawn Sketches?</h2>
+                <h3 class="text-2xl mb-6 font-semibold">Because we want you to focus on UX thinking, not software skills</h3>
+                <ul class="space-y-5 text-xl">
+                    <li class="flex items-start">
+                        <span class="mr-3">✏️</span>
+                        <span><strong>10x faster</strong> than learning Figma or Adobe XD</span>
+                    </li>
+                    <li class="flex items-start">
+                        <span class="mr-3">🧠</span>
+                        <span><strong>Forces you to think</strong> about function, not pixel-perfect design</span>
+                    </li>
+                    <li class="flex items-start">
+                        <span class="mr-3">🎨</span>
+                        <span><strong>No artistic skills needed</strong> - rough sketches are perfect</span>
+                    </li>
+                    <li class="flex items-start">
+                        <span class="mr-3">💼</span>
+                        <span><strong>Used by professionals</strong> - rapid ideation is industry standard</span>
+                    </li>
+                </ul>
+                <p class="mt-8 text-xl font-semibold p-4 rounded" style="background-color: var(--bg-secondary);">
+                    Professional designers start with paper. We're teaching you real-world process.
+                </p>
+            </div>
+
+            <!-- Slide 12: Flow Diagrams -->
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-4xl font-bold mb-8">Flow Diagrams: Mapping the Journey</h2>
+                <div class="mb-6 p-5 rounded" style="background-color: var(--bg-secondary); border: 2px solid var(--border-color);">
+                    <p class="text-xl">A flow diagram shows how users move through your app - every screen, every decision, every path.</p>
+                </div>
+                <div class="grid grid-cols-2 gap-4 mb-6">
+                    <div class="p-4 rounded border-2" style="border-color: var(--border-color);">
+                        <p class="font-bold mb-2">Must include:</p>
+                        <ul class="space-y-1 text-base">
+                            <li>• Entry points</li>
+                            <li>• Decision points (user choices)</li>
+                            <li>• All major user paths</li>
+                            <li>• Error states</li>
+                            <li>• Exit points/completion</li>
+                        </ul>
+                    </div>
+                    <div class="p-4 rounded border-2" style="border-color: var(--border-color);">
+                        <p class="font-bold mb-2">Why it matters:</p>
+                        <ul class="space-y-1 text-base">
+                            <li>• Tests your logic</li>
+                            <li>• Finds missing screens</li>
+                            <li>• Shows information architecture</li>
+                            <li>• Demonstrates system thinking</li>
+                        </ul>
+                    </div>
+                </div>
+                <p class="text-lg font-semibold p-4 rounded" style="background-color: var(--bg-secondary);">
+                    Session 7 will be a full workshop on creating these
+                </p>
+            </div>
+
+            <!-- Slide 13: Choose Your Service -->
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-4xl font-bold mb-8">Choosing Your Service</h2>
+                <div class="mb-6 p-5 rounded" style="background-color: var(--bg-secondary); border: 2px solid var(--border-color);">
+                    <p class="text-xl font-semibold mb-3">Pick a small-to-medium scale service to redesign:</p>
+                    <p class="text-lg" style="color: var(--text-secondary);">Something manageable, researchable, and meaningful to real users</p>
+                </div>
+                <div class="grid grid-cols-2 gap-4">
+                    <div class="p-4 rounded border-2" style="border-color: var(--border-color);">
+                        <p class="font-bold text-lg mb-3" style="color: #dc2626;">❌ Don't Choose:</p>
+                        <ul class="space-y-2 text-base">
+                            <li>• Amazon, Google, Netflix</li>
+                            <li>• Major banks</li>
+                            <li>• Anything too big to understand</li>
+                        </ul>
+                    </div>
+                    <div class="p-4 rounded border-2" style="border-color: var(--border-color);">
+                        <p class="font-bold text-lg mb-3" style="color: #16a34a;">✅ Good Choices:</p>
+                        <ul class="space-y-2 text-base">
+                            <li>• Local library services</li>
+                            <li>• Campus facilities booking</li>
+                            <li>• Independent cafe loyalty app</li>
+                            <li>• Local council parking permits</li>
+                            <li>• Community sports club signup</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 14: Timeline -->
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-4xl font-bold mb-6">11-Week Journey</h2>
+                <div class="space-y-3 text-lg">
+                    <div class="p-3 rounded border" style="border-color: var(--border-color); background-color: var(--bg-secondary);">
+                        <strong>Weeks 1-2:</strong> Introduction & Problem Finding
+                    </div>
+                    <div class="p-3 rounded border" style="border-color: var(--border-color); background-color: var(--bg-secondary);">
+                        <strong>Weeks 3-5:</strong> Design Principles & Research Artefacts
+                    </div>
+                    <div class="p-3 rounded border" style="border-color: #fef9c3; background-color: #fef9c3;">
+                        <strong>Week 6:</strong> <span style="color: #854d0e;">⭐ Midterm Check-In (1-on-1 feedback)</span>
+                    </div>
+                    <div class="p-3 rounded border" style="border-color: var(--border-color); background-color: var(--bg-secondary);">
+                        <strong>Weeks 7-9:</strong> Flow Diagrams, Testing & Evaluation
+                    </div>
+                    <div class="p-3 rounded border" style="border-color: var(--border-color); background-color: var(--bg-secondary);">
+                        <strong>Week 10:</strong> Slide Deck Assembly & Polish
+                    </div>
+                    <div class="p-3 rounded border" style="border-color: #dcfce7; background-color: #dcfce7;">
+                        <strong>Week 11:</strong> <span style="color: #166534;">🎉 Final Support & Submission</span>
+                    </div>
+                </div>
+                <p class="mt-6 text-xl font-semibold p-4 rounded" style="background-color: var(--bg-secondary);">
+                    Each week builds your assessment piece by piece
+                </p>
+            </div>
+
+            <!-- Slide 15: Support Available -->
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-4xl font-bold mb-8">You're Not Alone</h2>
+                <h3 class="text-2xl mb-6 font-semibold">Support available throughout</h3>
+                <ul class="space-y-5 text-xl">
+                    <li class="flex items-start">
+                        <span class="mr-3">📧</span>
+                        <span><strong>Email:</strong> m.oustamanolakis@mmu.ac.uk</span>
+                    </li>
+                    <li class="flex items-start">
+                        <span class="mr-3">⏰</span>
+                        <span><strong>Office hours:</strong> Check Moodle for current times</span>
+                    </li>
+                    <li class="flex items-start">
+                        <span class="mr-3">💬</span>
+                        <span><strong>In-class help:</strong> Ask questions during sessions</span>
+                    </li>
+                    <li class="flex items-start">
+                        <span class="mr-3">🎯</span>
+                        <span><strong>Week 6 check-in:</strong> 1-on-1 feedback on your progress</span>
+                    </li>
+                    <li class="flex items-start">
+                        <span class="mr-3">📚</span>
+                        <span><strong>Module website:</strong> Tools, resources, checklist</span>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Slide 16: Expectations -->
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-4xl font-bold mb-8">What We Expect</h2>
+                <ul class="space-y-5 text-xl">
+                    <li class="flex items-start">
+                        <span class="mr-3">✓</span>
+                        <span><strong>Attend sessions</strong> - or catch up via materials</span>
+                    </li>
+                    <li class="flex items-start">
+                        <span class="mr-3">✓</span>
+                        <span><strong>Start early</strong> - don't leave it until Week 10</span>
+                    </li>
+                    <li class="flex items-start">
+                        <span class="mr-3">✓</span>
+                        <span><strong>Use the tools</strong> - we've built them to help you</span>
+                    </li>
+                    <li class="flex items-start">
+                        <span class="mr-3">✓</span>
+                        <span><strong>Ask for help</strong> - we can't help if we don't know you're stuck</span>
+                    </li>
+                    <li class="flex items-start">
+                        <span class="mr-3">✓</span>
+                        <span><strong>Give it your best</strong> - this goes in your portfolio!</span>
+                    </li>
+                </ul>
+                <p class="mt-8 text-xl font-semibold p-4 rounded" style="background-color: var(--bg-secondary);">
+                    We're here to help you succeed
+                </p>
+            </div>
+
+            <!-- Slide 17: Academic Integrity -->
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-4xl font-bold mb-8">Using AI & Academic Integrity</h2>
+                <div class="mb-6 p-5 rounded" style="background-color: var(--bg-secondary); border: 2px solid var(--border-color);">
+                    <p class="text-xl font-semibold mb-2">Generative AI is permitted in this assessment</p>
+                    <p class="text-lg" style="color: var(--text-secondary);">But you must follow MMU's AI Literacy guidelines</p>
+                </div>
+                <ul class="space-y-4 text-lg">
+                    <li class="flex items-start">
+                        <span class="mr-3">✅</span>
+                        <span><strong>Good use:</strong> Generate ideas, check grammar, get feedback on your work</span>
+                    </li>
+                    <li class="flex items-start">
+                        <span class="mr-3">✅</span>
+                        <span><strong>Good use:</strong> Help understand concepts, structure your thinking</span>
+                    </li>
+                    <li class="flex items-start">
+                        <span class="mr-3">❌</span>
+                        <span><strong>Bad use:</strong> Copy-paste AI output without understanding it</span>
+                    </li>
+                    <li class="flex items-start">
+                        <span class="mr-3">❌</span>
+                        <span><strong>Bad use:</strong> Generate entire sections of your assessment</span>
+                    </li>
+                </ul>
+                <p class="mt-6 text-lg font-semibold p-4 rounded" style="background-color: var(--bg-secondary);">
+                    All submitted work must be your own original content. Use AI as a tool, not a replacement for thinking.
+                </p>
+            </div>
+
+            <!-- Slide 18: Today's Goal -->
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-4xl font-bold mb-8">Today's Goal</h2>
+                <ul class="space-y-6 text-2xl">
+                    <li class="flex items-start">
+                        <span class="mr-3">1.</span>
+                        <span>Understand what UX is (and isn't)</span>
+                    </li>
+                    <li class="flex items-start">
+                        <span class="mr-3">2.</span>
+                        <span>See the assessment overview</span>
+                    </li>
+                    <li class="flex items-start">
+                        <span class="mr-3">3.</span>
+                        <span>Start thinking about service selection</span>
+                    </li>
+                    <li class="flex items-start">
+                        <span class="mr-3">4.</span>
+                        <span>Do a hands-on activity (your choice!)</span>
+                    </li>
+                </ul>
+                <p class="mt-10 text-2xl font-semibold p-4 rounded" style="background-color: var(--bg-secondary);">
+                    By the end of today, you're ready to start
+                </p>
+            </div>
+
+            <!-- Slide 19: Choose Your Activity -->
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-4xl font-bold mb-6 text-center">Now: Choose Your Activity!</h2>
+                <p class="text-xl text-center mb-8" style="color: var(--text-secondary);">We'll vote on which one to do today (or split into groups)</p>
+                
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                    <!-- Activity 1 -->
+                    <div class="activity-card p-6 rounded-lg" style="background-color: var(--bg-secondary);">
+                        <div class="text-4xl mb-4 text-center">📱</div>
+                        <h3 class="text-xl font-bold mb-3 text-center">Option A: Bad UX Show & Tell</h3>
+                        <p class="text-base mb-4" style="color: var(--text-secondary);">
+                            Share your frustrating app/service examples. We'll discuss what makes them bad and how they could be better.
+                        </p>
+                        <div class="text-sm p-3 rounded" style="background-color: var(--bg-primary);">
+                            <strong>Time:</strong> 30 minutes<br>
+                            <strong>Format:</strong> Group discussion<br>
+                            <strong>Benefit:</strong> Learn to spot UX problems
+                        </div>
+                    </div>
+
+                    <!-- Activity 2 -->
+                    <div class="activity-card p-6 rounded-lg" style="background-color: var(--bg-secondary);">
+                        <div class="text-4xl mb-4 text-center">✏️</div>
+                        <h3 class="text-xl font-bold mb-3 text-center">Option B: Quick Sketch Challenge</h3>
+                        <p class="text-base mb-4" style="color: var(--text-secondary);">
+                            Practice hand-drawing a simple screen (like a login page). Get comfortable with sketching. No artistic skills needed!
+                        </p>
+                        <div class="text-sm p-3 rounded" style="background-color: var(--bg-primary);">
+                            <strong>Time:</strong> 20 minutes<br>
+                            <strong>Format:</strong> Individual practice<br>
+                            <strong>Benefit:</strong> Build sketching confidence
+                        </div>
+                    </div>
+
+                    <!-- Activity 3 -->
+                    <div class="activity-card p-6 rounded-lg" style="background-color: var(--bg-secondary);">
+                        <div class="text-4xl mb-4 text-center">🎯</div>
+                        <h3 class="text-xl font-bold mb-3 text-center">Option C: Service Brainstorm</h3>
+                        <p class="text-base mb-4" style="color: var(--text-secondary);">
+                            Brainstorm potential services to redesign. Share ideas, get feedback, leave with your topic decided.
+                        </p>
+                        <div class="text-sm p-3 rounded" style="background-color: var(--bg-primary);">
+                            <strong>Time:</strong> 25 minutes<br>
+                            <strong>Format:</strong> Small groups + class share<br>
+                            <strong>Benefit:</strong> Start your assessment today
+                        </div>
+                    </div>
+                </div>
+
+                <p class="mt-8 text-center text-lg font-semibold">🙋 Show of hands - which one interests you most?</p>
+            </div>
+
+            <!-- Slide 20: Homework -->
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-4xl font-bold mb-8">Before Next Week</h2>
+                <ul class="space-y-6 text-xl">
+                    <li class="flex items-start">
+                        <span class="mr-3">1.</span>
+                        <span><strong>Choose your service</strong> - Think about what you want to redesign</span>
+                    </li>
+                    <li class="flex items-start">
+                        <span class="mr-3">2.</span>
+                        <span><strong>Read the assessment brief</strong> - Available on Moodle and module website</span>
+                    </li>
+                    <li class="flex items-start">
+                        <span class="mr-3">3.</span>
+                        <span><strong>Start noticing UX</strong> - Pay attention to good/bad experiences in your daily life</span>
+                    </li>
+                    <li class="flex items-start">
+                        <span class="mr-3">4.</span>
+                        <span><strong>Bring questions</strong> - Next week we dive into finding real problems</span>
+                    </li>
+                </ul>
+                <div class="mt-10 p-5 rounded text-center" style="background-color: var(--bg-secondary); border: 2px solid var(--accent-color);">
+                    <p class="text-2xl font-bold mb-2">Next Week: Finding the Real Problem</p>
+                    <p class="text-lg" style="color: var(--text-secondary);">Problem identification, 5 Whys technique, User research intro</p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="border-t p-4" style="border-color: var(--border-color);">
+        <div class="max-w-7xl mx-auto flex justify-between items-center">
+            <button id="prevBtn" class="px-6 py-2 rounded border font-medium" style="border-color: var(--border-color);" aria-label="Previous slide">
+                ← Previous
+            </button>
+            <span id="slideCounter" class="text-lg" style="color: var(--text-secondary);">1 / 20</span>
+            <button id="nextBtn" class="px-6 py-2 rounded border font-medium" style="border-color: var(--border-color);" aria-label="Next slide">
+                Next →
+            </button>
+        </div>
+    </footer>
+
+    <script>
+        let currentSlide = 0;
+        let isDarkMode = false;
+        let fontSize = 1;
+        const slides = document.querySelectorAll('.slide');
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+        const slideCounter = document.getElementById('slideCounter');
+        const darkModeToggle = document.getElementById('darkModeToggle');
+        const modeIcon = document.getElementById('modeIcon');
+        const increaseFont = document.getElementById('increaseFont');
+        const decreaseFont = document.getElementById('decreaseFont');
+
+        function showSlide(n) {
+            slides[currentSlide].classList.remove('active');
+            currentSlide = (n + slides.length) % slides.length;
+            slides[currentSlide].classList.add('active');
+            slideCounter.textContent = `${currentSlide + 1} / ${slides.length}`;
+            
+            prevBtn.disabled = currentSlide === 0;
+            nextBtn.disabled = currentSlide === slides.length - 1;
+            prevBtn.style.opacity = currentSlide === 0 ? '0.5' : '1';
+            nextBtn.style.opacity = currentSlide === slides.length - 1 ? '0.5' : '1';
+        }
+
+        function nextSlide() {
+            if (currentSlide < slides.length - 1) showSlide(currentSlide + 1);
+        }
+
+        function prevSlide() {
+            if (currentSlide > 0) showSlide(currentSlide - 1);
+        }
+
+        function toggleDarkMode() {
+            isDarkMode = !isDarkMode;
+            document.body.classList.toggle('dark-mode');
+            modeIcon.textContent = isDarkMode ? '☀️' : '🌙';
+        }
+
+        function updateFontSize() {
+            document.documentElement.style.setProperty('--font-size', fontSize);
+        }
+
+        function increaseFontSize() {
+            if (fontSize < 1.5) {
+                fontSize += 0.1;
+                updateFontSize();
+            }
+        }
+
+        function decreaseFontSize() {
+            if (fontSize > 0.7) {
+                fontSize -= 0.1;
+                updateFontSize();
+            }
+        }
+
+        prevBtn.addEventListener('click', prevSlide);
+        nextBtn.addEventListener('click', nextSlide);
+        darkModeToggle.addEventListener('click', toggleDarkMode);
+        increaseFont.addEventListener('click', increaseFontSize);
+        decreaseFont.addEventListener('click', decreaseFontSize);
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight') nextSlide();
+            if (e.key === 'ArrowLeft') prevSlide();
+        });
+
+        showSlide(0);
+    </script>
+</body>
+</html>

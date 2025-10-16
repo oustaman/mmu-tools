@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Before/After Analysis Builder - UXCI</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        :root {
+            --bg-primary: #ffffff;
+            --bg-secondary: #f9fafb;
+            --text-primary: #111827;
+            --text-secondary: #4b5563;
+            --border-color: #e5e7eb;
+            --accent-color: #8b5cf6;
+        }
+        
+        body {
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+        }
+
+        .comparison-card {
+            min-height: 300px;
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .word-count {
+            font-variant-numeric: tabular-nums;
+        }
+
+        @media print {
+            .no-print { display: none; }
+        }
+    </style>
+</head>
+<body class="min-h-screen">
+    <header class="border-b p-4 no-print" style="border-color: var(--border-color);">
+        <div class="max-w-7xl mx-auto flex justify-between items-center">
+            <div>
+                <h1 class="text-2xl font-bold">⚖️ Before/After Analysis Builder</h1>
+                <p class="text-sm" style="color: var(--text-secondary);">Structure your Section 3: Problem Analysis & Solution Evaluation</p>
+            </div>
+            <button onclick="window.location.href='uxci_index_page.html'" class="px-4 py-2 rounded border" style="border-color: var(--border-color);">
+                ← Back
+            </button>
+        </div>
+    </header>
+
+    <main class="max-w-7xl mx-auto p-8">
+        <!-- Instructions -->
+        <div class="mb-8 p-6 rounded-lg border" style="border-color: var(--border-color); background-color: #fef3c7;">
+            <h2 class="font-bold mb-3" style="color: #92400e;">📋 How to Complete Section 3</h2>
+            <p class="text-sm mb-2" style="color: #92400e;">
+                This tool helps you structure your evaluation section with the correct word counts:
+            </p>
+            <ul class="text-sm space-y-1" style="color: #92400e;">
+                <li><strong>Problem Analysis (200-250 words):</strong> What problems existed? Evidence? Why they mattered?</li>
+                <li><strong>Solution Evaluation (200-250 words):</strong> How your design solves problems, specific features, expected improvements</li>
+                <li><strong>Recommendations (150-200 words):</strong> Next steps, future testing, additional features</li>
+            </ul>
+        </div>
+
+        <!-- BEFORE: Problem Analysis -->
+        <div class="mb-8">
+            <div class="p-6 rounded-lg border" style="border-color: #dc2626; background-color: #fee2e2;">
+                <div class="flex items-center justify-between mb-4">
+                    <div>
+                        <h2 class="text-2xl font-bold" style="color: #991b1b;">🔴 BEFORE: Problem Analysis</h2>
+                        <p class="text-sm" style="color: #991b1b;">What problems existed in the previous experience?</p>
+                    </div>
+                    <div class="text-right">
+                        <div class="text-3xl font-bold word-count" style="color: #991b1b;" id="problemWords">0</div>
+                        <div class="text-sm" style="color: #991b1b;">200-250 words</div>
+                    </div>
+                </div>
+
+                <div class="space-y-4">
+                    <div>
+                        <label class="block text-sm font-bold mb-2" style="color: #991b1b;">1. What problems existed?</label>
+                        <textarea id="problemDescription" class="w-full p-3 rounded border" style="border-color: #dc2626; background-color: white;" placeholder="Describe the specific UX problems users faced with the old system/process...
+
+Example: Students had to navigate through 5 different menu screens to find available study rooms. The booking interface didn't show real-time availability, leading to frustration when rooms were already taken."></textarea>
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-bold mb-2" style="color: #991b1b;">2. What's your evidence?</label>
+                        <textarea id="problemEvidence" class="w-full p-3 rounded border" style="border-color: #dc2626; background-color: white;" placeholder="What evidence do you have? User complaints, data, observations...
+
+Example: User reviews showed 73% abandoned the booking process. Average time to book was 3+ minutes. Common complaint: 'By the time I found a room, it was already taken.'"></textarea>
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-bold mb-2" style="color: #991b1b;">3. Why did these problems matter to users?</label>
+                        <textarea id="problemImpact" class="w-full p-3 rounded border" style="border-color: #dc2626; background-color: white;" placeholder="What was the real impact on users' lives/work?
+
+Example: Lost study time between classes meant less productive group work. Students wasted valuable time that could be spent studying. Frustration led to avoiding library resources entirely."></textarea>
+                    </div>
+                </div>
+
+                <div class="mt-4 p-3 rounded" style="background-color: white;">
+                    <p class="text-xs font-bold mb-2" style="color: #991b1b;">COMBINED TEXT:</p>
+                    <p class="text-sm" style="color: #991b1b;" id="problemPreview">Your problem analysis will appear here...</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- AFTER: Solution Evaluation -->
+        <div class="mb-8">
+            <div class="p-6 rounded-lg border" style="border-color: #16a34a; background-color: #dcfce7;">
+                <div class="flex items-center justify-between mb-4">
+                    <div>
+                        <h2 class="text-2xl font-bold" style="color: #166534;">🟢 AFTER: Solution Evaluation</h2>
+                        <p class="text-sm" style="color: #166534;">How does your design solve these problems?</p>
+                    </div>
+                    <div class="text-right">
+                        <div class="text-3xl font-bold word-count" style="color: #166534;" id="solutionWords">0</div>
+                        <div class="text-sm" style="color: #166534;">200-250 words</div>
+                    </div>
+                </div>
+
+                <div class="space-y-4">
+                    <div>
+                        <label class="block text-sm font-bold mb-2" style="color: #166534;">1. How does your design address the problems?</label>
+                        <textarea id="solutionApproach" class="w-full p-3 rounded border" style="border-color: #16a34a; background-color: white;" placeholder="Explain how your specific design decisions solve the problems...
+
+Example: My design displays all available rooms on the home screen with color-coded availability (green = free now, yellow = available soon, red = booked). Users can filter by time slot and capacity without navigating through menus."></textarea>
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-bold mb-2" style="color: #166534;">2. What specific features solve user pain points?</label>
+                        <textarea id="solutionFeatures" class="w-full p-3 rounded border" style="border-color: #16a34a; background-color: white;" placeholder="List and explain the key features...
+
+Example: Real-time availability updates prevent the 'already taken' problem. One-tap booking reduces the process from 5 screens to 1. Quick filters let users find rooms by location, capacity, or equipment."></textarea>
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-bold mb-2" style="color: #166534;">3. What improvements do you expect?</label>
+                        <textarea id="solutionMetrics" class="w-full p-3 rounded border" style="border-color: #16a34a; background-color: white;" placeholder="How will you measure success? Expected outcomes?
+
+Example: Expected to reduce booking time from 3+ minutes to under 30 seconds. Decrease abandonment rate from 73% to under 20%. Increase actual room usage by making booking frictionless."></textarea>
+                    </div>
+                </div>
+
+                <div class="mt-4 p-3 rounded" style="background-color: white;">
+                    <p class="text-xs font-bold mb-2" style="color: #166534;">COMBINED TEXT:</p>
+                    <p class="text-sm" style="color: #166534;" id="solutionPreview">Your solution evaluation will appear here...</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Recommendations -->
+        <div class="mb-8">
+            <div class="p-6 rounded-lg border" style="border-color: var(--accent-color); background-color: #ede9fe;">
+                <div class="flex items-center justify-between mb-4">
+                    <div>
+                        <h2 class="text-2xl font-bold" style="color: #5b21b6;">🎯 Recommendations</h2>
+                        <p class="text-sm" style="color: #5b21b6;">What are the next steps?</p>
+                    </div>
+                    <div class="text-right">
+                        <div class="text-3xl font-bold word-count" style="color: #5b21b6;" id="recommendationsWords">0</div>
+                        <div class="text-sm" style="color: #5b21b6;">150-200 words</div>
+                    </div>
+                </div>
+
+                <div class="space-y-4">
+                    <div>
+                        <label class="block text-sm font-bold mb-2" style="color: #5b21b6;">Next Steps & Additional Testing</label>
+                        <textarea id="recommendationsNext" class="w-full p-3 rounded border" style="border-color: var(--accent-color); background-color: white;" placeholder="What should happen next? What testing is needed?
+
+Example: Conduct usability testing with 8-10 students to validate the one-tap booking flow. A/B test the color-coding system to ensure it's intuitive. Run a pilot program during reading week."></textarea>
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-bold mb-2" style="color: #5b21b6;">Future Features & Enhancements</label>
+                        <textarea id="recommendationsFuture" class="w-full p-3 rounded border" style="border-color: var(--accent-color); background-color: white;" placeholder="What could be added in future iterations?
+
+Example: Add recurring booking feature for study groups. Integrate with student timetables to suggest optimal times. Include room photos to help students choose appropriate spaces."></textarea>
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-bold mb-2" style="color: #5b21b6;">Implementation Considerations</label>
+                        <textarea id="recommendationsImplementation" class="w-full p-3 rounded border" style="border-color: var(--accent-color); background-color: white;" placeholder="What should be considered for real-world implementation?
+
+Example: Requires integration with library's existing booking system. Staff training needed for new interface. Marketing campaign to encourage students to switch from old system."></textarea>
+                    </div>
+                </div>
+
+                <div class="mt-4 p-3 rounded" style="background-color: white;">
+                    <p class="text-xs font-bold mb-2" style="color: #5b21b6;">COMBINED TEXT:</p>
+                    <p class="text-sm" style="color: #5b21b6;" id="recommendationsPreview">Your recommendations will appear here...</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Total Summary -->
+        <div class="mb-8 p-6 rounded-lg border" style="border-color: var(--border-color); background-color: var(--bg-secondary);">
+            <h2 class="text-xl font-bold mb-4">📊 Section 3 Summary</h2>
+            <div class="grid grid-cols-3 gap-4 text-center">
+                <div>
+                    <div class="text-3xl font-bold word-count" id="totalProblemWords" style="color: #991b1b;">0</div>
+                    <div class="text-sm" style="color: var(--text-secondary);">Problem Analysis<br>(200-250)</div>
+                </div>
+                <div>
+                    <div class="text-3xl font-bold word-count" id="totalSolutionWords" style="color: #166534;">0</div>
+                    <div class="text-sm" style="color: var(--text-secondary);">Solution Evaluation<br>(200-250)</div>
+                </div>
+                <div>
+                    <div class="text-3xl font-bold word-count" id="totalRecommendationsWords" style="color: #5b21b6;">0</div>
+                    <div class="text-sm" style="color: var(--text-secondary);">Recommendations<br>(150-200)</div>
+                </div>
+            </div>
+            <div class="mt-4 text-center">
+                <div class="text-sm" style="color: var(--text-secondary);">Section 3 Total: <span class="font-bold text-xl word-count" id="grandTotal">0</span> words (target: ~500)</div>
+            </div>
+        </div>
+
+        <!-- Actions -->
+        <div class="flex gap-4 justify-center no-print">
+            <button onclick="clearAll()" class="px-6 py-3 rounded border" style="border-color: var(--border-color);">
+                Clear All
+            </button>
+            <button onclick="exportAll()" class="px-6 py-3 rounded text-white" style="background-color: var(--accent-color);">
+                📋 Copy All Sections
+            </button>
+            <button onclick="window.print()" class="px-6 py-3 rounded border" style="border-color: var(--accent-color); color: var(--accent-color);">
+                🖨️ Print
+            </button>
+        </div>
+    </main>
+
+    <script>
+        function countWords(text) {
+            return text.trim().split(/\s+/).filter(word => word.length > 0).length;
+        }
+
+        function updateWordCounts() {
+            // Problem Analysis
+            const problemText = [
+                document.getElementById('problemDescription').value,
+                document.getElementById('problemEvidence').value,
+                document.getElementById('problemImpact').value
+            ].join(' ');
+            const problemCount = countWords(problemText);
+            document.getElementById('problemWords').textContent = problemCount;
+            document.getElementById('totalProblemWords').textContent = problemCount;
+            document.getElementById('problemPreview').textContent = problemText || 'Your problem analysis will appear here...';
+
+            // Solution Evaluation
+            const solutionText = [
+                document.getElementById('solutionApproach').value,
+                document.getElementById('solutionFeatures').value,
+                document.getElementById('solutionMetrics').value
+            ].join(' ');
+            const solutionCount = countWords(solutionText);
+            document.getElementById('solutionWords').textContent = solutionCount;
+            document.getElementById('totalSolutionWords').textContent = solutionCount;
+            document.getElementById('solutionPreview').textContent = solutionText || 'Your solution evaluation will appear here...';
+
+            // Recommendations
+            const recommendationsText = [
+                document.getElementById('recommendationsNext').value,
+                document.getElementById('recommendationsFuture').value,
+                document.getElementById('recommendationsImplementation').value
+            ].join(' ');
+            const recommendationsCount = countWords(recommendationsText);
+            document.getElementById('recommendationsWords').textContent = recommendationsCount;
+            document.getElementById('totalRecommendationsWords').textContent = recommendationsCount;
+            document.getElementById('recommendationsPreview').textContent = recommendationsText || 'Your recommendations will appear here...';
+
+            // Grand Total
+            const grandTotal = problemCount + solutionCount + recommendationsCount;
+            document.getElementById('grandTotal').textContent = grandTotal;
+        }
+
+        function clearAll() {
+            if (confirm('Clear all text? This cannot be undone.')) {
+                document.querySelectorAll('textarea').forEach(ta => ta.value = '');
+                updateWordCounts();
+            }
+        }
+
+        function exportAll() {
+            const problemText = [
+                document.getElementById('problemDescription').value,
+                document.getElementById('problemEvidence').value,
+                document.getElementById('problemImpact').value
+            ].filter(t => t).join(' ');
+
+            const solutionText = [
+                document.getElementById('solutionApproach').value,
+                document.getElementById('solutionFeatures').value,
+                document.getElementById('solutionMetrics').value
+            ].filter(t => t).join(' ');
+
+            const recommendationsText = [
+                document.getElementById('recommendationsNext').value,
+                document.getElementById('recommendationsFuture').value,
+                document.getElementById('recommendationsImplementation').value
+            ].filter(t => t).join(' ');
+
+            let output = 'SECTION 3: EVALUATION & RECOMMENDATIONS\n';
+            output += '========================================\n\n';
+            
+            output += 'PROBLEM ANALYSIS (' + countWords(problemText) + ' words):\n';
+            output += problemText + '\n\n';
+            
+            output += 'SOLUTION EVALUATION (' + countWords(solutionText) + ' words):\n';
+            output += solutionText + '\n\n';
+            
+            output += 'RECOMMENDATIONS (' + countWords(recommendationsText) + ' words):\n';
+            output += recommendationsText + '\n\n';
+            
+            output += '---\nTotal: ' + (countWords(problemText) + countWords(solutionText) + countWords(recommendationsText)) + ' words\n';
+            output += 'Generated with UXCI Before/After Analysis Builder';
+
+            navigator.clipboard.writeText(output).then(() => {
+                alert('✓ All sections copied to clipboard! Paste into your slide deck.');
+            }).catch(() => {
+                alert('Could not copy. Please select and copy manually.');
+                console.log(output);
+            });
+        }
+
+        // Add event listeners
+        document.querySelectorAll('textarea').forEach(ta => {
+            ta.addEventListener('input', updateWordCounts);
+        });
+
+        // Initial update
+        updateWordCounts();
+    </script>
+</body>
+</html>

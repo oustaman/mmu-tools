@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Session 3: Design Principles Through Examples</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .slide { display: none; }
+        .slide.active { display: flex; }
+        
+        :root {
+            --bg-primary: #ffffff;
+            --bg-secondary: #f9fafb;
+            --text-primary: #111827;
+            --text-secondary: #4b5563;
+            --border-color: #e5e7eb;
+            --accent-color: #8b5cf6;
+            --font-size: 1;
+        }
+        
+        .dark-mode {
+            --bg-primary: #1f2937;
+            --bg-secondary: #111827;
+            --text-primary: #f9fafb;
+            --text-secondary: #d1d5db;
+            --border-color: #374151;
+            --accent-color: #a78bfa;
+        }
+        
+        html { font-size: calc(var(--font-size) * 16px); }
+        body { background-color: var(--bg-primary); color: var(--text-primary); }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col">
+    <header class="border-b p-4" style="border-color: var(--border-color);">
+        <div class="max-w-7xl mx-auto flex justify-between items-center">
+            <h1 class="text-lg font-semibold">User Experience for Creative Industries - Session 3</h1>
+            <div class="flex gap-2">
+                <button id="decreaseFont" class="px-3 py-2 rounded border" style="border-color: var(--border-color);">A-</button>
+                <button id="increaseFont" class="px-3 py-2 rounded border" style="border-color: var(--border-color);">A+</button>
+                <button id="darkModeToggle" class="px-4 py-2 rounded border" style="border-color: var(--border-color);"><span id="modeIcon">🌙</span></button>
+            </div>
+        </div>
+    </header>
+
+    <main class="flex-1 flex items-center justify-center p-8">
+        <div class="w-full max-w-5xl">
+            <div class="slide active flex-col items-center justify-center text-center h-[70vh]">
+                <h2 class="text-5xl font-bold mb-6">Session 3</h2>
+                <h3 class="text-3xl mb-8" style="color: var(--text-secondary);">Design Principles Through Examples</h3>
+                <p class="text-xl" style="color: var(--text-secondary);">Week 3 of 11</p>
+            </div>
+
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-4xl font-bold mb-8">Recap</h2>
+                <ul class="space-y-4 text-xl">
+                    <li>✓ Week 1: Understanding UX and assessment overview</li>
+                    <li>✓ Week 2: Finding root problems using 5 Whys</li>
+                    <li>✓ You should have: Service chosen + Problem identified</li>
+                </ul>
+                <p class="mt-8 text-xl font-semibold p-4 rounded" style="background-color: var(--bg-secondary);">
+                    Today: Learn the principles that make UX good (or bad)
+                </p>
+            </div>
+
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-4xl font-bold mb-8">Why Learn Design Principles?</h2>
+                <div class="mb-6 p-5 rounded" style="background-color: var(--bg-secondary); border: 2px solid var(--border-color);">
+                    <p class="text-xl">Your assessment requires you to identify <strong>TWO user-centered design principles</strong> in your prototype</p>
+                </div>
+                <ul class="space-y-5 text-xl">
+                    <li class="flex items-start"><span class="mr-3">📚</span><span>You need to know what principles exist</span></li>
+                    <li class="flex items-start"><span class="mr-3">👁️</span><span>You need to recognize them in real examples</span></li>
+                    <li class="flex items-start"><span class="mr-3">✏️</span><span>You need to apply them in your sketches</span></li>
+                    <li class="flex items-start"><span class="mr-3">📝</span><span>You need to explain WHY you chose them</span></li>
+                </ul>
+            </div>
+
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-4xl font-bold mb-6">Nielsen's 10 Usability Heuristics</h2>
+                <p class="text-lg mb-6" style="color: var(--text-secondary);">The gold standard for UX evaluation - created by Jakob Nielsen in 1994</p>
+                <div class="grid grid-cols-2 gap-4 text-base">
+                    <div class="p-3 rounded border" style="border-color: var(--border-color); background-color: var(--bg-secondary);">1. Visibility of system status</div>
+                    <div class="p-3 rounded border" style="border-color: var(--border-color); background-color: var(--bg-secondary);">2. Match system & real world</div>
+                    <div class="p-3 rounded border" style="border-color: var(--border-color); background-color: var(--bg-secondary);">3. User control and freedom</div>
+                    <div class="p-3 rounded border" style="border-color: var(--border-color); background-color: var(--bg-secondary);">4. Consistency and standards</div>
+                    <div class="p-3 rounded border" style="border-color: var(--border-color); background-color: var(--bg-secondary);">5. Error prevention</div>
+                    <div class="p-3 rounded border" style="border-color: var(--border-color); background-color: var(--bg-secondary);">6. Recognition over recall</div>
+                    <div class="p-3 rounded border" style="border-color: var(--border-color); background-color: var(--bg-secondary);">7. Flexibility and efficiency</div>
+                    <div class="p-3 rounded border" style="border-color: var(--border-color); background-color: var(--bg-secondary);">8. Aesthetic and minimalist design</div>
+                    <div class="p-3 rounded border" style="border-color: var(--border-color); background-color: var(--bg-secondary);">9. Help users recognize errors</div>
+                    <div class="p-3 rounded border" style="border-color: var(--border-color); background-color: var(--bg-secondary);">10. Help and documentation</div>
+                </div>
+                <p class="mt-6 text-lg font-semibold p-4 rounded" style="background-color: var(--bg-secondary);">We'll explore each through real examples</p>
+            </div>
+
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-3xl font-bold mb-6">Principle 1: Visibility of System Status</h2>
+                <div class="mb-4 p-4 rounded" style="background-color: var(--bg-secondary); border: 2px solid var(--border-color);">
+                    <p class="text-lg"><strong>What it means:</strong> Always tell users what's happening</p>
+                </div>
+                <div class="grid grid-cols-2 gap-4">
+                    <div class="p-4 rounded" style="background-color: #dcfce7; border: 2px solid #16a34a;">
+                        <p class="font-bold mb-2" style="color: #16a34a;">✅ Good Examples:</p>
+                        <ul class="text-sm space-y-2">
+                            <li>• Loading spinner when uploading</li>
+                            <li>• Progress bar showing % complete</li>
+                            <li>• "Message sent" confirmation</li>
+                            <li>• Battery indicator on phone</li>
+                        </ul>
+                    </div>
+                    <div class="p-4 rounded" style="background-color: #fee2e2; border: 2px solid #dc2626;">
+                        <p class="font-bold mb-2" style="color: #dc2626;">❌ Bad Examples:</p>
+                        <ul class="text-sm space-y-2">
+                            <li>• Button does nothing when clicked</li>
+                            <li>• No feedback on form submission</li>
+                            <li>• Mystery loading (how long?)</li>
+                            <li>• Silent failures</li>
+                        </ul>
+                    </div>
+                </div>
+                <p class="mt-4 text-base p-3 rounded" style="background-color: #dbeafe;">
+                    <strong>For your project:</strong> Show when buttons are pressed, actions are processing, or tasks complete
+                </p>
+            </div>
+
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-3xl font-bold mb-6">Principle 2: Match Between System and Real World</h2>
+                <div class="mb-4 p-4 rounded" style="background-color: var(--bg-secondary); border: 2px solid var(--border-color);">
+                    <p class="text-lg"><strong>What it means:</strong> Use familiar language and concepts, not jargon</p>
+                </div>
+                <div class="grid grid-cols-2 gap-4">
+                    <div class="p-4 rounded" style="background-color: #dcfce7; border: 2px solid #16a34a;">
+                        <p class="font-bold mb-2" style="color: #16a34a;">✅ Good Examples:</p>
+                        <ul class="text-sm space-y-2">
+                            <li>• 🗑️ Trash icon for delete</li>
+                            <li>• 📁 Folder icon for organizing files</li>
+                            <li>• "Shopping cart" not "basket array"</li>
+                            <li>• Calendar metaphor for dates</li>
+                        </ul>
+                    </div>
+                    <div class="p-4 rounded" style="background-color: #fee2e2; border: 2px solid #dc2626;">
+                        <p class="font-bold mb-2" style="color: #dc2626;">❌ Bad Examples:</p>
+                        <ul class="text-sm space-y-2">
+                            <li>• Technical error codes (ERR_404)</li>
+                            <li>• Developer jargon in UI</li>
+                            <li>• Abstract icons with no meaning</li>
+                            <li>• Industry-specific terms for general users</li>
+                        </ul>
+                    </div>
+                </div>
+                <p class="mt-4 text-base p-3 rounded" style="background-color: #dbeafe;">
+                    <strong>For your project:</strong> Use words and icons your users already understand
+                </p>
+            </div>
+
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-3xl font-bold mb-6">Principle 3: User Control and Freedom</h2>
+                <div class="mb-4 p-4 rounded" style="background-color: var(--bg-secondary); border: 2px solid var(--border-color);">
+                    <p class="text-lg"><strong>What it means:</strong> Let users undo mistakes and change their minds</p>
+                </div>
+                <div class="grid grid-cols-2 gap-4">
+                    <div class="p-4 rounded" style="background-color: #dcfce7; border: 2px solid #16a34a;">
+                        <p class="font-bold mb-2" style="color: #16a34a;">✅ Good Examples:</p>
+                        <ul class="text-sm space-y-2">
+                            <li>• Undo/Redo buttons</li>
+                            <li>• Cancel button on forms</li>
+                            <li>• Back button that works</li>
+                            <li>• Gmail's "Undo send" option</li>
+                        </ul>
+                    </div>
+                    <div class="p-4 rounded" style="background-color: #fee2e2; border: 2px solid #dc2626;">
+                        <p class="font-bold mb-2" style="color: #dc2626;">❌ Bad Examples:</p>
+                        <ul class="text-sm space-y-2">
+                            <li>• Can't go back without losing work</li>
+                            <li>• No way to cancel ongoing action</li>
+                            <li>• Permanent delete with no warning</li>
+                            <li>• Forced linear flows</li>
+                        </ul>
+                    </div>
+                </div>
+                <p class="mt-4 text-base p-3 rounded" style="background-color: #dbeafe;">
+                    <strong>For your project:</strong> Always provide an escape route for users
+                </p>
+            </div>
+
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-3xl font-bold mb-6">Principle 4: Consistency and Standards</h2>
+                <div class="mb-4 p-4 rounded" style="background-color: var(--bg-secondary); border: 2px solid var(--border-color);">
+                    <p class="text-lg"><strong>What it means:</strong> Same actions should work the same way throughout</p>
+                </div>
+                <div class="grid grid-cols-2 gap-4">
+                    <div class="p-4 rounded" style="background-color: #dcfce7; border: 2px solid #16a34a;">
+                        <p class="font-bold mb-2" style="color: #16a34a;">✅ Good Examples:</p>
+                        <ul class="text-sm space-y-2">
+                            <li>• Blue links throughout site</li>
+                            <li>• Primary button always same color</li>
+                            <li>• Icons mean same thing everywhere</li>
+                            <li>• Same navigation structure</li>
+                        </ul>
+                    </div>
+                    <div class="p-4 rounded" style="background-color: #fee2e2; border: 2px solid #dc2626;">
+                        <p class="font-bold mb-2" style="color: #dc2626;">❌ Bad Examples:</p>
+                        <ul class="text-sm space-y-2">
+                            <li>• Submit button changes location</li>
+                            <li>• X means close on one page, delete on another</li>
+                            <li>• Different navigation per page</li>
+                            <li>• Inconsistent terminology</li>
+                        </ul>
+                    </div>
+                </div>
+                <p class="mt-4 text-base p-3 rounded" style="background-color: #dbeafe;">
+                    <strong>For your project:</strong> Keep buttons, colors, and patterns consistent across screens
+                </p>
+            </div>
+
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-3xl font-bold mb-6">Principle 5: Error Prevention</h2>
+                <div class="mb-4 p-4 rounded" style="background-color: var(--bg-secondary); border: 2px solid var(--border-color);">
+                    <p class="text-lg"><strong>What it means:</strong> Design to prevent errors before they happen</p>
+                </div>
+                <div class="grid grid-cols-2 gap-4">
+                    <div class="p-4 rounded" style="background-color: #dcfce7; border: 2px solid #16a34a;">
+                        <p class="font-bold mb-2" style="color: #16a34a;">✅ Good Examples:</p>
+                        <ul class="text-sm space-y-2">
+                            <li>• Disable submit until form valid</li>
+                            <li>• Confirmation dialog for delete</li>
+                            <li>• Auto-save drafts</li>
+                            <li>• Constraints on date pickers</li>
+                        </ul>
+                    </div>
+                    <div class="p-4 rounded" style="background-color: #fee2e2; border: 2px solid #dc2626;">
+                        <p class="font-bold mb-2" style="color: #dc2626;">❌ Bad Examples:</p>
+                        <ul class="text-sm space-y-2">
+                            <li>• Can submit invalid forms</li>
+                            <li>• No confirmation on destructive actions</li>
+                            <li>• Easy to accidentally trigger</li>
+                            <li>• No validation until after submit</li>
+                        </ul>
+                    </div>
+                </div>
+                <p class="mt-4 text-base p-3 rounded" style="background-color: #dbeafe;">
+                    <strong>For your project:</strong> Think about what could go wrong and prevent it
+                </p>
+            </div>
+
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-3xl font-bold mb-6">Principle 6: Recognition Over Recall</h2>
+                <div class="mb-4 p-4 rounded" style="background-color: var(--bg-secondary); border: 2px solid var(--border-color);">
+                    <p class="text-lg"><strong>What it means:</strong> Show options rather than making users remember</p>
+                </div>
+                <div class="grid grid-cols-2 gap-4">
+                    <div class="p-4 rounded" style="background-color: #dcfce7; border: 2px solid #16a34a;">
+                        <p class="font-bold mb-2" style="color: #16a34a;">✅ Good Examples:</p>
+                        <ul class="text-sm space-y-2">
+                            <li>• Dropdown menus vs typing</li>
+                            <li>• Icons with labels</li>
+                            <li>• Recent search history</li>
+                            <li>• Previously entered addresses</li>
+                        </ul>
+                    </div>
+                    <div class="p-4 rounded" style="background-color: #fee2e2; border: 2px solid #dc2626;">
+                        <p class="font-bold mb-2" style="color: #dc2626;">❌ Bad Examples:</p>
+                        <ul class="text-sm space-y-2">
+                            <li>• Unlabeled icons</li>
+                            <li>• Hidden keyboard shortcuts only</li>
+                            <li>• Must remember exact syntax</li>
+                            <li>• No contextual help</li>
+                        </ul>
+                    </div>
+                </div>
+                <p class="mt-4 text-base p-3 rounded" style="background-color: #dbeafe;">
+                    <strong>For your project:</strong> Make options visible, don't hide them
+                </p>
+            </div>
+
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-3xl font-bold mb-6">Accessibility as a Principle</h2>
+                <div class="mb-4 p-4 rounded" style="background-color: var(--bg-secondary); border: 2px solid var(--border-color);">
+                    <p class="text-lg"><strong>What it means:</strong> Design for everyone, including people with disabilities</p>
+                </div>
+                <div class="grid grid-cols-2 gap-4 text-sm">
+                    <div class="p-4 rounded" style="background-color: #dcfce7; border: 2px solid #16a34a;">
+                        <p class="font-bold mb-2">✅ Good Practices:</p>
+                        <ul class="space-y-2">
+                            <li>• High color contrast (text readable)</li>
+                            <li>• Large enough tap targets (44x44px min)</li>
+                            <li>• Alt text for images</li>
+                            <li>• Keyboard navigation works</li>
+                            <li>• Clear focus indicators</li>
+                        </ul>
+                    </div>
+                    <div class="p-4 rounded" style="background-color: #fee2e2; border: 2px solid #dc2626;">
+                        <p class="font-bold mb-2">❌ Common Mistakes:</p>
+                        <ul class="space-y-2">
+                            <li>• Light gray text on white</li>
+                            <li>• Tiny buttons hard to tap</li>
+                            <li>• Color as only indicator</li>
+                            <li>• Auto-playing videos with sound</li>
+                            <li>• No keyboard access</li>
+                        </ul>
+                    </div>
+                </div>
+                <p class="mt-4 text-base p-3 rounded" style="background-color: #dbeafe;">
+                    <strong>For your project:</strong> Accessibility is often the easiest principle to demonstrate in sketches
+                </p>
+            </div>
+
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-4xl font-bold mb-8">Activity: Principle Hunt</h2>
+                <div class="mb-6 p-5 rounded" style="background-color: #dbeafe; border: 2px solid #3b82f6;">
+                    <p class="text-xl font-semibold mb-3">Your Task (15 minutes):</p>
+                    <ol class="space-y-3 text-lg">
+                        <li>1. Open an app on your phone (any app)</li>
+                        <li>2. Find 3 examples of UX principles (good OR bad)</li>
+                        <li>3. Screenshot or note them down</li>
+                        <li>4. Identify which principle each example demonstrates</li>
+                    </ol>
+                </div>
+                <div class="p-4 rounded" style="background-color: var(--bg-secondary);">
+                    <p class="text-lg">Examples: "Instagram uses heart icon consistently (Principle 4)" or "Banking app has no back button (violates Principle 3)"</p>
+                </div>
+                <p class="mt-6 text-xl text-center font-semibold">We'll share findings!</p>
+            </div>
+
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-4xl font-bold mb-8">Sharing Examples</h2>
+                <p class="text-xl mb-8">Who found a good example of a principle being followed?</p>
+                <p class="text-xl mb-8">Who found a BAD example (principle violated)?</p>
+                <div class="mt-6 p-5 rounded" style="background-color: var(--bg-secondary); border: 2px solid var(--border-color);">
+                    <p class="text-lg font-semibold mb-2">Discussion:</p>
+                    <ul class="space-y-2">
+                        <li>• Why does this example work (or fail)?</li>
+                        <li>• How would you improve it?</li>
+                        <li>• Could you use this principle in your project?</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-4xl font-bold mb-6">Choosing Your 2 Principles</h2>
+                <div class="mb-6 p-5 rounded" style="background-color: var(--bg-secondary); border: 2px solid var(--border-color);">
+                    <p class="text-xl">For your assessment, you must demonstrate <strong>2 UCD principles</strong> in your prototype</p>
+                </div>
+                <div class="space-y-4 text-lg">
+                    <div class="p-4 rounded border-l-4" style="border-color: var(--accent-color); background-color: var(--bg-secondary);">
+                        <strong>Consider:</strong> Which principles are most relevant to your service?
+                    </div>
+                    <div class="p-4 rounded border-l-4" style="border-color: var(--accent-color); background-color: var(--bg-secondary);">
+                        <strong>Consider:</strong> Which can you clearly show in sketches?
+                    </div>
+                    <div class="p-4 rounded border-l-4" style="border-color: var(--accent-color); background-color: var(--bg-secondary);">
+                        <strong>Consider:</strong> Which solve your identified problem?
+                    </div>
+                </div>
+                <p class="mt-6 text-lg font-semibold p-4 rounded" style="background-color: #dbeafe;">
+                    Popular choices: Visibility of status, Accessibility, Consistency, Error prevention
+                </p>
+            </div>
+
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-4xl font-bold mb-8">For Your Slide Deck</h2>
+                <div class="mb-6 p-5 rounded" style="background-color: var(--bg-secondary); border: 2px solid var(--border-color);">
+                    <p class="text-xl font-semibold mb-3">Section 2: User-Centered Design Principles (200-250 words)</p>
+                    <p class="text-lg">You must explain:</p>
+                </div>
+                <ul class="space-y-4 text-lg">
+                    <li class="flex items-start">
+                        <span class="mr-3">1.</span>
+                        <span><strong>Name the 2 principles</strong> you applied</span>
+                    </li>
+                    <li class="flex items-start">
+                        <span class="mr-3">2.</span>
+                        <span><strong>Show specific examples</strong> from your sketches</span>
+                    </li>
+                    <li class="flex items-start">
+                        <span class="mr-3">3.</span>
+                        <span><strong>Explain the rationale</strong> - why these principles matter for YOUR users</span>
+                    </li>
+                </ul>
+                <div class="mt-6 p-4 rounded" style="background-color: #fef3c7;">
+                    <p class="text-base"><strong>Example:</strong> "I applied Error Prevention by adding a confirmation dialog before deleting bookings, because students often accidentally tap buttons on mobile."</p>
+                </div>
+            </div>
+
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-4xl font-bold mb-8">What You've Learned Today</h2>
+                <ul class="space-y-5 text-xl">
+                    <li class="flex items-start"><span class="mr-3">✓</span><span>Nielsen's 10 usability heuristics</span></li>
+                    <li class="flex items-start"><span class="mr-3">✓</span><span>How to recognize principles in real apps</span></li>
+                    <li class="flex items-start"><span class="mr-3">✓</span><span>Good vs bad examples of each principle</span></li>
+                    <li class="flex items-start"><span class="mr-3">✓</span><span>Accessibility as a design principle</span></li>
+                    <li class="flex items-start"><span class="mr-3">✓</span><span>How to choose and explain principles for your project</span></li>
+                </ul>
+                <p class="mt-8 text-xl font-semibold p-4 rounded" style="background-color: var(--bg-secondary);">
+                    You can now identify and articulate UX principles
+                </p>
+            </div>
+
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-4xl font-bold mb-8">Homework</h2>
+                <ul class="space-y-5 text-xl">
+                    <li class="flex items-start"><span class="mr-3">1.</span><span><strong>Choose your 2 principles</strong> for your project</span></li>
+                    <li class="flex items-start"><span class="mr-3">2.</span><span><strong>Find 2-3 examples</strong> of each principle in existing apps</span></li>
+                    <li class="flex items-start"><span class="mr-3">3.</span><span><strong>Think about how</strong> you'll apply them in your design</span></li>
+                    <li class="flex items-start"><span class="mr-3">4.</span><span><strong>Start draft text</strong> explaining why these principles matter for your users</span></li>
+                </ul>
+                <div class="mt-10 p-5 rounded text-center" style="background-color: var(--bg-secondary); border: 2px solid var(--accent-color);">
+                    <p class="text-2xl font-bold mb-2">Next Week: Research Artefacts Workshop</p>
+                    <p class="text-lg" style="color: var(--text-secondary);">Personas, journey maps, empathy maps - Start creating your artefacts</p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="border-t p-4" style="border-color: var(--border-color);">
+        <div class="max-w-7xl mx-auto flex justify-between items-center">
+            <button id="prevBtn" class="px-6 py-2 rounded border font-medium">← Previous</button>
+            <span id="slideCounter" class="text-lg">1 / 17</span>
+            <button id="nextBtn" class="px-6 py-2 rounded border font-medium">Next →</button>
+        </div>
+    </footer>
+
+    <script>
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.slide');
+        function showSlide(n) {
+            slides[currentSlide].classList.remove('active');
+            currentSlide = (n + slides.length) % slides.length;
+            slides[currentSlide].classList.add('active');
+            document.getElementById('slideCounter').textContent = `${currentSlide + 1} / ${slides.length}`;
+            document.getElementById('prevBtn').disabled = currentSlide === 0;
+            document.getElementById('nextBtn').disabled = currentSlide === slides.length - 1;
+        }
+        document.getElementById('prevBtn').addEventListener('click', () => { if(currentSlide > 0) showSlide(currentSlide - 1); });
+        document.getElementById('nextBtn').addEventListener('click', () => { if(currentSlide < slides.length - 1) showSlide(currentSlide + 1); });
+        document.getElementById('darkModeToggle').addEventListener('click', () => {
+            document.body.classList.toggle('dark-mode');
+            document.getElementById('modeIcon').textContent = document.body.classList.contains('dark-mode') ? '☀️' : '🌙';
+        });
+        let fontSize = 1;
+        document.getElementById('increaseFont').addEventListener('click', () => { if(fontSize < 1.5) { fontSize += 0.1; document.documentElement.style.setProperty('--font-size', fontSize); }});
+        document.getElementById('decreaseFont').addEventListener('click', () => { if(fontSize > 0.7) { fontSize -= 0.1; document.documentElement.style.setProperty('--font-size', fontSize); }});
+        document.addEventListener('keydown', (e) => { if(e.key === 'ArrowRight') document.getElementById('nextBtn').click(); if(e.key === 'ArrowLeft') document.getElementById('prevBtn').click(); });
+        showSlide(0);
+    </script>
+</body>
+</html>

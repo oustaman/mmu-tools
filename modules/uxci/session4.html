@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Session 4: Research Artefacts Workshop</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .slide { display: none; }
+        .slide.active { display: flex; }
+        :root {
+            --bg-primary: #ffffff; --bg-secondary: #f9fafb; --text-primary: #111827;
+            --text-secondary: #4b5563; --border-color: #e5e7eb; --accent-color: #8b5cf6; --font-size: 1;
+        }
+        .dark-mode {
+            --bg-primary: #1f2937; --bg-secondary: #111827; --text-primary: #f9fafb;
+            --text-secondary: #d1d5db; --border-color: #374151; --accent-color: #a78bfa;
+        }
+        html { font-size: calc(var(--font-size) * 16px); }
+        body { background-color: var(--bg-primary); color: var(--text-primary); }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col">
+    <header class="border-b p-4" style="border-color: var(--border-color);">
+        <div class="max-w-7xl mx-auto flex justify-between items-center">
+            <h1 class="text-lg font-semibold">User Experience for Creative Industries - Session 4</h1>
+            <div class="flex gap-2">
+                <button id="decreaseFont" class="px-3 py-2 rounded border">A-</button>
+                <button id="increaseFont" class="px-3 py-2 rounded border">A+</button>
+                <button id="darkModeToggle" class="px-4 py-2 rounded border"><span id="modeIcon">🌙</span></button>
+            </div>
+        </div>
+    </header>
+
+    <main class="flex-1 flex items-center justify-center p-8">
+        <div class="w-full max-w-5xl">
+            <div class="slide active flex-col items-center justify-center text-center h-[70vh]">
+                <h2 class="text-5xl font-bold mb-6">Session 4</h2>
+                <h3 class="text-3xl mb-8" style="color: var(--text-secondary);">Research Artefacts Workshop</h3>
+                <p class="text-xl" style="color: var(--text-secondary);">Week 4 of 11</p>
+            </div>
+
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-4xl font-bold mb-8">Where We Are</h2>
+                <ul class="space-y-4 text-xl">
+                    <li>✓ Week 1: UX fundamentals</li>
+                    <li>✓ Week 2: Problem identification (5 Whys)</li>
+                    <li>✓ Week 3: Design principles (Nielsen's heuristics)</li>
+                    <li>✓ You should have: Service + Problem + 2 Principles</li>
+                </ul>
+                <p class="mt-8 text-xl font-semibold p-4 rounded" style="background-color: var(--bg-secondary);">
+                    Today: Document your research with professional artefacts
+                </p>
+            </div>
+
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-4xl font-bold mb-8">What Are UX Artefacts?</h2>
+                <div class="mb-6 p-5 rounded" style="background-color: var(--bg-secondary); border: 2px solid var(--border-color);">
+                    <p class="text-2xl">Tools to document and communicate your research, design thinking, and decisions</p>
+                </div>
+                <ul class="space-y-5 text-xl">
+                    <li class="flex items-start"><span class="mr-3">📊</span><span>Make your thinking visible</span></li>
+                    <li class="flex items-start"><span class="mr-3">🤝</span><span>Communicate with stakeholders/teams</span></li>
+                    <li class="flex items-start"><span class="mr-3">📝</span><span>Create shared understanding</span></li>
+                    <li class="flex items-start"><span class="mr-3">💼</span><span>Professional UX practice</span></li>
+                </ul>
+            </div>
+
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-4xl font-bold mb-8">Your Assessment Requirement</h2>
+                <div class="mb-6 p-5 rounded" style="background-color: #dbeafe; border: 2px solid #3b82f6;">
+                    <p class="text-2xl font-bold mb-3">You need TWO artefacts</p>
+                    <p class="text-xl">From any of these categories: User Research, Design, or Testing</p>
+                </div>
+                <ul class="space-y-4 text-lg">
+                    <li class="flex items-start"><span class="mr-3">1.</span><span>Each artefact gets 1-3 slides in your deck</span></li>
+                    <li class="flex items-start"><span class="mr-3">2.</span><span>Each needs 150-200 word explanation</span></li>
+                    <li class="flex items-start"><span class="mr-3">3.</span><span>Must show how it contributed to your design</span></li>
+                </ul>
+            </div>
+
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-3xl font-bold mb-6">Category 1: User Research Artefacts</h2>
+                <div class="grid grid-cols-2 gap-4">
+                    <div class="p-5 rounded border-2" style="border-color: var(--accent-color); background-color: var(--bg-secondary);">
+                        <p class="text-xl font-bold mb-3">👤 Personas</p>
+                        <p class="text-base">Fictional characters representing user types - demographics, goals, frustrations</p>
+                    </div>
+                    <div class="p-5 rounded border-2" style="border-color: var(--accent-color); background-color: var(--bg-secondary);">
+                        <p class="text-xl font-bold mb-3">🗺️ Journey Maps</p>
+                        <p class="text-base">Visual story of user's experience - touchpoints, emotions, pain points</p>
+                    </div>
+                    <div class="p-5 rounded border-2" style="border-color: var(--accent-color); background-color: var(--bg-secondary);">
+                        <p class="text-xl font-bold mb-3">💭 Empathy Maps</p>
+                        <p class="text-base">What users think, feel, say, and do in a given context</p>
+                    </div>
+                    <div class="p-5 rounded border-2" style="border-color: var(--accent-color); background-color: var(--bg-secondary);">
+                        <p class="text-xl font-bold mb-3">📊 Competitor Analysis</p>
+                        <p class="text-base">Matrix comparing existing solutions - features, strengths, weaknesses</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-3xl font-bold mb-6">Creating a Persona</h2>
+                <div class="mb-4 p-4 rounded" style="background-color: var(--bg-secondary);">
+                    <p class="text-lg font-semibold mb-3">Essential Components:</p>
+                    <ul class="space-y-2 text-base">
+                        <li>• <strong>Name & Photo:</strong> Makes them feel real</li>
+                        <li>• <strong>Demographics:</strong> Age, occupation, tech comfort</li>
+                        <li>• <strong>Goals:</strong> What they want to achieve</li>
+                        <li>• <strong>Frustrations:</strong> Current pain points</li>
+                        <li>• <strong>Context:</strong> When/where they use service</li>
+                        <li>• <strong>Quote:</strong> Sums up their mindset</li>
+                    </ul>
+                </div>
+                <p class="mt-4 text-lg font-semibold p-4 rounded" style="background-color: #fef3c7;">
+                    ⚠️ Avoid stereotypes - base on real research
+                </p>
+            </div>
+
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-3xl font-bold mb-4">Persona Example</h2>
+                <div class="p-5 rounded" style="background-color: var(--bg-secondary); border: 2px solid var(--border-color);">
+                    <div class="flex gap-4 mb-4">
+                        <div class="w-20 h-20 rounded-full bg-gray-300 flex items-center justify-center text-3xl">👨‍🎓</div>
+                        <div>
+                            <p class="text-2xl font-bold">Alex Chen</p>
+                            <p class="text-lg" style="color: var(--text-secondary);">2nd Year Computer Science Student</p>
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-2 gap-4 text-sm">
+                        <div>
+                            <p class="font-bold mb-1">Demographics:</p>
+                            <p>Age 20, Lives on campus, High tech literacy</p>
+                        </div>
+                        <div>
+                            <p class="font-bold mb-1">Goals:</p>
+                            <p>Find quiet study spaces quickly between lectures</p>
+                        </div>
+                        <div>
+                            <p class="font-bold mb-1">Frustrations:</p>
+                            <p>Library booking system too slow, rooms often taken</p>
+                        </div>
+                        <div>
+                            <p class="font-bold mb-1">Context:</p>
+                            <p>Books on mobile while walking to library</p>
+                        </div>
+                    </div>
+                    <p class="mt-4 italic text-base">"I just want to know if there's a free room NOW, not in 5 minutes after clicking through menus"</p>
+                </div>
+            </div>
+
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-4xl font-bold mb-6">Activity: Build Your Persona</h2>
+                <div class="mb-6 p-5 rounded" style="background-color: #dbeafe; border: 2px solid #3b82f6;">
+                    <p class="text-xl font-semibold mb-3">Your Task (20 minutes):</p>
+                    <ol class="space-y-3 text-lg">
+                        <li>1. Think about your primary user</li>
+                        <li>2. Fill in: Name, demographics, goals, frustrations</li>
+                        <li>3. Add context and a quote</li>
+                        <li>4. Sketch/type it out (digital or paper)</li>
+                    </ol>
+                </div>
+                <p class="text-lg font-semibold p-4 rounded" style="background-color: var(--bg-secondary);">
+                    Base it on research! Think: Who did you observe? Interview? What reviews did you read?
+                </p>
+            </div>
+
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-3xl font-bold mb-6">User Journey Maps</h2>
+                <div class="mb-4 p-4 rounded" style="background-color: var(--bg-secondary);">
+                    <p class="text-lg font-semibold mb-3">Shows the complete user experience over time:</p>
+                    <ul class="space-y-2 text-base">
+                        <li>• <strong>Stages:</strong> Awareness → Consideration → Usage → Completion</li>
+                        <li>• <strong>Touchpoints:</strong> Where they interact (app, website, physical space)</li>
+                        <li>• <strong>Actions:</strong> What they do at each stage</li>
+                        <li>• <strong>Emotions:</strong> How they feel (graph showing highs/lows)</li>
+                        <li>• <strong>Pain Points:</strong> Where frustration occurs</li>
+                        <li>• <strong>Opportunities:</strong> Where you can improve</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-3xl font-bold mb-4">Journey Map Example</h2>
+                <div class="p-4 rounded" style="background-color: var(--bg-secondary); border: 2px solid var(--border-color);">
+                    <p class="text-lg font-bold mb-3">Task: Book a study room at library</p>
+                    <div class="space-y-3 text-sm">
+                        <div class="p-2 rounded" style="background-color: var(--bg-primary);">
+                            <strong>Stage 1 - Need Arises:</strong> Between lectures, needs quiet space
+                            <br>Action: Opens library website | Emotion: 😐 Neutral
+                        </div>
+                        <div class="p-2 rounded" style="background-color: var(--bg-primary);">
+                            <strong>Stage 2 - Search:</strong> Tries to find booking page
+                            <br>Action: Clicks through menus | Emotion: 😕 Confused
+                            <br><span style="color: #dc2626;">⚠️ Pain point: Can't find booking link</span>
+                        </div>
+                        <div class="p-2 rounded" style="background-color: var(--bg-primary);">
+                            <strong>Stage 3 - Booking:</strong> Finally finds form
+                            <br>Action: Fills form, checks availability | Emotion: 😫 Frustrated
+                            <br><span style="color: #dc2626;">⚠️ Pain point: All rooms taken, no alternatives shown</span>
+                        </div>
+                        <div class="p-2 rounded" style="background-color: var(--bg-primary);">
+                            <strong>Stage 4 - Outcome:</strong> Gives up
+                            <br>Action: Closes browser | Emotion: 😠 Angry
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-3xl font-bold mb-6">Empathy Maps</h2>
+                <div class="grid grid-cols-2 gap-4">
+                    <div class="p-4 rounded" style="background-color: #fef3c7; border: 2px solid #f59e0b;">
+                        <p class="font-bold text-lg mb-2">🧠 THINKS</p>
+                        <p class="text-sm">Internal thoughts: "Why is this so complicated? I'm going to be late."</p>
+                    </div>
+                    <div class="p-4 rounded" style="background-color: #dbeafe; border: 2px solid #3b82f6;">
+                        <p class="font-bold text-lg mb-2">❤️ FEELS</p>
+                        <p class="text-sm">Emotions: Frustrated, rushed, confused, annoyed</p>
+                    </div>
+                    <div class="p-4 rounded" style="background-color: #dcfce7; border: 2px solid #16a34a;">
+                        <p class="font-bold text-lg mb-2">💬 SAYS</p>
+                        <p class="text-sm">Out loud: "This website is terrible" "Where's the booking button?"</p>
+                    </div>
+                    <div class="p-4 rounded" style="background-color: #fce7f3; border: 2px solid #ec4899;">
+                        <p class="font-bold text-lg mb-2">✋ DOES</p>
+                        <p class="text-sm">Actions: Clicks random links, gives up, asks friend for help</p>
+                    </div>
+                </div>
+                <p class="mt-4 text-base p-3 rounded" style="background-color: var(--bg-secondary);">
+                    Empathy maps help you understand the user's full experience, not just behavior
+                </p>
+            </div>
+
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-3xl font-bold mb-6">Category 2: Design Artefacts</h2>
+                <div class="space-y-4">
+                    <div class="p-4 rounded border-2" style="border-color: var(--accent-color); background-color: var(--bg-secondary);">
+                        <p class="text-lg font-bold mb-2">Annotated Wireframes</p>
+                        <p class="text-base">Wireframes with notes explaining design decisions (separate from your prototype sketches)</p>
+                    </div>
+                    <div class="p-4 rounded border-2" style="border-color: var(--accent-color); background-color: var(--bg-secondary);">
+                        <p class="text-lg font-bold mb-2">Design Specifications</p>
+                        <p class="text-base">Typography choices, color rationale, accessibility considerations documented</p>
+                    </div>
+                    <div class="p-4 rounded border-2" style="border-color: var(--accent-color); background-color: var(--bg-secondary);">
+                        <p class="text-lg font-bold mb-2">Navigation Structure Diagrams</p>
+                        <p class="text-base">Site map showing information architecture (different from flow diagram)</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-3xl font-bold mb-6">Category 3: Testing Artefacts</h2>
+                <div class="space-y-4">
+                    <div class="p-4 rounded border-2" style="border-color: var(--accent-color); background-color: var(--bg-secondary);">
+                        <p class="text-lg font-bold mb-2">Usability Test Plan</p>
+                        <p class="text-base">Methods, participants, tasks, success criteria - planning document</p>
+                    </div>
+                    <div class="p-4 rounded border-2" style="border-color: var(--accent-color); background-color: var(--bg-secondary);">
+                        <p class="text-lg font-bold mb-2">Test Scripts</p>
+                        <p class="text-base">Scenario descriptions, task instructions for testing participants</p>
+                    </div>
+                    <div class="p-4 rounded border-2" style="border-color: var(--accent-color); background-color: var(--bg-secondary);">
+                        <p class="text-lg font-bold mb-2">Heuristic Evaluation Report</p>
+                        <p class="text-base">Systematic review against Nielsen's heuristics with findings (Session 8!)</p>
+                    </div>
+                </div>
+                <p class="mt-4 text-base p-3 rounded" style="background-color: #fef3c7;">
+                    Note: Simple iteration notes don't count as artefacts
+                </p>
+            </div>
+
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-4xl font-bold mb-8">Choosing Your 2 Artefacts</h2>
+                <div class="mb-6 p-5 rounded" style="background-color: var(--bg-secondary); border: 2px solid var(--border-color);">
+                    <p class="text-xl">Ask yourself:</p>
+                </div>
+                <ul class="space-y-4 text-lg">
+                    <li>• Which artefacts best support YOUR specific project?</li>
+                    <li>• Which show your research/design thinking most clearly?</li>
+                    <li>• Which can you create with the time/resources available?</li>
+                    <li>• Do they complement each other? (e.g., persona + journey map)</li>
+                </ul>
+                <p class="mt-6 text-lg font-semibold p-4 rounded" style="background-color: #dbeafe;">
+                    Popular combinations: Persona + Journey Map | Competitor Analysis + Test Plan
+                </p>
+            </div>
+
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-4xl font-bold mb-8">Quality Over Quantity</h2>
+                <h3 class="text-2xl mb-6">What makes a GOOD artefact?</h3>
+                <ul class="space-y-5 text-xl">
+                    <li class="flex items-start"><span class="mr-3">✓</span><span><strong>Clear:</strong> Easy to understand at a glance</span></li>
+                    <li class="flex items-start"><span class="mr-3">✓</span><span><strong>Detailed:</strong> Shows real thought and research</span></li>
+                    <li class="flex items-start"><span class="mr-3">✓</span><span><strong>Purposeful:</strong> Actually contributed to your design</span></li>
+                    <li class="flex items-start"><span class="mr-3">✓</span><span><strong>Professional:</strong> Well-presented, not rushed</span></li>
+                </ul>
+            </div>
+
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-4xl font-bold mb-6">Activity: Start Second Artefact</h2>
+                <div class="mb-6 p-5 rounded" style="background-color: #dbeafe; border: 2px solid #3b82f6;">
+                    <p class="text-xl font-semibold mb-3">Your Task (15 minutes):</p>
+                    <ol class="space-y-3 text-lg">
+                        <li>1. You've started a persona (or finished it!)</li>
+                        <li>2. Choose your second artefact</li>
+                        <li>3. Begin creating it (draft is fine)</li>
+                        <li>4. Think about how both connect to your design</li>
+                    </ol>
+                </div>
+                <p class="text-lg text-center">Choose what makes sense for YOUR project</p>
+            </div>
+
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-4xl font-bold mb-8">What You've Learned Today</h2>
+                <ul class="space-y-5 text-xl">
+                    <li>✓ What UX artefacts are and why they matter</li>
+                    <li>✓ Three categories: Research, Design, Testing</li>
+                    <li>✓ How to create personas and journey maps</li>
+                    <li>✓ Other artefact options available</li>
+                    <li>✓ How to choose artefacts for your project</li>
+                </ul>
+                <p class="mt-8 text-xl font-semibold p-4 rounded" style="background-color: var(--bg-secondary);">
+                    These go in Section 2 of your slide deck with explanations
+                </p>
+            </div>
+
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-4xl font-bold mb-8">Homework</h2>
+                <ul class="space-y-5 text-xl">
+                    <li class="flex items-start"><span class="mr-3">1.</span><span><strong>Complete both artefacts</strong> - polish and finalize</span></li>
+                    <li class="flex items-start"><span class="mr-3">2.</span><span><strong>Write explanations</strong> - 150-200 words each explaining what it is, how you made it, how it helped</span></li>
+                    <li class="flex items-start"><span class="mr-3">3.</span><span><strong>Prepare to show them</strong> - bring to next session</span></li>
+                </ul>
+                <div class="mt-10 p-5 rounded text-center" style="background-color: var(--bg-secondary); border: 2px solid var(--accent-color);">
+                    <p class="text-2xl font-bold mb-2">Next Week: From Ideas to Paper</p>
+                    <p class="text-lg" style="color: var(--text-secondary);">Sketching workshop - Learn to draw UI screens by hand!</p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="border-t p-4">
+        <div class="max-w-7xl mx-auto flex justify-between items-center">
+            <button id="prevBtn" class="px-6 py-2 rounded border font-medium">← Previous</button>
+            <span id="slideCounter" class="text-lg">1 / 18</span>
+            <button id="nextBtn" class="px-6 py-2 rounded border font-medium">Next →</button>
+        </div>
+    </footer>
+
+    <script>
+        let currentSlide = 0; const slides = document.querySelectorAll('.slide');
+        function showSlide(n) {
+            slides[currentSlide].classList.remove('active'); currentSlide = (n + slides.length) % slides.length;
+            slides[currentSlide].classList.add('active');
+            document.getElementById('slideCounter').textContent = `${currentSlide + 1} / ${slides.length}`;
+            document.getElementById('prevBtn').disabled = currentSlide === 0;
+            document.getElementById('nextBtn').disabled = currentSlide === slides.length - 1;
+        }
+        document.getElementById('prevBtn').addEventListener('click', () => { if(currentSlide > 0) showSlide(currentSlide - 1); });
+        document.getElementById('nextBtn').addEventListener('click', () => { if(currentSlide < slides.length - 1) showSlide(currentSlide + 1); });
+        document.getElementById('darkModeToggle').addEventListener('click', () => {
+            document.body.classList.toggle('dark-mode');
+            document.getElementById('modeIcon').textContent = document.body.classList.contains('dark-mode') ? '☀️' : '🌙';
+        });
+        let fontSize = 1;
+        document.getElementById('increaseFont').addEventListener('click', () => { if(fontSize < 1.5) { fontSize += 0.1; document.documentElement.style.setProperty('--font-size', fontSize); }});
+        document.getElementById('decreaseFont').addEventListener('click', () => { if(fontSize > 0.7) { fontSize -= 0.1; document.documentElement.style.setProperty('--font-size', fontSize); }});
+        document.addEventListener('keydown', (e) => { if(e.key === 'ArrowRight') document.getElementById('nextBtn').click(); if(e.key === 'ArrowLeft') document.getElementById('prevBtn').click(); });
+        showSlide(0);
+    </script>
+</body>
+</html>

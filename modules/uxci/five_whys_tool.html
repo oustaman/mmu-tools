@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>5 Whys Tool - UXCI</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        :root {
+            --bg-primary: #ffffff;
+            --bg-secondary: #f9fafb;
+            --text-primary: #111827;
+            --text-secondary: #4b5563;
+            --border-color: #e5e7eb;
+            --accent-color: #8b5cf6;
+        }
+        
+        body {
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+        }
+
+        .why-level {
+            transition: all 0.3s ease;
+            animation: slideIn 0.3s ease;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateX(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .connector {
+            width: 2px;
+            height: 30px;
+            background: linear-gradient(to bottom, var(--accent-color), transparent);
+            margin: 0 auto;
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 80px;
+        }
+    </style>
+</head>
+<body class="min-h-screen">
+    <header class="border-b p-4" style="border-color: var(--border-color);">
+        <div class="max-w-4xl mx-auto flex justify-between items-center">
+            <div>
+                <h1 class="text-2xl font-bold">❓ 5 Whys Tool</h1>
+                <p class="text-sm" style="color: var(--text-secondary);">Dig deeper to find the root cause</p>
+            </div>
+            <button onclick="window.location.href='uxci_index_page.html'" class="px-4 py-2 rounded border" style="border-color: var(--border-color);">
+                ← Back
+            </button>
+        </div>
+    </header>
+
+    <main class="max-w-4xl mx-auto p-8">
+        <!-- Instructions -->
+        <div class="mb-8 p-6 rounded-lg border" style="border-color: var(--border-color); background-color: var(--bg-secondary);">
+            <h2 class="text-xl font-bold mb-3">How to Use the 5 Whys Technique</h2>
+            <ol class="space-y-2 text-sm" style="color: var(--text-secondary);">
+                <li class="flex items-start gap-2">
+                    <span class="font-bold" style="color: var(--accent-color);">1.</span>
+                    <span>Start with the <strong>surface problem</strong> - what users are experiencing or complaining about</span>
+                </li>
+                <li class="flex items-start gap-2">
+                    <span class="font-bold" style="color: var(--accent-color);">2.</span>
+                    <span>Ask <strong>"Why?"</strong> to dig into the cause - what's making this happen?</span>
+                </li>
+                <li class="flex items-start gap-2">
+                    <span class="font-bold" style="color: var(--accent-color);">3.</span>
+                    <span>Keep asking <strong>"Why?"</strong> for each answer - usually 3-5 times</span>
+                </li>
+                <li class="flex items-start gap-2">
+                    <span class="font-bold" style="color: var(--accent-color);">4.</span>
+                    <span>Stop when you reach the <strong>root cause</strong> - the fundamental issue that needs solving</span>
+                </li>
+                <li class="flex items-start gap-2">
+                    <span class="font-bold" style="color: var(--accent-color);">5.</span>
+                    <span>Your design solution should address the <strong>root cause</strong>, not just the surface problem</span>
+                </li>
+            </ol>
+        </div>
+
+        <!-- Example -->
+        <div class="mb-6 p-4 rounded-lg border" style="border-color: var(--border-color); background-color: #fef3c7;">
+            <p class="text-sm font-bold mb-2" style="color: #92400e;">💡 Example: Library Study Room Booking</p>
+            <p class="text-xs" style="color: #92400e;">
+                <strong>Surface Problem:</strong> "Students abandon the booking process" → <strong>Why?</strong> "Too many clicks to find a room" → <strong>Why?</strong> "Room availability is buried in menus" → <strong>Why?</strong> "UI prioritizes library info over booking function" → <strong>Root Cause:</strong> Information architecture doesn't match user goals
+            </p>
+        </div>
+
+        <!-- The 5 Whys Flow -->
+        <div id="whysContainer">
+            <!-- Initial Problem -->
+            <div class="why-level mb-4">
+                <div class="p-6 rounded-lg border" style="border-color: var(--accent-color); background-color: var(--bg-secondary); border-width: 2px;">
+                    <label class="block mb-2">
+                        <span class="font-bold text-lg">🔴 Surface Problem</span>
+                        <span class="text-sm ml-2" style="color: var(--text-secondary);">What are users experiencing?</span>
+                    </label>
+                    <textarea 
+                        id="problem" 
+                        class="w-full p-3 rounded border" 
+                        style="border-color: var(--border-color); background-color: var(--bg-primary);"
+                        placeholder="Example: Users are abandoning the booking process halfway through..."></textarea>
+                </div>
+            </div>
+
+            <div class="connector"></div>
+
+            <!-- Why Levels (1-5) -->
+            <div id="whyLevels"></div>
+        </div>
+
+        <!-- Actions -->
+        <div class="flex gap-4 justify-center mt-8">
+            <button onclick="addWhy()" class="px-6 py-3 rounded border font-semibold" style="border-color: var(--accent-color); color: var(--accent-color);">
+                + Add Another "Why?"
+            </button>
+            <button onclick="resetTool()" class="px-6 py-3 rounded border" style="border-color: var(--border-color);">
+                Start Over
+            </button>
+            <button onclick="exportResults()" class="px-6 py-3 rounded text-white font-semibold" style="background-color: var(--accent-color);">
+                📋 Copy to Clipboard
+            </button>
+        </div>
+
+        <!-- Root Cause Summary -->
+        <div id="rootCause" class="mt-8 p-6 rounded-lg border hidden" style="border-color: var(--border-color); background-color: #dcfce7;">
+            <h3 class="text-xl font-bold mb-2" style="color: #166534;">🎯 Your Root Cause</h3>
+            <p class="text-sm mb-3" style="color: #166534;">This is what your design should solve:</p>
+            <div id="rootCauseText" class="p-4 rounded font-medium" style="background-color: white; color: #166534;"></div>
+        </div>
+    </main>
+
+    <script>
+        let whyCount = 0;
+        const maxWhys = 5;
+
+        function addWhy() {
+            if (whyCount >= maxWhys) {
+                alert('You\'ve reached the maximum of 5 "Why?" levels. This should be enough to find your root cause!');
+                return;
+            }
+
+            whyCount++;
+            const whyLevels = document.getElementById('whyLevels');
+            
+            const whyDiv = document.createElement('div');
+            whyDiv.className = 'why-level mb-4';
+            whyDiv.innerHTML = `
+                <div class="p-6 rounded-lg border" style="border-color: var(--border-color); background-color: var(--bg-secondary);">
+                    <label class="block mb-2">
+                        <span class="font-bold text-lg">❓ Why #${whyCount}</span>
+                        <span class="text-sm ml-2" style="color: var(--text-secondary);">What causes the previous issue?</span>
+                    </label>
+                    <textarea 
+                        class="why-input w-full p-3 rounded border" 
+                        style="border-color: var(--border-color); background-color: var(--bg-primary);"
+                        placeholder="Because..."></textarea>
+                </div>
+                ${whyCount < maxWhys ? '<div class="connector"></div>' : ''}
+            `;
+            
+            whyLevels.appendChild(whyDiv);
+            
+            // Scroll to new input
+            whyDiv.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            whyDiv.querySelector('textarea').focus();
+
+            // Show root cause if we have 3+ whys
+            if (whyCount >= 3) {
+                updateRootCause();
+            }
+        }
+
+        function updateRootCause() {
+            const whyInputs = document.querySelectorAll('.why-input');
+            const lastWhy = whyInputs[whyInputs.length - 1];
+            
+            if (lastWhy && lastWhy.value.trim()) {
+                document.getElementById('rootCause').classList.remove('hidden');
+                document.getElementById('rootCauseText').textContent = lastWhy.value;
+            }
+
+            // Auto-update when typing in last why
+            if (lastWhy) {
+                lastWhy.addEventListener('input', () => {
+                    if (lastWhy.value.trim()) {
+                        document.getElementById('rootCause').classList.remove('hidden');
+                        document.getElementById('rootCauseText').textContent = lastWhy.value;
+                    } else {
+                        document.getElementById('rootCause').classList.add('hidden');
+                    }
+                });
+            }
+        }
+
+        function resetTool() {
+            if (confirm('Start over? This will clear all your answers.')) {
+                document.getElementById('problem').value = '';
+                document.getElementById('whyLevels').innerHTML = '';
+                document.getElementById('rootCause').classList.add('hidden');
+                whyCount = 0;
+            }
+        }
+
+        function exportResults() {
+            const problem = document.getElementById('problem').value.trim();
+            if (!problem) {
+                alert('Please enter your surface problem first!');
+                return;
+            }
+
+            let text = '5 WHYS ANALYSIS\n';
+            text += '=================\n\n';
+            text += 'SURFACE PROBLEM:\n';
+            text += problem + '\n\n';
+
+            const whyInputs = document.querySelectorAll('.why-input');
+            whyInputs.forEach((input, index) => {
+                if (input.value.trim()) {
+                    text += `WHY #${index + 1}:\n`;
+                    text += input.value + '\n\n';
+                }
+            });
+
+            if (whyInputs.length > 0 && whyInputs[whyInputs.length - 1].value.trim()) {
+                text += 'ROOT CAUSE:\n';
+                text += whyInputs[whyInputs.length - 1].value + '\n\n';
+            }
+
+            text += '---\n';
+            text += 'Generated with UXCI 5 Whys Tool';
+
+            // Copy to clipboard
+            navigator.clipboard.writeText(text).then(() => {
+                alert('✓ Copied to clipboard! Paste this into your notes or slide deck.');
+            }).catch(() => {
+                alert('Could not copy to clipboard. Please select and copy manually.');
+                console.log(text);
+            });
+        }
+
+        // Start with one "Why?" already added
+        addWhy();
+    </script>
+</body>
+</html>

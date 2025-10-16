@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Session 7: Flow Diagram Workshop</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .slide { display: none; }
+        .slide.active { display: flex; }
+        :root {
+            --bg-primary: #ffffff; --bg-secondary: #f9fafb; --text-primary: #111827;
+            --text-secondary: #4b5563; --border-color: #e5e7eb; --accent-color: #8b5cf6; --font-size: 1;
+        }
+        .dark-mode {
+            --bg-primary: #1f2937; --bg-secondary: #111827; --text-primary: #f9fafb;
+            --text-secondary: #d1d5db; --border-color: #374151; --accent-color: #a78bfa;
+        }
+        html { font-size: calc(var(--font-size) * 16px); }
+        body { background-color: var(--bg-primary); color: var(--text-primary); }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col">
+    <header class="border-b p-4" style="border-color: var(--border-color);">
+        <div class="max-w-7xl mx-auto flex justify-between items-center">
+            <h1 class="text-lg font-semibold">User Experience for Creative Industries - Session 7</h1>
+            <div class="flex gap-2">
+                <button id="decreaseFont" class="px-3 py-2 rounded border">A-</button>
+                <button id="increaseFont" class="px-3 py-2 rounded border">A+</button>
+                <button id="darkModeToggle" class="px-4 py-2 rounded border"><span id="modeIcon">🌙</span></button>
+            </div>
+        </div>
+    </header>
+
+    <main class="flex-1 flex items-center justify-center p-8">
+        <div class="w-full max-w-5xl">
+            <div class="slide active flex-col items-center justify-center text-center h-[70vh]">
+                <h2 class="text-5xl font-bold mb-6">Session 7</h2>
+                <h3 class="text-3xl mb-8" style="color: var(--text-secondary);">Flow Diagram Workshop</h3>
+                <p class="text-xl" style="color: var(--text-secondary);">Week 7 of 11</p>
+            </div>
+
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-4xl font-bold mb-8">Where We Are</h2>
+                <ul class="space-y-4 text-xl">
+                    <li>✓ Midterm check-in complete</li>
+                    <li>✓ You have: Service, problem, principles, artefacts, sketches</li>
+                    <li>✓ Second half of module begins!</li>
+                </ul>
+                <p class="mt-8 text-2xl font-semibold p-4 rounded" style="background-color: var(--bg-secondary);">
+                    Today: Connect your screens with flow diagrams
+                </p>
+            </div>
+
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-4xl font-bold mb-8">What is a Flow Diagram?</h2>
+                <div class="mb-6 p-5 rounded" style="background-color: var(--bg-secondary); border: 2px solid var(--border-color);">
+                    <p class="text-2xl">A visual map showing how users move through your app</p>
+                </div>
+                <ul class="space-y-5 text-xl">
+                    <li class="flex items-start"><span class="mr-3">🗺️</span><span>Shows every screen and how they connect</span></li>
+                    <li class="flex items-start"><span class="mr-3">⬇️</span><span>Maps decision points (user choices)</span></li>
+                    <li class="flex items-start"><span class="mr-3">❌</span><span>Includes error states and alternative paths</span></li>
+                    <li class="flex items-start"><span class="mr-3">🎯</span><span>Tests your information architecture and logic</span></li>
+                </ul>
+            </div>
+
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-4xl font-bold mb-8">Why It's Required</h2>
+                <div class="mb-6 p-5 rounded" style="background-color: #dbeafe; border: 2px solid #3b82f6;">
+                    <p class="text-xl"><strong>Component B of your prototype:</strong> User Flow Diagram (MANDATORY)</p>
+                </div>
+                <ul class="space-y-4 text-lg">
+                    <li class="flex items-start"><span class="mr-3">1.</span><span>Proves you understand information architecture</span></li>
+                    <li class="flex items-start"><span class="mr-3">2.</span><span>Shows system thinking - not just pretty screens</span></li>
+                    <li class="flex items-start"><span class="mr-3">3.</span><span>Reveals gaps in your design (missing screens, dead ends)</span></li>
+                    <li class="flex items-start"><span class="mr-3">4.</span><span>Demonstrates professional UX process</span></li>
+                </ul>
+                <p class="mt-6 text-lg font-semibold p-4 rounded" style="background-color: var(--bg-secondary);">
+                    This directly addresses Learning Outcome 3: IA and interface analysis
+                </p>
+            </div>
+
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-3xl font-bold mb-6">Flow Diagram Components</h2>
+                <div class="grid grid-cols-2 gap-4">
+                    <div class="p-4 rounded" style="background-color: var(--bg-secondary); border: 2px solid var(--border-color);">
+                        <div class="text-center mb-3">
+                            <div class="inline-block border-2 px-8 py-4" style="border-color: var(--accent-color);">Screen</div>
+                        </div>
+                        <p class="text-sm font-bold">Rectangle = Screen/Page</p>
+                        <p class="text-xs" style="color: var(--text-secondary);">Each screen in your prototype</p>
+                    </div>
+                    <div class="p-4 rounded" style="background-color: var(--bg-secondary); border: 2px solid var(--border-color);">
+                        <div class="text-center mb-3">
+                            <div class="inline-block border-2 px-6 py-2" style="border-color: var(--accent-color); transform: rotate(45deg); margin: 20px;">Decision</div>
+                        </div>
+                        <p class="text-sm font-bold">Diamond = Decision Point</p>
+                        <p class="text-xs" style="color: var(--text-secondary);">User makes a choice (yes/no, which option?)</p>
+                    </div>
+                    <div class="p-4 rounded" style="background-color: var(--bg-secondary); border: 2px solid var(--border-color);">
+                        <div class="text-center mb-3">
+                            <div class="inline-block">→</div>
+                        </div>
+                        <p class="text-sm font-bold">Arrow = Flow Direction</p>
+                        <p class="text-xs" style="color: var(--text-secondary);">Shows path from one screen to another</p>
+                    </div>
+                    <div class="p-4 rounded" style="background-color: var(--bg-secondary); border: 2px solid var(--border-color);">
+                        <div class="text-center mb-3">
+                            <div class="inline-block border-2 rounded-full px-6 py-2" style="border-color: var(--accent-color);">Start</div>
+                        </div>
+                        <p class="text-sm font-bold">Oval = Start/End Point</p>
+                        <p class="text-xs" style="color: var(--text-secondary);">Entry points and exit points/completion</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-3xl font-bold mb-4">Example Flow: Booking a Study Room</h2>
+                <div class="p-5 rounded text-sm" style="background-color: var(--bg-secondary); border: 2px solid var(--border-color);">
+                    <div class="space-y-3">
+                        <div class="flex items-center gap-2">
+                            <div class="border-2 rounded-full px-3 py-1 text-xs" style="border-color: var(--accent-color);">START</div>
+                            <span>→</span>
+                            <div class="border-2 px-4 py-2" style="border-color: var(--accent-color);">Home Screen</div>
+                        </div>
+                        <div class="ml-20 flex items-center gap-2">
+                            <span>→</span>
+                            <div class="border-2 px-4 py-2" style="border-color: var(--accent-color); transform: rotate(45deg) scale(0.8);">Logged in?</div>
+                        </div>
+                        <div class="ml-32 space-y-2">
+                            <div class="flex items-center gap-2">
+                                <span class="text-xs">Yes →</span>
+                                <div class="border-2 px-4 py-2" style="border-color: var(--accent-color);">Available Rooms</div>
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <span class="text-xs">No →</span>
+                                <div class="border-2 px-4 py-2" style="border-color: #dc2626;">Login Screen</div>
+                            </div>
+                        </div>
+                        <div class="ml-20 flex items-center gap-2">
+                            <span>→</span>
+                            <div class="border-2 px-4 py-2" style="border-color: var(--accent-color);">Room Details</div>
+                            <span>→</span>
+                            <div class="border-2 px-4 py-2" style="border-color: var(--accent-color);">Booking Form</div>
+                        </div>
+                        <div class="ml-20 flex items-center gap-2">
+                            <span>→</span>
+                            <div class="border-2 px-4 py-2" style="border-color: #16a34a;">Confirmation</div>
+                            <span>→</span>
+                            <div class="border-2 rounded-full px-3 py-1 text-xs" style="border-color: var(--accent-color);">END</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-4xl font-bold mb-8">Must Include</h2>
+                <div class="space-y-4">
+                    <div class="p-4 rounded flex items-center gap-4" style="background-color: var(--bg-secondary); border-left: 4px solid #16a34a;">
+                        <span class="text-2xl">✓</span>
+                        <span class="text-lg"><strong>Entry points:</strong> Where users start (splash, home, login)</span>
+                    </div>
+                    <div class="p-4 rounded flex items-center gap-4" style="background-color: var(--bg-secondary); border-left: 4px solid #16a34a;">
+                        <span class="text-2xl">✓</span>
+                        <span class="text-lg"><strong>Decision points:</strong> Every place users make choices</span>
+                    </div>
+                    <div class="p-4 rounded flex items-center gap-4" style="background-color: var(--bg-secondary); border-left: 4px solid #16a34a;">
+                        <span class="text-2xl">✓</span>
+                        <span class="text-lg"><strong>All major paths:</strong> Different ways to complete task</span>
+                    </div>
+                    <div class="p-4 rounded flex items-center gap-4" style="background-color: var(--bg-secondary); border-left: 4px solid #dc2626;">
+                        <span class="text-2xl">❗</span>
+                        <span class="text-lg"><strong>Error states:</strong> What if something goes wrong?</span>
+                    </div>
+                    <div class="p-4 rounded flex items-center gap-4" style="background-color: var(--bg-secondary); border-left: 4px solid #16a34a;">
+                        <span class="text-2xl">✓</span>
+                        <span class="text-lg"><strong>Exit points:</strong> Task completion, success confirmation</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-4xl font-bold mb-8">Common Mistakes</h2>
+                <div class="space-y-4">
+                    <div class="p-4 rounded" style="background-color: #fee2e2; border-left: 4px solid #dc2626;">
+                        <p class="font-bold mb-2">❌ Missing error states</p>
+                        <p class="text-sm">What if wifi drops? Server error? Already booked? All gone?</p>
+                    </div>
+                    <div class="p-4 rounded" style="background-color: #fee2e2; border-left: 4px solid #dc2626;">
+                        <p class="font-bold mb-2">❌ Dead ends</p>
+                        <p class="text-sm">User reaches screen with no way forward or back</p>
+                    </div>
+                    <div class="p-4 rounded" style="background-color: #fee2e2; border-left: 4px solid #dc2626;">
+                        <p class="font-bold mb-2">❌ Unclear decision points</p>
+                        <p class="text-sm">"User chooses" - but what are the options? Label them!</p>
+                    </div>
+                    <div class="p-4 rounded" style="background-color: #fee2e2; border-left: 4px solid #dc2626;">
+                        <p class="font-bold mb-2">❌ No alternative paths</p>
+                        <p class="text-sm">Only showing the "happy path" - real users don't always follow it</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-4xl font-bold mb-8">Information Architecture Matters</h2>
+                <h3 class="text-2xl mb-6">IA = How information is organized and structured</h3>
+                <ul class="space-y-4 text-lg">
+                    <li class="flex items-start"><span class="mr-3">📂</span><span><strong>Logical grouping:</strong> Related screens together</span></li>
+                    <li class="flex items-start"><span class="mr-3">🎯</span><span><strong>Clear hierarchy:</strong> Main → Detail → Action</span></li>
+                    <li class="flex items-start"><span class="mr-3">⚡</span><span><strong>Minimal steps:</strong> Fewest clicks to complete task</span></li>
+                    <li class="flex items-start"><span class="mr-3">🔙</span><span><strong>Escape routes:</strong> Users can always go back</span></li>
+                </ul>
+                <p class="mt-6 text-lg font-semibold p-4 rounded" style="background-color: #dbeafe;">
+                    Good IA = Users never get lost or confused
+                </p>
+            </div>
+
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-4xl font-bold mb-6">Activity: Map Your Main Flow (20 min)</h2>
+                <div class="mb-6 p-5 rounded" style="background-color: #dbeafe; border: 2px solid #3b82f6;">
+                    <p class="text-xl font-semibold mb-3">Your Task:</p>
+                    <p class="text-lg">Create flow diagram for your app's PRIMARY user task</p>
+                </div>
+                <div class="space-y-3 text-base">
+                    <div class="p-3 rounded" style="background-color: var(--bg-secondary);">
+                        1. Start with entry point (where users begin)
+                    </div>
+                    <div class="p-3 rounded" style="background-color: var(--bg-secondary);">
+                        2. Map each screen they encounter
+                    </div>
+                    <div class="p-3 rounded" style="background-color: var(--bg-secondary);">
+                        3. Show decision points with diamonds
+                    </div>
+                    <div class="p-3 rounded" style="background-color: var(--bg-secondary);">
+                        4. Include at least 2 error/alternative paths
+                    </div>
+                    <div class="p-3 rounded" style="background-color: var(--bg-secondary);">
+                        5. End with completion/success
+                    </div>
+                </div>
+            </div>
+
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-4xl font-bold mb-8">Peer Review</h2>
+                <div class="mb-6 p-5 rounded" style="background-color: var(--bg-secondary); border: 2px solid var(--border-color);">
+                    <p class="text-xl">Exchange flows with partner - check for:</p>
+                </div>
+                <ul class="space-y-4 text-lg">
+                    <li class="flex items-start"><span class="mr-3">❓</span><span>Is anything confusing or unclear?</span></li>
+                    <li class="flex items-start"><span class="mr-3">🔍</span><span>Are there missing screens or connections?</span></li>
+                    <li class="flex items-start"><span class="mr-3">⚠️</span><span>Did they include error states?</span></li>
+                    <li class="flex items-start"><span class="mr-3">🚪</span><span>Are there dead ends (no way out)?</span></li>
+                    <li class="flex items-start"><span class="mr-3">✅</span><span>Does it make logical sense?</span></li>
+                </ul>
+            </div>
+
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-4xl font-bold mb-8">Error States Are Crucial</h2>
+                <div class="mb-6 p-5 rounded" style="background-color: #fef3c7; border: 2px solid #f59e0b;">
+                    <p class="text-xl">Things WILL go wrong in real use - plan for it!</p>
+                </div>
+                <div class="grid grid-cols-2 gap-4 text-base">
+                    <div class="p-4 rounded" style="background-color: var(--bg-secondary);">
+                        <p class="font-bold mb-2">Technical Errors:</p>
+                        <ul class="text-sm space-y-1">
+                            <li>• No internet connection</li>
+                            <li>• Server error / timeout</li>
+                            <li>• App crash</li>
+                        </ul>
+                    </div>
+                    <div class="p-4 rounded" style="background-color: var(--bg-secondary);">
+                        <p class="font-bold mb-2">User Errors:</p>
+                        <ul class="text-sm space-y-1">
+                            <li>• Wrong password</li>
+                            <li>• Invalid input</li>
+                            <li>• Missed required field</li>
+                        </ul>
+                    </div>
+                    <div class="p-4 rounded" style="background-color: var(--bg-secondary);">
+                        <p class="font-bold mb-2">Business Logic:</p>
+                        <ul class="text-sm space-y-1">
+                            <li>• Already booked</li>
+                            <li>• Out of stock</li>
+                            <li>• Not authorized</li>
+                        </ul>
+                    </div>
+                    <div class="p-4 rounded" style="background-color: var(--bg-secondary);">
+                        <p class="font-bold mb-2">Edge Cases:</p>
+                        <ul class="text-sm space-y-1">
+                            <li>• Empty state (no results)</li>
+                            <li>• First-time user</li>
+                            <li>• Limit reached</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-4xl font-bold mb-6">Activity: Add Error Paths (10 min)</h2>
+                <div class="mb-6 p-5 rounded" style="background-color: #dbeafe; border: 2px solid #3b82f6;">
+                    <p class="text-xl">Go back to your flow and add error handling</p>
+                </div>
+                <ul class="space-y-4 text-lg">
+                    <li class="flex items-start"><span class="mr-3">1.</span><span>Pick 2-3 points where things could go wrong</span></li>
+                    <li class="flex items-start"><span class="mr-3">2.</span><span>Add error screens (show helpful message, retry option)</span></li>
+                    <li class="flex items-start"><span class="mr-3">3.</span><span>Show how users recover (go back, try again, alternative)</span></li>
+                </ul>
+                <p class="mt-6 text-lg font-semibold p-4 rounded" style="background-color: #fef3c7;">
+                    Error prevention (Principle 5!) should be visible in your flow
+                </p>
+            </div>
+
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-4xl font-bold mb-8">Digital vs Hand-Drawn</h2>
+                <h3 class="text-2xl mb-6">Either is fine - clarity matters most</h3>
+                <div class="grid grid-cols-2 gap-5">
+                    <div class="p-5 rounded" style="background-color: var(--bg-secondary); border: 2px solid var(--border-color);">
+                        <p class="font-bold text-lg mb-3">Digital Tools:</p>
+                        <ul class="space-y-2 text-base">
+                            <li>• Draw.io (free, simple)</li>
+                            <li>• Miro (collaborative)</li>
+                            <li>• Google Slides (easy)</li>
+                            <li>• Lucidchart</li>
+                            <li>• Figma/Figjam</li>
+                        </ul>
+                    </div>
+                    <div class="p-5 rounded" style="background-color: var(--bg-secondary); border: 2px solid var(--border-color);">
+                        <p class="font-bold text-lg mb-3">Hand-Drawn:</p>
+                        <ul class="space-y-2 text-base">
+                            <li>• Paper and pen</li>
+                            <li>• Whiteboard</li>
+                            <li>• Tablet sketching</li>
+                            <li>• Then photograph/scan</li>
+                        </ul>
+                    </div>
+                </div>
+                <p class="mt-6 text-lg font-semibold p-4 rounded" style="background-color: #dbeafe;">
+                    Just make sure it's readable and all elements are labeled
+                </p>
+            </div>
+
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-4xl font-bold mb-8">Complete Flow Needed</h2>
+                <div class="mb-6 p-5 rounded" style="background-color: var(--bg-secondary); border: 2px solid var(--border-color);">
+                    <p class="text-xl">Your final flow diagram should cover ALL 6-10 screens</p>
+                </div>
+                <ul class="space-y-4 text-lg">
+                    <li class="flex items-start"><span class="mr-3">📱</span><span>Every screen from your prototype appears</span></li>
+                    <li class="flex items-start"><span class="mr-3">➡️</span><span>All connections between screens shown</span></li>
+                    <li class="flex items-start"><span class="mr-3">◆</span><span>All decision points mapped</span></li>
+                    <li class="flex items-start"><span class="mr-3">⚠️</span><span>Error states and alternatives included</span></li>
+                    <li class="flex items-start"><span class="mr-3">🏁</span><span>Clear start and end points</span></li>
+                </ul>
+            </div>
+
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-4xl font-bold mb-8">What You've Learned Today</h2>
+                <ul class="space-y-5 text-xl">
+                    <li>✓ What flow diagrams are and why they matter</li>
+                    <li>✓ Standard flowchart symbols and components</li>
+                    <li>✓ How to map user paths and decisions</li>
+                    <li>✓ Importance of error states and alternatives</li>
+                    <li>✓ Information architecture principles</li>
+                </ul>
+                <p class="mt-8 text-xl font-semibold p-4 rounded" style="background-color: var(--bg-secondary);">
+                    Component B of your prototype is now underway!
+                </p>
+            </div>
+
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-4xl font-bold mb-8">Homework</h2>
+                <ul class="space-y-5 text-xl">
+                    <li class="flex items-start"><span class="mr-3">1.</span><span><strong>Complete your flow diagram</strong> - all paths, all screens</span></li>
+                    <li class="flex items-start"><span class="mr-3">2.</span><span><strong>Include error states</strong> - at least 2-3</span></li>
+                    <li class="flex items-start"><span class="mr-3">3.</span><span><strong>Test it yourself</strong> - walk through each path, does it make sense?</span></li>
+                    <li class="flex items-start"><span class="mr-3">4.</span><span><strong>Make it readable</strong> - clear labels, good spacing</span></li>
+                </ul>
+                <div class="mt-10 p-5 rounded text-center" style="background-color: var(--bg-secondary); border: 2px solid var(--accent-color);">
+                    <p class="text-2xl font-bold mb-2">Next Week: Heuristic Evaluation Lab</p>
+                    <p class="text-lg" style="color: var(--text-secondary);">Learn to evaluate designs systematically using Nielsen's heuristics</p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="border-t p-4">
+        <div class="max-w-7xl mx-auto flex justify-between items-center">
+            <button id="prevBtn" class="px-6 py-2 rounded border font-medium">← Previous</button>
+            <span id="slideCounter" class="text-lg">1 / 18</span>
+            <button id="nextBtn" class="px-6 py-2 rounded border font-medium">Next →</button>
+        </div>
+    </footer>
+
+    <script>
+        let currentSlide = 0; const slides = document.querySelectorAll('.slide');
+        function showSlide(n) {
+            slides[currentSlide].classList.remove('active'); currentSlide = (n + slides.length) % slides.length;
+            slides[currentSlide].classList.add('active');
+            document.getElementById('slideCounter').textContent = `${currentSlide + 1} / ${slides.length}`;
+            document.getElementById('prevBtn').disabled = currentSlide === 0;
+            document.getElementById('nextBtn').disabled = currentSlide === slides.length - 1;
+        }
+        document.getElementById('prevBtn').addEventListener('click', () => { if(currentSlide > 0) showSlide(currentSlide - 1); });
+        document.getElementById('nextBtn').addEventListener('click', () => { if(currentSlide < slides.length - 1) showSlide(currentSlide + 1); });
+        document.getElementById('darkModeToggle').addEventListener('click', () => {
+            document.body.classList.toggle('dark-mode');
+            document.getElementById('modeIcon').textContent = document.body.classList.contains('dark-mode') ? '☀️' : '🌙';
+        });
+        let fontSize = 1;
+        document.getElementById('increaseFont').addEventListener('click', () => { if(fontSize < 1.5) { fontSize += 0.1; document.documentElement.style.setProperty('--font-size', fontSize); }});
+        document.getElementById('decreaseFont').addEventListener('click', () => { if(fontSize > 0.7) { fontSize -= 0.1; document.documentElement.style.setProperty('--font-size', fontSize); }});
+        document.addEventListener('keydown', (e) => { if(e.key === 'ArrowRight') document.getElementById('nextBtn').click(); if(e.key === 'ArrowLeft') document.getElementById('prevBtn').click(); });
+        showSlide(0);
+    </script>
+</body>
+</html>

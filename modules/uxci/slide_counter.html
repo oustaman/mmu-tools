@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Slide Deck Section Counter - UXCI</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        :root {
+            --bg-primary: #ffffff;
+            --bg-secondary: #f9fafb;
+            --text-primary: #111827;
+            --text-secondary: #4b5563;
+            --border-color: #e5e7eb;
+            --accent-color: #8b5cf6;
+        }
+        
+        body {
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+        }
+
+        .progress-bar {
+            transition: width 0.3s ease;
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 120px;
+        }
+
+        .word-count-indicator {
+            font-variant-numeric: tabular-nums;
+        }
+    </style>
+</head>
+<body class="min-h-screen">
+    <header class="border-b p-4" style="border-color: var(--border-color);">
+        <div class="max-w-5xl mx-auto flex justify-between items-center">
+            <div>
+                <h1 class="text-2xl font-bold">📄 Slide Deck Section Counter</h1>
+                <p class="text-sm" style="color: var(--text-secondary);">Track word counts for your assessment slide deck</p>
+            </div>
+            <button onclick="window.location.href='uxci_index_page.html'" class="px-4 py-2 rounded border" style="border-color: var(--border-color);">
+                ← Back
+            </button>
+        </div>
+    </header>
+
+    <main class="max-w-5xl mx-auto p-8">
+        <!-- Overall Progress -->
+        <div class="mb-8 p-6 rounded-lg border" style="border-color: var(--border-color); background-color: var(--bg-secondary);">
+            <div class="flex items-center justify-between mb-4">
+                <h2 class="text-2xl font-bold">Total Word Count</h2>
+                <div class="text-right">
+                    <div class="text-4xl font-bold word-count-indicator" style="color: var(--accent-color);" id="totalWords">0</div>
+                    <div class="text-sm" style="color: var(--text-secondary);">Target: 1,700-2,000 words</div>
+                </div>
+            </div>
+            <div class="w-full h-6 rounded-full" style="background-color: var(--border-color);">
+                <div id="totalProgress" class="progress-bar h-6 rounded-full" style="width: 0%; background-color: var(--accent-color);"></div>
+            </div>
+            <p class="text-sm mt-2 text-center" id="statusText" style="color: var(--text-secondary);">Paste your text below to get started</p>
+        </div>
+
+        <!-- Section 1: Introduction -->
+        <div class="mb-8 p-6 rounded-lg border" style="border-color: var(--border-color); background-color: var(--bg-secondary);">
+            <div class="flex items-center justify-between mb-4">
+                <h2 class="text-xl font-bold">Section 1: Introduction</h2>
+                <div class="text-right">
+                    <div class="text-2xl font-bold word-count-indicator" style="color: var(--accent-color);" id="section1Words">0</div>
+                    <div class="text-xs" style="color: var(--text-secondary);">Target: ~300 words</div>
+                </div>
+            </div>
+            
+            <div class="mb-4">
+                <label class="block text-sm font-bold mb-2">Service Overview (150-200 words)</label>
+                <textarea id="serviceOverview" class="w-full p-3 rounded border" style="border-color: var(--border-color);" placeholder="Paste your service overview text here..."></textarea>
+                <div class="text-sm mt-1" style="color: var(--text-secondary);">
+                    <span class="word-count-indicator" id="serviceWords">0</span> words
+                    <span id="serviceStatus" class="ml-2"></span>
+                </div>
+            </div>
+
+            <div>
+                <label class="block text-sm font-bold mb-2">User Analysis (150-200 words)</label>
+                <textarea id="userAnalysis" class="w-full p-3 rounded border" style="border-color: var(--border-color);" placeholder="Paste your user analysis text here..."></textarea>
+                <div class="text-sm mt-1" style="color: var(--text-secondary);">
+                    <span class="word-count-indicator" id="userWords">0</span> words
+                    <span id="userStatus" class="ml-2"></span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Section 2: Design Process -->
+        <div class="mb-8 p-6 rounded-lg border" style="border-color: var(--border-color); background-color: var(--bg-secondary);">
+            <div class="flex items-center justify-between mb-4">
+                <h2 class="text-xl font-bold">Section 2: Design Process</h2>
+                <div class="text-right">
+                    <div class="text-2xl font-bold word-count-indicator" style="color: var(--accent-color);" id="section2Words">0</div>
+                    <div class="text-xs" style="color: var(--text-secondary);">Target: ~900 words</div>
+                </div>
+            </div>
+
+            <div class="mb-4">
+                <label class="block text-sm font-bold mb-2">Research Phase (100-150 words)</label>
+                <textarea id="research" class="w-full p-3 rounded border" style="border-color: var(--border-color);" placeholder="Paste your research phase text here..."></textarea>
+                <div class="text-sm mt-1" style="color: var(--text-secondary);">
+                    <span class="word-count-indicator" id="researchWords">0</span> words
+                    <span id="researchStatus" class="ml-2"></span>
+                </div>
+            </div>
+
+            <div class="mb-4">
+                <label class="block text-sm font-bold mb-2">Artefact 1 Explanation (150-200 words)</label>
+                <textarea id="artefact1" class="w-full p-3 rounded border" style="border-color: var(--border-color);" placeholder="Paste artefact 1 explanation here..."></textarea>
+                <div class="text-sm mt-1" style="color: var(--text-secondary);">
+                    <span class="word-count-indicator" id="artefact1Words">0</span> words
+                    <span id="artefact1Status" class="ml-2"></span>
+                </div>
+            </div>
+
+            <div class="mb-4">
+                <label class="block text-sm font-bold mb-2">Artefact 2 Explanation (150-200 words)</label>
+                <textarea id="artefact2" class="w-full p-3 rounded border" style="border-color: var(--border-color);" placeholder="Paste artefact 2 explanation here..."></textarea>
+                <div class="text-sm mt-1" style="color: var(--text-secondary);">
+                    <span class="word-count-indicator" id="artefact2Words">0</span> words
+                    <span id="artefact2Status" class="ml-2"></span>
+                </div>
+            </div>
+
+            <div class="mb-4">
+                <label class="block text-sm font-bold mb-2">UCD Principles (200-250 words)</label>
+                <textarea id="principles" class="w-full p-3 rounded border" style="border-color: var(--border-color);" placeholder="Paste your UCD principles explanation here..."></textarea>
+                <div class="text-sm mt-1" style="color: var(--text-secondary);">
+                    <span class="word-count-indicator" id="principlesWords">0</span> words
+                    <span id="principlesStatus" class="ml-2"></span>
+                </div>
+            </div>
+
+            <div class="mb-4">
+                <label class="block text-sm font-bold mb-2">Testing Methods (150-200 words)</label>
+                <textarea id="testing" class="w-full p-3 rounded border" style="border-color: var(--border-color);" placeholder="Paste your testing methods text here..."></textarea>
+                <div class="text-sm mt-1" style="color: var(--text-secondary);">
+                    <span class="word-count-indicator" id="testingWords">0</span> words
+                    <span id="testingStatus" class="ml-2"></span>
+                </div>
+            </div>
+
+            <div>
+                <label class="block text-sm font-bold mb-2">Iteration & Refinement (150-200 words)</label>
+                <textarea id="iteration" class="w-full p-3 rounded border" style="border-color: var(--border-color);" placeholder="Paste your iteration text here..."></textarea>
+                <div class="text-sm mt-1" style="color: var(--text-secondary);">
+                    <span class="word-count-indicator" id="iterationWords">0</span> words
+                    <span id="iterationStatus" class="ml-2"></span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Section 3: Evaluation -->
+        <div class="mb-8 p-6 rounded-lg border" style="border-color: var(--border-color); background-color: var(--bg-secondary);">
+            <div class="flex items-center justify-between mb-4">
+                <h2 class="text-xl font-bold">Section 3: Evaluation</h2>
+                <div class="text-right">
+                    <div class="text-2xl font-bold word-count-indicator" style="color: var(--accent-color);" id="section3Words">0</div>
+                    <div class="text-xs" style="color: var(--text-secondary);">Target: ~500 words</div>
+                </div>
+            </div>
+
+            <div class="mb-4">
+                <label class="block text-sm font-bold mb-2">Problem Analysis (200-250 words)</label>
+                <textarea id="problem" class="w-full p-3 rounded border" style="border-color: var(--border-color);" placeholder="Paste your problem analysis here..."></textarea>
+                <div class="text-sm mt-1" style="color: var(--text-secondary);">
+                    <span class="word-count-indicator" id="problemWords">0</span> words
+                    <span id="problemStatus" class="ml-2"></span>
+                </div>
+            </div>
+
+            <div class="mb-4">
+                <label class="block text-sm font-bold mb-2">Solution Evaluation (200-250 words)</label>
+                <textarea id="solution" class="w-full p-3 rounded border" style="border-color: var(--border-color);" placeholder="Paste your solution evaluation here..."></textarea>
+                <div class="text-sm mt-1" style="color: var(--text-secondary);">
+                    <span class="word-count-indicator" id="solutionWords">0</span> words
+                    <span id="solutionStatus" class="ml-2"></span>
+                </div>
+            </div>
+
+            <div>
+                <label class="block text-sm font-bold mb-2">Recommendations (150-200 words)</label>
+                <textarea id="recommendations" class="w-full p-3 rounded border" style="border-color: var(--border-color);" placeholder="Paste your recommendations here..."></textarea>
+                <div class="text-sm mt-1" style="color: var(--text-secondary);">
+                    <span class="word-count-indicator" id="recommendationsWords">0</span> words
+                    <span id="recommendationsStatus" class="ml-2"></span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Actions -->
+        <div class="flex gap-4 justify-center">
+            <button onclick="clearAll()" class="px-6 py-3 rounded border" style="border-color: var(--border-color);">
+                Clear All
+            </button>
+            <button onclick="generateReport()" class="px-6 py-3 rounded text-white" style="background-color: var(--accent-color);">
+                📊 Generate Report
+            </button>
+        </div>
+    </main>
+
+    <script>
+        const sections = [
+            { id: 'serviceOverview', target: [150, 200] },
+            { id: 'userAnalysis', target: [150, 200] },
+            { id: 'research', target: [100, 150] },
+            { id: 'artefact1', target: [150, 200] },
+            { id: 'artefact2', target: [150, 200] },
+            { id: 'principles', target: [200, 250] },
+            { id: 'testing', target: [150, 200] },
+            { id: 'iteration', target: [150, 200] },
+            { id: 'problem', target: [200, 250] },
+            { id: 'solution', target: [200, 250] },
+            { id: 'recommendations', target: [150, 200] }
+        ];
+
+        function countWords(text) {
+            return text.trim().split(/\s+/).filter(word => word.length > 0).length;
+        }
+
+        function getStatus(count, target) {
+            if (count === 0) return '';
+            if (count < target[0]) return `<span style="color: #dc2626;">▼ ${target[0] - count} words short</span>`;
+            if (count > target[1]) return `<span style="color: #dc2626;">▲ ${count - target[1]} words over</span>`;
+            return `<span style="color: #16a34a;">✓ Within range</span>`;
+        }
+
+        function updateCounts() {
+            let section1Total = 0;
+            let section2Total = 0;
+            let section3Total = 0;
+
+            // Section 1
+            ['serviceOverview', 'userAnalysis'].forEach(id => {
+                const count = countWords(document.getElementById(id).value);
+                section1Total += count;
+                document.getElementById(id.replace(/([A-Z])/g, '$1').toLowerCase() + 'Words').textContent = count;
+                
+                const section = sections.find(s => s.id === id);
+                document.getElementById(id.replace(/([A-Z])/g, '$1').toLowerCase() + 'Status').innerHTML = getStatus(count, section.target);
+            });
+            document.getElementById('section1Words').textContent = section1Total;
+
+            // Section 2
+            ['research', 'artefact1', 'artefact2', 'principles', 'testing', 'iteration'].forEach(id => {
+                const count = countWords(document.getElementById(id).value);
+                section2Total += count;
+                document.getElementById(id + 'Words').textContent = count;
+                
+                const section = sections.find(s => s.id === id);
+                document.getElementById(id + 'Status').innerHTML = getStatus(count, section.target);
+            });
+            document.getElementById('section2Words').textContent = section2Total;
+
+            // Section 3
+            ['problem', 'solution', 'recommendations'].forEach(id => {
+                const count = countWords(document.getElementById(id).value);
+                section3Total += count;
+                document.getElementById(id + 'Words').textContent = count;
+                
+                const section = sections.find(s => s.id === id);
+                document.getElementById(id + 'Status').innerHTML = getStatus(count, section.target);
+            });
+            document.getElementById('section3Words').textContent = section3Total;
+
+            // Total
+            const total = section1Total + section2Total + section3Total;
+            document.getElementById('totalWords').textContent = total;
+
+            // Progress bar (1700-2000 target)
+            const percentage = Math.min((total / 2000) * 100, 100);
+            document.getElementById('totalProgress').style.width = percentage + '%';
+
+            // Status message
+            let status = '';
+            if (total === 0) {
+                status = 'Paste your text below to get started';
+            } else if (total < 1700) {
+                status = `Need ${1700 - total} more words to reach minimum`;
+            } else if (total > 2000) {
+                status = `${total - 2000} words over maximum - consider trimming`;
+            } else {
+                status = '✓ Perfect! Within target range';
+                document.getElementById('totalProgress').style.backgroundColor = '#16a34a';
+            }
+            document.getElementById('statusText').textContent = status;
+        }
+
+        function clearAll() {
+            if (confirm('Clear all text? This cannot be undone.')) {
+                sections.forEach(s => {
+                    document.getElementById(s.id).value = '';
+                });
+                updateCounts();
+            }
+        }
+
+        function generateReport() {
+            const total = parseInt(document.getElementById('totalWords').textContent);
+            
+            let report = 'SLIDE DECK WORD COUNT REPORT\n';
+            report += '============================\n\n';
+            
+            report += `Total Word Count: ${total} words\n`;
+            report += `Target Range: 1,700-2,000 words\n`;
+            report += `Status: ${total >= 1700 && total <= 2000 ? '✓ PASS' : '✗ NEEDS ADJUSTMENT'}\n\n`;
+            
+            report += 'SECTION 1: INTRODUCTION\n';
+            report += `Total: ${document.getElementById('section1Words').textContent} words (target: ~300)\n`;
+            report += `  Service Overview: ${document.getElementById('serviceWords').textContent} words (150-200)\n`;
+            report += `  User Analysis: ${document.getElementById('userWords').textContent} words (150-200)\n\n`;
+            
+            report += 'SECTION 2: DESIGN PROCESS\n';
+            report += `Total: ${document.getElementById('section2Words').textContent} words (target: ~900)\n`;
+            report += `  Research: ${document.getElementById('researchWords').textContent} words (100-150)\n`;
+            report += `  Artefact 1: ${document.getElementById('artefact1Words').textContent} words (150-200)\n`;
+            report += `  Artefact 2: ${document.getElementById('artefact2Words').textContent} words (150-200)\n`;
+            report += `  UCD Principles: ${document.getElementById('principlesWords').textContent} words (200-250)\n`;
+            report += `  Testing: ${document.getElementById('testingWords').textContent} words (150-200)\n`;
+            report += `  Iteration: ${document.getElementById('iterationWords').textContent} words (150-200)\n\n`;
+            
+            report += 'SECTION 3: EVALUATION\n';
+            report += `Total: ${document.getElementById('section3Words').textContent} words (target: ~500)\n`;
+            report += `  Problem Analysis: ${document.getElementById('problemWords').textContent} words (200-250)\n`;
+            report += `  Solution Evaluation: ${document.getElementById('solutionWords').textContent} words (200-250)\n`;
+            report += `  Recommendations: ${document.getElementById('recommendationsWords').textContent} words (150-200)\n\n`;
+            
+            report += '---\nGenerated with UXCI Slide Deck Section Counter';
+
+            navigator.clipboard.writeText(report).then(() => {
+                alert('✓ Report copied to clipboard!');
+            }).catch(() => {
+                alert('Could not copy. Please select and copy manually.');
+                console.log(report);
+            });
+        }
+
+        // Add event listeners
+        sections.forEach(s => {
+            document.getElementById(s.id).addEventListener('input', updateCounts);
+        });
+
+        // Initial update
+        updateCounts();
+    </script>
+</body>
+</html>

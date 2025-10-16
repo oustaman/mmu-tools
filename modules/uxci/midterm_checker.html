@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Midterm Progress Checker - UXCI</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        :root {
+            --bg-primary: #ffffff;
+            --bg-secondary: #f9fafb;
+            --text-primary: #111827;
+            --text-secondary: #4b5563;
+            --border-color: #e5e7eb;
+            --accent-color: #8b5cf6;
+            --accent-hover: #7c3aed;
+            --font-size: 1;
+        }
+        
+        .dark-mode {
+            --bg-primary: #1f2937;
+            --bg-secondary: #111827;
+            --text-primary: #f9fafb;
+            --text-secondary: #9ca3af;
+            --border-color: #374151;
+            --accent-color: #a78bfa;
+            --accent-hover: #c4b5fd;
+        }
+        
+        html {
+            font-size: calc(var(--font-size) * 16px);
+        }
+        
+        body {
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+        }
+
+        .progress-bar {
+            transition: width 0.3s ease;
+        }
+
+        input[type="checkbox"] {
+            width: 24px;
+            height: 24px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body class="min-h-screen">
+    <header class="border-b p-4" style="border-color: var(--border-color);">
+        <div class="max-w-4xl mx-auto flex justify-between items-center flex-wrap gap-4">
+            <div>
+                <h1 class="text-2xl font-bold">✓ Midterm Progress Checker</h1>
+                <p class="text-sm" style="color: var(--text-secondary);">Week 6 - Are you on track?</p>
+            </div>
+            <div class="flex gap-2">
+                <button id="decreaseFont" class="px-3 py-2 rounded border" style="border-color: var(--border-color);" aria-label="Decrease font size">A-</button>
+                <button id="increaseFont" class="px-3 py-2 rounded border" style="border-color: var(--border-color);" aria-label="Increase font size">A+</button>
+                <button id="darkModeToggle" class="px-4 py-2 rounded border" style="border-color: var(--border-color);" aria-label="Toggle dark mode">
+                    <span id="modeIcon">🌙</span>
+                </button>
+                <button onclick="window.location.href='uxci_index_page.html'" class="px-4 py-2 rounded border" style="border-color: var(--border-color);">
+                    ← Back
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <main class="max-w-4xl mx-auto p-8">
+        <!-- Progress Display -->
+        <div class="mb-8 p-8 rounded-lg border text-center" style="border-color: var(--border-color); background-color: var(--bg-secondary);">
+            <div class="text-6xl mb-4" id="statusEmoji">⏳</div>
+            <h2 class="text-3xl font-bold mb-2" id="statusText">Let's Check Your Progress</h2>
+            <p class="text-lg mb-6" style="color: var(--text-secondary);" id="statusMessage">Complete the checklist below</p>
+            
+            <div class="w-full h-8 rounded-full mb-4" style="background-color: var(--border-color);">
+                <div id="progressBar" class="progress-bar h-8 rounded-full flex items-center justify-center text-white font-bold" style="width: 0%; background-color: var(--accent-color);">
+                    <span id="progressText">0%</span>
+                </div>
+            </div>
+            
+            <p class="text-sm" style="color: var(--text-secondary);">
+                <span id="completedCount">0</span> of 5 milestones completed
+            </p>
+        </div>
+
+        <!-- Checklist -->
+        <div class="space-y-4">
+            <!-- Milestone 1 -->
+            <label class="flex items-start gap-4 p-6 rounded-lg border cursor-pointer hover:shadow-lg transition-all" style="border-color: var(--border-color); background-color: var(--bg-secondary);">
+                <input type="checkbox" class="milestone mt-1">
+                <div class="flex-1">
+                    <h3 class="text-xl font-bold mb-2">1. Service Chosen ✓</h3>
+                    <p class="text-sm" style="color: var(--text-secondary);">
+                        You have selected a small-to-medium scale service or organization (community service, local business, university service, etc.)
+                    </p>
+                </div>
+            </label>
+
+            <!-- Milestone 2 -->
+            <label class="flex items-start gap-4 p-6 rounded-lg border cursor-pointer hover:shadow-lg transition-all" style="border-color: var(--border-color); background-color: var(--bg-secondary);">
+                <input type="checkbox" class="milestone mt-1">
+                <div class="flex-1">
+                    <h3 class="text-xl font-bold mb-2">2. Problem Identified ✓</h3>
+                    <p class="text-sm" style="color: var(--text-secondary);">
+                        You have clearly identified the UX problem(s) you're addressing, with evidence and understanding of why it matters to users
+                    </p>
+                </div>
+            </label>
+
+            <!-- Milestone 3 -->
+            <label class="flex items-start gap-4 p-6 rounded-lg border cursor-pointer hover:shadow-lg transition-all" style="border-color: var(--border-color); background-color: var(--bg-secondary);">
+                <input type="checkbox" class="milestone mt-1">
+                <div class="flex-1">
+                    <h3 class="text-xl font-bold mb-2">3. Two UCD Principles Chosen ✓</h3>
+                    <p class="text-sm" style="color: var(--text-secondary);">
+                        You have selected 2 user-centered design principles (e.g., accessibility, usability, visibility, error prevention, etc.) that you'll demonstrate in your sketches
+                    </p>
+                </div>
+            </label>
+
+            <!-- Milestone 4 -->
+            <label class="flex items-start gap-4 p-6 rounded-lg border cursor-pointer hover:shadow-lg transition-all" style="border-color: var(--border-color); background-color: var(--bg-secondary);">
+                <input type="checkbox" class="milestone mt-1">
+                <div class="flex-1">
+                    <h3 class="text-xl font-bold mb-2">4. Two Artefacts Created ✓</h3>
+                    <p class="text-sm mb-3" style="color: var(--text-secondary);">
+                        You have completed 2 UX artefacts from Research/Design/Testing categories (e.g., personas, journey maps, heuristic evaluation, etc.)
+                    </p>
+                    <div class="text-xs p-2 rounded" style="background-color: var(--bg-primary); color: var(--text-secondary);">
+                        <strong>Examples:</strong> Personas, Journey Maps, Empathy Maps, Wireframes, Usability Test Plans, Heuristic Evaluations, User Interview Summaries
+                    </div>
+                </div>
+            </label>
+
+            <!-- Milestone 5 -->
+            <label class="flex items-start gap-4 p-6 rounded-lg border cursor-pointer hover:shadow-lg transition-all" style="border-color: var(--border-color); background-color: var(--bg-secondary);">
+                <input type="checkbox" class="milestone mt-1">
+                <div class="flex-1">
+                    <h3 class="text-xl font-bold mb-2">5. Screens Sketched (6-10) ✓</h3>
+                    <p class="text-sm" style="color: var(--text-secondary);">
+                        You have hand-drawn 6-10 mobile app screens showing your main user interface, navigation, and clearly demonstrating your 2 UCD principles
+                    </p>
+                </div>
+            </label>
+        </div>
+
+        <!-- Next Steps -->
+        <div class="mt-8 p-6 rounded-lg border" style="border-color: var(--border-color); background-color: var(--bg-secondary);">
+            <h3 class="text-xl font-bold mb-4">📌 What's Coming Next (Weeks 7-11)</h3>
+            <ul class="space-y-2 text-sm" style="color: var(--text-secondary);">
+                <li class="flex items-start gap-2">
+                    <span class="font-bold" style="color: var(--accent-color);">Week 7:</span>
+                    <span>Create your user flow diagram (mandatory prototype component)</span>
+                </li>
+                <li class="flex items-start gap-2">
+                    <span class="font-bold" style="color: var(--accent-color);">Week 8:</span>
+                    <span>Heuristic evaluation of your design</span>
+                </li>
+                <li class="flex items-start gap-2">
+                    <span class="font-bold" style="color: var(--accent-color);">Week 9:</span>
+                    <span>Problem-solution evaluation and recommendations</span>
+                </li>
+                <li class="flex items-start gap-2">
+                    <span class="font-bold" style="color: var(--accent-color);">Week 10:</span>
+                    <span>Assemble your complete slide deck (10-20 slides, 1,700-2,000 words)</span>
+                </li>
+                <li class="flex items-start gap-2">
+                    <span class="font-bold" style="color: var(--accent-color);">Week 11:</span>
+                    <span>Final support and submission preparation</span>
+                </li>
+            </ul>
+        </div>
+
+        <!-- Actions -->
+        <div class="mt-6 flex gap-4 justify-center">
+            <button onclick="resetProgress()" class="px-6 py-3 rounded border" style="border-color: var(--border-color);">
+                Reset
+            </button>
+            <button onclick="window.location.href='assessment-checklist.html'" class="px-6 py-3 rounded text-white" style="background-color: var(--accent-color);">
+                View Full Assessment Checklist →
+            </button>
+        </div>
+    </main>
+
+    <script>
+        const statusMessages = [
+            { emoji: '😰', title: 'Just Getting Started', message: 'You have a lot to catch up on! Talk to your tutor.', min: 0 },
+            { emoji: '😟', title: 'Behind Schedule', message: 'You need to speed up to catch up by Week 6.', min: 1 },
+            { emoji: '🙂', title: 'Making Progress', message: 'You\'re on your way, but still some work to do!', min: 2 },
+            { emoji: '😊', title: 'Good Progress!', message: 'You\'re doing well! Keep going!', min: 3 },
+            { emoji: '🎉', title: 'Excellent! On Track!', message: 'You\'re ready for the second half of the module!', min: 5 }
+        ];
+
+        function updateProgress() {
+            const checkboxes = document.querySelectorAll('.milestone');
+            const checked = document.querySelectorAll('.milestone:checked').length;
+            const total = checkboxes.length;
+            const percentage = Math.round((checked / total) * 100);
+
+            // Update progress bar
+            document.getElementById('progressBar').style.width = percentage + '%';
+            document.getElementById('progressText').textContent = percentage + '%';
+            document.getElementById('completedCount').textContent = checked;
+
+            // Update status message
+            let status = statusMessages[0];
+            for (let i = statusMessages.length - 1; i >= 0; i--) {
+                if (checked >= statusMessages[i].min) {
+                    status = statusMessages[i];
+                    break;
+                }
+            }
+
+            document.getElementById('statusEmoji').textContent = status.emoji;
+            document.getElementById('statusText').textContent = status.title;
+            document.getElementById('statusMessage').textContent = status.message;
+
+            // Save progress
+            localStorage.setItem('uxci_midterm', JSON.stringify(
+                Array.from(checkboxes).map(cb => cb.checked)
+            ));
+        }
+
+        function loadProgress() {
+            const saved = localStorage.getItem('uxci_midterm');
+            if (saved) {
+                const state = JSON.parse(saved);
+                const checkboxes = document.querySelectorAll('.milestone');
+                checkboxes.forEach((cb, i) => {
+                    if (state[i]) cb.checked = true;
+                });
+            }
+            updateProgress();
+        }
+
+        function resetProgress() {
+            if (confirm('Reset all progress? This cannot be undone.')) {
+                document.querySelectorAll('.milestone').forEach(cb => cb.checked = false);
+                updateProgress();
+            }
+        }
+
+        document.querySelectorAll('.milestone').forEach(cb => {
+            cb.addEventListener('change', updateProgress);
+        });
+
+        loadProgress();
+
+        // Dark mode and font size controls
+        let isDarkMode = false;
+        let fontSize = 1;
+
+        document.getElementById('darkModeToggle').addEventListener('click', () => {
+            isDarkMode = !isDarkMode;
+            document.body.classList.toggle('dark-mode');
+            document.getElementById('modeIcon').textContent = isDarkMode ? '☀️' : '🌙';
+            localStorage.setItem('uxci_darkMode', isDarkMode);
+        });
+
+        document.getElementById('increaseFont').addEventListener('click', () => {
+            if (fontSize < 1.5) {
+                fontSize += 0.1;
+                document.documentElement.style.setProperty('--font-size', fontSize);
+                localStorage.setItem('uxci_fontSize', fontSize);
+            }
+        });
+
+        document.getElementById('decreaseFont').addEventListener('click', () => {
+            if (fontSize > 0.7) {
+                fontSize -= 0.1;
+                document.documentElement.style.setProperty('--font-size', fontSize);
+                localStorage.setItem('uxci_fontSize', fontSize);
+            }
+        });
+
+        // Load saved preferences
+        const savedDarkMode = localStorage.getItem('uxci_darkMode') === 'true';
+        const savedFontSize = parseFloat(localStorage.getItem('uxci_fontSize')) || 1;
+        
+        if (savedDarkMode) {
+            document.body.classList.add('dark-mode');
+            document.getElementById('modeIcon').textContent = '☀️';
+            isDarkMode = true;
+        }
+        
+        fontSize = savedFontSize;
+        document.documentElement.style.setProperty('--font-size', fontSize);
+    </script>
+</body>
+</html>

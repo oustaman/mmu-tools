@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Session 10: Slide Deck Workshop</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .slide { display: none; }
+        .slide.active { display: flex; }
+        :root {
+            --bg-primary: #ffffff; --bg-secondary: #f9fafb; --text-primary: #111827;
+            --text-secondary: #4b5563; --border-color: #e5e7eb; --accent-color: #8b5cf6; --font-size: 1;
+        }
+        .dark-mode {
+            --bg-primary: #1f2937; --bg-secondary: #111827; --text-primary: #f9fafb;
+            --text-secondary: #d1d5db; --border-color: #374151; --accent-color: #a78bfa;
+        }
+        html { font-size: calc(var(--font-size) * 16px); }
+        body { background-color: var(--bg-primary); color: var(--text-primary); }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col">
+    <header class="border-b p-4" style="border-color: var(--border-color);">
+        <div class="max-w-7xl mx-auto flex justify-between items-center">
+            <h1 class="text-lg font-semibold">User Experience for Creative Industries - Session 10</h1>
+            <div class="flex gap-2">
+                <button id="decreaseFont" class="px-3 py-2 rounded border">A-</button>
+                <button id="increaseFont" class="px-3 py-2 rounded border">A+</button>
+                <button id="darkModeToggle" class="px-4 py-2 rounded border"><span id="modeIcon">🌙</span></button>
+            </div>
+        </div>
+    </header>
+
+    <main class="flex-1 flex items-center justify-center p-8">
+        <div class="w-full max-w-5xl">
+            <div class="slide active flex-col items-center justify-center text-center h-[70vh]">
+                <h2 class="text-5xl font-bold mb-6">Session 10</h2>
+                <h3 class="text-3xl mb-8" style="color: var(--text-secondary);">Slide Deck Workshop</h3>
+                <p class="text-xl" style="color: var(--text-secondary);">Week 10 of 11</p>
+            </div>
+
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-4xl font-bold mb-8">You Have ALL the Pieces!</h2>
+                <div class="grid grid-cols-2 gap-4 text-base">
+                    <div class="p-3 rounded" style="background-color: #dcfce7;">✓ Sketches (6-10 screens)</div>
+                    <div class="p-3 rounded" style="background-color: #dcfce7;">✓ Flow diagram</div>
+                    <div class="p-3 rounded" style="background-color: #dcfce7;">✓ 2 Artefacts</div>
+                    <div class="p-3 rounded" style="background-color: #dcfce7;">✓ 2 UCD principles</div>
+                    <div class="p-3 rounded" style="background-color: #dcfce7;">✓ Problem analysis</div>
+                    <div class="p-3 rounded" style="background-color: #dcfce7;">✓ Solution evaluation</div>
+                    <div class="p-3 rounded" style="background-color: #dcfce7;">✓ Recommendations</div>
+                    <div class="p-3 rounded" style="background-color: #dcfce7;">✓ Testing/iteration notes</div>
+                </div>
+                <p class="mt-8 text-2xl font-semibold p-4 rounded" style="background-color: var(--bg-secondary);">
+                    Today: Assemble into final slide deck!
+                </p>
+            </div>
+
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-3xl font-bold mb-6">Complete Slide Deck Structure</h2>
+                <div class="space-y-2 text-sm">
+                    <div class="p-2 rounded" style="background-color: #e0e7ff;">📄 Title Slide (name & student ID) - NOT COUNTED</div>
+                    <div class="p-2 rounded" style="background-color: #fef3c7;">📋 Section 1: Introduction (2-4 slides, ~300 words)</div>
+                    <div class="p-2 rounded" style="background-color: #dbeafe;">📋 Section 2: Design Process (8-14 slides, ~900 words)</div>
+                    <div class="p-2 rounded" style="background-color: #dcfce7;">📋 Section 3: Evaluation (3-6 slides, ~500 words)</div>
+                    <div class="p-2 rounded" style="background-color: #e0e7ff;">📄 Prototype Location - NOT COUNTED</div>
+                    <div class="p-2 rounded" style="background-color: #f3f4f6;">📎 Optional: Visual Materials - NOT COUNTED</div>
+                    <div class="p-2 rounded" style="background-color: #f3f4f6;">📎 Optional: Appendix - NOT COUNTED</div>
+                    <div class="p-2 rounded" style="background-color: #e0e7ff;">📄 Closing Slide - NOT COUNTED</div>
+                </div>
+                <p class="mt-4 text-lg font-semibold p-3 rounded" style="background-color: var(--bg-secondary);">
+                    Total: 10-24 counted slides, ~1,700-2,000 words
+                </p>
+            </div>
+
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-3xl font-bold mb-6">Word Count Breakdown</h2>
+                <div class="space-y-3">
+                    <div class="p-4 rounded" style="background-color: #fef3c7;">
+                        <p class="font-bold mb-2">Section 1: ~300 words</p>
+                        <p class="text-sm">Service overview (150-200) + User analysis (150-200)</p>
+                    </div>
+                    <div class="p-4 rounded" style="background-color: #dbeafe;">
+                        <p class="font-bold mb-2">Section 2: ~900 words</p>
+                        <p class="text-sm">Research (100-150) + Artefacts (300-400) + Principles (200-250) + Testing (150-200) + Iteration (150-200)</p>
+                    </div>
+                    <div class="p-4 rounded" style="background-color: #dcfce7;">
+                        <p class="font-bold mb-2">Section 3: ~500 words</p>
+                        <p class="text-sm">Problem (200-250) + Solution (200-250) + Recommendations (150-200)</p>
+                    </div>
+                </div>
+                <p class="mt-4 text-base font-semibold p-3 rounded" style="background-color: #fee2e2;">
+                    TOTAL: 1,700 words minimum, 2,000 words maximum
+                </p>
+            </div>
+
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-4xl font-bold mb-6">Section 1 Checklist</h2>
+                <div class="space-y-4">
+                    <div class="p-4 rounded" style="background-color: var(--bg-secondary); border-left: 4px solid var(--accent-color);">
+                        <p class="font-bold mb-2">One or Two Slides: Service Overview</p>
+                        <ul class="text-sm space-y-1">
+                            <li>• Description of service</li>
+                            <li>• Current delivery method</li>
+                            <li>• Why improvement needed</li>
+                            <li>• 150-200 words total</li>
+                        </ul>
+                    </div>
+                    <div class="p-4 rounded" style="background-color: var(--bg-secondary); border-left: 4px solid var(--accent-color);">
+                        <p class="font-bold mb-2">One or Two Slides: User Analysis</p>
+                        <ul class="text-sm space-y-1">
+                            <li>• Target user group definition</li>
+                            <li>• Demographics & characteristics</li>
+                            <li>• User needs, goals, pain points</li>
+                            <li>• Context of use</li>
+                            <li>• 150-200 words total</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-4xl font-bold mb-6">Section 2 Checklist</h2>
+                <div class="space-y-2 text-xs">
+                    <div class="p-2 rounded" style="background-color: var(--bg-secondary);">✓ Research Phase (100-150 words): Methods used, insights, how it informed design</div>
+                    <div class="p-2 rounded" style="background-color: var(--bg-secondary);">✓ Artefact 1 (150-200 words): Image + explanation of what/how/contribution</div>
+                    <div class="p-2 rounded" style="background-color: var(--bg-secondary);">✓ Artefact 2 (150-200 words): Image + explanation of what/how/contribution</div>
+                    <div class="p-2 rounded" style="background-color: var(--bg-secondary);">✓ UCD Principles (200-250 words): Name 2 principles, show examples from sketches, rationale</div>
+                    <div class="p-2 rounded" style="background-color: var(--bg-secondary);">✓ Testing Methods (150-200 words): Methods used/recommended, participants, tasks, criteria</div>
+                    <div class="p-2 rounded" style="background-color: var(--bg-secondary);">✓ Iteration & Refinement (150-200 words): Learnings, changes made, decisions, priorities</div>
+                </div>
+                <p class="mt-4 text-base font-semibold">Total: 8-14 slides, ~900 words</p>
+            </div>
+
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-4xl font-bold mb-6">Section 3 Checklist</h2>
+                <div class="space-y-4">
+                    <div class="p-4 rounded" style="background-color: #fef3c7;">
+                        <p class="font-bold mb-2">Problem Analysis (200-250 words)</p>
+                        <p class="text-sm">Previous problems, evidence, why it mattered</p>
+                    </div>
+                    <div class="p-4 rounded" style="background-color: #dbeafe;">
+                        <p class="font-bold mb-2">Solution Evaluation (200-250 words)</p>
+                        <p class="text-sm">How design solves problems, expected improvements, metrics</p>
+                    </div>
+                    <div class="p-4 rounded" style="background-color: #dcfce7;">
+                        <p class="font-bold mb-2">Recommendations (150-200 words)</p>
+                        <p class="text-sm">Next steps, testing needs, future features, implementation</p>
+                    </div>
+                </div>
+                <p class="mt-4 text-base font-semibold">Total: 3-6 slides, ~500 words</p>
+            </div>
+
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-4xl font-bold mb-6">What Makes a Good Slide?</h2>
+                <div class="grid grid-cols-2 gap-5">
+                    <div class="p-4 rounded" style="background-color: #dcfce7;">
+                        <p class="font-bold mb-3">✅ Do This:</p>
+                        <ul class="text-sm space-y-2">
+                            <li>• Clear heading per slide</li>
+                            <li>• Scannable (bullets, short paragraphs)</li>
+                            <li>• Visual + text balance</li>
+                            <li>• Proper word count</li>
+                            <li>• Professional look</li>
+                        </ul>
+                    </div>
+                    <div class="p-4 rounded" style="background-color: #fee2e2;">
+                        <p class="font-bold mb-3">❌ Avoid This:</p>
+                        <ul class="text-sm space-y-2">
+                            <li>• Walls of text</li>
+                            <li>• No images/visuals</li>
+                            <li>• Inconsistent formatting</li>
+                            <li>• Tiny unreadable text</li>
+                            <li>• Missing slide numbers</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-4xl font-bold mb-6">Activity: Draft Structure (15 min)</h2>
+                <div class="mb-6 p-5 rounded" style="background-color: #dbeafe; border: 2px solid #3b82f6;">
+                    <p class="text-xl">Create slide titles for your entire deck</p>
+                </div>
+                <div class="space-y-3 text-base">
+                    <div class="p-3 rounded" style="background-color: var(--bg-secondary);">
+                        1. List all slide titles (just headings for now)
+                    </div>
+                    <div class="p-3 rounded" style="background-color: var(--bg-secondary);">
+                        2. Estimate word count per slide
+                    </div>
+                    <div class="p-3 rounded" style="background-color: var(--bg-secondary);">
+                        3. Check you have all required elements
+                    </div>
+                    <div class="p-3 rounded" style="background-color: var(--bg-secondary);">
+                        4. Identify any gaps in content
+                    </div>
+                </div>
+            </div>
+
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-4xl font-bold mb-8">Peer Review Structures</h2>
+                <div class="mb-6 p-5 rounded" style="background-color: var(--bg-secondary); border: 2px solid var(--border-color);">
+                    <p class="text-xl">Swap with a partner and check:</p>
+                </div>
+                <ul class="space-y-4 text-lg">
+                    <li>✓ All sections present (1, 2, 3)?</li>
+                    <li>✓ Word counts roughly right?</li>
+                    <li>✓ All required elements included?</li>
+                    <li>✓ Logical flow between slides?</li>
+                    <li>✓ Any obvious gaps?</li>
+                </ul>
+            </div>
+
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-4xl font-bold mb-6">Common Mistakes</h2>
+                <div class="space-y-3">
+                    <div class="p-3 rounded" style="background-color: #fee2e2;">❌ Too many words per slide (unreadable)</div>
+                    <div class="p-3 rounded" style="background-color: #fee2e2;">❌ No visuals (boring, doesn't show work)</div>
+                    <div class="p-3 rounded" style="background-color: #fee2e2;">❌ Missing required sections (fails assessment)</div>
+                    <div class="p-3 rounded" style="background-color: #fee2e2;">❌ No slide numbers (specifically requested!)</div>
+                    <div class="p-3 rounded" style="background-color: #fee2e2;">❌ Blurry sketch photos (can't evaluate design)</div>
+                    <div class="p-3 rounded" style="background-color: #fee2e2;">❌ Inconsistent formatting (looks unprofessional)</div>
+                </div>
+            </div>
+
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-4xl font-bold mb-8">Slide Numbers REQUIRED</h2>
+                <div class="mb-6 p-5 rounded" style="background-color: #fef3c7; border: 2px solid #f59e0b;">
+                    <p class="text-xl">Add slide numbers to EVERY slide</p>
+                </div>
+                <ul class="space-y-4 text-lg">
+                    <li class="flex items-start"><span class="mr-3">📍</span><span>Bottom corner works well</span></li>
+                    <li class="flex items-start"><span class="mr-3">🎯</span><span>Helps with assessment grading</span></li>
+                    <li class="flex items-start"><span class="mr-3">✨</span><span>Shows professionalism and attention to detail</span></li>
+                    <li class="flex items-start"><span class="mr-3">📋</span><span>Makes feedback easier to give/receive</span></li>
+                </ul>
+            </div>
+
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-3xl font-bold mb-6">Visual Materials Section</h2>
+                <div class="mb-4 p-4 rounded" style="background-color: var(--bg-secondary); border: 2px solid var(--border-color);">
+                    <p class="text-lg">Section 4: Include (NOT COUNTED toward slide limit):</p>
+                </div>
+                <ul class="space-y-3 text-base">
+                    <li class="flex items-start"><span class="mr-3">📸</span><span>Clear photos of ALL 6-10 sketched screens</span></li>
+                    <li class="flex items-start"><span class="mr-3">🗺️</span><span>Your complete flow diagram</span></li>
+                    <li class="flex items-start"><span class="mr-3">📊</span><span>Both artefacts (if not already in Section 2)</span></li>
+                    <li class="flex items-start"><span class="mr-3">📷</span><span>Any additional context images</span></li>
+                </ul>
+                <p class="mt-4 text-base p-3 rounded" style="background-color: #dcfce7;">
+                    These unlimited optional slides let you show your work without word count limits
+                </p>
+            </div>
+
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-4xl font-bold mb-6">Pre-Submission Checklist</h2>
+                <div class="grid grid-cols-2 gap-4 text-sm">
+                    <div>
+                        <p class="font-bold mb-2">Prototype:</p>
+                        <ul class="space-y-1">
+                            <li>☐ Sketches clear & readable</li>
+                            <li>☐ Flow diagram complete</li>
+                            <li>☐ Both components present</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <p class="font-bold mb-2">Artefacts:</p>
+                        <ul class="space-y-1">
+                            <li>☐ 2 artefacts included</li>
+                            <li>☐ Explanations 150-200 words each</li>
+                            <li>☐ Clear & professional</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <p class="font-bold mb-2">Slide Deck:</p>
+                        <ul class="space-y-1">
+                            <li>☐ 10-24 counted slides</li>
+                            <li>☐ All sections complete</li>
+                            <li>☐ Word count 1,700-2,000</li>
+                            <li>☐ Slide numbers added</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <p class="font-bold mb-2">Quality:</p>
+                        <ul class="space-y-1">
+                            <li>☐ No typos/errors</li>
+                            <li>☐ Images readable</li>
+                            <li>☐ Professional presentation</li>
+                            <li>☐ Consistent formatting</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-4xl font-bold mb-6">Activity: Start Building (20 min)</h2>
+                <div class="mb-6 p-5 rounded" style="background-color: #dbeafe; border: 2px solid #3b82f6;">
+                    <p class="text-xl">Open Google Slides or PowerPoint and start building</p>
+                </div>
+                <div class="space-y-3 text-base">
+                    <div class="p-3 rounded" style="background-color: var(--bg-secondary);">
+                        1. Create all section headers from your structure
+                    </div>
+                    <div class="p-3 rounded" style="background-color: var(--bg-secondary);">
+                        2. Copy-paste your written content into slides
+                    </div>
+                    <div class="p-3 rounded" style="background-color: var(--bg-secondary);">
+                        3. Add images (sketches, artefacts, flow diagram)
+                    </div>
+                    <div class="p-3 rounded" style="background-color: var(--bg-secondary);">
+                        4. Format for readability
+                    </div>
+                </div>
+            </div>
+
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-4xl font-bold mb-8">Formatting Tips</h2>
+                <ul class="space-y-4 text-lg">
+                    <li class="flex items-start"><span class="mr-3">🎨</span><span><strong>Consistent fonts:</strong> Same font throughout (Arial, Calibri work well)</span></li>
+                    <li class="flex items-start"><span class="mr-3">📏</span><span><strong>Readable text:</strong> Minimum 18pt font size</span></li>
+                    <li class="flex items-start"><span class="mr-3">🌈</span><span><strong>Good contrast:</strong> Dark text on light background (accessibility!)</span></li>
+                    <li class="flex items-start"><span class="mr-3">🎯</span><span><strong>Professional colors:</strong> 2-3 colors max, not too bright</span></li>
+                    <li class="flex items-start"><span class="mr-3">📐</span><span><strong>Clear hierarchy:</strong> Headings, subheadings, body text distinct</span></li>
+                </ul>
+            </div>
+
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-4xl font-bold mb-8">What You've Learned Today</h2>
+                <ul class="space-y-5 text-xl">
+                    <li>✓ Complete slide deck structure</li>
+                    <li>✓ What makes good slides</li>
+                    <li>✓ How to check completeness</li>
+                    <li>✓ Assembly and formatting process</li>
+                    <li>✓ Common mistakes to avoid</li>
+                </ul>
+                <p class="mt-8 text-xl font-semibold p-4 rounded" style="background-color: var(--bg-secondary);">
+                    Your assessment is coming together!
+                </p>
+            </div>
+
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-4xl font-bold mb-8">Homework</h2>
+                <ul class="space-y-5 text-xl">
+                    <li class="flex items-start"><span class="mr-3">1.</span><span><strong>Complete FIRST FULL DRAFT</strong> of entire slide deck</span></li>
+                    <li class="flex items-start"><span class="mr-3">2.</span><span><strong>Include all text</strong> (may need polish but should be complete)</span></li>
+                    <li class="flex items-start"><span class="mr-3">3.</span><span><strong>All images inserted</strong> (sketches, artefacts, flow)</span></li>
+                    <li class="flex items-start"><span class="mr-3">4.</span><span><strong>Bring to Session 11</strong> for final check and polish</span></li>
+                </ul>
+                <div class="mt-10 p-5 rounded text-center" style="background-color: #dcfce7; border: 2px solid #16a34a;">
+                    <p class="text-2xl font-bold mb-2">Next Week: Final Support Session! 🎉</p>
+                    <p class="text-lg" style="color: #166534;">Last chance for help before submission deadline</p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="border-t p-4">
+        <div class="max-w-7xl mx-auto flex justify-between items-center">
+            <button id="prevBtn" class="px-6 py-2 rounded border font-medium">← Previous</button>
+            <span id="slideCounter" class="text-lg">1 / 19</span>
+            <button id="nextBtn" class="px-6 py-2 rounded border font-medium">Next →</button>
+        </div>
+    </footer>
+
+    <script>
+        let currentSlide = 0; const slides = document.querySelectorAll('.slide');
+        function showSlide(n) {
+            slides[currentSlide].classList.remove('active'); currentSlide = (n + slides.length) % slides.length;
+            slides[currentSlide].classList.add('active');
+            document.getElementById('slideCounter').textContent = `${currentSlide + 1} / ${slides.length}`;
+            document.getElementById('prevBtn').disabled = currentSlide === 0;
+            document.getElementById('nextBtn').disabled = currentSlide === slides.length - 1;
+        }
+        document.getElementById('prevBtn').addEventListener('click', () => { if(currentSlide > 0) showSlide(currentSlide - 1); });
+        document.getElementById('nextBtn').addEventListener('click', () => { if(currentSlide < slides.length - 1) showSlide(currentSlide + 1); });
+        document.getElementById('darkModeToggle').addEventListener('click', () => {
+            document.body.classList.toggle('dark-mode');
+            document.getElementById('modeIcon').textContent = document.body.classList.contains('dark-mode') ? '☀️' : '🌙';
+        });
+        let fontSize = 1;
+        document.getElementById('increaseFont').addEventListener('click', () => { if(fontSize < 1.5) { fontSize += 0.1; document.documentElement.style.setProperty('--font-size', fontSize); }});
+        document.getElementById('decreaseFont').addEventListener('click', () => { if(fontSize > 0.7) { fontSize -= 0.1; document.documentElement.style.setProperty('--font-size', fontSize); }});
+        document.addEventListener('keydown', (e) => { if(e.key === 'ArrowRight') document.getElementById('nextBtn').click(); if(e.key === 'ArrowLeft') document.getElementById('prevBtn').click(); });
+        showSlide(0);
+    </script>
+</body>
+</html>

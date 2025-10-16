@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Heuristic Evaluator - UXCI</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        :root {
+            --bg-primary: #ffffff;
+            --bg-secondary: #f9fafb;
+            --text-primary: #111827;
+            --text-secondary: #4b5563;
+            --border-color: #e5e7eb;
+            --accent-color: #8b5cf6;
+            --accent-hover: #7c3aed;
+            --font-size: 1;
+        }
+        
+        .dark-mode {
+            --bg-primary: #1f2937;
+            --bg-secondary: #111827;
+            --text-primary: #f9fafb;
+            --text-secondary: #9ca3af;
+            --border-color: #374151;
+            --accent-color: #a78bfa;
+            --accent-hover: #c4b5fd;
+        }
+        
+        html {
+            font-size: calc(var(--font-size) * 16px);
+        }
+        
+        body {
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+        }
+
+        .heuristic-card {
+            transition: all 0.2s ease;
+        }
+
+        .heuristic-card:hover {
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .severity-btn {
+            transition: all 0.2s ease;
+            cursor: pointer;
+        }
+
+        .severity-btn:hover {
+            transform: scale(1.05);
+        }
+
+        .severity-btn.active {
+            ring: 2px solid var(--accent-color);
+        }
+
+        @media print {
+            .no-print { display: none; }
+        }
+    </style>
+</head>
+<body class="min-h-screen">
+    <header class="border-b p-4 no-print" style="border-color: var(--border-color);">
+        <div class="max-w-6xl mx-auto flex justify-between items-center flex-wrap gap-4">
+            <div>
+                <h1 class="text-2xl font-bold">✅ Heuristic Evaluator</h1>
+                <p class="text-sm" style="color: var(--text-secondary);">Evaluate your design against Nielsen's 10 Usability Heuristics</p>
+            </div>
+            <div class="flex gap-2">
+                <button id="decreaseFont" class="px-3 py-2 rounded border" style="border-color: var(--border-color);" aria-label="Decrease font size">A-</button>
+                <button id="increaseFont" class="px-3 py-2 rounded border" style="border-color: var(--border-color);" aria-label="Increase font size">A+</button>
+                <button id="darkModeToggle" class="px-4 py-2 rounded border" style="border-color: var(--border-color);" aria-label="Toggle dark mode">
+                    <span id="modeIcon">🌙</span>
+                </button>
+                <button onclick="window.location.href='uxci_index_page.html'" class="px-4 py-2 rounded border" style="border-color: var(--border-color);">
+                    ← Back
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <main class="max-w-6xl mx-auto p-8">
+        <!-- Project Name -->
+        <div class="mb-8 p-6 rounded-lg border no-print" style="border-color: var(--border-color); background-color: var(--bg-secondary);">
+            <label class="block mb-2 font-bold">Project/App Name</label>
+            <input type="text" id="projectName" class="w-full p-3 rounded border text-lg" style="border-color: var(--border-color);" placeholder="e.g., Library Study Room Booking App">
+        </div>
+
+        <!-- Instructions -->
+        <div class="mb-8 p-6 rounded-lg border no-print" style="border-color: var(--border-color); background-color: #fef3c7;">
+            <h2 class="font-bold mb-3" style="color: #92400e;">📋 How to Use This Tool</h2>
+            <ol class="space-y-2 text-sm" style="color: #92400e;">
+                <li><strong>1.</strong> Review each heuristic and check if your design violates it</li>
+                <li><strong>2.</strong> Rate the severity: 0=No problem, 1=Cosmetic, 2=Minor, 3=Major, 4=Catastrophic</li>
+                <li><strong>3.</strong> Document specific issues you found</li>
+                <li><strong>4.</strong> Your progress auto-saves to your browser</li>
+                <li><strong>5.</strong> Export your findings for your slide deck</li>
+            </ol>
+        </div>
+
+        <!-- Severity Scale Reference -->
+        <div class="mb-8 p-6 rounded-lg border no-print" style="border-color: var(--border-color); background-color: var(--bg-secondary);">
+            <h3 class="font-bold mb-3">Severity Rating Scale</h3>
+            <div class="grid grid-cols-5 gap-2 text-xs text-center">
+                <div class="p-2 rounded" style="background-color: #dcfce7; color: #166534;">
+                    <strong>0</strong><br>Not a problem
+                </div>
+                <div class="p-2 rounded" style="background-color: #dbeafe; color: #1e40af;">
+                    <strong>1</strong><br>Cosmetic only
+                </div>
+                <div class="p-2 rounded" style="background-color: #fef3c7; color: #92400e;">
+                    <strong>2</strong><br>Minor usability
+                </div>
+                <div class="p-2 rounded" style="background-color: #fed7aa; color: #9a3412;">
+                    <strong>3</strong><br>Major usability
+                </div>
+                <div class="p-2 rounded" style="background-color: #fecaca; color: #991b1b;">
+                    <strong>4</strong><br>Catastrophic
+                </div>
+            </div>
+        </div>
+
+        <!-- Heuristics -->
+        <div id="heuristicsContainer" class="space-y-6">
+            <!-- Will be populated by JavaScript -->
+        </div>
+
+        <!-- Summary Section -->
+        <div id="summary" class="mt-8 p-6 rounded-lg border" style="border-color: var(--border-color); background-color: var(--bg-secondary);">
+            <h2 class="text-xl font-bold mb-4">📊 Summary</h2>
+            <div class="grid grid-cols-5 gap-4 mb-4">
+                <div class="text-center p-3 rounded" style="background-color: #dcfce7;">
+                    <div class="text-2xl font-bold" style="color: #166534;" id="count0">0</div>
+                    <div class="text-xs">No Problem</div>
+                </div>
+                <div class="text-center p-3 rounded" style="background-color: #dbeafe;">
+                    <div class="text-2xl font-bold" style="color: #1e40af;" id="count1">0</div>
+                    <div class="text-xs">Cosmetic</div>
+                </div>
+                <div class="text-center p-3 rounded" style="background-color: #fef3c7;">
+                    <div class="text-2xl font-bold" style="color: #92400e;" id="count2">0</div>
+                    <div class="text-xs">Minor</div>
+                </div>
+                <div class="text-center p-3 rounded" style="background-color: #fed7aa;">
+                    <div class="text-2xl font-bold" style="color: #9a3412;" id="count3">0</div>
+                    <div class="text-xs">Major</div>
+                </div>
+                <div class="text-center p-3 rounded" style="background-color: #fecaca;">
+                    <div class="text-2xl font-bold" style="color: #991b1b;" id="count4">0</div>
+                    <div class="text-xs">Catastrophic</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Actions -->
+        <div class="flex gap-4 justify-center mt-8 no-print">
+            <button onclick="resetEvaluation()" class="px-6 py-3 rounded border" style="border-color: var(--border-color);">
+                Reset All
+            </button>
+            <button onclick="exportResults()" class="px-6 py-3 rounded text-white" style="background-color: var(--accent-color);">
+                📋 Export Findings
+            </button>
+            <button onclick="window.print()" class="px-6 py-3 rounded border" style="border-color: var(--accent-color); color: var(--accent-color);">
+                🖨️ Print
+            </button>
+        </div>
+    </main>
+
+    <script>
+        const heuristics = [
+            {
+                id: 1,
+                title: "Visibility of System Status",
+                description: "The system should always keep users informed about what is going on through appropriate feedback within a reasonable time."
+            },
+            {
+                id: 2,
+                title: "Match Between System and Real World",
+                description: "The system should speak the users' language, with words, phrases, and concepts familiar to the user, rather than system-oriented terms."
+            },
+            {
+                id: 3,
+                title: "User Control and Freedom",
+                description: "Users often choose system functions by mistake and will need a clearly marked 'emergency exit' to leave the unwanted state."
+            },
+            {
+                id: 4,
+                title: "Consistency and Standards",
+                description: "Users should not have to wonder whether different words, situations, or actions mean the same thing. Follow platform conventions."
+            },
+            {
+                id: 5,
+                title: "Error Prevention",
+                description: "Even better than good error messages is a careful design which prevents a problem from occurring in the first place."
+            },
+            {
+                id: 6,
+                title: "Recognition Rather Than Recall",
+                description: "Minimize the user's memory load by making objects, actions, and options visible. Instructions should be visible or easily retrievable."
+            },
+            {
+                id: 7,
+                title: "Flexibility and Efficiency of Use",
+                description: "Accelerators may speed up the interaction for expert users such that the system can cater to both inexperienced and experienced users."
+            },
+            {
+                id: 8,
+                title: "Aesthetic and Minimalist Design",
+                description: "Dialogues should not contain information which is irrelevant or rarely needed. Every extra unit of information competes with relevant information."
+            },
+            {
+                id: 9,
+                title: "Help Users Recognize, Diagnose, and Recover from Errors",
+                description: "Error messages should be expressed in plain language, precisely indicate the problem, and constructively suggest a solution."
+            },
+            {
+                id: 10,
+                title: "Help and Documentation",
+                description: "It's best if the system doesn't need any additional explanation. However, it may be necessary to provide help and documentation."
+            }
+        ];
+
+        function renderHeuristics() {
+            const container = document.getElementById('heuristicsContainer');
+            container.innerHTML = '';
+
+            heuristics.forEach(h => {
+                const card = document.createElement('div');
+                card.className = 'heuristic-card p-6 rounded-lg border';
+                card.style.borderColor = 'var(--border-color)';
+                card.style.backgroundColor = 'var(--bg-secondary)';
+                
+                card.innerHTML = `
+                    <h3 class="text-lg font-bold mb-2">${h.id}. ${h.title}</h3>
+                    <p class="text-sm mb-4" style="color: var(--text-secondary);">${h.description}</p>
+                    
+                    <div class="mb-4">
+                        <label class="block text-sm font-medium mb-2">Severity Rating</label>
+                        <div class="flex gap-2">
+                            ${[0,1,2,3,4].map(severity => {
+                                const colors = ['#dcfce7', '#dbeafe', '#fef3c7', '#fed7aa', '#fecaca'];
+                                return `
+                                    <button 
+                                        class="severity-btn flex-1 py-2 rounded font-bold text-sm"
+                                        style="background-color: ${colors[severity]};"
+                                        onclick="setSeverity(${h.id}, ${severity})"
+                                        data-heuristic="${h.id}"
+                                        data-severity="${severity}">
+                                        ${severity}
+                                    </button>
+                                `;
+                            }).join('')}
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <label class="block text-sm font-medium mb-2">Issue Description & Recommendation</label>
+                        <textarea 
+                            id="issue-${h.id}"
+                            rows="3" 
+                            class="w-full p-2 rounded border" 
+                            style="border-color: var(--border-color);"
+                            placeholder="Describe the specific issue found and how to fix it..."
+                            onchange="saveData()"></textarea>
+                    </div>
+                `;
+                
+                container.appendChild(card);
+            });
+
+            loadData();
+        }
+
+        function setSeverity(heuristicId, severity) {
+            // Update active state
+            document.querySelectorAll(`[data-heuristic="${heuristicId}"]`).forEach(btn => {
+                btn.classList.remove('active');
+            });
+            document.querySelector(`[data-heuristic="${heuristicId}"][data-severity="${severity}"]`).classList.add('active');
+            
+            saveData();
+            updateSummary();
+        }
+
+        function updateSummary() {
+            const counts = [0, 0, 0, 0, 0];
+            
+            document.querySelectorAll('.severity-btn.active').forEach(btn => {
+                const severity = parseInt(btn.dataset.severity);
+                counts[severity]++;
+            });
+            
+            counts.forEach((count, index) => {
+                document.getElementById(`count${index}`).textContent = count;
+            });
+        }
+
+        function saveData() {
+            const data = {
+                projectName: document.getElementById('projectName').value,
+                evaluations: {}
+            };
+
+            heuristics.forEach(h => {
+                const activeBtn = document.querySelector(`[data-heuristic="${h.id}"].active`);
+                data.evaluations[h.id] = {
+                    severity: activeBtn ? parseInt(activeBtn.dataset.severity) : null,
+                    issue: document.getElementById(`issue-${h.id}`).value
+                };
+            });
+
+            localStorage.setItem('uxci_heuristic_eval', JSON.stringify(data));
+        }
+
+        function loadData() {
+            const saved = localStorage.getItem('uxci_heuristic_eval');
+            if (!saved) return;
+
+            const data = JSON.parse(saved);
+            
+            if (data.projectName) {
+                document.getElementById('projectName').value = data.projectName;
+            }
+
+            heuristics.forEach(h => {
+                const eval_data = data.evaluations[h.id];
+                if (!eval_data) return;
+
+                if (eval_data.severity !== null) {
+                    const btn = document.querySelector(`[data-heuristic="${h.id}"][data-severity="${eval_data.severity}"]`);
+                    if (btn) btn.classList.add('active');
+                }
+
+                if (eval_data.issue) {
+                    document.getElementById(`issue-${h.id}`).value = eval_data.issue;
+                }
+            });
+
+            updateSummary();
+        }
+
+        function resetEvaluation() {
+            if (confirm('Reset all evaluations? This cannot be undone.')) {
+                localStorage.removeItem('uxci_heuristic_eval');
+                document.getElementById('projectName').value = '';
+                document.querySelectorAll('.severity-btn').forEach(btn => btn.classList.remove('active'));
+                document.querySelectorAll('textarea').forEach(ta => ta.value = '');
+                updateSummary();
+            }
+        }
+
+        function exportResults() {
+            const projectName = document.getElementById('projectName').value || 'Unnamed Project';
+            let text = `HEURISTIC EVALUATION REPORT\n`;
+            text += `================================\n\n`;
+            text += `Project: ${projectName}\n`;
+            text += `Date: ${new Date().toLocaleDateString()}\n\n`;
+
+            const issues = [];
+            
+            heuristics.forEach(h => {
+                const activeBtn = document.querySelector(`[data-heuristic="${h.id}"].active`);
+                const issue = document.getElementById(`issue-${h.id}`).value;
+                
+                if (activeBtn && issue) {
+                    const severity = parseInt(activeBtn.dataset.severity);
+                    if (severity > 0) {
+                        issues.push({
+                            heuristic: h,
+                            severity: severity,
+                            issue: issue
+                        });
+                    }
+                }
+            });
+
+            // Sort by severity (highest first)
+            issues.sort((a, b) => b.severity - a.severity);
+
+            text += `FINDINGS (${issues.length} issues identified):\n`;
+            text += `====================================\n\n`;
+
+            issues.forEach((item, index) => {
+                const severityLabels = ['N/A', 'Cosmetic', 'Minor', 'Major', 'Catastrophic'];
+                text += `${index + 1}. ${item.heuristic.title}\n`;
+                text += `   Severity: ${item.severity} - ${severityLabels[item.severity]}\n`;
+                text += `   Issue: ${item.issue}\n\n`;
+            });
+
+            text += `\n---\nGenerated with UXCI Heuristic Evaluator`;
+
+            navigator.clipboard.writeText(text).then(() => {
+                alert('✓ Findings copied to clipboard! Paste into your notes or slide deck.');
+            }).catch(() => {
+                alert('Could not copy. Please select and copy manually.');
+                console.log(text);
+            });
+        }
+
+        // Auto-save on project name change
+        document.getElementById('projectName').addEventListener('input', saveData);
+
+        // Initial render
+        renderHeuristics();
+    </script>
+</body>
+</html>

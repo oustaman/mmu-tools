@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Assessment Brief & Builder - UXCI</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        :root {
+            --bg-primary: #ffffff;
+            --bg-secondary: #f9fafb;
+            --text-primary: #111827;
+            --text-secondary: #4b5563;
+            --border-color: #e5e7eb;
+            --accent-color: #8b5cf6;
+        }
+        
+        body {
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            padding-top: 80px;
+        }
+
+        .sticky-progress {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            background-color: var(--bg-primary);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .progress-bar {
+            transition: width 0.3s ease;
+        }
+
+        .slide-card {
+            display: grid;
+            grid-template-columns: 1fr 300px;
+            gap: 1.5rem;
+            align-items: start;
+        }
+
+        @media (max-width: 1024px) {
+            .slide-card {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+        }
+
+        .pseudo-slide {
+            border: 2px dashed var(--border-color);
+            min-height: 200px;
+            background: linear-gradient(135deg, #faf5ff 0%, #f3e8ff 100%);
+        }
+    </style>
+</head>
+<body>
+    <!-- Sticky Progress Bar -->
+    <div class="sticky-progress">
+        <div class="max-w-7xl mx-auto p-4">
+            <div class="flex items-center justify-between mb-2 flex-wrap gap-2">
+                <div class="flex items-center gap-4">
+                    <h1 class="text-lg font-bold">Assessment Progress</h1>
+                </div>
+                <div class="flex items-center gap-2">
+                    <button id="decreaseFont" class="px-2 py-1 text-sm rounded border" style="border-color: var(--border-color);" aria-label="Decrease font size">A-</button>
+                    <button id="increaseFont" class="px-2 py-1 text-sm rounded border" style="border-color: var(--border-color);" aria-label="Increase font size">A+</button>
+                    <button id="darkModeToggle" class="px-3 py-1 text-sm rounded border" style="border-color: var(--border-color);" aria-label="Toggle dark mode">
+                        <span id="modeIcon">🌙</span>
+                    </button>
+                    <button onclick="window.location.href='uxci_index_page.html'" class="px-3 py-1 text-sm rounded border" style="border-color: var(--border-color);">
+                        ← Back
+                    </button>
+                    <span class="text-sm" style="color: var(--text-secondary);">
+                        <span id="completedCount">0</span> / <span id="totalCount">0</span>
+                    </span>
+                    <span id="overallPercent" class="text-2xl font-bold" style="color: var(--accent-color);">0%</span>
+                </div>
+            </div>
+            <div class="w-full h-4 rounded-full" style="background-color: var(--border-color);">
+                <div id="overallProgress" class="progress-bar h-4 rounded-full" style="width: 0%; background-color: var(--accent-color);"></div>
+            </div>
+        </div>
+    </div>
+
+    <main class="max-w-7xl mx-auto p-8">
+        <!-- Assessment Brief Overview -->
+        <div class="mb-12 p-8 rounded-lg border" style="border-color: var(--accent-color); background-color: var(--bg-secondary);">
+            <h1 class="text-3xl font-bold mb-4">📋 Individual Digital Product Evaluation Report</h1>
+            <p class="text-lg mb-6" style="color: var(--text-secondary);">Complete assessment brief for the User Experience for Creative Industries module</p>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
+                <div class="p-4 rounded-lg text-center" style="background-color: var(--bg-primary);">
+                    <div class="text-4xl mb-2">📱</div>
+                    <div class="font-bold text-lg mb-1">Prototype</div>
+                    <div class="text-sm" style="color: var(--text-secondary);">Hand-drawn sketches (6-10) + Flow diagram</div>
+                </div>
+                <div class="p-4 rounded-lg text-center" style="background-color: var(--bg-primary);">
+                    <div class="text-4xl mb-2">📊</div>
+                    <div class="font-bold text-lg mb-1">2 Artefacts</div>
+                    <div class="text-sm" style="color: var(--text-secondary);">From Research, Design, or Testing categories</div>
+                </div>
+                <div class="p-4 rounded-lg text-center" style="background-color: var(--bg-primary);">
+                    <div class="text-4xl mb-2">🎯</div>
+                    <div class="font-bold text-lg mb-1">Slide Deck</div>
+                    <div class="text-sm" style="color: var(--text-secondary);">10-20 slides, ~1,700-2,000 words</div>
+                </div>
+            </div>
+
+            <div class="p-4 rounded-lg" style="background-color: #fef3c7;">
+                <p class="text-sm font-bold mb-2" style="color: #92400e;">🎯 Choose a Small-to-Medium Scale Service:</p>
+                <p class="text-sm" style="color: #92400e;">Community services, local businesses, university services, non-profits - NOT large corporations like Amazon, Google, or Netflix.</p>
+            </div>
+        </div>
+
+        <!-- Overall Submission Checklist -->
+        <div class="mb-12 p-6 rounded-lg border" style="border-color: var(--border-color); background-color: #dcfce7;">
+            <h2 class="text-2xl font-bold mb-4" style="color: #166534;">✅ Big Picture Submission Checklist</h2>
+            <div class="space-y-2">
+                <label class="flex items-center gap-3 p-3 rounded cursor-pointer hover:bg-white">
+                    <input type="checkbox" class="overall-checkbox">
+                    <span>Service chosen (small-to-medium scale, appropriate scope)</span>
+                </label>
+                <label class="flex items-center gap-3 p-3 rounded cursor-pointer hover:bg-white">
+                    <input type="checkbox" class="overall-checkbox">
+                    <span>6-10 hand-drawn screen sketches completed and photographed clearly</span>
+                </label>
+                <label class="flex items-center gap-3 p-3 rounded cursor-pointer hover:bg-white">
+                    <input type="checkbox" class="overall-checkbox">
+                    <span>User flow diagram completed (entry points, decisions, errors, exits)</span>
+                </label>
+                <label class="flex items-center gap-3 p-3 rounded cursor-pointer hover:bg-white">
+                    <input type="checkbox" class="overall-checkbox">
+                    <span>2 UCD principles identified and clearly demonstrated in sketches</span>
+                </label>
+                <label class="flex items-center gap-3 p-3 rounded cursor-pointer hover:bg-white">
+                    <input type="checkbox" class="overall-checkbox">
+                    <span>Artefact 1 completed with visual and explanation (150-200 words)</span>
+                </label>
+                <label class="flex items-center gap-3 p-3 rounded cursor-pointer hover:bg-white">
+                    <input type="checkbox" class="overall-checkbox">
+                    <span>Artefact 2 completed with visual and explanation (150-200 words)</span>
+                </label>
+                <label class="flex items-center gap-3 p-3 rounded cursor-pointer hover:bg-white">
+                    <input type="checkbox" class="overall-checkbox">
+                    <span>Slide deck has 10-20 COUNTED slides (excluding title/location/closing)</span>
+                </label>
+                <label class="flex items-center gap-3 p-3 rounded cursor-pointer hover:bg-white">
+                    <input type="checkbox" class="overall-checkbox">
+                    <span>Total word count is 1,700-2,000 words</span>
+                </label>
+                <label class="flex items-center gap-3 p-3 rounded cursor-pointer hover:bg-white">
+                    <input type="checkbox" class="overall-checkbox">
+                    <span>All slides have slide numbers added</span>
+                </label>
+                <label class="flex items-center gap-3 p-3 rounded cursor-pointer hover:bg-white">
+                    <input type="checkbox" class="overall-checkbox">
+                    <span>All images are clear, readable, and professional quality</span>
+                </label>
+                <label class="flex items-center gap-3 p-3 rounded cursor-pointer hover:bg-white">
+                    <input type="checkbox" class="overall-checkbox">
+                    <span>Proofread - no typos or grammatical errors</span>
+                </label>
+                <label class="flex items-center gap-3 p-3 rounded cursor-pointer hover:bg-white">
+                    <input type="checkbox" class="overall-checkbox">
+                    <span>File ready for Moodle submission (PDF or PPTX)</span>
+                </label>
+            </div>
+        </div>
+
+        <!-- SECTION 1: Introduction -->
+        <div class="mb-12">
+            <h2 class="text-3xl font-bold mb-6" style="color: var(--accent-color);">Section 1: Introduction (2-4 slides, ~300 words)</h2>
+            
+            <!-- Slide 1: Service Overview -->
+            <div class="mb-8 p-6 rounded-lg border" style="border-color: var(--border-color); background-color: var(--bg-secondary);">
+                <div class="slide-card">
+                    <div>
+                        <h3 class="text-xl font-bold mb-4">📄 Slide 1: Service Overview (150-200 words)</h3>
+                        <div class="pseudo-slide p-6 rounded-lg">
+                            <p class="text-sm font-bold mb-3" style="color: var(--accent-color);">EXAMPLE CONTENT:</p>
+                            <p class="text-sm mb-2"><strong>Service:</strong> MMU Library Study Room Booking</p>
+                            <p class="text-sm mb-2"><strong>Current Delivery:</strong> Students access a web-based booking system through the library website. The system requires navigating through multiple menu layers to view room availability and complete bookings.</p>
+                            <p class="text-sm mb-2"><strong>Why Improvement Needed:</strong> The current interface has a 73% abandonment rate. Students report frustration with the time-consuming process (average 3+ minutes per booking) and lack of real-time availability information. By the time users complete the booking flow, rooms are often already taken, leading to wasted time and reduced library resource utilization.</p>
+                            <p class="text-xs mt-3 italic" style="color: var(--text-secondary);">(158 words)</p>
+                        </div>
+                    </div>
+                    <div>
+                        <h4 class="font-bold mb-3 text-sm">Slide 1 Checklist:</h4>
+                        <div class="space-y-2">
+                            <label class="flex items-start gap-2 cursor-pointer text-sm">
+                                <input type="checkbox" class="mt-1 slide-checkbox">
+                                <span>Service/organization clearly named</span>
+                            </label>
+                            <label class="flex items-start gap-2 cursor-pointer text-sm">
+                                <input type="checkbox" class="mt-1 slide-checkbox">
+                                <span>Current delivery method explained</span>
+                            </label>
+                            <label class="flex items-start gap-2 cursor-pointer text-sm">
+                                <input type="checkbox" class="mt-1 slide-checkbox">
+                                <span>Reason for improvement stated with evidence</span>
+                            </label>
+                            <label class="flex items-start gap-2 cursor-pointer text-sm">
+                                <input type="checkbox" class="mt-1 slide-checkbox">
+                                <span>Word count: 150-200 words</span>
+                            </label>
+                            <label class="flex items-start gap-2 cursor-pointer text-sm">
+                                <input type="checkbox" class="mt-1 slide-checkbox">
+                                <span>Slide number added</span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 2: User Analysis -->
+            <div class="mb-8 p-6 rounded-lg border" style="border-color: var(--border-color); background-color: var(--bg-secondary);">
+                <div class="slide-card">
+                    <div>
+                        <h3 class="text-xl font-bold mb-4">📄 Slide 2: User Analysis (150-200 words)</h3>
+                        <div class="pseudo-slide p-6 rounded-lg">
+                            <p class="text-sm font-bold mb-3" style="color: var(--accent-color);">EXAMPLE CONTENT:</p>
+                            <p class="text-sm mb-2"><strong>Target Users:</strong> MMU undergraduate and postgraduate students, primarily aged 18-30, who require quiet study spaces for individual work or small group collaboration.</p>
+                            <p class="text-sm mb-2"><strong>Demographics:</strong> Tech-literate students who primarily access services via mobile devices during short breaks between lectures. Time-poor, balancing multiple commitments.</p>
+                            <p class="text-sm mb-2"><strong>User Needs:</strong> Quick access to room availability, ability to book in under 1 minute, real-time updates to avoid wasted trips, filtering by capacity and location.</p>
+                            <p class="text-sm mb-2"><strong>Context of Use:</strong> Typically booking on-the-go between classes, under time pressure, often in crowded campus spaces with potential connectivity issues. Need simple, reliable interaction that works even when distracted.</p>
+                            <p class="text-xs mt-3 italic" style="color: var(--text-secondary);">(151 words)</p>
+                        </div>
+                    </div>
+                    <div>
+                        <h4 class="font-bold mb-3 text-sm">Slide 2 Checklist:</h4>
+                        <div class="space-y-2">
+                            <label class="flex items-start gap-2 cursor-pointer text-sm">
+                                <input type="checkbox" class="mt-1 slide-checkbox">
+                                <span>Target user group defined</span>
+                            </label>
+                            <label class="flex items-start gap-2 cursor-pointer text-sm">
+                                <input type="checkbox" class="mt-1 slide-checkbox">
+                                <span>Demographics and characteristics described</span>
+                            </label>
+                            <label class="flex items-start gap-2 cursor-pointer text-sm">
+                                <input type="checkbox" class="mt-1 slide-checkbox">
+                                <span>User needs and goals explained</span>
+                            </label>
+                            <label class="flex items-start gap-2 cursor-pointer text-sm">
+                                <input type="checkbox" class="mt-1 slide-checkbox">
+                                <span>Context of use described (where/when/why)</span>
+                            </label>
+                            <label class="flex items-start gap-2 cursor-pointer text-sm">
+                                <input type="checkbox" class="mt-1 slide-checkbox">
+                                <span>Word count: 150-200 words</span>
+                            </label>
+                            <label class="flex items-start gap-2 cursor-pointer text-sm">
+                                <input type="checkbox" class="mt-1 slide-checkbox">
+                                <span>Slide number added</span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SECTION 2: Design Process -->
+        <div class="mb-12">
+            <h2 class="text-3xl font-bold mb-6" style="color: var(--accent-color);">Section 2: Design Process (6-8 slides, ~900 words)</h2>
+            
+            <!-- Slide 3: Research Phase -->
+            <div class="mb-8 p-6 rounded-lg border" style="border-color: var(--border-color); background-color: var(--bg-secondary);">
+                <div class="slide-card">
+                    <div>
+                        <h3 class="text-xl font-bold mb-4">📄 Slide 3: Research Phase (100-150 words)</h3>
+                        <div class="pseudo-slide p-6 rounded-lg">
+                            <p class="text-sm font-bold mb-3" style="color: var(--accent-color);">EXAMPLE CONTENT:</p>
+                            <p class="text-sm mb-2"><strong>Research Methods:</strong> Conducted observational research at library entrance, watched 15 students attempt bookings. Analyzed existing app reviews and ratings. Performed competitor analysis of 3 university booking systems.</p>
+                            <p class="text-sm mb-2"><strong>Key Insights:</strong> Students abandoned bookings when faced with more than 2 navigation steps. 80% attempted booking on mobile during class breaks. Lack of visual availability overview was the primary pain point. Students wanted confirmation within 30 seconds.</p>
+                            <p class="text-xs mt-3 italic" style="color: var(--text-secondary);">(108 words)</p>
+                        </div>
+                    </div>
+                    <div>
+                        <h4 class="font-bold mb-3 text-sm">Slide 3 Checklist:</h4>
+                        <div class="space-y-2">
+                            <label class="flex items-start gap-2 cursor-pointer text-sm">
+                                <input type="checkbox" class="mt-1 slide-checkbox">
+                                <span>Research methods described</span>
+                            </label>
+                            <label class="flex items-start gap-2 cursor-pointer text-sm">
+                                <input type="checkbox" class="mt-1 slide-checkbox">
+                                <span>Key insights listed</span>
+                            </label>
+                            <label class="flex items-start gap-2 cursor-pointer text-sm">
+                                <input type="checkbox" class="mt-1 slide-checkbox">
+                                <span>How research informed design explained</span>
+                            </label>
+                            <label class="flex items-start gap-2 cursor-pointer text-sm">
+                                <input type="checkbox" class="mt-1 slide-checkbox">
+                                <span>Word count: 100-150 words</span>
+                            </label>
+                            <label class="flex items-start gap-2 cursor-pointer text-sm">
+                                <input type="checkbox" class="mt-1 slide-checkbox">
+                                <span>Slide number added</span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 4: Artefact 1 -->
+            <div class="mb-8 p-6 rounded-lg border" style="border-color: var(--border-color); background-color: var(--bg-secondary);">
+                <div class="slide-card">
+                    <div>
+                        <h3 class="text-xl font-bold mb-4">📄 Slide 4: Artefact 1 (150-200 words + IMAGE)</h3>
+                        <div class="pseudo-slide p-6 rounded-lg">
+                            <div class="text-center mb-4 p-8 rounded" style="background-color: var(--bg-primary);">
+                                <p class="text-4xl mb-2">👤</p>
+                                <p class="text-sm font-bold">[ INSERT ARTEFACT IMAGE HERE ]</p>
+                                <p class="text-xs" style="color: var(--text-secondary);">Example: Persona, Journey Map, etc.</p>
+                            </div>
+                            <p class="text-sm mb-2"><strong>Artefact Type:</strong> User Persona - "Stressed Sarah"</p>
+                            <p class="text-sm">This persona represents the primary user group: final-year students with tight schedules. Created through synthesis of observational data and user reviews. Sarah helped visualize the time pressure users face and validated the need for speed-focused design decisions. Her pain points (wasted time, booking anxiety) directly informed the priority features in the prototype, particularly the instant availability display and one-tap booking...</p>
+                            <p class="text-xs mt-3 italic" style="color: var(--text-secondary);">(Continue to 150-200 words)</p>
+                        </div>
+                    </div>
+                    <div>
+                        <h4 class="font-bold mb-3 text-sm">Slide 4 Checklist:</h4>
+                        <div class="space-y-2">
+                            <label class="flex items-start gap-2 cursor-pointer text-sm">
+                                <input type="checkbox" class="mt-1 slide-checkbox">
+                                <span>Artefact image included and clear</span>
+                            </label>
+                            <label class="flex items-start gap-2 cursor-pointer text-sm">
+                                <input type="checkbox" class="mt-1 slide-checkbox">
+                                <span>Artefact type identified</span>
+                            </label>
+                            <label class="flex items-start gap-2 cursor-pointer text-sm">
+                                <input type="checkbox" class="mt-1 slide-checkbox">
+                                <span>How created explained</span>
+                            </label>
+                            <label class="flex items-start gap-2 cursor-pointer text-sm">
+                                <input type="checkbox" class="mt-1 slide-checkbox">
+                                <span>Insights provided described</span>
+                            </label>
+                            <label class="flex items-start gap-2 cursor-pointer text-sm">
+                                <input type="checkbox" class="mt-1 slide-checkbox">
+                                <span>Contribution to prototype explained</span>
+                            </label>
+                            <label class="flex items-start gap-2 cursor-pointer text-sm">
+                                <input type="checkbox" class="mt-1 slide-checkbox">
+                                <span>Word count: 150-200 words</span>
+                            </label>
+                            <label class="flex items-start gap-2 cursor-pointer text-sm">
+                                <input type="checkbox" class="mt-1 slide-checkbox">
+                                <span>Slide number added</span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 5: Artefact 2 -->
+            <div class="mb-8 p-6 rounded-lg border" style="border-color: var(--border-color); background-color: var(--bg-secondary);">
+                <div class="slide-card">
+                    <div>
+                        <h3 class="text-xl font-bold mb-4">📄 Slide 5: Artefact 2 (150-200 words + IMAGE)</h3>
+                        <div class="pseudo-slide p-6 rounded-lg">
+                            <div class="text-center mb-4 p-8 rounded" style="background-color: var(--bg-primary);">
+                                <p class="text-4xl mb-2">🗺️</p>
+                                <p class="text-sm font-bold">[ INSERT ARTEFACT IMAGE HERE ]</p>
+                                <p class="text-xs" style="color: var(--text-secondary);">Example: Journey Map, Heuristic Evaluation, etc.</p>
+                            </div>
+                            <p class="text-sm">Follow same structure as Artefact 1: Type, how created, insights, contribution to prototype...</p>
+                        </div>
+                    </div>
+                    <div>
+                        <h4 class="font-bold mb-3 text-sm">Slide 5 Checklist:</h4>
+                        <div class="space-y-2">
+                            <label class="flex items-start gap-2 cursor-pointer text-sm">
+                                <input type="checkbox" class="mt-1 slide-checkbox">
+                                <span>Artefact image included and clear</span>
+                            </label>
+                            <label class="flex items-start gap-2 cursor-pointer text-sm">
+                                <input type="checkbox" class="mt-1 slide-checkbox">
+                                <span>Artefact type identified</span>
+                            </label>
+                            <label class="flex items-start gap-2 cursor-pointer text-sm">
+                                <input type="checkbox" class="mt-1 slide-checkbox">
+                                <span>How created explained</span>
+                            </label>
+                            <label class="flex items-start gap-2 cursor-pointer text-sm">
+                                <input type="checkbox" class="mt-1 slide-checkbox">
+                                <span>Insights provided described</span>
+                            </label>
+                            <label class="flex items-start gap-2 cursor-pointer text-sm">
+                                <input type="checkbox" class="mt-1 slide-checkbox">
+                                <span>Contribution to prototype explained</span>
+                            </label>
+                            <label class="flex items-start gap-2 cursor-pointer text-sm">
+                                <input type="checkbox" class="mt-1 slide-checkbox">
+                                <span>Word count: 150-200 words</span>
+                            </label>
+                            <label class="flex items-start gap-2 cursor-pointer text-sm">
+                                <input type="checkbox" class="mt-1 slide-checkbox">
+                                <span>Slide number added</span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 6: UCD Principles -->
+            <div class="mb-8 p-6 rounded-lg border" style="border-color: var(--border-color); background-color: var(--bg-secondary);">
+                <div class="slide-card">
+                    <div>
+                        <h3 class="text-xl font-bold mb-4">📄 Slide 6: UCD Principles (200-250 words)</h3>
+                        <div class="pseudo-slide p-6 rounded-lg">
+                            <p class="text-sm font-bold mb-3" style="color: var(--accent-color);">EXAMPLE CONTENT (you can choose ANY 2 UCD principles):</p>
+                            <p class="text-sm mb-2"><strong>Principle 1: Visibility of System Status</strong> <span class="text-xs italic">(example - choose your own!)</span></p>
+                            <p class="text-sm mb-3">Users always know what's happening. The home screen shows real-time room availability with color coding (green=available, red=booked). When booking, a progress indicator shows the action is processing. After booking, immediate confirmation appears with room details. This principle addresses the previous system's lack of feedback, which left users uncertain if bookings succeeded.</p>
+                            <p class="text-sm mb-2"><strong>Principle 2: User Control & Freedom</strong> <span class="text-xs italic">(example - choose your own!)</span></p>
+                            <p class="text-sm mb-3">Users can cancel bookings up to 5 minutes before the reserved time with one tap. An "undo" button appears after accidental bookings. Easy exit from any screen via persistent navigation. This empowers users and reduces booking anxiety, as they're not locked into mistakes. Previous system had no cancellation option within the app...</p>
+                            <div class="mt-4 p-3 rounded" style="background-color: #fef3c7;">
+                                <p class="text-xs font-bold mb-1" style="color: #92400e;">Choose ANY 2 UCD principles such as:</p>
+                                <p class="text-xs" style="color: #92400e;">Accessibility, Usability, Consistency, Error Prevention, Flexibility, Recognition over Recall, Match Between System & Real World, User Control, Visibility, Help & Documentation, Error Recovery, Aesthetic & Minimalist Design, etc.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <h4 class="font-bold mb-3 text-sm">Slide 6 Checklist:</h4>
+                        <div class="space-y-2">
+                            <label class="flex items-start gap-2 cursor-pointer text-sm">
+                                <input type="checkbox" class="mt-1 slide-checkbox">
+                                <span>2 UCD principles named clearly (your choice!)</span>
+                            </label>
+                            <label class="flex items-start gap-2 cursor-pointer text-sm">
+                                <input type="checkbox" class="mt-1 slide-checkbox">
+                                <span>Principle 1 explained with examples</span>
+                            </label>
+                            <label class="flex items-start gap-2 cursor-pointer text-sm">
+                                <input type="checkbox" class="mt-1 slide-checkbox">
+                                <span>Specific locations in sketches referenced</span>
+                            </label>
+                            <label class="flex items-start gap-2 cursor-pointer text-sm">
+                                <input type="checkbox" class="mt-1 slide-checkbox">
+                                <span>Principle 2 explained with examples</span>
+                            </label>
+                            <label class="flex items-start gap-2 cursor-pointer text-sm">
+                                <input type="checkbox" class="mt-1 slide-checkbox">
+                                <span>Rationale for why principles matter</span>
+                            </label>
+                            <label class="flex items-start gap-2 cursor-pointer text-sm">
+                                <input type="checkbox" class="mt-1 slide-checkbox">
+                                <span>Word count: 200-250 words</span>
+                            </label>
+                            <label class="flex items-start gap-2 cursor-pointer text-sm">
+                                <input type="checkbox" class="mt-1 slide-checkbox">
+                                <span>Slide number added</span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slides 7-8: Testing & Iteration (Combined summary) -->
+            <div class="mb-8 p-6 rounded-lg border" style="border-color: var(--border-color); background-color: var(--bg-secondary);">
+                <h3 class="text-xl font-bold mb-4">📄 Slides 7-8: Testing Methods & Iteration (300-400 words combined)</h3>
+                <div class="space-y-4">
+                    <div class="p-4 rounded" style="background-color: var(--bg-primary);">
+                        <p class="font-bold mb-2">Slide 7: Testing Methods (150-200 words)</p>
+                        <ul class="text-sm space-y-1" style="color: var(--text-secondary);">
+                            <li>• Methods used/recommended</li>
+                            <li>• Who tested/would test with</li>
+                            <li>• Key tasks tested</li>
+                            <li>• Success criteria</li>
+                        </ul>
+                    </div>
+                    <div class="p-4 rounded" style="background-color: var(--bg-primary);">
+                        <p class="font-bold mb-2">Slide 8: Iteration & Refinement (150-200 words)</p>
+                        <ul class="text-sm space-y-1" style="color: var(--text-secondary);">
+                            <li>• What learned from testing</li>
+                            <li>• Changes made based on findings</li>
+                            <li>• Design decisions and trade-offs</li>
+                            <li>• Next iteration priorities</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="mt-4 p-3 rounded" style="background-color: #fef3c7;">
+                    <p class="text-xs" style="color: #92400e;"><strong>Note:</strong> These can be 2 separate slides or combined into 1-2 slides depending on your content depth.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- SECTION 3: Evaluation -->
+        <div class="mb-12">
+            <h2 class="text-3xl font-bold mb-6" style="color: var(--accent-color);">Section 3: Evaluation (3-6 slides, ~500 words)</h2>
+            
+            <div class="mb-8 p-6 rounded-lg border" style="border-color: var(--border-color); background-color: var(--bg-secondary);">
+                <h3 class="text-xl font-bold mb-4">📄 Slides 9-11: Problem Analysis, Solution, Recommendations</h3>
+                <div class="space-y-4">
+                    <div class="p-4 rounded" style="background-color: #fee2e2;">
+                        <p class="font-bold mb-2" style="color: #991b1b;">Slide 9: Problem Analysis (200-250 words)</p>
+                        <ul class="text-sm space-y-1" style="color: #991b1b;">
+                            <li>• What problems existed before?</li>
+                            <li>• Evidence of these problems</li>
+                            <li>• Why they mattered to users</li>
+                        </ul>
+                    </div>
+                    <div class="p-4 rounded" style="background-color: #dcfce7;">
+                        <p class="font-bold mb-2" style="color: #166534;">Slide 10: Solution Evaluation (200-250 words)</p>
+                        <ul class="text-sm space-y-1" style="color: #166534;">
+                            <li>• How design addresses problems</li>
+                            <li>• Specific features solving pain points</li>
+                            <li>• Expected improvements</li>
+                            <li>• Success metrics</li>
+                        </ul>
+                    </div>
+                    <div class="p-4 rounded" style="background-color: #ede9fe;">
+                        <p class="font-bold mb-2" style="color: #5b21b6;">Slide 11: Recommendations (150-200 words)</p>
+                        <ul class="text-sm space-y-1" style="color: #5b21b6;">
+                            <li>• Next steps for development</li>
+                            <li>• Additional testing needed</li>
+                            <li>• Future features to add</li>
+                            <li>• Implementation considerations</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="mt-4 p-3 rounded" style="background-color: #fef3c7;">
+                    <p class="text-xs" style="color: #92400e;"><strong>Tip:</strong> Use the Before/After Analysis Builder tool to structure this section!</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Final Actions -->
+        <div class="flex gap-4 justify-center mb-12">
+            <button onclick="resetChecklist()" class="px-6 py-3 rounded border" style="border-color: var(--border-color);">
+                Reset Progress
+            </button>
+            <button onclick="window.print()" class="px-6 py-3 rounded text-white" style="background-color: var(--accent-color);">
+                🖨️ Print Guide
+            </button>
+        </div>
+    </main>
+
+    <script>
+        function updateProgress() {
+            const allCheckboxes = document.querySelectorAll('input[type="checkbox"]');
+            const checkedBoxes = document.querySelectorAll('input[type="checkbox"]:checked');
+            
+            const total = allCheckboxes.length;
+            const completed = checkedBoxes.length;
+            const percentage = Math.round((completed / total) * 100);
+            
+            document.getElementById('overallPercent').textContent = percentage + '%';
+            document.getElementById('overallProgress').style.width = percentage + '%';
+            document.getElementById('completedCount').textContent = completed;
+            document.getElementById('totalCount').textContent = total;
+            
+            saveProgress();
+        }
+        
+        function saveProgress() {
+            const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+            const state = Array.from(checkboxes).map(cb => cb.checked);
+            localStorage.setItem('uxci_assessment_builder', JSON.stringify(state));
+        }
+        
+        function loadProgress() {
+            const saved = localStorage.getItem('uxci_assessment_builder');
+            if (saved) {
+                const state = JSON.parse(saved);
+                const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+                checkboxes.forEach((cb, index) => {
+                    if (state[index]) cb.checked = true;
+                });
+            }
+            updateProgress();
+        }
+        
+        function resetChecklist() {
+            if (confirm('Reset all progress? This cannot be undone.')) {
+                const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+                checkboxes.forEach(cb => cb.checked = false);
+                updateProgress();
+            }
+        }
+        
+        document.querySelectorAll('input[type="checkbox"]').forEach(checkbox => {
+            checkbox.addEventListener('change', updateProgress);
+        });
+        
+        loadProgress();
+    </script>
+</body>
+</html>

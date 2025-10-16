@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Journey Mapper - UXCI</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        :root {
+            --bg-primary: #ffffff;
+            --bg-secondary: #f9fafb;
+            --text-primary: #111827;
+            --text-secondary: #4b5563;
+            --border-color: #e5e7eb;
+            --accent-color: #8b5cf6;
+        }
+        
+        body {
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+        }
+
+        .stage-card {
+            min-height: 300px;
+            transition: all 0.2s ease;
+        }
+
+        .stage-card:hover {
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .emotion-selector {
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        .emotion-selector:hover {
+            transform: scale(1.2);
+        }
+
+        .emotion-selector.selected {
+            transform: scale(1.4);
+            filter: drop-shadow(0 0 8px rgba(139, 92, 246, 0.5));
+        }
+
+        @media print {
+            .no-print { display: none; }
+            body { background: white; }
+        }
+    </style>
+</head>
+<body class="min-h-screen">
+    <header class="border-b p-4 no-print" style="border-color: var(--border-color);">
+        <div class="max-w-7xl mx-auto flex justify-between items-center">
+            <div>
+                <h1 class="text-2xl font-bold">🗺️ Journey Mapper</h1>
+                <p class="text-sm" style="color: var(--text-secondary);">Map user journeys with touchpoints and emotions</p>
+            </div>
+            <button onclick="window.location.href='uxci_index_page.html'" class="px-4 py-2 rounded border" style="border-color: var(--border-color);">
+                ← Back
+            </button>
+        </div>
+    </header>
+
+    <main class="max-w-7xl mx-auto p-8">
+        <!-- Persona & Journey Name -->
+        <div class="mb-8 grid grid-cols-1 md:grid-cols-2 gap-4 no-print">
+            <div class="p-4 rounded-lg border" style="border-color: var(--border-color); background-color: var(--bg-secondary);">
+                <label class="block text-sm font-bold mb-2">Persona Name</label>
+                <input type="text" id="personaName" class="w-full p-2 rounded border" style="border-color: var(--border-color);" placeholder="e.g., Sarah Chen">
+            </div>
+            <div class="p-4 rounded-lg border" style="border-color: var(--border-color); background-color: var(--bg-secondary);">
+                <label class="block text-sm font-bold mb-2">Journey Goal</label>
+                <input type="text" id="journeyGoal" class="w-full p-2 rounded border" style="border-color: var(--border-color);" placeholder="e.g., Book a study room">
+            </div>
+        </div>
+
+        <!-- Instructions -->
+        <div class="mb-6 p-4 rounded-lg border no-print" style="border-color: var(--border-color); background-color: #fef3c7;">
+            <p class="text-sm" style="color: #92400e;">
+                <strong>💡 Tip:</strong> A user journey maps the complete experience from start to finish. Add 3-7 stages, describe what happens at each touchpoint, and rate the user's emotional state.
+            </p>
+        </div>
+
+        <!-- Journey Stages -->
+        <div id="stagesContainer" class="mb-8">
+            <!-- Stages will be added here -->
+        </div>
+
+        <!-- Add Stage Button -->
+        <div class="mb-8 text-center no-print">
+            <button onclick="addStage()" class="px-6 py-3 rounded border font-semibold" style="border-color: var(--accent-color); color: var(--accent-color);">
+                + Add Stage
+            </button>
+        </div>
+
+        <!-- Actions -->
+        <div class="flex gap-4 justify-center no-print">
+            <button onclick="resetJourney()" class="px-6 py-3 rounded border" style="border-color: var(--border-color);">
+                Clear All
+            </button>
+            <button onclick="window.print()" class="px-6 py-3 rounded text-white" style="background-color: var(--accent-color);">
+                🖨️ Print/Save as PDF
+            </button>
+        </div>
+
+        <!-- Visual Journey Map (Print) -->
+        <div class="print-only mt-12" style="display: none;">
+            <div class="text-center mb-8">
+                <h2 class="text-3xl font-bold mb-2">User Journey Map</h2>
+                <p class="text-xl" id="printPersona"></p>
+                <p class="text-lg" style="color: var(--text-secondary);" id="printGoal"></p>
+            </div>
+            <div id="printStages" class="space-y-6"></div>
+        </div>
+    </main>
+
+    <script>
+        let stageCount = 0;
+
+        const emotions = [
+            { emoji: '😡', label: 'Very Frustrated', value: 1 },
+            { emoji: '😟', label: 'Frustrated', value: 2 },
+            { emoji: '😐', label: 'Neutral', value: 3 },
+            { emoji: '🙂', label: 'Satisfied', value: 4 },
+            { emoji: '😊', label: 'Very Happy', value: 5 }
+        ];
+
+        function addStage() {
+            stageCount++;
+            const container = document.getElementById('stagesContainer');
+            
+            const stageDiv = document.createElement('div');
+            stageDiv.className = 'stage-card p-6 rounded-lg border mb-6';
+            stageDiv.style.borderColor = 'var(--border-color)';
+            stageDiv.style.backgroundColor = 'var(--bg-secondary)';
+            stageDiv.dataset.stageId = stageCount;
+            
+            stageDiv.innerHTML = `
+                <div class="flex items-center justify-between mb-4">
+                    <h3 class="text-xl font-bold">Stage ${stageCount}</h3>
+                    <button onclick="removeStage(${stageCount})" class="text-red-600 hover:text-red-800 no-print">✕ Remove</button>
+                </div>
+
+                <div class="mb-4">
+                    <label class="block text-sm font-bold mb-2">Stage Name</label>
+                    <input type="text" class="stage-name w-full p-2 rounded border" style="border-color: var(--border-color);" placeholder="e.g., Discovery, Research, Decision">
+                </div>
+
+                <div class="mb-4">
+                    <label class="block text-sm font-bold mb-2">What User Does</label>
+                    <textarea class="stage-action w-full p-2 rounded border" rows="2" style="border-color: var(--border-color);" placeholder="Actions the user takes at this stage..."></textarea>
+                </div>
+
+                <div class="mb-4">
+                    <label class="block text-sm font-bold mb-2">Touchpoints</label>
+                    <input type="text" class="stage-touchpoints w-full p-2 rounded border" style="border-color: var(--border-color);" placeholder="e.g., Mobile app, Website, Customer service">
+                </div>
+
+                <div class="mb-4">
+                    <label class="block text-sm font-bold mb-2">Pain Points</label>
+                    <textarea class="stage-pain w-full p-2 rounded border" rows="2" style="border-color: var(--border-color);" placeholder="What frustrates or blocks the user?"></textarea>
+                </div>
+
+                <div class="mb-4">
+                    <label class="block text-sm font-bold mb-2">Opportunities</label>
+                    <textarea class="stage-opportunities w-full p-2 rounded border" rows="2" style="border-color: var(--border-color);" placeholder="How could this stage be improved?"></textarea>
+                </div>
+
+                <div>
+                    <label class="block text-sm font-bold mb-2">User Emotion</label>
+                    <div class="flex gap-4 justify-center p-4 rounded" style="background-color: var(--bg-primary);">
+                        ${emotions.map(e => `
+                            <div class="text-center">
+                                <div class="text-4xl emotion-selector" data-stage="${stageCount}" data-value="${e.value}" onclick="selectEmotion(${stageCount}, ${e.value})">${e.emoji}</div>
+                                <div class="text-xs mt-1" style="color: var(--text-secondary);">${e.label}</div>
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>
+            `;
+            
+            container.appendChild(stageDiv);
+            stageDiv.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+
+        function removeStage(stageId) {
+            if (confirm('Remove this stage?')) {
+                const stage = document.querySelector(`[data-stage-id="${stageId}"]`);
+                if (stage) stage.remove();
+                renumberStages();
+            }
+        }
+
+        function renumberStages() {
+            const stages = document.querySelectorAll('.stage-card');
+            stages.forEach((stage, index) => {
+                const heading = stage.querySelector('h3');
+                if (heading) heading.textContent = `Stage ${index + 1}`;
+            });
+        }
+
+        function selectEmotion(stageId, value) {
+            // Deselect all emotions for this stage
+            document.querySelectorAll(`[data-stage="${stageId}"]`).forEach(el => {
+                el.classList.remove('selected');
+            });
+            
+            // Select clicked emotion
+            event.target.classList.add('selected');
+        }
+
+        function resetJourney() {
+            if (confirm('Clear all stages and start over?')) {
+                document.getElementById('personaName').value = '';
+                document.getElementById('journeyGoal').value = '';
+                document.getElementById('stagesContainer').innerHTML = '';
+                stageCount = 0;
+            }
+        }
+
+        // Print preparation
+        window.addEventListener('beforeprint', () => {
+            document.getElementById('printPersona').textContent = document.getElementById('personaName').value || 'Persona Name';
+            document.getElementById('printGoal').textContent = 'Goal: ' + (document.getElementById('journeyGoal').value || 'Journey Goal');
+            
+            const printContainer = document.getElementById('printStages');
+            printContainer.innerHTML = '';
+            
+            document.querySelectorAll('.stage-card').forEach((stage, index) => {
+                const name = stage.querySelector('.stage-name').value;
+                const action = stage.querySelector('.stage-action').value;
+                const touchpoints = stage.querySelector('.stage-touchpoints').value;
+                const pain = stage.querySelector('.stage-pain').value;
+                const opportunities = stage.querySelector('.stage-opportunities').value;
+                const selectedEmotion = stage.querySelector('.emotion-selector.selected');
+                
+                const stageDiv = document.createElement('div');
+                stageDiv.className = 'p-6 border rounded-lg';
+                stageDiv.style.borderColor = 'var(--accent-color)';
+                stageDiv.style.pageBreakInside = 'avoid';
+                
+                stageDiv.innerHTML = `
+                    <div class="flex items-center justify-between mb-4">
+                        <h3 class="text-xl font-bold">Stage ${index + 1}: ${name || 'Unnamed'}</h3>
+                        ${selectedEmotion ? `<div class="text-4xl">${selectedEmotion.textContent}</div>` : ''}
+                    </div>
+                    ${action ? `<p class="mb-2"><strong>Actions:</strong> ${action}</p>` : ''}
+                    ${touchpoints ? `<p class="mb-2"><strong>Touchpoints:</strong> ${touchpoints}</p>` : ''}
+                    ${pain ? `<p class="mb-2"><strong>Pain Points:</strong> ${pain}</p>` : ''}
+                    ${opportunities ? `<p class="mb-2"><strong>Opportunities:</strong> ${opportunities}</p>` : ''}
+                `;
+                
+                printContainer.appendChild(stageDiv);
+            });
+
+            document.querySelector('.print-only').style.display = 'block';
+        });
+
+        window.addEventListener('afterprint', () => {
+            document.querySelector('.print-only').style.display = 'none';
+        });
+
+        // Start with 3 stages
+        addStage();
+        addStage();
+        addStage();
+    </script>
+
+    <style>
+        @media print {
+            .print-only { display: block !important; }
+        }
+    </style>
+</body>
+</html>
