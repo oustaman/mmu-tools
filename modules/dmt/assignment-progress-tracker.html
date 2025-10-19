@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Assignment Progress Tracker - Digital Media Technologies</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        :root {
+            --bg-primary: #ffffff;
+            --bg-secondary: #f9fafb;
+            --text-primary: #111827;
+            --text-secondary: #4b5563;
+            --border-color: #e5e7eb;
+            --accent-color: #3b82f6;
+            --font-size: 1;
+            --success-color: #10b981;
+            --warning-color: #f59e0b;
+            --danger-color: #ef4444;
+        }
+        
+        .dark-mode {
+            --bg-primary: #1f2937;
+            --bg-secondary: #111827;
+            --text-primary: #f9fafb;
+            --text-secondary: #d1d5db;
+            --border-color: #374151;
+            --accent-color: #60a5fa;
+            --success-color: #34d399;
+            --warning-color: #fbbf24;
+            --danger-color: #f87171;
+        }
+        
+        html {
+            font-size: calc(var(--font-size) * 16px);
+        }
+        
+        body {
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+        }
+
+        .hero-gradient {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+
+        .progress-bar {
+            transition: width 0.3s ease, background-color 0.3s ease;
+        }
+
+        input[type="number"] {
+            background-color: var(--bg-secondary);
+            color: var(--text-primary);
+            border: 1px solid var(--border-color);
+        }
+
+        input[type="checkbox"] {
+            width: 1.25rem;
+            height: 1.25rem;
+            cursor: pointer;
+            flex-shrink: 0;
+        }
+
+        input[type="checkbox"]:checked + label {
+            opacity: 0.6;
+            text-decoration: line-through;
+        }
+
+        .status-badge {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: 9999px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        .readiness-meter {
+            height: 200px;
+            background: linear-gradient(to top, #ef4444 0%, #f59e0b 50%, #10b981 100%);
+            border-radius: 0.5rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .readiness-indicator {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.9);
+            transition: height 0.5s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: #111827;
+        }
+    </style>
+</head>
+<body class="min-h-screen">
+    <!-- Header -->
+    <header class="border-b p-4" style="border-color: var(--border-color);">
+        <div class="max-w-7xl mx-auto flex justify-between items-center">
+            <div>
+                <h1 class="text-2xl font-bold">Assignment Progress Tracker</h1>
+                <p class="text-sm" style="color: var(--text-secondary);">Track your word count and submission readiness</p>
+            </div>
+            <div class="flex gap-2">
+                <button onclick="window.location.href='index-page.html'" class="px-4 py-2 rounded border text-sm" style="border-color: var(--border-color);">
+                    ← Home
+                </button>
+                <button id="decreaseFont" class="px-3 py-2 rounded border" style="border-color: var(--border-color);" aria-label="Decrease font size">A-</button>
+                <button id="increaseFont" class="px-3 py-2 rounded border" style="border-color: var(--border-color);" aria-label="Increase font size">A+</button>
+                <button id="darkModeToggle" class="px-4 py-2 rounded border" style="border-color: var(--border-color);" aria-label="Toggle dark mode">
+                    <span id="modeIcon">🌙</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <div class="hero-gradient text-white py-12">
+        <div class="max-w-4xl mx-auto px-8 text-center">
+            <h2 class="text-4xl font-bold mb-4">📊 Track Your Progress</h2>
+            <p class="text-xl">Stay on top of your 2,250-word assignment</p>
+        </div>
+    </div>
+
+    <main class="max-w-6xl mx-auto p-8">
+
+        <!-- Overall Status Dashboard -->
+        <section class="mb-8">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <!-- Total Word Count -->
+                <div class="p-6 rounded-lg border" style="border-color: var(--border-color); background-color: var(--bg-secondary);">
+                    <h3 class="text-sm font-semibold mb-2" style="color: var(--text-secondary);">TOTAL WORD COUNT</h3>
+                    <div class="text-4xl font-bold mb-2" style="color: var(--accent-color);" id="totalWordCount">0</div>
+                    <div class="text-sm" id="wordCountStatus">Target: 2,000-2,500 words</div>
+                </div>
+
+                <!-- Completion Percentage -->
+                <div class="p-6 rounded-lg border" style="border-color: var(--border-color); background-color: var(--bg-secondary);">
+                    <h3 class="text-sm font-semibold mb-2" style="color: var(--text-secondary);">COMPLETION</h3>
+                    <div class="text-4xl font-bold mb-2" style="color: var(--accent-color);" id="completionPercentage">0%</div>
+                    <div class="text-sm" id="completionItems">0/5 sections complete</div>
+                </div>
+
+                <!-- Submission Readiness -->
+                <div class="p-6 rounded-lg border" style="border-color: var(--border-color); background-color: var(--bg-secondary);">
+                    <h3 class="text-sm font-semibold mb-2" style="color: var(--text-secondary);">READINESS</h3>
+                    <div class="text-4xl font-bold mb-2" id="readinessPercentage" style="color: var(--warning-color);">0%</div>
+                    <div class="text-sm" id="readinessItems">0/15 requirements met</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Word Count Tracker -->
+        <section class="mb-8">
+            <h2 class="text-3xl font-bold mb-6">📝 Word Count by Section</h2>
+            <div class="space-y-4">
+                <!-- Section 1 -->
+                <div class="p-6 rounded-lg border" style="border-color: var(--border-color); background-color: var(--bg-secondary);">
+                    <div class="flex items-center justify-between mb-3">
+                        <div>
+                            <h3 class="text-lg font-bold">Section 1: Research Planning</h3>
+                            <p class="text-sm" style="color: var(--text-secondary);">Target: 400 words (360-440 acceptable)</p>
+                        </div>
+                        <input type="number" id="words-section1" class="w-24 px-3 py-2 rounded" placeholder="0" min="0" oninput="updateProgress()">
+                    </div>
+                    <div class="w-full bg-gray-300 rounded-full h-3">
+                        <div class="progress-bar h-3 rounded-full" id="progress-section1" style="width: 0%; background-color: var(--accent-color);"></div>
+                    </div>
+                    <div class="text-xs mt-2" id="status-section1"></div>
+                </div>
+
+                <!-- Section 2 -->
+                <div class="p-6 rounded-lg border" style="border-color: var(--border-color); background-color: var(--bg-secondary);">
+                    <div class="flex items-center justify-between mb-3">
+                        <div>
+                            <h3 class="text-lg font-bold">Section 2: Database Navigation</h3>
+                            <p class="text-sm" style="color: var(--text-secondary);">Target: 500 words (450-550 acceptable)</p>
+                        </div>
+                        <input type="number" id="words-section2" class="w-24 px-3 py-2 rounded" placeholder="0" min="0" oninput="updateProgress()">
+                    </div>
+                    <div class="w-full bg-gray-300 rounded-full h-3">
+                        <div class="progress-bar h-3 rounded-full" id="progress-section2" style="width: 0%; background-color: var(--accent-color);"></div>
+                    </div>
+                    <div class="text-xs mt-2" id="status-section2"></div>
+                </div>
+
+                <!-- Section 3 -->
+                <div class="p-6 rounded-lg border" style="border-color: var(--border-color); background-color: var(--bg-secondary);">
+                    <div class="flex items-center justify-between mb-3">
+                        <div>
+                            <h3 class="text-lg font-bold">Section 3: Source Evaluation</h3>
+                            <p class="text-sm" style="color: var(--text-secondary);">Target: 600 words (540-660 acceptable)</p>
+                        </div>
+                        <input type="number" id="words-section3" class="w-24 px-3 py-2 rounded" placeholder="0" min="0" oninput="updateProgress()">
+                    </div>
+                    <div class="w-full bg-gray-300 rounded-full h-3">
+                        <div class="progress-bar h-3 rounded-full" id="progress-section3" style="width: 0%; background-color: var(--accent-color);"></div>
+                    </div>
+                    <div class="text-xs mt-2" id="status-section3"></div>
+                </div>
+
+                <!-- Section 4 -->
+                <div class="p-6 rounded-lg border" style="border-color: var(--border-color); background-color: var(--bg-secondary);">
+                    <div class="flex items-center justify-between mb-3">
+                        <div>
+                            <h3 class="text-lg font-bold">Section 4: Citation Management</h3>
+                            <p class="text-sm" style="color: var(--text-secondary);">Target: 450 words (405-495 acceptable)</p>
+                        </div>
+                        <input type="number" id="words-section4" class="w-24 px-3 py-2 rounded" placeholder="0" min="0" oninput="updateProgress()">
+                    </div>
+                    <div class="w-full bg-gray-300 rounded-full h-3">
+                        <div class="progress-bar h-3 rounded-full" id="progress-section4" style="width: 0%; background-color: var(--accent-color);"></div>
+                    </div>
+                    <div class="text-xs mt-2" id="status-section4"></div>
+                </div>
+
+                <!-- Section 5 -->
+                <div class="p-6 rounded-lg border" style="border-color: var(--border-color); background-color: var(--bg-secondary);">
+                    <div class="flex items-center justify-between mb-3">
+                        <div>
+                            <h3 class="text-lg font-bold">Section 5: Reflection</h3>
+                            <p class="text-sm" style="color: var(--text-secondary);">Target: 300 words (270-330 acceptable)</p>
+                        </div>
+                        <input type="number" id="words-section5" class="w-24 px-3 py-2 rounded" placeholder="0" min="0" oninput="updateProgress()">
+                    </div>
+                    <div class="w-full bg-gray-300 rounded-full h-3">
+                        <div class="progress-bar h-3 rounded-full" id="progress-section5" style="width: 0%; background-color: var(--accent-color);"></div>
+                    </div>
+                    <div class="text-xs mt-2" id="status-section5"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Submission Readiness Checklist -->
+        <section class="mb-8">
+            <h2 class="text-3xl font-bold mb-6">✅ Submission Readiness Checklist</h2>
+            
+            <!-- Content Requirements -->
+            <div class="p-6 rounded-lg border mb-4" style="border-color: var(--border-color); background-color: var(--bg-secondary);">
+                <h3 class="text-xl font-bold mb-4">📚 Content Requirements</h3>
+                <div class="space-y-3 text-sm">
+                    <div class="flex items-start gap-3">
+                        <input type="checkbox" id="check-topic" onchange="updateProgress()">
+                        <label for="check-topic" class="cursor-pointer">Research topic clearly defined with personal connection explained</label>
+                    </div>
+                    <div class="flex items-start gap-3">
+                        <input type="checkbox" id="check-keywords" onchange="updateProgress()">
+                        <label for="check-keywords" class="cursor-pointer">Keywords and Boolean search strings documented</label>
+                    </div>
+                    <div class="flex items-start gap-3">
+                        <input type="checkbox" id="check-databases" onchange="updateProgress()">
+                        <label for="check-databases" class="cursor-pointer">3 databases compared with specific features analyzed</label>
+                    </div>
+                    <div class="flex items-start gap-3">
+                        <input type="checkbox" id="check-sources-found" onchange="updateProgress()">
+                        <label for="check-sources-found" class="cursor-pointer">6-8 potential sources identified and listed</label>
+                    </div>
+                    <div class="flex items-start gap-3">
+                        <input type="checkbox" id="check-craap" onchange="updateProgress()">
+                        <label for="check-craap" class="cursor-pointer">CRAAP test applied to all sources with detailed evaluation</label>
+                    </div>
+                    <div class="flex items-start gap-3">
+                        <input type="checkbox" id="check-final-sources" onchange="updateProgress()">
+                        <label for="check-final-sources" class="cursor-pointer">Final 4 sources selected with clear justification</label>
+                    </div>
+                    <div class="flex items-start gap-3">
+                        <input type="checkbox" id="check-rejected" onchange="updateProgress()">
+                        <label for="check-rejected" class="cursor-pointer">Rejected sources discussed with reasons explained</label>
+                    </div>
+                    <div class="flex items-start gap-3">
+                        <input type="checkbox" id="check-harvard" onchange="updateProgress()">
+                        <label for="check-harvard" class="cursor-pointer">All 4 sources referenced in Harvard style</label>
+                    </div>
+                    <div class="flex items-start gap-3">
+                        <input type="checkbox" id="check-bibliography" onchange="updateProgress()">
+                        <label for="check-bibliography" class="cursor-pointer">Complete bibliography included (alphabetized, hanging indent)</label>
+                    </div>
+                    <div class="flex items-start gap-3">
+                        <input type="checkbox" id="check-reflection" onchange="updateProgress()">
+                        <label for="check-reflection" class="cursor-pointer">Meaningful reflection on learning and future applications</label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Formatting & Quality -->
+            <div class="p-6 rounded-lg border" style="border-color: var(--border-color); background-color: var(--bg-secondary);">
+                <h3 class="text-xl font-bold mb-4">📐 Formatting & Quality</h3>
+                <div class="space-y-3 text-sm">
+                    <div class="flex items-start gap-3">
+                        <input type="checkbox" id="check-wordcount" onchange="updateProgress()">
+                        <label for="check-wordcount" class="cursor-pointer">Total word count between 2,000-2,500 words</label>
+                    </div>
+                    <div class="flex items-start gap-3">
+                        <input type="checkbox" id="check-screenshots" onchange="updateProgress()">
+                        <label for="check-screenshots" class="cursor-pointer">Screenshots included where helpful (optional but encouraged)</label>
+                    </div>
+                    <div class="flex items-start gap-3">
+                        <input type="checkbox" id="check-spelling" onchange="updateProgress()">
+                        <label for="check-spelling" class="cursor-pointer">Document spell-checked and proofread for errors</label>
+                    </div>
+                    <div class="flex items-start gap-3">
+                        <input type="checkbox" id="check-format" onchange="updateProgress()">
+                        <label for="check-format" class="cursor-pointer">Saved as PDF or DOCX format</label>
+                    </div>
+                    <div class="flex items-start gap-3">
+                        <input type="checkbox" id="check-ready" onchange="updateProgress()">
+                        <label for="check-ready" class="cursor-pointer">Ready to upload to Moodle before deadline</label>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Visual Readiness Meter -->
+        <section class="mb-8">
+            <h2 class="text-3xl font-bold mb-6">🎯 Overall Submission Readiness</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="md:col-span-2 p-6 rounded-lg border" style="border-color: var(--border-color); background-color: var(--bg-secondary);">
+                    <div id="readinessMessage" class="text-lg mb-4">
+                        Start by entering your word counts and checking off completed items!
+                    </div>
+                    <div class="space-y-2 text-sm">
+                        <div id="readinessAdvice"></div>
+                    </div>
+                </div>
+                <div class="p-6 rounded-lg border" style="border-color: var(--border-color); background-color: var(--bg-secondary);">
+                    <h3 class="text-center font-bold mb-3">Readiness Level</h3>
+                    <div class="readiness-meter">
+                        <div class="readiness-indicator" id="readinessIndicator" style="height: 0%;">
+                            <span id="readinessLabel">0%</span>
+                        </div>
+                    </div>
+                    <div class="text-center mt-3 text-sm font-semibold" id="readinessStatusText">Not Started</div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="border-t mt-12 p-8" style="border-color: var(--border-color);">
+        <div class="max-w-7xl mx-auto text-center" style="color: var(--text-secondary);">
+            <p class="mb-2">Digital Media Technologies - Unit Code: 443Z0010</p>
+            <p class="text-sm">Manchester Metropolitan University</p>
+        </div>
+    </footer>
+
+    <script>
+        let isDarkMode = false;
+        let fontSize = 1;
+
+        // Dark mode toggle
+        document.getElementById('darkModeToggle').addEventListener('click', () => {
+            isDarkMode = !isDarkMode;
+            document.body.classList.toggle('dark-mode');
+            document.getElementById('modeIcon').textContent = isDarkMode ? '☀️' : '🌙';
+        });
+
+        // Font size controls
+        document.getElementById('increaseFont').addEventListener('click', () => {
+            if (fontSize < 1.5) {
+                fontSize += 0.1;
+                document.documentElement.style.setProperty('--font-size', fontSize);
+            }
+        });
+
+        document.getElementById('decreaseFont').addEventListener('click', () => {
+            if (fontSize > 0.7) {
+                fontSize -= 0.1;
+                document.documentElement.style.setProperty('--font-size', fontSize);
+            }
+        });
+
+        // Section targets and ranges
+        const sections = {
+            section1: { target: 400, min: 360, max: 440 },
+            section2: { target: 500, min: 450, max: 550 },
+            section3: { target: 600, min: 540, max: 660 },
+            section4: { target: 450, min: 405, max: 495 },
+            section5: { target: 300, min: 270, max: 330 }
+        };
+
+        function updateProgress() {
+            // Calculate word counts
+            let totalWords = 0;
+            let sectionsComplete = 0;
+
+            Object.keys(sections).forEach(sectionId => {
+                const input = document.getElementById(`words-${sectionId}`);
+                const words = parseInt(input.value) || 0;
+                const section = sections[sectionId];
+                
+                totalWords += words;
+
+                // Update progress bar
+                const progressBar = document.getElementById(`progress-${sectionId}`);
+                const statusDiv = document.getElementById(`status-${sectionId}`);
+                const percentage = Math.min((words / section.target) * 100, 150);
+                progressBar.style.width = percentage + '%';
+
+                // Update status and color
+                if (words === 0) {
+                    progressBar.style.backgroundColor = '#9ca3af';
+                    statusDiv.textContent = 'Not started';
+                    statusDiv.style.color = '#6b7280';
+                } else if (words < section.min) {
+                    progressBar.style.backgroundColor = '#f59e0b';
+                    statusDiv.textContent = `${words} words - Need ${section.min - words} more to reach minimum`;
+                    statusDiv.style.color = '#f59e0b';
+                } else if (words >= section.min && words <= section.max) {
+                    progressBar.style.backgroundColor = '#10b981';
+                    statusDiv.textContent = `${words} words - Perfect! ✓`;
+                    statusDiv.style.color = '#10b981';
+                    sectionsComplete++;
+                } else if (words > section.max) {
+                    progressBar.style.backgroundColor = '#ef4444';
+                    statusDiv.textContent = `${words} words - ${words - section.max} words over target`;
+                    statusDiv.style.color = '#ef4444';
+                } else {
+                    progressBar.style.backgroundColor = '#3b82f6';
+                    statusDiv.textContent = `${words} words - ${section.target - words} to target`;
+                    statusDiv.style.color = '#3b82f6';
+                }
+            });
+
+            // Update total word count
+            document.getElementById('totalWordCount').textContent = totalWords.toLocaleString();
+            const wordCountStatus = document.getElementById('wordCountStatus');
+            if (totalWords === 0) {
+                wordCountStatus.textContent = 'Target: 2,000-2,500 words';
+                wordCountStatus.style.color = '#6b7280';
+            } else if (totalWords < 2000) {
+                wordCountStatus.textContent = `${2000 - totalWords} words needed`;
+                wordCountStatus.style.color = '#f59e0b';
+            } else if (totalWords >= 2000 && totalWords <= 2500) {
+                wordCountStatus.textContent = 'Perfect word count! ✓';
+                wordCountStatus.style.color = '#10b981';
+            } else {
+                wordCountStatus.textContent = `${totalWords - 2500} words over limit`;
+                wordCountStatus.style.color = '#ef4444';
+            }
+
+            // Update completion percentage
+            document.getElementById('completionPercentage').textContent = Math.round((sectionsComplete / 5) * 100) + '%';
+            document.getElementById('completionItems').textContent = `${sectionsComplete}/5 sections complete`;
+
+            // Update readiness checklist
+            const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+            const checked = document.querySelectorAll('input[type="checkbox"]:checked').length;
+            const total = checkboxes.length;
+            const readinessPercentage = Math.round((checked / total) * 100);
+
+            document.getElementById('readinessPercentage').textContent = readinessPercentage + '%';
+            document.getElementById('readinessItems').textContent = `${checked}/${total} requirements met`;
+
+            // Update readiness percentage color
+            const readinessPercentageEl = document.getElementById('readinessPercentage');
+            if (readinessPercentage < 40) {
+                readinessPercentageEl.style.color = '#ef4444';
+            } else if (readinessPercentage < 75) {
+                readinessPercentageEl.style.color = '#f59e0b';
+            } else {
+                readinessPercentageEl.style.color = '#10b981';
+            }
+
+            // Update visual readiness meter
+            const indicator = document.getElementById('readinessIndicator');
+            const label = document.getElementById('readinessLabel');
+            const statusText = document.getElementById('readinessStatusText');
+            
+            indicator.style.height = readinessPercentage + '%';
+            label.textContent = readinessPercentage + '%';
+
+            if (readinessPercentage < 25) {
+                statusText.textContent = 'Just Getting Started';
+            } else if (readinessPercentage < 50) {
+                statusText.textContent = 'Making Progress';
+            } else if (readinessPercentage < 75) {
+                statusText.textContent = 'Almost There';
+            } else if (readinessPercentage < 100) {
+                statusText.textContent = 'Nearly Ready';
+            } else {
+                statusText.textContent = 'Ready to Submit! 🎉';
+            }
+
+            // Update readiness message and advice
+            updateReadinessAdvice(totalWords, sectionsComplete, checked, total, readinessPercentage);
+        }
+
+        function updateReadinessAdvice(totalWords, sectionsComplete, checked, total, percentage) {
+            const messageDiv = document.getElementById('readinessMessage');
+            const adviceDiv = document.getElementById('readinessAdvice');
+            
+            let message = '';
+            let advice = [];
+
+            if (percentage === 100) {
+                message = '🎉 <strong>Congratulations!</strong> Your assignment is ready to submit!';
+                advice.push('✓ Do a final read-through for any typos');
+                advice.push('✓ Double-check your file is PDF or DOCX');
+                advice.push('✓ Upload to Moodle before the deadline');
+            } else if (percentage >= 75) {
+                message = '🌟 <strong>Almost there!</strong> You\'re in great shape!';
+                if (sectionsComplete < 5) advice.push(`• Complete remaining ${5 - sectionsComplete} section(s)`);
+                if (checked < total) advice.push(`• Check off ${total - checked} more requirement(s)`);
+            } else if (percentage >= 50) {
+                message = '💪 <strong>Good progress!</strong> Keep going!';
+                if (totalWords < 2000) advice.push(`• Add approximately ${2000 - totalWords} more words`);
+                if (sectionsComplete < 3) advice.push('• Focus on completing more sections');
+                if (checked < 10) advice.push('• Work through the content requirements');
+            } else if (percentage >= 25) {
+                message = '📝 <strong>Getting started!</strong> Here\'s what to focus on:';
+                if (sectionsComplete === 0) advice.push('• Start with Section 1: Research Planning');
+                if (totalWords === 0) advice.push('• Begin writing and track your word counts');
+                advice.push('• Review the assessment guide for detailed guidance');
+            } else {
+                message = '🚀 <strong>Ready to begin?</strong> Here\'s your roadmap:';
+                advice.push('• Start by entering word counts as you write');
+                advice.push('• Check off requirements as you complete them');
+                advice.push('• Aim for steady progress - don\'t rush!');
+                advice.push('• Use the assessment guide for examples');
+            }
+
+            messageDiv.innerHTML = message;
+            adviceDiv.innerHTML = advice.map(item => `<div>${item}</div>`).join('');
+        }
+
+        // Initialize on page load
+        updateProgress();
+    </script>
+</body>
+</html>

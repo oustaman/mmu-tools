@@ -1,0 +1,821 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Digital Academic Research Skills Portfolio - Assessment Guide</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        :root {
+            --bg-primary: #ffffff;
+            --bg-secondary: #f9fafb;
+            --text-primary: #111827;
+            --text-secondary: #4b5563;
+            --border-color: #e5e7eb;
+            --accent-color: #3b82f6;
+            --font-size: 1;
+            --success-color: #10b981;
+            --warning-color: #f59e0b;
+            --example-good: #d1fae5;
+            --example-bad: #fee2e2;
+        }
+        
+        .dark-mode {
+            --bg-primary: #1f2937;
+            --bg-secondary: #111827;
+            --text-primary: #f9fafb;
+            --text-secondary: #d1d5db;
+            --border-color: #374151;
+            --accent-color: #60a5fa;
+            --success-color: #34d399;
+            --warning-color: #fbbf24;
+            --example-good: #064e3b;
+            --example-bad: #7f1d1d;
+        }
+        
+        html {
+            font-size: calc(var(--font-size) * 16px);
+        }
+        
+        body {
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+        }
+
+        .hero-gradient {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+
+        .section-card {
+            transition: all 0.3s ease;
+        }
+
+        .section-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .progress-bar {
+            transition: width 0.3s ease;
+        }
+
+        .collapsible-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease;
+        }
+
+        .collapsible-content.active {
+            max-height: 5000px;
+        }
+
+        .rotate-icon {
+            transition: transform 0.3s ease;
+        }
+
+        .rotate-icon.active {
+            transform: rotate(180deg);
+        }
+
+        input[type="checkbox"] {
+            width: 1.5rem;
+            height: 1.5rem;
+            cursor: pointer;
+            flex-shrink: 0;
+        }
+
+        input[type="checkbox"]:checked + label {
+            opacity: 0.6;
+        }
+
+        .example-box {
+            border-left: 4px solid;
+            transition: all 0.2s ease;
+        }
+
+        .example-good {
+            border-color: var(--success-color);
+            background-color: var(--example-good);
+        }
+
+        .example-bad {
+            border-color: #ef4444;
+            background-color: var(--example-bad);
+        }
+
+        .feedback-badge {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: 9999px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        .pulse-animation {
+            animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                opacity: 1;
+            }
+            50% {
+                opacity: .7;
+            }
+        }
+    </style>
+</head>
+<body class="min-h-screen">
+    <!-- Header -->
+    <header class="border-b p-4" style="border-color: var(--border-color);">
+        <div class="max-w-7xl mx-auto flex justify-between items-center">
+            <div>
+                <h1 class="text-2xl font-bold">Digital Media Technologies</h1>
+                <p class="text-sm" style="color: var(--text-secondary);">Assessment Guide</p>
+            </div>
+            <div class="flex gap-2">
+                <button onclick="window.location.href='index-page.html'" class="px-4 py-2 rounded border text-sm" style="border-color: var(--border-color);">
+                    ← Home
+                </button>
+                <button id="decreaseFont" class="px-3 py-2 rounded border" style="border-color: var(--border-color);" aria-label="Decrease font size">A-</button>
+                <button id="increaseFont" class="px-3 py-2 rounded border" style="border-color: var(--border-color);" aria-label="Increase font size">A+</button>
+                <button id="darkModeToggle" class="px-4 py-2 rounded border" style="border-color: var(--border-color);" aria-label="Toggle dark mode">
+                    <span id="modeIcon">🌙</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <div class="hero-gradient text-white py-12">
+        <div class="max-w-4xl mx-auto px-8 text-center">
+            <h2 class="text-4xl font-bold mb-4">Digital Academic Research Skills Portfolio</h2>
+            <p class="text-xl mb-2">One written report | 2,250 words (±10%)</p>
+            <p class="text-lg opacity-90">Your journey from research question to finished bibliography</p>
+        </div>
+    </div>
+
+    <main class="max-w-4xl mx-auto p-8">
+        
+        <!-- What is this assessment? (Plain Words) -->
+        <section class="mb-12">
+            <h2 class="text-3xl font-bold mb-6">📖 What is this assessment?</h2>
+            <div class="p-8 rounded-lg" style="background-color: var(--bg-secondary); border-left: 4px solid var(--accent-color);">
+                <p class="text-lg leading-relaxed mb-4">
+                    You're going to <strong>choose a research topic</strong> that interests you, then document how you find, evaluate, and cite academic sources about it. Think of this as a "research diary" where you show your process step-by-step.
+                </p>
+                <p class="text-lg leading-relaxed mb-4">
+                    You'll write about your experiences using academic databases, explain why you chose certain sources over others, and demonstrate that you can reference them properly. At the end, you'll reflect on what you learned.
+                </p>
+                <p class="text-lg leading-relaxed">
+                    <strong>Bottom line:</strong> This isn't about becoming an expert on your topic—it's about becoming skilled at academic research itself.
+                </p>
+            </div>
+        </section>
+
+        <!-- The Five Sections -->
+        <section class="mb-12">
+            <h2 class="text-3xl font-bold mb-6">🎯 The Five Sections</h2>
+            <div class="grid grid-cols-5 gap-3 mb-6">
+                <div class="text-center p-4 rounded-lg" style="background-color: var(--bg-secondary);">
+                    <div class="text-2xl font-bold mb-1" style="color: var(--accent-color);">400</div>
+                    <div class="text-xs">Research Planning</div>
+                </div>
+                <div class="text-center p-4 rounded-lg" style="background-color: var(--bg-secondary);">
+                    <div class="text-2xl font-bold mb-1" style="color: var(--accent-color);">500</div>
+                    <div class="text-xs">Database Navigation</div>
+                </div>
+                <div class="text-center p-4 rounded-lg" style="background-color: var(--bg-secondary);">
+                    <div class="text-2xl font-bold mb-1" style="color: var(--accent-color);">600</div>
+                    <div class="text-xs">Source Evaluation</div>
+                </div>
+                <div class="text-center p-4 rounded-lg" style="background-color: var(--bg-secondary);">
+                    <div class="text-2xl font-bold mb-1" style="color: var(--accent-color);">450</div>
+                    <div class="text-xs">Citation Management</div>
+                </div>
+                <div class="text-center p-4 rounded-lg" style="background-color: var(--bg-secondary);">
+                    <div class="text-2xl font-bold mb-1" style="color: var(--accent-color);">300</div>
+                    <div class="text-xs">Reflection</div>
+                </div>
+            </div>
+            
+            <div class="space-y-3 text-sm p-6 rounded-lg" style="background-color: var(--bg-secondary);">
+                <p><strong>Section 1:</strong> Pick your topic and explain your search strategy</p>
+                <p><strong>Section 2:</strong> Compare 3 databases and find 6-8 potential sources</p>
+                <p><strong>Section 3:</strong> Evaluate those sources and select your best 4</p>
+                <p><strong>Section 4:</strong> Show how you reference those 4 sources properly</p>
+                <p><strong>Section 5:</strong> Reflect on what you learned and how you'll use these skills</p>
+            </div>
+        </section>
+
+        <!-- Progress Tracking -->
+        <section class="mb-12">
+            <div class="p-6 rounded-lg border" style="border-color: var(--border-color); background-color: var(--bg-secondary);">
+                <div class="flex justify-between items-center mb-3">
+                    <h3 class="text-xl font-bold">Your Progress</h3>
+                    <span class="text-2xl font-bold" style="color: var(--accent-color);" id="progressPercentage">0%</span>
+                </div>
+                <div class="w-full bg-gray-200 rounded-full h-6 mb-2" style="background-color: var(--border-color);">
+                    <div class="progress-bar h-6 rounded-full flex items-center justify-center text-sm font-semibold text-white" 
+                         style="width: 0%; background-color: var(--success-color);" id="progressBar">
+                        <span id="progressText">0/5 sections completed</span>
+                    </div>
+                </div>
+                <p class="text-xs text-center mt-2" style="color: var(--text-secondary);">Check off sections as you complete them</p>
+            </div>
+        </section>
+
+        <!-- Quick Checklist -->
+        <section class="mb-12">
+            <h2 class="text-3xl font-bold mb-6">✅ Quick Checklist</h2>
+            <div class="space-y-3">
+                <div class="flex items-start gap-4 p-4 rounded-lg" style="background-color: var(--bg-secondary);">
+                    <input type="checkbox" id="check-section1" onchange="updateProgress()">
+                    <label for="check-section1" class="flex-1 cursor-pointer">
+                        <strong>Section 1 Complete:</strong> Topic chosen, keywords identified, Boolean searches created
+                    </label>
+                </div>
+                <div class="flex items-start gap-4 p-4 rounded-lg" style="background-color: var(--bg-secondary);">
+                    <input type="checkbox" id="check-section2" onchange="updateProgress()">
+                    <label for="check-section2" class="flex-1 cursor-pointer">
+                        <strong>Section 2 Complete:</strong> 3 databases compared, 6-8 sources found, screenshots included (optional)
+                    </label>
+                </div>
+                <div class="flex items-start gap-4 p-4 rounded-lg" style="background-color: var(--bg-secondary);">
+                    <input type="checkbox" id="check-section3" onchange="updateProgress()">
+                    <label for="check-section3" class="flex-1 cursor-pointer">
+                        <strong>Section 3 Complete:</strong> CRAAP test applied, final 4 sources selected and justified
+                    </label>
+                </div>
+                <div class="flex items-start gap-4 p-4 rounded-lg" style="background-color: var(--bg-secondary);">
+                    <input type="checkbox" id="check-section4" onchange="updateProgress()">
+                    <label for="check-section4" class="flex-1 cursor-pointer">
+                        <strong>Section 4 Complete:</strong> All 4 sources referenced in Harvard style, bibliography created
+                    </label>
+                </div>
+                <div class="flex items-start gap-4 p-4 rounded-lg" style="background-color: var(--bg-secondary);">
+                    <input type="checkbox" id="check-section5" onchange="updateProgress()">
+                    <label for="check-section5" class="flex-1 cursor-pointer">
+                        <strong>Section 5 Complete:</strong> Meaningful reflection on skills learned and future applications
+                    </label>
+                </div>
+            </div>
+        </section>
+
+        <!-- Detailed Guidance (Progressive Disclosure) -->
+        <section class="mb-12">
+            <h2 class="text-3xl font-bold mb-6">📚 Detailed Section Guidance</h2>
+            <div class="p-4 rounded-lg mb-6 pulse-animation" style="background-color: #dbeafe; border-left: 4px solid #3b82f6;">
+                <p class="text-sm font-semibold" style="color: #1e40af;">
+                    👇 Click each section below to see detailed guidance with <strong>good and bad examples</strong> reviewed by tutors!
+                </p>
+            </div>
+
+            <!-- Section 1: Research Planning -->
+            <div class="section-card mb-6 rounded-lg border" style="border-color: var(--border-color); background-color: var(--bg-secondary);">
+                <div class="p-6 cursor-pointer" onclick="toggleSection('section1')">
+                    <div class="flex justify-between items-center">
+                        <div>
+                            <h3 class="text-2xl font-bold">Section 1: Research Planning <span class="text-lg font-normal" style="color: var(--text-secondary);">(400 words)</span></h3>
+                            <p class="text-sm mt-1" style="color: var(--text-secondary);">Your topic, keywords, and search strategy • <strong>Click to see examples</strong></p>
+                        </div>
+                        <span class="rotate-icon text-2xl" id="icon-section1">▼</span>
+                    </div>
+                </div>
+                <div class="collapsible-content" id="content-section1">
+                    <div class="p-6 pt-0 space-y-6">
+                        
+                        <div class="p-4 rounded" style="background-color: var(--bg-primary);">
+                            <h4 class="font-bold mb-3">What to include:</h4>
+                            <ul class="space-y-2 text-sm">
+                                <li><strong>Your research topic:</strong> What are you interested in exploring? Why?</li>
+                                <li><strong>Your research questions:</strong> What specifically do you want to find out?</li>
+                                <li><strong>Your keywords:</strong> Main terms and synonyms you'll search for</li>
+                                <li><strong>Your Boolean searches:</strong> How you'll combine keywords (AND, OR, NOT)</li>
+                            </ul>
+                        </div>
+
+                        <div>
+                            <h4 class="font-bold mb-3 flex items-center gap-2">
+                                <span>💡</span>
+                                <span>Examples with Feedback</span>
+                            </h4>
+                            <p class="text-xs mb-3 italic" style="color: var(--text-secondary);">Note: These examples are AI-generated but reviewed by tutors to show you different quality levels</p>
+
+                            <!-- Good Example 1 -->
+                            <div class="example-box example-good p-4 rounded mb-4">
+                                <div class="flex items-center gap-2 mb-2">
+                                    <span class="feedback-badge" style="background-color: var(--success-color); color: white;">✓ Strong Example</span>
+                                </div>
+                                <p class="text-sm mb-3 italic">
+                                    "I've chosen to explore how artificial intelligence is transforming creative industries, specifically focusing on music production. This topic interests me because I'm a musician and I've noticed AI tools becoming more prevalent in music software. My main research question is: How are professional music producers integrating AI tools into their workflow, and what are the creative implications? I identified keywords including 'artificial intelligence', 'AI', 'machine learning', 'music production', 'creative process', and 'digital audio workstation'. I used Boolean searches like: (artificial intelligence OR AI OR machine learning) AND (music production OR composition) AND (creative OR workflow)."
+                                </p>
+                                <div class="text-xs space-y-1">
+                                    <p><strong style="color: var(--success-color);">✓ What works:</strong> Clear topic with personal connection, specific research question, comprehensive keywords, effective Boolean logic</p>
+                                    <p><strong style="color: var(--success-color);">✓ What works:</strong> Shows understanding of synonyms (AI, artificial intelligence, machine learning)</p>
+                                </div>
+                            </div>
+
+                            <!-- Okay Example -->
+                            <div class="example-box p-4 rounded mb-4" style="border-color: var(--warning-color); background-color: #fef3c7;">
+                                <div class="flex items-center gap-2 mb-2">
+                                    <span class="feedback-badge" style="background-color: var(--warning-color); color: white;">⚠ Needs Development</span>
+                                </div>
+                                <p class="text-sm mb-3 italic">
+                                    "My research topic is social media and mental health. I want to know if social media is bad for people. My keywords are social media, mental health, depression, anxiety. I will search for: social media AND mental health."
+                                </p>
+                                <div class="text-xs space-y-1">
+                                    <p><strong style="color: var(--warning-color);">⚠ Missing:</strong> Why this topic interests you, specific research question is too broad</p>
+                                    <p><strong style="color: var(--warning-color);">⚠ Missing:</strong> More sophisticated Boolean searches with OR operators for synonyms</p>
+                                    <p><strong style="color: var(--success-color);">✓ What works:</strong> Relevant keywords identified, basic Boolean logic shown</p>
+                                </div>
+                            </div>
+
+                            <!-- Weak Example -->
+                            <div class="example-box example-bad p-4 rounded mb-4">
+                                <div class="flex items-center gap-2 mb-2">
+                                    <span class="feedback-badge" style="background-color: #ef4444; color: white;">✗ Weak Example</span>
+                                </div>
+                                <p class="text-sm mb-3 italic">
+                                    "I'm going to research video games. My keyword is games and I'll just type that into Google Scholar."
+                                </p>
+                                <div class="text-xs space-y-1">
+                                    <p><strong style="color: #ef4444;">✗ Problems:</strong> Topic too vague, no research question, only one keyword, no Boolean strategy</p>
+                                    <p><strong style="color: #ef4444;">✗ Problems:</strong> Doesn't explain why topic was chosen or what specifically will be explored</p>
+                                    <p><strong style="color: #ef4444;">✗ Problems:</strong> Google Scholar isn't adequate - need to use academic databases</p>
+                                </div>
+                            </div>
+
+                            <!-- Good Example 2 (Different Approach) -->
+                            <div class="example-box example-good p-4 rounded">
+                                <div class="flex items-center gap-2 mb-2">
+                                    <span class="feedback-badge" style="background-color: var(--success-color); color: white;">✓ Strong Example (Iterative Approach)</span>
+                                </div>
+                                <p class="text-sm mb-3 italic">
+                                    "Initially, I wanted to research 'the future of work,' but realized this was too broad after using the Research Topic Canvas tool. I refined it to: 'How is remote work affecting team collaboration in creative agencies?' This matters because I hope to work in advertising after graduation. My research questions are: (1) What collaboration tools are creative teams using? (2) What challenges do they face? (3) How has creativity been impacted? My keyword sets include: remote work/telecommuting/distributed teams, creative agencies/advertising/design studios, collaboration/teamwork/communication, and digital tools/software/platforms. My refined Boolean search: (remote work OR telecommuting) AND (creative OR design OR advertising) AND (collaboration OR teamwork)."
+                                </p>
+                                <div class="text-xs space-y-1">
+                                    <p><strong style="color: var(--success-color);">✓ What works:</strong> Shows topic refinement process (very valuable!)</p>
+                                    <p><strong style="color: var(--success-color);">✓ What works:</strong> Multiple specific research questions, organized keyword groups, professional motivation</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Section 2: Database Navigation -->
+            <div class="section-card mb-6 rounded-lg border" style="border-color: var(--border-color); background-color: var(--bg-secondary);">
+                <div class="p-6 cursor-pointer" onclick="toggleSection('section2')">
+                    <div class="flex justify-between items-center">
+                        <div>
+                            <h3 class="text-2xl font-bold">Section 2: Database Navigation <span class="text-lg font-normal" style="color: var(--text-secondary);">(500 words)</span></h3>
+                            <p class="text-sm mt-1" style="color: var(--text-secondary);">Comparing databases and finding sources • <strong>Click to see examples</strong></p>
+                        </div>
+                        <span class="rotate-icon text-2xl" id="icon-section2">▼</span>
+                    </div>
+                </div>
+                <div class="collapsible-content" id="content-section2">
+                    <div class="p-6 pt-0 space-y-6">
+                        
+                        <div class="p-4 rounded" style="background-color: var(--bg-primary);">
+                            <h4 class="font-bold mb-3">What to include:</h4>
+                            <ul class="space-y-2 text-sm">
+                                <li><strong>Three databases compared:</strong> Which ones you used (e.g., EBSCOhost, ProQuest, Web of Science)</li>
+                                <li><strong>Screenshots (optional but encouraged):</strong> Show your actual searches and results</li>
+                                <li><strong>Database features analysis:</strong> Filters, search options, full-text access</li>
+                                <li><strong>Your findings:</strong> List 6-8 potential sources you discovered</li>
+                                <li><strong>Comparison conclusion:</strong> Which database worked best for your topic and why</li>
+                            </ul>
+                        </div>
+
+                        <div>
+                            <h4 class="font-bold mb-3 flex items-center gap-2">
+                                <span>💡</span>
+                                <span>Examples with Feedback</span>
+                            </h4>
+                            <p class="text-xs mb-3 italic" style="color: var(--text-secondary);">Note: These examples are AI-generated but reviewed by tutors</p>
+
+                            <!-- Good Example -->
+                            <div class="example-box example-good p-4 rounded mb-4">
+                                <div class="flex items-center gap-2 mb-2">
+                                    <span class="feedback-badge" style="background-color: var(--success-color); color: white;">✓ Strong Example</span>
+                                </div>
+                                <p class="text-sm mb-3 italic">
+                                    "I searched three databases using my Boolean strings: EBSCOhost Academic Search Complete, ProQuest Arts & Humanities, and JSTOR. In EBSCOhost (see Figure 1), I found 127 results for my AI music production search. The database offered excellent limiters including peer-reviewed journals, date ranges, and full-text options. ProQuest returned 89 results with strong coverage of industry publications (see Figure 2). JSTOR had fewer results (34) but these were more academically rigorous. EBSCOhost proved most useful due to its balance of quantity and quality, plus the ability to export citations directly. From these searches, I identified 8 potential sources: [list with brief descriptions]. Three were from EBSCOhost, three from ProQuest, and two from JSTOR, ensuring a diverse range of perspectives."
+                                </p>
+                                <div class="text-xs space-y-1">
+                                    <p><strong style="color: var(--success-color);">✓ What works:</strong> Names specific databases, includes figure references for screenshots</p>
+                                    <p><strong style="color: var(--success-color);">✓ What works:</strong> Compares specific features, explains which worked best and why</p>
+                                    <p><strong style="color: var(--success-color);">✓ What works:</strong> Provides source counts and shows strategic selection across databases</p>
+                                </div>
+                            </div>
+
+                            <!-- Weak Example -->
+                            <div class="example-box example-bad p-4 rounded mb-4">
+                                <div class="flex items-center gap-2 mb-2">
+                                    <span class="feedback-badge" style="background-color: #ef4444; color: white;">✗ Weak Example</span>
+                                </div>
+                                <p class="text-sm mb-3 italic">
+                                    "I used three databases and they all had lots of articles. I found some sources that looked good. EBSCOhost was the best one because it had the most results."
+                                </p>
+                                <div class="text-xs space-y-1">
+                                    <p><strong style="color: #ef4444;">✗ Problems:</strong> No specific database names listed, no screenshots mentioned</p>
+                                    <p><strong style="color: #ef4444;">✗ Problems:</strong> Doesn't analyze features or explain search process</p>
+                                    <p><strong style="color: #ef4444;">✗ Problems:</strong> No list of actual sources found, oversimplified comparison</p>
+                                    <p><strong style="color: #ef4444;">✗ Problems:</strong> "Most results" isn't always best - quality matters too</p>
+                                </div>
+                            </div>
+
+                            <!-- Good Example (Different approach) -->
+                            <div class="example-box example-good p-4 rounded">
+                                <div class="flex items-center gap-2 mb-2">
+                                    <span class="feedback-badge" style="background-color: var(--success-color); color: white;">✓ Strong Example (Reflective Approach)</span>
+                                </div>
+                                <p class="text-sm mb-3 italic">
+                                    "I compared three databases: Scopus, IEEE Xplore, and Google Scholar. Initially, I struggled with Scopus because I wasn't familiar with its interface (see Figure 1 - my first attempt). After adjusting my search to use more precise technical terms, I got better results (see Figure 2). IEEE Xplore was excellent for technical papers on AI algorithms but lacked broader industry perspectives. Google Scholar was useful for discovering sources but many were behind paywalls and it lacks the filtering options of dedicated academic databases. My 7 selected sources include: [detailed list with DOIs and full citations]. I found Scopus most valuable because it provided citation counts, which helped me identify influential papers, and the export function made managing references easier."
+                                </p>
+                                <div class="text-xs space-y-1">
+                                    <p><strong style="color: var(--success-color);">✓ What works:</strong> Honest about initial struggles and shows learning process</p>
+                                    <p><strong style="color: var(--success-color);">✓ What works:</strong> Explains both strengths AND limitations of each database</p>
+                                    <p><strong style="color: var(--success-color);">✓ What works:</strong> Mentions specific useful features like citation counts and export functions</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Section 3: Source Evaluation -->
+            <div class="section-card mb-6 rounded-lg border" style="border-color: var(--border-color); background-color: var(--bg-secondary);">
+                <div class="p-6 cursor-pointer" onclick="toggleSection('section3')">
+                    <div class="flex justify-between items-center">
+                        <div>
+                            <h3 class="text-2xl font-bold">Section 3: Source Evaluation <span class="text-lg font-normal" style="color: var(--text-secondary);">(600 words)</span></h3>
+                            <p class="text-sm mt-1" style="color: var(--text-secondary);">Using CRAAP test to select your best 4 sources • <strong>Click to see examples</strong></p>
+                        </div>
+                        <span class="rotate-icon text-2xl" id="icon-section3">▼</span>
+                    </div>
+                </div>
+                <div class="collapsible-content" id="content-section3">
+                    <div class="p-6 pt-0 space-y-6">
+                        
+                        <div class="p-4 rounded" style="background-color: var(--bg-primary);">
+                            <h4 class="font-bold mb-3">What to include:</h4>
+                            <ul class="space-y-2 text-sm">
+                                <li><strong>CRAAP evaluation:</strong> Apply Currency, Relevance, Authority, Accuracy, Purpose to each source</li>
+                                <li><strong>Your final 4 sources:</strong> Which ones you selected and detailed justification</li>
+                                <li><strong>Sources you rejected:</strong> Why certain sources didn't make the cut</li>
+                                <li><strong>Source variety:</strong> Explain how your 4 sources offer different perspectives or types</li>
+                            </ul>
+                            <div class="mt-3 p-3 rounded text-xs" style="background-color: #dbeafe; color: #1e40af;">
+                                <strong>CRAAP Reminder:</strong> Currency (when?), Relevance (does it fit?), Authority (who wrote it?), Accuracy (is it reliable?), Purpose (why was it written?)
+                            </div>
+                        </div>
+
+                        <div>
+                            <h4 class="font-bold mb-3 flex items-center gap-2">
+                                <span>💡</span>
+                                <span>Examples with Feedback</span>
+                            </h4>
+                            <p class="text-xs mb-3 italic" style="color: var(--text-secondary);">Note: These examples are AI-generated but reviewed by tutors</p>
+
+                            <!-- Good Example -->
+                            <div class="example-box example-good p-4 rounded mb-4">
+                                <div class="flex items-center gap-2 mb-2">
+                                    <span class="feedback-badge" style="background-color: var(--success-color); color: white;">✓ Strong Example</span>
+                                </div>
+                                <p class="text-sm mb-3 italic">
+                                    "Using the CRAAP test, I evaluated my 8 potential sources and selected the strongest 4. Source 1 (Chen et al., 2023) scored high on all criteria: published recently (Currency), directly addresses AI in music production (Relevance), authored by researchers at MIT Media Lab (Authority), peer-reviewed with extensive references (Accuracy), and aims to inform academic and industry audiences (Purpose). I rejected one source by Johnson (2019) despite good authority because it predated recent AI developments like GPT models (poor Currency). Another rejected source from a music blog lacked academic rigor and peer review (weak Accuracy and Authority), though it had interesting practitioner insights. My final 4 sources include: 2 peer-reviewed journal articles, 1 industry report from a major tech company, and 1 book chapter. This mix provides both academic depth and real-world application."
+                                </p>
+                                <div class="text-xs space-y-1">
+                                    <p><strong style="color: var(--success-color);">✓ What works:</strong> Applies all 5 CRAAP criteria with specific evidence</p>
+                                    <p><strong style="color: var(--success-color);">✓ What works:</strong> Explains why sources were rejected (shows critical thinking)</p>
+                                    <p><strong style="color: var(--success-color);">✓ What works:</strong> Identifies source types and explains strategic diversity</p>
+                                </div>
+                            </div>
+
+                            <!-- Okay Example -->
+                            <div class="example-box p-4 rounded mb-4" style="border-color: var(--warning-color); background-color: #fef3c7;">
+                                <div class="flex items-center gap-2 mb-2">
+                                    <span class="feedback-badge" style="background-color: var(--warning-color); color: white;">⚠ Needs Development</span>
+                                </div>
+                                <p class="text-sm mb-3 italic">
+                                    "I picked my 4 best sources. They were all from 2022-2024 so they're current. They're relevant to my topic. The authors all have PhDs so they're credible. The sources seem accurate because they have references. I think they were written to educate people."
+                                </p>
+                                <div class="text-xs space-y-1">
+                                    <p><strong style="color: var(--warning-color);">⚠ Missing:</strong> Specific examples and details for each CRAAP criterion</p>
+                                    <p><strong style="color: var(--warning-color);">⚠ Missing:</strong> No discussion of rejected sources or comparative analysis</p>
+                                    <p><strong style="color: var(--warning-color);">⚠ Missing:</strong> Doesn't identify what types of sources or explain the mix</p>
+                                    <p><strong style="color: var(--success-color);">✓ What works:</strong> Shows awareness of CRAAP criteria, mentions dates and credentials</p>
+                                </div>
+                            </div>
+
+                            <!-- Good Example (Alternative approach) -->
+                            <div class="example-box example-good p-4 rounded">
+                                <div class="flex items-center gap-2 mb-2">
+                                    <span class="feedback-badge" style="background-color: var(--success-color); color: white;">✓ Strong Example (Comparative Approach)</span>
+                                </div>
+                                <p class="text-sm mb-3 italic">
+                                    "I created a comparison table using the CRAAP test evaluator tool to score each source. Source A (peer-reviewed, 2024) scored 45/50, while Source B (industry blog, 2024) scored only 28/50 despite being recent. The blog post failed on Authority (anonymous author) and Accuracy (no citations). Interestingly, Source C, an older academic paper from 2020, still scored 42/50 because it's a seminal work frequently cited in recent literature—showing that Currency isn't just about publication date but also ongoing relevance. My final selection balances perspectives: 1 systematic review providing overview, 2 empirical studies with original data, 1 practitioner report showing real-world implementation. I deliberately excluded sources with commercial bias (one was essentially a product advertisement) and those focusing on music streaming rather than production."
+                                </p>
+                                <div class="text-xs space-y-1">
+                                    <p><strong style="color: var(--success-color);">✓ What works:</strong> Uses tool effectively and provides scoring comparisons</p>
+                                    <p><strong style="color: var(--success-color);">✓ What works:</strong> Shows sophisticated understanding (seminal works can be older)</p>
+                                    <p><strong style="color: var(--success-color);">✓ What works:</strong> Strategic selection explained, identifies biases to avoid</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Section 4: Citation Management -->
+            <div class="section-card mb-6 rounded-lg border" style="border-color: var(--border-color); background-color: var(--bg-secondary);">
+                <div class="p-6 cursor-pointer" onclick="toggleSection('section4')">
+                    <div class="flex justify-between items-center">
+                        <div>
+                            <h3 class="text-2xl font-bold">Section 4: Citation Management <span class="text-lg font-normal" style="color: var(--text-secondary);">(450 words)</span></h3>
+                            <p class="text-sm mt-1" style="color: var(--text-secondary);">Harvard referencing and bibliography • <strong>Click to see examples</strong></p>
+                        </div>
+                        <span class="rotate-icon text-2xl" id="icon-section4">▼</span>
+                    </div>
+                </div>
+                <div class="collapsible-content" id="content-section4">
+                    <div class="p-6 pt-0 space-y-6">
+                        
+                        <div class="p-4 rounded" style="background-color: var(--bg-primary);">
+                            <h4 class="font-bold mb-3">What to include:</h4>
+                            <ul class="space-y-2 text-sm">
+                                <li><strong>Your 4 sources in Harvard style:</strong> Complete reference list entry for each</li>
+                                <li><strong>In-text citation examples:</strong> Show different scenarios (paraphrase, direct quote, multiple authors)</li>
+                                <li><strong>Citation tools discussion:</strong> What helped you manage references (Zotero, Mendeley, ZBib, etc.)</li>
+                                <li><strong>Challenges and solutions:</strong> What was tricky about referencing and how you figured it out</li>
+                            </ul>
+                            <div class="mt-3 p-3 rounded text-xs" style="background-color: #dbeafe; color: #1e40af;">
+                                <strong>Harvard referencing required (not separately marked).</strong> Use MMU Cite Them Right Harvard. Check for: author-date format, alphabetical order, hanging indent, proper capitalization.
+                            </div>
+                            <div class="mt-3 p-3 rounded text-xs" style="background-color: #d1fae5; color: #065f46;">
+                                <strong>🔧 Helpful tool:</strong> Try <a href="https://zbib.org/" target="_blank" class="underline font-bold">ZBib.org</a> - a free citation generator that helps create Harvard references quickly. Always double-check against Cite Them Right!
+                            </div>
+                        </div>
+
+                        <div>
+                            <h4 class="font-bold mb-3 flex items-center gap-2">
+                                <span>💡</span>
+                                <span>Examples with Feedback</span>
+                            </h4>
+                            <p class="text-xs mb-3 italic" style="color: var(--text-secondary);">Note: These examples are AI-generated but reviewed by tutors</p>
+
+                            <!-- Good Example -->
+                            <div class="example-box example-good p-4 rounded mb-4">
+                                <div class="flex items-center gap-2 mb-2">
+                                    <span class="feedback-badge" style="background-color: var(--success-color); color: white;">✓ Strong Example</span>
+                                </div>
+                                <p class="text-sm mb-3 italic">
+                                    "I created a bibliography for my 4 sources following MMU Harvard guidelines. For in-text citations, I demonstrated: paraphrasing multiple authors (Chen et al., 2023), direct quotation (Smith, 2022, p.45), and secondary referencing. I used Zotero to manage my sources, which automatically generated citations but I checked each against Cite Them Right because automated tools sometimes make errors. For example, Zotero initially formatted one book chapter incorrectly—it included the book editor as the primary author. I corrected this by consulting the 'Book chapters' section in Cite Them Right. My complete bibliography appears below with proper hanging indents and alphabetical ordering:<br><br>
+                                    Chen, L., Martinez, R. and Thompson, K. (2023) 'Artificial intelligence in music production: opportunities and challenges', Journal of Creative Technologies, 15(2), pp. 112-134.<br><br>
+                                    [Continue with other sources...]"
+                                </p>
+                                <div class="text-xs space-y-1">
+                                    <p><strong style="color: var(--success-color);">✓ What works:</strong> Shows different citation scenarios with proper formatting</p>
+                                    <p><strong style="color: var(--success-color);">✓ What works:</strong> Names specific tool and explains verification process</p>
+                                    <p><strong style="color: var(--success-color);">✓ What works:</strong> Demonstrates problem-solving when citation tool made error</p>
+                                    <p><strong style="color: var(--success-color);">✓ What works:</strong> Actual bibliography examples with correct formatting</p>
+                                </div>
+                            </div>
+
+                            <!-- Weak Example -->
+                            <div class="example-box example-bad p-4 rounded mb-4">
+                                <div class="flex items-center gap-2 mb-2">
+                                    <span class="feedback-badge" style="background-color: #ef4444; color: white;">✗ Weak Example</span>
+                                </div>
+                                <p class="text-sm mb-3 italic">
+                                    "Here are my sources:<br>
+                                    - Article by Smith about AI<br>
+                                    - Book about music production<br>
+                                    - Research paper from 2023<br>
+                                    - Website about technology<br>
+                                    I cited them in my work using (Smith 2023) type citations."
+                                </p>
+                                <div class="text-xs space-y-1">
+                                    <p><strong style="color: #ef4444;">✗ Problems:</strong> Not in Harvard format—no author surnames, dates, titles, or publication details</p>
+                                    <p><strong style="color: #ef4444;">✗ Problems:</strong> Not alphabetically ordered, no hanging indents</p>
+                                    <p><strong style="color: #ef4444;">✗ Problems:</strong> Doesn't show variety of in-text citation scenarios</p>
+                                    <p><strong style="color: #ef4444;">✗ Problems:</strong> No discussion of citation tools or process</p>
+                                </div>
+                            </div>
+
+                            <!-- Good Example (Tool-focused) -->
+                            <div class="example-box example-good p-4 rounded">
+                                <div class="flex items-center gap-2 mb-2">
+                                    <span class="feedback-badge" style="background-color: var(--success-color); color: white;">✓ Strong Example (Process-Focused)</span>
+                                </div>
+                                <p class="text-sm mb-3 italic">
+                                    "Managing citations was initially daunting, but using ZBib.org and Mendeley made it manageable. I used ZBib to quickly generate initial citations by entering DOIs, then imported them into Mendeley for organization. However, I learned to verify everything—one journal article had the wrong page numbers in the database. I practiced different citation styles: narrative citations where the author is part of the sentence (As Martinez (2024) demonstrates...), parenthetical citations at the end (collaboration is essential [Thompson, 2023]), and citing multiple sources together (several studies support this [Chen et al., 2023; Smith, 2022]). The trickiest part was citing a report with a corporate author. Cite Them Right showed me to use the organization name, but I had to add the full name first, then abbreviation: (International Music Council [IMC], 2024)... later references (IMC, 2024). My organized bibliography follows Harvard conventions exactly."
+                                </p>
+                                <div class="text-xs space-y-1">
+                                    <p><strong style="color: var(--success-color);">✓ What works:</strong> Explains practical workflow with citation tools</p>
+                                    <p><strong style="color: var(--success-color);">✓ What works:</strong> Shows awareness of verification needs</p>
+                                    <p><strong style="color: var(--success-color);">✓ What works:</strong> Multiple citation scenario examples with correct formatting</p>
+                                    <p><strong style="color: var(--success-color);">✓ What works:</strong> Identifies specific challenge and shows how to handle it</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Section 5: Reflection -->
+            <div class="section-card mb-6 rounded-lg border" style="border-color: var(--border-color); background-color: var(--bg-secondary);">
+                <div class="p-6 cursor-pointer" onclick="toggleSection('section5')">
+                    <div class="flex justify-between items-center">
+                        <div>
+                            <h3 class="text-2xl font-bold">Section 5: Reflection <span class="text-lg font-normal" style="color: var(--text-secondary);">(300 words)</span></h3>
+                            <p class="text-sm mt-1" style="color: var(--text-secondary);">What you learned and how you'll use these skills • <strong>Click to see examples</strong></p>
+                        </div>
+                        <span class="rotate-icon text-2xl" id="icon-section5">▼</span>
+                    </div>
+                </div>
+                <div class="collapsible-content" id="content-section5">
+                    <div class="p-6 pt-0 space-y-6">
+                        
+                        <div class="p-4 rounded" style="background-color: var(--bg-primary);">
+                            <h4 class="font-bold mb-3">What to include:</h4>
+                            <ul class="space-y-2 text-sm">
+                                <li><strong>Skills developed:</strong> What specific digital research competencies did you gain?</li>
+                                <li><strong>Challenges overcome:</strong> What was difficult and how did you handle it?</li>
+                                <li><strong>Most valuable learning:</strong> What surprised you or changed how you think about research?</li>
+                                <li><strong>Future application:</strong> How will you use these skills in other modules and professionally?</li>
+                            </ul>
+                        </div>
+
+                        <div>
+                            <h4 class="font-bold mb-3 flex items-center gap-2">
+                                <span>💡</span>
+                                <span>Examples with Feedback</span>
+                            </h4>
+                            <p class="text-xs mb-3 italic" style="color: var(--text-secondary);">Note: These examples are AI-generated but reviewed by tutors</p>
+
+                            <!-- Good Example -->
+                            <div class="example-box example-good p-4 rounded mb-4">
+                                <div class="flex items-center gap-2 mb-2">
+                                    <span class="feedback-badge" style="background-color: var(--success-color); color: white;">✓ Strong Example</span>
+                                </div>
+                                <p class="text-sm mb-3 italic">
+                                    "This assignment transformed my approach to research. Initially, I relied on Google and Wikipedia, but I now understand the value of specialized academic databases and systematic evaluation. The most challenging aspect was narrowing my overly-broad initial topic—the Research Topic Canvas tool helped me refine 'technology in education' to a focused investigation of AR in anatomy learning. I'm most proud of mastering the CRAAP test; I now automatically assess source credibility rather than accepting information at face value. These skills are directly applicable to my final year dissertation, where I'll need to conduct a thorough literature review. Professionally, as I pursue UX design, I'll use these research methods to investigate user needs and find evidence-based design solutions. I've realized that strong research skills are foundational to being an informed creative professional."
+                                </p>
+                                <div class="text-xs space-y-1">
+                                    <p><strong style="color: var(--success-color);">✓ What works:</strong> Shows personal growth from beginner to competent researcher</p>
+                                    <p><strong style="color: var(--success-color);">✓ What works:</strong> Specific examples of challenges and how they were overcome</p>
+                                    <p><strong style="color: var(--success-color);">✓ What works:</strong> Connects learning to future academic and professional contexts</p>
+                                    <p><strong style="color: var(--success-color);">✓ What works:</strong> Demonstrates critical thinking and self-awareness</p>
+                                </div>
+                            </div>
+
+                            <!-- Okay Example -->
+                            <div class="example-box p-4 rounded mb-4" style="border-color: var(--warning-color); background-color: #fef3c7;">
+                                <div class="flex items-center gap-2 mb-2">
+                                    <span class="feedback-badge" style="background-color: var(--warning-color); color: white;">⚠ Needs Development</span>
+                                </div>
+                                <p class="text-sm mb-3 italic">
+                                    "I learned a lot from this assignment. I can now search databases better and understand how to reference properly. It was sometimes difficult but I managed. These skills will be useful in the future for university work and maybe jobs. Overall, it was a good learning experience."
+                                </p>
+                                <div class="text-xs space-y-1">
+                                    <p><strong style="color: var(--warning-color);">⚠ Missing:</strong> Specific examples of what was learned or how</p>
+                                    <p><strong style="color: var(--warning-color);">⚠ Missing:</strong> Details about challenges faced and solutions found</p>
+                                    <p><strong style="color: var(--warning-color);">⚠ Missing:</strong> Concrete connections to future applications</p>
+                                    <p><strong style="color: var(--success-color);">✓ What works:</strong> Acknowledges learning and future relevance</p>
+                                </div>
+                            </div>
+
+                            <!-- Good Example (Different focus) -->
+                            <div class="example-box example-good p-4 rounded">
+                                <div class="flex items-center gap-2 mb-2">
+                                    <span class="feedback-badge" style="background-color: var(--success-color); color: white;">✓ Strong Example (Growth Mindset)</span>
+                                </div>
+                                <p class="text-sm mb-3 italic">
+                                    "I underestimated this assignment initially, viewing it as 'just finding sources.' I quickly discovered that effective research is a sophisticated skill requiring strategy, critical evaluation, and technical knowledge. My biggest struggle was with Boolean logic—my first searches were too narrow and returned almost nothing. Through trial and error, I learned to balance specificity with breadth. The CRAAP framework gave me confidence to question sources that 'seemed' credible but lacked proper authority or had commercial agendas. Moving forward, I'll apply systematic research to my work placement in a marketing agency, where evidence-based insights will strengthen client recommendations. I also plan to maintain my Zotero library for my dissertation next year. Perhaps most importantly, I've developed intellectual humility—recognizing when I need to research rather than relying on assumptions."
+                                </p>
+                                <div class="text-xs space-y-1">
+                                    <p><strong style="color: var(--success-color);">✓ What works:</strong> Honest about initial misconceptions and learning curve</p>
+                                    <p><strong style="color: var(--success-color);">✓ What works:</strong> Specific struggle identified with explanation of resolution</p>
+                                    <p><strong style="color: var(--success-color);">✓ What works:</strong> Multiple concrete future applications mentioned</p>
+                                    <p><strong style="color: var(--success-color);">✓ What works:</strong> Demonstrates metacognition and professional maturity</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Key Details -->
+        <section class="mb-12">
+            <h2 class="text-3xl font-bold mb-6">📋 Important Details</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div class="p-4 rounded-lg" style="background-color: var(--bg-secondary); border-left: 3px solid var(--accent-color);">
+                    <h4 class="font-bold mb-2">📏 Formatting & Submission</h4>
+                    <ul class="text-sm space-y-1">
+                        <li>• Total: 2,000-2,500 words (±10% of 2,250)</li>
+                        <li>• Submit as <strong>PDF or DOCX on Moodle</strong></li>
+                        <li>• Screenshots <strong>optional but encouraged</strong></li>
+                        <li>• Harvard referencing <strong>required (not separately marked)</strong></li>
+                    </ul>
+                </div>
+                <div class="p-4 rounded-lg" style="background-color: var(--bg-secondary); border-left: 3px solid var(--accent-color);">
+                    <h4 class="font-bold mb-2">📅 Submission Details</h4>
+                    <ul class="text-sm space-y-1">
+                        <li>• Upload via Moodle</li>
+                        <li>• Check deadline on Moodle</li>
+                        <li>• Individual work only</li>
+                        <li>• Checked via Turnitin</li>
+                    </ul>
+                </div>
+                <div class="p-4 rounded-lg" style="background-color: var(--bg-secondary); border-left: 3px solid var(--accent-color);">
+                    <h4 class="font-bold mb-2">🤖 AI Usage</h4>
+                    <ul class="text-sm space-y-1">
+                        <li>• Generative AI permitted</li>
+                        <li>• Follow AI Literacy guidelines</li>
+                        <li>• All work must be your own</li>
+                        <li>• Don't just copy AI outputs</li>
+                    </ul>
+                </div>
+                <div class="p-4 rounded-lg" style="background-color: var(--bg-secondary); border-left: 3px solid var(--accent-color);">
+                    <h4 class="font-bold mb-2">💬 Get Help</h4>
+                    <ul class="text-sm space-y-1">
+                        <li>• Unit Leader: Mike Oustamanolakis</li>
+                        <li>• Email: m.oustamanolakis@mmu.ac.uk</li>
+                        <li>• Ask questions in sessions</li>
+                        <li>• Book one-to-one appointments</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="border-t mt-12 p-8" style="border-color: var(--border-color);">
+        <div class="max-w-7xl mx-auto text-center" style="color: var(--text-secondary);">
+            <p class="mb-2">Digital Media Technologies - Unit Code: 443Z0010</p>
+            <p class="text-sm">Manchester Metropolitan University</p>
+        </div>
+    </footer>
+
+    <script>
+        let isDarkMode = false;
+        let fontSize = 1;
+
+        // Dark mode toggle
+        document.getElementById('darkModeToggle').addEventListener('click', () => {
+            isDarkMode = !isDarkMode;
+            document.body.classList.toggle('dark-mode');
+            document.getElementById('modeIcon').textContent = isDarkMode ? '☀️' : '🌙';
+        });
+
+        // Font size controls
+        document.getElementById('increaseFont').addEventListener('click', () => {
+            if (fontSize < 1.5) {
+                fontSize += 0.1;
+                document.documentElement.style.setProperty('--font-size', fontSize);
+            }
+        });
+
+        document.getElementById('decreaseFont').addEventListener('click', () => {
+            if (fontSize > 0.7) {
+                fontSize -= 0.1;
+                document.documentElement.style.setProperty('--font-size', fontSize);
+            }
+        });
+
+        // Toggle section expansion
+        function toggleSection(sectionId) {
+            const content = document.getElementById(`content-${sectionId}`);
+            const icon = document.getElementById(`icon-${sectionId}`);
+            
+            content.classList.toggle('active');
+            icon.classList.toggle('active');
+        }
+
+        // Update progress
+        function updateProgress() {
+            const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+            const checked = document.querySelectorAll('input[type="checkbox"]:checked').length;
+            const total = checkboxes.length;
+            const percentage = Math.round((checked / total) * 100);
+            
+            const progressBar = document.getElementById('progressBar');
+            const progressText = document.getElementById('progressText');
+            const progressPercentage = document.getElementById('progressPercentage');
+            
+            progressBar.style.width = percentage + '%';
+            progressText.textContent = `${checked}/${total} sections completed`;
+            progressPercentage.textContent = percentage + '%';
+        }
+
+        // Initialize progress on page load
+        updateProgress();
+    </script>
+</body>
+</html>

@@ -1,0 +1,618 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Harvard Bibliography Builder - Digital Media Technologies</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        :root {
+            --bg-primary: #ffffff;
+            --bg-secondary: #f9fafb;
+            --text-primary: #111827;
+            --text-secondary: #4b5563;
+            --border-color: #e5e7eb;
+            --accent-color: #3b82f6;
+            --font-size: 1;
+            --success-color: #10b981;
+        }
+        
+        .dark-mode {
+            --bg-primary: #1f2937;
+            --bg-secondary: #111827;
+            --text-primary: #f9fafb;
+            --text-secondary: #d1d5db;
+            --border-color: #374151;
+            --accent-color: #60a5fa;
+            --success-color: #34d399;
+        }
+        
+        html {
+            font-size: calc(var(--font-size) * 16px);
+        }
+        
+        body {
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+        }
+
+        .hero-gradient {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+
+        input, select, textarea {
+            background-color: var(--bg-secondary);
+            color: var(--text-primary);
+            border: 1px solid var(--border-color);
+        }
+
+        .source-card {
+            transition: all 0.3s ease;
+        }
+
+        .source-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .reference-output {
+            font-family: 'Times New Roman', serif;
+            line-height: 2;
+            padding: 1.5rem;
+            background-color: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 0.5rem;
+            margin-left: 2rem;
+            text-indent: -2rem;
+        }
+
+        .citation-example {
+            font-family: 'Times New Roman', serif;
+            font-style: italic;
+            padding: 1rem;
+            background-color: #dbeafe;
+            border-left: 3px solid #3b82f6;
+            color: #1e40af;
+        }
+
+        .dark-mode .citation-example {
+            background-color: #1e3a8a;
+            color: #93c5fd;
+        }
+
+        .copy-button {
+            transition: all 0.2s ease;
+        }
+
+        .copy-button:hover {
+            transform: scale(1.05);
+        }
+
+        .collapsible-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+        }
+
+        .collapsible-content.active {
+            max-height: 3000px;
+        }
+
+        .rotate-icon {
+            transition: transform 0.3s ease;
+        }
+
+        .rotate-icon.active {
+            transform: rotate(180deg);
+        }
+    </style>
+</head>
+<body class="min-h-screen">
+    <!-- Header -->
+    <header class="border-b p-4" style="border-color: var(--border-color);">
+        <div class="max-w-7xl mx-auto flex justify-between items-center">
+            <div>
+                <h1 class="text-2xl font-bold">Harvard Bibliography Builder</h1>
+                <p class="text-sm" style="color: var(--text-secondary);">Create properly formatted Harvard references</p>
+            </div>
+            <div class="flex gap-2">
+                <button onclick="window.location.href='index-page.html'" class="px-4 py-2 rounded border text-sm" style="border-color: var(--border-color);">
+                    ← Home
+                </button>
+                <button id="decreaseFont" class="px-3 py-2 rounded border" style="border-color: var(--border-color);" aria-label="Decrease font size">A-</button>
+                <button id="increaseFont" class="px-3 py-2 rounded border" style="border-color: var(--border-color);" aria-label="Increase font size">A+</button>
+                <button id="darkModeToggle" class="px-4 py-2 rounded border" style="border-color: var(--border-color);" aria-label="Toggle dark mode">
+                    <span id="modeIcon">🌙</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <div class="hero-gradient text-white py-12">
+        <div class="max-w-4xl mx-auto px-8 text-center">
+            <h2 class="text-4xl font-bold mb-4">📚 Build Your Bibliography</h2>
+            <p class="text-xl mb-2">Create Harvard-style references for your 4 sources</p>
+            <p class="text-sm opacity-90">References are automatically alphabetized and formatted</p>
+        </div>
+    </div>
+
+    <main class="max-w-6xl mx-auto p-8">
+
+        <!-- Help Banner -->
+        <section class="mb-8">
+            <div class="p-4 rounded-lg" style="background-color: #d1fae5; border-left: 4px solid #10b981;">
+                <p class="text-sm font-semibold" style="color: #065f46;">
+                    💡 <strong>Need help with formatting?</strong> Use <a href="https://zbib.org/" target="_blank" class="underline font-bold">ZBib.org</a> to generate citations, then paste them here to organize your bibliography. Always verify against MMU Cite Them Right Harvard!
+                </p>
+            </div>
+        </section>
+
+        <!-- Source Input Forms -->
+        <section class="mb-8">
+            <h2 class="text-3xl font-bold mb-6">📝 Add Your 4 Sources</h2>
+            <p class="mb-6 text-sm" style="color: var(--text-secondary);">Fill in the details for each source. The tool will format them in Harvard style automatically.</p>
+
+            <div class="space-y-6" id="sourceForms">
+                <!-- Source 1 -->
+                <div class="source-card p-6 rounded-lg border" style="border-color: var(--border-color); background-color: var(--bg-secondary);">
+                    <div class="flex justify-between items-center mb-4">
+                        <h3 class="text-xl font-bold">Source 1</h3>
+                        <select id="type-1" class="px-3 py-2 rounded" onchange="updateFields(1)">
+                            <option value="">Select type...</option>
+                            <option value="journal">Journal Article</option>
+                            <option value="book">Book</option>
+                            <option value="chapter">Book Chapter</option>
+                            <option value="website">Website</option>
+                            <option value="report">Report</option>
+                        </select>
+                    </div>
+                    <div id="fields-1" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <!-- Fields will be populated by JavaScript -->
+                    </div>
+                </div>
+
+                <!-- Source 2 -->
+                <div class="source-card p-6 rounded-lg border" style="border-color: var(--border-color); background-color: var(--bg-secondary);">
+                    <div class="flex justify-between items-center mb-4">
+                        <h3 class="text-xl font-bold">Source 2</h3>
+                        <select id="type-2" class="px-3 py-2 rounded" onchange="updateFields(2)">
+                            <option value="">Select type...</option>
+                            <option value="journal">Journal Article</option>
+                            <option value="book">Book</option>
+                            <option value="chapter">Book Chapter</option>
+                            <option value="website">Website</option>
+                            <option value="report">Report</option>
+                        </select>
+                    </div>
+                    <div id="fields-2" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    </div>
+                </div>
+
+                <!-- Source 3 -->
+                <div class="source-card p-6 rounded-lg border" style="border-color: var(--border-color); background-color: var(--bg-secondary);">
+                    <div class="flex justify-between items-center mb-4">
+                        <h3 class="text-xl font-bold">Source 3</h3>
+                        <select id="type-3" class="px-3 py-2 rounded" onchange="updateFields(3)">
+                            <option value="">Select type...</option>
+                            <option value="journal">Journal Article</option>
+                            <option value="book">Book</option>
+                            <option value="chapter">Book Chapter</option>
+                            <option value="website">Website</option>
+                            <option value="report">Report</option>
+                        </select>
+                    </div>
+                    <div id="fields-3" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    </div>
+                </div>
+
+                <!-- Source 4 -->
+                <div class="source-card p-6 rounded-lg border" style="border-color: var(--border-color); background-color: var(--bg-secondary);">
+                    <div class="flex justify-between items-center mb-4">
+                        <h3 class="text-xl font-bold">Source 4</h3>
+                        <select id="type-4" class="px-3 py-2 rounded" onchange="updateFields(4)">
+                            <option value="">Select type...</option>
+                            <option value="journal">Journal Article</option>
+                            <option value="book">Book</option>
+                            <option value="chapter">Book Chapter</option>
+                            <option value="website">Website</option>
+                            <option value="report">Report</option>
+                        </select>
+                    </div>
+                    <div id="fields-4" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    </div>
+                </div>
+            </div>
+
+            <div class="mt-6 text-center">
+                <button onclick="generateBibliography()" class="px-8 py-3 rounded font-bold text-white" style="background-color: var(--accent-color);">
+                    Generate Bibliography
+                </button>
+            </div>
+        </section>
+
+        <!-- Generated Bibliography -->
+        <section class="mb-8" id="bibliographySection" style="display: none;">
+            <h2 class="text-3xl font-bold mb-6">📖 Your Bibliography</h2>
+            <div class="p-6 rounded-lg border" style="border-color: var(--border-color); background-color: var(--bg-secondary);">
+                <div class="flex justify-between items-center mb-4">
+                    <h3 class="text-lg font-bold">References (Alphabetically Ordered)</h3>
+                    <button onclick="copyBibliography()" class="copy-button px-4 py-2 rounded text-sm font-semibold text-white" style="background-color: var(--success-color);">
+                        📋 Copy to Clipboard
+                    </button>
+                </div>
+                <div id="bibliographyOutput" class="reference-output">
+                    <!-- Generated bibliography will appear here -->
+                </div>
+            </div>
+        </section>
+
+        <!-- In-text Citation Examples -->
+        <section class="mb-8" id="citationSection" style="display: none;">
+            <h2 class="text-3xl font-bold mb-6">💬 In-text Citation Examples</h2>
+            <div class="p-6 rounded-lg border" style="border-color: var(--border-color); background-color: var(--bg-secondary);">
+                <p class="mb-4 text-sm">Here are examples of how to cite your sources within your assignment text:</p>
+                <div id="citationExamples" class="space-y-4">
+                    <!-- Citation examples will be generated here -->
+                </div>
+            </div>
+        </section>
+
+        <!-- Quick Reference Guide -->
+        <section class="mb-8">
+            <div class="p-6 rounded-lg border" style="border-color: var(--border-color); background-color: var(--bg-secondary);">
+                <div class="cursor-pointer" onclick="toggleGuide()">
+                    <div class="flex justify-between items-center">
+                        <h2 class="text-2xl font-bold">📘 Harvard Referencing Quick Guide</h2>
+                        <span class="rotate-icon text-2xl" id="guide-icon">▼</span>
+                    </div>
+                </div>
+                <div class="collapsible-content mt-4" id="guide-content">
+                    <div class="space-y-4 text-sm">
+                        <div>
+                            <h4 class="font-bold mb-2">Journal Article:</h4>
+                            <p class="font-mono text-xs p-2 rounded" style="background-color: var(--bg-primary);">
+                                Author(s) (Year) 'Article title', Journal Name, Volume(Issue), pp. page-range.
+                            </p>
+                            <p class="text-xs mt-1 italic" style="color: var(--text-secondary);">Example: Smith, J. and Jones, K. (2023) 'Digital transformation in education', Educational Technology Journal, 15(2), pp. 112-134.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="font-bold mb-2">Book:</h4>
+                            <p class="font-mono text-xs p-2 rounded" style="background-color: var(--bg-primary);">
+                                Author(s) (Year) Book Title. Edition (if not first). Place: Publisher.
+                            </p>
+                            <p class="text-xs mt-1 italic" style="color: var(--text-secondary);">Example: Brown, A. (2022) Research Methods in Digital Media. 3rd edn. London: Routledge.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="font-bold mb-2">Website:</h4>
+                            <p class="font-mono text-xs p-2 rounded" style="background-color: var(--bg-primary);">
+                                Author/Organization (Year) Title of webpage. Available at: URL (Accessed: date).
+                            </p>
+                            <p class="text-xs mt-1 italic" style="color: var(--text-secondary);">Example: BBC News (2024) Technology trends in 2024. Available at: https://www.bbc.com/news/technology (Accessed: 15 March 2024).</p>
+                        </div>
+
+                        <div>
+                            <h4 class="font-bold mb-2">In-text Citations:</h4>
+                            <ul class="list-disc ml-5 space-y-1">
+                                <li><strong>Paraphrase:</strong> Recent studies show... (Smith, 2023).</li>
+                                <li><strong>Direct quote:</strong> As Smith (2023, p.45) states, "..."</li>
+                                <li><strong>Multiple authors:</strong> (Smith et al., 2023) [for 3+ authors]</li>
+                                <li><strong>Multiple sources:</strong> Several studies (Smith, 2023; Jones, 2022) demonstrate...</li>
+                            </ul>
+                        </div>
+
+                        <div class="mt-4 p-3 rounded" style="background-color: #dbeafe; color: #1e40af;">
+                            <p class="text-xs"><strong>Important:</strong> Always check MMU Cite Them Right Harvard for official guidance. This tool helps organize your references but verification is your responsibility!</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="border-t mt-12 p-8" style="border-color: var(--border-color);">
+        <div class="max-w-7xl mx-auto text-center" style="color: var(--text-secondary);">
+            <p class="mb-2">Digital Media Technologies - Unit Code: 443Z0010</p>
+            <p class="text-sm">Manchester Metropolitan University</p>
+        </div>
+    </footer>
+
+    <script>
+        let isDarkMode = false;
+        let fontSize = 1;
+
+        // Dark mode toggle
+        document.getElementById('darkModeToggle').addEventListener('click', () => {
+            isDarkMode = !isDarkMode;
+            document.body.classList.toggle('dark-mode');
+            document.getElementById('modeIcon').textContent = isDarkMode ? '☀️' : '🌙';
+        });
+
+        // Font size controls
+        document.getElementById('increaseFont').addEventListener('click', () => {
+            if (fontSize < 1.5) {
+                fontSize += 0.1;
+                document.documentElement.style.setProperty('--font-size', fontSize);
+            }
+        });
+
+        document.getElementById('decreaseFont').addEventListener('click', () => {
+            if (fontSize > 0.7) {
+                fontSize -= 0.1;
+                document.documentElement.style.setProperty('--font-size', fontSize);
+            }
+        });
+
+        // Toggle guide
+        function toggleGuide() {
+            const content = document.getElementById('guide-content');
+            const icon = document.getElementById('guide-icon');
+            content.classList.toggle('active');
+            icon.classList.toggle('active');
+        }
+
+        // Field definitions for different source types
+        const fieldDefinitions = {
+            journal: [
+                { id: 'authors', label: 'Author(s)', placeholder: 'Smith, J. and Jones, K.', span: 2 },
+                { id: 'year', label: 'Year', placeholder: '2023', span: 1 },
+                { id: 'title', label: 'Article Title', placeholder: 'Digital transformation in education', span: 2 },
+                { id: 'journal', label: 'Journal Name', placeholder: 'Educational Technology Journal', span: 2 },
+                { id: 'volume', label: 'Volume', placeholder: '15', span: 1 },
+                { id: 'issue', label: 'Issue', placeholder: '2', span: 1 },
+                { id: 'pages', label: 'Pages', placeholder: '112-134', span: 1 },
+                { id: 'doi', label: 'DOI (optional)', placeholder: '10.1234/example', span: 1 }
+            ],
+            book: [
+                { id: 'authors', label: 'Author(s)', placeholder: 'Brown, A.', span: 2 },
+                { id: 'year', label: 'Year', placeholder: '2022', span: 1 },
+                { id: 'title', label: 'Book Title', placeholder: 'Research Methods in Digital Media', span: 2 },
+                { id: 'edition', label: 'Edition (if not 1st)', placeholder: '3rd edn', span: 1 },
+                { id: 'place', label: 'Place of Publication', placeholder: 'London', span: 1 },
+                { id: 'publisher', label: 'Publisher', placeholder: 'Routledge', span: 1 }
+            ],
+            chapter: [
+                { id: 'authors', label: 'Chapter Author(s)', placeholder: 'Smith, J.', span: 2 },
+                { id: 'year', label: 'Year', placeholder: '2023', span: 1 },
+                { id: 'chapter', label: 'Chapter Title', placeholder: 'Digital literacy in practice', span: 2 },
+                { id: 'editors', label: 'Book Editor(s)', placeholder: 'Brown, A. (ed.)', span: 2 },
+                { id: 'title', label: 'Book Title', placeholder: 'Handbook of Digital Education', span: 2 },
+                { id: 'place', label: 'Place', placeholder: 'London', span: 1 },
+                { id: 'publisher', label: 'Publisher', placeholder: 'Sage', span: 1 },
+                { id: 'pages', label: 'Pages', placeholder: '45-67', span: 1 }
+            ],
+            website: [
+                { id: 'authors', label: 'Author/Organization', placeholder: 'BBC News', span: 2 },
+                { id: 'year', label: 'Year', placeholder: '2024', span: 1 },
+                { id: 'title', label: 'Page Title', placeholder: 'Technology trends in 2024', span: 2 },
+                { id: 'url', label: 'URL', placeholder: 'https://www.bbc.com/news/technology', span: 2 },
+                { id: 'accessed', label: 'Access Date', placeholder: '15 March 2024', span: 1 }
+            ],
+            report: [
+                { id: 'authors', label: 'Author(s)/Organization', placeholder: 'World Health Organization', span: 2 },
+                { id: 'year', label: 'Year', placeholder: '2023', span: 1 },
+                { id: 'title', label: 'Report Title', placeholder: 'Digital health strategy', span: 2 },
+                { id: 'place', label: 'Place', placeholder: 'Geneva', span: 1 },
+                { id: 'publisher', label: 'Publisher', placeholder: 'WHO', span: 1 }
+            ]
+        };
+
+        function updateFields(sourceNum) {
+            const type = document.getElementById(`type-${sourceNum}`).value;
+            const container = document.getElementById(`fields-${sourceNum}`);
+            
+            if (!type) {
+                container.innerHTML = '<p class="text-sm" style="color: var(--text-secondary);">Select a source type to begin</p>';
+                return;
+            }
+
+            const fields = fieldDefinitions[type];
+            let html = '';
+
+            fields.forEach(field => {
+                const colSpan = field.span === 2 ? 'md:col-span-2' : '';
+                html += `
+                    <div class="${colSpan}">
+                        <label class="block text-sm font-semibold mb-1">${field.label}</label>
+                        <input type="text" id="${field.id}-${sourceNum}" 
+                               class="w-full px-3 py-2 rounded" 
+                               placeholder="${field.placeholder}">
+                    </div>
+                `;
+            });
+
+            container.innerHTML = html;
+        }
+
+        function formatJournal(data, num) {
+            const authors = data[`authors-${num}`] || '';
+            const year = data[`year-${num}`] || '';
+            const title = data[`title-${num}`] || '';
+            const journal = data[`journal-${num}`] || '';
+            const volume = data[`volume-${num}`] || '';
+            const issue = data[`issue-${num}`] || '';
+            const pages = data[`pages-${num}`] || '';
+            const doi = data[`doi-${num}`] || '';
+
+            let ref = `${authors} (${year}) '${title}', <i>${journal}</i>`;
+            if (volume) ref += `, ${volume}`;
+            if (issue) ref += `(${issue})`;
+            if (pages) ref += `, pp. ${pages}`;
+            if (doi) ref += `. Available at: https://doi.org/${doi}`;
+            ref += '.';
+
+            return ref;
+        }
+
+        function formatBook(data, num) {
+            const authors = data[`authors-${num}`] || '';
+            const year = data[`year-${num}`] || '';
+            const title = data[`title-${num}`] || '';
+            const edition = data[`edition-${num}`] || '';
+            const place = data[`place-${num}`] || '';
+            const publisher = data[`publisher-${num}`] || '';
+
+            let ref = `${authors} (${year}) <i>${title}</i>`;
+            if (edition) ref += `. ${edition}`;
+            ref += `. ${place}: ${publisher}.`;
+
+            return ref;
+        }
+
+        function formatChapter(data, num) {
+            const authors = data[`authors-${num}`] || '';
+            const year = data[`year-${num}`] || '';
+            const chapter = data[`chapter-${num}`] || '';
+            const editors = data[`editors-${num}`] || '';
+            const title = data[`title-${num}`] || '';
+            const place = data[`place-${num}`] || '';
+            const publisher = data[`publisher-${num}`] || '';
+            const pages = data[`pages-${num}`] || '';
+
+            let ref = `${authors} (${year}) '${chapter}', in ${editors} <i>${title}</i>. ${place}: ${publisher}`;
+            if (pages) ref += `, pp. ${pages}`;
+            ref += '.';
+
+            return ref;
+        }
+
+        function formatWebsite(data, num) {
+            const authors = data[`authors-${num}`] || '';
+            const year = data[`year-${num}`] || '';
+            const title = data[`title-${num}`] || '';
+            const url = data[`url-${num}`] || '';
+            const accessed = data[`accessed-${num}`] || '';
+
+            return `${authors} (${year}) <i>${title}</i>. Available at: ${url} (Accessed: ${accessed}).`;
+        }
+
+        function formatReport(data, num) {
+            const authors = data[`authors-${num}`] || '';
+            const year = data[`year-${num}`] || '';
+            const title = data[`title-${num}`] || '';
+            const place = data[`place-${num}`] || '';
+            const publisher = data[`publisher-${num}`] || '';
+
+            return `${authors} (${year}) <i>${title}</i>. ${place}: ${publisher}.`;
+        }
+
+        function getFirstAuthor(authorString) {
+            // Extract first author surname for sorting
+            const firstAuthor = authorString.split(' and ')[0].split(',')[0];
+            return firstAuthor.toLowerCase();
+        }
+
+        function generateBibliography() {
+            const references = [];
+            const data = {};
+
+            // Collect all input data
+            document.querySelectorAll('input').forEach(input => {
+                data[input.id] = input.value;
+            });
+
+            // Generate references for each source
+            for (let i = 1; i <= 4; i++) {
+                const type = document.getElementById(`type-${i}`).value;
+                if (!type) continue;
+
+                let ref = '';
+                let authors = '';
+
+                switch(type) {
+                    case 'journal':
+                        ref = formatJournal(data, i);
+                        authors = data[`authors-${i}`];
+                        break;
+                    case 'book':
+                        ref = formatBook(data, i);
+                        authors = data[`authors-${i}`];
+                        break;
+                    case 'chapter':
+                        ref = formatChapter(data, i);
+                        authors = data[`authors-${i}`];
+                        break;
+                    case 'website':
+                        ref = formatWebsite(data, i);
+                        authors = data[`authors-${i}`];
+                        break;
+                    case 'report':
+                        ref = formatReport(data, i);
+                        authors = data[`authors-${i}`];
+                        break;
+                }
+
+                if (ref && authors) {
+                    references.push({
+                        text: ref,
+                        sortKey: getFirstAuthor(authors),
+                        authors: authors,
+                        year: data[`year-${i}`] || ''
+                    });
+                }
+            }
+
+            if (references.length === 0) {
+                alert('Please add at least one source!');
+                return;
+            }
+
+            // Sort alphabetically
+            references.sort((a, b) => a.sortKey.localeCompare(b.sortKey));
+
+            // Display bibliography
+            const output = document.getElementById('bibliographyOutput');
+            output.innerHTML = references.map(ref => `<div class="mb-4">${ref.text}</div>`).join('');
+
+            // Generate in-text citation examples
+            const citationExamples = document.getElementById('citationExamples');
+            let examples = '';
+
+            references.forEach((ref, index) => {
+                const authorSurname = ref.authors.split(',')[0];
+                const hasMultipleAuthors = ref.authors.includes(' and ');
+                const authorCitation = hasMultipleAuthors ? authorSurname + ' et al.' : authorSurname;
+                
+                examples += `
+                    <div class="citation-example rounded">
+                        <strong>Source ${index + 1}:</strong><br>
+                        <strong>Paraphrase:</strong> Recent research shows that... (${authorCitation}, ${ref.year}).<br>
+                        <strong>Narrative:</strong> ${authorCitation} (${ref.year}) argues that...<br>
+                        <strong>Direct quote:</strong> As ${authorCitation} (${ref.year}, p.XX) states, "..."
+                    </div>
+                `;
+            });
+
+            citationExamples.innerHTML = examples;
+
+            // Show sections
+            document.getElementById('bibliographySection').style.display = 'block';
+            document.getElementById('citationSection').style.display = 'block';
+
+            // Scroll to bibliography
+            document.getElementById('bibliographySection').scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+
+        function copyBibliography() {
+            const output = document.getElementById('bibliographyOutput');
+            const text = output.innerText;
+
+            navigator.clipboard.writeText(text).then(() => {
+                const button = event.target;
+                const originalText = button.innerHTML;
+                button.innerHTML = '✓ Copied!';
+                button.style.backgroundColor = '#10b981';
+                
+                setTimeout(() => {
+                    button.innerHTML = originalText;
+                    button.style.backgroundColor = '';
+                }, 2000);
+            });
+        }
+    </script>
+</body>
+</html>
