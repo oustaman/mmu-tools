@@ -10,37 +10,63 @@
     <div class="max-w-7xl mx-auto">
         <h1 class="text-3xl font-bold text-gray-900 mb-6">Academic Timetable</h1>
         
-        <!-- Focus Mode Controls -->
+        <!-- View Mode Controls -->
         <div class="bg-white rounded-lg shadow-md p-6 mb-6">
-            <h2 class="text-xl font-semibold text-gray-800 mb-4">Focus Mode</h2>
+            <h2 class="text-xl font-semibold text-gray-800 mb-4">View Mode</h2>
             
-            <!-- Staff Focus -->
-            <div class="mb-4">
-                <h3 class="text-sm font-medium text-gray-700 mb-2">Staff Focus:</h3>
+            <!-- View Mode Selector -->
+            <div class="mb-6">
                 <div class="flex flex-wrap gap-2">
-                    <button onclick="setFocus('all')" id="btn-all" class="px-4 py-2 rounded-md bg-blue-600 text-white hover:bg-blue-700 transition">All</button>
-                    <button onclick="setFocus('AH')" id="btn-AH" class="px-4 py-2 rounded-md bg-gray-200 text-gray-700 hover:bg-gray-300 transition">AH</button>
-                    <button onclick="setFocus('ES')" id="btn-ES" class="px-4 py-2 rounded-md bg-gray-200 text-gray-700 hover:bg-gray-300 transition">ES</button>
-                    <button onclick="setFocus('EL')" id="btn-EL" class="px-4 py-2 rounded-md bg-gray-200 text-gray-700 hover:bg-gray-300 transition">EL</button>
-                    <button onclick="setFocus('FJ')" id="btn-FJ" class="px-4 py-2 rounded-md bg-gray-200 text-gray-700 hover:bg-gray-300 transition">FJ</button>
-                    <button onclick="setFocus('GW')" id="btn-GW" class="px-4 py-2 rounded-md bg-gray-200 text-gray-700 hover:bg-gray-300 transition">GW</button>
-                    <button onclick="setFocus('KF')" id="btn-KF" class="px-4 py-2 rounded-md bg-gray-200 text-gray-700 hover:bg-gray-300 transition">KF</button>
-                    <button onclick="setFocus('MP')" id="btn-MP" class="px-4 py-2 rounded-md bg-gray-200 text-gray-700 hover:bg-gray-300 transition">MP</button>
-                    <button onclick="setFocus('MS')" id="btn-MS" class="px-4 py-2 rounded-md bg-gray-200 text-gray-700 hover:bg-gray-300 transition">MS</button>
-                    <button onclick="setFocus('MO')" id="btn-MO" class="px-4 py-2 rounded-md bg-gray-200 text-gray-700 hover:bg-gray-300 transition">MO</button>
-                    <button onclick="setFocus('SB')" id="btn-SB" class="px-4 py-2 rounded-md bg-gray-200 text-gray-700 hover:bg-gray-300 transition">SB</button>
+                    <button onclick="setViewMode('staff')" id="mode-staff" class="px-6 py-3 rounded-md bg-blue-600 text-white hover:bg-blue-700 transition font-medium">Staff View</button>
+                    <button onclick="setViewMode('staff-year')" id="mode-staff-year" class="px-6 py-3 rounded-md bg-gray-200 text-gray-700 hover:bg-gray-300 transition font-medium">Staff Year View</button>
+                    <button onclick="setViewMode('student')" id="mode-student" class="px-6 py-3 rounded-md bg-gray-200 text-gray-700 hover:bg-gray-300 transition font-medium">Student View</button>
+                    <button onclick="setViewMode('all')" id="mode-all" class="px-6 py-3 rounded-md bg-gray-200 text-gray-700 hover:bg-gray-300 transition font-medium">All Classes</button>
                 </div>
             </div>
-            
-            <!-- Year Level Focus -->
-            <div>
-                <h3 class="text-sm font-medium text-gray-700 mb-2">Year Level Focus:</h3>
+
+            <!-- Staff View Controls -->
+            <div id="staff-controls" class="mb-4">
+                <h3 class="text-sm font-medium text-gray-700 mb-2">Select Staff Member:</h3>
                 <div class="flex flex-wrap gap-2">
-                    <button onclick="setFocus('L4')" id="btn-L4" class="px-4 py-2 rounded-md bg-gray-200 text-gray-700 hover:bg-gray-300 transition">L4</button>
-                    <button onclick="setFocus('L5')" id="btn-L5" class="px-4 py-2 rounded-md bg-gray-200 text-gray-700 hover:bg-gray-300 transition">L5</button>
-                    <button onclick="setFocus('L6')" id="btn-L6" class="px-4 py-2 rounded-md bg-gray-200 text-gray-700 hover:bg-gray-300 transition">L6</button>
-                    <button onclick="setFocus('L7')" id="btn-L7" class="px-4 py-2 rounded-md bg-gray-200 text-gray-700 hover:bg-gray-300 transition">L7</button>
+                    <button onclick="selectStaff('AH')" id="staff-AH" class="px-4 py-2 rounded-md bg-gray-200 text-gray-700 hover:bg-gray-300 transition">AH</button>
+                    <button onclick="selectStaff('ES')" id="staff-ES" class="px-4 py-2 rounded-md bg-gray-200 text-gray-700 hover:bg-gray-300 transition">ES</button>
+                    <button onclick="selectStaff('EL')" id="staff-EL" class="px-4 py-2 rounded-md bg-gray-200 text-gray-700 hover:bg-gray-300 transition">EL</button>
+                    <button onclick="selectStaff('FJ')" id="staff-FJ" class="px-4 py-2 rounded-md bg-gray-200 text-gray-700 hover:bg-gray-300 transition">FJ</button>
+                    <button onclick="selectStaff('GW')" id="staff-GW" class="px-4 py-2 rounded-md bg-gray-200 text-gray-700 hover:bg-gray-300 transition">GW</button>
+                    <button onclick="selectStaff('KF')" id="staff-KF" class="px-4 py-2 rounded-md bg-gray-200 text-gray-700 hover:bg-gray-300 transition">KF</button>
+                    <button onclick="selectStaff('MP')" id="staff-MP" class="px-4 py-2 rounded-md bg-gray-200 text-gray-700 hover:bg-gray-300 transition">MP</button>
+                    <button onclick="selectStaff('MS')" id="staff-MS" class="px-4 py-2 rounded-md bg-gray-200 text-gray-700 hover:bg-gray-300 transition">MS</button>
+                    <button onclick="selectStaff('MO')" id="staff-MO" class="px-4 py-2 rounded-md bg-gray-200 text-gray-700 hover:bg-gray-300 transition">MO</button>
+                    <button onclick="selectStaff('SB')" id="staff-SB" class="px-4 py-2 rounded-md bg-gray-200 text-gray-700 hover:bg-gray-300 transition">SB</button>
                 </div>
+            </div>
+
+            <!-- Year Filter Controls (for Staff Year View) -->
+            <div id="year-controls" class="mb-4" style="display: none;">
+                <h3 class="text-sm font-medium text-gray-700 mb-2">Filter by Year Level:</h3>
+                <div class="flex flex-wrap gap-2">
+                    <button onclick="selectYear('ALL')" id="year-ALL" class="px-4 py-2 rounded-md bg-blue-600 text-white hover:bg-blue-700 transition">All Years</button>
+                    <button onclick="selectYear('L4')" id="year-L4" class="px-4 py-2 rounded-md bg-gray-200 text-gray-700 hover:bg-gray-300 transition">L4</button>
+                    <button onclick="selectYear('L5')" id="year-L5" class="px-4 py-2 rounded-md bg-gray-200 text-gray-700 hover:bg-gray-300 transition">L5</button>
+                    <button onclick="selectYear('L6')" id="year-L6" class="px-4 py-2 rounded-md bg-gray-200 text-gray-700 hover:bg-gray-300 transition">L6</button>
+                    <button onclick="selectYear('L7')" id="year-L7" class="px-4 py-2 rounded-md bg-gray-200 text-gray-700 hover:bg-gray-300 transition">L7</button>
+                </div>
+            </div>
+
+            <!-- Student View Controls -->
+            <div id="student-controls" style="display: none;">
+                <h3 class="text-sm font-medium text-gray-700 mb-2">Select Year Level:</h3>
+                <div class="flex flex-wrap gap-2">
+                    <button onclick="selectStudentYear('L4')" id="student-L4" class="px-4 py-2 rounded-md bg-gray-200 text-gray-700 hover:bg-gray-300 transition">Level 4</button>
+                    <button onclick="selectStudentYear('L5')" id="student-L5" class="px-4 py-2 rounded-md bg-gray-200 text-gray-700 hover:bg-gray-300 transition">Level 5</button>
+                    <button onclick="selectStudentYear('L6')" id="student-L6" class="px-4 py-2 rounded-md bg-gray-200 text-gray-700 hover:bg-gray-300 transition">Level 6</button>
+                    <button onclick="selectStudentYear('L7')" id="student-L7" class="px-4 py-2 rounded-md bg-gray-200 text-gray-700 hover:bg-gray-300 transition">Level 7 (MA LIM)</button>
+                </div>
+            </div>
+
+            <!-- Current View Display -->
+            <div id="current-view-display" class="mt-4 p-3 bg-blue-50 border border-blue-200 rounded-md">
+                <p class="text-sm text-blue-900 font-medium">📊 Currently viewing: <span id="current-view-text">All Classes</span></p>
             </div>
         </div>
 
@@ -63,11 +89,17 @@
                         <tr>
                             <td class="px-4 py-3 text-sm font-medium text-gray-600 align-top">10:00-12:00</td>
                             <td class="px-4 py-3 align-top">
-                                <div class="class-slot" data-staff="AH" data-level="L4">
+                                <div class="class-slot mb-3" data-staff="AH" data-level="L4">
                                     <div class="text-sm font-semibold text-blue-900">L4 Digital Entrepreneurship</div>
                                     <div class="text-xs text-gray-600 mt-1">Staff: AH | 100 students</div>
                                     <div class="text-xs text-gray-500 mt-1">📍 Repeated Lecture (split into 2 groups of ~50)</div>
                                     <div class="text-xs text-indigo-600 font-medium">Classroom: GE or GM (Standard, ~50 capacity)</div>
+                                </div>
+                                <div class="class-slot" data-staff="KF" data-level="L7">
+                                    <div class="text-sm font-semibold text-rose-900">L7 Digital Rights</div>
+                                    <div class="text-xs text-gray-600 mt-1">Staff: KF | 15 students</div>
+                                    <div class="text-xs text-gray-500 mt-1">📍 Round Table Seminar</div>
+                                    <div class="text-xs text-indigo-600 font-medium">Classroom: Computer Lab (required for editing software)</div>
                                 </div>
                             </td>
                             <td class="px-4 py-3 align-top">
@@ -207,7 +239,8 @@
                                     <div class="text-sm font-semibold text-purple-900">L6 DMP Workshop</div>
                                     <div class="text-xs text-gray-600 mt-1">Staff: KF | 54 students</div>
                                     <div class="text-xs text-gray-500 mt-1">📍 Focused Practical Workshop</div>
-                                    <div class="text-xs text-indigo-600 font-medium">Classroom: Computer Lab (suggested)</div>
+                                    <div class="text-xs text-indigo-600 font-medium">Classroom: GM119 (Computer Lab)</div>
+                                    <div class="text-xs text-emerald-600 mt-1">ℹ️ Scheduled same day as main DMP session for better attendance</div>
                                 </div>
                             </td>
                             <td class="px-4 py-3 align-top">
@@ -219,12 +252,6 @@
                                 </div>
                             </td>
                             <td class="px-4 py-3 align-top">
-                                <div class="class-slot" data-staff="KF" data-level="L7">
-                                    <div class="text-sm font-semibold text-rose-900">L7 Digital Rights</div>
-                                    <div class="text-xs text-gray-600 mt-1">Staff: KF | 15 students</div>
-                                    <div class="text-xs text-gray-500 mt-1">📍 Round Table Seminar</div>
-                                    <div class="text-xs text-indigo-600 font-medium">Classroom: Small Seminar Room / Boardroom (suggested)</div>
-                                </div>
                             </td>
                         </tr>
                     </tbody>
@@ -257,63 +284,218 @@
     </div>
 
     <script>
-        let currentFocus = 'all';
+        let currentViewMode = 'staff';
+        let selectedStaff = null;
+        let selectedYear = 'ALL';
+        let selectedStudentYear = null;
 
-        function setFocus(focus) {
-            currentFocus = focus;
+        function setViewMode(mode) {
+            currentViewMode = mode;
             
-            // Update button styles
-            document.querySelectorAll('button[id^="btn-"]').forEach(btn => {
+            // Update mode button styles
+            document.querySelectorAll('button[id^="mode-"]').forEach(btn => {
                 btn.classList.remove('bg-blue-600', 'text-white');
                 btn.classList.add('bg-gray-200', 'text-gray-700');
             });
+            document.getElementById('mode-' + mode).classList.remove('bg-gray-200', 'text-gray-700');
+            document.getElementById('mode-' + mode).classList.add('bg-blue-600', 'text-white');
             
-            document.getElementById('btn-' + focus).classList.remove('bg-gray-200', 'text-gray-700');
-            document.getElementById('btn-' + focus).classList.add('bg-blue-600', 'text-white');
+            // Show/hide appropriate controls
+            document.getElementById('staff-controls').style.display = (mode === 'staff' || mode === 'staff-year') ? 'block' : 'none';
+            document.getElementById('year-controls').style.display = (mode === 'staff-year' && selectedStaff) ? 'block' : 'none';
+            document.getElementById('student-controls').style.display = (mode === 'student') ? 'block' : 'none';
             
-            // Filter classes
-            document.querySelectorAll('.class-slot').forEach(slot => {
-                const staff = slot.getAttribute('data-staff').split(',');
-                const level = slot.getAttribute('data-level');
-                
-                if (focus === 'all') {
-                    slot.style.opacity = '1';
-                    slot.style.transform = 'scale(1)';
-                    slot.parentElement.parentElement.style.display = '';
-                } else if (staff.includes(focus)) {
-                    slot.style.opacity = '1';
-                    slot.style.transform = 'scale(1)';
-                    slot.parentElement.parentElement.style.display = '';
-                } else if (level === focus) {
-                    slot.style.opacity = '1';
-                    slot.style.transform = 'scale(1)';
-                    slot.parentElement.parentElement.style.display = '';
-                } else {
-                    slot.style.opacity = '0.2';
-                    slot.style.transform = 'scale(0.95)';
-                }
-            });
-            
-            // Hide empty rows when filtering
-            if (focus !== 'all') {
-                document.querySelectorAll('#timetable-body tr').forEach(row => {
-                    const visibleSlots = Array.from(row.querySelectorAll('.class-slot')).filter(slot => 
-                        slot.style.opacity !== '0.2'
-                    );
-                    if (visibleSlots.length === 0) {
-                        row.style.display = 'none';
-                    } else {
-                        row.style.display = '';
-                    }
-                });
-            } else {
-                document.querySelectorAll('#timetable-body tr').forEach(row => {
-                    row.style.display = '';
-                });
+            // Reset selections based on mode
+            if (mode === 'staff') {
+                selectedStaff = null;
+                selectedYear = 'ALL';
+                resetStaffButtons();
+                updateView();
+            } else if (mode === 'staff-year') {
+                selectedStaff = null;
+                selectedYear = 'ALL';
+                resetStaffButtons();
+                resetYearButtons();
+                updateView();
+            } else if (mode === 'student') {
+                selectedStudentYear = null;
+                resetStudentButtons();
+                updateView();
+            } else if (mode === 'all') {
+                showAllClasses();
             }
         }
 
-        // Add transition effects
+        function selectStaff(staff) {
+            selectedStaff = staff;
+            
+            // Update staff button styles
+            resetStaffButtons();
+            document.getElementById('staff-' + staff).classList.remove('bg-gray-200', 'text-gray-700');
+            document.getElementById('staff-' + staff).classList.add('bg-blue-600', 'text-white');
+            
+            // Show year controls if in staff-year mode
+            if (currentViewMode === 'staff-year') {
+                document.getElementById('year-controls').style.display = 'block';
+            }
+            
+            updateView();
+        }
+
+        function selectYear(year) {
+            selectedYear = year;
+            
+            // Update year button styles
+            resetYearButtons();
+            document.getElementById('year-' + year).classList.remove('bg-gray-200', 'text-gray-700');
+            document.getElementById('year-' + year).classList.add('bg-blue-600', 'text-white');
+            
+            updateView();
+        }
+
+        function selectStudentYear(year) {
+            selectedStudentYear = year;
+            
+            // Update student year button styles
+            resetStudentButtons();
+            document.getElementById('student-' + year).classList.remove('bg-gray-200', 'text-gray-700');
+            document.getElementById('student-' + year).classList.add('bg-blue-600', 'text-white');
+            
+            updateView();
+        }
+
+        function resetStaffButtons() {
+            document.querySelectorAll('button[id^="staff-"]').forEach(btn => {
+                btn.classList.remove('bg-blue-600', 'text-white');
+                btn.classList.add('bg-gray-200', 'text-gray-700');
+            });
+        }
+
+        function resetYearButtons() {
+            document.querySelectorAll('button[id^="year-"]').forEach(btn => {
+                btn.classList.remove('bg-blue-600', 'text-white');
+                btn.classList.add('bg-gray-200', 'text-gray-700');
+            });
+            document.getElementById('year-ALL').classList.remove('bg-gray-200', 'text-gray-700');
+            document.getElementById('year-ALL').classList.add('bg-blue-600', 'text-white');
+        }
+
+        function resetStudentButtons() {
+            document.querySelectorAll('button[id^="student-"]').forEach(btn => {
+                btn.classList.remove('bg-blue-600', 'text-white');
+                btn.classList.add('bg-gray-200', 'text-gray-700');
+            });
+        }
+
+        function updateView() {
+            let viewText = '';
+            
+            if (currentViewMode === 'all') {
+                showAllClasses();
+                viewText = 'All Classes';
+            } else if (currentViewMode === 'staff') {
+                if (selectedStaff) {
+                    filterByStaff(selectedStaff);
+                    viewText = `Staff View: ${selectedStaff}'s Timetable`;
+                } else {
+                    showAllClasses();
+                    viewText = 'Staff View (Select a staff member)';
+                }
+            } else if (currentViewMode === 'staff-year') {
+                if (selectedStaff) {
+                    if (selectedYear === 'ALL') {
+                        filterByStaff(selectedStaff);
+                        viewText = `Staff Year View: ${selectedStaff} - All Years`;
+                    } else {
+                        filterByStaffAndYear(selectedStaff, selectedYear);
+                        viewText = `Staff Year View: ${selectedStaff} - ${selectedYear}`;
+                    }
+                } else {
+                    showAllClasses();
+                    viewText = 'Staff Year View (Select a staff member)';
+                }
+            } else if (currentViewMode === 'student') {
+                if (selectedStudentYear) {
+                    filterByStudentYear(selectedStudentYear);
+                    viewText = `Student View: ${selectedStudentYear} Timetable`;
+                } else {
+                    showAllClasses();
+                    viewText = 'Student View (Select a year level)';
+                }
+            }
+            
+            document.getElementById('current-view-text').textContent = viewText;
+        }
+
+        function showAllClasses() {
+            document.querySelectorAll('.class-slot').forEach(slot => {
+                slot.style.opacity = '1';
+                slot.style.transform = 'scale(1)';
+                slot.parentElement.parentElement.style.display = '';
+            });
+            document.querySelectorAll('#timetable-body tr').forEach(row => {
+                row.style.display = '';
+            });
+        }
+
+        function filterByStaff(staff) {
+            document.querySelectorAll('.class-slot').forEach(slot => {
+                const staffList = slot.getAttribute('data-staff').split(',');
+                if (staffList.includes(staff)) {
+                    slot.style.opacity = '1';
+                    slot.style.transform = 'scale(1)';
+                } else {
+                    slot.style.opacity = '0.15';
+                    slot.style.transform = 'scale(0.95)';
+                }
+            });
+            hideEmptyRows();
+        }
+
+        function filterByStaffAndYear(staff, year) {
+            document.querySelectorAll('.class-slot').forEach(slot => {
+                const staffList = slot.getAttribute('data-staff').split(',');
+                const level = slot.getAttribute('data-level');
+                
+                if (staffList.includes(staff) && level === year) {
+                    slot.style.opacity = '1';
+                    slot.style.transform = 'scale(1)';
+                } else {
+                    slot.style.opacity = '0.15';
+                    slot.style.transform = 'scale(0.95)';
+                }
+            });
+            hideEmptyRows();
+        }
+
+        function filterByStudentYear(year) {
+            document.querySelectorAll('.class-slot').forEach(slot => {
+                const level = slot.getAttribute('data-level');
+                if (level === year) {
+                    slot.style.opacity = '1';
+                    slot.style.transform = 'scale(1)';
+                } else {
+                    slot.style.opacity = '0.15';
+                    slot.style.transform = 'scale(0.95)';
+                }
+            });
+            hideEmptyRows();
+        }
+
+        function hideEmptyRows() {
+            document.querySelectorAll('#timetable-body tr').forEach(row => {
+                const visibleSlots = Array.from(row.querySelectorAll('.class-slot')).filter(slot => 
+                    slot.style.opacity !== '0.15'
+                );
+                if (visibleSlots.length === 0) {
+                    row.style.display = 'none';
+                } else {
+                    row.style.display = '';
+                }
+            });
+        }
+
+        // Add transition effects and colors
         document.querySelectorAll('.class-slot').forEach(slot => {
             slot.style.transition = 'all 0.3s ease';
             
@@ -329,6 +511,9 @@
                 slot.classList.add('bg-rose-50', 'border', 'border-rose-200', 'rounded-lg', 'p-3');
             }
         });
+
+        // Initialize view
+        updateView();
     </script>
 </body>
 </html>
