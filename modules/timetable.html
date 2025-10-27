@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Academic Timetable - Interactive View</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-50 p-6">
+    <div class="max-w-7xl mx-auto">
+        <h1 class="text-3xl font-bold text-gray-900 mb-6">Academic Timetable</h1>
+        
+        <!-- Focus Mode Controls -->
+        <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+            <h2 class="text-xl font-semibold text-gray-800 mb-4">Focus Mode</h2>
+            
+            <!-- Staff Focus -->
+            <div class="mb-4">
+                <h3 class="text-sm font-medium text-gray-700 mb-2">Staff Focus:</h3>
+                <div class="flex flex-wrap gap-2">
+                    <button onclick="setFocus('all')" id="btn-all" class="px-4 py-2 rounded-md bg-blue-600 text-white hover:bg-blue-700 transition">All</button>
+                    <button onclick="setFocus('AH')" id="btn-AH" class="px-4 py-2 rounded-md bg-gray-200 text-gray-700 hover:bg-gray-300 transition">AH</button>
+                    <button onclick="setFocus('ES')" id="btn-ES" class="px-4 py-2 rounded-md bg-gray-200 text-gray-700 hover:bg-gray-300 transition">ES</button>
+                    <button onclick="setFocus('EL')" id="btn-EL" class="px-4 py-2 rounded-md bg-gray-200 text-gray-700 hover:bg-gray-300 transition">EL</button>
+                    <button onclick="setFocus('FJ')" id="btn-FJ" class="px-4 py-2 rounded-md bg-gray-200 text-gray-700 hover:bg-gray-300 transition">FJ</button>
+                    <button onclick="setFocus('GW')" id="btn-GW" class="px-4 py-2 rounded-md bg-gray-200 text-gray-700 hover:bg-gray-300 transition">GW</button>
+                    <button onclick="setFocus('KF')" id="btn-KF" class="px-4 py-2 rounded-md bg-gray-200 text-gray-700 hover:bg-gray-300 transition">KF</button>
+                    <button onclick="setFocus('MP')" id="btn-MP" class="px-4 py-2 rounded-md bg-gray-200 text-gray-700 hover:bg-gray-300 transition">MP</button>
+                    <button onclick="setFocus('MS')" id="btn-MS" class="px-4 py-2 rounded-md bg-gray-200 text-gray-700 hover:bg-gray-300 transition">MS</button>
+                    <button onclick="setFocus('MO')" id="btn-MO" class="px-4 py-2 rounded-md bg-gray-200 text-gray-700 hover:bg-gray-300 transition">MO</button>
+                    <button onclick="setFocus('SB')" id="btn-SB" class="px-4 py-2 rounded-md bg-gray-200 text-gray-700 hover:bg-gray-300 transition">SB</button>
+                </div>
+            </div>
+            
+            <!-- Year Level Focus -->
+            <div>
+                <h3 class="text-sm font-medium text-gray-700 mb-2">Year Level Focus:</h3>
+                <div class="flex flex-wrap gap-2">
+                    <button onclick="setFocus('L4')" id="btn-L4" class="px-4 py-2 rounded-md bg-gray-200 text-gray-700 hover:bg-gray-300 transition">L4</button>
+                    <button onclick="setFocus('L5')" id="btn-L5" class="px-4 py-2 rounded-md bg-gray-200 text-gray-700 hover:bg-gray-300 transition">L5</button>
+                    <button onclick="setFocus('L6')" id="btn-L6" class="px-4 py-2 rounded-md bg-gray-200 text-gray-700 hover:bg-gray-300 transition">L6</button>
+                    <button onclick="setFocus('L7')" id="btn-L7" class="px-4 py-2 rounded-md bg-gray-200 text-gray-700 hover:bg-gray-300 transition">L7</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Timetable Grid -->
+        <div class="bg-white rounded-lg shadow-md overflow-hidden">
+            <div class="overflow-x-auto">
+                <table class="w-full">
+                    <thead class="bg-gray-100">
+                        <tr>
+                            <th class="px-4 py-3 text-left text-sm font-semibold text-gray-700 border-b">Time</th>
+                            <th class="px-4 py-3 text-left text-sm font-semibold text-gray-700 border-b">Monday</th>
+                            <th class="px-4 py-3 text-left text-sm font-semibold text-gray-700 border-b">Tuesday</th>
+                            <th class="px-4 py-3 text-left text-sm font-semibold text-gray-700 border-b">Wednesday</th>
+                            <th class="px-4 py-3 text-left text-sm font-semibold text-gray-700 border-b">Thursday</th>
+                            <th class="px-4 py-3 text-left text-sm font-semibold text-gray-700 border-b">Friday</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-gray-200" id="timetable-body">
+                        <!-- 10am-12pm -->
+                        <tr>
+                            <td class="px-4 py-3 text-sm font-medium text-gray-600 align-top">10:00-12:00</td>
+                            <td class="px-4 py-3 align-top">
+                                <div class="class-slot" data-staff="AH" data-level="L4">
+                                    <div class="text-sm font-semibold text-blue-900">L4 Digital Entrepreneurship</div>
+                                    <div class="text-xs text-gray-600 mt-1">Staff: AH | 100 students</div>
+                                    <div class="text-xs text-gray-500 mt-1">📍 Repeated Lecture (split into 2 groups of ~50)</div>
+                                    <div class="text-xs text-indigo-600 font-medium">Classroom: GE or GM (Standard, ~50 capacity)</div>
+                                </div>
+                            </td>
+                            <td class="px-4 py-3 align-top">
+                                <div class="class-slot" data-staff="MS" data-level="L4">
+                                    <div class="text-sm font-semibold text-blue-900">L4 DAC</div>
+                                    <div class="text-xs text-gray-600 mt-1">Staff: MS | 100 students</div>
+                                    <div class="text-xs text-gray-500 mt-1">📍 Lecture + Computer Workshop</div>
+                                    <div class="text-xs text-indigo-600 font-medium">Classroom: Large Lecture Theatre + Computer Lab</div>
+                                </div>
+                            </td>
+                            <td class="px-4 py-3 align-top">
+                                <div class="class-slot mb-3" data-staff="EL,KF" data-level="L6" data-duration="3">
+                                    <div class="text-sm font-semibold text-purple-900">L6 DMP (3 hours)</div>
+                                    <div class="text-xs text-gray-600 mt-1">Staff: EL, KF | 54 students</div>
+                                    <div class="text-xs text-amber-600 mt-1">10:00-13:00</div>
+                                    <div class="text-xs text-gray-500 mt-1">📍 Supervised Project Workshop</div>
+                                    <div class="text-xs text-indigo-600 font-medium">Classroom: Computer Lab (suggested)</div>
+                                </div>
+                                <div class="class-slot" data-staff="ES" data-level="L5">
+                                    <div class="text-sm font-semibold text-green-900">L5 Uses of Social Networking</div>
+                                    <div class="text-xs text-gray-600 mt-1">Staff: ES | 60 students</div>
+                                    <div class="text-xs text-gray-500 mt-1">📍 Interactive Lecture / Seminar</div>
+                                    <div class="text-xs text-indigo-600 font-medium">Classroom: GM338 or similar Standard Classroom</div>
+                                </div>
+                            </td>
+                            <td class="px-4 py-3 align-top">
+                                <div class="class-slot" data-staff="ES" data-level="L5">
+                                    <div class="text-sm font-semibold text-green-900">L5 Digital Rights: Ethics</div>
+                                    <div class="text-xs text-gray-600 mt-1">Staff: ES | 63 students</div>
+                                    <div class="text-xs text-gray-500 mt-1">📍 Interactive Lecture / Seminar</div>
+                                    <div class="text-xs text-indigo-600 font-medium">Classroom: GM338 or similar Standard Classroom</div>
+                                </div>
+                            </td>
+                            <td class="px-4 py-3 align-top">
+                                <div class="class-slot" data-staff="MO,SB" data-level="L4">
+                                    <div class="text-sm font-semibold text-blue-900">L4 Web Page Development</div>
+                                    <div class="text-xs text-gray-600 mt-1">Staff: MO, SB | 100 students</div>
+                                    <div class="text-xs text-gray-500 mt-1">📍 Computer Workshop (4-5 groups of 20-25)</div>
+                                    <div class="text-xs text-indigo-600 font-medium">Classroom: Computer Lab (suggested)</div>
+                                </div>
+                            </td>
+                        </tr>
+                        
+                        <!-- 11am-1pm (overlapping) -->
+                        <tr>
+                            <td class="px-4 py-3 text-sm font-medium text-gray-600 align-top">11:00-13:00</td>
+                            <td class="px-4 py-3 align-top"></td>
+                            <td class="px-4 py-3 align-top">
+                                <div class="class-slot" data-staff="GW" data-level="L7">
+                                    <div class="text-sm font-semibold text-rose-900">L7 Research Methods</div>
+                                    <div class="text-xs text-gray-600 mt-1">Staff: GW | 15 students</div>
+                                    <div class="text-xs text-gray-500 mt-1">📍 Round Table Seminar</div>
+                                    <div class="text-xs text-indigo-600 font-medium">Classroom: Small Seminar Room / Boardroom (suggested)</div>
+                                </div>
+                            </td>
+                            <td class="px-4 py-3 align-top"></td>
+                            <td class="px-4 py-3 align-top"></td>
+                            <td class="px-4 py-3 align-top"></td>
+                        </tr>
+
+                        <!-- 12pm-2pm -->
+                        <tr>
+                            <td class="px-4 py-3 text-sm font-medium text-gray-600 align-top">12:00-14:00</td>
+                            <td class="px-4 py-3 align-top">
+                                <div class="class-slot" data-staff="AH" data-level="L5">
+                                    <div class="text-sm font-semibold text-green-900">L5 Digital PM</div>
+                                    <div class="text-xs text-gray-600 mt-1">Staff: AH | 60 students</div>
+                                    <div class="text-xs text-gray-500 mt-1">📍 Lecture + Interactive Workshop</div>
+                                    <div class="text-xs text-indigo-600 font-medium">Classroom: GE or GM (Standard, ~50 capacity)</div>
+                                </div>
+                            </td>
+                            <td class="px-4 py-3 align-top">
+                                <div class="class-slot" data-staff="MP" data-level="L4">
+                                    <div class="text-sm font-semibold text-blue-900">L4 Digital Society, Culture and Communications</div>
+                                    <div class="text-xs text-gray-600 mt-1">Staff: MP | 100 students</div>
+                                    <div class="text-xs text-gray-500 mt-1">📍 Traditional Lecture</div>
+                                    <div class="text-xs text-indigo-600 font-medium">Classroom: Large Lecture Theatre (suggested)</div>
+                                </div>
+                            </td>
+                            <td class="px-4 py-3 align-top"></td>
+                            <td class="px-4 py-3 align-top">
+                                <div class="class-slot" data-staff="MO" data-level="L6">
+                                    <div class="text-sm font-semibold text-purple-900">L6 UXCI</div>
+                                    <div class="text-xs text-gray-600 mt-1">Staff: MO | 54 students</div>
+                                    <div class="text-xs text-gray-500 mt-1">📍 Combined Lecture & Workshop</div>
+                                    <div class="text-xs text-indigo-600 font-medium">Classroom: Computer Lab (suggested)</div>
+                                </div>
+                            </td>
+                            <td class="px-4 py-3 align-top">
+                                <div class="class-slot" data-staff="MO,SB" data-level="L5">
+                                    <div class="text-sm font-semibold text-green-900">L5 Website Development - Design</div>
+                                    <div class="text-xs text-gray-600 mt-1">Staff: MO, SB | 60 students</div>
+                                    <div class="text-xs text-gray-500 mt-1">📍 Lecture + Computer Workshop</div>
+                                    <div class="text-xs text-indigo-600 font-medium">Classroom: Standard Classroom + Computer Lab</div>
+                                </div>
+                            </td>
+                        </tr>
+
+                        <!-- 1pm-3pm -->
+                        <tr>
+                            <td class="px-4 py-3 text-sm font-medium text-gray-600 align-top">13:00-15:00</td>
+                            <td class="px-4 py-3 align-top">
+                                <div class="class-slot" data-staff="GW" data-level="L7">
+                                    <div class="text-sm font-semibold text-rose-900">L7 The Information Organisation</div>
+                                    <div class="text-xs text-gray-600 mt-1">Staff: GW | 15 students</div>
+                                    <div class="text-xs text-gray-500 mt-1">📍 Round Table Seminar</div>
+                                    <div class="text-xs text-indigo-600 font-medium">Classroom: Small Seminar Room / Boardroom (suggested)</div>
+                                </div>
+                            </td>
+                            <td class="px-4 py-3 align-top"></td>
+                            <td class="px-4 py-3 align-top"></td>
+                            <td class="px-4 py-3 align-top"></td>
+                            <td class="px-4 py-3 align-top"></td>
+                        </tr>
+
+                        <!-- 2pm-4pm -->
+                        <tr>
+                            <td class="px-4 py-3 text-sm font-medium text-gray-600 align-top">14:00-16:00</td>
+                            <td class="px-4 py-3 align-top">
+                                <div class="class-slot" data-staff="FJ" data-level="L7">
+                                    <div class="text-sm font-semibold text-rose-900">L7 Assessing Information Seeking Behaviour</div>
+                                    <div class="text-xs text-gray-600 mt-1">Staff: FJ | 15 students</div>
+                                    <div class="text-xs text-gray-500 mt-1">📍 Round Table Seminar</div>
+                                    <div class="text-xs text-indigo-600 font-medium">Classroom: Small Seminar Room / Boardroom (suggested)</div>
+                                </div>
+                            </td>
+                            <td class="px-4 py-3 align-top">
+                                <div class="class-slot" data-staff="MP,MS" data-level="L5">
+                                    <div class="text-sm font-semibold text-green-900">L5 CAP</div>
+                                    <div class="text-xs text-gray-600 mt-1">Staff: MP, MS | 60 students</div>
+                                    <div class="text-xs text-gray-500 mt-1">📍 Lecture + Computer Workshop</div>
+                                    <div class="text-xs text-indigo-600 font-medium">Classroom: Standard Classroom + Computer Lab</div>
+                                </div>
+                            </td>
+                            <td class="px-4 py-3 align-top">
+                                <div class="class-slot" data-staff="KF" data-level="L6">
+                                    <div class="text-sm font-semibold text-purple-900">L6 DMP Workshop</div>
+                                    <div class="text-xs text-gray-600 mt-1">Staff: KF | 54 students</div>
+                                    <div class="text-xs text-gray-500 mt-1">📍 Focused Practical Workshop</div>
+                                    <div class="text-xs text-indigo-600 font-medium">Classroom: Computer Lab (suggested)</div>
+                                </div>
+                            </td>
+                            <td class="px-4 py-3 align-top">
+                                <div class="class-slot" data-staff="MO" data-level="L4">
+                                    <div class="text-sm font-semibold text-blue-900">L4 Digital Media Technologies and Society</div>
+                                    <div class="text-xs text-gray-600 mt-1">Staff: MO | 50 students</div>
+                                    <div class="text-xs text-gray-500 mt-1">📍 Traditional Lecture</div>
+                                    <div class="text-xs text-indigo-600 font-medium">Classroom: Standard Classroom (suggested)</div>
+                                </div>
+                            </td>
+                            <td class="px-4 py-3 align-top">
+                                <div class="class-slot" data-staff="KF" data-level="L7">
+                                    <div class="text-sm font-semibold text-rose-900">L7 Digital Rights</div>
+                                    <div class="text-xs text-gray-600 mt-1">Staff: KF | 15 students</div>
+                                    <div class="text-xs text-gray-500 mt-1">📍 Round Table Seminar</div>
+                                    <div class="text-xs text-indigo-600 font-medium">Classroom: Small Seminar Room / Boardroom (suggested)</div>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Legend -->
+        <div class="mt-6 bg-white rounded-lg shadow-md p-6">
+            <h3 class="text-lg font-semibold text-gray-800 mb-3">Color Legend</h3>
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
+                <div class="flex items-center gap-2">
+                    <div class="w-4 h-4 bg-blue-100 border border-blue-300 rounded"></div>
+                    <span class="text-sm text-gray-700">Level 4</span>
+                </div>
+                <div class="flex items-center gap-2">
+                    <div class="w-4 h-4 bg-green-100 border border-green-300 rounded"></div>
+                    <span class="text-sm text-gray-700">Level 5</span>
+                </div>
+                <div class="flex items-center gap-2">
+                    <div class="w-4 h-4 bg-purple-100 border border-purple-300 rounded"></div>
+                    <span class="text-sm text-gray-700">Level 6</span>
+                </div>
+                <div class="flex items-center gap-2">
+                    <div class="w-4 h-4 bg-rose-100 border border-rose-300 rounded"></div>
+                    <span class="text-sm text-gray-700">Level 7</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentFocus = 'all';
+
+        function setFocus(focus) {
+            currentFocus = focus;
+            
+            // Update button styles
+            document.querySelectorAll('button[id^="btn-"]').forEach(btn => {
+                btn.classList.remove('bg-blue-600', 'text-white');
+                btn.classList.add('bg-gray-200', 'text-gray-700');
+            });
+            
+            document.getElementById('btn-' + focus).classList.remove('bg-gray-200', 'text-gray-700');
+            document.getElementById('btn-' + focus).classList.add('bg-blue-600', 'text-white');
+            
+            // Filter classes
+            document.querySelectorAll('.class-slot').forEach(slot => {
+                const staff = slot.getAttribute('data-staff').split(',');
+                const level = slot.getAttribute('data-level');
+                
+                if (focus === 'all') {
+                    slot.style.opacity = '1';
+                    slot.style.transform = 'scale(1)';
+                    slot.parentElement.parentElement.style.display = '';
+                } else if (staff.includes(focus)) {
+                    slot.style.opacity = '1';
+                    slot.style.transform = 'scale(1)';
+                    slot.parentElement.parentElement.style.display = '';
+                } else if (level === focus) {
+                    slot.style.opacity = '1';
+                    slot.style.transform = 'scale(1)';
+                    slot.parentElement.parentElement.style.display = '';
+                } else {
+                    slot.style.opacity = '0.2';
+                    slot.style.transform = 'scale(0.95)';
+                }
+            });
+            
+            // Hide empty rows when filtering
+            if (focus !== 'all') {
+                document.querySelectorAll('#timetable-body tr').forEach(row => {
+                    const visibleSlots = Array.from(row.querySelectorAll('.class-slot')).filter(slot => 
+                        slot.style.opacity !== '0.2'
+                    );
+                    if (visibleSlots.length === 0) {
+                        row.style.display = 'none';
+                    } else {
+                        row.style.display = '';
+                    }
+                });
+            } else {
+                document.querySelectorAll('#timetable-body tr').forEach(row => {
+                    row.style.display = '';
+                });
+            }
+        }
+
+        // Add transition effects
+        document.querySelectorAll('.class-slot').forEach(slot => {
+            slot.style.transition = 'all 0.3s ease';
+            
+            // Set colors based on level
+            const level = slot.getAttribute('data-level');
+            if (level === 'L4') {
+                slot.classList.add('bg-blue-50', 'border', 'border-blue-200', 'rounded-lg', 'p-3');
+            } else if (level === 'L5') {
+                slot.classList.add('bg-green-50', 'border', 'border-green-200', 'rounded-lg', 'p-3');
+            } else if (level === 'L6') {
+                slot.classList.add('bg-purple-50', 'border', 'border-purple-200', 'rounded-lg', 'p-3');
+            } else if (level === 'L7') {
+                slot.classList.add('bg-rose-50', 'border', 'border-rose-200', 'rounded-lg', 'p-3');
+            }
+        });
+    </script>
+</body>
+</html>
