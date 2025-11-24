@@ -1,0 +1,1691 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Classroom Finder</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .accordion-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out;
+        }
+        .accordion-content.active {
+            max-height: 5000px;
+            transition: max-height 0.5s ease-in;
+        }
+        .room-card {
+            transition: all 0.2s ease;
+        }
+        .room-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .checkbox-wrapper {
+            transition: all 0.2s ease;
+        }
+        .checkbox-wrapper:hover {
+            background-color: rgba(59, 130, 246, 0.05);
+        }
+        .priority-badge {
+            font-size: 0.7rem;
+            padding: 0.1rem 0.3rem;
+            border-radius: 0.25rem;
+        }
+        .priority-high {
+            background-color: #dcfce7;
+            color: #166534;
+        }
+        .priority-medium {
+            background-color: #fef3c7;
+            color: #92400e;
+        }
+        .priority-low {
+            background-color: #e0e7ff;
+            color: #3730a3;
+        }
+        .building-header {
+            background-color: #3b82f6;
+            color: white;
+        }
+        .category-header {
+            background-color: #f1f5f9;
+            border-bottom: 1px solid #e2e8f0;
+        }
+        .highlight {
+            background-color: #fef3c7;
+            padding: 0 2px;
+            border-radius: 2px;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 min-h-screen">
+    <div class="container mx-auto px-4 py-8 max-w-7xl">
+        <!-- Header -->
+        <header class="mb-8">
+            <h1 class="text-3xl font-bold text-gray-800 mb-2">
+                <i class="fas fa-school mr-2 text-blue-600"></i>Classroom Finder
+            </h1>
+            <p class="text-gray-600">Find the perfect classroom for your needs across campus buildings</p>
+        </header>
+
+        <!-- Main Content -->
+        <div class="grid grid-cols-1 lg:grid-cols-4 gap-6">
+            <!-- Filters Sidebar -->
+            <div class="lg:col-span-1">
+                <div class="bg-white rounded-lg shadow-md p-6 sticky top-4">
+                    <h2 class="text-xl font-semibold mb-4 text-gray-800">
+                        <i class="fas fa-filter mr-2 text-blue-600"></i>Filters
+                    </h2>
+                    
+                    <!-- Search Bar -->
+                    <div class="mb-6">
+                        <div class="relative">
+                            <input type="text" id="searchInput" placeholder="Search rooms..." 
+                                class="w-full px-4 py-2 pr-10 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                            <button id="searchBtn" class="absolute right-2 top-2 text-blue-600 hover:text-blue-800">
+                                <i class="fas fa-search"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Buildings Accordion -->
+                    <div class="mb-6">
+                        <button class="accordion-header w-full flex justify-between items-center py-2 text-left font-medium text-gray-700 hover:text-blue-600 focus:outline-none">
+                            <span>Buildings</span>
+                            <i class="fas fa-chevron-down transition-transform"></i>
+                        </button>
+                        <div class="accordion-content active mt-2">
+                            <div class="space-y-2" id="buildingsList">
+                                <!-- Buildings will be populated here -->
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Room Types Accordion -->
+                    <div class="mb-6">
+                        <button class="accordion-header w-full flex justify-between items-center py-2 text-left font-medium text-gray-700 hover:text-blue-600 focus:outline-none">
+                            <span>Room Types</span>
+                            <i class="fas fa-chevron-down transition-transform"></i>
+                        </button>
+                        <div class="accordion-content active mt-2">
+                            <div class="space-y-2" id="roomTypesList">
+                                <!-- Room types will be populated here -->
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Reset Filters Button -->
+                    <button id="resetFilters" class="w-full bg-gray-200 hover:bg-gray-300 text-gray-800 font-medium py-2 px-4 rounded-lg transition-colors">
+                        <i class="fas fa-redo mr-2"></i>Reset Filters
+                    </button>
+                </div>
+            </div>
+
+            <!-- Results Section -->
+            <div class="lg:col-span-3">
+                <!-- Results Header -->
+                <div class="bg-white rounded-lg shadow-md p-4 mb-4">
+                    <div class="flex flex-wrap justify-between items-center">
+                        <h2 class="text-xl font-semibold text-gray-800">
+                            <i class="fas fa-list mr-2 text-blue-600"></i>Results
+                        </h2>
+                        <div class="flex items-center space-x-4 mt-2 sm:mt-0">
+                            <span class="text-sm text-gray-600">
+                                Showing <span id="showingCount" class="font-semibold">0</span> of 
+                                <span id="totalCount" class="font-semibold">0</span> rooms
+                            </span>
+                            <select id="sortSelect" class="px-3 py-1 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                <option value="building">Sort by Building</option>
+                                <option value="roomType">Sort by Room Type</option>
+                                <option value="priority">Sort by Priority</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Stats Cards -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+                    <div class="bg-white rounded-lg shadow p-4">
+                        <div class="flex items-center">
+                            <div class="p-3 rounded-full bg-blue-100 text-blue-600 mr-4">
+                                <i class="fas fa-building"></i>
+                            </div>
+                            <div>
+                                <p class="text-gray-500 text-sm">Buildings</p>
+                                <p class="text-xl font-semibold" id="buildingCount">0</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bg-white rounded-lg shadow p-4">
+                        <div class="flex items-center">
+                            <div class="p-3 rounded-full bg-green-100 text-green-600 mr-4">
+                                <i class="fas fa-door-open"></i>
+                            </div>
+                            <div>
+                                <p class="text-gray-500 text-sm">Total Rooms</p>
+                                <p class="text-xl font-semibold" id="totalRoomCount">0</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bg-white rounded-lg shadow p-4">
+                        <div class="flex items-center">
+                            <div class="p-3 rounded-full bg-purple-100 text-purple-600 mr-4">
+                                <i class="fas fa-chalkboard-teacher"></i>
+                            </div>
+                            <div>
+                                <p class="text-gray-500 text-sm">Teaching Rooms</p>
+                                <p class="text-xl font-semibold" id="teachingRoomCount">0</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bg-white rounded-lg shadow p-4">
+                        <div class="flex items-center">
+                            <div class="p-3 rounded-full bg-yellow-100 text-yellow-600 mr-4">
+                                <i class="fas fa-laptop"></i>
+                            </div>
+                            <div>
+                                <p class="text-gray-500 text-sm">IT/Media Rooms</p>
+                                <p class="text-xl font-semibold" id="itRoomCount">0</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Results List -->
+                <div id="resultsList" class="space-y-4">
+                    <!-- Results will be populated here -->
+                </div>
+
+                <!-- No Results Message -->
+                <div id="noResults" class="bg-white rounded-lg shadow-md p-8 text-center hidden">
+                    <i class="fas fa-search text-4xl text-gray-300 mb-4"></i>
+                    <h3 class="text-xl font-semibold text-gray-700 mb-2">No rooms found</h3>
+                    <p class="text-gray-500">Try adjusting your filters or search terms</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Room data hardcoded from the provided list
+        const roomData = `Cavendish Building	CA C.1.01 LT - Cavendish Lecture Theatre
+Cavendish Building	CA C.1.01 LT - Cavendish Lecture Theatre
+Cavendish Building	CA C.1.06 - FDT Studio Space
+Cavendish Building	CA C.1.06 - FDT Studio Space
+Cavendish Building	CA C.1.08 - FDT Garment Tech - Room 3
+Cavendish Building	CA C.1.08 - FDT Garment Tech - Room 3
+Cavendish Building	CA C.1.09 - FDT Pattern Tech - Room 3
+Cavendish Building	CA C.1.09 - FDT Pattern Tech - Room 3
+Cavendish Building	CA C.1.10 - FDT Garment Tech - Room 2
+Cavendish Building	CA C.1.10 - FDT Garment Tech - Room 2
+Cavendish Building	CA C.1.11 - FDT Pattern Tech - Room 2
+Cavendish Building	CA C.1.11 - FDT Pattern Tech - Room 2
+Cavendish Building	CA C.1.12 - FDT Pattern Tech - Room 1
+Cavendish Building	CA C.1.12 - FDT Pattern Tech - Room 1
+Cavendish Building	CA C.1.13 - FDT Garment Tech - Room 1
+Cavendish Building	CA C.1.13 - FDT Garment Tech - Room 1
+Cavendish Building	CA C.2.02 - Fashion Promotion Base Room
+Cavendish Building	CA C.2.02 - Fashion Promotion Base Room
+Cavendish Building	CA C.2.03 - Fashion Promotion Base Room
+Cavendish Building	CA C.2.03 - Fashion Promotion Base Room
+Cavendish Building	CA C.2.11 - MFI Seminar Room - MA Programmes
+Cavendish Building	CA C.2.11 - MFI Seminar Room - MA Programmes
+Cavendish Building	CA C.2.12 - MA independent study room - NOT BOOKABLE unless agreed for any activities by MFI
+Cavendish Building	CA C.2.12 - MA independent study room - NOT BOOKABLE unless agreed for any activities by MFI
+Cavendish Building	CA C.2.18 - MFI Room (For FBM)
+Cavendish Building	CA C.2.18 - MFI Room (For FBM)
+Cavendish Building	CA C.2.19 - MFI Design Studio 2
+Cavendish Building	CA C.2.19 - MFI Design Studio 2
+Cavendish Building	CA C.2.19/C.2.20 - MFI Design Studios Combined
+Cavendish Building	CA C.2.19/C.2.20 - MFI Design Studios Combined
+Cavendish Building	CA C.2.20 - MFI Design Studio 1
+Cavendish Building	CA C.2.20 - MFI Design Studio 1
+Cavendish Building	CA C.2.21 - MFI CAD Studio 2
+Cavendish Building	CA C.2.21 - MFI CAD Studio 2
+Cavendish Building	CA C.2.21/C.2.22 - MFI CAD Studios Combined
+Cavendish Building	CA C.2.21/C.2.22 - MFI CAD Studios Combined
+Cavendish Building	CA C.2.22 - MFI CAD Studio 1
+Cavendish Building	CA C.2.22 - MFI CAD Studio 1
+Cavendish Building	CA C.G.07 - FDT Innovation Zone
+Cavendish Building	CA C.G.07 - FDT Innovation Zone
+Cavendish Building	CA C.G.08 - Body Scan Area
+Cavendish Building	CA C.G.08 - Body Scan Area
+Cavendish Building	CA C.G.10 - Food Product Testing Research Lab
+Cavendish Building	CA C.G.10 - Food Product Testing Research Lab
+Cavendish Building	CA C.G.11 - Carbohydrate Food Department
+Cavendish Building	CA C.G.11 - Carbohydrate Food Department
+Cavendish Building	CA C.G.13 - Food Safety
+Cavendish Building	CA C.G.13 - Food Safety
+Cavendish Building	CA C.G.21 - Protein Food Devlopment
+Cavendish Building	CA C.G.21 - Protein Food Devlopment
+Cavendish Building	CA C.G.22 - Sensory Analysis Booths
+Cavendish Building	CA C.G.22 - Sensory Analysis Booths
+Cavendish Building	CA C.G.23 - Sensory Analysis Preparation Kitchen
+Cavendish Building	CA C.G.23 - Sensory Analysis Preparation Kitchen
+Cavendish Building	CA C.G.24 - Product Development Lab
+Cavendish Building	CA C.G.24 - Product Development Lab
+Cavendish Building	CA C.G.26 - Food Product Testing
+Cavendish Building	CA C.G.26 - Food Product Testing
+Cavendish Building	CA C.G.27 - Food Product Testing Annex
+Cavendish Building	CA C.G.27 - Food Product Testing Annex
+Cavendish Building	CA C.G.29 - Human Physiology Studio
+Cavendish Building	CA C.G.29 - Human Physiology Studio
+Cavendish Building	CA C.G.30 - BA Fashion Baseroom
+Cavendish Building	CA C.G.30 - BA Fashion Baseroom
+Cavendish Building	CA C.G.31 - Textile Testing Lab
+Cavendish Building	CA C.G.31 - Textile Testing Lab
+Chatham Building	CH 2.11 - Fashion Tutorial Room
+Chatham Building	CH 2.13 - Fashion Tutorial Room
+Chatham Building	CH 4th Floor - Foundation Studios - Studio Space - Art Foundation
+Chatham Building	CH 4th Floor - Foundation Studios - Studio Space - Art Foundation
+Chatham Building	CH 7.01A - PC Lab - International College
+Chatham Building	CH 7.01A - PC Lab - International College
+Chatham Building	CH 7.01B - Seminar Room - International College
+Chatham Building	CH 7.01B - Seminar Room - International College
+Chatham Building	CH 7.10 - Art Studio - International College
+Chatham Building	CH 7.10 - Art Studio - International College
+Chatham Building	CH 7.11 - Seminar Room - International College
+Chatham Building	CH 7.11 - Seminar Room - International College
+Chatham Building	CH 7.12 - Seminar Room - International College
+Chatham Building	CH 7.12 - Seminar Room - International College
+Chatham Building	CH 7.13 - Seminar Room - International College
+Chatham Building	CH 7.13 - Seminar Room - International College
+Chatham Building	CH 8.03A - PC Lab - International College
+Chatham Building	CH 8.03A - PC Lab - International College
+Chatham Building	CH 8.03B - Seminar Room - International College
+Chatham Building	CH 8.03B - Seminar Room - International College
+Chatham Building	CH 8.07 - Seminar Room - International College
+Chatham Building	CH 8.07 - Seminar Room - International College
+Chatham Building	CH 8.09 - Seminar Room - International College
+Chatham Building	CH 8.09 - Seminar Room - International College
+Chatham Building	CH 8.10 - Seminar Room - International College
+Chatham Building	CH 8.10 - Seminar Room - International College
+Chatham Building	CH002 - Bookbinding Workshop/Guillotine/Risograph
+Chatham Building	CH002 - Bookbinding Workshop/Guillotine/Risograph
+Chatham Building	CH003 - Letterpress Workshop
+Chatham Building	CH003 - Letterpress Workshop
+Chatham Building	CH018 - Workshop - Glass Workshop
+Chatham Building	CH018 - Workshop - Glass Workshop
+Chatham Building	CH019 - Workshop - Hot Glass Workshop
+Chatham Building	CH019 - Workshop - Hot Glass Workshop
+Chatham Building	CH020 - Workshop - Machine Shop - Glass
+Chatham Building	CH020 - Workshop - Machine Shop - Glass
+Chatham Building	CH022 - Workshop - Fabrication Area
+Chatham Building	CH022 - Workshop - Fabrication Area
+Chatham Building	CH023 - Workshop - Wood Store
+Chatham Building	CH023 - Workshop - Wood Store
+Chatham Building	CH024 - Workshop - Welding & Fabrication Workshop
+Chatham Building	CH024 - Workshop - Welding & Fabrication Workshop
+Chatham Building	CH026 - Machine Workshop - Wood Foam & Plastics
+Chatham Building	CH026 - Machine Workshop - Wood Foam & Plastics
+Chatham Building	CH028 - Workshop - Store
+Chatham Building	CH028 - Workshop - Store
+Chatham Building	CH029 - Workshop - Metal Store
+Chatham Building	CH029 - Workshop - Metal Store
+Chatham Building	CH031 - Workshop - Chemical Workshop
+Chatham Building	CH031 - Workshop - Chemical Workshop
+Chatham Building	CH032 - Workshop - CAM Suite
+Chatham Building	CH032 - Workshop - CAM Suite
+Chatham Building	CH033 - Workshop - FLAMEFAST Hot Metal Workshop
+Chatham Building	CH033 - Workshop - FLAMEFAST Hot Metal Workshop
+Chatham Building	CH034 - Workshop - Metal Workshop
+Chatham Building	CH034 - Workshop - Metal Workshop
+Chatham Building	CH035 - Workshop - Machine shop - Metal
+Chatham Building	CH035 - Workshop - Machine shop - Metal
+Chatham Building	CH036 - Workshop - Plaster Room
+Chatham Building	CH036 - Workshop - Plaster Room
+Chatham Building	CH039 - Workshop - Throwing Room
+Chatham Building	CH039 - Workshop - Throwing Room
+Chatham Building	CH044 - Glaze Preparation Room
+Chatham Building	CH044 - Glaze Preparation Room
+Chatham Building	CH045 - Workshop - Glaze Room
+Chatham Building	CH045 - Workshop - Glaze Room
+Chatham Building	CH046/47 - Workshop - Ceramics Kiln Room
+Chatham Building	CH046/47 - Workshop - Ceramics Kiln Room
+Chatham Building	CH103 - Animation Studio
+Chatham Building	CH103 - Animation Studio
+Chatham Building	CH104 LT - 1st Floor Lecture Theatre - Full AV
+Chatham Building	CH104 LT - 1st Floor Lecture Theatre - Full AV
+Chatham Building	CH105 - Studio - Product Design & Craft
+Chatham Building	CH105 - Studio - Product Design & Craft
+Chatham Building	CH105A - The Box - Product Design & Craft
+Chatham Building	CH105A - The Box - Product Design & Craft
+Chatham Building	CH105IWA - Studio - Illustration With Animation
+Chatham Building	CH105IWA - Studio - Illustration With Animation
+Chatham Building	CH105PDC- Studio - PDC
+Chatham Building	CH105PDC- Studio - PDC
+Chatham Building	CH111 - Illustration with Animation Baseroom
+Chatham Building	CH111 - Illustration with Animation Baseroom
+Chatham Building	CH111 GYM - Fine Art Studio
+Chatham Building	CH111 GYM - Fine Art Studio
+Chatham Building	CH111 Zone 1 Fine Art Studio
+Chatham Building	CH111 Zone 1 Fine Art Studio
+Chatham Building	CH111 Zone 2 Fine Art Studio
+Chatham Building	CH111 Zone 2 Fine Art Studio
+Chatham Building	CH111 Zone 3 Fine Art Studio
+Chatham Building	CH111 Zone 3 Fine Art Studio
+Chatham Building	CH115 - Digital Darkroom (TC)
+Chatham Building	CH115 - Digital Darkroom (TC)
+Chatham Building	CH119 - Photography (Technical Services)
+Chatham Building	CH119 - Photography (Technical Services)
+Chatham Building	CH121 - Animation Baseroom
+Chatham Building	CH121 - Animation Baseroom
+Chatham Building	CH122 - Animation Room (TC)
+Chatham Building	CH122 - Animation Room (TC)
+Chatham Building	CH123 - Stop Motion Studio
+Chatham Building	CH123 - Stop Motion Studio
+Chatham Building	CH127 - All User Stop Motion Animation Studio (TC)
+Chatham Building	CH127 - All User Stop Motion Animation Studio (TC)
+Chatham Building	CH129 - Workshop
+Chatham Building	CH129 - Workshop
+Chatham Building	CH131 - Workshop
+Chatham Building	CH131 - Workshop
+Chatham Building	CH135 - Workshop
+Chatham Building	CH135 - Workshop
+Chatham Building	CH136 - Workshop
+Chatham Building	CH136 - Workshop
+Chatham Building	CH137/9 - Workshop - Photography Darkrooms (TC)
+Chatham Building	CH137/9 - Workshop - Photography Darkrooms (TC)
+Chatham Building	CH140 - Workshop - Photography Lighting Studio (TC)
+Chatham Building	CH140 - Workshop - Photography Lighting Studio (TC)
+Chatham Building	CH141 - Workshop
+Chatham Building	CH141 - Workshop
+Chatham Building	CH142 - Workshop
+Chatham Building	CH142 - Workshop
+Chatham Building	CH143 - Workshop
+Chatham Building	CH143 - Workshop
+Chatham Building	CH146/147 - Fashion Baseroom
+Chatham Building	CH146/147 - Fashion Baseroom
+Chatham Building	CH214 - Fashion Sewing Room
+Chatham Building	CH214 - Fashion Sewing Room
+Chatham Building	CH215 - Fashion Baseroom
+Chatham Building	CH215 - Fashion Baseroom
+Chatham Building	CH216 - Fashion Pattern Cutting
+Chatham Building	CH216 - Fashion Pattern Cutting
+Chatham Building	CH217 - Fashion Baseroom
+Chatham Building	CH217 - Fashion Baseroom
+Chatham Building	CH303 - Technical Film Studio (TC)
+Chatham Building	CH303 - Technical Film Studio (TC)
+Chatham Building	CH303 - Technical Teaching Laptop Lab & Classroom (TC)
+Chatham Building	CH303 - Technical Teaching Laptop Lab & Classroom (TC)
+Chatham Building	CH311 - Animation Baseroom
+Chatham Building	CH311 - Animation Baseroom
+Chatham Building	CH312 LT - Lecture Theatre - Full AV - All Departments
+Chatham Building	CH312 LT - Lecture Theatre - Full AV - All Departments
+Chatham Building	CH403 - Studio Space - Art Foundation
+Chatham Building	CH403 - Studio Space - Art Foundation
+Chatham Building	CH405 - Studio Space - Art Foundation
+Chatham Building	CH405 - Studio Space - Art Foundation
+Chatham Building	CH406 - Studio Space - Art Foundation
+Chatham Building	CH406 - Studio Space - Art Foundation
+Chatham Building	CH407 - Studio Space - Art Foundation
+Chatham Building	CH407 - Studio Space - Art Foundation
+Chatham Building	CH408 - Studio Space - Art Foundation
+Chatham Building	CH408 - Studio Space - Art Foundation
+Chatham Building	CH409 - Studio Space - Art Foundation
+Chatham Building	CH409 - Studio Space - Art Foundation
+Chatham Building	CH410 - Studio Space - Art Foundation
+Chatham Building	CH410 - Studio Space - Art Foundation
+Chatham Building	CH411 - Studio Space - Art Foundation
+Chatham Building	CH411 - Studio Space - Art Foundation
+Chatham Building	CH412 - Studio Space - Art Foundation
+Chatham Building	CH412 - Studio Space - Art Foundation
+Chatham Building	CH501
+Chatham Building	CH501
+Chatham Building	CH513 - Studio - Fine Art
+Chatham Building	CH513 - Studio - Fine Art
+Chatham Building	CH514 - Studio - Fine Art
+Chatham Building	CH514 - Studio - Fine Art
+Chatham Building	CH515 - Studio - Fine Art
+Chatham Building	CH515 - Studio - Fine Art
+Chatham Building	CH516 - Studio - Fine Art
+Chatham Building	CH516 - Studio - Fine Art
+Chatham Building	CH517 - Studio - Contemporary Curating Base Room
+Chatham Building	CH517 - Studio - Contemporary Curating Base Room
+Chatham Building	CH601 - Studio - PG Design
+Chatham Building	CH601 - Studio - PG Design
+Chatham Building	CH602 - Studio - PG Design
+Chatham Building	CH602 - Studio - PG Design
+Chatham Building	CH605 - Studio - PG Design
+Chatham Building	CH605 - Studio - PG Design
+Chatham Building	CH606 - Studio - PG Design
+Chatham Building	CH606 - Studio - PG Design
+Chatham Building	CH608 - Studio - PG Design
+Chatham Building	CH608 - Studio - PG Design
+Chatham Building	CH610 - Studio - PG Design
+Chatham Building	CH610 - Studio - PG Design
+Chatham Building	CH611 - Studio - PG Design
+Chatham Building	CH611 - Studio - PG Design
+Chatham Building	Chatham 2nd Floor - Design - Post Grad
+Chatham Building	Chatham 2nd Floor - Design - Post Grad
+Chatham Building	Chatham 2nd Floor - Media - Post Grad
+Chatham Building	Chatham 2nd Floor - Media - Post Grad
+Chatham Building	CHG13 - A4 & More Store Area
+Chatham Building	CHG13 - A4 & More Store Area
+Chatham Building	Digital Media Bar
+Chatham Building	Digital Media Bar
+Chatham Building	Photography Counter
+Chatham Building	Photography Counter
+Geoffrey Manton Building	Geoffrey Manton Lower Atrium
+Geoffrey Manton Building	Geoffrey Manton Lower Atrium
+Geoffrey Manton Building	Geoffrey Manton Upper Atrium
+Geoffrey Manton Building	Geoffrey Manton Upper Atrium
+Geoffrey Manton Building	GM G.09 - Seminar Room
+Geoffrey Manton Building	GM G.09 - Seminar Room
+Geoffrey Manton Building	GM G.09A - Seminar Room
+Geoffrey Manton Building	GM G.09A - Seminar Room
+Geoffrey Manton Building	GM G.09B - Seminar Room
+Geoffrey Manton Building	GM G.09B - Seminar Room
+Geoffrey Manton Building	GM Lab111 - Computer Lab
+Geoffrey Manton Building	GM Lab111 - Computer Lab
+Geoffrey Manton Building	GM Lab112 - Computer Lab
+Geoffrey Manton Building	GM Lab112 - Computer Lab
+Geoffrey Manton Building	GM Lab115 - Computer Lab
+Geoffrey Manton Building	GM Lab115 - Computer Lab
+Geoffrey Manton Building	GM Lab119 - Computer Lab
+Geoffrey Manton Building	GM Lab119 - Computer Lab
+Geoffrey Manton Building	GM Lab120 - Computer Lab
+Geoffrey Manton Building	GM Lab120 - Computer Lab
+Geoffrey Manton Building	GM LG 11 Radio Studio
+Geoffrey Manton Building	GM LG 11 Radio Studio
+Geoffrey Manton Building	GM LT1 - Lecture Theatre
+Geoffrey Manton Building	GM LT1 - Lecture Theatre
+Geoffrey Manton Building	GM LT2 - Lecture Theatre
+Geoffrey Manton Building	GM LT2 - Lecture Theatre
+Geoffrey Manton Building	GM LT3 - Lecture Theatre
+Geoffrey Manton Building	GM LT3 - Lecture Theatre
+Geoffrey Manton Building	GM LT4 - Lecture Theatre
+Geoffrey Manton Building	GM LT4 - Lecture Theatre
+Geoffrey Manton Building	GM LT5 - Lecture Theatre
+Geoffrey Manton Building	GM LT5 - Lecture Theatre
+Geoffrey Manton Building	GM LT6 - Lecture Theatre
+Geoffrey Manton Building	GM LT6 - Lecture Theatre
+Geoffrey Manton Building	GM LT7 - Lecture Theatre
+Geoffrey Manton Building	GM LT7 - Lecture Theatre
+Geoffrey Manton Building	GM101 - PC Lab
+Geoffrey Manton Building	GM101 - PC Lab
+Geoffrey Manton Building	GM101 Zone A - PC Lab
+Geoffrey Manton Building	GM101 Zone A - PC Lab
+Geoffrey Manton Building	GM101 Zone B - PC Lab
+Geoffrey Manton Building	GM101 Zone B - PC Lab
+Geoffrey Manton Building	GM104 - Seminar room :Tablet Chairs (No Desks)
+Geoffrey Manton Building	GM104 - Seminar room :Tablet Chairs (No Desks)
+Geoffrey Manton Building	GM107 - Seminar room :Tablet Chairs (No Desks)
+Geoffrey Manton Building	GM107 - Seminar room :Tablet Chairs (No Desks)
+Geoffrey Manton Building	GM201 - Design Space
+Geoffrey Manton Building	GM201 - Design Space
+Geoffrey Manton Building	GM201A - L4 Design Space
+Geoffrey Manton Building	GM201A - L4 Design Space
+Geoffrey Manton Building	GM201B - L5 Design Space
+Geoffrey Manton Building	GM201B - L5 Design Space
+Geoffrey Manton Building	GM201C - L6 Design Space
+Geoffrey Manton Building	GM201C - L6 Design Space
+Geoffrey Manton Building	GM203 - Product Design Space
+Geoffrey Manton Building	GM203 - Product Design Space
+Geoffrey Manton Building	GM204 - Design Mac Lab
+Geoffrey Manton Building	GM204 - Design Mac Lab
+Geoffrey Manton Building	GM222 - Seminar Room
+Geoffrey Manton Building	GM222 - Seminar Room
+Geoffrey Manton Building	GM223 - Seminar Room
+Geoffrey Manton Building	GM223 - Seminar Room
+Geoffrey Manton Building	GM224 - Seminar Room
+Geoffrey Manton Building	GM224 - Seminar Room
+Geoffrey Manton Building	GM225 - Seminar Room
+Geoffrey Manton Building	GM225 - Seminar Room
+Geoffrey Manton Building	GM226 - Seminar Room
+Geoffrey Manton Building	GM226 - Seminar Room
+Geoffrey Manton Building	GM227 - Seminar Room
+Geoffrey Manton Building	GM227 - Seminar Room
+Geoffrey Manton Building	GM228 - Seminar Room
+Geoffrey Manton Building	GM228 - Seminar Room
+Geoffrey Manton Building	GM229 - Seminar Room
+Geoffrey Manton Building	GM229 - Seminar Room
+Geoffrey Manton Building	GM230 - Seminar Room
+Geoffrey Manton Building	GM230 - Seminar Room
+Geoffrey Manton Building	GM231 - Seminar Room
+Geoffrey Manton Building	GM231 - Seminar Room
+Geoffrey Manton Building	GM233 - Q-Step Lab (Sociology specialist space)
+Geoffrey Manton Building	GM233 - Q-Step Lab (Sociology specialist space)
+Geoffrey Manton Building	GM234 - Seminar Room
+Geoffrey Manton Building	GM234 - Seminar Room
+Geoffrey Manton Building	GM235 - Seminar Room
+Geoffrey Manton Building	GM235 - Seminar Room
+Geoffrey Manton Building	GM301 - Seminar Room
+Geoffrey Manton Building	GM301 - Seminar Room
+Geoffrey Manton Building	GM302 - Seminar room
+Geoffrey Manton Building	GM302 - Seminar room
+Geoffrey Manton Building	GM304 - Seminar Room
+Geoffrey Manton Building	GM304 - Seminar Room
+Geoffrey Manton Building	GM306 - Seminar Room
+Geoffrey Manton Building	GM306 - Seminar Room
+Geoffrey Manton Building	GM307 - Seminar Room
+Geoffrey Manton Building	GM307 - Seminar Room
+Geoffrey Manton Building	GM325 - Seminar Room
+Geoffrey Manton Building	GM325 - Seminar Room
+Geoffrey Manton Building	GM326 - Seminar Room
+Geoffrey Manton Building	GM326 - Seminar Room
+Geoffrey Manton Building	GM327 LT - Lecture Theatre
+Geoffrey Manton Building	GM327 LT - Lecture Theatre
+Geoffrey Manton Building	GM328 - Seminar Room
+Geoffrey Manton Building	GM328 - Seminar Room
+Geoffrey Manton Building	GM330 LT - Lecture Theatre
+Geoffrey Manton Building	GM330 LT - Lecture Theatre
+Geoffrey Manton Building	GM331 - Seminar Room
+Geoffrey Manton Building	GM331 - Seminar Room
+Geoffrey Manton Building	GM332 - Seminar Room
+Geoffrey Manton Building	GM332 - Seminar Room
+Geoffrey Manton Building	GM333 - Seminar Room
+Geoffrey Manton Building	GM333 - Seminar Room
+Geoffrey Manton Building	GM334 - Seminar Room
+Geoffrey Manton Building	GM334 - Seminar Room
+Geoffrey Manton Building	GM335 - Seminar Room
+Geoffrey Manton Building	GM335 - Seminar Room
+Geoffrey Manton Building	GM337 LT - Lecture Theatre
+Geoffrey Manton Building	GM337 LT - Lecture Theatre
+Geoffrey Manton Building	GM338 - Seminar Room
+Geoffrey Manton Building	GM338 - Seminar Room
+Geoffrey Manton Building	GM342 LT - Lecture Theatre
+Geoffrey Manton Building	GM342 LT - Lecture Theatre
+Grosvenor East	GE 1.03 - Movement Studio 1
+Grosvenor East	GE 1.03 - Movement Studio 1
+Grosvenor East	GE 1.04 - Movement Studio 2
+Grosvenor East	GE 1.04 - Movement Studio 2
+Grosvenor East	GE 1.09 - Studio 1
+Grosvenor East	GE 1.09 - Studio 1
+Grosvenor East	GE 1.10 - Studio 2
+Grosvenor East	GE 1.10 - Studio 2
+Grosvenor East	GE 1.16 - Studio 3
+Grosvenor East	GE 1.16 - Studio 3
+Grosvenor East	GE 2.05 - Studio 4
+Grosvenor East	GE 2.05 - Studio 4
+Grosvenor East	GE 2.06 - PGT Study Room
+Grosvenor East	GE 2.06 - PGT Study Room
+Grosvenor East	GE 2.07 - Studio 5
+Grosvenor East	GE 2.07 - Studio 5
+Grosvenor East	GE 2.08 - Studio 6
+Grosvenor East	GE 2.08 - Studio 6
+Grosvenor East	GE 2.11 - Studio 7
+Grosvenor East	GE 2.11 - Studio 7
+Grosvenor East	GE 2.12 - Studio 8
+Grosvenor East	GE 2.12 - Studio 8
+Grosvenor East	GE 2.19 - TV Studio (TC)
+Grosvenor East	GE 2.19 - TV Studio (TC)
+Grosvenor East	GE 2.20 - TV Studio (TC)
+Grosvenor East	GE 2.20 - TV Studio (TC)
+Grosvenor East	GE 2.21 - Radio Studio (TC)
+Grosvenor East	GE 2.21 - Radio Studio (TC)
+Grosvenor East	GE 2.23 - Radio Studio (TC)
+Grosvenor East	GE 2.23 - Radio Studio (TC)
+Grosvenor East	GE 3.01 - Classroom
+Grosvenor East	GE 3.01 - Classroom
+Grosvenor East	GE 3.02 - Classroom
+Grosvenor East	GE 3.02 - Classroom
+Grosvenor East	GE 3.03 - Mac Lab
+Grosvenor East	GE 3.03 - Mac Lab
+Grosvenor East	GE 3.04 - Mac Lab
+Grosvenor East	GE 3.04 - Mac Lab
+Grosvenor East	GE 3.06 - Testing Room
+Grosvenor East	GE 3.06 - Testing Room
+Grosvenor East	GE 3.07 - Observation Room
+Grosvenor East	GE 3.07 - Observation Room
+Grosvenor East	GE 3.08 - Scale Up Classroom
+Grosvenor East	GE 3.08 - Scale Up Classroom
+Grosvenor East	GE 3.09 - Classroom
+Grosvenor East	GE 3.09 - Classroom
+Grosvenor East	GE 3.10 - Newsroom
+Grosvenor East	GE 3.10 - Newsroom
+Grosvenor East	GE 3.12 - Classroom
+Grosvenor East	GE 3.12 - Classroom
+Grosvenor East	GE 3.13 - Classroom
+Grosvenor East	GE 3.13 - Classroom
+Grosvenor East	GE 3.18 Meeting Room
+Grosvenor East	GE 3.18 Meeting Room
+Grosvenor East	GE 3.19 Meeting Room
+Grosvenor East	GE 3.19 Meeting Room
+Grosvenor East	GE 3.20 Meeting Room
+Grosvenor East	GE 3.20 Meeting Room
+Grosvenor East	GE 3.21 Meeting Room
+Grosvenor East	GE 3.21 Meeting Room
+Grosvenor East	GE 3.22 Meeting Room
+Grosvenor East	GE 3.22 Meeting Room
+Grosvenor East	GE 4.01 - Classroom
+Grosvenor East	GE 4.01 - Classroom
+Grosvenor East	GE 4.03 - Language Lab
+Grosvenor East	GE 4.03 - Language Lab
+Grosvenor East	GE 4.04 - Classroom
+Grosvenor East	GE 4.04 - Classroom
+Grosvenor East	GE 4.05 - Classroom
+Grosvenor East	GE 4.05 - Classroom
+Grosvenor East	GE 4.06 - Classroom
+Grosvenor East	GE 4.06 - Classroom
+Grosvenor East	GE 4.07 - Classroom
+Grosvenor East	GE 4.07 - Classroom
+Grosvenor East	GE 4.08 - Classroom
+Grosvenor East	GE 4.08 - Classroom
+Grosvenor East	GE GF.11 - Lecture Theatre (Set Up/Clear Up time required)
+Grosvenor East	GE GF.11 - Lecture Theatre (Set Up/Clear Up time required)
+Grosvenor East	GE GF.17 - Theatre (Booked/Controlled by Tech Service Team)
+Grosvenor East	GE GF.17 - Theatre (Booked/Controlled by Tech Service Team)
+Grosvenor West	GE G.31 - Studio
+Grosvenor West	GE G.31 - Studio
+Grosvenor West	GW 1.20 - Studio
+Grosvenor West	GW 1.20 - Studio
+Grosvenor West	GW 1.21 - Studio
+Grosvenor West	GW 1.21 - Studio
+Grosvenor West	GW 1.24 - Studio
+Grosvenor West	GW 1.24 - Studio
+Grosvenor West	GW 1.25 - Studio
+Grosvenor West	GW 1.25 - Studio
+Grosvenor West	GW 1.27 - Studio
+Grosvenor West	GW 1.27 - Studio
+Grosvenor West	GW 1.28 - Studio
+Grosvenor West	GW 1.28 - Studio
+Grosvenor West	GW 1.29 - Studio
+Grosvenor West	GW 1.29 - Studio
+Grosvenor West	GW 1.30
+Grosvenor West	GW 1.30
+Grosvenor West	GW B1.23a - Studio
+Grosvenor West	GW B1.23a - Studio
+Grosvenor West	GW B1.23b - Studio
+Grosvenor West	GW B1.23b - Studio
+Grosvenor West	GW B1.24 - Studio
+Grosvenor West	GW B1.24 - Studio
+Grosvenor West	GW B1.24a
+Grosvenor West	GW B1.24a
+Grosvenor West	GW B1.25 - Studio
+Grosvenor West	GW B1.25 - Studio
+Grosvenor West	GW B1.25a
+Grosvenor West	GW B1.25a
+Grosvenor West	GW B1.26 - Studio
+Grosvenor West	GW B1.26 - Studio
+Grosvenor West	GW B1.28
+Grosvenor West	GW B1.28
+Grosvenor West	GW B1.28a - Studio
+Grosvenor West	GW B1.28a - Studio
+Grosvenor West	GW B1.29 - Studio
+Grosvenor West	GW B1.29 - Studio
+Grosvenor West	GW B1.30 - Workshop
+Grosvenor West	GW B1.30 - Workshop
+Grosvenor West	GW B1.31 - Studio
+Grosvenor West	GW B1.31 - Studio
+Grosvenor West	GW G.21 - Studio
+Grosvenor West	GW G.21 - Studio
+Grosvenor West	GW G.22 - Studio
+Grosvenor West	GW G.22 - Studio
+Grosvenor West	GW G.23 - Studio
+Grosvenor West	GW G.23 - Studio
+Grosvenor West	GW G.25 - Studio
+Grosvenor West	GW G.25 - Studio
+Grosvenor West	GW G.26 - Studio
+Grosvenor West	GW G.26 - Studio
+Grosvenor West	GW G.30 - Grosvenor Gallery
+Grosvenor West	GW G.30 - Grosvenor Gallery
+Grosvenor West	GW G.32 - Studio
+Grosvenor West	GW G.32 - Studio
+Grosvenor West	GW G.33
+Grosvenor West	GW G.33
+Lowry Building	Lowry (Was Benzie) 4th Floor Roof Garden
+Lowry Building	Lowry (Was Benzie) 4th Floor Roof Garden
+Lowry Building	Lowry (Was Benzie) Quad
+Lowry Building	Lowry (Was Benzie) Quad
+Lowry Building	Lowry 3rd (Was Benzie) Floor Deck - 3rd Floor Deck - Graphic Design
+Lowry Building	Lowry 3rd (Was Benzie) Floor Deck - 3rd Floor Deck - Graphic Design
+Lowry Building	LW011 (Was BZ011 ) - Workshop - Digital Textile Print
+Lowry Building	LW011 (Was BZ011 ) - Workshop - Digital Textile Print
+Lowry Building	LW012 (Was BZ012 ) Zone 1 - Workshop - Textile Print
+Lowry Building	LW012 (Was BZ012 ) Zone 1 - Workshop - Textile Print
+Lowry Building	LW012 (Was BZ012 ) Zone 2 - Workshop - Dye Lab
+Lowry Building	LW012 (Was BZ012 ) Zone 2 - Workshop - Dye Lab
+Lowry Building	LW013 (Was BZ013 ) - Workshop - UV Exposure & Spray Room
+Lowry Building	LW013 (Was BZ013 ) - Workshop - UV Exposure & Spray Room
+Lowry Building	LW014 (Was BZ014 ) - Workshop - Drying Darkroom
+Lowry Building	LW014 (Was BZ014 ) - Workshop - Drying Darkroom
+Lowry Building	LW015 (Was BZ015 ) - AMS Dummy Location
+Lowry Building	LW015 (Was BZ015 ) - AMS Dummy Location
+Lowry Building	LW015 (Was BZ015 ) Zone 1 - Workshop - Fine Art Screenprinting
+Lowry Building	LW015 (Was BZ015 ) Zone 1 - Workshop - Fine Art Screenprinting
+Lowry Building	LW015 (Was BZ015 ) Zone 2 - Workshop - Fine Art Etching
+Lowry Building	LW015 (Was BZ015 ) Zone 2 - Workshop - Fine Art Etching
+Lowry Building	LW103 (Was BZ103 ) - Graphic Design Baseroom
+Lowry Building	LW103 (Was BZ103 ) - Graphic Design Baseroom
+Lowry Building	LW104 (Was BZ104 ) Village Green (1st) - Village Green 1st Floor
+Lowry Building	LW104 (Was BZ104 ) Village Green (1st) - Village Green 1st Floor
+Lowry Building	LW104 (Was BZ104 ) Village Green - Bernina Zone - Studio/Village Green - Bernina Machines -
+Lowry Building	LW104 (Was BZ104 ) Village Green - Bernina Zone - Studio/Village Green - Bernina Machines -
+Lowry Building	LW104 (Was BZ104 ) Village Green - Embroidery Zone - Studio/Village Green - Domestic Machine
+Lowry Building	LW104 (Was BZ104 ) Village Green - Embroidery Zone - Studio/Village Green - Domestic Machine
+Lowry Building	LW104 (Was BZ104 ) Village Green - Fashion Zone - Fashion Baseroom
+Lowry Building	LW104 (Was BZ104 ) Village Green - Fashion Zone - Fashion Baseroom
+Lowry Building	LW104 (Was BZ104 ) Village Green - Knit Zone - Studio/Village Green - Knit - TiP
+Lowry Building	LW104 (Was BZ104 ) Village Green - Knit Zone - Studio/Village Green - Knit - TiP
+Lowry Building	LW104 (Was BZ104 ) Village Green - Weave Zone - Studio/Village Green - Weave - TiP
+Lowry Building	LW104 (Was BZ104 ) Village Green - Weave Zone - Studio/Village Green - Weave - TiP
+Lowry Building	LW106 (Was BZ106 ) - Interior Design Baseroom
+Lowry Building	LW106 (Was BZ106 ) - Interior Design Baseroom
+Lowry Building	LW107 (Was BZ107 ) - Workshop - Fashion & Embroidery Store
+Lowry Building	LW107 (Was BZ107 ) - Workshop - Fashion & Embroidery Store
+Lowry Building	LW108 (Was BZ108 ) - Graphic Design Baseroom
+Lowry Building	LW108 (Was BZ108 ) - Graphic Design Baseroom
+Lowry Building	LW110 (Was BZ110 ) - Graphic Design Seminar Room
+Lowry Building	LW110 (Was BZ110 ) - Graphic Design Seminar Room
+Lowry Building	LW111 (Was BZ111 ) - Fashion Training Room
+Lowry Building	LW111 (Was BZ111 ) - Fashion Training Room
+Lowry Building	LW112 (Was BZ112 ) - Workshop - Fashion & Embroidery Workshop
+Lowry Building	LW112 (Was BZ112 ) - Workshop - Fashion & Embroidery Workshop
+Lowry Building	LW113 (Was BZ113 ) - Workshop - Fashion & Embroidery Workshop
+Lowry Building	LW113 (Was BZ113 ) - Workshop - Fashion & Embroidery Workshop
+Lowry Building	LW114 (Was BZ114 ) - Workshop - Knit Workshop
+Lowry Building	LW114 (Was BZ114 ) - Workshop - Knit Workshop
+Lowry Building	LW115 (Was BZ115 ) - Workshop - Weave Workshop
+Lowry Building	LW115 (Was BZ115 ) - Workshop - Weave Workshop
+Lowry Building	LW205 (Was BZ205 ) - Zone I - Studio/Village Green - Interior Design
+Lowry Building	LW205 (Was BZ205 ) - Zone I - Studio/Village Green - Interior Design
+Lowry Building	LW205 (Was BZ205 ) - Zone H - Studio/Village Green - Illustration with Animation
+Lowry Building	LW205 (Was BZ205 ) - Zone H - Studio/Village Green - Illustration with Animation
+Lowry Building	LW205 (Was BZ205 ) - Zone H1 - Studio/Village Green - Illustration with Animation
+Lowry Building	LW205 (Was BZ205 ) - Zone H1 - Studio/Village Green - Illustration with Animation
+Lowry Building	LW205 (Was BZ205 ) - Zone H2 - Studio/Village Green - Illustration with Animation
+Lowry Building	LW205 (Was BZ205 ) - Zone H2 - Studio/Village Green - Illustration with Animation
+Lowry Building	LW205 (Was BZ205 ) Village Green (2nd) - Village Green 2nd Floor
+Lowry Building	LW205 (Was BZ205 ) Village Green (2nd) - Village Green 2nd Floor
+Lowry Building	LW205. (Was BZ205. ) - Zone G - Studio/Village Green - Graphic Design
+Lowry Building	LW205. (Was BZ205. ) - Zone G - Studio/Village Green - Graphic Design
+Lowry Building	LW206 (Was BZ206 ) - Illustration With Animation Baseroom
+Lowry Building	LW206 (Was BZ206 ) - Illustration With Animation Baseroom
+Lowry Building	LW207 (Was BZ207 ) - PC Lab - Illustration with Animation
+Lowry Building	LW207 (Was BZ207 ) - PC Lab - Illustration with Animation
+Lowry Building	LW208 (Was BZ208 ) - Seminar Room - Illustration with Animation (TC)
+Lowry Building	LW208 (Was BZ208 ) - Seminar Room - Illustration with Animation (TC)
+Lowry Building	LW209 (Was BZ209 ) - Interiors Baseroom
+Lowry Building	LW209 (Was BZ209 ) - Interiors Baseroom
+Lowry Building	LW210 (Was BZ210 ) - Graphics Baseroom
+Lowry Building	LW210 (Was BZ210 ) - Graphics Baseroom
+Lowry Building	LW211 (Was BZ211 ) - Graphics Baseroom
+Lowry Building	LW211 (Was BZ211 ) - Graphics Baseroom
+Lowry Building	LW213 (Was BZ213 ) - Seminar Room - Illustration with Animation
+Lowry Building	LW213 (Was BZ213 ) - Seminar Room - Illustration with Animation
+Lowry Building	LW303 (Was BZ303 ) - FAD
+Lowry Building	LW303 (Was BZ303 ) - FAD
+Lowry Building	LW304 (Was BZ304 ) Village Green - Zone J
+Lowry Building	LW304 (Was BZ304 ) Village Green - Zone J
+Lowry Building	LW304 (Was BZ304 ) Village Green (3rd) - Village Green 3rd Floor
+Lowry Building	LW304 (Was BZ304 ) Village Green (3rd) - Village Green 3rd Floor
+Lowry Building	LW304 (Was BZ304 ) Village Green - Zone K
+Lowry Building	LW304 (Was BZ304 ) Village Green - Zone K
+Lowry Building	LW304 (Was BZ304 ) Village Green - Zone L (PHOTO)
+Lowry Building	LW304 (Was BZ304 ) Village Green - Zone L (PHOTO)
+Lowry Building	LW304 (Was BZ304 ) Village Green - Zone M (PHOTO)
+Lowry Building	LW304 (Was BZ304 ) Village Green - Zone M (PHOTO)
+Lowry Building	LW304 (Was BZ304 ) Village Green Zone 1 - FAD - Studio/Village Green - Long tables - Fashion
+Lowry Building	LW304 (Was BZ304 ) Village Green Zone 1 - FAD - Studio/Village Green - Long tables - Fashion
+Lowry Building	LW304 (Was BZ304 ) Village Green Zone 2 - Media - Studio/Village Green - Area Between Edit S
+Lowry Building	LW304 (Was BZ304 ) Village Green Zone 2 - Media - Studio/Village Green - Area Between Edit S
+Lowry Building	LW304 (Was BZ304 ) Village Green Zone 3 - Media - Studio/Village Green - General Media Use
+Lowry Building	LW304 (Was BZ304 ) Village Green Zone 3 - Media - Studio/Village Green - General Media Use
+Lowry Building	LW308 (Was BZ308 ) - Seminar/Screening Room/Cinema
+Lowry Building	LW308 (Was BZ308 ) - Seminar/Screening Room/Cinema
+Lowry Building	LW309 (Was BZ309 ) - Multimedia Space/Seminar Room - Filmmaking
+Lowry Building	LW309 (Was BZ309 ) - Multimedia Space/Seminar Room - Filmmaking
+Lowry Building	LW310 (Was BZ310 ) - Sound Studio
+Lowry Building	LW310 (Was BZ310 ) - Sound Studio
+Lowry Building	LW312 (Was BZ312 ) - Small Group Room
+Lowry Building	LW312 (Was BZ312 ) - Small Group Room
+Lowry Building	LW313 (Was BZ313 ) - Small Group Room
+Lowry Building	LW313 (Was BZ313 ) - Small Group Room
+Lowry Building	LW314 (Was BZ314 ) - Small Group Room - Does not open up to ajoining rooms
+Lowry Building	LW314 (Was BZ314 ) - Small Group Room - Does not open up to ajoining rooms
+Lowry Building	LW315 (Was BZ315 ) - Small Group Room
+Lowry Building	LW315 (Was BZ315 ) - Small Group Room
+Lowry Building	LW316 (Was BZ316 ) - Small Group Room
+Lowry Building	LW316 (Was BZ316 ) - Small Group Room
+Lowry Building	LW318 (Was BZ318 ) - Fashion Art Direction Base Room
+Lowry Building	LW318 (Was BZ318 ) - Fashion Art Direction Base Room
+Lowry Building	LW319 (Was BZ319 ) - Photography Base Room
+Lowry Building	LW319 (Was BZ319 ) - Photography Base Room
+Lowry Building	LW402 (Was BZ402 ) (Foyer) - Foyer space outside LW403
+Lowry Building	LW402 (Was BZ402 ) (Foyer) - Foyer space outside LW403
+Lowry Building	LW403 (Was BZ403 ) - Lecture Theatre/Exhibition Space (Set Up/Clear Up time required)
+Lowry Building	LW403 (Was BZ403 ) - Lecture Theatre/Exhibition Space (Set Up/Clear Up time required)
+Lowry Building	LWG04 (Was BZG04 ) Village Green (Ground) - Ground Floor Village Green
+Lowry Building	LWG04 (Was BZG04 ) Village Green (Ground) - Ground Floor Village Green
+Lowry Building	LWG04 (Was BZG04 ) Zone A - Ground Floor Village Green Zone A- Textiles in Practice
+Lowry Building	LWG04 (Was BZG04 ) Zone A - Ground Floor Village Green Zone A- Textiles in Practice
+Lowry Building	LWG04 (Was BZG04 ) Zone B - Ground Floor Village Green Zone B- Textiles in Practice
+Lowry Building	LWG04 (Was BZG04 ) Zone B - Ground Floor Village Green Zone B- Textiles in Practice
+Lowry Building	LWG04 (Was BZG04 ) Zone C - Ground Floor Village Green Zone C- Textiles in Practice
+Lowry Building	LWG04 (Was BZG04 ) Zone C - Ground Floor Village Green Zone C- Textiles in Practice
+Lowry Building	LWG04 (Was BZG04 ) Zone D - Ground Floor Village Green Zone D - Fashion
+Lowry Building	LWG04 (Was BZG04 ) Zone D - Ground Floor Village Green Zone D - Fashion
+Lowry Building	LWG07 (Was BZG07 ) - Fashion Baseroom
+Lowry Building	LWG07 (Was BZG07 ) - Fashion Baseroom
+Lowry Building	LWG08 (Was BZG08 ) - Textiles in Practice Baseroom
+Lowry Building	LWG08 (Was BZG08 ) - Textiles in Practice Baseroom
+Lowry Building	LWG10 (Was BZG10 ) - Digital Lab
+Lowry Building	LWG10 (Was BZG10 ) - Digital Lab
+Manchester Technology Centre	MTC 3rd Floor Seminar Room
+Manchester Technology Centre	MTC 3rd Floor Seminar Room
+Manchester Technology Centre	MTC201 - Studio
+Manchester Technology Centre	MTC201 - Studio
+Manchester Technology Centre	MTC201 - Studio - Space B
+Manchester Technology Centre	MTC201 - Studio - Space B
+Manchester Technology Centre	MTC201 - Studio - Space C
+Manchester Technology Centre	MTC201 - Studio - Space C
+Manchester Technology Centre	MTC201 - Studio - Space D
+Manchester Technology Centre	MTC201 - Studio - Space D
+Manchester Technology Centre	MTC202 - Computer Room
+Manchester Technology Centre	MTC202 - Computer Room
+Manchester Technology Centre	MTC203 - Studio - Space A
+Manchester Technology Centre	MTC203 - Studio - Space A
+Manchester Technology Centre	MTC214
+Manchester Technology Centre	MTC214
+Manchester Technology Centre	MTC215
+Manchester Technology Centre	MTC215
+Manchester Technology Centre	MTC222 - Seminar Room
+Manchester Technology Centre	MTC222 - Seminar Room
+Manchester Technology Centre	MTC301 - Studio
+Manchester Technology Centre	MTC301 - Studio
+Manchester Technology Centre	MTC301 - Studio - Space F
+Manchester Technology Centre	MTC301 - Studio - Space F
+Manchester Technology Centre	MTC301 - Studio - Space H
+Manchester Technology Centre	MTC301 - Studio - Space H
+Manchester Technology Centre	MTC302 - Studio
+Manchester Technology Centre	MTC302 - Studio
+Manchester Technology Centre	MTC302 - Studio - Space E
+Manchester Technology Centre	MTC302 - Studio - Space E
+Manchester Technology Centre	MTC302 - Studio - Space G
+Manchester Technology Centre	MTC302 - Studio - Space G
+Righton Building	RB G.12 - MFI Sewing Machines
+Righton Building	RB G.12 - MFI Sewing Machines
+Righton Building	RB G.19 - MFI Pattern Cutting room
+Righton Building	RB G.19 - MFI Pattern Cutting room
+Righton Building	RB G.19Aa - MFI Innovation Zone
+School of Digital Arts	SODA 01.01 : Co Lab
+School of Digital Arts	SODA 01.01 : Co Lab
+School of Digital Arts	SODA 01.01 : Co Lab (Left)
+School of Digital Arts	SODA 01.01 : Co Lab (Left)
+School of Digital Arts	SODA 01.01 : Co Lab (Right)
+School of Digital Arts	SODA 01.01 : Co Lab (Right)
+School of Digital Arts	SODA 01.02/01.03 : UX Lab (TC)
+School of Digital Arts	SODA 01.02/01.03 : UX Lab (TC)
+School of Digital Arts	SODA 01.05 : VR Lab (TC)
+School of Digital Arts	SODA 01.05 : VR Lab (TC)
+School of Digital Arts	SODA 01.07 : Seminar Room
+School of Digital Arts	SODA 01.07 : Seminar Room
+School of Digital Arts	SODA 01.08 : Seminar Room
+School of Digital Arts	SODA 01.08 : Seminar Room
+School of Digital Arts	SODA 01.09 : Seminar Room
+School of Digital Arts	SODA 01.09 : Seminar Room
+School of Digital Arts	SODA 01.10 : Seminar Room
+School of Digital Arts	SODA 01.10 : Seminar Room
+School of Digital Arts	SODA 01.11 : Village Green
+School of Digital Arts	SODA 01.11 : Village Green
+School of Digital Arts	SODA 01.13 : Seminar Room
+School of Digital Arts	SODA 01.13 : Seminar Room
+School of Digital Arts	SODA 02.01 : Motion Capture Studio (TC)
+School of Digital Arts	SODA 02.01 : Motion Capture Studio (TC)
+School of Digital Arts	SODA 02.03 : Photography Studio (TC)
+School of Digital Arts	SODA 02.03 : Photography Studio (TC)
+School of Digital Arts	SODA 02.04 : 1:1 Tutorial Room
+School of Digital Arts	SODA 02.04 : 1:1 Tutorial Room
+School of Digital Arts	SODA 02.05 : Edit Suite 1
+School of Digital Arts	SODA 02.05 : Edit Suite 1
+School of Digital Arts	SODA 02.06 : Multipurpose Studio C (TC)
+School of Digital Arts	SODA 02.06 : Multipurpose Studio C (TC)
+School of Digital Arts	SODA 02.08 : Computer Room (PC)
+School of Digital Arts	SODA 02.08 : Computer Room (PC)
+School of Digital Arts	SODA 02.09 : 1:1 Tutorial Room
+School of Digital Arts	SODA 02.09 : 1:1 Tutorial Room
+School of Digital Arts	SODA 02.10/02.11 : Multipurpose Studio B & Control Room (TC)
+School of Digital Arts	SODA 02.10/02.11 : Multipurpose Studio B & Control Room (TC)
+School of Digital Arts	SODA 02.12/02.13 : Virtual Production Studio & Control Room (TC)
+School of Digital Arts	SODA 02.12/02.13 : Virtual Production Studio & Control Room (TC)
+School of Digital Arts	SODA 02.15/02.16 : Multipurpose Studio A & Control Room (TC)
+School of Digital Arts	SODA 02.15/02.16 : Multipurpose Studio A & Control Room (TC)
+School of Digital Arts	SODA 02.18 : Computer Room (PC)
+School of Digital Arts	SODA 02.18 : Computer Room (PC)
+School of Digital Arts	SODA 02.19 : Village Green
+School of Digital Arts	SODA 02.19 : Village Green
+School of Digital Arts	SODA 02.20 : 1:1 Tutorial Room
+School of Digital Arts	SODA 02.20 : 1:1 Tutorial Room
+School of Digital Arts	SODA 02.21 : 1:1 Tutorial Room
+School of Digital Arts	SODA 02.21 : 1:1 Tutorial Room
+School of Digital Arts	SODA 02.22 : 1:1 Tutorial Room
+School of Digital Arts	SODA 02.22 : 1:1 Tutorial Room
+School of Digital Arts	SODA 02.23 : Making Space - Being reutilised as a Studio Culture Hub
+School of Digital Arts	SODA 02.23 : Making Space - Being reutilised as a Studio Culture Hub
+School of Digital Arts	SODA 03.01 : Computer Room (PC)
+School of Digital Arts	SODA 03.01 : Computer Room (PC)
+School of Digital Arts	SODA 03.02 : Multipurpose Studio D (TC)
+School of Digital Arts	SODA 03.02 : Multipurpose Studio D (TC)
+School of Digital Arts	SODA 03.10 : Stop Motion Studio (TC)
+School of Digital Arts	SODA 03.10 : Stop Motion Studio (TC)
+School of Digital Arts	SODA 03.12 : Computer Room (iMac)
+School of Digital Arts	SODA 03.12 : Computer Room (iMac)
+School of Digital Arts	SODA 03.13 : Seminar Room
+School of Digital Arts	SODA 03.13 : Seminar Room
+School of Digital Arts	SODA 03.14 : Seminar Room
+School of Digital Arts	SODA 03.14 : Seminar Room
+School of Digital Arts	SODA 03.15 : Seminar Room
+School of Digital Arts	SODA 03.15 : Seminar Room
+School of Digital Arts	SODA 03.17 : Making Space
+School of Digital Arts	SODA 03.17 : Making Space
+School of Digital Arts	SODA 03.18 : Village Green (To register attendance swipe at card reader in Reception)
+School of Digital Arts	SODA 03.18 : Village Green (To register attendance swipe at card reader in Reception)
+School of Digital Arts	SODA 03.20 : Edit Suite 2
+School of Digital Arts	SODA 03.20 : Edit Suite 2
+School of Digital Arts	SODA 03.21 : Computer Room (Mac Pro)
+School of Digital Arts	SODA 03.21 : Computer Room (Mac Pro)
+School of Digital Arts	SODA 03.22 : Edit Suite 3 (DaVinci Grading)
+School of Digital Arts	SODA 03.22 : Edit Suite 3 (DaVinci Grading)
+School of Digital Arts	SODA 03.24 : Edit Suite 4
+School of Digital Arts	SODA 03.24 : Edit Suite 4
+School of Digital Arts	SODA 04.01 : Contemplation Space
+School of Digital Arts	SODA 04.01 : Contemplation Space
+School of Digital Arts	SODA 04.04 : Edit Suite 5
+School of Digital Arts	SODA 04.04 : Edit Suite 5
+School of Digital Arts	SODA 04.05/04.06 : Music Making (TC)
+School of Digital Arts	SODA 04.05/04.06 : Music Making (TC)
+School of Digital Arts	SODA 04.08 : Recording Studio B (TC)
+School of Digital Arts	SODA 04.08 : Recording Studio B (TC)
+School of Digital Arts	SODA 04.09 : Live Room B (TC)
+School of Digital Arts	SODA 04.09 : Live Room B (TC)
+School of Digital Arts	SODA 04.14/04.16 : Recording Studio A/Live Room A (TC)
+School of Digital Arts	SODA 04.14/04.16 : Recording Studio A/Live Room A (TC)
+School of Digital Arts	SODA 04.18 :Electronic Composition (TC)
+School of Digital Arts	SODA 04.18 :Electronic Composition (TC)
+School of Digital Arts	SODA 04.19 : PC Lab
+School of Digital Arts	SODA 04.19 : PC Lab
+School of Digital Arts	SODA 04.19A : PC Lab
+School of Digital Arts	SODA 04.19A : PC Lab
+School of Digital Arts	SODA 04.19B : PC Lab
+School of Digital Arts	SODA 04.19B : PC Lab
+School of Digital Arts	SODA 04.20 : PC Lab
+School of Digital Arts	SODA 04.20 : PC Lab
+School of Digital Arts	SODA 04.21 : Music Lab (iMac)
+School of Digital Arts	SODA 04.21 : Music Lab (iMac)
+School of Digital Arts	SODA 04.22 : Village Green
+School of Digital Arts	SODA 04.22 : Village Green
+School of Digital Arts	SODA 04.23 : Seminar Room
+School of Digital Arts	SODA 04.23 : Seminar Room
+School of Digital Arts	SODA 04.24 : 1:1 Tutorial Room
+School of Digital Arts	SODA 04.24 : 1:1 Tutorial Room
+School of Digital Arts	SODA 04.25 : 1:1 Tutorial Room
+School of Digital Arts	SODA 04.25 : 1:1 Tutorial Room
+School of Digital Arts	SODA 04.26 : 1:1 Tutorial Room
+School of Digital Arts	SODA 04.26 : 1:1 Tutorial Room
+School of Digital Arts	SODA 04.27 : Edit Suite 6
+School of Digital Arts	SODA 04.27 : Edit Suite 6
+School of Digital Arts	SODA 04.28 : Edit Suite 7
+School of Digital Arts	SODA 04.28 : Edit Suite 7
+School of Digital Arts	SODA Counter Area
+School of Digital Arts	SODA Counter Area
+School of Digital Arts	SODA GF.01-1 : Digital Hall (To register attendance swipe at card reader in Reception)
+School of Digital Arts	SODA GF.01-1 : Digital Hall (To register attendance swipe at card reader in Reception)
+School of Digital Arts	SODA GF.04 : Village Green (To register attendance swipe at card reader in Reception)
+School of Digital Arts	SODA GF.04 : Village Green (To register attendance swipe at card reader in Reception)
+School of Digital Arts	SODA GF.06 : Modal Gallery (To register attendance swipe at card reader in Reception)
+School of Digital Arts	SODA GF.06 : Modal Gallery (To register attendance swipe at card reader in Reception)
+School of Digital Arts	SODA GF.12 : Cinema/Lecture Theatre
+School of Digital Arts	SODA GF.12 : Cinema/Lecture Theatre
+Business School Building	BS 1.20 IT Zone (N Atrium) - Computer Lab
+Business School Building	BS 1.20 IT Zone (N Atrium) - Computer Lab
+Business School Building	BS 1.22 (N Atrium) - Seminar Room - Cafe Style
+Business School Building	BS 1.22 (N Atrium) - Seminar Room - Cafe Style
+Business School Building	BS 1.23 (N Atrium) - Seminar Room - Cafe Style
+Business School Building	BS 1.23 (N Atrium) - Seminar Room - Cafe Style
+Business School Building	BS 1.24 (N Atrium) - Seminar Room - Cafe Style
+Business School Building	BS 1.24 (N Atrium) - Seminar Room - Cafe Style
+Business School Building	BS 1.25 (N Atrium) - Lecture Theatre :Tablet Chairs (No Desks)
+Business School Building	BS 1.25 (N Atrium) - Lecture Theatre :Tablet Chairs (No Desks)
+Business School Building	BS 2.08 IT (N Atrium) - Computer Lab
+Business School Building	BS 2.08 IT (N Atrium) - Computer Lab
+Business School Building	BS 2.08/BS 2.09 IT Combined (N Atrium)
+Business School Building	BS 2.08/BS 2.09 IT Combined (N Atrium)
+Business School Building	BS 2.08/BS 2.09/BS 2.10 IT Combined (N Atrium)
+Business School Building	BS 2.08/BS 2.09/BS 2.10 IT Combined (N Atrium)
+Business School Building	BS 2.09 IT (N Atrium) - Computer Lab
+Business School Building	BS 2.09 IT (N Atrium) - Computer Lab
+Business School Building	BS 2.09/BS 2.10 IT Combined (N Atrium)
+Business School Building	BS 2.09/BS 2.10 IT Combined (N Atrium)
+Business School Building	BS 2.10 IT (N Atrium) - Computer Lab
+Business School Building	BS 2.10 IT (N Atrium) - Computer Lab
+Business School Building	BS 2.14 Bloomberg Suite
+Business School Building	BS 2.14 Bloomberg Suite
+Business School Building	BS 2.23 IT (N Atrium) - Computer Lab
+Business School Building	BS 2.23 IT (N Atrium) - Computer Lab
+Business School Building	BS 3.01 (S Atrium) - Seminar Room - Cafe Style
+Business School Building	BS 3.01 (S Atrium) - Seminar Room - Cafe Style
+Business School Building	BS 3.02 (S Atrium) - Seminar Room - Rows
+Business School Building	BS 3.02 (S Atrium) - Seminar Room - Rows
+Business School Building	BS 3.03 (S Atrium) - Seminar Room - Cafe Style
+Business School Building	BS 3.03 (S Atrium) - Seminar Room - Cafe Style
+Business School Building	BS 3.04 (S Atrium) - Seminar Room - Rows
+Business School Building	BS 3.04 (S Atrium) - Seminar Room - Rows
+Business School Building	BS 3.05 (S Atrium) - Seminar Room - Cafe Style
+Business School Building	BS 3.05 (S Atrium) - Seminar Room - Cafe Style
+Business School Building	BS 3.06 (S Atrium) - Seminar Room - Cafe Style
+Business School Building	BS 3.06 (S Atrium) - Seminar Room - Cafe Style
+Business School Building	BS 3.07 (S Atrium) - Seminar Room - Cafe Style
+Business School Building	BS 3.07 (S Atrium) - Seminar Room - Cafe Style
+Business School Building	BS 3.08 (S Atrium) - Seminar Room - Cafe Style
+Business School Building	BS 3.08 (S Atrium) - Seminar Room - Cafe Style
+Business School Building	BS 3.09 (S Atrium) - Seminar Room - Rows
+Business School Building	BS 3.09 (S Atrium) - Seminar Room - Rows
+Business School Building	BS 3.10 (S Atrium) - Seminar Room - Rows
+Business School Building	BS 3.10 (S Atrium) - Seminar Room - Rows
+Business School Building	BS 3.11 (S Atrium) - Seminar Room - Cafe Style
+Business School Building	BS 3.11 (S Atrium) - Seminar Room - Cafe Style
+Business School Building	BS 3.12 (N Atrium) - Seminar Room - Cafe Style
+Business School Building	BS 3.12 (N Atrium) - Seminar Room - Cafe Style
+Business School Building	BS 3.13 (N Atrium) - Seminar Room - Cafe Style
+Business School Building	BS 3.13 (N Atrium) - Seminar Room - Cafe Style
+Business School Building	BS 3.14 (N Atrium) - Seminar Room - Rows
+Business School Building	BS 3.14 (N Atrium) - Seminar Room - Rows
+Business School Building	BS 3.15 (N Atrium) - Seminar Room - Cafe Style
+Business School Building	BS 3.15 (N Atrium) - Seminar Room - Cafe Style
+Business School Building	BS 3.16 (N Atrium) - Seminar Room - Cafe Style
+Business School Building	BS 3.16 (N Atrium) - Seminar Room - Cafe Style
+Business School Building	BS 3.17 (N Atrium) - Seminar Room - Rows
+Business School Building	BS 3.17 (N Atrium) - Seminar Room - Rows
+Business School Building	BS 3.18 Apprenticeship Seminar Room 6 (N Atrium) - Seminar Room - Cafe Style
+Business School Building	BS 3.18 Apprenticeship Seminar Room 6 (N Atrium) - Seminar Room - Cafe Style
+Business School Building	BS 3.19 (N Atrium) - Seminar Room - Cafe Style
+Business School Building	BS 3.19 (N Atrium) - Seminar Room - Cafe Style
+Business School Building	BS 3.20 (N Atrium) - Seminar Room - Rows
+Business School Building	BS 3.20 (N Atrium) - Seminar Room - Rows
+Business School Building	BS 3.21 (N Atrium) - Seminar Room - Cafe Style
+Business School Building	BS 3.21 (N Atrium) - Seminar Room - Cafe Style
+Business School Building	BS 3.22 (N Atrium) - Seminar Room - Cafe Style
+Business School Building	BS 3.22 (N Atrium) - Seminar Room - Cafe Style
+Business School Building	BS 3.23 (N Atrium) - Seminar Room - Rows
+Business School Building	BS 3.23 (N Atrium) - Seminar Room - Rows
+Business School Building	BS 3.24 (N Atrium) - Seminar Room - Cafe Style
+Business School Building	BS 3.24 (N Atrium) - Seminar Room - Cafe Style
+Business School Building	BS 3.25 (N Atrium) - Seminar Room Cafe Style
+Business School Building	BS 3.25 (N Atrium) - Seminar Room Cafe Style
+Business School Building	BS 3.26 (N Atrium) - Seminar Room Cafe Style
+Business School Building	BS 3.26 (N Atrium) - Seminar Room Cafe Style
+Business School Building	BS 3.27 (N Atrium) - Seminar Room Cafe Style
+Business School Building	BS 3.27 (N Atrium) - Seminar Room Cafe Style
+Business School Building	BS 3.28 (N Atrium) - Seminar Room - Cafe Style
+Business School Building	BS 3.28 (N Atrium) - Seminar Room - Cafe Style
+Business School Building	BS 4.03 (S Atrium) - Seminar Room
+Business School Building	BS 4.03 (S Atrium) - Seminar Room
+Business School Building	BS 4.04A (N Atrium) - Seminar Room - Cafe Style
+Business School Building	BS 4.04A (N Atrium) - Seminar Room - Cafe Style
+Business School Building	BS 4.04B (N Atrium) - Seminar Room - Cafe Style
+Business School Building	BS 4.04B (N Atrium) - Seminar Room - Cafe Style
+Business School Building	BS 4.05A (N Atrium) - Seminar Room - Rows
+Business School Building	BS 4.05A (N Atrium) - Seminar Room - Rows
+Business School Building	BS 4.05B (N Atrium) - Seminar Room - Rows
+Business School Building	BS 4.05B (N Atrium) - Seminar Room - Rows
+Business School Building	BS 4.06A (N Atrium) - Seminar Room
+Business School Building	BS 4.06A (N Atrium) - Seminar Room
+Business School Building	BS 4.06B (N Atrium) - Seminar Room
+Business School Building	BS 4.06B (N Atrium) - Seminar Room
+Business School Building	BS 4.07A (N Atrium) - Seminar Room
+Business School Building	BS 4.07A (N Atrium) - Seminar Room
+Business School Building	BS 4.07B (N Atrium) - Seminar Room
+Business School Building	BS 4.07B (N Atrium) - Seminar Room
+Business School Building	BS 4.08 Apprenticeship Seminar Room 5
+Business School Building	BS 4.08 Apprenticeship Seminar Room 5
+Business School Building	BS 4.44 - Seminar Room
+Business School Building	BS 4.44 - Seminar Room
+Business School Building	BS 5.02 (N Atrium) - Seminar Room - Cafe Style
+Business School Building	BS 5.02 (N Atrium) - Seminar Room - Cafe Style
+Business School Building	BS 5.03 (N Atrium) - Seminar Room - Rows
+Business School Building	BS 5.03 (N Atrium) - Seminar Room - Rows
+Business School Building	BS 5.04 IT (N Atrium) - Computer Lab
+Business School Building	BS 5.04 IT (N Atrium) - Computer Lab
+Business School Building	BS 5.05 (N Atrium) - Seminar Room - Cafe Style
+Business School Building	BS 5.05 (N Atrium) - Seminar Room - Cafe Style
+Business School Building	BS 5.06 (N Atrium)
+Business School Building	BS 5.06 (N Atrium)
+Business School Building	BS 5.40 Seminar Room
+Business School Building	BS 5.40 Seminar Room
+Business School Building	BS 6.35 Apprenticeship Seminar Room 4
+Business School Building	BS 6.35 Apprenticeship Seminar Room 4
+Business School Building	BS 7.02 Apprenticeship Seminar Room 1 (N Atrium)
+Business School Building	BS 7.02 Apprenticeship Seminar Room 1 (N Atrium)
+Business School Building	BS 7.03 Apprenticeship Seminar Room 2 (N Atrium)
+Business School Building	BS 7.03 Apprenticeship Seminar Room 2 (N Atrium)
+Business School Building	BS 7.04 Apprenticeship Seminar Room 3 (N Atrium)
+Business School Building	BS 7.04 Apprenticeship Seminar Room 3 (N Atrium)
+Business School Building	BS Atrium (North) - Social
+Business School Building	BS Atrium (North) - Social
+Business School Building	BS G.26 - Lecture Theatre 1 (S Atrium)
+Business School Building	BS G.26 - Lecture Theatre 1 (S Atrium)
+Business School Building	BS G.27 - Lecture Theatre 2
+Business School Building	BS G.27 - Lecture Theatre 2
+Business School Building	BS G.33 - Lecture Theatre 4 (N Atrium)
+Business School Building	BS G.33 - Lecture Theatre 4 (N Atrium)
+Business School Building	BS G.34 - Lecture Theatre 5 (N Atrium)
+Business School Building	BS G.34 - Lecture Theatre 5 (N Atrium)
+Business School Building	BS G.35 - Lecture Theatre 6 (N Atrium)
+Business School Building	BS G.35 - Lecture Theatre 6 (N Atrium)
+Business School Building	BS G.36 - Lecture Theatre 3 (N Atrium)
+Business School Building	BS G.36 - Lecture Theatre 3 (N Atrium)`;
+
+        // Room type categories with priorities
+        const roomCategories = {
+            "Teaching/General": {
+                priority: "high",
+                types: [
+                    "Classroom", "Seminar Room", "Seminar room :Tablet Chairs (No Desks)", 
+                    "Technical Teaching Laptop Lab & Classroom (TC)", "Active Learning Studio", 
+                    "Scale Up Classroom", "1:1 Tutorial Room", "Fashion Tutorial Room", 
+                    "Ed Psy Group room", "MA independent study room", "PGT Study Room", 
+                    "Research Students", "Small Observation/study space", "Small Group Room"
+                ]
+            },
+            "Lecture/Theatre": {
+                priority: "high",
+                types: [
+                    "Cavendish Lecture Theatre", "Lecture Theatre", 
+                    "Lecture Theatre/Exhibition Space", "Cinema/Lecture Theatre", 
+                    "Theatre (Booked/Controlled by Tech Service Team)", "Lecture Theatre :Tablet Chairs (No Desks)"
+                ]
+            },
+            "IT/Media/Tech": {
+                priority: "high",
+                types: [
+                    "PC Lab", "Computer Lab", "Computer Room", "Computing Teaching lab", 
+                    "Digital Lab", "Mac Lab", "Design Mac Lab", "IT Laboratory", 
+                    "IT Room", "Psychology IT Laboratory", "Specialist IT Facility - PC Lab", 
+                    "Bloomberg Suite", "Digital Darkroom (TC)", "Language Lab"
+                ]
+            },
+            "Studio/Arts/Design": {
+                priority: "medium",
+                types: [
+                    "Art Studio", "Art Studio - International College", "Animation Studio", 
+                    "Animation Room (TC)", "All User Stop Motion Animation Studio (TC)", 
+                    "Stop Motion Studio (TC)", "Studio (General/Numbered/Zone Specific)", 
+                    "Design Space", "Product Design Space", "Studio Space - Art Foundation", 
+                    "Studio - Product Design & Craft (PDC)", "Studio - Illustration With Animation (IWA)", 
+                    "Studio - Fine Art", "Studio - PG Design", "Studio - Contemporary Curating Base Room", 
+                    "Movement Studio", "Co Lab", "Multipurpose Studio", "TV Studio (TC)", 
+                    "Radio Studio", "Sound Studio", "Recording Studio", "Live Room", 
+                    "Digital Hall", "Virtual Production Studio & Control Room (TC)", 
+                    "Motion Capture Studio (TC)", "Photography Studio (TC)", "The Cave", 
+                    "Drama Studio", "Music Studio", "Music Making (TC)", "Electronic Composition (TC)", 
+                    "Music Lab (iMac)"
+                ]
+            },
+            "Baserooms/Specialized Rooms": {
+                priority: "medium",
+                types: [
+                    "Curating Base Room", "PG Studio", "Fashion Promotion Base Room", 
+                    "BA Fashion Baseroom", "Illustration with Animation Baseroom", 
+                    "Animation Baseroom", "Fashion Baseroom", "Graphic Design Baseroom", 
+                    "Interior Design Baseroom", "Interiors Baseroom", "Graphics Baseroom", 
+                    "Fashion Art Direction Base Room", "Photography Base Room", 
+                    "Textiles in Practice Baseroom"
+                ]
+            },
+            "Workshop/Lab (Physical/Technical)": {
+                priority: "medium",
+                types: [
+                    "Workshop (General)", "Workshop - Digital Textile Print", 
+                    "Workshop - Textile Print", "Workshop - Dye Lab", 
+                    "Workshop - UV Exposure & Spray Room", "Workshop - Drying Darkroom", 
+                    "Workshop - Fine Art Screenprinting", "Workshop - Fine Art Etching", 
+                    "Workshop - Fashion & Embroidery Workshop", "Workshop - Knit Workshop", 
+                    "Workshop - Weave Workshop", "Bookbinding Workshop/Guillotine/Risograph", 
+                    "Letterpress Workshop", "Workshop - Glass Workshop", 
+                    "Workshop - Hot Glass Workshop", "Workshop - Machine Shop - Glass", 
+                    "Workshop - Fabrication Area", "Workshop - Welding & Fabrication Workshop", 
+                    "Workshop - CAM Suite", "Workshop - FLAMEFAST Hot Metal Workshop", 
+                    "Workshop - Metal Workshop", "Workshop - Machine shop - Metal", 
+                    "Light Engineering Workshop", "Machine Workshop - Wood Foam & Plastics", 
+                    "Workshop - Plaster Room", "Workshop - Throwing Room", 
+                    "Glaze Preparation Room", "Workshop - Glaze Room", 
+                    "Workshop - Ceramics Kiln Room", "Primary Science & Workshop"
+                ]
+            },
+            "Specialist Lab (Science/Health)": {
+                priority: "medium",
+                types: [
+                    "Superlab", "Chemistry Instrument Teaching Lab", "Chemistry Data Analysis Lab", 
+                    "Chemistry Teaching Lab", "Bioscience Research Lab", "Engineering Lab", 
+                    "Electrical Engineering Lab", "Mechanical Engineering Lab", 
+                    "Exercise Science Laboratory", "Human Movement Laboratory", 
+                    "Human Performance Lab", "Muscle Function Laboratory", 
+                    "Extreme Environment Chamber", "Forensic Crime Scene Garage", 
+                    "Forensic Crime Scene Flat", "Laboratory (General)", "Carbohydrate Food Department", 
+                    "Food Safety", "Protein Food Devlopment", "Food Product Testing Research Lab", 
+                    "Food Product Testing", "Sensory Analysis Booths", 
+                    "Sensory Analysis Preparation Kitchen", "Product Development Lab", 
+                    "Textile Testing Lab", "Human Physiology Studio", "Body Scan Area", 
+                    "Q-Step Lab (Sociology specialist space)", "Testing Room", 
+                    "Observation Room", "Gait Lab", "Physiotherapy Skills Room", 
+                    "Nursing Skills Room", "Simulation Suite", "Speech Pathology Laboratory", 
+                    "Social Development Laboratory", "Psychology Laboratories", "Anatomage Suite"
+                ]
+            },
+            "Law/Specialist": {
+                priority: "medium",
+                types: [
+                    "Moot Court Room", "Chambers (SPECIALIST LAW ROOM/Syndicate Room)", 
+                    "Recording Room (Law use only)"
+                ]
+            },
+            "Administrative/Other": {
+                priority: "low",
+                types: [
+                    "Meeting Room", "Interview Room", "Meeting Pod (MS)", "Executive Suite", 
+                    "A4 & More Store Area", "Assessment Store (DO NOT BOOK)", 
+                    "Workshop - Store", "Workshop - Metal Store", "Workshop - Wood Store", 
+                    "Laboratory Ancillary", "Foyer space", "Digital Media Bar", 
+                    "Photography Counter", "SODA Counter Area"
+                ]
+            },
+            "Open/Social/Other": {
+                priority: "low",
+                types: [
+                    "Village Green", "Social Space", "Atrium (Social)", 
+                    "Atrium (General/Floor specific)", "Lowry (Was Benzie) 4th Floor Roof Garden", 
+                    "Lowry (Was Benzie) Quad", "BR External Plaza", "BR Spanish Steps", 
+                    "Contemplation Space", "Modal Gallery", "Grosvenor Gallery", 
+                    "Newsroom", "Lounge (Social area. Not a teaching space)"
+                ]
+            },
+            "Sports/Venue": {
+                priority: "low",
+                types: [
+                    "Sports Hall", "Sports Pitch", "Outdoor Pitch", "7 Aside Pitch", 
+                    "Dome 9-a-side 3G", "GymHub", "Strength & Conditioning Suite", 
+                    "Multi-Functional Hall", "PE Teaching Alcove"
+                ]
+            }
+        };
+
+        let buildingsData = [];
+        let filteredRooms = [];
+
+        // Parse the room data
+        function parseRoomData() {
+            const lines = roomData.split('\n');
+            
+            lines.forEach(line => {
+                // Skip empty lines
+                if (!line.trim()) return;
+                
+                // Split by tab to get building and room info
+                const parts = line.split('\t');
+                if (parts.length >= 2) {
+                    const building = parts[0].trim();
+                    const roomInfo = parts[1].trim();
+                    
+                    // Extract room type from the room info
+                    let roomType = roomInfo;
+                    
+                    // Try to identify the room type by looking for known patterns
+                    for (const [category, details] of Object.entries(roomCategories)) {
+                        for (const type of details.types) {
+                            if (roomInfo.includes(type)) {
+                                roomType = type;
+                                break;
+                            }
+                        }
+                        if (roomType !== roomInfo) break;
+                    }
+                    
+                    processedRooms.push({
+                        building: building,
+                        roomInfo: roomInfo,
+                        roomType: roomType,
+                        category: getCategoryForRoomType(roomType),
+                        priority: getPriorityForRoomType(roomType)
+                    });
+                }
+            });
+            
+            filteredRooms = [...processedRooms];
+        }
+
+        // Get category for a room type
+        function getCategoryForRoomType(roomType) {
+            for (const [category, details] of Object.entries(roomCategories)) {
+                if (details.types.includes(roomType)) {
+                    return category;
+                }
+            }
+            return "Other";
+        }
+
+        // Get priority for a room type
+        function getPriorityForRoomType(roomType) {
+            const category = getCategoryForRoomType(roomType);
+            return roomCategories[category]?.priority || "low";
+        }
+
+        // Initialize the application
+        document.addEventListener('DOMContentLoaded', function() {
+            parseRoomData();
+            populateBuildings();
+            populateRoomTypes();
+            updateResults();
+            updateStats();
+            setupEventListeners();
+        });
+
+        // Populate buildings checkboxes
+        function populateBuildings() {
+            const buildingsList = document.getElementById('buildingsList');
+            const buildingCounts = {};
+            
+            // Count rooms per building
+            processedRooms.forEach(room => {
+                buildingCounts[room.building] = (buildingCounts[room.building] || 0) + 1;
+            });
+            
+            // Create checkboxes for each building
+            Object.keys(buildingCounts).sort().forEach(building => {
+                const count = buildingCounts[building] || 0;
+                const div = document.createElement('div');
+                div.className = 'checkbox-wrapper flex items-center p-2 rounded';
+                div.innerHTML = `
+                    <input type="checkbox" id="building-${building.replace(/\s+/g, '-')}" 
+                        class="building-checkbox mr-2 h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded" 
+                        value="${building}" checked>
+                    <label for="building-${building.replace(/\s+/g, '-')}" 
+                        class="text-sm text-gray-700 cursor-pointer flex-1">
+                        ${building} <span class="text-gray-500">(${count})</span>
+                    </label>
+                `;
+                buildingsList.appendChild(div);
+            });
+        }
+
+        // Populate room types checkboxes by category
+        function populateRoomTypes() {
+            const roomTypesList = document.getElementById('roomTypesList');
+            const typeCounts = {};
+            
+            // Count rooms per type
+            processedRooms.forEach(room => {
+                typeCounts[room.roomType] = (typeCounts[room.roomType] || 0) + 1;
+            });
+            
+            // Create sections for each category
+            Object.entries(roomCategories).forEach(([category, details]) => {
+                // Create category header
+                const categoryDiv = document.createElement('div');
+                categoryDiv.className = 'category-header p-2 rounded mb-2';
+                
+                const categoryHeader = document.createElement('button');
+                categoryHeader.className = 'category-accordion-header w-full flex justify-between items-center py-1 text-left font-medium text-gray-700 hover:text-blue-600 focus:outline-none';
+                categoryHeader.innerHTML = `
+                    <span class="flex items-center">
+                        <span class="priority-badge priority-${details.priority} mr-2">${details.priority.toUpperCase()}</span>
+                        ${category}
+                    </span>
+                    <i class="fas fa-chevron-down transition-transform text-xs"></i>
+                `;
+                
+                const categoryContent = document.createElement('div');
+                categoryContent.className = 'accordion-content mt-1';
+                
+                const categoryTypes = document.createElement('div');
+                categoryTypes.className = 'space-y-1 pl-4';
+                
+                // Add room types for this category
+                details.types.forEach(type => {
+                    if (typeCounts[type] > 0) {
+                        const div = document.createElement('div');
+                        div.className = 'checkbox-wrapper flex items-center p-1 rounded';
+                        div.innerHTML = `
+                            <input type="checkbox" id="type-${type.replace(/\s+/g, '-')}" 
+                                class="type-checkbox mr-2 h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded" 
+                                value="${type}" checked>
+                            <label for="type-${type.replace(/\s+/g, '-')}" 
+                                class="text-xs text-gray-700 cursor-pointer flex-1">
+                                ${type} <span class="text-gray-500">(${typeCounts[type]})</span>
+                            </label>
+                        `;
+                        categoryTypes.appendChild(div);
+                    }
+                });
+                
+                categoryContent.appendChild(categoryTypes);
+                categoryDiv.appendChild(categoryHeader);
+                categoryDiv.appendChild(categoryContent);
+                roomTypesList.appendChild(categoryDiv);
+                
+                // Add accordion functionality
+                categoryHeader.addEventListener('click', function() {
+                    categoryContent.classList.toggle('active');
+                    const icon = this.querySelector('i');
+                    icon.classList.toggle('fa-chevron-down');
+                    icon.classList.toggle('fa-chevron-up');
+                });
+            });
+        }
+
+        // Setup event listeners
+        function setupEventListeners() {
+            // Accordion functionality for buildings
+            document.querySelector('.accordion-header').addEventListener('click', function() {
+                const content = this.nextElementSibling;
+                const icon = this.querySelector('i');
+                
+                content.classList.toggle('active');
+                icon.classList.toggle('fa-chevron-down');
+                icon.classList.toggle('fa-chevron-up');
+            });
+
+            // Building checkboxes
+            document.querySelectorAll('.building-checkbox').forEach(checkbox => {
+                checkbox.addEventListener('change', applyFilters);
+            });
+
+            // Room type checkboxes
+            document.querySelectorAll('.type-checkbox').forEach(checkbox => {
+                checkbox.addEventListener('change', applyFilters);
+            });
+
+            // Search functionality
+            document.getElementById('searchBtn').addEventListener('click', applyFilters);
+            document.getElementById('searchInput').addEventListener('keyup', function(e) {
+                if (e.key === 'Enter') {
+                    applyFilters();
+                }
+            });
+
+            // Sort dropdown
+            document.getElementById('sortSelect').addEventListener('change', function() {
+                sortResults(this.value);
+            });
+
+            // Reset filters button
+            document.getElementById('resetFilters').addEventListener('click', resetFilters);
+        }
+
+        // Apply all filters
+        function applyFilters() {
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+            const selectedBuildings = Array.from(document.querySelectorAll('.building-checkbox:checked'))
+                .map(cb => cb.value);
+            const selectedTypes = Array.from(document.querySelectorAll('.type-checkbox:checked'))
+                .map(cb => cb.value);
+
+            filteredRooms = processedRooms.filter(room => {
+                // Building filter
+                if (!selectedBuildings.includes(room.building)) {
+                    return false;
+                }
+
+                // Room type filter
+                if (!selectedTypes.includes(room.roomType)) {
+                    return false;
+                }
+
+                // Search filter
+                if (searchTerm && !room.building.toLowerCase().includes(searchTerm) && 
+                    !room.roomInfo.toLowerCase().includes(searchTerm) &&
+                    !room.category.toLowerCase().includes(searchTerm)) {
+                    return false;
+                }
+
+                return true;
+            });
+
+            updateResults();
+            updateStats();
+        }
+
+        // Update results display
+        function updateResults() {
+            const resultsList = document.getElementById('resultsList');
+            const noResults = document.getElementById('noResults');
+            const showingCount = document.getElementById('showingCount');
+            const totalCount = document.getElementById('totalCount');
+
+            showingCount.textContent = filteredRooms.length;
+            totalCount.textContent = processedRooms.length;
+
+            if (filteredRooms.length === 0) {
+                resultsList.innerHTML = '';
+                noResults.classList.remove('hidden');
+                return;
+            }
+
+            noResults.classList.add('hidden');
+            resultsList.innerHTML = '';
+
+            // Group rooms by building
+            const roomsByBuilding = {};
+            filteredRooms.forEach(room => {
+                if (!roomsByBuilding[room.building]) {
+                    roomsByBuilding[room.building] = [];
+                }
+                roomsByBuilding[room.building].push(room);
+            });
+
+            // Create building sections
+            Object.keys(roomsByBuilding).sort().forEach(building => {
+                const buildingSection = document.createElement('div');
+                buildingSection.className = 'bg-white rounded-lg shadow-md overflow-hidden mb-4';
+                
+                const buildingHeader = document.createElement('div');
+                buildingHeader.className = 'building-header p-4';
+                buildingHeader.innerHTML = `
+                    <h3 class="text-lg font-semibold">
+                        <i class="fas fa-building mr-2"></i>${building}
+                    </h3>
+                    <p class="text-blue-100 text-sm">${roomsByBuilding[building].length} rooms</p>
+                `;
+                
+                const roomsContainer = document.createElement('div');
+                roomsContainer.className = 'p-4';
+                
+                // Group rooms by category within the building
+                const roomsByCategory = {};
+                roomsByBuilding[building].forEach(room => {
+                    if (!roomsByCategory[room.category]) {
+                        roomsByCategory[room.category] = [];
+                    }
+                    roomsByCategory[room.category].push(room);
+                });
+                
+                // Create category sections
+                Object.entries(roomsByCategory).forEach(([category, rooms]) => {
+                    const categorySection = document.createElement('div');
+                    categorySection.className = 'mb-4';
+                    
+                    const categoryHeader = document.createElement('div');
+                    const priority = rooms[0].priority;
+                    categoryHeader.className = 'flex items-center mb-2';
+                    categoryHeader.innerHTML = `
+                        <h4 class="font-medium text-gray-800">${category}</h4>
+                        <span class="priority-badge priority-${priority} ml-2">${priority.toUpperCase()}</span>
+                        <span class="text-gray-500 text-sm ml-auto">${rooms.length} rooms</span>
+                    `;
+                    
+                    const roomsList = document.createElement('div');
+                    roomsList.className = 'grid grid-cols-1 md:grid-cols-2 gap-2';
+                    
+                    rooms.forEach(room => {
+                        const roomCard = document.createElement('div');
+                        roomCard.className = `room-card border rounded-lg p-3 ${room.priority === 'high' ? 'border-green-200 bg-green-50' : room.priority === 'medium' ? 'border-yellow-200 bg-yellow-50' : 'border-gray-200'}`;
+                        
+                        roomCard.innerHTML = `
+                            <div class="flex justify-between items-start">
+                                <h5 class="font-medium text-gray-800 text-sm">${room.roomInfo}</h5>
+                                <span class="text-xs text-gray-500">${room.roomType}</span>
+                            </div>
+                        `;
+                        
+                        roomsList.appendChild(roomCard);
+                    });
+                    
+                    categorySection.appendChild(categoryHeader);
+                    categorySection.appendChild(roomsList);
+                    roomsContainer.appendChild(categorySection);
+                });
+                
+                buildingSection.appendChild(buildingHeader);
+                buildingSection.appendChild(roomsContainer);
+                resultsList.appendChild(buildingSection);
+            });
+        }
+
+        // Update statistics
+        function updateStats() {
+            // Building count
+            const uniqueBuildings = new Set(filteredRooms.map(room => room.building));
+            document.getElementById('buildingCount').textContent = uniqueBuildings.size;
+            
+            // Total rooms
+            document.getElementById('totalRoomCount').textContent = filteredRooms.length;
+            
+            // Teaching rooms count
+            const teachingRooms = filteredRooms.filter(room => 
+                room.category === "Teaching/General" || room.category === "Lecture/Theatre"
+            );
+            document.getElementById('teachingRoomCount').textContent = teachingRooms.length;
+            
+            // IT/Media rooms count
+            const itRooms = filteredRooms.filter(room => room.category === "IT/Media/Tech");
+            document.getElementById('itRoomCount').textContent = itRooms.length;
+        }
+
+        // Sort results
+        function sortResults(sortBy) {
+            switch(sortBy) {
+                case 'building':
+                    filteredRooms.sort((a, b) => a.building.localeCompare(b.building));
+                    break;
+                case 'roomType':
+                    filteredRooms.sort((a, b) => a.roomType.localeCompare(b.roomType));
+                    break;
+                case 'priority':
+                    const priorityOrder = { 'high': 1, 'medium': 2, 'low': 3 };
+                    filteredRooms.sort((a, b) => priorityOrder[a.priority] - priorityOrder[b.priority]);
+                    break;
+            }
+            updateResults();
+        }
+
+        // Reset all filters
+        function resetFilters() {
+            document.getElementById('searchInput').value = '';
+            document.getElementById('sortSelect').value = 'building';
+            
+            document.querySelectorAll('.building-checkbox').forEach(checkbox => {
+                checkbox.checked = true;
+            });
+            
+            document.querySelectorAll('.type-checkbox').forEach(checkbox => {
+                checkbox.checked = true;
+            });
+            
+            applyFilters();
+        }
+    </script>
+</body>
+</html>
