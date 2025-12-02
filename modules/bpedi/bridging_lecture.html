@@ -1,0 +1,763 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>From Customer Discovery to User Research</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .slide { display: none; }
+        .slide.active { display: flex; }
+        
+        :root {
+            --bg-primary: #ffffff;
+            --bg-secondary: #f9fafb;
+            --text-primary: #111827;
+            --text-secondary: #4b5563;
+            --border-color: #e5e7eb;
+            --accent-color: #3b82f6;
+            --accent-secondary: #10b981;
+            --font-size: 1;
+        }
+        
+        .dark-mode {
+            --bg-primary: #1f2937;
+            --bg-secondary: #111827;
+            --text-primary: #f9fafb;
+            --text-secondary: #d1d5db;
+            --border-color: #374151;
+            --accent-color: #60a5fa;
+            --accent-secondary: #34d399;
+        }
+        
+        html {
+            font-size: calc(var(--font-size) * 16px);
+        }
+        
+        body {
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+        }
+
+        .wireframe-box {
+            border: 2px solid var(--border-color);
+            background-color: var(--bg-secondary);
+            padding: 1rem;
+        }
+
+        .wireframe-bad {
+            opacity: 0.6;
+        }
+
+        .arrow-right {
+            width: 0;
+            height: 0;
+            border-top: 20px solid transparent;
+            border-bottom: 20px solid transparent;
+            border-left: 30px solid var(--accent-color);
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col">
+    <header class="border-b p-4" style="border-color: var(--border-color);">
+        <div class="max-w-7xl mx-auto flex justify-between items-center">
+            <h1 class="text-lg font-semibold">Bridging BPEDI → UXCI</h1>
+            <div class="flex gap-2">
+                <button id="decreaseFont" class="px-3 py-2 rounded border" style="border-color: var(--border-color);" aria-label="Decrease font size">A-</button>
+                <button id="increaseFont" class="px-3 py-2 rounded border" style="border-color: var(--border-color);" aria-label="Increase font size">A+</button>
+                <button id="darkModeToggle" class="px-4 py-2 rounded border" style="border-color: var(--border-color);" aria-label="Toggle dark mode">
+                    <span id="modeIcon">🌙</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <main class="flex-1 flex items-center justify-center p-8">
+        <div class="w-full max-w-5xl">
+            <!-- Slide 1: Title -->
+            <div class="slide active flex-col items-center justify-center text-center h-[70vh]">
+                <h2 class="text-5xl font-bold mb-6">From Customer Discovery to User Research</h2>
+                <h3 class="text-3xl mb-8" style="color: var(--text-secondary);">Bridging Business Validation & UX Design</h3>
+                <p class="text-xl mb-4" style="color: var(--text-secondary);">Mike Harrison</p>
+                <div class="mt-8 p-4 rounded" style="background-color: var(--bg-secondary);">
+                    <p class="text-lg" style="color: var(--text-secondary);">You've validated the business. Now validate the experience.</p>
+                </div>
+            </div>
+
+            <!-- Slide 2: Recap -->
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-4xl font-bold mb-8">What You've Just Done in BPEDI</h2>
+                <div class="space-y-5 text-lg">
+                    <div class="p-4 rounded" style="background-color: var(--bg-secondary);">
+                        <strong class="text-xl">You've learned the fundamentals of entrepreneurship:</strong>
+                    </div>
+                    <ul class="space-y-4">
+                        <li class="flex items-start">
+                            <span class="mr-3 text-2xl">🔄</span>
+                            <span><strong>Build-Measure-Learn loop:</strong> Rapid iteration and validation</span>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="mr-3 text-2xl">💬</span>
+                            <span><strong>Customer discovery interviews:</strong> Talking to potential users</span>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="mr-3 text-2xl">📊</span>
+                            <span><strong>Business model validation:</strong> Is this commercially viable?</span>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="mr-3 text-2xl">🎯</span>
+                            <span><strong>MVP development:</strong> Minimum viable products to test assumptions</span>
+                        </li>
+                    </ul>
+                    <div class="mt-8 p-4 rounded border" style="border-color: var(--accent-color); background-color: #dbeafe;">
+                        <p class="text-2xl font-semibold" style="color: #1e40af;">The big question: "Will people pay for this?"</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 3: The Next Question -->
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-4xl font-bold mb-8">The Next Question</h2>
+                <div class="space-y-6">
+                    <div class="p-6 rounded" style="background-color: #dcfce7;">
+                        <p class="text-2xl" style="color: #166534;">✅ You've proven people WANT your solution</p>
+                    </div>
+                    <div class="flex items-center justify-center my-8">
+                        <div class="text-6xl" style="color: var(--accent-color);">⬇</div>
+                    </div>
+                    <div class="p-6 rounded border-4" style="border-color: var(--accent-color); background-color: #dbeafe;">
+                        <p class="text-2xl font-bold" style="color: #1e40af;">But can they actually USE it?</p>
+                    </div>
+                    <div class="mt-8 p-6 rounded" style="background-color: #fef9c3;">
+                        <p class="text-xl" style="color: #854d0e;"><strong>The gap:</strong> Business validation ≠ UX validation</p>
+                        <p class="mt-3 text-lg" style="color: #854d0e;">A financially sound business with terrible UX won't survive.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 4: Two Types of Validation -->
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-4xl font-bold mb-8">Two Types of Validation</h2>
+                <div class="grid grid-cols-2 gap-6">
+                    <div class="p-6 rounded border-2" style="border-color: var(--accent-color); background-color: var(--bg-secondary);">
+                        <h3 class="text-2xl font-bold mb-4" style="color: var(--accent-color);">Business Validation</h3>
+                        <p class="text-xl mb-4"><strong>Core Question:</strong></p>
+                        <p class="text-lg mb-6">"Is this worth building?"</p>
+                        <ul class="space-y-3 text-base">
+                            <li>• Will people pay for it?</li>
+                            <li>• What's the market size?</li>
+                            <li>• Can we make money?</li>
+                            <li>• Is it sustainable?</li>
+                        </ul>
+                    </div>
+                    <div class="p-6 rounded border-2" style="border-color: var(--accent-secondary); background-color: var(--bg-secondary);">
+                        <h3 class="text-2xl font-bold mb-4" style="color: var(--accent-secondary);">UX Validation</h3>
+                        <p class="text-xl mb-4"><strong>Core Question:</strong></p>
+                        <p class="text-lg mb-6">"Did we build it right?"</p>
+                        <ul class="space-y-3 text-base">
+                            <li>• Can people use it?</li>
+                            <li>• Do they understand it?</li>
+                            <li>• Can they complete tasks?</li>
+                            <li>• Is it satisfying to use?</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="mt-6 p-4 rounded" style="background-color: var(--bg-secondary);">
+                    <p class="text-xl text-center"><strong>Both essential. Different questions. Different methods.</strong></p>
+                </div>
+            </div>
+
+            <!-- Slide 5: Same Concept, Two Prototypes -->
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-3xl font-bold mb-6">Same Concept, Two Prototypes</h2>
+                <p class="text-lg mb-6" style="color: var(--text-secondary);">Example: "SpaceBook" - An app to book university study spaces</p>
+                <div class="grid grid-cols-2 gap-6">
+                    <!-- Business Validation Prototype -->
+                    <div class="space-y-3">
+                        <div class="p-3 rounded text-center font-bold" style="background-color: #dbeafe; color: #1e40af;">
+                            Business Validation Prototype
+                        </div>
+                        <div class="wireframe-box space-y-3" style="min-height: 300px;">
+                            <div class="text-center font-bold text-xl mb-2">SpaceBook</div>
+                            <div class="text-sm" style="color: var(--text-secondary);">
+                                <p class="mb-2"><strong>Value Proposition:</strong> Never waste time searching for study spaces</p>
+                                <p class="mb-3"><strong>Features:</strong></p>
+                                <ul class="text-xs space-y-1 ml-4">
+                                    <li>• Real-time availability</li>
+                                    <li>• Filter by noise level, group size</li>
+                                    <li>• Reserve up to 3 hours</li>
+                                </ul>
+                                <div class="mt-4 p-2 rounded" style="background-color: var(--bg-primary);">
+                                    <p class="text-xs"><strong>Pricing:</strong> £2.99/month or £20/year</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="p-2 rounded text-sm" style="background-color: var(--bg-secondary);">
+                            <strong>Tests:</strong> "Would you pay £2.99/month for this?"
+                        </div>
+                    </div>
+
+                    <!-- UX Validation Prototype -->
+                    <div class="space-y-3">
+                        <div class="p-3 rounded text-center font-bold" style="background-color: #dcfce7; color: #166534;">
+                            UX Validation Prototype
+                        </div>
+                        <div class="wireframe-box space-y-2" style="min-height: 300px;">
+                            <div class="text-xs space-y-2">
+                                <div class="p-2 border" style="border-color: var(--border-color);">
+                                    [Search: "Library floor 2"] 🔍
+                                </div>
+                                <div class="grid grid-cols-2 gap-2">
+                                    <div class="p-2 border text-center" style="border-color: var(--border-color); background-color: #dcfce7;">
+                                        <div class="font-bold">Room 2.14</div>
+                                        <div class="text-xs">🤫 Quiet • 4 seats</div>
+                                        <div class="text-xs">Available now</div>
+                                    </div>
+                                    <div class="p-2 border text-center" style="border-color: var(--border-color); opacity: 0.4;">
+                                        <div class="font-bold">Room 2.18</div>
+                                        <div class="text-xs">👥 Group • 8 seats</div>
+                                        <div class="text-xs">Occupied</div>
+                                    </div>
+                                </div>
+                                <button class="w-full p-2 rounded font-bold" style="background-color: var(--accent-color); color: white;">
+                                    Book Room 2.14 →
+                                </button>
+                            </div>
+                        </div>
+                        <div class="p-2 rounded text-sm" style="background-color: var(--bg-secondary);">
+                            <strong>Tests:</strong> "Book a quiet study space for 2 hours"
+                        </div>
+                    </div>
+                </div>
+                <div class="mt-4 p-3 rounded text-center" style="background-color: #fef9c3;">
+                    <p class="font-semibold" style="color: #854d0e;">Same business idea. Different validation questions.</p>
+                </div>
+            </div>
+
+            <!-- Slide 6: Why Fidelity Matters -->
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-3xl font-bold mb-6">Why Fidelity Matters: The Comparison</h2>
+                <div class="grid grid-cols-2 gap-6">
+                    <!-- Bad Wireframe -->
+                    <div class="space-y-3">
+                        <div class="p-3 rounded text-center font-bold" style="background-color: #fee2e2; color: #991b1b;">
+                            ❌ Poorly Designed Wireframe
+                        </div>
+                        <div class="wireframe-box wireframe-bad space-y-2" style="min-height: 320px;">
+                            <div class="text-xs space-y-2">
+                                <div class="text-center mb-2">Booking Thing</div>
+                                <div class="p-2 border" style="border-color: var(--border-color);">
+                                    [Enter data]
+                                </div>
+                                <div class="space-y-1">
+                                    <div class="p-1 border text-xs" style="border-color: var(--border-color);">
+                                        Space 1 | Status: X
+                                    </div>
+                                    <div class="p-1 border text-xs" style="border-color: var(--border-color);">
+                                        Space 2 | Status: ✓
+                                    </div>
+                                    <div class="p-1 border text-xs" style="border-color: var(--border-color);">
+                                        Space 3 | Status: ?
+                                    </div>
+                                </div>
+                                <button class="w-full p-2 rounded" style="background-color: var(--border-color);">
+                                    Submit
+                                </button>
+                            </div>
+                        </div>
+                        <div class="p-3 rounded text-sm space-y-2" style="background-color: #fee2e2;">
+                            <p class="font-bold" style="color: #991b1b;">Problems:</p>
+                            <ul class="text-xs space-y-1" style="color: #991b1b;">
+                                <li>• Unclear labels ("Enter data"?)</li>
+                                <li>• Confusing status indicators (X, ✓, ?)</li>
+                                <li>• No information hierarchy</li>
+                                <li>• Generic "Submit" button</li>
+                                <li>• Can't test anything meaningful</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Good Wireframe -->
+                    <div class="space-y-3">
+                        <div class="p-3 rounded text-center font-bold" style="background-color: #dcfce7; color: #166534;">
+                            ✅ Well-Designed Wireframe
+                        </div>
+                        <div class="wireframe-box space-y-2" style="min-height: 320px;">
+                            <div class="text-xs space-y-2">
+                                <div class="font-bold mb-2">Find a Study Space</div>
+                                <div class="p-2 border" style="border-color: var(--border-color);">
+                                    🔍 Search by building or floor
+                                </div>
+                                <div class="text-xs mb-1" style="color: var(--text-secondary);">Available now (3 spaces)</div>
+                                <div class="space-y-2">
+                                    <div class="p-2 border" style="border-color: var(--accent-secondary); background-color: #dcfce7;">
+                                        <div class="font-bold">Library Room 2.14</div>
+                                        <div class="text-xs">🤫 Quiet • 4 seats • Floor 2</div>
+                                        <div class="text-xs font-bold" style="color: #166534;">✓ Available now</div>
+                                    </div>
+                                    <div class="p-2 border" style="border-color: var(--border-color); opacity: 0.5;">
+                                        <div class="font-bold">Library Room 2.18</div>
+                                        <div class="text-xs">👥 Group • 8 seats • Floor 2</div>
+                                        <div class="text-xs" style="color: var(--text-secondary);">⏰ Available in 45 min</div>
+                                    </div>
+                                </div>
+                                <button class="w-full p-2 rounded font-bold" style="background-color: var(--accent-secondary); color: white;">
+                                    Book Room 2.14 →
+                                </button>
+                            </div>
+                        </div>
+                        <div class="p-3 rounded text-sm space-y-2" style="background-color: #dcfce7;">
+                            <p class="font-bold" style="color: #166534;">Strengths:</p>
+                            <ul class="text-xs space-y-1" style="color: #166534;">
+                                <li>• Clear purpose and labels</li>
+                                <li>• Consistent status indicators</li>
+                                <li>• Visual hierarchy and grouping</li>
+                                <li>• Specific, action-oriented button</li>
+                                <li>• Actually testable with users!</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="mt-4 p-3 rounded text-center" style="background-color: #fef9c3;">
+                    <p class="font-semibold" style="color: #854d0e;">Both are "prototypes." Only one validates anything useful.</p>
+                </div>
+            </div>
+
+            <!-- Slide 7: From MVP to Prototype -->
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-4xl font-bold mb-8">From MVP to Prototype</h2>
+                <div class="space-y-6">
+                    <div class="p-6 rounded border-2" style="border-color: var(--accent-color); background-color: var(--bg-secondary);">
+                        <h3 class="text-2xl font-bold mb-3" style="color: var(--accent-color);">Your BPEDI MVP</h3>
+                        <ul class="space-y-3 text-lg">
+                            <li>• <strong>Purpose:</strong> Test business viability</li>
+                            <li>• <strong>Focus:</strong> Minimal features to validate demand</li>
+                            <li>• <strong>Question:</strong> "Will people pay for this?"</li>
+                            <li>• <strong>Example:</strong> Landing page, pricing, basic feature list</li>
+                        </ul>
+                    </div>
+                    <div class="p-6 rounded border-2" style="border-color: var(--accent-secondary); background-color: var(--bg-secondary);">
+                        <h3 class="text-2xl font-bold mb-3" style="color: var(--accent-secondary);">Your UXCI Prototype</h3>
+                        <ul class="space-y-3 text-lg">
+                            <li>• <strong>Purpose:</strong> Test usability</li>
+                            <li>• <strong>Focus:</strong> Minimal fidelity to validate user experience</li>
+                            <li>• <strong>Question:</strong> "Can people use this?"</li>
+                            <li>• <strong>Example:</strong> Hand-drawn sketches, flow diagrams, clickable wireframes</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="mt-6 p-4 rounded" style="background-color: #dcfce7;">
+                    <p class="text-xl text-center" style="color: #166534;"><strong>They're complementary:</strong> MVP validates demand → Prototype validates experience</p>
+                </div>
+            </div>
+
+            <!-- Slide 8: What Changes: The Conversation -->
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-4xl font-bold mb-8">What Changes: The Conversation</h2>
+                <div class="grid grid-cols-2 gap-6">
+                    <div class="p-6 rounded border-2" style="border-color: var(--accent-color); background-color: var(--bg-secondary);">
+                        <h3 class="text-2xl font-bold mb-4" style="color: var(--accent-color);">BPEDI Customer Interview</h3>
+                        <div class="space-y-4">
+                            <p class="text-lg"><strong>You ask questions:</strong></p>
+                            <ul class="space-y-2 text-base">
+                                <li>• "Do you struggle with X?"</li>
+                                <li>• "How do you currently solve this?"</li>
+                                <li>• "Would you pay for a solution?"</li>
+                                <li>• "What would make this valuable?"</li>
+                            </ul>
+                            <div class="mt-4 p-3 rounded" style="background-color: #dbeafe;">
+                                <p class="text-sm" style="color: #1e40af;"><strong>Focus:</strong> What people SAY they need</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="p-6 rounded border-2" style="border-color: var(--accent-secondary); background-color: var(--bg-secondary);">
+                        <h3 class="text-2xl font-bold mb-4" style="color: var(--accent-secondary);">UXCI Usability Test</h3>
+                        <div class="space-y-4">
+                            <p class="text-lg"><strong>You give tasks:</strong></p>
+                            <ul class="space-y-2 text-base">
+                                <li>• "Book a study space for 2 hours"</li>
+                                <li>• "Find a quiet room on floor 2"</li>
+                                <li>• "Cancel your booking"</li>
+                                <li>• (You watch them try)</li>
+                            </ul>
+                            <div class="mt-4 p-3 rounded" style="background-color: #dcfce7;">
+                                <p class="text-sm" style="color: #166534;"><strong>Focus:</strong> What people DO with your design</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="mt-6 p-4 rounded" style="background-color: #fef9c3;">
+                    <p class="text-xl text-center" style="color: #854d0e;"><strong>The shift:</strong> From asking to observing</p>
+                </div>
+            </div>
+
+            <!-- Slide 9: The Problem with Stated Needs -->
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-4xl font-bold mb-8">The Problem with Stated Needs</h2>
+                <div class="space-y-6">
+                    <div class="p-6 rounded" style="background-color: #dcfce7;">
+                        <p class="text-2xl mb-3" style="color: #166534;"><strong>What people SAY:</strong></p>
+                        <p class="text-xl" style="color: #166534;">"I would definitely use this app! I'd check it every day before going to the library!"</p>
+                    </div>
+                    <div class="flex items-center justify-center">
+                        <div class="text-5xl">≠</div>
+                    </div>
+                    <div class="p-6 rounded border-4" style="border-color: #dc2626; background-color: #fee2e2;">
+                        <p class="text-2xl mb-3" style="color: #991b1b;"><strong>What people DO:</strong></p>
+                        <p class="text-xl mb-3" style="color: #991b1b;">[5 minutes later, still struggling to find the search button]</p>
+                        <p class="text-lg" style="color: #991b1b;">"Wait, how do I... where's the... I don't understand what this means..."</p>
+                    </div>
+                    <div class="mt-6 p-6 rounded" style="background-color: var(--bg-secondary);">
+                        <p class="text-2xl font-bold text-center">This is why watching matters more than asking</p>
+                        <p class="text-lg text-center mt-3" style="color: var(--text-secondary);">People are excellent at expressing needs, terrible at predicting behavior</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 10: Value Proposition to User Experience -->
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-4xl font-bold mb-8">The Value Proposition → User Experience Pipeline</h2>
+                <div class="space-y-4">
+                    <div class="p-4 rounded" style="background-color: #dbeafe;">
+                        <p class="text-xl" style="color: #1e40af;"><strong>Business (BPEDI):</strong> Identifies WHAT users need</p>
+                    </div>
+                    <div class="flex justify-center items-center">
+                        <svg width="60" height="60" viewBox="0 0 60 60">
+                            <path d="M30 10 L30 40 M30 40 L20 30 M30 40 L40 30" 
+                                  stroke="currentColor" 
+                                  stroke-width="4" 
+                                  fill="none"
+                                  style="color: var(--accent-color);"/>
+                        </svg>
+                    </div>
+                    <div class="p-4 rounded" style="background-color: #dcfce7;">
+                        <p class="text-xl" style="color: #166534;"><strong>UX (UXCI):</strong> Determines HOW they get it</p>
+                    </div>
+                </div>
+                <div class="mt-8 p-6 rounded" style="background-color: var(--bg-secondary);">
+                    <p class="text-2xl mb-4"><strong>Example Transformation:</strong></p>
+                    <div class="grid grid-cols-2 gap-4 text-lg">
+                        <div class="p-3 rounded" style="background-color: #dbeafe;">
+                            <p class="font-bold mb-2" style="color: #1e40af;">Value Prop:</p>
+                            <p style="color: #1e40af;">"Students need to find available study spaces quickly"</p>
+                        </div>
+                        <div class="p-3 rounded" style="background-color: #dcfce7;">
+                            <p class="font-bold mb-2" style="color: #166534;">User Experience:</p>
+                            <p style="color: #166534;">Search → Filter → Select → Book → Confirm (in 5 taps, 30 seconds)</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 11: Real Example -->
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-4xl font-bold mb-8">Real Example: When Business Meets UX</h2>
+                <div class="p-6 rounded" style="background-color: var(--bg-secondary);">
+                    <h3 class="text-2xl font-bold mb-4">Case Study: Quibi (2020)</h3>
+                    <div class="space-y-4 text-lg">
+                        <div class="p-4 rounded" style="background-color: #dbeafe;">
+                            <p class="mb-2"><strong style="color: #1e40af;">Business validation: ✅ Strong</strong></p>
+                            <ul class="space-y-1 text-base" style="color: #1e40af;">
+                                <li>• $1.75 billion in funding</li>
+                                <li>• Celebrity creators and Hollywood studios</li>
+                                <li>• Clear value proposition: "quick bites" of video content</li>
+                                <li>• Viable subscription model ($4.99-7.99/month)</li>
+                            </ul>
+                        </div>
+                        <div class="p-4 rounded" style="background-color: #fee2e2;">
+                            <p class="mb-2"><strong style="color: #991b1b;">UX validation: ❌ Failed</strong></p>
+                            <ul class="space-y-1 text-base" style="color: #991b1b;">
+                                <li>• No ability to screenshot or share content</li>
+                                <li>• No casting to TV (mobile-only)</li>
+                                <li>• Confusing navigation and content discovery</li>
+                                <li>• Users couldn't find shows they wanted to watch</li>
+                            </ul>
+                        </div>
+                        <div class="p-4 rounded" style="background-color: #fef9c3;">
+                            <p class="text-xl font-bold" style="color: #854d0e;">Result: Shut down after 6 months, $1.75B lost</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 12: Two Frameworks Side by Side -->
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-3xl font-bold mb-6">Build-Measure-Learn Meets Research-Ideate-Prototype-Test</h2>
+                <div class="grid grid-cols-2 gap-6">
+                    <div class="p-6 rounded border-2" style="border-color: var(--accent-color); background-color: var(--bg-secondary);">
+                        <h3 class="text-2xl font-bold mb-4 text-center" style="color: var(--accent-color);">BPEDI Framework</h3>
+                        <div class="space-y-3">
+                            <div class="p-3 rounded text-center" style="background-color: #dbeafe;">
+                                <p class="font-bold" style="color: #1e40af;">BUILD</p>
+                                <p class="text-sm" style="color: #1e40af;">Create MVP</p>
+                            </div>
+                            <div class="text-center text-2xl">⬇</div>
+                            <div class="p-3 rounded text-center" style="background-color: #dbeafe;">
+                                <p class="font-bold" style="color: #1e40af;">MEASURE</p>
+                                <p class="text-sm" style="color: #1e40af;">Validate with customers</p>
+                            </div>
+                            <div class="text-center text-2xl">⬇</div>
+                            <div class="p-3 rounded text-center" style="background-color: #dbeafe;">
+                                <p class="font-bold" style="color: #1e40af;">LEARN</p>
+                                <p class="text-sm" style="color: #1e40af;">Iterate business model</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="p-6 rounded border-2" style="border-color: var(--accent-secondary); background-color: var(--bg-secondary);">
+                        <h3 class="text-2xl font-bold mb-4 text-center" style="color: var(--accent-secondary);">UXCI Framework</h3>
+                        <div class="space-y-3">
+                            <div class="p-3 rounded text-center" style="background-color: #dcfce7;">
+                                <p class="font-bold" style="color: #166534;">RESEARCH</p>
+                                <p class="text-sm" style="color: #166534;">Understand users</p>
+                            </div>
+                            <div class="text-center text-2xl">⬇</div>
+                            <div class="p-3 rounded text-center" style="background-color: #dcfce7;">
+                                <p class="font-bold" style="color: #166534;">IDEATE & PROTOTYPE</p>
+                                <p class="text-sm" style="color: #166534;">Sketch solutions</p>
+                            </div>
+                            <div class="text-center text-2xl">⬇</div>
+                            <div class="p-3 rounded text-center" style="background-color: #dcfce7;">
+                                <p class="font-bold" style="color: #166534;">TEST & ITERATE</p>
+                                <p class="text-sm" style="color: #166534;">Validate with users</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="mt-6 p-4 rounded" style="background-color: #fef9c3;">
+                    <p class="text-xl text-center font-semibold" style="color: #854d0e;">Complementary, not competing. Both cycles of learning.</p>
+                </div>
+            </div>
+
+            <!-- Slide 13: Your BPEDI Idea + UX Thinking -->
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-4xl font-bold mb-8">Your BPEDI Business Idea + UX Thinking</h2>
+                <div class="p-6 rounded mb-6" style="background-color: var(--bg-secondary);">
+                    <p class="text-2xl mb-4"><strong>Interactive Exercise:</strong></p>
+                    <p class="text-xl" style="color: var(--text-secondary);">Think about the business plan you developed in BPEDI...</p>
+                </div>
+                <div class="space-y-5 text-lg">
+                    <div class="p-5 rounded border-2" style="border-color: var(--accent-color);">
+                        <p class="text-xl font-bold mb-2" style="color: var(--accent-color);">❓ Question 1:</p>
+                        <p>Where are the <strong>user touchpoints</strong> in your business model?</p>
+                        <p class="text-sm mt-2" style="color: var(--text-secondary);">(Website? App? In-person interaction? Booking system?)</p>
+                    </div>
+                    <div class="p-5 rounded border-2" style="border-color: var(--accent-secondary);">
+                        <p class="text-xl font-bold mb-2" style="color: var(--accent-secondary);">❓ Question 2:</p>
+                        <p>Where could <strong>UX make or break</strong> your value proposition?</p>
+                        <p class="text-sm mt-2" style="color: var(--text-secondary);">(What tasks must users complete? What if they can't figure it out?)</p>
+                    </div>
+                    <div class="p-5 rounded border-2" style="border-color: #f59e0b;">
+                        <p class="text-xl font-bold mb-2" style="color: #f59e0b;">❓ Question 3:</p>
+                        <p>What assumptions about <strong>user behavior</strong> did you make?</p>
+                        <p class="text-sm mt-2" style="color: var(--text-secondary);">(Have you actually watched someone try to use your solution?)</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 14: What You'll Do in UXCI -->
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-4xl font-bold mb-8">What You'll Do in UXCI (Starting January)</h2>
+                <div class="space-y-5">
+                    <div class="p-5 rounded" style="background-color: #dcfce7;">
+                        <p class="text-2xl font-bold mb-3" style="color: #166534;">Your Assignment:</p>
+                        <p class="text-xl" style="color: #166534;">Improve the customer experience for a small-to-medium scale service</p>
+                    </div>
+                    <div class="grid grid-cols-2 gap-4">
+                        <div class="p-4 rounded" style="background-color: var(--bg-secondary);">
+                            <p class="font-bold text-lg mb-2">1️⃣ User Research</p>
+                            <p class="text-sm">Understand needs, pain points, context</p>
+                        </div>
+                        <div class="p-4 rounded" style="background-color: var(--bg-secondary);">
+                            <p class="font-bold text-lg mb-2">2️⃣ Sketching</p>
+                            <p class="text-sm">Hand-drawn wireframes (6-10 screens)</p>
+                        </div>
+                        <div class="p-4 rounded" style="background-color: var(--bg-secondary);">
+                            <p class="font-bold text-lg mb-2">3️⃣ Flow Diagrams</p>
+                            <p class="text-sm">Map user journeys, decisions, errors</p>
+                        </div>
+                        <div class="p-4 rounded" style="background-color: var(--bg-secondary);">
+                            <p class="font-bold text-lg mb-2">4️⃣ Testing</p>
+                            <p class="text-sm">Validate designs with real users</p>
+                        </div>
+                    </div>
+                    <div class="p-5 rounded" style="background-color: #dbeafe;">
+                        <p class="text-lg"><strong>Deliverable:</strong> A slide deck with prototypes, artefacts, and evaluation (10-24 slides, ~1,700-2,000 words)</p>
+                    </div>
+                    <div class="p-4 rounded" style="background-color: #fef9c3;">
+                        <p class="text-center text-xl font-semibold" style="color: #854d0e;">Same iterative mindset. Different validation focus.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 15: The Product Success Equation -->
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-4xl font-bold mb-8">The Product Success Equation</h2>
+                <div class="space-y-6">
+                    <div class="text-center mb-6">
+                        <div class="p-6 rounded inline-block" style="background-color: var(--bg-secondary);">
+                            <p class="text-3xl font-bold mb-2">Business Viability × UX Quality</p>
+                            <p class="text-2xl">=</p>
+                            <p class="text-3xl font-bold mt-2" style="color: var(--accent-color);">Sustainable Success</p>
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-2 gap-4">
+                        <div class="p-4 rounded" style="background-color: #fee2e2;">
+                            <p class="text-lg font-bold mb-2" style="color: #991b1b;">❌ High Business + Low UX</p>
+                            <p class="text-sm" style="color: #991b1b;">Frustrated customers who leave (Quibi)</p>
+                        </div>
+                        <div class="p-4 rounded" style="background-color: #fee2e2;">
+                            <p class="text-lg font-bold mb-2" style="color: #991b1b;">❌ Low Business + High UX</p>
+                            <p class="text-sm" style="color: #991b1b;">Beautiful products nobody needs</p>
+                        </div>
+                        <div class="p-4 rounded" style="background-color: #fee2e2;">
+                            <p class="text-lg font-bold mb-2" style="color: #991b1b;">❌ Low Business + Low UX</p>
+                            <p class="text-sm" style="color: #991b1b;">Just... no.</p>
+                        </div>
+                        <div class="p-4 rounded" style="background-color: #dcfce7;">
+                            <p class="text-lg font-bold mb-2" style="color: #166534;">✅ High Business + High UX</p>
+                            <p class="text-sm" style="color: #166534;">Sustainable, scalable success</p>
+                        </div>
+                    </div>
+                    <div class="mt-6 p-6 rounded" style="background-color: #dbeafe;">
+                        <p class="text-2xl text-center font-bold" style="color: #1e40af;">Neither alone is enough</p>
+                        <p class="text-xl text-center mt-2" style="color: #1e40af;">BPEDI got you to viable. UXCI gets you to usable.</p>
+                        <p class="text-xl text-center mt-2" style="color: #1e40af;"><strong>Together, you build something sustainable.</strong></p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 16: Resources & Next Steps -->
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-4xl font-bold mb-8">Resources & Next Steps</h2>
+                <div class="space-y-5">
+                    <div class="p-5 rounded" style="background-color: var(--bg-secondary);">
+                        <p class="text-xl font-bold mb-3">📚 Recommended Reading:</p>
+                        <ul class="space-y-2 text-lg">
+                            <li>• <strong>Don Norman</strong> - "The Design of Everyday Things"</li>
+                            <li>• <strong>Steve Krug</strong> - "Don't Make Me Think"</li>
+                            <li>• <strong>Jake Knapp</strong> - "Sprint" (combines business + UX thinking)</li>
+                        </ul>
+                    </div>
+                    <div class="p-5 rounded" style="background-color: #dcfce7;">
+                        <p class="text-xl font-bold mb-3" style="color: #166534;">🎯 Next Steps:</p>
+                        <ul class="space-y-2 text-lg" style="color: #166534;">
+                            <li>1. Think about how UX could strengthen your BPEDI business plan</li>
+                            <li>2. Start observing UX around you (apps, websites, physical spaces)</li>
+                            <li>3. Keep your entrepreneurial mindset - UXCI is still about rapid iteration!</li>
+                        </ul>
+                    </div>
+                    <div class="p-5 rounded" style="background-color: #dbeafe;">
+                        <p class="text-xl font-bold mb-3" style="color: #1e40af;">📅 Looking Ahead:</p>
+                        <p class="text-lg" style="color: #1e40af;">UXCI begins January 2025 - be ready to bring your design thinking skills!</p>
+                    </div>
+                    <div class="mt-6 p-5 rounded text-center" style="background-color: #fef9c3;">
+                        <p class="text-xl font-semibold" style="color: #854d0e;">Want to discuss how UX could apply to your business idea? Get in touch!</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 17: Questions / Thank You -->
+            <div class="slide flex-col items-center justify-center text-center h-[70vh]">
+                <h2 class="text-5xl font-bold mb-6">Questions?</h2>
+                <div class="space-y-6 max-w-2xl">
+                    <p class="text-2xl" style="color: var(--text-secondary);">Thank you!</p>
+                    <div class="p-6 rounded" style="background-color: var(--bg-secondary);">
+                        <p class="text-xl mb-2"><strong>Mike Oustamanolakis</strong></p>
+                        <p class="text-lg" style="color: var(--text-secondary);">UX Designer & Lecturer</p>
+                        <p class="text-lg" style="color: var(--text-secondary);">Manchester Metropolitan University</p>
+                    </div>
+                    <div class="p-6 rounded" style="background-color: #dcfce7;">
+                        <p class="text-lg font-semibold" style="color: #166534;">
+                            Remember: You've learned to validate the business.<br>
+                            Now learn to validate the experience.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="border-t p-4" style="border-color: var(--border-color);">
+        <div class="max-w-7xl mx-auto flex justify-between items-center">
+            <button id="prevBtn" class="px-6 py-2 rounded border font-medium" style="border-color: var(--border-color);" aria-label="Previous slide">
+                ← Previous
+            </button>
+            <span id="slideCounter" class="text-lg" style="color: var(--text-secondary);">1 / 17</span>
+            <button id="nextBtn" class="px-6 py-2 rounded border font-medium" style="border-color: var(--border-color);" aria-label="Next slide">
+                Next →
+            </button>
+        </div>
+    </footer>
+
+    <script>
+        let currentSlide = 0;
+        let isDarkMode = false;
+        let fontSize = 1;
+        const slides = document.querySelectorAll('.slide');
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+        const slideCounter = document.getElementById('slideCounter');
+        const darkModeToggle = document.getElementById('darkModeToggle');
+        const modeIcon = document.getElementById('modeIcon');
+        const increaseFont = document.getElementById('increaseFont');
+        const decreaseFont = document.getElementById('decreaseFont');
+
+        function showSlide(n) {
+            slides[currentSlide].classList.remove('active');
+            currentSlide = (n + slides.length) % slides.length;
+            slides[currentSlide].classList.add('active');
+            slideCounter.textContent = `${currentSlide + 1} / ${slides.length}`;
+            
+            prevBtn.disabled = currentSlide === 0;
+            nextBtn.disabled = currentSlide === slides.length - 1;
+            prevBtn.style.opacity = currentSlide === 0 ? '0.5' : '1';
+            nextBtn.style.opacity = currentSlide === slides.length - 1 ? '0.5' : '1';
+        }
+
+        function nextSlide() {
+            if (currentSlide < slides.length - 1) showSlide(currentSlide + 1);
+        }
+
+        function prevSlide() {
+            if (currentSlide > 0) showSlide(currentSlide - 1);
+        }
+
+        function toggleDarkMode() {
+            isDarkMode = !isDarkMode;
+            document.body.classList.toggle('dark-mode');
+            modeIcon.textContent = isDarkMode ? '☀️' : '🌙';
+        }
+
+        function updateFontSize() {
+            document.documentElement.style.setProperty('--font-size', fontSize);
+        }
+
+        function increaseFontSize() {
+            if (fontSize < 1.5) {
+                fontSize += 0.1;
+                updateFontSize();
+            }
+        }
+
+        function decreaseFontSize() {
+            if (fontSize > 0.7) {
+                fontSize -= 0.1;
+                updateFontSize();
+            }
+        }
+
+        prevBtn.addEventListener('click', prevSlide);
+        nextBtn.addEventListener('click', nextSlide);
+        darkModeToggle.addEventListener('click', toggleDarkMode);
+        increaseFont.addEventListener('click', increaseFontSize);
+        decreaseFont.addEventListener('click', decreaseFontSize);
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight') nextSlide();
+            if (e.key === 'ArrowLeft') prevSlide();
+        });
+
+        showSlide(0);
+    </script>
+</body>
+</html>

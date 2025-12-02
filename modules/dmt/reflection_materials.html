@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Section 5 Reflection Materials</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @media print {
+            .no-print { display: none; }
+            .page-break { page-break-before: always; }
+            body { font-size: 12pt; }
+        }
+        
+        :root {
+            --bg-primary: #ffffff;
+            --bg-secondary: #f9fafb;
+            --text-primary: #111827;
+            --text-secondary: #4b5563;
+            --border-color: #e5e7eb;
+            --accent-color: #3b82f6;
+        }
+        
+        .dark-mode {
+            --bg-primary: #1f2937;
+            --bg-secondary: #111827;
+            --text-primary: #f9fafb;
+            --text-secondary: #d1d5db;
+            --border-color: #374151;
+            --accent-color: #60a5fa;
+        }
+        
+        body {
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+        }
+
+        .checklist-item {
+            padding: 0.75rem;
+            margin-bottom: 0.5rem;
+            border: 2px solid var(--border-color);
+            border-radius: 0.5rem;
+            background-color: var(--bg-secondary);
+            display: flex;
+            align-items: start;
+            gap: 1rem;
+        }
+
+        .checklist-item:hover {
+            border-color: var(--accent-color);
+            background-color: var(--bg-primary);
+        }
+
+        input[type="checkbox"] {
+            width: 1.5rem;
+            height: 1.5rem;
+            margin-top: 0.125rem;
+            cursor: pointer;
+            flex-shrink: 0;
+        }
+
+        .bad-example {
+            padding: 1.5rem;
+            border: 3px solid #ef4444;
+            border-radius: 0.5rem;
+            background-color: #fee2e2;
+            margin-bottom: 2rem;
+        }
+
+        .dark-mode .bad-example {
+            background-color: #7f1d1d;
+            border-color: #dc2626;
+        }
+    </style>
+</head>
+<body class="min-h-screen p-8">
+    <header class="max-w-4xl mx-auto mb-8 no-print">
+        <div class="flex justify-between items-center mb-4">
+            <h1 class="text-3xl font-bold">Section 5 Reflection Materials</h1>
+            <button id="darkModeToggle" class="px-4 py-2 rounded border" style="border-color: var(--border-color);" aria-label="Toggle dark mode">
+                <span id="modeIcon">🌙</span>
+            </button>
+        </div>
+        <p class="text-lg" style="color: var(--text-secondary);">Use these materials to build your 300-word reflection</p>
+        <button onclick="window.print()" class="mt-4 px-6 py-2 rounded border font-medium" style="border-color: var(--accent-color); color: var(--accent-color);">
+            🖨️ Print This Page
+        </button>
+    </header>
+
+    <main class="max-w-4xl mx-auto">
+        
+        <!-- PART 1: THE THREE CHECKLISTS -->
+        <section class="mb-12">
+            <div class="mb-8 p-6 rounded-lg" style="background-color: var(--bg-secondary); border-left: 4px solid var(--accent-color);">
+                <h2 class="text-2xl font-bold mb-2">PART 1: Reflection Checklist Menu</h2>
+                <p class="text-lg" style="color: var(--text-secondary);">✅ Tick 3 items from EACH category that apply to you, then use them to write your reflection.</p>
+            </div>
+
+            <!-- CHALLENGES CHECKLIST -->
+            <div class="mb-10">
+                <h3 class="text-2xl font-bold mb-4 p-4 rounded-lg" style="background-color: #fee2e2; color: #991b1b;">
+                    📋 CHALLENGES (Select 3)
+                </h3>
+                <p class="mb-4 text-sm" style="color: var(--text-secondary);">What difficulties did you face during the research process?</p>
+                
+                <div class="space-y-2">
+                    <div class="checklist-item">
+                        <input type="checkbox" id="challenge1">
+                        <label for="challenge1" class="cursor-pointer">
+                            <strong>Finding the right keywords</strong> - My initial search terms were either too broad (returned thousands of results) or too narrow (found almost nothing relevant).
+                        </label>
+                    </div>
+
+                    <div class="checklist-item">
+                        <input type="checkbox" id="challenge2">
+                        <label for="challenge2" class="cursor-pointer">
+                            <strong>Understanding Boolean operators</strong> - I struggled to understand when to use AND, OR, and NOT in my searches, and often got confused results.
+                        </label>
+                    </div>
+
+                    <div class="checklist-item">
+                        <input type="checkbox" id="challenge3">
+                        <label for="challenge3" class="cursor-pointer">
+                            <strong>Navigating different databases</strong> - Each database (Google Scholar, JSTOR, Web of Science) had a different interface which was confusing and time-consuming to learn.
+                        </label>
+                    </div>
+
+                    <div class="checklist-item">
+                        <input type="checkbox" id="challenge4">
+                        <label for="challenge4" class="cursor-pointer">
+                            <strong>Accessing full-text articles</strong> - Many promising sources were behind paywalls or only showed abstracts, making it difficult to evaluate their usefulness.
+                        </label>
+                    </div>
+
+                    <div class="checklist-item">
+                        <input type="checkbox" id="challenge5">
+                        <label for="challenge5" class="cursor-pointer">
+                            <strong>Distinguishing peer-reviewed sources</strong> - I initially struggled to identify which sources were peer-reviewed academic journals versus popular magazines or blogs.
+                        </label>
+                    </div>
+
+                    <div class="checklist-item">
+                        <input type="checkbox" id="challenge6">
+                        <label for="challenge6" class="cursor-pointer">
+                            <strong>Evaluating source credibility</strong> - Applying the CRAAP test was more difficult in practice than in theory - many sources fell into grey areas.
+                        </label>
+                    </div>
+
+                    <div class="checklist-item">
+                        <input type="checkbox" id="challenge7">
+                        <label for="challenge7" class="cursor-pointer">
+                            <strong>Managing my time effectively</strong> - I underestimated how long the research process would take and left some sections until the last minute.
+                        </label>
+                    </div>
+
+                    <div class="checklist-item">
+                        <input type="checkbox" id="challenge8">
+                        <label for="challenge8" class="cursor-pointer">
+                            <strong>Getting Harvard referencing correct</strong> - The formatting rules for citations and bibliography entries were confusing, especially for different source types (books vs journals vs websites).
+                        </label>
+                    </div>
+
+                    <div class="checklist-item">
+                        <input type="checkbox" id="challenge9">
+                        <label for="challenge9" class="cursor-pointer">
+                            <strong>Finding diverse source types</strong> - Most of my search results were journal articles; finding books, reports, and other types of sources required different strategies.
+                        </label>
+                    </div>
+
+                    <div class="checklist-item">
+                        <input type="checkbox" id="challenge10">
+                        <label for="challenge10" class="cursor-pointer">
+                            <strong>Narrowing my research focus</strong> - My topic was initially too broad, and I struggled to refine it into a specific, manageable research question.
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SOLUTIONS CHECKLIST -->
+            <div class="mb-10 page-break">
+                <h3 class="text-2xl font-bold mb-4 p-4 rounded-lg" style="background-color: #fef9c3; color: #854d0e;">
+                    🔧 SOLUTIONS (Select 3)
+                </h3>
+                <p class="mb-4 text-sm" style="color: var(--text-secondary);">How did you overcome these challenges?</p>
+                
+                <div class="space-y-2">
+                    <div class="checklist-item">
+                        <input type="checkbox" id="solution1">
+                        <label for="solution1" class="cursor-pointer">
+                            <strong>Experimented with different keyword combinations</strong> - I tried multiple variations and synonyms of my search terms until I found combinations that returned relevant results.
+                        </label>
+                    </div>
+
+                    <div class="checklist-item">
+                        <input type="checkbox" id="solution2">
+                        <label for="solution2" class="cursor-pointer">
+                            <strong>Practiced Boolean search strategies</strong> - I used the library's online tutorials and practiced creating complex searches using AND, OR, and NOT operators until I felt confident.
+                        </label>
+                    </div>
+
+                    <div class="checklist-item">
+                        <input type="checkbox" id="solution3">
+                        <label for="solution3" class="cursor-pointer">
+                            <strong>Created a comparison table of databases</strong> - I documented the differences between databases (interface, content, features) which made it easier to choose the right one for each search.
+                        </label>
+                    </div>
+
+                    <div class="checklist-item">
+                        <input type="checkbox" id="solution4">
+                        <label for="solution4" class="cursor-pointer">
+                            <strong>Used the library's remote access system</strong> - I learned how to access articles off-campus and discovered the "Find It @ MMU" button which helped locate full-text versions.
+                        </label>
+                    </div>
+
+                    <div class="checklist-item">
+                        <input type="checkbox" id="solution5">
+                        <label for="solution5" class="cursor-pointer">
+                            <strong>Learned to use database filters</strong> - I discovered that most databases have a "peer-reviewed only" filter which immediately improved the quality of my search results.
+                        </label>
+                    </div>
+
+                    <div class="checklist-item">
+                        <input type="checkbox" id="solution6">
+                        <label for="solution6" class="cursor-pointer">
+                            <strong>Applied CRAAP test systematically</strong> - I created a simple checklist for each source and rated them on Currency, Relevance, Authority, Accuracy, and Purpose before deciding whether to include them.
+                        </label>
+                    </div>
+
+                    <div class="checklist-item">
+                        <input type="checkbox" id="solution7">
+                        <label for="solution7" class="cursor-pointer">
+                            <strong>Created a research schedule</strong> - I broke the assignment into smaller tasks with deadlines for each section, which made the workload more manageable and less overwhelming.
+                        </label>
+                    </div>
+
+                    <div class="checklist-item">
+                        <input type="checkbox" id="solution8">
+                        <label for="solution8" class="cursor-pointer">
+                            <strong>Used Cite Them Right</strong> - I bookmarked the MMU Harvard referencing guide and used it to check every citation, eventually learning the patterns for different source types.
+                        </label>
+                    </div>
+
+                    <div class="checklist-item">
+                        <input type="checkbox" id="solution9">
+                        <label for="solution9" class="cursor-pointer">
+                            <strong>Searched strategically for different source types</strong> - I learned that Google Books is better for finding books, while Web of Science is better for recent journal articles, and government websites for reports.
+                        </label>
+                    </div>
+
+                    <div class="checklist-item">
+                        <input type="checkbox" id="solution10">
+                        <label for="solution10" class="cursor-pointer">
+                            <strong>Refined my research question iteratively</strong> - I started broad to understand the topic, then narrowed my focus based on what sources were available and what gaps I found in the literature.
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SKILLS CHECKLIST -->
+            <div class="mb-10 page-break">
+                <h3 class="text-2xl font-bold mb-4 p-4 rounded-lg" style="background-color: #dcfce7; color: #166534;">
+                    💡 SKILLS DEVELOPED (Select 3)
+                </h3>
+                <p class="mb-4 text-sm" style="color: var(--text-secondary);">What skills did you develop through this process?</p>
+                
+                <div class="space-y-2">
+                    <div class="checklist-item">
+                        <input type="checkbox" id="skill1">
+                        <label for="skill1" class="cursor-pointer">
+                            <strong>Advanced search strategies</strong> - I developed the ability to construct complex Boolean searches and use database filters effectively to find relevant academic sources quickly.
+                        </label>
+                    </div>
+
+                    <div class="checklist-item">
+                        <input type="checkbox" id="skill2">
+                        <label for="skill2" class="cursor-pointer">
+                            <strong>Critical source evaluation</strong> - I learned to assess source credibility systematically using frameworks like CRAAP, rather than accepting information at face value.
+                        </label>
+                    </div>
+
+                    <div class="checklist-item">
+                        <input type="checkbox" id="skill3">
+                        <label for="skill3" class="cursor-pointer">
+                            <strong>Information literacy</strong> - I gained confidence in distinguishing between different types of sources (peer-reviewed journals, books, reports) and understanding when each is appropriate.
+                        </label>
+                    </div>
+
+                    <div class="checklist-item">
+                        <input type="checkbox" id="skill4">
+                        <label for="skill4" class="cursor-pointer">
+                            <strong>Academic writing and referencing</strong> - I became proficient in Harvard referencing style and understand the importance of proper citation for academic integrity.
+                        </label>
+                    </div>
+
+                    <div class="checklist-item">
+                        <input type="checkbox" id="skill5">
+                        <label for="skill5" class="cursor-pointer">
+                            <strong>Project management</strong> - I learned to break large assignments into manageable tasks, set realistic deadlines, and manage my time more effectively across multiple sections.
+                        </label>
+                    </div>
+
+                    <div class="checklist-item">
+                        <input type="checkbox" id="skill6">
+                        <label for="skill6" class="cursor-pointer">
+                            <strong>Technical competence with databases</strong> - I became comfortable navigating multiple academic databases and using their advanced features like citation export and saved searches.
+                        </label>
+                    </div>
+
+                    <div class="checklist-item">
+                        <input type="checkbox" id="skill7">
+                        <label for="skill7" class="cursor-pointer">
+                            <strong>Problem-solving and adaptability</strong> - I developed resilience when facing research roadblocks and learned to try alternative strategies rather than giving up when searches didn't work immediately.
+                        </label>
+                    </div>
+
+                    <div class="checklist-item">
+                        <input type="checkbox" id="skill8">
+                        <label for="skill8" class="cursor-pointer">
+                            <strong>Understanding peer review process</strong> - I learned how academic knowledge is created and validated through peer review, which helps me trust and evaluate scholarly sources more effectively.
+                        </label>
+                    </div>
+
+                    <div class="checklist-item">
+                        <input type="checkbox" id="skill9">
+                        <label for="skill9" class="cursor-pointer">
+                            <strong>Evidence-based argumentation</strong> - I learned to support claims with credible sources and understand the difference between opinion-based and evidence-based writing.
+                        </label>
+                    </div>
+
+                    <div class="checklist-item">
+                        <input type="checkbox" id="skill10">
+                        <label for="skill10" class="cursor-pointer">
+                            <strong>Self-directed learning</strong> - I became more independent in seeking help (tutorials, library guides) and teaching myself new research tools rather than waiting to be taught everything.
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mb-10 p-6 rounded-lg" style="background-color: var(--bg-secondary); border: 2px solid var(--accent-color);">
+                <h3 class="text-xl font-bold mb-3">✍️ Now Write Your Reflection</h3>
+                <p class="mb-3">Use the items you ticked to write 3 paragraphs (~300 words total):</p>
+                <ul class="space-y-2 text-sm ml-6">
+                    <li><strong>Paragraph 1:</strong> Describe the challenges you ticked and give specific examples</li>
+                    <li><strong>Paragraph 2:</strong> Explain the solutions you used and how they helped</li>
+                    <li><strong>Paragraph 3:</strong> Discuss the skills you developed and how you'll use them in future</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- PART 2: THE BAD EXAMPLES -->
+        <section class="mb-12 page-break">
+            <div class="mb-8 p-6 rounded-lg" style="background-color: var(--bg-secondary); border-left: 4px solid #ef4444;">
+                <h2 class="text-2xl font-bold mb-2">PART 2: Bad Example Rescue Mission</h2>
+                <p class="text-lg mb-2" style="color: var(--text-secondary);">Each example below is intentionally terrible. Your job: rewrite it to make it better (250-300 words).</p>
+                <p class="text-sm" style="color: var(--text-secondary);"><strong>Requirements:</strong> Name specific challenges, explain HOW you solved them, mention 3+ skills learned, connect to future use.</p>
+            </div>
+
+            <!-- BAD EXAMPLE 1 -->
+            <div class="bad-example">
+                <div class="flex justify-between items-start mb-3">
+                    <h3 class="text-xl font-bold" style="color: #991b1b;">❌ BAD EXAMPLE #1</h3>
+                    <span class="text-sm font-semibold px-3 py-1 rounded" style="background-color: #991b1b; color: white;">Too Vague</span>
+                </div>
+                <div class="p-4 rounded" style="background-color: white; color: #111827;">
+                    <p class="text-base leading-relaxed">
+                        This assignment was hard. I learned some things about research. Databases are confusing and I didn't really understand them at first. I will use these skills later in my degree. The whole process took a long time and I found it difficult. Now I know more about research than before.
+                    </p>
+                </div>
+                <div class="mt-3 p-3 rounded text-sm" style="background-color: #7f1d1d; color: #fecaca;">
+                    <strong>Problems:</strong> No specific challenges mentioned, no explanation of solutions, no specific skills named, no connection to how/when skills will be used.
+                </div>
+            </div>
+
+            <!-- BAD EXAMPLE 2 -->
+            <div class="bad-example">
+                <div class="flex justify-between items-start mb-3">
+                    <h3 class="text-xl font-bold" style="color: #991b1b;">❌ BAD EXAMPLE #2</h3>
+                    <span class="text-sm font-semibold px-3 py-1 rounded" style="background-color: #991b1b; color: white;">Just a List</span>
+                </div>
+                <div class="p-4 rounded" style="background-color: white; color: #111827;">
+                    <p class="text-base leading-relaxed">
+                        Challenges I faced: keywords, Boolean operators, databases, citations, time management. Skills learned: research skills, computer skills, writing skills, thinking skills. I overcame challenges by working hard. These skills will help me in future assignments when I need to do research for essays and projects.
+                    </p>
+                </div>
+                <div class="mt-3 p-3 rounded text-sm" style="background-color: #7f1d1d; color: #fecaca;">
+                    <strong>Problems:</strong> Bullet-list format instead of paragraphs, no details or examples, "working hard" isn't a solution, skills too generic.
+                </div>
+            </div>
+
+            <!-- BAD EXAMPLE 3 -->
+            <div class="bad-example">
+                <div class="flex justify-between items-start mb-3">
+                    <h3 class="text-xl font-bold" style="color: #991b1b;">❌ BAD EXAMPLE #3</h3>
+                    <span class="text-sm font-semibold px-3 py-1 rounded" style="background-color: #991b1b; color: white;">No Solutions</span>
+                </div>
+                <div class="p-4 rounded" style="background-color: white; color: #111827;">
+                    <p class="text-base leading-relaxed">
+                        I found using academic databases very challenging because the interfaces were different and confusing. Finding peer-reviewed sources was difficult. The Harvard referencing rules were complicated with different formats for books and journals. Managing my time was also hard because the assignment had multiple sections. I struggled with all of these things throughout the project.
+                    </p>
+                </div>
+                <div class="mt-3 p-3 rounded text-sm" style="background-color: #7f1d1d; color: #fecaca;">
+                    <strong>Problems:</strong> Lists challenges but never explains how they were overcome, no learning or skills mentioned, just complaints.
+                </div>
+            </div>
+
+            <!-- BAD EXAMPLE 4 -->
+            <div class="bad-example">
+                <div class="flex justify-between items-start mb-3">
+                    <h3 class="text-xl font-bold" style="color: #991b1b;">❌ BAD EXAMPLE #4</h3>
+                    <span class="text-sm font-semibold px-3 py-1 rounded" style="background-color: #991b1b; color: white;">No Reflection</span>
+                </div>
+                <div class="p-4 rounded" style="background-color: white; color: #111827;">
+                    <p class="text-base leading-relaxed">
+                        First I chose my topic. Then I searched databases. Then I found some sources. Then I evaluated them using CRAAP. Then I did the citations. Then I wrote the other sections. Finally I finished the assignment. It was okay. I followed all the instructions and completed each section as required.
+                    </p>
+                </div>
+                <div class="mt-3 p-3 rounded text-sm" style="background-color: #7f1d1d; color: #fecaca;">
+                    <strong>Problems:</strong> Just describes what they did (not what was required), no challenges or learning discussed, reads like a recipe not a reflection.
+                </div>
+            </div>
+
+            <!-- BAD EXAMPLE 5 -->
+            <div class="bad-example">
+                <div class="flex justify-between items-start mb-3">
+                    <h3 class="text-xl font-bold" style="color: #991b1b;">❌ BAD EXAMPLE #5</h3>
+                    <span class="text-sm font-semibold px-3 py-1 rounded" style="background-color: #991b1b; color: white;">Too Generic</span>
+                </div>
+                <div class="p-4 rounded" style="background-color: white; color: #111827;">
+                    <p class="text-base leading-relaxed">
+                        Research is important for university students. I learned that academic research involves using databases and finding reliable sources. Good research skills are essential for success at university. In the future I will be a better researcher because of what I learned. These transferable skills will benefit me throughout my academic career and beyond.
+                    </p>
+                </div>
+                <div class="mt-3 p-3 rounded text-sm" style="background-color: #7f1d1d; color: #fecaca;">
+                    <strong>Problems:</strong> Generic statements that could apply to anyone, no personal experience or specific examples, sounds like it was copied from a guide.
+                </div>
+            </div>
+
+            <!-- BAD EXAMPLE 6 -->
+            <div class="bad-example page-break">
+                <div class="flex justify-between items-start mb-3">
+                    <h3 class="text-xl font-bold" style="color: #991b1b;">❌ BAD EXAMPLE #6</h3>
+                    <span class="text-sm font-semibold px-3 py-1 rounded" style="background-color: #991b1b; color: white;">Way Too Short</span>
+                </div>
+                <div class="p-4 rounded" style="background-color: white; color: #111827;">
+                    <p class="text-base leading-relaxed">
+                        I struggled with citations. I learned citation skills. These skills will help me cite sources properly in future essays. I also learned about databases. Research is useful.
+                    </p>
+                </div>
+                <div class="mt-3 p-3 rounded text-sm" style="background-color: #7f1d1d; color: #fecaca;">
+                    <strong>Problems:</strong> Only ~40 words (needs 300), no detail, choppy sentences, doesn't explain anything, reads like notes not a reflection.
+                </div>
+            </div>
+
+            <!-- BAD EXAMPLE 7 -->
+            <div class="bad-example">
+                <div class="flex justify-between items-start mb-3">
+                    <h3 class="text-xl font-bold" style="color: #991b1b;">❌ BAD EXAMPLE #7</h3>
+                    <span class="text-sm font-semibold px-3 py-1 rounded" style="background-color: #991b1b; color: white;">Repetitive</span>
+                </div>
+                <div class="p-4 rounded" style="background-color: white; color: #111827;">
+                    <p class="text-base leading-relaxed">
+                        Searching databases was difficult. It was difficult because databases are difficult to use. The difficulty of databases made searching difficult. I found it difficult to search the difficult database interfaces. Eventually I learned to use databases which was difficult at first but became less difficult with practice. Databases are important but difficult.
+                    </p>
+                </div>
+                <div class="mt-3 p-3 rounded text-sm" style="background-color: #7f1d1d; color: #fecaca;">
+                    <strong>Problems:</strong> Says "difficult" 9 times, extremely repetitive, no specific examples, doesn't actually explain what was difficult or how it was overcome.
+                </div>
+            </div>
+
+            <!-- BAD EXAMPLE 8 -->
+            <div class="bad-example">
+                <div class="flex justify-between items-start mb-3">
+                    <h3 class="text-xl font-bold" style="color: #991b1b;">❌ BAD EXAMPLE #8</h3>
+                    <span class="text-sm font-semibold px-3 py-1 rounded" style="background-color: #991b1b; color: white;">Off Topic</span>
+                </div>
+                <div class="p-4 rounded" style="background-color: white; color: #111827;">
+                    <p class="text-base leading-relaxed">
+                        I really enjoyed learning about my research topic which was sustainable fashion. The fashion industry has a huge environmental impact and I found the statistics shocking. I read interesting articles about fast fashion and clothing waste. My topic choice was good because I'm interested in fashion. I learned lots of facts about the fashion industry's carbon footprint.
+                    </p>
+                </div>
+                <div class="mt-3 p-3 rounded text-sm" style="background-color: #7f1d1d; color: #fecaca;">
+                    <strong>Problems:</strong> Talks about the topic content instead of the research process, misses the point entirely, doesn't reflect on skills or challenges.
+                </div>
+            </div>
+
+            <!-- BAD EXAMPLE 9 -->
+            <div class="bad-example">
+                <div class="flex justify-between items-start mb-3">
+                    <h3 class="text-xl font-bold" style="color: #991b1b;">❌ BAD EXAMPLE #9</h3>
+                    <span class="text-sm font-semibold px-3 py-1 rounded" style="background-color: #991b1b; color: white;">No Specifics</span>
+                </div>
+                <div class="p-4 rounded" style="background-color: white; color: #111827;">
+                    <p class="text-base leading-relaxed">
+                        There were many challenges during this assignment. I faced various difficulties with different aspects of the research process. I used several strategies to address these issues. Through completing this work I developed numerous skills which will be valuable for various situations. Overall this was a learning experience that taught me many things about research.
+                    </p>
+                </div>
+                <div class="mt-3 p-3 rounded text-sm" style="background-color: #7f1d1d; color: #fecaca;">
+                    <strong>Problems:</strong> Uses vague words like "many," "various," "several," "numerous" without naming a single specific challenge, solution, or skill.
+                </div>
+            </div>
+
+            <!-- BAD EXAMPLE 10 -->
+            <div class="bad-example">
+                <div class="flex justify-between items-start mb-3">
+                    <h3 class="text-xl font-bold" style="color: #991b1b;">❌ BAD EXAMPLE #10</h3>
+                    <span class="text-sm font-semibold px-3 py-1 rounded" style="background-color: #991b1b; color: white;">Blame Game</span>
+                </div>
+                <div class="p-4 rounded" style="background-color: white; color: #111827;">
+                    <p class="text-base leading-relaxed">
+                        The databases were badly designed and hard to navigate. The assignment instructions weren't clear enough. There wasn't enough time given to complete all sections properly. The Harvard referencing guide was confusing. My topic was too difficult. The library didn't have enough relevant sources. If these things were better I would have done better work.
+                    </p>
+                </div>
+                <div class="mt-3 p-3 rounded text-sm" style="background-color: #7f1d1d; color: #fecaca;">
+                    <strong>Problems:</strong> Blames everything/everyone else, takes no responsibility, shows no learning or growth, negative tone, doesn't reflect on own development.
+                </div>
+            </div>
+
+            <!-- Instructions for improvement -->
+            <div class="mt-8 p-6 rounded-lg" style="background-color: #dcfce7; border: 2px solid #166534;">
+                <h3 class="text-xl font-bold mb-3" style="color: #166534;">✅ How to Fix a Bad Example</h3>
+                <ol class="space-y-2 text-sm ml-6" style="color: #166534;">
+                    <li><strong>1. Identify what's wrong</strong> - Read the "Problems" note under each bad example</li>
+                    <li><strong>2. Add specifics</strong> - Name actual challenges (e.g., "Boolean operators" not just "databases")</li>
+                    <li><strong>3. Explain solutions</strong> - How did you solve problems? What did you do?</li>
+                    <li><strong>4. Name skills</strong> - List 3+ specific skills you developed (use the Skills checklist above)</li>
+                    <li><strong>5. Connect to future</strong> - When/how will you use these skills? Be specific.</li>
+                    <li><strong>6. Write 250-300 words</strong> - Expand the bad example into proper paragraphs</li>
+                    <li><strong>7. Make it personal</strong> - Use "I" and describe YOUR experience</li>
+                </ol>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="max-w-4xl mx-auto mt-12 p-6 text-center text-sm no-print" style="color: var(--text-secondary); border-top: 2px solid var(--border-color);">
+        <p>Digital Media Technologies - Section 5 Reflection Materials</p>
+        <p class="mt-2">Use these materials to build your 300-word reflection showing challenges, solutions, and skills learned.</p>
+    </footer>
+
+    <script>
+        let isDarkMode = false;
+        const darkModeToggle = document.getElementById('darkModeToggle');
+        const modeIcon = document.getElementById('modeIcon');
+
+        function toggleDarkMode() {
+            isDarkMode = !isDarkMode;
+            document.body.classList.toggle('dark-mode');
+            modeIcon.textContent = isDarkMode ? '☀️' : '🌙';
+        }
+
+        if (darkModeToggle) {
+            darkModeToggle.addEventListener('click', toggleDarkMode);
+        }
+
+        // Save checkbox state to localStorage
+        document.querySelectorAll('input[type="checkbox"]').forEach(checkbox => {
+            checkbox.addEventListener('change', function() {
+                localStorage.setItem(this.id, this.checked);
+            });
+            
+            // Load saved state
+            const saved = localStorage.getItem(checkbox.id);
+            if (saved === 'true') {
+                checkbox.checked = true;
+            }
+        });
+    </script>
+</body>
+</html>
