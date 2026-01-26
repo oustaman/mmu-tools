@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Accessibility Checklist - UXCI</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        :root {
+            --bg-primary: #ffffff;
+            --bg-secondary: #f9fafb;
+            --text-primary: #111827;
+            --text-secondary: #4b5563;
+            --border-color: #e5e7eb;
+            --accent-color: #8b5cf6;
+            --font-size: 1;
+        }
+        .dark-mode {
+            --bg-primary: #1f2937;
+            --bg-secondary: #111827;
+            --text-primary: #f9fafb;
+            --text-secondary: #9ca3af;
+            --border-color: #374151;
+            --accent-color: #a78bfa;
+        }
+        html { font-size: calc(var(--font-size) * 16px); }
+        body { background-color: var(--bg-primary); color: var(--text-primary); }
+        input[type="checkbox"] { width: 1.25rem; height: 1.25rem; cursor: pointer; }
+        input[type="checkbox"]:checked + label { opacity: 0.6; }
+        .progress-bar { transition: width 0.3s ease; }
+    </style>
+</head>
+<body class="min-h-screen">
+    <header class="border-b p-4" style="border-color: var(--border-color);">
+        <div class="max-w-7xl mx-auto flex justify-between items-center flex-wrap gap-4">
+            <div>
+                <h1 class="text-2xl font-bold">♿ Accessibility Checklist</h1>
+                <p class="text-sm" style="color: var(--text-secondary);">WCAG 2.1 Level AA compliance check</p>
+            </div>
+            <div class="flex gap-2">
+                <button id="decreaseFont" class="px-3 py-2 rounded border" style="border-color: var(--border-color);">A-</button>
+                <button id="increaseFont" class="px-3 py-2 rounded border" style="border-color: var(--border-color);">A+</button>
+                <button id="darkModeToggle" class="px-4 py-2 rounded border" style="border-color: var(--border-color);"><span id="modeIcon">🌙</span></button>
+                <button onclick="window.location.href='index.html'" class="px-4 py-2 rounded border" style="border-color: var(--border-color);">← Back</button>
+            </div>
+        </div>
+    </header>
+
+    <main class="max-w-5xl mx-auto p-8">
+        <!-- Overall Progress -->
+        <div class="mb-8 p-6 rounded-lg border" style="border-color: var(--accent-color); background-color: var(--bg-secondary);">
+            <div class="flex justify-between items-center mb-3">
+                <h2 class="text-xl font-bold">Overall Compliance</h2>
+                <span class="text-3xl font-bold" id="percentComplete" style="color: var(--accent-color);">0%</span>
+            </div>
+            <div class="w-full h-4 rounded-full" style="background-color: var(--border-color);">
+                <div id="progressBar" class="progress-bar h-4 rounded-full" style="width: 0%; background-color: var(--accent-color);"></div>
+            </div>
+            <p class="text-sm mt-2" style="color: var(--text-secondary);"><span id="completedCount">0</span> of <span id="totalCount">0</span> items completed</p>
+        </div>
+
+        <!-- Contrast Checker Tool -->
+        <div class="mb-8 p-6 rounded-lg border" style="border-color: var(--border-color); background-color: var(--bg-secondary);">
+            <h3 class="text-lg font-bold mb-4">🎨 Contrast Ratio Checker</h3>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div>
+                    <label class="block text-sm font-medium mb-1">Text Color (Hex)</label>
+                    <input type="text" id="textColor" class="w-full p-2 rounded border" style="border-color: var(--border-color);" placeholder="#000000" value="#000000" oninput="checkContrast()">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium mb-1">Background Color (Hex)</label>
+                    <input type="text" id="bgColor" class="w-full p-2 rounded border" style="border-color: var(--border-color);" placeholder="#FFFFFF" value="#FFFFFF" oninput="checkContrast()">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium mb-1">Text Size</label>
+                    <select id="textSize" class="w-full p-2 rounded border" style="border-color: var(--border-color);" onchange="checkContrast()">
+                        <option value="normal">Normal (&lt;18pt)</option>
+                        <option value="large">Large (≥18pt / 14pt bold)</option>
+                    </select>
+                </div>
+            </div>
+            <div id="contrastResult" class="mt-4 p-4 rounded" style="background-color: white;">
+                <div class="flex justify-between items-center">
+                    <div>
+                        <div class="font-bold mb-1">Contrast Ratio: <span id="contrastRatio">21:1</span></div>
+                        <div class="text-sm">
+                            <span id="wcagAA" class="mr-3"></span>
+                            <span id="wcagAAA"></span>
+                        </div>
+                    </div>
+                    <div id="preview" class="px-8 py-4 rounded font-bold" style="background-color: #FFFFFF; color: #000000;">Sample Text</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Perceivable -->
+        <div class="mb-8 p-6 rounded-lg border" style="border-color: var(--border-color); background-color: var(--bg-secondary);">
+            <h3 class="text-xl font-bold mb-4" style="color: var(--accent-color);">👁️ Perceivable</h3>
+            <div class="space-y-3">
+                <div class="flex items-start gap-3">
+                    <input type="checkbox" id="check1" onchange="updateProgress()">
+                    <label for="check1" class="cursor-pointer">All images have descriptive alt text</label>
+                </div>
+                <div class="flex items-start gap-3">
+                    <input type="checkbox" id="check2" onchange="updateProgress()">
+                    <label for="check2" class="cursor-pointer">Text has sufficient color contrast (4.5:1 for normal, 3:1 for large)</label>
+                </div>
+                <div class="flex items-start gap-3">
+                    <input type="checkbox" id="check3" onchange="updateProgress()">
+                    <label for="check3" class="cursor-pointer">Color is not the only way to convey information</label>
+                </div>
+                <div class="flex items-start gap-3">
+                    <input type="checkbox" id="check4" onchange="updateProgress()">
+                    <label for="check4" class="cursor-pointer">Text can be resized up to 200% without loss of functionality</label>
+                </div>
+                <div class="flex items-start gap-3">
+                    <input type="checkbox" id="check5" onchange="updateProgress()">
+                    <label for="check5" class="cursor-pointer">Videos have captions/transcripts</label>
+                </div>
+            </div>
+        </div>
+
+        <!-- Operable -->
+        <div class="mb-8 p-6 rounded-lg border" style="border-color: var(--border-color); background-color: var(--bg-secondary);">
+            <h3 class="text-xl font-bold mb-4" style="color: var(--accent-color);">⌨️ Operable</h3>
+            <div class="space-y-3">
+                <div class="flex items-start gap-3">
+                    <input type="checkbox" id="check6" onchange="updateProgress()">
+                    <label for="check6" class="cursor-pointer">All functionality available via keyboard (Tab, Enter, Arrow keys)</label>
+                </div>
+                <div class="flex items-start gap-3">
+                    <input type="checkbox" id="check7" onchange="updateProgress()">
+                    <label for="check7" class="cursor-pointer">Keyboard focus is visible (focus indicators on interactive elements)</label>
+                </div>
+                <div class="flex items-start gap-3">
+                    <input type="checkbox" id="check8" onchange="updateProgress()">
+                    <label for="check8" class="cursor-pointer">Users can pause, stop, or hide moving content</label>
+                </div>
+                <div class="flex items-start gap-3">
+                    <input type="checkbox" id="check9" onchange="updateProgress()">
+                    <label for="check9" class="cursor-pointer">No content flashes more than 3 times per second</label>
+                </div>
+                <div class="flex items-start gap-3">
+                    <input type="checkbox" id="check10" onchange="updateProgress()">
+                    <label for="check10" class="cursor-pointer">Skip navigation links provided</label>
+                </div>
+                <div class="flex items-start gap-3">
+                    <input type="checkbox" id="check11" onchange="updateProgress()">
+                    <label for="check11" class="cursor-pointer">Touch targets are at least 44×44 pixels</label>
+                </div>
+            </div>
+        </div>
+
+        <!-- Understandable -->
+        <div class="mb-8 p-6 rounded-lg border" style="border-color: var(--border-color); background-color: var(--bg-secondary);">
+            <h3 class="text-xl font-bold mb-4" style="color: var(--accent-color);">💡 Understandable</h3>
+            <div class="space-y-3">
+                <div class="flex items-start gap-3">
+                    <input type="checkbox" id="check12" onchange="updateProgress()">
+                    <label for="check12" class="cursor-pointer">Page language is specified (HTML lang attribute)</label>
+                </div>
+                <div class="flex items-start gap-3">
+                    <input type="checkbox" id="check13" onchange="updateProgress()">
+                    <label for="check13" class="cursor-pointer">Form inputs have clear labels</label>
+                </div>
+                <div class="flex items-start gap-3">
+                    <input type="checkbox" id="check14" onchange="updateProgress()">
+                    <label for="check14" class="cursor-pointer">Error messages are clear and provide suggestions</label>
+                </div>
+                <div class="flex items-start gap-3">
+                    <input type="checkbox" id="check15" onchange="updateProgress()">
+                    <label for="check15" class="cursor-pointer">Instructions are provided for complex interactions</label>
+                </div>
+                <div class="flex items-start gap-3">
+                    <input type="checkbox" id="check16" onchange="updateProgress()">
+                    <label for="check16" class="cursor-pointer">Navigation is consistent across pages</label>
+                </div>
+            </div>
+        </div>
+
+        <!-- Robust -->
+        <div class="mb-8 p-6 rounded-lg border" style="border-color: var(--border-color); background-color: var(--bg-secondary);">
+            <h3 class="text-xl font-bold mb-4" style="color: var(--accent-color);">🛠️ Robust</h3>
+            <div class="space-y-3">
+                <div class="flex items-start gap-3">
+                    <input type="checkbox" id="check17" onchange="updateProgress()">
+                    <label for="check17" class="cursor-pointer">HTML is valid (no major errors)</label>
+                </div>
+                <div class="flex items-start gap-3">
+                    <input type="checkbox" id="check18" onchange="updateProgress()">
+                    <label for="check18" class="cursor-pointer">ARIA labels used correctly for screen readers</label>
+                </div>
+                <div class="flex items-start gap-3">
+                    <input type="checkbox" id="check19" onchange="updateProgress()">
+                    <label for="check19" class="cursor-pointer">Status messages announced to screen readers</label>
+                </div>
+                <div class="flex items-start gap-3">
+                    <input type="checkbox" id="check20" onchange="updateProgress()">
+                    <label for="check20" class="cursor-pointer">Works with assistive technologies (tested with screen reader)</label>
+                </div>
+            </div>
+        </div>
+
+        <!-- Resources -->
+        <div class="p-6 rounded-lg" style="background-color: #fef3c7;">
+            <h3 class="font-bold mb-3" style="color: #92400e;">📚 Resources</h3>
+            <ul class="text-sm space-y-2" style="color: #78350f;">
+                <li>• <strong>WCAG 2.1 Guidelines:</strong> <a href="https://www.w3.org/WAI/WCAG21/quickref/" class="underline" target="_blank">w3.org/WAI/WCAG21/quickref/</a></li>
+                <li>• <strong>Contrast Checker:</strong> <a href="https://webaim.org/resources/contrastchecker/" class="underline" target="_blank">webaim.org/resources/contrastchecker/</a></li>
+                <li>• <strong>WAVE Tool:</strong> <a href="https://wave.webaim.org/" class="underline" target="_blank">wave.webaim.org/</a></li>
+                <li>• <strong>Screen Reader (NVDA):</strong> <a href="https://www.nvaccess.org/" class="underline" target="_blank">nvaccess.org/</a></li>
+            </ul>
+        </div>
+    </main>
+
+    <script>
+        function updateProgress() {
+            const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+            const checked = document.querySelectorAll('input[type="checkbox"]:checked').length;
+            const total = checkboxes.length;
+            const percent = Math.round((checked / total) * 100);
+            
+            document.getElementById('progressBar').style.width = percent + '%';
+            document.getElementById('percentComplete').textContent = percent + '%';
+            document.getElementById('completedCount').textContent = checked;
+            document.getElementById('totalCount').textContent = total;
+            
+            // Save state
+            const checkedIds = Array.from(document.querySelectorAll('input[type="checkbox"]:checked')).map(cb => cb.id);
+            localStorage.setItem('uxci_a11yChecklist', JSON.stringify(checkedIds));
+        }
+
+        function hexToRgb(hex) {
+            const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+            return result ? {
+                r: parseInt(result[1], 16),
+                g: parseInt(result[2], 16),
+                b: parseInt(result[3], 16)
+            } : null;
+        }
+
+        function getLuminance(r, g, b) {
+            const [rs, gs, bs] = [r, g, b].map(c => {
+                c = c / 255;
+                return c <= 0.03928 ? c / 12.92 : Math.pow((c + 0.055) / 1.055, 2.4);
+            });
+            return 0.2126 * rs + 0.7152 * gs + 0.0722 * bs;
+        }
+
+        function getContrastRatio(hex1, hex2) {
+            const rgb1 = hexToRgb(hex1);
+            const rgb2 = hexToRgb(hex2);
+            if (!rgb1 || !rgb2) return 0;
+            
+            const lum1 = getLuminance(rgb1.r, rgb1.g, rgb1.b);
+            const lum2 = getLuminance(rgb2.r, rgb2.g, rgb2.b);
+            const lighter = Math.max(lum1, lum2);
+            const darker = Math.min(lum1, lum2);
+            
+            return (lighter + 0.05) / (darker + 0.05);
+        }
+
+        function checkContrast() {
+            const textColor = document.getElementById('textColor').value;
+            const bgColor = document.getElementById('bgColor').value;
+            const textSize = document.getElementById('textSize').value;
+            
+            const ratio = getContrastRatio(textColor, bgColor);
+            document.getElementById('contrastRatio').textContent = ratio.toFixed(2) + ':1';
+            
+            const minRatio = textSize === 'large' ? 3 : 4.5;
+            const minRatioAAA = textSize === 'large' ? 4.5 : 7;
+            
+            const passAA = ratio >= minRatio;
+            const passAAA = ratio >= minRatioAAA;
+            
+            document.getElementById('wcagAA').innerHTML = passAA ? 
+                '✅ <strong>WCAG AA:</strong> Pass' : 
+                '❌ <strong>WCAG AA:</strong> Fail';
+            document.getElementById('wcagAAA').innerHTML = passAAA ? 
+                '✅ <strong>WCAG AAA:</strong> Pass' : 
+                '❌ <strong>WCAG AAA:</strong> Fail';
+            
+            document.getElementById('preview').style.backgroundColor = bgColor;
+            document.getElementById('preview').style.color = textColor;
+        }
+
+        // Load saved
+        window.addEventListener('DOMContentLoaded', () => {
+            const saved = localStorage.getItem('uxci_a11yChecklist');
+            if (saved) {
+                const checkedIds = JSON.parse(saved);
+                checkedIds.forEach(id => {
+                    const checkbox = document.getElementById(id);
+                    if (checkbox) checkbox.checked = true;
+                });
+            }
+            updateProgress();
+            checkContrast();
+        });
+
+        // Dark mode & font
+        let isDarkMode = false, fontSize = 1;
+        document.getElementById('darkModeToggle').addEventListener('click', () => {
+            isDarkMode = !isDarkMode;
+            document.body.classList.toggle('dark-mode');
+            document.getElementById('modeIcon').textContent = isDarkMode ? '☀️' : '🌙';
+        });
+        document.getElementById('increaseFont').addEventListener('click', () => {
+            if (fontSize < 1.5) { fontSize += 0.1; document.documentElement.style.setProperty('--font-size', fontSize); }
+        });
+        document.getElementById('decreaseFont').addEventListener('click', () => {
+            if (fontSize > 0.7) { fontSize -= 0.1; document.documentElement.style.setProperty('--font-size', fontSize); }
+        });
+    </script>
+</body>
+</html>

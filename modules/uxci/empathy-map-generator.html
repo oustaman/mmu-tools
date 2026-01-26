@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Empathy Map Generator - UXCI</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <style>
+        :root {
+            --bg-primary: #ffffff;
+            --bg-secondary: #f9fafb;
+            --text-primary: #111827;
+            --text-secondary: #4b5563;
+            --border-color: #e5e7eb;
+            --accent-color: #8b5cf6;
+            --font-size: 1;
+        }
+        
+        .dark-mode {
+            --bg-primary: #1f2937;
+            --bg-secondary: #111827;
+            --text-primary: #f9fafb;
+            --text-secondary: #9ca3af;
+            --border-color: #374151;
+            --accent-color: #a78bfa;
+        }
+        
+        html { font-size: calc(var(--font-size) * 16px); }
+        body { background-color: var(--bg-primary); color: var(--text-primary); }
+        
+        .quadrant { min-height: 250px; transition: all 0.2s ease; }
+        .quadrant:hover { transform: scale(1.02); }
+        
+        @media print { .no-print { display: none; } }
+    </style>
+</head>
+<body class="min-h-screen">
+    <header class="border-b p-4 no-print" style="border-color: var(--border-color);">
+        <div class="max-w-7xl mx-auto flex justify-between items-center flex-wrap gap-4">
+            <div>
+                <h1 class="text-2xl font-bold">🧠 Empathy Map Generator</h1>
+                <p class="text-sm" style="color: var(--text-secondary);">Understand what users think, feel, say, and do</p>
+            </div>
+            <div class="flex gap-2">
+                <button id="decreaseFont" class="px-3 py-2 rounded border" style="border-color: var(--border-color);">A-</button>
+                <button id="increaseFont" class="px-3 py-2 rounded border" style="border-color: var(--border-color);">A+</button>
+                <button id="darkModeToggle" class="px-4 py-2 rounded border" style="border-color: var(--border-color);">
+                    <span id="modeIcon">🌙</span>
+                </button>
+                <button onclick="window.location.href='index.html'" class="px-4 py-2 rounded border" style="border-color: var(--border-color);">← Back</button>
+            </div>
+        </div>
+    </header>
+
+    <main class="max-w-7xl mx-auto p-8">
+        <!-- User Info -->
+        <div class="mb-8 p-6 rounded-lg border no-print" style="border-color: var(--border-color); background-color: var(--bg-secondary);">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                    <label class="block text-sm font-medium mb-1">User/Persona Name</label>
+                    <input type="text" id="userName" class="w-full p-2 rounded border" style="border-color: var(--border-color);" placeholder="e.g., Sarah Chen" oninput="updateMap()">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium mb-1">Context/Scenario</label>
+                    <input type="text" id="context" class="w-full p-2 rounded border" style="border-color: var(--border-color);" placeholder="e.g., Trying to book a study room" oninput="updateMap()">
+                </div>
+            </div>
+        </div>
+
+        <!-- Actions -->
+        <div class="mb-8 flex gap-3 no-print">
+            <button onclick="exportToPNG()" class="px-6 py-3 rounded text-white" style="background-color: #10b981;">📥 Export as PNG</button>
+            <button onclick="window.print()" class="px-6 py-3 rounded border" style="border-color: var(--border-color);">🖨️ Print</button>
+            <button onclick="clearAll()" class="px-6 py-3 rounded border" style="border-color: var(--border-color);">Clear All</button>
+        </div>
+
+        <!-- Empathy Map -->
+        <div id="empathyMap" class="p-8 rounded-lg border" style="border-color: var(--border-color); background-color: white;">
+            <!-- Title -->
+            <div class="text-center mb-8">
+                <h2 class="text-3xl font-bold mb-2">Empathy Map</h2>
+                <p class="text-lg" style="color: var(--text-secondary);">
+                    <span id="displayUser">User</span> · <span id="displayContext">Context</span>
+                </p>
+            </div>
+
+            <!-- 4 Quadrants -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- THINK -->
+                <div class="quadrant p-6 rounded-lg" style="background-color: #dbeafe; border: 3px solid #3b82f6;">
+                    <div class="flex items-center gap-2 mb-4">
+                        <span class="text-3xl">💭</span>
+                        <h3 class="text-xl font-bold" style="color: #1e40af;">THINK</h3>
+                    </div>
+                    <p class="text-xs mb-3" style="color: #1e40af;">What goes through their mind? Concerns? Thoughts?</p>
+                    <textarea id="think" rows="8" class="w-full p-3 rounded border-0 text-sm" 
+                        style="background-color: white; color: var(--text-primary);"
+                        placeholder="• What are they thinking about?
+• What matters to them?
+• What are their concerns?
+• What occupies their thoughts?"
+                        oninput="updateMap()"></textarea>
+                </div>
+
+                <!-- FEEL -->
+                <div class="quadrant p-6 rounded-lg" style="background-color: #fce7f3; border: 3px solid #ec4899;">
+                    <div class="flex items-center gap-2 mb-4">
+                        <span class="text-3xl">❤️</span>
+                        <h3 class="text-xl font-bold" style="color: #9f1239;">FEEL</h3>
+                    </div>
+                    <p class="text-xs mb-3" style="color: #9f1239;">What emotions do they experience?</p>
+                    <textarea id="feel" rows="8" class="w-full p-3 rounded border-0 text-sm" 
+                        style="background-color: white; color: var(--text-primary);"
+                        placeholder="• What emotions do they feel?
+• What frustrates them?
+• What excites them?
+• What worries them?"
+                        oninput="updateMap()"></textarea>
+                </div>
+
+                <!-- SAY -->
+                <div class="quadrant p-6 rounded-lg" style="background-color: #d1fae5; border: 3px solid #10b981;">
+                    <div class="flex items-center gap-2 mb-4">
+                        <span class="text-3xl">💬</span>
+                        <h3 class="text-xl font-bold" style="color: #065f46;">SAY</h3>
+                    </div>
+                    <p class="text-xs mb-3" style="color: #065f46;">What do they say out loud? Quotes?</p>
+                    <textarea id="say" rows="8" class="w-full p-3 rounded border-0 text-sm" 
+                        style="background-color: white; color: var(--text-primary);"
+                        placeholder="• What do they tell others?
+• What quotes have you heard?
+• What do they say about the problem?
+• How do they describe it?"
+                        oninput="updateMap()"></textarea>
+                </div>
+
+                <!-- DO -->
+                <div class="quadrant p-6 rounded-lg" style="background-color: #fef3c7; border: 3px solid #f59e0b;">
+                    <div class="flex items-center gap-2 mb-4">
+                        <span class="text-3xl">⚡</span>
+                        <h3 class="text-xl font-bold" style="color: #92400e;">DO</h3>
+                    </div>
+                    <p class="text-xs mb-3" style="color: #92400e;">What actions do they take? Behaviors?</p>
+                    <textarea id="do" rows="8" class="w-full p-3 rounded border-0 text-sm" 
+                        style="background-color: white; color: var(--text-primary);"
+                        placeholder="• What actions do they take?
+• What do you see them doing?
+• What behaviors do they exhibit?
+• What is their routine?"
+                        oninput="updateMap()"></textarea>
+                </div>
+            </div>
+
+            <!-- Bottom Section: Pains & Gains -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
+                <div class="p-6 rounded-lg" style="background-color: #fee2e2; border: 3px solid #ef4444;">
+                    <div class="flex items-center gap-2 mb-4">
+                        <span class="text-2xl">😤</span>
+                        <h3 class="text-lg font-bold" style="color: #991b1b;">PAINS</h3>
+                    </div>
+                    <textarea id="pains" rows="4" class="w-full p-3 rounded border-0 text-sm" 
+                        style="background-color: white; color: var(--text-primary);"
+                        placeholder="What are their fears, frustrations, and obstacles?"
+                        oninput="updateMap()"></textarea>
+                </div>
+
+                <div class="p-6 rounded-lg" style="background-color: #dcfce7; border: 3px solid #22c55e;">
+                    <div class="flex items-center gap-2 mb-4">
+                        <span class="text-2xl">🎯</span>
+                        <h3 class="text-lg font-bold" style="color: #166534;">GAINS</h3>
+                    </div>
+                    <textarea id="gains" rows="4" class="w-full p-3 rounded border-0 text-sm" 
+                        style="background-color: white; color: var(--text-primary);"
+                        placeholder="What are their wants, needs, and measures of success?"
+                        oninput="updateMap()"></textarea>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        function updateMap() {
+            document.getElementById('displayUser').textContent = document.getElementById('userName').value || 'User';
+            document.getElementById('displayContext').textContent = document.getElementById('context').value || 'Context';
+            
+            // Auto-save
+            const data = {
+                userName: document.getElementById('userName').value,
+                context: document.getElementById('context').value,
+                think: document.getElementById('think').value,
+                feel: document.getElementById('feel').value,
+                say: document.getElementById('say').value,
+                do: document.getElementById('do').value,
+                pains: document.getElementById('pains').value,
+                gains: document.getElementById('gains').value
+            };
+            localStorage.setItem('uxci_empathyMap', JSON.stringify(data));
+        }
+
+        function clearAll() {
+            if (confirm('Clear all content?')) {
+                document.querySelectorAll('input, textarea').forEach(el => el.value = '');
+                updateMap();
+                localStorage.removeItem('uxci_empathyMap');
+            }
+        }
+
+        async function exportToPNG() {
+            const map = document.getElementById('empathyMap');
+            const userName = document.getElementById('userName').value || 'empathy-map';
+            
+            try {
+                const canvas = await html2canvas(map, {
+                    backgroundColor: '#ffffff',
+                    scale: 2,
+                    logging: false
+                });
+                
+                canvas.toBlob(blob => {
+                    const url = URL.createObjectURL(blob);
+                    const link = document.createElement('a');
+                    link.download = `${userName.replace(/\s+/g, '_')}_empathy_map_${new Date().toISOString().slice(0,10)}.png`;
+                    link.href = url;
+                    link.click();
+                    URL.revokeObjectURL(url);
+                });
+            } catch (error) {
+                console.error('Export error:', error);
+                alert('Error exporting PNG');
+            }
+        }
+
+        // Load saved data
+        window.addEventListener('DOMContentLoaded', () => {
+            const saved = localStorage.getItem('uxci_empathyMap');
+            if (saved) {
+                const data = JSON.parse(saved);
+                Object.keys(data).forEach(key => {
+                    const el = document.getElementById(key);
+                    if (el) el.value = data[key];
+                });
+                updateMap();
+            }
+        });
+
+        // Dark mode & font size
+        let isDarkMode = false, fontSize = 1;
+        document.getElementById('darkModeToggle').addEventListener('click', () => {
+            isDarkMode = !isDarkMode;
+            document.body.classList.toggle('dark-mode');
+            document.getElementById('modeIcon').textContent = isDarkMode ? '☀️' : '🌙';
+        });
+        document.getElementById('increaseFont').addEventListener('click', () => {
+            if (fontSize < 1.5) { fontSize += 0.1; document.documentElement.style.setProperty('--font-size', fontSize); }
+        });
+        document.getElementById('decreaseFont').addEventListener('click', () => {
+            if (fontSize > 0.7) { fontSize -= 0.1; document.documentElement.style.setProperty('--font-size', fontSize); }
+        });
+    </script>
+</body>
+</html>

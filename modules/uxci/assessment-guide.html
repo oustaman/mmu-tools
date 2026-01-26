@@ -1,0 +1,936 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Individual Digital Product Evaluation Report - Assessment Guide</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        :root {
+            --bg-primary: #ffffff;
+            --bg-secondary: #f9fafb;
+            --text-primary: #111827;
+            --text-secondary: #4b5563;
+            --border-color: #e5e7eb;
+            --accent-color: #8b5cf6;
+            --font-size: 1;
+            --success-color: #10b981;
+            --warning-color: #f59e0b;
+            --error-color: #ef4444;
+            --example-good: #d1fae5;
+            --example-bad: #fee2e2;
+            --example-okay: #fef3c7;
+        }
+        
+        .dark-mode {
+            --bg-primary: #1f2937;
+            --bg-secondary: #111827;
+            --text-primary: #f9fafb;
+            --text-secondary: #d1d5db;
+            --border-color: #374151;
+            --accent-color: #a78bfa;
+            --success-color: #34d399;
+            --warning-color: #fbbf24;
+            --error-color: #f87171;
+            --example-good: #064e3b;
+            --example-bad: #7f1d1d;
+            --example-okay: #78350f;
+        }
+        
+        html {
+            font-size: calc(var(--font-size) * 16px);
+        }
+        
+        body {
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+        }
+
+        .hero-gradient {
+            background: linear-gradient(135deg, #8b5cf6 0%, #ec4899 100%);
+        }
+
+        .section-card {
+            transition: all 0.3s ease;
+        }
+
+        .section-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(139, 92, 246, 0.2);
+        }
+
+        .progress-bar {
+            transition: width 0.3s ease;
+        }
+
+        .collapsible-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease;
+        }
+
+        .collapsible-content.active {
+            max-height: 10000px;
+        }
+
+        .rotate-icon {
+            transition: transform 0.3s ease;
+        }
+
+        .rotate-icon.active {
+            transform: rotate(180deg);
+        }
+
+        input[type="checkbox"] {
+            width: 1.5rem;
+            height: 1.5rem;
+            cursor: pointer;
+            flex-shrink: 0;
+        }
+
+        input[type="checkbox"]:checked + label {
+            opacity: 0.6;
+            text-decoration: line-through;
+        }
+
+        .example-box {
+            border-left: 4px solid;
+            transition: all 0.2s ease;
+        }
+
+        .example-good {
+            border-color: var(--success-color);
+            background-color: var(--example-good);
+        }
+
+        .example-bad {
+            border-color: var(--error-color);
+            background-color: var(--example-bad);
+        }
+
+        .example-okay {
+            border-color: var(--warning-color);
+            background-color: var(--example-okay);
+        }
+
+        .feedback-badge {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: 9999px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        .section-header {
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .section-header:hover {
+            background-color: var(--bg-secondary);
+        }
+    </style>
+</head>
+<body class="min-h-screen">
+    <!-- Header -->
+    <header class="border-b p-4" style="border-color: var(--border-color);">
+        <div class="max-w-7xl mx-auto flex justify-between items-center">
+            <div>
+                <h1 class="text-2xl font-bold">User Experience for Creative Industries</h1>
+                <p class="text-sm" style="color: var(--text-secondary);">Assessment Guide - Individual Digital Product Evaluation Report</p>
+            </div>
+            <div class="flex gap-2">
+                <button onclick="window.location.href='index.html'" class="px-4 py-2 rounded border text-sm" style="border-color: var(--border-color);">
+                    ← Home
+                </button>
+                <button id="decreaseFont" class="px-3 py-2 rounded border" style="border-color: var(--border-color);" aria-label="Decrease font size">A-</button>
+                <button id="increaseFont" class="px-3 py-2 rounded border" style="border-color: var(--border-color);" aria-label="Increase font size">A+</button>
+                <button id="darkModeToggle" class="px-4 py-2 rounded border" style="border-color: var(--border-color);" aria-label="Toggle dark mode">
+                    <span id="modeIcon">🌙</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <div class="hero-gradient text-white py-12">
+        <div class="max-w-4xl mx-auto px-8 text-center">
+            <h2 class="text-4xl font-bold mb-4">Individual Digital Product Evaluation Report</h2>
+            <p class="text-xl mb-6">Complete guide with checklists, examples, and best practices</p>
+            
+            <!-- Overall Progress -->
+            <div class="bg-white bg-opacity-20 rounded-lg p-6 mt-8">
+                <div class="flex justify-between items-center mb-2">
+                    <span class="font-bold">Overall Progress</span>
+                    <span class="font-bold" id="progressPercentage">0%</span>
+                </div>
+                <div class="w-full bg-white bg-opacity-30 rounded-full h-4">
+                    <div id="progressBar" class="progress-bar bg-white h-4 rounded-full" style="width: 0%"></div>
+                </div>
+                <p class="text-sm mt-2" id="progressText">0 of 0 items completed</p>
+            </div>
+        </div>
+    </div>
+
+    <main class="max-w-4xl mx-auto p-8">
+        <!-- Quick Overview -->
+        <section class="mb-12 p-6 rounded-lg" style="background-color: var(--bg-secondary); border: 2px solid var(--accent-color);">
+            <h2 class="text-2xl font-bold mb-4">📋 Assessment At A Glance</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+                <div class="text-center p-4 rounded-lg" style="background-color: var(--bg-primary);">
+                    <div class="text-3xl mb-2">📱</div>
+                    <div class="font-bold text-lg mb-1">Prototype</div>
+                    <div class="text-sm" style="color: var(--text-secondary);">Sketches + Flow Diagram</div>
+                </div>
+                <div class="text-center p-4 rounded-lg" style="background-color: var(--bg-primary);">
+                    <div class="text-3xl mb-2">📊</div>
+                    <div class="font-bold text-lg mb-1">2 Artefacts</div>
+                    <div class="text-sm" style="color: var(--text-secondary);">Research, Design, or Testing</div>
+                </div>
+                <div class="text-center p-4 rounded-lg" style="background-color: var(--bg-primary);">
+                    <div class="text-3xl mb-2">📄</div>
+                    <div class="font-bold text-lg mb-1">10-20 Slides</div>
+                    <div class="text-sm" style="color: var(--text-secondary);">~1,700-2,000 words</div>
+                </div>
+            </div>
+            <div class="text-center text-sm" style="color: var(--text-secondary);">
+                <p><strong>Format:</strong> PDF or PPTX • <strong>Submission:</strong> Moodle • <strong>Weight:</strong> 100% of module grade</p>
+            </div>
+        </section>
+
+        <!-- PART 1: PROTOTYPE -->
+        <section class="mb-8">
+            <div class="section-card rounded-lg border overflow-hidden" style="border-color: var(--border-color); background-color: var(--bg-secondary);">
+                <div class="section-header p-6 flex justify-between items-center" onclick="toggleSection('prototype')">
+                    <div class="flex items-center gap-3">
+                        <span class="text-2xl">📱</span>
+                        <div>
+                            <h2 class="text-2xl font-bold">Part 1: Prototype</h2>
+                            <p class="text-sm" style="color: var(--text-secondary);">Hand-drawn sketches (6-10 screens) + User flow diagram</p>
+                        </div>
+                    </div>
+                    <span class="rotate-icon text-2xl" id="icon-prototype">▼</span>
+                </div>
+                
+                <div class="collapsible-content" id="content-prototype">
+                    <div class="p-6 border-t" style="border-color: var(--border-color);">
+                        <!-- Component A: Sketches -->
+                        <h3 class="text-xl font-bold mb-4" style="color: var(--accent-color);">Component A: Hand-Drawn Screen Sketches</h3>
+                        
+                        <div class="mb-6 p-4 rounded" style="background-color: var(--bg-primary);">
+                            <h4 class="font-bold mb-3">Requirements Checklist:</h4>
+                            <div class="space-y-2">
+                                <div class="flex items-start gap-3">
+                                    <input type="checkbox" id="sketch-1" onchange="updateProgress()">
+                                    <label for="sketch-1" class="cursor-pointer">6-10 key screens drawn (hand-drawn, not software)</label>
+                                </div>
+                                <div class="flex items-start gap-3">
+                                    <input type="checkbox" id="sketch-2" onchange="updateProgress()">
+                                    <label for="sketch-2" class="cursor-pointer">Shows main UI elements (buttons, navigation, content areas)</label>
+                                </div>
+                                <div class="flex items-start gap-3">
+                                    <input type="checkbox" id="sketch-3" onchange="updateProgress()">
+                                    <label for="sketch-3" class="cursor-pointer">Demonstrates 2 key UCD principles (clearly visible/annotated)</label>
+                                </div>
+                                <div class="flex items-start gap-3">
+                                    <input type="checkbox" id="sketch-4" onchange="updateProgress()">
+                                    <label for="sketch-4" class="cursor-pointer">Clear photos/scans (readable quality)</label>
+                                </div>
+                                <div class="flex items-start gap-3">
+                                    <input type="checkbox" id="sketch-5" onchange="updateProgress()">
+                                    <label for="sketch-5" class="cursor-pointer">Included in slide deck (Section 4: Visual Materials)</label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mb-6 p-4 rounded" style="background-color: #fef3c7;">
+                            <h4 class="font-bold mb-2" style="color: #854d0e;">💡 Pro Tips:</h4>
+                            <ul class="text-sm space-y-1" style="color: #78350f;">
+                                <li>• Draw on paper, whiteboard, or tablet - but keep it hand-drawn (shows thinking process)</li>
+                                <li>• Include labels/annotations showing where your 2 UCD principles appear</li>
+                                <li>• Take photos in good lighting - blur = lost marks</li>
+                                <li>• Don't worry about artistic skill - focus on clarity of UX thinking</li>
+                                <li>• Show different states (e.g., empty state, error state, success state)</li>
+                            </ul>
+                        </div>
+
+                        <!-- Component B: Flow Diagram -->
+                        <h3 class="text-xl font-bold mb-4 mt-8" style="color: var(--accent-color);">Component B: User Flow Diagram (MANDATORY)</h3>
+                        
+                        <div class="mb-6 p-4 rounded" style="background-color: var(--bg-primary);">
+                            <h4 class="font-bold mb-3">Flow Diagram Checklist:</h4>
+                            <div class="space-y-2">
+                                <div class="flex items-start gap-3">
+                                    <input type="checkbox" id="flow-1" onchange="updateProgress()">
+                                    <label for="flow-1" class="cursor-pointer">Clear entry points (how users start)</label>
+                                </div>
+                                <div class="flex items-start gap-3">
+                                    <input type="checkbox" id="flow-2" onchange="updateProgress()">
+                                    <label for="flow-2" class="cursor-pointer">Decision points marked (user choices - diamond shapes)</label>
+                                </div>
+                                <div class="flex items-start gap-3">
+                                    <input type="checkbox" id="flow-3" onchange="updateProgress()">
+                                    <label for="flow-3" class="cursor-pointer">All major user paths/journeys shown</label>
+                                </div>
+                                <div class="flex items-start gap-3">
+                                    <input type="checkbox" id="flow-4" onchange="updateProgress()">
+                                    <label for="flow-4" class="cursor-pointer">Error states or alternative paths included</label>
+                                </div>
+                                <div class="flex items-start gap-3">
+                                    <input type="checkbox" id="flow-5" onchange="updateProgress()">
+                                    <label for="flow-5" class="cursor-pointer">Exit points/task completion clearly marked</label>
+                                </div>
+                                <div class="flex items-start gap-3">
+                                    <input type="checkbox" id="flow-6" onchange="updateProgress()">
+                                    <label for="flow-6" class="cursor-pointer">Uses standard flowchart symbols (rectangles, diamonds, arrows)</label>
+                                </div>
+                                <div class="flex items-start gap-3">
+                                    <input type="checkbox" id="flow-7" onchange="updateProgress()">
+                                    <label for="flow-7" class="cursor-pointer">Can be hand-drawn OR digital (Draw.io, Miro, Google Slides, etc.)</label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mb-6 p-4 rounded example-good">
+                            <h4 class="font-bold mb-2" style="color: var(--success-color);">✓ What Makes a Good Flow Diagram:</h4>
+                            <ul class="text-sm space-y-1">
+                                <li>• Shows the complete user journey from start to finish</li>
+                                <li>• Decision points ask clear questions ("Room available?" → Yes/No paths)</li>
+                                <li>• Includes error handling ("What if payment fails?")</li>
+                                <li>• Easy to follow - someone else could trace the path</li>
+                                <li>• Demonstrates your understanding of information architecture</li>
+                            </ul>
+                        </div>
+
+                        <div class="p-4 rounded example-bad">
+                            <h4 class="font-bold mb-2" style="color: var(--error-color);">✗ Common Mistakes:</h4>
+                            <ul class="text-sm space-y-1">
+                                <li>• Just showing screen order without decisions (that's a sitemap, not a flow)</li>
+                                <li>• Missing error states or alternative paths</li>
+                                <li>• No clear entry or exit points</li>
+                                <li>• So complex it's unreadable - simplify!</li>
+                                <li>• Forgetting to include it in Section 4 of slide deck</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- PART 2: ARTEFACTS -->
+        <section class="mb-8">
+            <div class="section-card rounded-lg border overflow-hidden" style="border-color: var(--border-color); background-color: var(--bg-secondary);">
+                <div class="section-header p-6 flex justify-between items-center" onclick="toggleSection('artefacts')">
+                    <div class="flex items-center gap-3">
+                        <span class="text-2xl">📊</span>
+                        <div>
+                            <h2 class="text-2xl font-bold">Part 2: UX Artefacts (Choose 2)</h2>
+                            <p class="text-sm" style="color: var(--text-secondary);">Select from User Research, Design, or Testing categories</p>
+                        </div>
+                    </div>
+                    <span class="rotate-icon text-2xl" id="icon-artefacts">▼</span>
+                </div>
+                
+                <div class="collapsible-content" id="content-artefacts">
+                    <div class="p-6 border-t" style="border-color: var(--border-color);">
+                        
+                        <div class="mb-6 p-4 rounded" style="background-color: var(--bg-primary);">
+                            <h4 class="font-bold mb-3">Artefact Requirements Checklist:</h4>
+                            <div class="space-y-2">
+                                <div class="flex items-start gap-3">
+                                    <input type="checkbox" id="artefact-1" onchange="updateProgress()">
+                                    <label for="artefact-1" class="cursor-pointer">Selected 2 artefacts from allowed categories</label>
+                                </div>
+                                <div class="flex items-start gap-3">
+                                    <input type="checkbox" id="artefact-2" onchange="updateProgress()">
+                                    <label for="artefact-2" class="cursor-pointer">Both artefacts included as images in Section 2 (Slides 4-5)</label>
+                                </div>
+                                <div class="flex items-start gap-3">
+                                    <input type="checkbox" id="artefact-3" onchange="updateProgress()">
+                                    <label for="artefact-3" class="cursor-pointer">Artefact 1: 150-200 word explanation (what, how, insights, contribution)</label>
+                                </div>
+                                <div class="flex items-start gap-3">
+                                    <input type="checkbox" id="artefact-4" onchange="updateProgress()">
+                                    <label for="artefact-4" class="cursor-pointer">Artefact 2: 150-200 word explanation (what, how, insights, contribution)</label>
+                                </div>
+                                <div class="flex items-start gap-3">
+                                    <input type="checkbox" id="artefact-5" onchange="updateProgress()">
+                                    <label for="artefact-5" class="cursor-pointer">Artefacts demonstrate UX process and thinking</label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Category 1: User Research -->
+                        <h3 class="text-lg font-bold mb-3" style="color: var(--accent-color);">Category 1: User Research Artefacts</h3>
+                        <div class="mb-6 p-4 rounded" style="background-color: var(--bg-primary);">
+                            <ul class="space-y-2 text-sm">
+                                <li><strong>• Personas:</strong> With demographics, goals, pain points, context of use</li>
+                                <li><strong>• User Journey Maps:</strong> Showing touchpoints, emotions, pain points over time</li>
+                                <li><strong>• Empathy Maps:</strong> What users think, feel, say, do</li>
+                                <li><strong>• User Interviews Summary:</strong> Key findings from user research</li>
+                                <li><strong>• Competitor Analysis Matrix:</strong> Comparing existing solutions</li>
+                            </ul>
+                        </div>
+
+                        <!-- Category 2: Design -->
+                        <h3 class="text-lg font-bold mb-3" style="color: var(--accent-color);">Category 2: Design Artefacts</h3>
+                        <div class="mb-6 p-4 rounded" style="background-color: var(--bg-primary);">
+                            <ul class="space-y-2 text-sm">
+                                <li><strong>• Annotated Wireframes:</strong> Additional to prototype sketches, showing design rationale</li>
+                                <li><strong>• Design Specifications:</strong> Typography, color rationale, accessibility considerations</li>
+                                <li><strong>• Content Hierarchy Diagrams:</strong> Information organization and priority</li>
+                                <li><strong>• Navigation Structure Diagrams:</strong> How users move through the system</li>
+                                <li><strong>• Mood Boards:</strong> Visual design explorations and inspiration</li>
+                            </ul>
+                        </div>
+
+                        <!-- Category 3: Testing -->
+                        <h3 class="text-lg font-bold mb-3" style="color: var(--accent-color);">Category 3: Testing & Evaluation Artefacts</h3>
+                        <div class="mb-6 p-4 rounded" style="background-color: var(--bg-primary);">
+                            <ul class="space-y-2 text-sm">
+                                <li><strong>• Usability Test Plan:</strong> Methods, tasks, success criteria</li>
+                                <li><strong>• Test Scripts:</strong> With scenario descriptions and tasks</li>
+                                <li><strong>• Heuristic Evaluation Report:</strong> Systematic review against Nielsen's heuristics</li>
+                                <li><strong>• User Testing Findings:</strong> Observations, issues identified, severity ratings</li>
+                                <li><strong>• A/B Testing Proposal:</strong> Or results from comparative testing</li>
+                            </ul>
+                        </div>
+
+                        <div class="p-4 rounded" style="background-color: #fef3c7;">
+                            <h4 class="font-bold mb-2" style="color: #854d0e;">⚠️ Important Notes:</h4>
+                            <ul class="text-sm space-y-1" style="color: #78350f;">
+                                <li>• The flow diagram (Component B) does NOT count as one of your 2 artefacts</li>
+                                <li>• "Iteration notes" alone do not count as an artefact</li>
+                                <li>• Choose artefacts that genuinely helped your design process</li>
+                                <li>• Quality over quantity - 2 detailed artefacts better than rushed extras</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- PART 3: SLIDE DECK - SECTION 1 -->
+        <section class="mb-8">
+            <div class="section-card rounded-lg border overflow-hidden" style="border-color: var(--border-color); background-color: var(--bg-secondary);">
+                <div class="section-header p-6 flex justify-between items-center" onclick="toggleSection('section1')">
+                    <div class="flex items-center gap-3">
+                        <span class="text-2xl">📄</span>
+                        <div>
+                            <h2 class="text-2xl font-bold">Section 1: Introduction & Context</h2>
+                            <p class="text-sm" style="color: var(--text-secondary);">2-3 slides, ~300 words total</p>
+                        </div>
+                    </div>
+                    <span class="rotate-icon text-2xl" id="icon-section1">▼</span>
+                </div>
+                
+                <div class="collapsible-content" id="content-section1">
+                    <div class="p-6 border-t" style="border-color: var(--border-color);">
+                        
+                        <div class="mb-6 p-4 rounded" style="background-color: var(--bg-primary);">
+                            <h4 class="font-bold mb-3">Section 1 Checklist:</h4>
+                            <div class="space-y-2">
+                                <div class="flex items-start gap-3">
+                                    <input type="checkbox" id="sec1-1" onchange="updateProgress()">
+                                    <label for="sec1-1" class="cursor-pointer">Slide: Service Overview (150-200 words)</label>
+                                </div>
+                                <div class="flex items-start gap-3">
+                                    <input type="checkbox" id="sec1-2" onchange="updateProgress()">
+                                    <label for="sec1-2" class="cursor-pointer">Slide: User Analysis (150-200 words)</label>
+                                </div>
+                                <div class="flex items-start gap-3">
+                                    <input type="checkbox" id="sec1-3" onchange="updateProgress()">
+                                    <label for="sec1-3" class="cursor-pointer">Service is small-to-medium scale (not Amazon/Netflix/Google)</label>
+                                </div>
+                                <div class="flex items-start gap-3">
+                                    <input type="checkbox" id="sec1-4" onchange="updateProgress()">
+                                    <label for="sec1-4" class="cursor-pointer">Clear explanation of why this service needs UX improvement</label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Slide 1: Service Overview -->
+                        <h3 class="text-lg font-bold mb-3" style="color: var(--accent-color);">Slide 1: Service Overview (150-200 words)</h3>
+                        <div class="mb-6">
+                            <p class="mb-3 text-sm">This slide should cover:</p>
+                            <ul class="space-y-2 text-sm mb-4" style="color: var(--text-secondary);">
+                                <li>• Description of the community service/small business you selected</li>
+                                <li>• Current service delivery method (if applicable)</li>
+                                <li>• Why this service needs UX improvement (brief overview)</li>
+                                <li>• Context: social/community importance</li>
+                            </ul>
+
+                            <div class="example-box example-good p-4 rounded mb-3">
+                                <div class="flex items-center gap-2 mb-2">
+                                    <span class="feedback-badge" style="background-color: var(--success-color); color: white;">✓ Strong Example</span>
+                                </div>
+                                <p class="text-sm italic mb-2">
+                                    "I selected the Manchester Central Library's study room booking system. Currently, students must visit the library website, navigate through multiple menus, and complete a lengthy form to book study spaces. The system is desktop-only, has no real-time availability display, and frequently times out during peak periods. This creates significant friction for students who need quiet study spaces, particularly during exam season when rooms are in highest demand. The library serves over 15,000 students annually and study room bookings have decreased 40% since 2020, despite increased student enrollment. Improving this experience would directly support student academic success and better utilize library resources."
+                                </p>
+                                <p class="text-xs" style="color: var(--success-color);"><strong>Word count:</strong> ~185 words ✓</p>
+                            </div>
+
+                            <div class="example-box example-bad p-4 rounded">
+                                <div class="flex items-center gap-2 mb-2">
+                                    <span class="feedback-badge" style="background-color: var(--error-color); color: white;">✗ Weak Example</span>
+                                </div>
+                                <p class="text-sm italic mb-2">
+                                    "I chose the library booking system because it's not very good. Students have problems booking rooms. The website is old and confusing. It needs to be better. I will design an app to fix it."
+                                </p>
+                                <p class="text-xs mb-2" style="color: var(--error-color);"><strong>Problems:</strong></p>
+                                <ul class="text-xs space-y-1" style="color: var(--error-color);">
+                                    <li>• Too short (only ~40 words)</li>
+                                    <li>• Vague problems - no specifics or evidence</li>
+                                    <li>• No context about service scale or user impact</li>
+                                    <li>• Missing current delivery method details</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <!-- Slide 2: User Analysis -->
+                        <h3 class="text-lg font-bold mb-3" style="color: var(--accent-color);">Slide 2: User Analysis (150-200 words)</h3>
+                        <div class="mb-6">
+                            <p class="mb-3 text-sm">This slide should cover:</p>
+                            <ul class="space-y-2 text-sm mb-4" style="color: var(--text-secondary);">
+                                <li>• Target user group/audience definition</li>
+                                <li>• User demographics and characteristics</li>
+                                <li>• User needs, goals, and pain points</li>
+                                <li>• Context of use (where, when, why users need this service)</li>
+                            </ul>
+
+                            <div class="example-box example-good p-4 rounded">
+                                <div class="flex items-center gap-2 mb-2">
+                                    <span class="feedback-badge" style="background-color: var(--success-color); color: white;">✓ Strong Example</span>
+                                </div>
+                                <p class="text-sm italic mb-2">
+                                    "The primary users are Manchester Met students aged 18-25, studying across all disciplines but particularly concentrated in exam-heavy courses like Business, Law, and Sciences. These users are digitally native, expect mobile-first experiences, and frequently multitask between study sessions. Their main goal is to quickly secure quiet study spaces during peak periods (9am-5pm weekdays, especially weeks 10-12 of semester). Key pain points include: inability to check availability on-the-go, lengthy booking process requiring desktop access, no confirmation notifications, and difficulty canceling bookings when plans change. Users report abandoning bookings and studying in less suitable environments (cafes, accommodation) due to system friction. Context: These bookings typically happen on-the-move between lectures, in 2-3 minute windows when users spot a gap in their schedule. The current desktop-only system doesn't match this usage pattern, creating a fundamental mismatch between user needs and system design."
+                                </p>
+                                <p class="text-xs" style="color: var(--success-color);"><strong>Word count:</strong> ~175 words ✓</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- PART 4: SLIDE DECK - SECTION 2 -->
+        <section class="mb-8">
+            <div class="section-card rounded-lg border overflow-hidden" style="border-color: var(--border-color); background-color: var(--bg-secondary);">
+                <div class="section-header p-6 flex justify-between items-center" onclick="toggleSection('section2')">
+                    <div class="flex items-center gap-3">
+                        <span class="text-2xl">🎨</span>
+                        <div>
+                            <h2 class="text-2xl font-bold">Section 2: Design Process & UX Artefacts</h2>
+                            <p class="text-sm" style="color: var(--text-secondary);">6-8 slides, ~900 words total</p>
+                        </div>
+                    </div>
+                    <span class="rotate-icon text-2xl" id="icon-section2">▼</span>
+                </div>
+                
+                <div class="collapsible-content" id="content-section2">
+                    <div class="p-6 border-t" style="border-color: var(--border-color);">
+                        
+                        <div class="mb-6 p-4 rounded" style="background-color: #dbeafe;">
+                            <h4 class="font-bold mb-2" style="color: #1e40af;">📐 Framework: Research → Ideate → Prototype → Test → Iterate</h4>
+                            <p class="text-sm" style="color: #1e40af;">Structure this section following the UX design process</p>
+                        </div>
+
+                        <div class="mb-6 p-4 rounded" style="background-color: var(--bg-primary);">
+                            <h4 class="font-bold mb-3">Section 2 Checklist:</h4>
+                            <div class="space-y-2">
+                                <div class="flex items-start gap-3">
+                                    <input type="checkbox" id="sec2-1" onchange="updateProgress()">
+                                    <label for="sec2-1" class="cursor-pointer">Slide 3: Research Phase (100-150 words)</label>
+                                </div>
+                                <div class="flex items-start gap-3">
+                                    <input type="checkbox" id="sec2-2" onchange="updateProgress()">
+                                    <label for="sec2-2" class="cursor-pointer">Slide 4: Artefact 1 with image + explanation (150-200 words)</label>
+                                </div>
+                                <div class="flex items-start gap-3">
+                                    <input type="checkbox" id="sec2-3" onchange="updateProgress()">
+                                    <label for="sec2-3" class="cursor-pointer">Slide 5: Artefact 2 with image + explanation (150-200 words)</label>
+                                </div>
+                                <div class="flex items-start gap-3">
+                                    <input type="checkbox" id="sec2-4" onchange="updateProgress()">
+                                    <label for="sec2-4" class="cursor-pointer">Slide 6: User-Centered Design Principles (200-250 words) - Name 2, show examples, rationale</label>
+                                </div>
+                                <div class="flex items-start gap-3">
+                                    <input type="checkbox" id="sec2-5" onchange="updateProgress()">
+                                    <label for="sec2-5" class="cursor-pointer">Slide 7: Testing Methods (150-200 words)</label>
+                                </div>
+                                <div class="flex items-start gap-3">
+                                    <input type="checkbox" id="sec2-6" onchange="updateProgress()">
+                                    <label for="sec2-6" class="cursor-pointer">Slide 8: Iteration & Refinement (150-200 words)</label>
+                                </div>
+                                <div class="flex items-start gap-3">
+                                    <input type="checkbox" id="sec2-7" onchange="updateProgress()">
+                                    <label for="sec2-7" class="cursor-pointer">Total section word count: ~900 words</label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Slide 6: UCD Principles (Most Important) -->
+                        <h3 class="text-lg font-bold mb-3" style="color: var(--accent-color);">Slide 6: User-Centered Design Principles (200-250 words) ⭐ KEY SLIDE</h3>
+                        <div class="mb-6">
+                            <p class="mb-3 text-sm font-bold">This is THE most important slide in Section 2. You must:</p>
+                            <ul class="space-y-2 text-sm mb-4" style="color: var(--text-secondary);">
+                                <li>• <strong>Name 2 UCD principles</strong> you applied in your design</li>
+                                <li>• <strong>Show specific examples</strong> from your sketches where each principle appears</li>
+                                <li>• <strong>Explain the rationale</strong> - why these principles matter for your users</li>
+                            </ul>
+
+                            <div class="example-box example-good p-4 rounded mb-3">
+                                <div class="flex items-center gap-2 mb-2">
+                                    <span class="feedback-badge" style="background-color: var(--success-color); color: white;">✓ Excellent Example</span>
+                                </div>
+                                <p class="text-sm italic mb-2">
+                                    "I applied two key user-centered design principles throughout my prototype: <strong>Visibility of System Status</strong> and <strong>Error Prevention</strong>.
+
+                                    <strong>Visibility of System Status:</strong> On the booking screen (Sketch 3), I included a real-time availability indicator showing room status with color-coding: green for 'Available Now', amber for 'Available in 30min', and red for 'Fully Booked Today'. A countdown timer shows 'Holding your selection: 2:45 remaining' during the booking process. This addresses users' primary pain point of not knowing whether rooms are truly available. When users can see system status clearly, they make confident decisions and experience less anxiety during time-sensitive tasks like booking study rooms during peak periods.
+
+                                    <strong>Error Prevention:</strong> Rather than allowing users to make invalid bookings, the interface prevents errors before they occur. Sketch 5 shows time-slot selection where past times are automatically greyed out and unselectable. If a user tries to book a 4-hour slot but only 2 hours remain before closing, the system constrains the selection and displays: 'Maximum 2 hours available today'. This prevents the frustration of completing a booking only to receive an error message. For students booking between lectures, preventing errors is more efficient than fixing them later."
+                                </p>
+                                <p class="text-xs mb-2" style="color: var(--success-color);"><strong>Why this works:</strong></p>
+                                <ul class="text-xs space-y-1" style="color: var(--success-color);">
+                                    <li>✓ Names 2 specific principles with clear headings</li>
+                                    <li>✓ References specific sketches ("Sketch 3", "Sketch 5")</li>
+                                    <li>✓ Explains HOW each principle appears in the design</li>
+                                    <li>✓ Connects principles to user needs and pain points</li>
+                                    <li>✓ ~230 words - within range</li>
+                                </ul>
+                            </div>
+
+                            <div class="example-box example-bad p-4 rounded">
+                                <div class="flex items-center gap-2 mb-2">
+                                    <span class="feedback-badge" style="background-color: var(--error-color); color: white;">✗ Weak Example</span>
+                                </div>
+                                <p class="text-sm italic mb-2">
+                                    "I used good UX principles. My design is user-friendly and accessible. I made sure everything is easy to find and use. The interface is clean and simple which is important for users."
+                                </p>
+                                <p class="text-xs mb-2" style="color: var(--error-color);"><strong>Problems:</strong></p>
+                                <ul class="text-xs space-y-1" style="color: var(--error-color);">
+                                    <li>✗ Doesn't name 2 specific principles</li>
+                                    <li>✗ No connection to sketches - no examples shown</li>
+                                    <li>✗ Vague claims ("user-friendly", "clean") without evidence</li>
+                                    <li>✗ No rationale for why principles matter</li>
+                                    <li>✗ Too short (~40 words, needs 200-250)</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- PART 5: SLIDE DECK - SECTION 3 -->
+        <section class="mb-8">
+            <div class="section-card rounded-lg border overflow-hidden" style="border-color: var(--border-color); background-color: var(--bg-secondary);">
+                <div class="section-header p-6 flex justify-between items-center" onclick="toggleSection('section3')">
+                    <div class="flex items-center gap-3">
+                        <span class="text-2xl">⚖️</span>
+                        <div>
+                            <h2 class="text-2xl font-bold">Section 3: Evaluation & Recommendations</h2>
+                            <p class="text-sm" style="color: var(--text-secondary);">3-4 slides, ~500 words total</p>
+                        </div>
+                    </div>
+                    <span class="rotate-icon text-2xl" id="icon-section3">▼</span>
+                </div>
+                
+                <div class="collapsible-content" id="content-section3">
+                    <div class="p-6 border-t" style="border-color: var(--border-color);">
+                        
+                        <div class="mb-6 p-4 rounded" style="background-color: var(--bg-primary);">
+                            <h4 class="font-bold mb-3">Section 3 Checklist:</h4>
+                            <div class="space-y-2">
+                                <div class="flex items-start gap-3">
+                                    <input type="checkbox" id="sec3-1" onchange="updateProgress()">
+                                    <label for="sec3-1" class="cursor-pointer">Slide 9: Problem Analysis (200-250 words) with evidence</label>
+                                </div>
+                                <div class="flex items-start gap-3">
+                                    <input type="checkbox" id="sec3-2" onchange="updateProgress()">
+                                    <label for="sec3-2" class="cursor-pointer">Slide 10: Solution Evaluation (200-250 words) with specific features</label>
+                                </div>
+                                <div class="flex items-start gap-3">
+                                    <input type="checkbox" id="sec3-3" onchange="updateProgress()">
+                                    <label for="sec3-3" class="cursor-pointer">Slide 11: Recommendations (150-200 words) - specific and actionable</label>
+                                </div>
+                                <div class="flex items-start gap-3">
+                                    <input type="checkbox" id="sec3-4" onchange="updateProgress()">
+                                    <label for="sec3-4" class="cursor-pointer">Evidence-based evaluation (not just opinions)</label>
+                                </div>
+                                <div class="flex items-start gap-3">
+                                    <input type="checkbox" id="sec3-5" onchange="updateProgress()">
+                                    <label for="sec3-5" class="cursor-pointer">Clear before/after comparison showing improvements</label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Slide 9: Problem Analysis -->
+                        <h3 class="text-lg font-bold mb-3" style="color: var(--accent-color);">Slide 9: Problem Analysis (200-250 words)</h3>
+                        <div class="mb-6">
+                            <p class="mb-3 text-sm">For services being enhanced OR new services, explain:</p>
+                            <ul class="space-y-2 text-sm mb-4" style="color: var(--text-secondary);">
+                                <li>• What problems existed before (or what users had to do without this service)</li>
+                                <li>• <strong>Evidence</strong> of these problems (user complaints, inefficiencies, data, observations)</li>
+                                <li>• Why these problems mattered to users (impact)</li>
+                                <li>• Context and scale of the problem</li>
+                            </ul>
+
+                            <div class="example-box example-good p-4 rounded">
+                                <div class="flex items-center gap-2 mb-2">
+                                    <span class="feedback-badge" style="background-color: var(--success-color); color: white;">✓ Strong Example with Evidence</span>
+                                </div>
+                                <p class="text-sm italic mb-2">
+                                    "The existing Manchester Central Library study room booking system created three critical problems for students. <strong>Problem 1: Hidden availability.</strong> Students had no way to check room status without visiting the website and navigating through five separate pages. User interviews revealed students wasted an average of 12 minutes per booking attempt, with 40% abandoning the process. <strong>Problem 2: Desktop-only access.</strong> The system required desktop browsers; 78% of students reported needing to book 'on-the-go' between lectures using mobile devices, forcing them to find computer labs or wait until reaching home—by which time rooms were taken. <strong>Problem 3: No booking feedback.</strong> After submitting a booking request, students received no confirmation notification and had to manually check their email (often missing confirmations in spam). Library data showed 23% of booked rooms went unused because students forgot or weren't certain their booking succeeded. These problems particularly impacted students during exam periods when study spaces are most critical, directly affecting their ability to prepare effectively."
+                                </p>
+                                <p class="text-xs" style="color: var(--success-color);"><strong>Word count:</strong> ~185 words ✓ | <strong>Evidence included:</strong> User interviews, usage data, percentages</p>
+                            </div>
+                        </div>
+
+                        <!-- Slide 10: Solution Evaluation -->
+                        <h3 class="text-lg font-bold mb-3" style="color: var(--accent-color);">Slide 10: Solution Evaluation (200-250 words)</h3>
+                        <div class="mb-6">
+                            <p class="mb-3 text-sm">Explain how your design solves the problems:</p>
+                            <ul class="space-y-2 text-sm mb-4" style="color: var(--text-secondary);">
+                                <li>• How your design addresses each identified problem</li>
+                                <li>• Specific features or design decisions that solve user pain points</li>
+                                <li>• Expected improvements in user experience</li>
+                                <li>• How you would measure success</li>
+                            </ul>
+
+                            <div class="example-box example-good p-4 rounded">
+                                <div class="flex items-center gap-2 mb-2">
+                                    <span class="feedback-badge" style="background-color: var(--success-color); color: white;">✓ Strong Solution Evaluation</span>
+                                </div>
+                                <p class="text-sm italic mb-2">
+                                    "My mobile-first booking app directly addresses each identified problem. <strong>Solution to Problem 1:</strong> The home screen displays all study rooms with real-time color-coded availability (green/amber/red), allowing students to see status instantly without navigation. Expected improvement: Reduce decision time from 12 minutes to under 30 seconds. <strong>Solution to Problem 2:</strong> Mobile-native design with offline capability enables booking anywhere, anytime. Students can bookmark favorite rooms, see availability between lectures, and complete bookings in 3 taps. Expected improvement: Increase booking completion rate from 60% to 95%. <strong>Solution to Problem 3:</strong> Push notifications confirm bookings immediately and send reminders 1 hour before scheduled time. QR code check-in at room entrance validates booking and releases unused rooms automatically. Expected improvement: Reduce unused bookings from 23% to under 5%. Success metrics: (1) Average booking time, (2) Booking completion rate, (3) Room utilization rate, (4) User satisfaction scores. These measurements would be tracked through app analytics and quarterly user surveys."
+                                </p>
+                                <p class="text-xs" style="color: var(--success-color);"><strong>Word count:</strong> ~180 words ✓ | Directly maps solutions to problems with measurable outcomes</p>
+                            </div>
+                        </div>
+
+                        <!-- Slide 11: Recommendations -->
+                        <h3 class="text-lg font-bold mb-3" style="color: var(--accent-color);">Slide 11: Recommendations (150-200 words)</h3>
+                        <div class="mb-6">
+                            <p class="mb-3 text-sm">Professional recommendations should be:</p>
+                            <ul class="space-y-2 text-sm mb-4" style="color: var(--text-secondary);">
+                                <li>• <strong>Specific:</strong> Not "make it better" but concrete actions</li>
+                                <li>• <strong>Actionable:</strong> Realistic steps that can actually be implemented</li>
+                                <li>• <strong>Prioritized:</strong> What should happen first, second, third</li>
+                                <li>• <strong>Forward-thinking:</strong> Next iteration, additional testing, future features</li>
+                            </ul>
+
+                            <div class="example-box example-good p-4 rounded">
+                                <div class="flex items-center gap-2 mb-2">
+                                    <span class="feedback-badge" style="background-color: var(--success-color); color: white;">✓ Strong Recommendations</span>
+                                </div>
+                                <p class="text-sm italic mb-2">
+                                    "To successfully implement this booking system, I recommend a phased approach. <strong>Phase 1 (Immediate):</strong> Conduct usability testing with 10-15 students using paper prototypes to validate the 3-tap booking flow and identify any navigation issues before development. <strong>Phase 2 (Development):</strong> Build MVP focusing on core features: room availability display, mobile booking, and push notifications. Integrate with existing library database via API. <strong>Phase 3 (Testing):</strong> Beta test with 50 students over 2 weeks during low-demand period, monitoring booking completion rates and gathering feedback through in-app surveys. <strong>Future Enhancements:</strong> Group booking functionality for study groups, favorite room lists, booking history, and integration with student timetables to suggest optimal study times. <strong>Scalability:</strong> The design framework could extend to other campus resources (equipment bookings, seminar rooms) if successful. Success depends on strong collaboration with library IT team and maintaining backup manual booking process during transition period."
+                                </p>
+                                <p class="text-xs" style="color: var(--success-color);"><strong>Word count:</strong> ~165 words ✓ | Specific phases, actionable steps, considers implementation</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Final Submission Checklist -->
+        <section class="mb-12 p-6 rounded-lg" style="background-color: #dcfce7; border: 3px solid #166534;">
+            <h2 class="text-2xl font-bold mb-4" style="color: #166534;">✅ Final Pre-Submission Checklist</h2>
+            <div class="space-y-3">
+                <div class="flex items-start gap-3">
+                    <input type="checkbox" id="final-1" onchange="updateProgress()">
+                    <label for="final-1" class="cursor-pointer font-bold">PROTOTYPE: 6-10 hand-drawn sketches + flow diagram both included</label>
+                </div>
+                <div class="flex items-start gap-3">
+                    <input type="checkbox" id="final-2" onchange="updateProgress()">
+                    <label for="final-2" class="cursor-pointer font-bold">ARTEFACTS: 2 artefacts from allowed categories with full explanations</label>
+                </div>
+                <div class="flex items-start gap-3">
+                    <input type="checkbox" id="final-3" onchange="updateProgress()">
+                    <label for="final-3" class="cursor-pointer font-bold">SLIDE COUNT: 10-20 COUNTED slides (not including title/location/closing/appendix)</label>
+                </div>
+                <div class="flex items-start gap-3">
+                    <input type="checkbox" id="final-4" onchange="updateProgress()">
+                    <label for="final-4" class="cursor-pointer font-bold">WORD COUNT: ~1,700-2,000 words total across all sections</label>
+                </div>
+                <div class="flex items-start gap-3">
+                    <input type="checkbox" id="final-5" onchange="updateProgress()">
+                    <label for="final-5" class="cursor-pointer">Section 1: Service Overview + User Analysis (~300 words)</label>
+                </div>
+                <div class="flex items-start gap-3">
+                    <input type="checkbox" id="final-6" onchange="updateProgress()">
+                    <label for="final-6" class="cursor-pointer">Section 2: Research + 2 Artefacts + Principles + Testing + Iteration (~900 words)</label>
+                </div>
+                <div class="flex items-start gap-3">
+                    <input type="checkbox" id="final-7" onchange="updateProgress()">
+                    <label for="final-7" class="cursor-pointer">Section 3: Problem + Solution + Recommendations (~500 words)</label>
+                </div>
+                <div class="flex items-start gap-3">
+                    <input type="checkbox" id="final-8" onchange="updateProgress()">
+                    <label for="final-8" class="cursor-pointer font-bold">UCD PRINCIPLES: 2 principles named, shown in sketches, rationale explained (Slide 6)</label>
+                </div>
+                <div class="flex items-start gap-3">
+                    <input type="checkbox" id="final-9" onchange="updateProgress()">
+                    <label for="final-9" class="cursor-pointer">SLIDE NUMBERS: Added to every slide</label>
+                </div>
+                <div class="flex items-start gap-3">
+                    <input type="checkbox" id="final-10" onchange="updateProgress()">
+                    <label for="final-10" class="cursor-pointer">IMAGES: All sketches photographed clearly (no blur), flow diagram included</label>
+                </div>
+                <div class="flex items-start gap-3">
+                    <input type="checkbox" id="final-11" onchange="updateProgress()">
+                    <label for="final-11" class="cursor-pointer">FORMAT: Saved as PDF or PPTX</label>
+                </div>
+                <div class="flex items-start gap-3">
+                    <input type="checkbox" id="final-12" onchange="updateProgress()">
+                    <label for="final-12" class="cursor-pointer">PROOFREAD: No typos, clear writing, professional presentation</label>
+                </div>
+                <div class="flex items-start gap-3">
+                    <input type="checkbox" id="final-13" onchange="updateProgress()">
+                    <label for="final-13" class="cursor-pointer">READY: Uploaded to Moodle before deadline</label>
+                </div>
+            </div>
+        </section>
+
+        <!-- Key Details -->
+        <section class="mb-12">
+            <h2 class="text-3xl font-bold mb-6">📋 Important Details</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div class="p-4 rounded-lg" style="background-color: var(--bg-secondary); border-left: 3px solid var(--accent-color);">
+                    <h4 class="font-bold mb-2">📏 Formatting & Submission</h4>
+                    <ul class="text-sm space-y-1">
+                        <li>• <strong>Slide count:</strong> 10-20 counted slides (excl. title/location/closing/appendix)</li>
+                        <li>• <strong>Word count:</strong> ~1,700-2,000 words total</li>
+                        <li>• <strong>Format:</strong> PDF or PPTX on Moodle</li>
+                        <li>• <strong>Slide numbers:</strong> Required on every slide</li>
+                    </ul>
+                </div>
+                <div class="p-4 rounded-lg" style="background-color: var(--bg-secondary); border-left: 3px solid var(--accent-color);">
+                    <h4 class="font-bold mb-2">📅 Submission Details</h4>
+                    <ul class="text-sm space-y-1">
+                        <li>• Upload via Moodle assignment link</li>
+                        <li>• Check deadline on Moodle (typically Week 11)</li>
+                        <li>• Individual work only</li>
+                        <li>• Checked via Turnitin</li>
+                    </ul>
+                </div>
+                <div class="p-4 rounded-lg" style="background-color: var(--bg-secondary); border-left: 3px solid var(--accent-color);">
+                    <h4 class="font-bold mb-2">🤖 AI Usage</h4>
+                    <ul class="text-sm space-y-1">
+                        <li>• Generative AI permitted as a tool</li>
+                        <li>• Follow AI Literacy guidelines</li>
+                        <li>• All work must demonstrate YOUR UX thinking</li>
+                        <li>• Don't just copy AI outputs - show your process</li>
+                    </ul>
+                </div>
+                <div class="p-4 rounded-lg" style="background-color: var(--bg-secondary); border-left: 3px solid var(--accent-color);">
+                    <h4 class="font-bold mb-2">💬 Get Help</h4>
+                    <ul class="text-sm space-y-1">
+                        <li>• Unit Leader: Mike Oustamanolakis</li>
+                        <li>• Email: m.oustamanolakis@mmu.ac.uk</li>
+                        <li>• Ask questions in weekly sessions</li>
+                        <li>• Week 6: Midterm progress review</li>
+                        <li>• Week 11: Open studio for final support</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="border-t mt-12 p-8" style="border-color: var(--border-color);">
+        <div class="max-w-7xl mx-auto text-center" style="color: var(--text-secondary);">
+            <p class="mb-2">User Experience for Creative Industries - Unit Code: 466Z0033 - Level 6</p>
+            <p class="text-sm">Manchester Metropolitan University</p>
+        </div>
+    </footer>
+
+    <script>
+        let isDarkMode = false;
+        let fontSize = 1;
+
+        // Dark mode toggle
+        document.getElementById('darkModeToggle').addEventListener('click', () => {
+            isDarkMode = !isDarkMode;
+            document.body.classList.toggle('dark-mode');
+            document.getElementById('modeIcon').textContent = isDarkMode ? '☀️' : '🌙';
+            localStorage.setItem('uxci_darkMode', isDarkMode);
+        });
+
+        // Font size controls
+        document.getElementById('increaseFont').addEventListener('click', () => {
+            if (fontSize < 1.5) {
+                fontSize += 0.1;
+                document.documentElement.style.setProperty('--font-size', fontSize);
+                localStorage.setItem('uxci_fontSize', fontSize);
+            }
+        });
+
+        document.getElementById('decreaseFont').addEventListener('click', () => {
+            if (fontSize > 0.7) {
+                fontSize -= 0.1;
+                document.documentElement.style.setProperty('--font-size', fontSize);
+                localStorage.setItem('uxci_fontSize', fontSize);
+            }
+        });
+
+        // Toggle section expansion
+        function toggleSection(sectionId) {
+            const content = document.getElementById(`content-${sectionId}`);
+            const icon = document.getElementById(`icon-${sectionId}`);
+            
+            content.classList.toggle('active');
+            icon.classList.toggle('active');
+        }
+
+        // Update progress
+        function updateProgress() {
+            const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+            const checked = document.querySelectorAll('input[type="checkbox"]:checked').length;
+            const total = checkboxes.length;
+            const percentage = Math.round((checked / total) * 100);
+            
+            const progressBar = document.getElementById('progressBar');
+            const progressText = document.getElementById('progressText');
+            const progressPercentage = document.getElementById('progressPercentage');
+            
+            progressBar.style.width = percentage + '%';
+            progressText.textContent = `${checked} of ${total} items completed`;
+            progressPercentage.textContent = percentage + '%';
+            
+            // Save progress
+            const checkedIds = Array.from(document.querySelectorAll('input[type="checkbox"]:checked')).map(cb => cb.id);
+            localStorage.setItem('uxci_progress', JSON.stringify(checkedIds));
+        }
+
+        // Load saved preferences and progress
+        window.addEventListener('DOMContentLoaded', () => {
+            // Dark mode
+            const savedDarkMode = localStorage.getItem('uxci_darkMode') === 'true';
+            const savedFontSize = parseFloat(localStorage.getItem('uxci_fontSize')) || 1;
+            
+            if (savedDarkMode) {
+                document.body.classList.add('dark-mode');
+                document.getElementById('modeIcon').textContent = '☀️';
+                isDarkMode = true;
+            }
+            
+            if (savedFontSize !== 1) {
+                fontSize = savedFontSize;
+                document.documentElement.style.setProperty('--font-size', fontSize);
+            }
+
+            // Progress
+            const savedProgress = JSON.parse(localStorage.getItem('uxci_progress') || '[]');
+            savedProgress.forEach(id => {
+                const checkbox = document.getElementById(id);
+                if (checkbox) checkbox.checked = true;
+            });
+            updateProgress();
+        });
+    </script>
+</body>
+</html>

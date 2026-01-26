@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Service Selector - UXCI</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        :root {
+            --bg-primary: #ffffff;
+            --bg-secondary: #f9fafb;
+            --text-primary: #111827;
+            --text-secondary: #4b5563;
+            --border-color: #e5e7eb;
+            --accent-color: #8b5cf6;
+            --font-size: 1;
+        }
+        .dark-mode {
+            --bg-primary: #1f2937;
+            --bg-secondary: #111827;
+            --text-primary: #f9fafb;
+            --text-secondary: #9ca3af;
+            --border-color: #374151;
+            --accent-color: #a78bfa;
+        }
+        html { font-size: calc(var(--font-size) * 16px); }
+        body { background-color: var(--bg-primary); color: var(--text-primary); }
+        .option-card { transition: all 0.2s; cursor: pointer; }
+        .option-card:hover { transform: scale(1.02); }
+        .option-card.selected { border-color: var(--accent-color); background-color: #faf5ff; }
+    </style>
+</head>
+<body class="min-h-screen">
+    <header class="border-b p-4" style="border-color: var(--border-color);">
+        <div class="max-w-7xl mx-auto flex justify-between items-center flex-wrap gap-4">
+            <div>
+                <h1 class="text-2xl font-bold">🎯 Service Selector</h1>
+                <p class="text-sm" style="color: var(--text-secondary);">Find the right-sized service for your UX project</p>
+            </div>
+            <div class="flex gap-2">
+                <button id="decreaseFont" class="px-3 py-2 rounded border" style="border-color: var(--border-color);">A-</button>
+                <button id="increaseFont" class="px-3 py-2 rounded border" style="border-color: var(--border-color);">A+</button>
+                <button id="darkModeToggle" class="px-4 py-2 rounded border" style="border-color: var(--border-color);"><span id="modeIcon">🌙</span></button>
+                <button onclick="window.location.href='index.html'" class="px-4 py-2 rounded border" style="border-color: var(--border-color);">← Back</button>
+            </div>
+        </div>
+    </header>
+
+    <main class="max-w-4xl mx-auto p-8">
+        <!-- Introduction -->
+        <div class="mb-8 p-6 rounded-lg border" style="border-color: var(--accent-color); background-color: #faf5ff;">
+            <h2 class="text-xl font-bold mb-3">🎓 Choosing Your Service</h2>
+            <p class="mb-3">Your project should focus on a <strong>single, specific service or feature</strong> within a larger app or system.</p>
+            <div class="text-sm space-y-2" style="color: var(--text-secondary);">
+                <p><strong>✅ Good scope:</strong> "Study room booking feature in library app"</p>
+                <p><strong>❌ Too broad:</strong> "Entire university student portal"</p>
+            </div>
+        </div>
+
+        <!-- Question 1: Service Type -->
+        <div class="mb-8 p-6 rounded-lg border" style="border-color: var(--border-color); background-color: var(--bg-secondary);">
+            <h3 class="text-lg font-bold mb-4">1. What type of service are you considering?</h3>
+            <div class="space-y-3" id="q1Options">
+                <div class="option-card p-4 rounded-lg border" style="border-color: var(--border-color);" onclick="selectOption('q1', 'booking')">
+                    <div class="font-bold mb-1">📅 Booking/Scheduling Service</div>
+                    <div class="text-sm" style="color: var(--text-secondary);">Reserve rooms, appointments, equipment, etc.</div>
+                </div>
+                <div class="option-card p-4 rounded-lg border" style="border-color: var(--border-color);" onclick="selectOption('q1', 'information')">
+                    <div class="font-bold mb-1">📚 Information Service</div>
+                    <div class="text-sm" style="color: var(--text-secondary);">Find info, browse catalog, search resources</div>
+                </div>
+                <div class="option-card p-4 rounded-lg border" style="border-color: var(--border-color);" onclick="selectOption('q1', 'transaction')">
+                    <div class="font-bold mb-1">💳 Transaction Service</div>
+                    <div class="text-sm" style="color: var(--text-secondary);">Buy, pay, order, submit forms</div>
+                </div>
+                <div class="option-card p-4 rounded-lg border" style="border-color: var(--border-color);" onclick="selectOption('q1', 'communication')">
+                    <div class="font-bold mb-1">💬 Communication Service</div>
+                    <div class="text-sm" style="color: var(--text-secondary);">Message, share, collaborate, notify</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Question 2: Complexity -->
+        <div class="mb-8 p-6 rounded-lg border" style="border-color: var(--border-color); background-color: var(--bg-secondary);">
+            <h3 class="text-lg font-bold mb-4">2. How many main steps does this service involve?</h3>
+            <div class="space-y-3" id="q2Options">
+                <div class="option-card p-4 rounded-lg border" style="border-color: var(--border-color);" onclick="selectOption('q2', 'simple')">
+                    <div class="font-bold mb-1">3-5 steps ✅</div>
+                    <div class="text-sm" style="color: var(--text-secondary);">Example: Open app → Browse → Select → Confirm → Done</div>
+                </div>
+                <div class="option-card p-4 rounded-lg border" style="border-color: var(--border-color);" onclick="selectOption('q2', 'medium')">
+                    <div class="font-bold mb-1">6-8 steps ⚠️</div>
+                    <div class="text-sm" style="color: var(--text-secondary);">Getting complex - ensure you can sketch 6-10 screens</div>
+                </div>
+                <div class="option-card p-4 rounded-lg border" style="border-color: var(--border-color);" onclick="selectOption('q2', 'complex')">
+                    <div class="font-bold mb-1">9+ steps ❌</div>
+                    <div class="text-sm" style="color: var(--text-secondary);">Too complex - narrow your scope to a sub-feature</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Question 3: User Types -->
+        <div class="mb-8 p-6 rounded-lg border" style="border-color: var(--border-color); background-color: var(--bg-secondary);">
+            <h3 class="text-lg font-bold mb-4">3. How many different user types?</h3>
+            <div class="space-y-3" id="q3Options">
+                <div class="option-card p-4 rounded-lg border" style="border-color: var(--border-color);" onclick="selectOption('q3', 'single')">
+                    <div class="font-bold mb-1">1 user type ✅</div>
+                    <div class="text-sm" style="color: var(--text-secondary);">One persona is enough - focus on depth</div>
+                </div>
+                <div class="option-card p-4 rounded-lg border" style="border-color: var(--border-color);" onclick="selectOption('q3', 'dual')">
+                    <div class="font-bold mb-1">2 user types ⚠️</div>
+                    <div class="text-sm" style="color: var(--text-secondary);">Manageable but focus on primary user</div>
+                </div>
+                <div class="option-card p-4 rounded-lg border" style="border-color: var(--border-color);" onclick="selectOption('q3', 'multiple')">
+                    <div class="font-bold mb-1">3+ user types ❌</div>
+                    <div class="text-sm" style="color: var(--text-secondary);">Too broad - pick one user journey</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Recommendation Panel -->
+        <div id="recommendation" class="p-6 rounded-lg border" style="border-color: var(--border-color); background-color: var(--bg-secondary); display: none;">
+            <h3 class="text-xl font-bold mb-4">📊 Your Service Assessment</h3>
+            <div id="recommendationContent"></div>
+        </div>
+
+        <!-- Examples -->
+        <div class="mt-12 p-6 rounded-lg" style="background-color: #dcfce7; border-left: 4px solid #22c55e;">
+            <h3 class="font-bold mb-3" style="color: #166534;">✅ Good Service Examples</h3>
+            <ul class="space-y-2 text-sm" style="color: #166534;">
+                <li><strong>Library study room booking</strong> - Find room, check availability, book time slot, confirm</li>
+                <li><strong>Coffee shop mobile order</strong> - Browse menu, customize drink, add to cart, pay, track order</li>
+                <li><strong>Gym class registration</strong> - View schedule, filter by type, select class, book spot</li>
+                <li><strong>Bus ticket purchase</strong> - Enter route, select time, choose seat, pay</li>
+                <li><strong>Prescription refill</strong> - View medications, select item, choose pharmacy, submit</li>
+            </ul>
+        </div>
+
+        <div class="mt-6 p-6 rounded-lg" style="background-color: #fee2e2; border-left: 4px solid #ef4444;">
+            <h3 class="font-bold mb-3" style="color: #991b1b;">❌ Too Broad - Narrow These Down</h3>
+            <ul class="space-y-2 text-sm" style="color: #991b1b;">
+                <li><strong>Entire banking app</strong> → Focus on: "Transfer money between accounts"</li>
+                <li><strong>Complete social media platform</strong> → Focus on: "Create and share photo post"</li>
+                <li><strong>Full university portal</strong> → Focus on: "Submit assignment to Moodle"</li>
+                <li><strong>Healthcare system</strong> → Focus on: "Book GP appointment online"</li>
+                <li><strong>E-commerce website</strong> → Focus on: "Product search and filter experience"</li>
+            </ul>
+        </div>
+    </main>
+
+    <script>
+        const answers = { q1: null, q2: null, q3: null };
+
+        function selectOption(question, value) {
+            answers[question] = value;
+            
+            // Update UI
+            const container = document.getElementById(question + 'Options');
+            container.querySelectorAll('.option-card').forEach(card => {
+                card.classList.remove('selected');
+            });
+            event.currentTarget.classList.add('selected');
+            
+            // Check if all answered
+            if (answers.q1 && answers.q2 && answers.q3) {
+                showRecommendation();
+            }
+        }
+
+        function showRecommendation() {
+            const rec = document.getElementById('recommendation');
+            const content = document.getElementById('recommendationContent');
+            
+            let score = 0;
+            let issues = [];
+            
+            // Complexity check
+            if (answers.q2 === 'simple') score += 2;
+            else if (answers.q2 === 'medium') score += 1;
+            else issues.push('Service has too many steps - consider focusing on a sub-feature');
+            
+            // User types check
+            if (answers.q3 === 'single') score += 2;
+            else if (answers.q3 === 'dual') score += 1;
+            else issues.push('Too many user types - focus on one primary user journey');
+            
+            let verdict, color, emoji;
+            if (score >= 4) {
+                verdict = 'Great Scope!';
+                color = '#22c55e';
+                emoji = '✅';
+            } else if (score >= 2) {
+                verdict = 'Manageable with Focus';
+                color = '#f59e0b';
+                emoji = '⚠️';
+            } else {
+                verdict = 'Too Broad - Narrow Down';
+                color = '#ef4444';
+                emoji = '❌';
+            }
+            
+            content.innerHTML = `
+                <div class="p-4 rounded mb-4" style="background-color: ${color}20; border: 2px solid ${color};">
+                    <div class="text-2xl font-bold mb-2" style="color: ${color};">${emoji} ${verdict}</div>
+                </div>
+                ${issues.length > 0 ? `
+                    <div class="mb-4">
+                        <div class="font-bold mb-2">⚠️ Issues to Address:</div>
+                        <ul class="list-disc pl-5 space-y-1">
+                            ${issues.map(i => `<li>${i}</li>`).join('')}
+                        </ul>
+                    </div>
+                ` : ''}
+                <div class="space-y-3">
+                    <div>
+                        <div class="font-bold mb-1">Next Steps:</div>
+                        <ol class="list-decimal pl-5 space-y-1 text-sm">
+                            <li>Write a one-sentence description of your service</li>
+                            <li>Sketch the main flow on paper (should be 6-10 screens max)</li>
+                            <li>Identify your primary user and their main goal</li>
+                            <li>Use the Problem Definition Canvas to document pain points</li>
+                        </ol>
+                    </div>
+                </div>
+            `;
+            
+            rec.style.display = 'block';
+            rec.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
+
+        // Dark mode & font
+        let isDarkMode = false, fontSize = 1;
+        document.getElementById('darkModeToggle').addEventListener('click', () => {
+            isDarkMode = !isDarkMode;
+            document.body.classList.toggle('dark-mode');
+            document.getElementById('modeIcon').textContent = isDarkMode ? '☀️' : '🌙';
+        });
+        document.getElementById('increaseFont').addEventListener('click', () => {
+            if (fontSize < 1.5) { fontSize += 0.1; document.documentElement.style.setProperty('--font-size', fontSize); }
+        });
+        document.getElementById('decreaseFont').addEventListener('click', () => {
+            if (fontSize > 0.7) { fontSize -= 0.1; document.documentElement.style.setProperty('--font-size', fontSize); }
+        });
+    </script>
+</body>
+</html>

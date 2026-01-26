@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Competitor Analysis Matrix - UXCI</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <style>
+        :root { --bg-primary: #ffffff; --text-primary: #111827; --border-color: #e5e7eb; --accent-color: #8b5cf6; --font-size: 1; }
+        .dark-mode { --bg-primary: #1f2937; --text-primary: #f9fafb; --border-color: #374151; --accent-color: #a78bfa; }
+        html { font-size: calc(var(--font-size) * 16px); }
+        body { background-color: var(--bg-primary); color: var(--text-primary); }
+        @media print { .no-print { display: none; } }
+    </style>
+</head>
+<body class="min-h-screen">
+    <header class="border-b p-4 no-print" style="border-color: var(--border-color);">
+        <div class="max-w-7xl mx-auto flex justify-between items-center flex-wrap gap-4">
+            <div>
+                <h1 class="text-2xl font-bold">📊 Competitor Analysis Matrix</h1>
+                <p class="text-sm" style="color: #6b7280;">Compare competing solutions side-by-side</p>
+            </div>
+            <div class="flex gap-2">
+                <button id="decreaseFont" class="px-3 py-2 rounded border" style="border-color: var(--border-color);">A-</button>
+                <button id="increaseFont" class="px-3 py-2 rounded border" style="border-color: var(--border-color);">A+</button>
+                <button id="darkModeToggle" class="px-4 py-2 rounded border" style="border-color: var(--border-color);"><span id="modeIcon">🌙</span></button>
+                <button onclick="window.location.href='index.html'" class="px-4 py-2 rounded border" style="border-color: var(--border-color);">← Back</button>
+            </div>
+        </div>
+    </header>
+    <main class="max-w-7xl mx-auto p-8">
+        <div class="mb-6 flex gap-3 no-print">
+            <button onclick="exportToPNG()" class="px-6 py-3 rounded text-white" style="background-color: #10b981;">📥 Export PNG</button>
+        </div>
+        <div id="matrix" class="p-8 rounded-lg border overflow-x-auto" style="border-color: var(--border-color); background-color: white;">
+            <h2 class="text-2xl font-bold mb-6 text-center">Competitor Analysis Matrix</h2>
+            <table class="w-full border-collapse">
+                <thead>
+                    <tr style="background-color: var(--accent-color);">
+                        <th class="border p-3 text-white text-left">Criteria</th>
+                        <th class="border p-3 text-white"><input type="text" id="comp1" class="w-full bg-transparent border-0 text-center text-white font-bold" placeholder="Competitor 1" oninput="save()"></th>
+                        <th class="border p-3 text-white"><input type="text" id="comp2" class="w-full bg-transparent border-0 text-center text-white font-bold" placeholder="Competitor 2" oninput="save()"></th>
+                        <th class="border p-3 text-white"><input type="text" id="comp3" class="w-full bg-transparent border-0 text-center text-white font-bold" placeholder="Your Solution" oninput="save()"></th>
+                    </tr>
+                </thead>
+                <tbody id="criteria">
+                    <tr><td class="border p-2 font-medium">Ease of Use</td>
+                        <td class="border p-2"><select class="w-full" onchange="save()"><option>Poor</option><option>Fair</option><option selected>Good</option><option>Excellent</option></select></td>
+                        <td class="border p-2"><select class="w-full" onchange="save()"><option>Poor</option><option>Fair</option><option selected>Good</option><option>Excellent</option></select></td>
+                        <td class="border p-2"><select class="w-full" onchange="save()"><option>Poor</option><option>Fair</option><option>Good</option><option selected>Excellent</option></select></td>
+                    </tr>
+                    <tr><td class="border p-2 font-medium">Mobile Support</td>
+                        <td class="border p-2"><select class="w-full" onchange="save()"><option>None</option><option>Basic</option><option selected>Full</option></select></td>
+                        <td class="border p-2"><select class="w-full" onchange="save()"><option>None</option><option selected>Basic</option><option>Full</option></select></td>
+                        <td class="border p-2"><select class="w-full" onchange="save()"><option>None</option><option>Basic</option><option selected>Full</option></select></td>
+                    </tr>
+                    <tr><td class="border p-2 font-medium">Speed</td>
+                        <td class="border p-2"><input type="text" class="w-full" placeholder="Fast/Slow" oninput="save()"></td>
+                        <td class="border p-2"><input type="text" class="w-full" placeholder="Fast/Slow" oninput="save()"></td>
+                        <td class="border p-2"><input type="text" class="w-full" placeholder="Fast/Slow" oninput="save()"></td>
+                    </tr>
+                    <tr><td class="border p-2 font-medium">Key Feature</td>
+                        <td class="border p-2"><textarea rows="2" class="w-full" oninput="save()"></textarea></td>
+                        <td class="border p-2"><textarea rows="2" class="w-full" oninput="save()"></textarea></td>
+                        <td class="border p-2"><textarea rows="2" class="w-full" oninput="save()"></textarea></td>
+                    </tr>
+                    <tr><td class="border p-2 font-medium">Pain Point</td>
+                        <td class="border p-2"><textarea rows="2" class="w-full" placeholder="Main weakness" oninput="save()"></textarea></td>
+                        <td class="border p-2"><textarea rows="2" class="w-full" placeholder="Main weakness" oninput="save()"></textarea></td>
+                        <td class="border p-2"><textarea rows="2" class="w-full" placeholder="How you solve it" oninput="save()"></textarea></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </main>
+    <script>
+        function save() { localStorage.setItem('uxci_compMatrix', document.getElementById('matrix').innerHTML); }
+        async function exportToPNG() {
+            const el = document.getElementById('matrix');
+            try {
+                const canvas = await html2canvas(el, { backgroundColor: '#ffffff', scale: 2 });
+                canvas.toBlob(blob => {
+                    const url = URL.createObjectURL(blob);
+                    const link = document.createElement('a');
+                    link.download = `competitor_analysis_${new Date().toISOString().slice(0,10)}.png`;
+                    link.href = url;
+                    link.click();
+                });
+            } catch(e) { alert('Export error'); }
+        }
+        window.addEventListener('DOMContentLoaded', () => {
+            const saved = localStorage.getItem('uxci_compMatrix');
+            if (saved) document.getElementById('matrix').innerHTML = saved;
+        });
+        let isDarkMode = false, fontSize = 1;
+        document.getElementById('darkModeToggle').addEventListener('click', () => {
+            isDarkMode = !isDarkMode; document.body.classList.toggle('dark-mode');
+            document.getElementById('modeIcon').textContent = isDarkMode ? '☀️' : '🌙';
+        });
+        document.getElementById('increaseFont').addEventListener('click', () => {
+            if (fontSize < 1.5) { fontSize += 0.1; document.documentElement.style.setProperty('--font-size', fontSize); }
+        });
+        document.getElementById('decreaseFont').addEventListener('click', () => {
+            if (fontSize > 0.7) { fontSize -= 0.1; document.documentElement.style.setProperty('--font-size', fontSize); }
+        });
+    </script>
+</body>
+</html>

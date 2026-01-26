@@ -68,7 +68,7 @@
                 <button id="darkModeToggle" class="px-4 py-2 rounded border" style="border-color: var(--border-color);" aria-label="Toggle dark mode">
                     <span id="modeIcon">🌙</span>
                 </button>
-                <button onclick="window.location.href='uxci_index_page.html'" class="px-4 py-2 rounded border" style="border-color: var(--border-color);">
+                <button onclick="window.location.href='index.html'" class="px-4 py-2 rounded border" style="border-color: var(--border-color);">
                     ← Back
                 </button>
             </div>
@@ -112,6 +112,9 @@
             </button>
             <button onclick="filterCategory('usability')" class="category-filter px-4 py-2 rounded border" style="border-color: var(--border-color);">
                 ⚡ Usability
+            </button>
+            <button onclick="filterCategory('strategy')" class="category-filter px-4 py-2 rounded border" style="border-color: var(--border-color);">
+                🚀 Strategy & Frameworks
             </button>
         </div>
 
@@ -300,6 +303,12 @@
                     description: "All functionality must be available using only a keyboard, without requiring specific timings for keystrokes.",
                     examples: "Tab navigation, visible focus indicators, keyboard shortcuts documented, no keyboard traps, logical tab order",
                     application: "Test everything with keyboard only. Ensure clear focus states and logical navigation order."
+                },
+                {
+                    name: "Universal & Inclusive Design",
+                    description: "The 7 Principles of Universal Design ensure products work for the greatest number of people regardless of age, size, or ability.",
+                    examples: "Equitable use (same for all), flexibility in use, simple and intuitive, perceptible info, tolerance for error, low physical effort, size and space",
+                    application: "Design for the margins to benefit the middle. Ensure your design accommodates a wide range of individual preferences and abilities."
                 }
             ],
             usability: [
@@ -350,6 +359,68 @@
                     description: "Use patterns and conventions users already know from other applications and experiences.",
                     examples: "Standard icons, common UI patterns, platform conventions, expected behaviors, familiar terminology",
                     application: "Don't reinvent the wheel. Use established patterns. Match user expectations."
+                },
+                {
+                    name: "Mobile-First & Progressive Enhancement",
+                    description: "Designing for the most constrained screen (mobile) first, then layering on more complex features for larger screens.",
+                    examples: "Touch-friendly buttons, thumb-zone navigation, prioritized content, responsive layouts, simplified menus",
+                    application: "Start with core content. Enhance for desktop by adding detail, not removing constraints. Mobile dominates globally."
+                },
+                {
+                    name: "Design for Delight",
+                    description: "Creating moments of positive emotion through small interactions (micro-interactions) that surprise and please the user.",
+                    examples: "Celebration animations, playful empty states, smooth transitions, humorous error messages, satisfying loading spinners",
+                    application: "Add small touches of personality and joy to mundane tasks. Delight creates loyalty."
+                },
+                {
+                    name: "Personalization & Customization",
+                    description: "Allowing users to tailor the interface to their specific needs, preferences, or context.",
+                    examples: "Dark mode toggles, drag-and-drop widgets, saved filters, notification preferences, content recommendations",
+                    application: "Give users control. Defaults should be good, but options allow users to adapt the tool to their workflow."
+                },
+                {
+                    name: "Don't Make Users Think",
+                    description: "Steve Krug's principle: A page should be self-evident. Users should understand 'what it is' and 'what to do' without thinking.",
+                    examples: "Clear visual hierarchy, clickable elements look clickable, obvious navigation, conventional layouts, concise text",
+                    application: "Remove question marks. Make it obvious what things are and what they do. Reduce cognitive overhead."
+                },
+                {
+                    name: "Reduce Cognitive Load",
+                    description: "Minimizing the amount of mental processing power required to use the interface. Working memory is limited (~5 items).",
+                    examples: "Chunking information, progressive disclosure, consistent patterns, eliminating clutter, focusing on one action at a time",
+                    application: "Don't overwhelm the user. Break complex tasks into smaller steps. Hide advanced features until needed."
+                },
+                {
+                    name: "Support User Autonomy & Control",
+                    description: "Users feel more comfortable when they are in control of the system and can predict the outcomes of their actions.",
+                    examples: "Easy 'Cancel' buttons, 'Opt-out' options, customizable settings, clear undo paths, transparent permissions, no forced actions",
+                    application: "Ensure the user is the pilot, not the passenger. Never trap the user. Make actions reversible."
+                },
+                {
+                    name: "Thumb-Friendly Interaction Design",
+                    description: "Optimizing UI placement for mobile use where the thumb is the primary input method, focusing on the bottom of the screen.",
+                    examples: "Primary navigation at bottom, easily reachable tap targets (44px+), critical actions in 'thumb zone', avoiding top corners",
+                    application: "Design for the way people hold phones. Place primary interactive elements within easy reach of the thumb."
+                }
+            ],
+            strategy: [
+                {
+                    name: "Emotional Design",
+                    description: "Don Norman's framework where design must address three levels: Visceral (beauty/first impression), Behavioral (usability/satisfaction), and Reflective (meaning/values).",
+                    examples: "Beautiful aesthetics, intuitive workflows, personalized messaging, brand alignment, gamification elements, celebration animations",
+                    application: "Design for beauty (visceral), ensure smooth function (behavioral), and create meaning (reflective). Exceptional design creates emotional connections."
+                },
+                {
+                    name: "Jobs to Be Done (JTBD)",
+                    description: "Focuses on understanding the underlying progress a user is trying to make in their life ('the job') rather than just demographics or surface tasks.",
+                    examples: "User interviews focusing on 'why', scenario-based personas, outcome-driven roadmaps, 'switching' questions",
+                    application: "Frame user needs by the problem they are solving. 'I need to feel confident in my purchase' vs 'I need to buy a shirt'. Prevents assumption-based design."
+                },
+                {
+                    name: "Storytelling in Design",
+                    description: "Using narrative structures to engage users, convey information, and create a cohesive journey through the product.",
+                    examples: "Onboarding flows that introduce a character, progressive narrative in tutorials, case studies, emotional copywriting, relatable user scenarios",
+                    application: "Structure your UX like a story with a beginning, middle, and end. Use personas (characters) and conflict (user problems) to guide the design."
                 }
             ]
         };
@@ -367,7 +438,8 @@
                 'norman': '#fae8ff',
                 'gestalt': '#dbeafe',
                 'accessibility': '#dcfce7',
-                'usability': '#fef3c7'
+                'usability': '#fef3c7',
+                'strategy': '#fee2e2' 
             };
             
             const categoryLabels = {
@@ -375,7 +447,8 @@
                 'norman': 'Norman Principle',
                 'gestalt': 'Gestalt Principle',
                 'accessibility': 'Accessibility',
-                'usability': 'Usability'
+                'usability': 'Usability',
+                'strategy': 'Strategy & Framework' 
             };
             
             div.innerHTML = `

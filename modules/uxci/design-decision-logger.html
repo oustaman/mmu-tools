@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Design Decision Logger - UXCI</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        :root {
+            --bg-primary: #ffffff;
+            --bg-secondary: #f9fafb;
+            --text-primary: #111827;
+            --text-secondary: #4b5563;
+            --border-color: #e5e7eb;
+            --accent-color: #8b5cf6;
+            --font-size: 1;
+        }
+        .dark-mode {
+            --bg-primary: #1f2937;
+            --bg-secondary: #111827;
+            --text-primary: #f9fafb;
+            --text-secondary: #9ca3af;
+            --border-color: #374151;
+            --accent-color: #a78bfa;
+        }
+        html { font-size: calc(var(--font-size) * 16px); }
+        body { background-color: var(--bg-primary); color: var(--text-primary); }
+        .decision-card { transition: all 0.2s ease; }
+        .decision-card:hover { transform: translateY(-2px); box-shadow: 0 4px 8px rgba(0,0,0,0.1); }
+    </style>
+</head>
+<body class="min-h-screen">
+    <header class="border-b p-4" style="border-color: var(--border-color);">
+        <div class="max-w-7xl mx-auto flex justify-between items-center flex-wrap gap-4">
+            <div>
+                <h1 class="text-2xl font-bold">📝 Design Decision Logger</h1>
+                <p class="text-sm" style="color: var(--text-secondary);">Document the "why" behind your design choices</p>
+            </div>
+            <div class="flex gap-2">
+                <button id="decreaseFont" class="px-3 py-2 rounded border" style="border-color: var(--border-color);">A-</button>
+                <button id="increaseFont" class="px-3 py-2 rounded border" style="border-color: var(--border-color);">A+</button>
+                <button id="darkModeToggle" class="px-4 py-2 rounded border" style="border-color: var(--border-color);"><span id="modeIcon">🌙</span></button>
+                <button onclick="window.location.href='index.html'" class="px-4 py-2 rounded border" style="border-color: var(--border-color);">← Back</button>
+            </div>
+        </div>
+    </header>
+
+    <main class="max-w-5xl mx-auto p-8">
+        <!-- Add Decision Form -->
+        <div class="mb-8 p-6 rounded-lg border" style="border-color: var(--border-color); background-color: var(--bg-secondary);">
+            <h2 class="text-xl font-bold mb-4">➕ Log a Design Decision</h2>
+            <div class="space-y-4">
+                <div>
+                    <label class="block text-sm font-medium mb-1">What did you decide?</label>
+                    <input type="text" id="decision" class="w-full p-3 rounded border" style="border-color: var(--border-color);" placeholder="e.g., Use bottom navigation instead of hamburger menu">
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-sm font-medium mb-1">Category</label>
+                        <select id="category" class="w-full p-3 rounded border" style="border-color: var(--border-color);">
+                            <option>Navigation</option>
+                            <option>Visual Design</option>
+                            <option>Interaction</option>
+                            <option>Content</option>
+                            <option>Accessibility</option>
+                            <option>Performance</option>
+                            <option>Other</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium mb-1">Impact Level</label>
+                        <select id="impact" class="w-full p-3 rounded border" style="border-color: var(--border-color);">
+                            <option>Low</option>
+                            <option selected>Medium</option>
+                            <option>High</option>
+                            <option>Critical</option>
+                        </select>
+                    </div>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium mb-1">Why? (Rationale)</label>
+                    <textarea id="rationale" rows="3" class="w-full p-3 rounded border" style="border-color: var(--border-color);" placeholder="Explain your reasoning: user needs, research findings, best practices, constraints..."></textarea>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium mb-1">Alternatives Considered (Optional)</label>
+                    <textarea id="alternatives" rows="2" class="w-full p-3 rounded border" style="border-color: var(--border-color);" placeholder="What other options did you consider and why did you reject them?"></textarea>
+                </div>
+                <div class="flex gap-3">
+                    <button onclick="addDecision()" class="px-6 py-3 rounded text-white" style="background-color: var(--accent-color);">Add Decision</button>
+                    <button onclick="exportAll()" class="px-6 py-3 rounded border" style="border-color: var(--border-color);">📥 Export All</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Filter -->
+        <div class="mb-4 flex gap-3">
+            <select id="filterCategory" onchange="filterDecisions()" class="px-4 py-2 rounded border" style="border-color: var(--border-color);">
+                <option value="">All Categories</option>
+                <option>Navigation</option>
+                <option>Visual Design</option>
+                <option>Interaction</option>
+                <option>Content</option>
+                <option>Accessibility</option>
+                <option>Performance</option>
+                <option>Other</option>
+            </select>
+            <select id="filterImpact" onchange="filterDecisions()" class="px-4 py-2 rounded border" style="border-color: var(--border-color);">
+                <option value="">All Impact Levels</option>
+                <option>Low</option>
+                <option>Medium</option>
+                <option>High</option>
+                <option>Critical</option>
+            </select>
+        </div>
+
+        <!-- Decisions List -->
+        <div id="decisionsList" class="space-y-4">
+            <!-- Populated by JavaScript -->
+        </div>
+
+        <!-- Empty State -->
+        <div id="emptyState" class="text-center p-12 rounded-lg border" style="border-color: var(--border-color); background-color: var(--bg-secondary); display: none;">
+            <div class="text-6xl mb-4">📝</div>
+            <h3 class="text-xl font-bold mb-2">No Decisions Logged Yet</h3>
+            <p style="color: var(--text-secondary);">Start documenting your design decisions above</p>
+        </div>
+    </main>
+
+    <script>
+        let decisions = [];
+
+        function addDecision() {
+            const decision = document.getElementById('decision').value;
+            const category = document.getElementById('category').value;
+            const impact = document.getElementById('impact').value;
+            const rationale = document.getElementById('rationale').value;
+            const alternatives = document.getElementById('alternatives').value;
+
+            if (!decision || !rationale) {
+                alert('Please fill in decision and rationale');
+                return;
+            }
+
+            const newDecision = {
+                id: Date.now(),
+                decision,
+                category,
+                impact,
+                rationale,
+                alternatives,
+                timestamp: new Date().toISOString()
+            };
+
+            decisions.unshift(newDecision);
+            saveDecisions();
+            renderDecisions();
+            
+            // Clear form
+            document.getElementById('decision').value = '';
+            document.getElementById('rationale').value = '';
+            document.getElementById('alternatives').value = '';
+        }
+
+        function deleteDecision(id) {
+            if (confirm('Delete this decision?')) {
+                decisions = decisions.filter(d => d.id !== id);
+                saveDecisions();
+                renderDecisions();
+            }
+        }
+
+        function filterDecisions() {
+            renderDecisions();
+        }
+
+        function renderDecisions() {
+            const categoryFilter = document.getElementById('filterCategory').value;
+            const impactFilter = document.getElementById('filterImpact').value;
+            
+            let filtered = decisions;
+            if (categoryFilter) filtered = filtered.filter(d => d.category === categoryFilter);
+            if (impactFilter) filtered = filtered.filter(d => d.impact === impactFilter);
+
+            const container = document.getElementById('decisionsList');
+            const emptyState = document.getElementById('emptyState');
+
+            if (filtered.length === 0) {
+                container.innerHTML = '';
+                emptyState.style.display = 'block';
+                return;
+            }
+
+            emptyState.style.display = 'none';
+            
+            const impactColors = {
+                'Low': '#10b981',
+                'Medium': '#f59e0b',
+                'High': '#ef4444',
+                'Critical': '#dc2626'
+            };
+
+            container.innerHTML = filtered.map(d => `
+                <div class="decision-card p-6 rounded-lg border" style="border-color: var(--border-color); background-color: var(--bg-secondary);">
+                    <div class="flex justify-between items-start mb-3">
+                        <div class="flex-1">
+                            <h3 class="text-lg font-bold mb-2">${d.decision}</h3>
+                            <div class="flex gap-2 text-xs">
+                                <span class="px-2 py-1 rounded" style="background-color: #ddd6fe; color: #5b21b6;">${d.category}</span>
+                                <span class="px-2 py-1 rounded text-white" style="background-color: ${impactColors[d.impact]};">${d.impact} Impact</span>
+                                <span style="color: var(--text-secondary);">${new Date(d.timestamp).toLocaleDateString()}</span>
+                            </div>
+                        </div>
+                        <button onclick="deleteDecision(${d.id})" class="text-red-500 hover:text-red-700 ml-4">🗑️</button>
+                    </div>
+                    <div class="mb-3">
+                        <div class="text-sm font-bold mb-1" style="color: var(--accent-color);">Rationale:</div>
+                        <div class="text-sm">${d.rationale}</div>
+                    </div>
+                    ${d.alternatives ? `
+                        <div>
+                            <div class="text-sm font-bold mb-1" style="color: var(--text-secondary);">Alternatives Considered:</div>
+                            <div class="text-sm">${d.alternatives}</div>
+                        </div>
+                    ` : ''}
+                </div>
+            `).join('');
+        }
+
+        function saveDecisions() {
+            localStorage.setItem('uxci_decisions', JSON.stringify(decisions));
+        }
+
+        function exportAll() {
+            if (decisions.length === 0) {
+                alert('No decisions to export');
+                return;
+            }
+            
+            const text = decisions.map(d => `
+DECISION: ${d.decision}
+Category: ${d.category} | Impact: ${d.impact} | Date: ${new Date(d.timestamp).toLocaleDateString()}
+
+RATIONALE:
+${d.rationale}
+
+${d.alternatives ? `ALTERNATIVES CONSIDERED:\n${d.alternatives}\n` : ''}
+${'='.repeat(80)}
+            `).join('\n');
+            
+            const blob = new Blob([text], { type: 'text/plain' });
+            const url = URL.createObjectURL(blob);
+            const link = document.createElement('a');
+            link.download = `design_decisions_${new Date().toISOString().slice(0,10)}.txt`;
+            link.href = url;
+            link.click();
+            URL.revokeObjectURL(url);
+        }
+
+        // Load saved decisions
+        window.addEventListener('DOMContentLoaded', () => {
+            const saved = localStorage.getItem('uxci_decisions');
+            if (saved) {
+                decisions = JSON.parse(saved);
+                renderDecisions();
+            } else {
+                document.getElementById('emptyState').style.display = 'block';
+            }
+        });
+
+        // Dark mode & font
+        let isDarkMode = false, fontSize = 1;
+        document.getElementById('darkModeToggle').addEventListener('click', () => {
+            isDarkMode = !isDarkMode;
+            document.body.classList.toggle('dark-mode');
+            document.getElementById('modeIcon').textContent = isDarkMode ? '☀️' : '🌙';
+        });
+        document.getElementById('increaseFont').addEventListener('click', () => {
+            if (fontSize < 1.5) { fontSize += 0.1; document.documentElement.style.setProperty('--font-size', fontSize); }
+        });
+        document.getElementById('decreaseFont').addEventListener('click', () => {
+            if (fontSize > 0.7) { fontSize -= 0.1; document.documentElement.style.setProperty('--font-size', fontSize); }
+        });
+    </script>
+</body>
+</html>

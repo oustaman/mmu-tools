@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flow Diagram Symbols - UXCI</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        :root { --bg-primary: #ffffff; --text-primary: #111827; --border-color: #e5e7eb; --accent-color: #8b5cf6; --font-size: 1; }
+        .dark-mode { --bg-primary: #1f2937; --text-primary: #f9fafb; --border-color: #374151; --accent-color: #a78bfa; }
+        html { font-size: calc(var(--font-size) * 16px); }
+        body { background-color: var(--bg-primary); color: var(--text-primary); }
+        .symbol { transition: all 0.2s; cursor: pointer; }
+        .symbol:hover { transform: scale(1.1); box-shadow: 0 4px 12px rgba(0,0,0,0.2); }
+    </style>
+</head>
+<body class="min-h-screen">
+    <header class="border-b p-4" style="border-color: var(--border-color);">
+        <div class="max-w-7xl mx-auto flex justify-between items-center flex-wrap gap-4">
+            <div>
+                <h1 class="text-2xl font-bold">🔀 Flow Diagram Symbols Library</h1>
+                <p class="text-sm" style="color: #6b7280;">Quick reference for creating user flow diagrams</p>
+            </div>
+            <div class="flex gap-2">
+                <button id="decreaseFont" class="px-3 py-2 rounded border" style="border-color: var(--border-color);">A-</button>
+                <button id="increaseFont" class="px-3 py-2 rounded border" style="border-color: var(--border-color);">A+</button>
+                <button id="darkModeToggle" class="px-4 py-2 rounded border" style="border-color: var(--border-color);"><span id="modeIcon">🌙</span></button>
+                <button onclick="window.location.href='index.html'" class="px-4 py-2 rounded border" style="border-color: var(--border-color);">← Back</button>
+            </div>
+        </div>
+    </header>
+
+    <main class="max-w-6xl mx-auto p-8">
+        <div class="mb-8 p-6 rounded-lg border" style="border-color: var(--accent-color); background-color: #faf5ff;">
+            <h2 class="font-bold mb-2">📋 Standard Flowchart Symbols</h2>
+            <p class="text-sm">Use these symbols when creating your user flow diagram (Component B of prototype)</p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <!-- Start/End -->
+            <div class="symbol p-6 rounded-lg border" style="border-color: var(--border-color); background-color: #f9fafb;">
+                <div class="flex items-center justify-center mb-4">
+                    <svg width="120" height="60">
+                        <ellipse cx="60" cy="30" rx="50" ry="25" fill="#10b981" stroke="#065f46" stroke-width="2"/>
+                        <text x="60" y="37" text-anchor="middle" fill="white" font-weight="bold">START</text>
+                    </svg>
+                </div>
+                <h3 class="font-bold mb-2">Start / End</h3>
+                <p class="text-sm" style="color: #6b7280;">Oval shape · Entry/exit points</p>
+            </div>
+
+            <!-- Process -->
+            <div class="symbol p-6 rounded-lg border" style="border-color: var(--border-color); background-color: #f9fafb;">
+                <div class="flex items-center justify-center mb-4">
+                    <svg width="120" height="60">
+                        <rect x="10" y="10" width="100" height="40" fill="#3b82f6" stroke="#1e40af" stroke-width="2"/>
+                        <text x="60" y="35" text-anchor="middle" fill="white" font-size="12" font-weight="bold">Screen/Action</text>
+                    </svg>
+                </div>
+                <h3 class="font-bold mb-2">Process / Screen</h3>
+                <p class="text-sm" style="color: #6b7280;">Rectangle · Screens, steps, actions</p>
+            </div>
+
+            <!-- Decision -->
+            <div class="symbol p-6 rounded-lg border" style="border-color: var(--border-color); background-color: #f9fafb;">
+                <div class="flex items-center justify-center mb-4">
+                    <svg width="120" height="80">
+                        <polygon points="60,10 110,40 60,70 10,40" fill="#f59e0b" stroke="#d97706" stroke-width="2"/>
+                        <text x="60" y="45" text-anchor="middle" fill="white" font-size="11" font-weight="bold">Decision?</text>
+                    </svg>
+                </div>
+                <h3 class="font-bold mb-2">Decision Point</h3>
+                <p class="text-sm" style="color: #6b7280;">Diamond · Yes/No branches</p>
+            </div>
+
+            <!-- Arrow -->
+            <div class="symbol p-6 rounded-lg border" style="border-color: var(--border-color); background-color: #f9fafb;">
+                <div class="flex items-center justify-center mb-4">
+                    <svg width="120" height="60">
+                        <defs>
+                            <marker id="arrowhead" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+                                <polygon points="0 0, 10 3, 0 6" fill="#6b7280"/>
+                            </marker>
+                        </defs>
+                        <line x1="10" y1="30" x2="100" y2="30" stroke="#6b7280" stroke-width="3" marker-end="url(#arrowhead)"/>
+                    </svg>
+                </div>
+                <h3 class="font-bold mb-2">Flow Direction</h3>
+                <p class="text-sm" style="color: #6b7280;">Arrow · Shows progression</p>
+            </div>
+
+            <!-- Input/Output -->
+            <div class="symbol p-6 rounded-lg border" style="border-color: var(--border-color); background-color: #f9fafb;">
+                <div class="flex items-center justify-center mb-4">
+                    <svg width="120" height="60">
+                        <polygon points="20,10 100,10 110,50 10,50" fill="#8b5cf6" stroke="#7c3aed" stroke-width="2"/>
+                        <text x="60" y="35" text-anchor="middle" fill="white" font-size="12" font-weight="bold">User Input</text>
+                    </svg>
+                </div>
+                <h3 class="font-bold mb-2">Input / Output</h3>
+                <p class="text-sm" style="color: #6b7280;">Parallelogram · User enters data</p>
+            </div>
+
+            <!-- Error -->
+            <div class="symbol p-6 rounded-lg border" style="border-color: var(--border-color); background-color: #f9fafb;">
+                <div class="flex items-center justify-center mb-4">
+                    <svg width="120" height="60">
+                        <rect x="10" y="10" width="100" height="40" fill="#ef4444" stroke="#dc2626" stroke-width="2"/>
+                        <text x="60" y="35" text-anchor="middle" fill="white" font-size="12" font-weight="bold">Error State</text>
+                    </svg>
+                </div>
+                <h3 class="font-bold mb-2">Error State</h3>
+                <p class="text-sm" style="color: #6b7280;">Red rectangle · Problems, failures</p>
+            </div>
+        </div>
+
+        <!-- Example Flow -->
+        <div class="mt-12 p-8 rounded-lg border" style="border-color: var(--border-color); background-color: white;">
+            <h3 class="text-xl font-bold mb-6 text-center">Example: Study Room Booking Flow</h3>
+            <div class="flex justify-center">
+                <svg width="600" height="500">
+                    <defs>
+                        <marker id="arrow" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+                            <polygon points="0 0, 10 3, 0 6" fill="#6b7280"/>
+                        </marker>
+                    </defs>
+                    
+                    <!-- Start -->
+                    <ellipse cx="300" cy="30" rx="60" ry="25" fill="#10b981" stroke="#065f46" stroke-width="2"/>
+                    <text x="300" y="37" text-anchor="middle" fill="white" font-weight="bold">START</text>
+                    <line x1="300" y1="55" x2="300" y2="90" stroke="#6b7280" stroke-width="2" marker-end="url(#arrow)"/>
+                    
+                    <!-- Process 1 -->
+                    <rect x="220" y="90" width="160" height="50" fill="#3b82f6" stroke="#1e40af" stroke-width="2"/>
+                    <text x="300" y="120" text-anchor="middle" fill="white" font-size="14">Open App Home</text>
+                    <line x1="300" y1="140" x2="300" y2="175" stroke="#6b7280" stroke-width="2" marker-end="url(#arrow)"/>
+                    
+                    <!-- Decision -->
+                    <polygon points="300,175 380,215 300,255 220,215" fill="#f59e0b" stroke="#d97706" stroke-width="2"/>
+                    <text x="300" y="220" text-anchor="middle" fill="white" font-size="13" font-weight="bold">Room Available?</text>
+                    
+                    <!-- Yes path -->
+                    <line x1="380" y1="215" x2="450" y2="215" stroke="#6b7280" stroke-width="2" marker-end="url(#arrow)"/>
+                    <text x="410" y="210" text-anchor="middle" fill="#10b981" font-size="12" font-weight="bold">YES</text>
+                    <rect x="450" y="190" width="120" height="50" fill="#3b82f6" stroke="#1e40af" stroke-width="2"/>
+                    <text x="510" y="220" text-anchor="middle" fill="white" font-size="13">Book Room</text>
+                    <line x1="510" y1="240" x2="510" y2="280" stroke="#6b7280" stroke-width="2" marker-end="url(#arrow)"/>
+                    <ellipse cx="510" cy="305" rx="60" ry="25" fill="#10b981" stroke="#065f46" stroke-width="2"/>
+                    <text x="510" y="312" text-anchor="middle" fill="white" font-weight="bold">SUCCESS</text>
+                    
+                    <!-- No path -->
+                    <line x1="220" y1="215" x2="150" y2="215" stroke="#6b7280" stroke-width="2" marker-end="url(#arrow)"/>
+                    <text x="190" y="210" text-anchor="middle" fill="#ef4444" font-size="12" font-weight="bold">NO</text>
+                    <rect x="30" y="190" width="120" height="50" fill="#ef4444" stroke="#dc2626" stroke-width="2"/>
+                    <text x="90" y="210" text-anchor="middle" fill="white" font-size="12">Show Error:</text>
+                    <text x="90" y="228" text-anchor="middle" fill="white" font-size="11">"No rooms"</text>
+                    <line x1="90" y1="240" x2="90" y2="280" stroke="#6b7280" stroke-width="2" marker-end="url(#arrow)"/>
+                    <ellipse cx="90" cy="305" rx="60" ry="25" fill="#6b7280" stroke="#374151" stroke-width="2"/>
+                    <text x="90" y="312" text-anchor="middle" fill="white" font-weight="bold">END</text>
+                </svg>
+            </div>
+        </div>
+
+        <!-- Tips -->
+        <div class="mt-8 p-6 rounded-lg" style="background-color: #fef3c7;">
+            <h3 class="font-bold mb-3" style="color: #92400e;">💡 Tips for Great Flow Diagrams</h3>
+            <ul class="text-sm space-y-2" style="color: #78350f;">
+                <li><strong>1.</strong> Always start with a clear START node</li>
+                <li><strong>2.</strong> Use decision diamonds for any user choice</li>
+                <li><strong>3.</strong> Show error paths - what happens when things go wrong?</li>
+                <li><strong>4.</strong> Label all arrows ("Yes", "No", "Success", "Error")</li>
+                <li><strong>5.</strong> Keep it readable - don't cross lines unnecessarily</li>
+                <li><strong>6.</strong> Include all major screens - 6-10 is typical</li>
+                <li><strong>7.</strong> End with clear exit points (success/failure)</li>
+            </ul>
+        </div>
+    </main>
+
+    <script>
+        let isDarkMode = false, fontSize = 1;
+        document.getElementById('darkModeToggle').addEventListener('click', () => {
+            isDarkMode = !isDarkMode;
+            document.body.classList.toggle('dark-mode');
+            document.getElementById('modeIcon').textContent = isDarkMode ? '☀️' : '🌙';
+        });
+        document.getElementById('increaseFont').addEventListener('click', () => {
+            if (fontSize < 1.5) { fontSize += 0.1; document.documentElement.style.setProperty('--font-size', fontSize); }
+        });
+        document.getElementById('decreaseFont').addEventListener('click', () => {
+            if (fontSize > 0.7) { fontSize -= 0.1; document.documentElement.style.setProperty('--font-size', fontSize); }
+        });
+    </script>
+</body>
+</html>

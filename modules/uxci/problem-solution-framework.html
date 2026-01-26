@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Problem-Solution Framework - UXCI</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <style>
+        :root {
+            --bg-primary: #ffffff;
+            --bg-secondary: #f9fafb;
+            --text-primary: #111827;
+            --text-secondary: #4b5563;
+            --border-color: #e5e7eb;
+            --accent-color: #8b5cf6;
+            --font-size: 1;
+        }
+        .dark-mode {
+            --bg-primary: #1f2937;
+            --bg-secondary: #111827;
+            --text-primary: #f9fafb;
+            --text-secondary: #9ca3af;
+            --border-color: #374151;
+            --accent-color: #a78bfa;
+        }
+        html { font-size: calc(var(--font-size) * 16px); }
+        body { background-color: var(--bg-primary); color: var(--text-primary); }
+        @media print { .no-print { display: none; } }
+    </style>
+</head>
+<body class="min-h-screen">
+    <header class="border-b p-4 no-print" style="border-color: var(--border-color);">
+        <div class="max-w-7xl mx-auto flex justify-between items-center flex-wrap gap-4">
+            <div>
+                <h1 class="text-2xl font-bold">💡 Problem-Solution Framework</h1>
+                <p class="text-sm" style="color: var(--text-secondary);">Map problems to design solutions with evidence (Section 3 helper)</p>
+            </div>
+            <div class="flex gap-2">
+                <button id="decreaseFont" class="px-3 py-2 rounded border" style="border-color: var(--border-color);">A-</button>
+                <button id="increaseFont" class="px-3 py-2 rounded border" style="border-color: var(--border-color);">A+</button>
+                <button id="darkModeToggle" class="px-4 py-2 rounded border" style="border-color: var(--border-color);"><span id="modeIcon">🌙</span></button>
+                <button onclick="window.location.href='index.html'" class="px-4 py-2 rounded border" style="border-color: var(--border-color);">← Back</button>
+            </div>
+        </div>
+    </header>
+
+    <main class="max-w-6xl mx-auto p-8">
+        <!-- Instructions -->
+        <div class="mb-8 p-6 rounded-lg border no-print" style="border-color: var(--accent-color); background-color: #faf5ff;">
+            <h2 class="font-bold mb-2">📋 How to Use This Tool</h2>
+            <p class="text-sm mb-3">This tool helps you structure Section 3 of your slide deck (Problem Analysis + Solution Evaluation).</p>
+            <div class="text-sm space-y-1">
+                <p>• <strong>Problem Analysis:</strong> 200-250 words with evidence</p>
+                <p>• <strong>Solution Evaluation:</strong> 200-250 words showing how your design solves each problem</p>
+                <p>• Word counts update in real-time</p>
+            </div>
+        </div>
+
+        <!-- Actions -->
+        <div class="mb-8 flex gap-3 no-print">
+            <button onclick="exportToPNG()" class="px-6 py-3 rounded text-white" style="background-color: #10b981;">📥 Export PNG</button>
+            <button onclick="copyToClipboard()" class="px-6 py-3 rounded border" style="border-color: var(--border-color);">📋 Copy Text</button>
+        </div>
+
+        <!-- Framework -->
+        <div id="framework" class="space-y-8 p-8 rounded-lg border" style="border-color: var(--border-color); background-color: white;">
+            <div class="text-center mb-8">
+                <h2 class="text-3xl font-bold mb-2">Problem → Solution Framework</h2>
+                <input type="text" id="projectName" class="text-xl text-center border-0 w-full" style="color: var(--text-secondary);" placeholder="Project Name" oninput="save()">
+            </div>
+
+            <!-- Problem Analysis -->
+            <div class="p-6 rounded-lg" style="background-color: #fee2e2; border: 3px solid #ef4444;">
+                <div class="flex justify-between items-center mb-4">
+                    <h3 class="text-2xl font-bold" style="color: #991b1b;">🔴 Problem Analysis</h3>
+                    <span class="px-3 py-1 rounded text-sm font-bold" style="background-color: white; color: #991b1b;" id="problemCount">0 words</span>
+                </div>
+                <p class="text-sm mb-4" style="color: #991b1b;">Target: 200-250 words • What problems existed? Evidence? Why they matter?</p>
+                
+                <div class="space-y-4">
+                    <div>
+                        <label class="block font-bold mb-2" style="color: #7f1d1d;">Problem 1</label>
+                        <textarea id="problem1" rows="3" class="w-full p-3 rounded border" style="border-color: #991b1b;" placeholder="Describe the first problem..." oninput="updateCounts()"></textarea>
+                    </div>
+                    <div>
+                        <label class="block font-bold mb-2" style="color: #7f1d1d;">Evidence for Problem 1</label>
+                        <textarea id="evidence1" rows="2" class="w-full p-3 rounded border" style="border-color: #991b1b;" placeholder="User quotes, data, observations..." oninput="updateCounts()"></textarea>
+                    </div>
+                    <div>
+                        <label class="block font-bold mb-2" style="color: #7f1d1d;">Impact (Why it matters)</label>
+                        <textarea id="impact1" rows="2" class="w-full p-3 rounded border" style="border-color: #991b1b;" placeholder="How does this affect users?" oninput="updateCounts()"></textarea>
+                    </div>
+                    
+                    <div class="border-t-2 pt-4" style="border-color: #991b1b;">
+                        <label class="block font-bold mb-2" style="color: #7f1d1d;">Problem 2 (Optional)</label>
+                        <textarea id="problem2" rows="3" class="w-full p-3 rounded border" style="border-color: #991b1b;" placeholder="Second problem..." oninput="updateCounts()"></textarea>
+                    </div>
+                    <div>
+                        <label class="block font-bold mb-2" style="color: #7f1d1d;">Evidence for Problem 2</label>
+                        <textarea id="evidence2" rows="2" class="w-full p-3 rounded border" style="border-color: #991b1b;" placeholder="Evidence..." oninput="updateCounts()"></textarea>
+                    </div>
+
+                    <div class="border-t-2 pt-4" style="border-color: #991b1b;">
+                        <label class="block font-bold mb-2" style="color: #7f1d1d;">Problem 3 (Optional)</label>
+                        <textarea id="problem3" rows="3" class="w-full p-3 rounded border" style="border-color: #991b1b;" placeholder="Third problem..." oninput="updateCounts()"></textarea>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Arrow Connector -->
+            <div class="text-center text-6xl" style="color: var(--accent-color);">↓</div>
+
+            <!-- Solution Evaluation -->
+            <div class="p-6 rounded-lg" style="background-color: #dcfce7; border: 3px solid #22c55e;">
+                <div class="flex justify-between items-center mb-4">
+                    <h3 class="text-2xl font-bold" style="color: #166534;">✅ Solution Evaluation</h3>
+                    <span class="px-3 py-1 rounded text-sm font-bold" style="background-color: white; color: #166534;" id="solutionCount">0 words</span>
+                </div>
+                <p class="text-sm mb-4" style="color: #166534;">Target: 200-250 words • How your design solves each problem + expected improvements</p>
+                
+                <div class="space-y-4">
+                    <div>
+                        <label class="block font-bold mb-2" style="color: #065f46;">Solution to Problem 1</label>
+                        <textarea id="solution1" rows="3" class="w-full p-3 rounded border" style="border-color: #22c55e;" placeholder="How does your design solve Problem 1?" oninput="updateCounts()"></textarea>
+                    </div>
+                    <div>
+                        <label class="block font-bold mb-2" style="color: #065f46;">Expected Improvement</label>
+                        <textarea id="improvement1" rows="2" class="w-full p-3 rounded border" style="border-color: #22c55e;" placeholder="Quantify the improvement (e.g., reduce time from X to Y)" oninput="updateCounts()"></textarea>
+                    </div>
+                    
+                    <div class="border-t-2 pt-4" style="border-color: #22c55e;">
+                        <label class="block font-bold mb-2" style="color: #065f46;">Solution to Problem 2</label>
+                        <textarea id="solution2" rows="3" class="w-full p-3 rounded border" style="border-color: #22c55e;" placeholder="How does your design solve Problem 2?" oninput="updateCounts()"></textarea>
+                    </div>
+                    <div>
+                        <label class="block font-bold mb-2" style="color: #065f46;">Expected Improvement</label>
+                        <textarea id="improvement2" rows="2" class="w-full p-3 rounded border" style="border-color: #22c55e;" placeholder="Improvement metrics..." oninput="updateCounts()"></textarea>
+                    </div>
+
+                    <div class="border-t-2 pt-4" style="border-color: #22c55e;">
+                        <label class="block font-bold mb-2" style="color: #065f46;">Solution to Problem 3</label>
+                        <textarea id="solution3" rows="3" class="w-full p-3 rounded border" style="border-color: #22c55e;" placeholder="How does your design solve Problem 3?" oninput="updateCounts()"></textarea>
+                    </div>
+
+                    <div class="border-t-2 pt-4" style="border-color: #22c55e;">
+                        <label class="block font-bold mb-2" style="color: #065f46;">Success Metrics</label>
+                        <textarea id="metrics" rows="2" class="w-full p-3 rounded border" style="border-color: #22c55e;" placeholder="How would you measure success?" oninput="updateCounts()"></textarea>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Summary -->
+            <div class="p-6 rounded-lg" style="background-color: var(--bg-secondary); border: 2px solid var(--accent-color);">
+                <h3 class="font-bold mb-3">📊 Word Count Summary</h3>
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <div class="text-sm" style="color: var(--text-secondary);">Problem Analysis</div>
+                        <div class="text-2xl font-bold" id="problemWords" style="color: #ef4444;">0</div>
+                        <div class="text-xs" style="color: var(--text-secondary);">Target: 200-250 words</div>
+                    </div>
+                    <div>
+                        <div class="text-sm" style="color: var(--text-secondary);">Solution Evaluation</div>
+                        <div class="text-2xl font-bold" id="solutionWords" style="color: #22c55e;">0</div>
+                        <div class="text-xs" style="color: var(--text-secondary);">Target: 200-250 words</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        function countWords(text) {
+            return text.trim() ? text.trim().split(/\s+/).length : 0;
+        }
+
+        function updateCounts() {
+            const problemFields = ['problem1', 'evidence1', 'impact1', 'problem2', 'evidence2', 'problem3'];
+            const solutionFields = ['solution1', 'improvement1', 'solution2', 'improvement2', 'solution3', 'metrics'];
+            
+            let problemWords = 0;
+            problemFields.forEach(id => problemWords += countWords(document.getElementById(id).value));
+            
+            let solutionWords = 0;
+            solutionFields.forEach(id => solutionWords += countWords(document.getElementById(id).value));
+            
+            document.getElementById('problemCount').textContent = `${problemWords} words`;
+            document.getElementById('solutionCount').textContent = `${solutionWords} words`;
+            document.getElementById('problemWords').textContent = problemWords;
+            document.getElementById('solutionWords').textContent = solutionWords;
+            
+            // Color coding
+            const problemEl = document.getElementById('problemWords');
+            const solutionEl = document.getElementById('solutionWords');
+            problemEl.style.color = (problemWords >= 200 && problemWords <= 250) ? '#22c55e' : '#ef4444';
+            solutionEl.style.color = (solutionWords >= 200 && solutionWords <= 250) ? '#22c55e' : '#ef4444';
+            
+            save();
+        }
+
+        function save() {
+            const data = {};
+            ['projectName', 'problem1', 'evidence1', 'impact1', 'problem2', 'evidence2', 'problem3',
+             'solution1', 'improvement1', 'solution2', 'improvement2', 'solution3', 'metrics'].forEach(id => {
+                data[id] = document.getElementById(id).value;
+            });
+            localStorage.setItem('uxci_problemSolution', JSON.stringify(data));
+        }
+
+        async function exportToPNG() {
+            const framework = document.getElementById('framework');
+            try {
+                const canvas = await html2canvas(framework, { backgroundColor: '#ffffff', scale: 2 });
+                canvas.toBlob(blob => {
+                    const url = URL.createObjectURL(blob);
+                    const link = document.createElement('a');
+                    link.download = `problem_solution_${new Date().toISOString().slice(0,10)}.png`;
+                    link.href = url;
+                    link.click();
+                    URL.revokeObjectURL(url);
+                });
+            } catch (error) {
+                alert('Export error');
+            }
+        }
+
+        function copyToClipboard() {
+            const fields = ['problem1', 'evidence1', 'impact1', 'problem2', 'evidence2', 'problem3',
+                           'solution1', 'improvement1', 'solution2', 'improvement2', 'solution3', 'metrics'];
+            const text = fields.map(id => document.getElementById(id).value).filter(v => v).join('\n\n');
+            navigator.clipboard.writeText(text).then(() => alert('Copied to clipboard!'));
+        }
+
+        // Load saved
+        window.addEventListener('DOMContentLoaded', () => {
+            const saved = localStorage.getItem('uxci_problemSolution');
+            if (saved) {
+                const data = JSON.parse(saved);
+                Object.keys(data).forEach(key => {
+                    const el = document.getElementById(key);
+                    if (el) el.value = data[key];
+                });
+                updateCounts();
+            }
+        });
+
+        // Dark mode & font size
+        let isDarkMode = false, fontSize = 1;
+        document.getElementById('darkModeToggle').addEventListener('click', () => {
+            isDarkMode = !isDarkMode;
+            document.body.classList.toggle('dark-mode');
+            document.getElementById('modeIcon').textContent = isDarkMode ? '☀️' : '🌙';
+        });
+        document.getElementById('increaseFont').addEventListener('click', () => {
+            if (fontSize < 1.5) { fontSize += 0.1; document.documentElement.style.setProperty('--font-size', fontSize); }
+        });
+        document.getElementById('decreaseFont').addEventListener('click', () => {
+            if (fontSize > 0.7) { fontSize -= 0.1; document.documentElement.style.setProperty('--font-size', fontSize); }
+        });
+    </script>
+</body>
+</html>

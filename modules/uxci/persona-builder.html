@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Persona Builder - UXCI</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <style>
         :root {
             --bg-primary: #ffffff;
@@ -69,7 +70,7 @@
                 <button id="darkModeToggle" class="px-4 py-2 rounded border" style="border-color: var(--border-color);" aria-label="Toggle dark mode">
                     <span id="modeIcon">🌙</span>
                 </button>
-                <button onclick="window.location.href='uxci_index_page.html'" class="px-4 py-2 rounded border" style="border-color: var(--border-color);">
+                <button onclick="window.location.href='index.html'" class="px-4 py-2 rounded border" style="border-color: var(--border-color);">
                     ← Back
                 </button>
             </div>
@@ -163,8 +164,11 @@ Example:
                         <button onclick="clearForm()" class="px-4 py-2 rounded border" style="border-color: var(--border-color);">
                             Clear
                         </button>
+                        <button onclick="exportToPNG()" class="px-4 py-2 rounded text-white flex-1" style="background-color: #10b981;">
+                            📥 Export as PNG
+                        </button>
                         <button onclick="window.print()" class="px-4 py-2 rounded text-white flex-1" style="background-color: var(--accent-color);">
-                            🖨️ Print/Save as PDF
+                            🖨️ Print/PDF
                         </button>
                     </div>
                 </div>
@@ -261,6 +265,37 @@ Example:
                     }
                 });
                 updatePreview();
+            }
+        }
+
+        // Export to PNG function
+        async function exportToPNG() {
+            const personaCard = document.querySelector('.persona-preview');
+            const personaName = document.getElementById('name').value || 'persona';
+            
+            try {
+                // Create canvas from persona card
+                const canvas = await html2canvas(personaCard, {
+                    backgroundColor: '#ffffff',
+                    scale: 2, // Higher quality
+                    logging: false,
+                    useCORS: true
+                });
+                
+                // Convert to blob and download
+                canvas.toBlob(function(blob) {
+                    const url = URL.createObjectURL(blob);
+                    const link = document.createElement('a');
+                    const timestamp = new Date().toISOString().slice(0,10);
+                    link.download = `${personaName.replace(/\s+/g, '_')}_persona_${timestamp}.png`;
+                    link.href = url;
+                    link.click();
+                    URL.revokeObjectURL(url);
+                }, 'image/png');
+                
+            } catch (error) {
+                console.error('Error exporting PNG:', error);
+                alert('Error exporting PNG. Please try again.');
             }
         }
 

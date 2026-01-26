@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Usability Test Script Generator - UXCI</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <style>
+        :root {
+            --bg-primary: #ffffff;
+            --bg-secondary: #f9fafb;
+            --text-primary: #111827;
+            --text-secondary: #4b5563;
+            --border-color: #e5e7eb;
+            --accent-color: #8b5cf6;
+            --font-size: 1;
+        }
+        .dark-mode {
+            --bg-primary: #1f2937;
+            --bg-secondary: #111827;
+            --text-primary: #f9fafb;
+            --text-secondary: #9ca3af;
+            --border-color: #374151;
+            --accent-color: #a78bfa;
+        }
+        html { font-size: calc(var(--font-size) * 16px); }
+        body { background-color: var(--bg-primary); color: var(--text-primary); }
+        @media print { .no-print { display: none; } }
+    </style>
+</head>
+<body class="min-h-screen">
+    <header class="border-b p-4 no-print" style="border-color: var(--border-color);">
+        <div class="max-w-7xl mx-auto flex justify-between items-center flex-wrap gap-4">
+            <div>
+                <h1 class="text-2xl font-bold">🧪 Usability Test Script Generator</h1>
+                <p class="text-sm" style="color: var(--text-secondary);">Create structured test scripts with tasks and scenarios</p>
+            </div>
+            <div class="flex gap-2">
+                <button id="decreaseFont" class="px-3 py-2 rounded border" style="border-color: var(--border-color);">A-</button>
+                <button id="increaseFont" class="px-3 py-2 rounded border" style="border-color: var(--border-color);">A+</button>
+                <button id="darkModeToggle" class="px-4 py-2 rounded border" style="border-color: var(--border-color);"><span id="modeIcon">🌙</span></button>
+                <button onclick="window.location.href='index.html'" class="px-4 py-2 rounded border" style="border-color: var(--border-color);">← Back</button>
+            </div>
+        </div>
+    </header>
+
+    <main class="max-w-5xl mx-auto p-8">
+        <!-- Actions -->
+        <div class="mb-8 flex gap-3 no-print">
+            <button onclick="addTask()" class="px-6 py-3 rounded text-white" style="background-color: var(--accent-color);">+ Add Task</button>
+            <button onclick="exportToPNG()" class="px-6 py-3 rounded border" style="border-color: var(--border-color);">📥 Export PNG</button>
+            <button onclick="window.print()" class="px-6 py-3 rounded border" style="border-color: var(--border-color);">🖨️ Print</button>
+        </div>
+
+        <!-- Test Script -->
+        <div id="testScript" class="p-8 rounded-lg border" style="border-color: var(--border-color); background-color: white;">
+            <!-- Header -->
+            <div class="mb-8">
+                <h2 class="text-3xl font-bold mb-6 text-center">Usability Test Script</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-sm font-bold mb-1">Project Name</label>
+                        <input type="text" id="projectName" class="w-full p-2 rounded border" style="border-color: var(--border-color);" placeholder="e.g., Study Room Booking App" oninput="save()">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-bold mb-1">Test Date</label>
+                        <input type="date" id="testDate" class="w-full p-2 rounded border" style="border-color: var(--border-color);" oninput="save()">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Introduction Script -->
+            <div class="mb-8 p-6 rounded-lg" style="background-color: #dbeafe; border: 2px solid #3b82f6;">
+                <h3 class="text-xl font-bold mb-3" style="color: #1e40af;">📢 Introduction Script</h3>
+                <textarea id="intro" rows="6" class="w-full p-3 rounded border-0" style="background-color: white;" oninput="save()">Thank you for participating in this usability test. Today we're testing [PROJECT NAME], and we want to understand how easy it is to use.
+
+Please remember:
+• There are no right or wrong answers
+• We're testing the design, not you
+• Think aloud as you work - tell us what you're thinking
+• Ask questions if anything is unclear
+• You can stop at any time
+
+Do you have any questions before we begin?</textarea>
+            </div>
+
+            <!-- Tasks -->
+            <div class="mb-8">
+                <h3 class="text-xl font-bold mb-4">Test Tasks</h3>
+                <div id="tasksList" class="space-y-6">
+                    <!-- Populated by JavaScript -->
+                </div>
+            </div>
+
+            <!-- Closing Script -->
+            <div class="p-6 rounded-lg" style="background-color: #dcfce7; border: 2px solid #22c55e;">
+                <h3 class="text-xl font-bold mb-3" style="color: #166534;">✅ Closing Script</h3>
+                <textarea id="closing" rows="4" class="w-full p-3 rounded border-0" style="background-color: white;" oninput="save()">Thank you for completing these tasks! 
+
+Before we finish:
+• What did you like most about the design?
+• What was most frustrating or confusing?
+• Any other feedback or suggestions?
+
+Thank you for your time and valuable feedback!</textarea>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        let tasks = [];
+        let taskCounter = 0;
+
+        function initializeTasks() {
+            // Add one default task
+            if (tasks.length === 0) {
+                addTask();
+            }
+        }
+
+        function addTask() {
+            const taskId = taskCounter++;
+            tasks.push({
+                id: taskId,
+                scenario: '',
+                task: '',
+                success: '',
+                notes: ''
+            });
+            renderTasks();
+        }
+
+        function removeTask(id) {
+            if (tasks.length <= 1) {
+                alert('You need at least one task!');
+                return;
+            }
+            tasks = tasks.filter(t => t.id !== id);
+            renderTasks();
+        }
+
+        function updateTask(id, field, value) {
+            const task = tasks.find(t => t.id === id);
+            if (task) {
+                task[field] = value;
+                save();
+            }
+        }
+
+        function renderTasks() {
+            const container = document.getElementById('tasksList');
+            container.innerHTML = tasks.map((task, index) => `
+                <div class="p-6 rounded-lg border" style="border-color: var(--border-color); background-color: var(--bg-secondary);">
+                    <div class="flex justify-between items-center mb-4">
+                        <h4 class="text-lg font-bold" style="color: var(--accent-color);">Task ${index + 1}</h4>
+                        <button onclick="removeTask(${task.id})" class="px-3 py-1 text-sm rounded border no-print" style="border-color: var(--border-color); color: #ef4444;">Remove</button>
+                    </div>
+                    
+                    <div class="space-y-3">
+                        <div>
+                            <label class="block text-sm font-bold mb-1">Scenario / Context</label>
+                            <textarea rows="2" class="w-full p-2 rounded border text-sm" style="border-color: var(--border-color);" 
+                                placeholder="Provide context: 'Imagine you're a student trying to...'"
+                                oninput="updateTask(${task.id}, 'scenario', this.value)">${task.scenario}</textarea>
+                        </div>
+                        
+                        <div>
+                            <label class="block text-sm font-bold mb-1">Task Description</label>
+                            <textarea rows="2" class="w-full p-2 rounded border text-sm" style="border-color: var(--border-color);" 
+                                placeholder="What should they do? 'Book a study room for tomorrow at 2pm'"
+                                oninput="updateTask(${task.id}, 'task', this.value)">${task.task}</textarea>
+                        </div>
+                        
+                        <div>
+                            <label class="block text-sm font-bold mb-1">Success Criteria</label>
+                            <input type="text" class="w-full p-2 rounded border text-sm" style="border-color: var(--border-color);" 
+                                placeholder="How do you know they succeeded?"
+                                oninput="updateTask(${task.id}, 'success', this.value)" value="${task.success}">
+                        </div>
+                        
+                        <div>
+                            <label class="block text-sm font-bold mb-1">Observation Notes (during test)</label>
+                            <textarea rows="3" class="w-full p-2 rounded border text-sm" style="border-color: var(--border-color); background-color: #fef3c7;" 
+                                placeholder="Take notes during the test: time taken, struggles, comments..."
+                                oninput="updateTask(${task.id}, 'notes', this.value)">${task.notes}</textarea>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function save() {
+            const data = {
+                projectName: document.getElementById('projectName').value,
+                testDate: document.getElementById('testDate').value,
+                intro: document.getElementById('intro').value,
+                closing: document.getElementById('closing').value,
+                tasks
+            };
+            localStorage.setItem('uxci_testScript', JSON.stringify(data));
+        }
+
+        async function exportToPNG() {
+            const script = document.getElementById('testScript');
+            try {
+                const canvas = await html2canvas(script, { backgroundColor: '#ffffff', scale: 2 });
+                canvas.toBlob(blob => {
+                    const url = URL.createObjectURL(blob);
+                    const link = document.createElement('a');
+                    link.download = `usability_test_script_${new Date().toISOString().slice(0,10)}.png`;
+                    link.href = url;
+                    link.click();
+                    URL.revokeObjectURL(url);
+                });
+            } catch (error) {
+                alert('Export error');
+            }
+        }
+
+        // Load saved
+        window.addEventListener('DOMContentLoaded', () => {
+            const saved = localStorage.getItem('uxci_testScript');
+            if (saved) {
+                const data = JSON.parse(saved);
+                document.getElementById('projectName').value = data.projectName || '';
+                document.getElementById('testDate').value = data.testDate || '';
+                document.getElementById('intro').value = data.intro;
+                document.getElementById('closing').value = data.closing;
+                tasks = data.tasks || [];
+                taskCounter = tasks.length;
+                renderTasks();
+            } else {
+                initializeTasks();
+            }
+        });
+
+        // Dark mode & font
+        let isDarkMode = false, fontSize = 1;
+        document.getElementById('darkModeToggle').addEventListener('click', () => {
+            isDarkMode = !isDarkMode;
+            document.body.classList.toggle('dark-mode');
+            document.getElementById('modeIcon').textContent = isDarkMode ? '☀️' : '🌙';
+        });
+        document.getElementById('increaseFont').addEventListener('click', () => {
+            if (fontSize < 1.5) { fontSize += 0.1; document.documentElement.style.setProperty('--font-size', fontSize); }
+        });
+        document.getElementById('decreaseFont').addEventListener('click', () => {
+            if (fontSize > 0.7) { fontSize -= 0.1; document.documentElement.style.setProperty('--font-size', fontSize); }
+        });
+    </script>
+</body>
+</html>

@@ -70,7 +70,7 @@
         <div class="max-w-7xl mx-auto flex justify-between items-center flex-wrap gap-4">
             <div>
                 <h1 class="text-2xl font-bold">📚 UX Artifacts Library</h1>
-                <p class="text-sm" style="color: var(--text-secondary);">Comprehensive guide to choosing the right artifacts for your assessment</p>
+                <p class="text-sm" style="color: var(--text-secondary);">Comprehensive guide to 60+ UX artifacts, interactive tools, and design platforms with education access</p>
             </div>
             <div class="flex gap-2">
                 <button id="decreaseFont" class="px-3 py-2 rounded border" style="border-color: var(--border-color);" aria-label="Decrease font size">A-</button>
@@ -78,7 +78,7 @@
                 <button id="darkModeToggle" class="px-4 py-2 rounded border" style="border-color: var(--border-color);" aria-label="Toggle dark mode">
                     <span id="modeIcon">🌙</span>
                 </button>
-                <button onclick="window.location.href='uxci_index_page.html'" class="px-4 py-2 rounded border" style="border-color: var(--border-color);">
+                <button onclick="window.location.href='index.html'" class="px-4 py-2 rounded border" style="border-color: var(--border-color);">
                     ← Back
                 </button>
             </div>
@@ -87,12 +87,15 @@
 
     <main class="max-w-7xl mx-auto p-8">
         <!-- Tab Navigation -->
-        <div class="mb-8 flex gap-2 border-b" style="border-color: var(--border-color);">
+        <div class="mb-8 flex gap-2 border-b flex-wrap" style="border-color: var(--border-color);">
             <button onclick="showTab('selector')" id="tab-selector" class="tab-button active px-6 py-3 font-semibold">
                 🎯 Artifact Selector
             </button>
             <button onclick="showTab('library')" id="tab-library" class="tab-button px-6 py-3 font-semibold" style="color: var(--text-secondary);">
                 📖 Browse All Artifacts
+            </button>
+            <button onclick="showTab('tools')" id="tab-tools" class="tab-button px-6 py-3 font-semibold" style="color: var(--text-secondary);">
+                🛠️ UX Design Tools
             </button>
         </div>
 
@@ -224,6 +227,187 @@
 
             <!-- Artifacts Grid -->
             <div id="artifactsGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4"></div>
+        </div>
+
+        <!-- TOOLS TAB -->
+        <div id="tools-tab" class="hidden">
+            <div class="mb-8 p-6 rounded-lg border" style="border-color: var(--accent-color); background-color: #faf5ff;">
+                <h2 class="text-2xl font-bold mb-4">🛠️ UX Design Tools for Students</h2>
+                <p class="mb-4">Comprehensive overview of design, prototyping, and research platforms with education pricing information.</p>
+                <p class="text-sm" style="color: var(--text-secondary);">💡 <strong>Pro Tip:</strong> Most tools offer free education plans. Apply with your student email to unlock professional features at no cost!</p>
+            </div>
+
+            <!-- Tools Comparison Table -->
+            <div class="overflow-x-auto mb-8">
+                <table class="w-full border-collapse">
+                    <thead>
+                        <tr style="background-color: #0891b2; color: white;">
+                            <th class="p-4 text-left font-bold">Tool</th>
+                            <th class="p-4 text-left font-bold">Description</th>
+                            <th class="p-4 text-center font-bold">Free Plan</th>
+                            <th class="p-4 text-left font-bold">Education Access</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="border-b" style="border-color: var(--border-color);">
+                            <td class="p-4 font-bold">Figma</td>
+                            <td class="p-4 text-sm">Industry-leading collaborative design and prototyping platform for UI/UX design, component systems, and design tokens with real-time team collaboration.</td>
+                            <td class="p-4 text-center"><span class="text-green-600 font-bold">✓</span></td>
+                            <td class="p-4 text-sm">
+                                <span class="text-green-600 font-bold">✓ Free Professional</span><br>
+                                <a href="https://www.figma.com/education/higher-education/" target="_blank" class="text-blue-600 underline text-xs">figma.com/education</a>
+                            </td>
+                        </tr>
+                        <tr class="border-b" style="border-color: var(--border-color); background-color: var(--bg-secondary);">
+                            <td class="p-4 font-bold">Sketch</td>
+                            <td class="p-4 text-sm">Mac-native design platform for UI/UX design, prototyping, and component libraries with strong design system capabilities.</td>
+                            <td class="p-4 text-center"><span class="text-red-600 font-bold">✗</span></td>
+                            <td class="p-4 text-sm">
+                                <span class="text-green-600 font-bold">✓ Free for 1 year</span><br>
+                                <a href="https://www.sketch.com/education/" target="_blank" class="text-blue-600 underline text-xs">sketch.com/education</a>
+                            </td>
+                        </tr>
+                        <tr class="border-b" style="border-color: var(--border-color);">
+                            <td class="p-4 font-bold">Miro</td>
+                            <td class="p-4 text-sm">Digital whiteboard and collaboration tool for brainstorming, journey mapping, service blueprinting, and collaborative workshops.</td>
+                            <td class="p-4 text-center"><span class="text-green-600 font-bold">✓</span></td>
+                            <td class="p-4 text-sm">
+                                <span class="text-green-600 font-bold">✓ Unlimited boards</span><br>
+                                <a href="https://miro.com/education" target="_blank" class="text-blue-600 underline text-xs">miro.com/education</a>
+                            </td>
+                        </tr>
+                        <tr class="border-b" style="border-color: var(--border-color); background-color: var(--bg-secondary);">
+                            <td class="p-4 font-bold">Adobe Creative Cloud</td>
+                            <td class="p-4 text-sm">Comprehensive suite including Photoshop, Illustrator, XD, InDesign, Premiere Pro, and 20+ applications for design and media production.</td>
+                            <td class="p-4 text-center"><span class="text-red-600 font-bold">✗</span></td>
+                            <td class="p-4 text-sm">
+                                <span class="text-yellow-600 font-bold">$29.99/mo (57% off)</span><br>
+                                <a href="https://www.adobe.com/creativecloud/buy/education.html" target="_blank" class="text-blue-600 underline text-xs">adobe.com/education</a>
+                            </td>
+                        </tr>
+                        <tr class="border-b" style="border-color: var(--border-color);">
+                            <td class="p-4 font-bold">Framer</td>
+                            <td class="p-4 text-sm">Next-generation design canvas for interactive web design and prototyping with AI-powered layout tools and CMS capabilities.</td>
+                            <td class="p-4 text-center"><span class="text-green-600 font-bold">✓</span></td>
+                            <td class="p-4 text-sm">
+                                <span class="text-green-600 font-bold">✓ Free Basic ($120 value)</span><br>
+                                <a href="https://www.framer.com/education/students/" target="_blank" class="text-blue-600 underline text-xs">framer.com/education</a>
+                            </td>
+                        </tr>
+                        <tr class="border-b" style="border-color: var(--border-color); background-color: var(--bg-secondary);">
+                            <td class="p-4 font-bold">Webflow</td>
+                            <td class="p-4 text-sm">Web design and development platform for building responsive websites, applications, and e-commerce sites without coding.</td>
+                            <td class="p-4 text-center"><span class="text-green-600 font-bold">✓</span></td>
+                            <td class="p-4 text-sm">
+                                <span class="text-green-600 font-bold">✓ Free CMS annually</span><br>
+                                <a href="https://webflow.com/solutions/classroom" target="_blank" class="text-blue-600 underline text-xs">webflow.com/classroom</a>
+                            </td>
+                        </tr>
+                        <tr class="border-b" style="border-color: var(--border-color);">
+                            <td class="p-4 font-bold">InVision Studio</td>
+                            <td class="p-4 text-sm">Collaborative design and prototyping tool for creating interactive prototypes, design systems, and design specifications.</td>
+                            <td class="p-4 text-center"><span class="text-green-600 font-bold">✓</span></td>
+                            <td class="p-4 text-sm">
+                                <span class="text-gray-600 font-bold">No special plan</span><br>
+                                <span class="text-xs">Free tier available</span>
+                            </td>
+                        </tr>
+                        <tr class="border-b" style="border-color: var(--border-color); background-color: var(--bg-secondary);">
+                            <td class="p-4 font-bold">Penpot</td>
+                            <td class="p-4 text-sm">Free, open-source design and prototyping platform with CSS Grid Layout, design tokens, and developer-friendly code export.</td>
+                            <td class="p-4 text-center"><span class="text-green-600 font-bold">✓</span></td>
+                            <td class="p-4 text-sm">
+                                <span class="text-green-600 font-bold">✓ Free open-source</span><br>
+                                <a href="https://penpot.app" target="_blank" class="text-blue-600 underline text-xs">penpot.app</a>
+                            </td>
+                        </tr>
+                        <tr class="border-b" style="border-color: var(--border-color);">
+                            <td class="p-4 font-bold">ProtoPie</td>
+                            <td class="p-4 text-sm">Interactive prototyping platform for creating sophisticated prototypes with animations, interactions, and user testing capabilities.</td>
+                            <td class="p-4 text-center"><span class="text-green-600 font-bold">✓</span></td>
+                            <td class="p-4 text-sm">
+                                <span class="text-green-600 font-bold">✓ 1-year free</span><br>
+                                <a href="https://www.protopie.io/education" target="_blank" class="text-blue-600 underline text-xs">protopie.io/education</a>
+                            </td>
+                        </tr>
+                        <tr class="border-b" style="border-color: var(--border-color); background-color: var(--bg-secondary);">
+                            <td class="p-4 font-bold">Maze</td>
+                            <td class="p-4 text-sm">User testing and research platform for rapid prototype testing, surveys, card sorting, and usability testing with analytics.</td>
+                            <td class="p-4 text-center"><span class="text-yellow-600 font-bold">⚠</span></td>
+                            <td class="p-4 text-sm">
+                                <span class="text-gray-600 font-bold">Contact for edu pricing</span><br>
+                                <a href="https://maze.co" target="_blank" class="text-blue-600 underline text-xs">maze.co</a>
+                            </td>
+                        </tr>
+                        <tr class="border-b" style="border-color: var(--border-color);">
+                            <td class="p-4 font-bold">Hotjar</td>
+                            <td class="p-4 text-sm">Analytics and feedback tool with heatmaps, session recordings, surveys, and user feedback widgets for behavior analysis.</td>
+                            <td class="p-4 text-center"><span class="text-green-600 font-bold">✓</span></td>
+                            <td class="p-4 text-sm">
+                                <span class="text-green-600 font-bold">35 sessions/day free</span><br>
+                                <a href="https://www.hotjar.com" target="_blank" class="text-blue-600 underline text-xs">hotjar.com</a>
+                            </td>
+                        </tr>
+                        <tr class="border-b" style="border-color: var(--border-color); background-color: var(--bg-secondary);">
+                            <td class="p-4 font-bold">Optimal Workshop</td>
+                            <td class="p-4 text-sm">Information architecture and usability testing suite with card sorting, tree testing, and first-click testing tools.</td>
+                            <td class="p-4 text-center"><span class="text-green-600 font-bold">✓</span></td>
+                            <td class="p-4 text-sm">
+                                <span class="text-green-600 font-bold">Free tier available</span><br>
+                                <a href="https://www.optimalworkshop.com" target="_blank" class="text-blue-600 underline text-xs">optimalworkshop.com</a>
+                            </td>
+                        </tr>
+                        <tr class="border-b" style="border-color: var(--border-color);">
+                            <td class="p-4 font-bold">UserTesting</td>
+                            <td class="p-4 text-sm">Remote user testing platform with access to diverse participant panels, video recordings, and insights dashboard.</td>
+                            <td class="p-4 text-center"><span class="text-red-600 font-bold">✗</span></td>
+                            <td class="p-4 text-sm">
+                                <span class="text-gray-600 font-bold">Contact for edu pricing</span><br>
+                                <a href="https://www.usertesting.com" target="_blank" class="text-blue-600 underline text-xs">usertesting.com</a>
+                            </td>
+                        </tr>
+                        <tr class="border-b" style="border-color: var(--border-color); background-color: var(--bg-secondary);">
+                            <td class="p-4 font-bold">Axure RP</td>
+                            <td class="p-4 text-sm">Advanced prototyping tool for complex interactions, conditional logic, dynamic content, and detailed documentation.</td>
+                            <td class="p-4 text-center"><span class="text-yellow-600 font-bold">⚠</span></td>
+                            <td class="p-4 text-sm">
+                                <span class="text-green-600 font-bold">✓ Free for students</span><br>
+                                <a href="https://www.axure.com/edu" target="_blank" class="text-blue-600 underline text-xs">axure.com/edu</a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Recommendations Section -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="p-6 rounded-lg" style="background-color: #dcfce7; border-left: 4px solid #22c55e;">
+                    <h3 class="font-bold mb-3" style="color: #166534;">✅ Essential (All Students)</h3>
+                    <ul class="space-y-2 text-sm" style="color: #166534;">
+                        <li><strong>Figma</strong> - Design & prototyping</li>
+                        <li><strong>Miro</strong> - Workshops & mapping</li>
+                        <li><strong>Hotjar</strong> - Analytics & heatmaps</li>
+                    </ul>
+                </div>
+
+                <div class="p-6 rounded-lg" style="background-color: #fef3c7; border-left: 4px solid #f59e0b;">
+                    <h3 class="font-bold mb-3" style="color: #92400e;">⚡ Recommended by Focus</h3>
+                    <ul class="space-y-2 text-sm" style="color: #92400e;">
+                        <li><strong>UX Specialists:</strong> Sketch, Maze, Optimal Workshop</li>
+                        <li><strong>Web/Interactive:</strong> Framer, Webflow</li>
+                        <li><strong>Motion/Video:</strong> Adobe CC</li>
+                    </ul>
+                </div>
+
+                <div class="p-6 rounded-lg" style="background-color: #dbeafe; border-left: 4px solid #3b82f6;">
+                    <h3 class="font-bold mb-3" style="color: #1e40af;">💡 Budget-Friendly Options</h3>
+                    <ul class="space-y-2 text-sm" style="color: #1e40af;">
+                        <li><strong>Penpot</strong> - Free & open-source forever</li>
+                        <li><strong>InVision</strong> - Free basic prototyping</li>
+                        <li><strong>Figma Free</strong> - Learn before upgrading</li>
+                    </ul>
+                </div>
+            </div>
         </div>
     </main>
 
@@ -382,7 +566,16 @@
                     tools: "Google Sheets, Miro, Figma",
                     format: "Document, Spreadsheet, Graphic",
                     links: ["https://maze.co/blog/task-analysis/", "https://www.nngroup.com/articles/task-analysis/"]
-                }
+                },
+                {
+                name: "Mental Model Diagrams",
+                description: "Visual representations of a user's thought process, beliefs, and expectations, compared against the system's navigation to uncover gaps.",
+                time: "2-3 days",
+                difficulty: "High",
+                tools: "Miro, Figma, XMind",
+                format: "Graphic, Diagram, Document",
+                links: ["https://www.nngroup.com/articles/mental-models/", "https://uxdesign.cc/how-to-create-a-mental-model-diagram-558655f29c68"]
+            }
             ],
             design: [
                 {
@@ -582,7 +775,16 @@
                     tools: "Figma, Adobe XD, Google Docs",
                     format: "Document",
                     links: ["https://dworkz.com/article/9-steps-on-how-to-write-design-specifications-that-fit-into-the-ux-design/"]
-                }
+                },
+                {
+                name: "Service Blueprints",
+                description: "Operational diagrams that map the relationships between user actions, front-stage interactions, and back-stage processes.",
+                time: "3-5 days",
+                difficulty: "High",
+                tools: "Miro, Figma, Lucidchart",
+                format: "Graphic, Diagram, Document",
+                links: ["https://www.nngroup.com/articles/service-design-101/", "https://fullclarity.co.uk/insights/service-blueprinting-vs-journey-mapping-in-ux/"]
+            }
             ],
             testing: [
                 {
@@ -710,7 +912,16 @@
                     tools: "Google Analytics, Hotjar, Excel",
                     format: "Graphic, Chart",
                     links: ["https://contentsquare.com/blog/how-a-good-ux-plays-a-role-in-conversion-funnel-optimization/"]
-                }
+                },
+                {
+                name: "Moderated Interview Scripts",
+                description: "Detailed guides for live sessions where a researcher asks questions and probes for deeper insights in real-time.",
+                time: "1-2 days",
+                difficulty: "Medium",
+                tools: "Google Docs, Notion",
+                format: "Document",
+                links: ["https://www.nngroup.com/articles/usability-test-script/", "https://maze.co/guides/usability-testing/moderated-vs-unmoderated/"]
+            }
             ],
             strategy: [
                 {
@@ -775,6 +986,15 @@
                     tools: "Zendesk, Excel, Google Docs",
                     format: "Document, Spreadsheet",
                     links: ["https://recurly.com/blog/ux-customer-support/"]
+                },    // --- ADDITIONS BASED ON AUDIT REPORT ---
+                {
+                    name: "Unmoderated Test Scripts",
+                    description: "Task-based instructions written for users to complete independently on automated testing platforms without researcher interference.",
+                    time: "1-2 days",
+                    difficulty: "Medium",
+                    tools: "Maze, UserTesting, Google Docs",
+                    format: "Document",
+                    links: ["https://maze.co/guides/usability-testing/moderated-vs-unmoderated/", "https://www.testingtime.com/en/blog/moderated-vs-unmoderated-remote-user-tests/"]
                 }
             ]
         };
@@ -783,6 +1003,7 @@
             // Hide all tabs
             document.getElementById('selector-tab').classList.add('hidden');
             document.getElementById('library-tab').classList.add('hidden');
+            document.getElementById('tools-tab').classList.add('hidden');
             
             // Remove active from all buttons
             document.querySelectorAll('.tab-button').forEach(btn => {
@@ -796,6 +1017,10 @@
                 document.getElementById('selector-tab').classList.remove('hidden');
                 document.getElementById('tab-selector').classList.add('active');
                 document.getElementById('tab-selector').style.color = 'white';
+            } else if (tab === 'tools') {
+                document.getElementById('tools-tab').classList.remove('hidden');
+                document.getElementById('tab-tools').classList.add('active');
+                document.getElementById('tab-tools').style.color = 'white';
             } else {
                 document.getElementById('library-tab').classList.remove('hidden');
                 document.getElementById('tab-library').classList.add('active');

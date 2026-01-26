@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Word Count Dashboard - UXCI</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        :root {
+            --bg-primary: #ffffff;
+            --bg-secondary: #f9fafb;
+            --text-primary: #111827;
+            --text-secondary: #4b5563;
+            --border-color: #e5e7eb;
+            --accent-color: #8b5cf6;
+            --font-size: 1;
+        }
+        .dark-mode {
+            --bg-primary: #1f2937;
+            --bg-secondary: #111827;
+            --text-primary: #f9fafb;
+            --text-secondary: #9ca3af;
+            --border-color: #374151;
+            --accent-color: #a78bfa;
+        }
+        html { font-size: calc(var(--font-size) * 16px); }
+        body { background-color: var(--bg-primary); color: var(--text-primary); }
+        .progress-bar { transition: width 0.3s ease; }
+    </style>
+</head>
+<body class="min-h-screen">
+    <header class="border-b p-4" style="border-color: var(--border-color);">
+        <div class="max-w-7xl mx-auto flex justify-between items-center flex-wrap gap-4">
+            <div>
+                <h1 class="text-2xl font-bold">📊 Word Count Dashboard</h1>
+                <p class="text-sm" style="color: var(--text-secondary);">Track your slide deck word counts (Target: 1,700-2,000 words)</p>
+            </div>
+            <div class="flex gap-2">
+                <button id="decreaseFont" class="px-3 py-2 rounded border" style="border-color: var(--border-color);">A-</button>
+                <button id="increaseFont" class="px-3 py-2 rounded border" style="border-color: var(--border-color);">A+</button>
+                <button id="darkModeToggle" class="px-4 py-2 rounded border" style="border-color: var(--border-color);"><span id="modeIcon">🌙</span></button>
+                <button onclick="window.location.href='index.html'" class="px-4 py-2 rounded border" style="border-color: var(--border-color);">← Back</button>
+            </div>
+        </div>
+    </header>
+
+    <main class="max-w-5xl mx-auto p-8">
+        <!-- Overall Progress -->
+        <div class="mb-8 p-8 rounded-lg border" style="border-color: var(--accent-color); background-color: var(--bg-secondary);">
+            <div class="flex justify-between items-center mb-4">
+                <h2 class="text-2xl font-bold">Overall Progress</h2>
+                <div class="text-right">
+                    <div class="text-4xl font-bold" id="totalWords" style="color: var(--accent-color);">0</div>
+                    <div class="text-sm" style="color: var(--text-secondary);">words / 1,700-2,000 target</div>
+                </div>
+            </div>
+            <div class="w-full h-6 rounded-full" style="background-color: var(--border-color);">
+                <div id="totalProgress" class="progress-bar h-6 rounded-full flex items-center justify-center text-white text-sm font-bold" style="width: 0%; background-color: var(--accent-color);">0%</div>
+            </div>
+        </div>
+
+        <!-- Section 1: Introduction -->
+        <div class="mb-6 p-6 rounded-lg border" style="border-color: var(--border-color); background-color: var(--bg-secondary);">
+            <div class="flex justify-between items-center mb-4">
+                <div>
+                    <h3 class="text-xl font-bold">Section 1: Introduction & Context</h3>
+                    <p class="text-sm" style="color: var(--text-secondary);">Target: ~300 words (2-3 slides)</p>
+                </div>
+                <div class="text-3xl font-bold" id="section1Total" style="color: var(--accent-color);">0</div>
+            </div>
+            
+            <div class="space-y-3">
+                <div>
+                    <label class="block text-sm font-medium mb-2">Slide 1: Service Overview (150-200 words)</label>
+                    <textarea id="sec1slide1" rows="6" class="w-full p-3 rounded border" style="border-color: var(--border-color);" placeholder="Paste your Service Overview text here..." oninput="updateCounts()"></textarea>
+                    <div class="text-right text-sm mt-1" id="sec1slide1Count" style="color: var(--text-secondary);">0 words</div>
+                </div>
+                
+                <div>
+                    <label class="block text-sm font-medium mb-2">Slide 2: User Analysis (150-200 words)</label>
+                    <textarea id="sec1slide2" rows="6" class="w-full p-3 rounded border" style="border-color: var(--border-color);" placeholder="Paste your User Analysis text here..." oninput="updateCounts()"></textarea>
+                    <div class="text-right text-sm mt-1" id="sec1slide2Count" style="color: var(--text-secondary);">0 words</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Section 2: Design Process -->
+        <div class="mb-6 p-6 rounded-lg border" style="border-color: var(--border-color); background-color: var(--bg-secondary);">
+            <div class="flex justify-between items-center mb-4">
+                <div>
+                    <h3 class="text-xl font-bold">Section 2: Design Process & UX Artefacts</h3>
+                    <p class="text-sm" style="color: var(--text-secondary);">Target: ~900 words (6-8 slides)</p>
+                </div>
+                <div class="text-3xl font-bold" id="section2Total" style="color: var(--accent-color);">0</div>
+            </div>
+            
+            <div class="space-y-3">
+                <div>
+                    <label class="block text-sm font-medium mb-2">Slide 3: Research Phase (100-150 words)</label>
+                    <textarea id="sec2slide3" rows="4" class="w-full p-3 rounded border" style="border-color: var(--border-color);" placeholder="Research methods, insights..." oninput="updateCounts()"></textarea>
+                    <div class="text-right text-sm mt-1" id="sec2slide3Count" style="color: var(--text-secondary);">0 words</div>
+                </div>
+                
+                <div>
+                    <label class="block text-sm font-medium mb-2">Slide 4: Artefact 1 (150-200 words)</label>
+                    <textarea id="sec2slide4" rows="5" class="w-full p-3 rounded border" style="border-color: var(--border-color);" placeholder="What, how, insights, contribution..." oninput="updateCounts()"></textarea>
+                    <div class="text-right text-sm mt-1" id="sec2slide4Count" style="color: var(--text-secondary);">0 words</div>
+                </div>
+                
+                <div>
+                    <label class="block text-sm font-medium mb-2">Slide 5: Artefact 2 (150-200 words)</label>
+                    <textarea id="sec2slide5" rows="5" class="w-full p-3 rounded border" style="border-color: var(--border-color);" placeholder="What, how, insights, contribution..." oninput="updateCounts()"></textarea>
+                    <div class="text-right text-sm mt-1" id="sec2slide5Count" style="color: var(--text-secondary);">0 words</div>
+                </div>
+                
+                <div>
+                    <label class="block text-sm font-medium mb-2">Slide 6: UCD Principles (200-250 words) ⭐ KEY SLIDE</label>
+                    <textarea id="sec2slide6" rows="6" class="w-full p-3 rounded border" style="border-color: var(--accent-color);" placeholder="Name 2 principles, show examples from sketches, rationale..." oninput="updateCounts()"></textarea>
+                    <div class="text-right text-sm mt-1" id="sec2slide6Count" style="color: var(--text-secondary);">0 words</div>
+                </div>
+                
+                <div>
+                    <label class="block text-sm font-medium mb-2">Slide 7: Testing Methods (150-200 words)</label>
+                    <textarea id="sec2slide7" rows="5" class="w-full p-3 rounded border" style="border-color: var(--border-color);" placeholder="Methods, participants, tasks, criteria..." oninput="updateCounts()"></textarea>
+                    <div class="text-right text-sm mt-1" id="sec2slide7Count" style="color: var(--text-secondary);">0 words</div>
+                </div>
+                
+                <div>
+                    <label class="block text-sm font-medium mb-2">Slide 8: Iteration & Refinement (150-200 words)</label>
+                    <textarea id="sec2slide8" rows="5" class="w-full p-3 rounded border" style="border-color: var(--border-color);" placeholder="Learnings, changes, decisions, next priorities..." oninput="updateCounts()"></textarea>
+                    <div class="text-right text-sm mt-1" id="sec2slide8Count" style="color: var(--text-secondary);">0 words</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Section 3: Evaluation -->
+        <div class="mb-6 p-6 rounded-lg border" style="border-color: var(--border-color); background-color: var(--bg-secondary);">
+            <div class="flex justify-between items-center mb-4">
+                <div>
+                    <h3 class="text-xl font-bold">Section 3: Evaluation & Recommendations</h3>
+                    <p class="text-sm" style="color: var(--text-secondary);">Target: ~500 words (3-4 slides)</p>
+                </div>
+                <div class="text-3xl font-bold" id="section3Total" style="color: var(--accent-color);">0</div>
+            </div>
+            
+            <div class="space-y-3">
+                <div>
+                    <label class="block text-sm font-medium mb-2">Slide 9: Problem Analysis (200-250 words)</label>
+                    <textarea id="sec3slide9" rows="6" class="w-full p-3 rounded border" style="border-color: var(--border-color);" placeholder="Problems, evidence, impact..." oninput="updateCounts()"></textarea>
+                    <div class="text-right text-sm mt-1" id="sec3slide9Count" style="color: var(--text-secondary);">0 words</div>
+                </div>
+                
+                <div>
+                    <label class="block text-sm font-medium mb-2">Slide 10: Solution Evaluation (200-250 words)</label>
+                    <textarea id="sec3slide10" rows="6" class="w-full p-3 rounded border" style="border-color: var(--border-color);" placeholder="How design solves problems, improvements, metrics..." oninput="updateCounts()"></textarea>
+                    <div class="text-right text-sm mt-1" id="sec3slide10Count" style="color: var(--text-secondary);">0 words</div>
+                </div>
+                
+                <div>
+                    <label class="block text-sm font-medium mb-2">Slide 11: Recommendations (150-200 words)</label>
+                    <textarea id="sec3slide11" rows="5" class="w-full p-3 rounded border" style="border-color: var(--border-color);" placeholder="Next steps, testing needed, future features..." oninput="updateCounts()"></textarea>
+                    <div class="text-right text-sm mt-1" id="sec3slide11Count" style="color: var(--text-secondary);">0 words</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Summary -->
+        <div class="p-6 rounded-lg" style="background-color: var(--bg-secondary); border: 3px solid var(--accent-color);">
+            <h3 class="text-xl font-bold mb-4">📈 Section Breakdown</h3>
+            <div class="grid grid-cols-3 gap-4 text-center">
+                <div>
+                    <div class="text-sm mb-2" style="color: var(--text-secondary);">Section 1</div>
+                    <div class="text-3xl font-bold mb-1" id="sec1Display">0</div>
+                    <div class="text-xs" style="color: var(--text-secondary);">Target: 300</div>
+                    <div class="w-full h-2 rounded-full mt-2" style="background-color: var(--border-color);">
+                        <div id="sec1Progress" class="h-2 rounded-full" style="width: 0%; background-color: #3b82f6;"></div>
+                    </div>
+                </div>
+                <div>
+                    <div class="text-sm mb-2" style="color: var(--text-secondary);">Section 2</div>
+                    <div class="text-3xl font-bold mb-1" id="sec2Display">0</div>
+                    <div class="text-xs" style="color: var(--text-secondary);">Target: 900</div>
+                    <div class="w-full h-2 rounded-full mt-2" style="background-color: var(--border-color);">
+                        <div id="sec2Progress" class="h-2 rounded-full" style="width: 0%; background-color: #3b82f6;"></div>
+                    </div>
+                </div>
+                <div>
+                    <div class="text-sm mb-2" style="color: var(--text-secondary);">Section 3</div>
+                    <div class="text-3xl font-bold mb-1" id="sec3Display">0</div>
+                    <div class="text-xs" style="color: var(--text-secondary);">Target: 500</div>
+                    <div class="w-full h-2 rounded-full mt-2" style="background-color: var(--border-color);">
+                        <div id="sec3Progress" class="h-2 rounded-full" style="width: 0%; background-color: #3b82f6;"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        function countWords(text) {
+            return text.trim() ? text.trim().split(/\s+/).length : 0;
+        }
+
+        function updateCounts() {
+            const fields = [
+                'sec1slide1', 'sec1slide2',
+                'sec2slide3', 'sec2slide4', 'sec2slide5', 'sec2slide6', 'sec2slide7', 'sec2slide8',
+                'sec3slide9', 'sec3slide10', 'sec3slide11'
+            ];
+            
+            // Individual counts
+            fields.forEach(id => {
+                const count = countWords(document.getElementById(id).value);
+                document.getElementById(id + 'Count').textContent = `${count} words`;
+            });
+            
+            // Section totals
+            const sec1 = countWords(document.getElementById('sec1slide1').value) + countWords(document.getElementById('sec1slide2').value);
+            const sec2 = countWords(document.getElementById('sec2slide3').value) + countWords(document.getElementById('sec2slide4').value) +
+                         countWords(document.getElementById('sec2slide5').value) + countWords(document.getElementById('sec2slide6').value) +
+                         countWords(document.getElementById('sec2slide7').value) + countWords(document.getElementById('sec2slide8').value);
+            const sec3 = countWords(document.getElementById('sec3slide9').value) + countWords(document.getElementById('sec3slide10').value) +
+                         countWords(document.getElementById('sec3slide11').value);
+            
+            document.getElementById('section1Total').textContent = sec1;
+            document.getElementById('section2Total').textContent = sec2;
+            document.getElementById('section3Total').textContent = sec3;
+            
+            document.getElementById('sec1Display').textContent = sec1;
+            document.getElementById('sec2Display').textContent = sec2;
+            document.getElementById('sec3Display').textContent = sec3;
+            
+            // Progress bars
+            document.getElementById('sec1Progress').style.width = Math.min((sec1/300)*100, 100) + '%';
+            document.getElementById('sec2Progress').style.width = Math.min((sec2/900)*100, 100) + '%';
+            document.getElementById('sec3Progress').style.width = Math.min((sec3/500)*100, 100) + '%';
+            
+            // Total
+            const total = sec1 + sec2 + sec3;
+            document.getElementById('totalWords').textContent = total;
+            const percent = Math.min((total/1850)*100, 100);
+            document.getElementById('totalProgress').style.width = percent + '%';
+            document.getElementById('totalProgress').textContent = Math.round(percent) + '%';
+            
+            // Color coding
+            if (total >= 1700 && total <= 2000) {
+                document.getElementById('totalWords').style.color = '#22c55e';
+            } else {
+                document.getElementById('totalWords').style.color = 'var(--accent-color)';
+            }
+            
+            // Save
+            const data = {};
+            fields.forEach(id => data[id] = document.getElementById(id).value);
+            localStorage.setItem('uxci_wordCount', JSON.stringify(data));
+        }
+
+        // Load saved
+        window.addEventListener('DOMContentLoaded', () => {
+            const saved = localStorage.getItem('uxci_wordCount');
+            if (saved) {
+                const data = JSON.parse(saved);
+                Object.keys(data).forEach(key => {
+                    const el = document.getElementById(key);
+                    if (el) el.value = data[key];
+                });
+                updateCounts();
+            }
+        });
+
+        // Dark mode & font
+        let isDarkMode = false, fontSize = 1;
+        document.getElementById('darkModeToggle').addEventListener('click', () => {
+            isDarkMode = !isDarkMode;
+            document.body.classList.toggle('dark-mode');
+            document.getElementById('modeIcon').textContent = isDarkMode ? '☀️' : '🌙';
+        });
+        document.getElementById('increaseFont').addEventListener('click', () => {
+            if (fontSize < 1.5) { fontSize += 0.1; document.documentElement.style.setProperty('--font-size', fontSize); }
+        });
+        document.getElementById('decreaseFont').addEventListener('click', () => {
+            if (fontSize > 0.7) { fontSize -= 0.1; document.documentElement.style.setProperty('--font-size', fontSize); }
+        });
+    </script>
+</body>
+</html>

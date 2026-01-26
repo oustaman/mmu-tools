@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Problem Definition Canvas - UXCI</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <style>
+        :root {
+            --bg-primary: #ffffff;
+            --bg-secondary: #f9fafb;
+            --text-primary: #111827;
+            --text-secondary: #4b5563;
+            --border-color: #e5e7eb;
+            --accent-color: #8b5cf6;
+            --font-size: 1;
+        }
+        .dark-mode {
+            --bg-primary: #1f2937;
+            --bg-secondary: #111827;
+            --text-primary: #f9fafb;
+            --text-secondary: #9ca3af;
+            --border-color: #374151;
+            --accent-color: #a78bfa;
+        }
+        html { font-size: calc(var(--font-size) * 16px); }
+        body { background-color: var(--bg-primary); color: var(--text-primary); }
+        @media print { .no-print { display: none; } }
+    </style>
+</head>
+<body class="min-h-screen">
+    <header class="border-b p-4 no-print" style="border-color: var(--border-color);">
+        <div class="max-w-7xl mx-auto flex justify-between items-center flex-wrap gap-4">
+            <div>
+                <h1 class="text-2xl font-bold">🎨 Problem Definition Canvas</h1>
+                <p class="text-sm" style="color: var(--text-secondary);">Visualize user problems with evidence and impact</p>
+            </div>
+            <div class="flex gap-2">
+                <button id="decreaseFont" class="px-3 py-2 rounded border" style="border-color: var(--border-color);">A-</button>
+                <button id="increaseFont" class="px-3 py-2 rounded border" style="border-color: var(--border-color);">A+</button>
+                <button id="darkModeToggle" class="px-4 py-2 rounded border" style="border-color: var(--border-color);"><span id="modeIcon">🌙</span></button>
+                <button onclick="window.location.href='index.html'" class="px-4 py-2 rounded border" style="border-color: var(--border-color);">← Back</button>
+            </div>
+        </div>
+    </header>
+
+    <main class="max-w-6xl mx-auto p-8">
+        <!-- Actions -->
+        <div class="mb-8 flex gap-3 no-print">
+            <button onclick="exportToPNG()" class="px-6 py-3 rounded text-white" style="background-color: #10b981;">📥 Export PNG</button>
+            <button onclick="window.print()" class="px-6 py-3 rounded border" style="border-color: var(--border-color);">🖨️ Print</button>
+        </div>
+
+        <!-- Canvas -->
+        <div id="canvas" class="p-8 rounded-lg border" style="border-color: var(--border-color); background-color: white;">
+            <!-- Title -->
+            <div class="text-center mb-8">
+                <h2 class="text-3xl font-bold mb-4">Problem Definition Canvas</h2>
+                <input type="text" id="serviceName" class="text-xl text-center border-b-2 w-full max-w-lg" style="border-color: var(--accent-color);" placeholder="Service Name" oninput="save()">
+            </div>
+
+            <!-- Main Grid -->
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
+                <!-- Problem Statement -->
+                <div class="lg:col-span-2 p-6 rounded-lg" style="background-color: #fee2e2; border: 3px solid #ef4444;">
+                    <h3 class="text-xl font-bold mb-3" style="color: #991b1b;">🎯 Problem Statement</h3>
+                    <p class="text-sm mb-3" style="color: #991b1b;">Complete this: "[User type] struggles to [action] because [reason], which causes [impact]"</p>
+                    <textarea id="problem" rows="3" class="w-full p-3 rounded border-0" style="background-color: white;" placeholder="Example: Students struggle to book study rooms quickly because the current system requires 10+ clicks, which causes frustration and wasted time between classes." oninput="save()"></textarea>
+                </div>
+
+                <!-- Who (Users) -->
+                <div class="p-6 rounded-lg" style="background-color: #dbeafe; border: 2px solid #3b82f6;">
+                    <h3 class="text-lg font-bold mb-3" style="color: #1e40af;">👥 WHO (Users)</h3>
+                    <textarea id="who" rows="8" class="w-full p-3 rounded border-0" style="background-color: white;" placeholder="• Who experiences this problem?
+• What are their characteristics?
+• What is their context?
+• Primary vs secondary users?" oninput="save()"></textarea>
+                </div>
+
+                <!-- What (The Problem) -->
+                <div class="p-6 rounded-lg" style="background-color: #fef3c7; border: 2px solid #f59e0b;">
+                    <h3 class="text-lg font-bold mb-3" style="color: #92400e;">❓ WHAT (Problem Details)</h3>
+                    <textarea id="what" rows="8" class="w-full p-3 rounded border-0" style="background-color: white;" placeholder="• What exactly is the problem?
+• When does it occur?
+• Where does it happen?
+• What triggers it?
+• Frequency?" oninput="save()"></textarea>
+                </div>
+
+                <!-- Why (Root Causes) -->
+                <div class="p-6 rounded-lg" style="background-color: #fce7f3; border: 2px solid #ec4899;">
+                    <h3 class="text-lg font-bold mb-3" style="color: #9f1239;">🔍 WHY (Root Causes)</h3>
+                    <textarea id="why" rows="8" class="w-full p-3 rounded border-0" style="background-color: white;" placeholder="• What causes this problem?
+• Why does it persist?
+• System limitations?
+• Design flaws?
+• Use 5 Whys technique" oninput="save()"></textarea>
+                </div>
+
+                <!-- Impact -->
+                <div class="p-6 rounded-lg" style="background-color: #e0e7ff; border: 2px solid #818cf8;">
+                    <h3 class="text-lg font-bold mb-3" style="color: #3730a3;">💥 IMPACT (Consequences)</h3>
+                    <textarea id="impact" rows="8" class="w-full p-3 rounded border-0" style="background-color: white;" placeholder="• How does it affect users?
+• Time wasted?
+• Errors caused?
+• Goals blocked?
+• Emotional impact?
+• Quantify if possible" oninput="save()"></textarea>
+                </div>
+            </div>
+
+            <!-- Evidence Section -->
+            <div class="mb-6 p-6 rounded-lg" style="background-color: #dcfce7; border: 2px solid #22c55e;">
+                <h3 class="text-xl font-bold mb-3" style="color: #166534;">📊 EVIDENCE</h3>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div>
+                        <label class="block font-bold text-sm mb-2" style="color: #166534;">User Quotes</label>
+                        <textarea id="quotes" rows="5" class="w-full p-3 rounded border-0 text-sm" style="background-color: white;" placeholder='"I waste 10 minutes every time I need a room"' oninput="save()"></textarea>
+                    </div>
+                    <div>
+                        <label class="block font-bold text-sm mb-2" style="color: #166534;">Observations</label>
+                        <textarea id="observations" rows="5" class="w-full p-3 rounded border-0 text-sm" style="background-color: white;" placeholder="Watched 5 students - average 8 minutes to book" oninput="save()"></textarea>
+                    </div>
+                    <div>
+                        <label class="block font-bold text-sm mb-2" style="color: #166534;">Data/Metrics</label>
+                        <textarea id="data" rows="5" class="w-full p-3 rounded border-0 text-sm" style="background-color: white;" placeholder="• 45% booking abandonment rate
+• Average: 12 clicks to confirm" oninput="save()"></textarea>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Priority & Scope -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="p-6 rounded-lg" style="background-color: var(--bg-secondary); border: 2px solid var(--accent-color);">
+                    <h3 class="text-lg font-bold mb-3" style="color: var(--accent-color);">⚡ PRIORITY</h3>
+                    <div class="space-y-3">
+                        <div>
+                            <label class="block text-sm font-medium mb-1">Severity (1-5)</label>
+                            <input type="range" id="severity" min="1" max="5" value="3" class="w-full" oninput="updatePriority()">
+                            <div class="text-center font-bold" id="severityLabel">3 - Moderate</div>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium mb-1">Frequency (1-5)</label>
+                            <input type="range" id="frequency" min="1" max="5" value="3" class="w-full" oninput="updatePriority()">
+                            <div class="text-center font-bold" id="frequencyLabel">3 - Occasional</div>
+                        </div>
+                        <div class="p-3 rounded text-center" style="background-color: white;">
+                            <div class="text-sm">Priority Score</div>
+                            <div class="text-3xl font-bold" id="priorityScore" style="color: var(--accent-color);">9</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="p-6 rounded-lg" style="background-color: var(--bg-secondary); border: 2px solid var(--accent-color);">
+                    <h3 class="text-lg font-bold mb-3" style="color: var(--accent-color);">🎯 PROJECT SCOPE</h3>
+                    <textarea id="scope" rows="7" class="w-full p-3 rounded border-0" style="background-color: white;" placeholder="What will you design to solve this?
+
+In scope:
+• Mobile booking interface
+• Quick-view availability
+• 3-click booking flow
+
+Out of scope:
+• Admin panel
+• Payment system" oninput="save()"></textarea>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        function updatePriority() {
+            const severity = parseInt(document.getElementById('severity').value);
+            const frequency = parseInt(document.getElementById('frequency').value);
+            const score = severity * frequency;
+            
+            const severityLabels = ['', '1 - Minor', '2 - Low', '3 - Moderate', '4 - High', '5 - Critical'];
+            const frequencyLabels = ['', '1 - Rare', '2 - Uncommon', '3 - Occasional', '4 - Frequent', '5 - Constant'];
+            
+            document.getElementById('severityLabel').textContent = severityLabels[severity];
+            document.getElementById('frequencyLabel').textContent = frequencyLabels[frequency];
+            document.getElementById('priorityScore').textContent = score;
+            
+            // Color coding
+            const scoreEl = document.getElementById('priorityScore');
+            if (score >= 20) scoreEl.style.color = '#ef4444';
+            else if (score >= 12) scoreEl.style.color = '#f59e0b';
+            else scoreEl.style.color = '#10b981';
+            
+            save();
+        }
+
+        function save() {
+            const data = {
+                serviceName: document.getElementById('serviceName').value,
+                problem: document.getElementById('problem').value,
+                who: document.getElementById('who').value,
+                what: document.getElementById('what').value,
+                why: document.getElementById('why').value,
+                impact: document.getElementById('impact').value,
+                quotes: document.getElementById('quotes').value,
+                observations: document.getElementById('observations').value,
+                data: document.getElementById('data').value,
+                severity: document.getElementById('severity').value,
+                frequency: document.getElementById('frequency').value,
+                scope: document.getElementById('scope').value
+            };
+            localStorage.setItem('uxci_problemCanvas', JSON.stringify(data));
+        }
+
+        async function exportToPNG() {
+            const canvas = document.getElementById('canvas');
+            try {
+                const canvasEl = await html2canvas(canvas, { backgroundColor: '#ffffff', scale: 2 });
+                canvasEl.toBlob(blob => {
+                    const url = URL.createObjectURL(blob);
+                    const link = document.createElement('a');
+                    link.download = `problem_canvas_${new Date().toISOString().slice(0,10)}.png`;
+                    link.href = url;
+                    link.click();
+                    URL.revokeObjectURL(url);
+                });
+            } catch (error) {
+                alert('Export error');
+            }
+        }
+
+        // Load saved
+        window.addEventListener('DOMContentLoaded', () => {
+            const saved = localStorage.getItem('uxci_problemCanvas');
+            if (saved) {
+                const data = JSON.parse(saved);
+                Object.keys(data).forEach(key => {
+                    const el = document.getElementById(key);
+                    if (el) el.value = data[key];
+                });
+                updatePriority();
+            }
+        });
+
+        // Dark mode & font
+        let isDarkMode = false, fontSize = 1;
+        document.getElementById('darkModeToggle').addEventListener('click', () => {
+            isDarkMode = !isDarkMode;
+            document.body.classList.toggle('dark-mode');
+            document.getElementById('modeIcon').textContent = isDarkMode ? '☀️' : '🌙';
+        });
+        document.getElementById('increaseFont').addEventListener('click', () => {
+            if (fontSize < 1.5) { fontSize += 0.1; document.documentElement.style.setProperty('--font-size', fontSize); }
+        });
+        document.getElementById('decreaseFont').addEventListener('click', () => {
+            if (fontSize > 0.7) { fontSize -= 0.1; document.documentElement.style.setProperty('--font-size', fontSize); }
+        });
+    </script>
+</body>
+</html>

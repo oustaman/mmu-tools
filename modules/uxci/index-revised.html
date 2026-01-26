@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Experience for Creative Industries - Module Resources</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        :root {
+            --bg-primary: #ffffff;
+            --bg-secondary: #f9fafb;
+            --text-primary: #111827;
+            --text-secondary: #6b7280;
+            --border-color: #e5e7eb;
+            --accent-color: #8b5cf6;
+            --accent-hover: #7c3aed;
+            --font-size: 1;
+        }
+        
+        .dark-mode {
+            --bg-primary: #1f2937;
+            --bg-secondary: #111827;
+            --text-primary: #f9fafb;
+            --text-secondary: #d1d5db;
+            --border-color: #374151;
+            --accent-color: #a78bfa;
+            --accent-hover: #c4b5fd;
+        }
+        
+        html { font-size: calc(var(--font-size) * 16px); }
+        body { background-color: var(--bg-primary); color: var(--text-primary); }
+
+        .tool-card, .session-card, .video-card {
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .tool-card:hover, .session-card:hover, .video-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 20px rgba(139, 92, 246, 0.2);
+        }
+
+        .hero-gradient {
+            background: linear-gradient(135deg, #8b5cf6 0%, #ec4899 100%);
+        }
+
+        .category-header {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 1rem;
+        }
+
+        .category-line {
+            flex: 1;
+            height: 2px;
+            background: linear-gradient(to right, var(--accent-color), transparent);
+        }
+    </style>
+</head>
+<body class="min-h-screen">
+    <!-- Header -->
+    <header class="border-b p-4" style="border-color: var(--border-color);">
+        <div class="max-w-7xl mx-auto flex justify-between items-center">
+            <div>
+                <h1 class="text-2xl font-bold">User Experience for Creative Industries</h1>
+                <p class="text-sm" style="color: var(--text-secondary);">Unit Code: 466Z0033</p>
+            </div>
+            <div class="flex gap-2">
+                <button id="decreaseFont" class="px-3 py-2 rounded border" style="border-color: var(--border-color);" aria-label="Decrease font size">A-</button>
+                <button id="increaseFont" class="px-3 py-2 rounded border" style="border-color: var(--border-color);" aria-label="Increase font size">A+</button>
+                <button id="darkModeToggle" class="px-4 py-2 rounded border" style="border-color: var(--border-color);" aria-label="Toggle dark mode">
+                    <span id="modeIcon">🌙</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <div class="hero-gradient text-white py-12">
+        <div class="max-w-7xl mx-auto px-8 text-center">
+            <h2 class="text-4xl font-bold mb-4">Module Resources & Tools</h2>
+            <p class="text-xl mb-6">Complete toolkit for your UX assessment journey</p>
+            <div class="flex gap-4 justify-center text-sm flex-wrap">
+                <div class="bg-white bg-opacity-20 rounded-lg px-6 py-3">
+                    <div class="font-bold text-2xl">11</div>
+                    <div>Sessions</div>
+                </div>
+                <div class="bg-white bg-opacity-20 rounded-lg px-6 py-3">
+                    <div class="font-bold text-2xl">10+</div>
+                    <div>Tools</div>
+                </div>
+                <div class="bg-white bg-opacity-20 rounded-lg px-6 py-3">
+                    <div class="font-bold text-2xl">15+</div>
+                    <div>Videos</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <main class="max-w-7xl mx-auto p-8">
+        <!-- Module-Specific Tools -->
+        <section class="mb-12">
+            <div class="flex items-center gap-3 mb-6">
+                <h2 class="text-3xl font-bold">🛠️ Module Tools</h2>
+            </div>
+            <p class="mb-8" style="color: var(--text-secondary);">Core tools to support your assessment from start to finish</p>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div class="tool-card p-5 rounded-lg border" style="border-color: var(--border-color); background-color: var(--bg-secondary);" onclick="window.location.href='assessment-guide.html'">
+                    <div class="flex items-center gap-3">
+                        <div class="text-3xl">📋</div>
+                        <div class="flex-1">
+                            <h3 class="text-lg font-bold mb-1">Assessment Guide</h3>
+                            <p class="text-sm" style="color: var(--text-secondary);">Complete guide with checklists, examples, and rubrics</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="tool-card p-5 rounded-lg border" style="border-color: var(--border-color); background-color: var(--bg-secondary);" onclick="window.location.href='ux-artifacts-library.html'">
+                    <div class="flex items-center gap-3">
+                        <div class="text-3xl">🎨</div>
+                        <div class="flex-1">
+                            <h3 class="text-lg font-bold mb-1">UX Artefacts Library & Tools</h3>
+                            <p class="text-sm" style="color: var(--text-secondary);">60+ artefacts with interactive tool builder</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="tool-card p-5 rounded-lg border" style="border-color: var(--border-color); background-color: var(--bg-secondary);" onclick="window.location.href='word-count-dashboard.html'">
+                    <div class="flex items-center gap-3">
+                        <div class="text-3xl">📊</div>
+                        <div class="flex-1">
+                            <h3 class="text-lg font-bold mb-1">Word Count Dashboard</h3>
+                            <p class="text-sm" style="color: var(--text-secondary);">Track your slide deck (target: 1,700-2,000 words)</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="tool-card p-5 rounded-lg border" style="border-color: var(--border-color); background-color: var(--bg-secondary);" onclick="window.location.href='flow-diagram-symbols.html'">
+                    <div class="flex items-center gap-3">
+                        <div class="text-3xl">🔀</div>
+                        <div class="flex-1">
+                            <h3 class="text-lg font-bold mb-1">Flow Diagram Symbol Library</h3>
+                            <p class="text-sm" style="color: var(--text-secondary);">Quick reference for creating user flows</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Video Content -->
+        <section class="mb-12">
+            <div class="flex items-center gap-3 mb-6">
+                <h2 class="text-3xl font-bold">📺 Video Content</h2>
+            </div>
+            
+            <div class="mb-6 p-4 rounded-lg" style="background-color: #fef3c7; border-left: 4px solid #f59e0b;">
+                <p class="text-sm" style="color: #92400e;">
+                    <strong>⚠️ Content Notice:</strong> These videos are selected for their educational content. However, some may contain sponsored segments or advertisements. 
+                    We do not endorse any sponsored content. We highly recommend installing 
+                    <a href="https://sponsor.ajay.app/" target="_blank" class="underline font-bold">SponsorBlock</a> 
+                    to automatically skip sponsor segments.
+                </p>
+            </div>
+
+            <div id="videoGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Videos will be added here -->
+                <div class="video-card p-5 rounded-lg border text-center" style="border-color: var(--border-color); background-color: var(--bg-secondary);">
+                    <div class="text-6xl mb-3">🎬</div>
+                    <h3 class="font-bold mb-2">Videos Coming Soon</h3>
+                    <p class="text-sm" style="color: var(--text-secondary);">Curated UX content will be added here</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Weekly Sessions -->
+        <section class="mb-12">
+            <div class="flex items-center gap-3 mb-6">
+                <h2 class="text-3xl font-bold">📅 Weekly Sessions</h2>
+            </div>
+            <p class="mb-6" style="color: var(--text-secondary);">Navigate through all 11 weeks of teaching content</p>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <!-- Sessions 1-11 -->
+                <div class="session-card p-5 rounded-lg border" style="border-color: var(--border-color); background-color: var(--bg-secondary);" onclick="window.location.href='session1.html'">
+                    <div class="flex items-start gap-4">
+                        <div class="text-3xl font-bold" style="color: var(--accent-color);">01</div>
+                        <div class="flex-1">
+                            <h3 class="font-bold text-lg mb-1">Bad UX Show and Tell</h3>
+                            <p class="text-sm" style="color: var(--text-secondary);">Introduction, Assessment overview, Finding frustrating experiences</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="session-card p-5 rounded-lg border" style="border-color: var(--border-color); background-color: var(--bg-secondary);" onclick="window.location.href='session2.html'">
+                    <div class="flex items-start gap-4">
+                        <div class="text-3xl font-bold" style="color: var(--accent-color);">02</div>
+                        <div class="flex-1">
+                            <h3 class="font-bold text-lg mb-1">Finding the Real Problem</h3>
+                            <p class="text-sm" style="color: var(--text-secondary);">Service selection, Problem definition, Evidence gathering</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="session-card p-5 rounded-lg border" style="border-color: var(--border-color); background-color: var(--bg-secondary);" onclick="window.location.href='session3.html'">
+                    <div class="flex items-start gap-4">
+                        <div class="text-3xl font-bold" style="color: var(--accent-color);">03</div>
+                        <div class="flex-1">
+                            <h3 class="font-bold text-lg mb-1">Design Principles Through Examples</h3>
+                            <p class="text-sm" style="color: var(--text-secondary);">30+ UCD principles, Real-world examples, Selecting your 2 principles</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="session-card p-5 rounded-lg border" style="border-color: var(--border-color); background-color: var(--bg-secondary);" onclick="window.location.href='session4.html'">
+                    <div class="flex items-start gap-4">
+                        <div class="text-3xl font-bold" style="color: var(--accent-color);">04</div>
+                        <div class="flex-1">
+                            <h3 class="font-bold text-lg mb-1">Research Artefacts Workshop</h3>
+                            <p class="text-sm" style="color: var(--text-secondary);">Personas, Journey maps, Research methods, Creating artefacts</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="session-card p-5 rounded-lg border" style="border-color: var(--border-color); background-color: var(--bg-secondary);" onclick="window.location.href='session5.html'">
+                    <div class="flex items-start gap-4">
+                        <div class="text-3xl font-bold" style="color: var(--accent-color);">05</div>
+                        <div class="flex-1">
+                            <h3 class="font-bold text-lg mb-1">From Ideas to Paper</h3>
+                            <p class="text-sm" style="color: var(--text-secondary);">Sketching workshop, Wireframes, Crazy 8s exercise, Screen sketching</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="session-card p-5 rounded-lg border" style="border-color: var(--border-color); background-color: #fef9c3;" onclick="window.location.href='session6.html'">
+                    <div class="flex items-start gap-4">
+                        <div class="text-3xl font-bold" style="color: #854d0e;">06</div>
+                        <div class="flex-1">
+                            <h3 class="font-bold text-lg mb-1">MIDTERM Progress Review</h3>
+                            <p class="text-sm" style="color: #854d0e;">1-on-1 check-ins, Scope verification, Artefact guidance, Workshop time</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="session-card p-5 rounded-lg border" style="border-color: var(--border-color); background-color: var(--bg-secondary);" onclick="window.location.href='session7.html'">
+                    <div class="flex items-start gap-4">
+                        <div class="text-3xl font-bold" style="color: var(--accent-color);">07</div>
+                        <div class="flex-1">
+                            <h3 class="font-bold text-lg mb-1">Flow Diagram Workshop</h3>
+                            <p class="text-sm" style="color: var(--text-secondary);">IA principles, Flowchart symbols, Create flow diagrams, Peer review</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="session-card p-5 rounded-lg border" style="border-color: var(--border-color); background-color: var(--bg-secondary);" onclick="window.location.href='session8.html'">
+                    <div class="flex items-start gap-4">
+                        <div class="text-3xl font-bold" style="color: var(--accent-color);">08</div>
+                        <div class="flex-1">
+                            <h3 class="font-bold text-lg mb-1">Heuristic Evaluation Lab</h3>
+                            <p class="text-sm" style="color: var(--text-secondary);">Evaluation methods, Practice heuristic review, Document findings</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="session-card p-5 rounded-lg border" style="border-color: var(--border-color); background-color: var(--bg-secondary);" onclick="window.location.href='session9.html'">
+                    <div class="flex items-start gap-4">
+                        <div class="text-3xl font-bold" style="color: var(--accent-color);">09</div>
+                        <div class="flex-1">
+                            <h3 class="font-bold text-lg mb-1">Problem-Solution Evaluation</h3>
+                            <p class="text-sm" style="color: var(--text-secondary);">Critical evaluation, Write problem analysis, Evidence-based design</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="session-card p-5 rounded-lg border" style="border-color: var(--border-color); background-color: var(--bg-secondary);" onclick="window.location.href='session10.html'">
+                    <div class="flex items-start gap-4">
+                        <div class="text-3xl font-bold" style="color: var(--accent-color);">10</div>
+                        <div class="flex-1">
+                            <h3 class="font-bold text-lg mb-1">Slide Deck Workshop</h3>
+                            <p class="text-sm" style="color: var(--text-secondary);">Structure slide deck, Example analysis, Draft sections, Peer review</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="session-card p-5 rounded-lg border" style="border-color: var(--border-color); background-color: #dcfce7;" onclick="window.location.href='session11.html'">
+                    <div class="flex items-start gap-4">
+                        <div class="text-3xl font-bold" style="color: #166534;">11</div>
+                        <div class="flex-1">
+                            <h3 class="font-bold text-lg mb-1">Open Studio & Final Support</h3>
+                            <p class="text-sm" style="color: #166534;">Drop-in consultations, Final questions, Submission help, Celebration!</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Assessment Overview -->
+        <section class="mt-12 p-6 rounded-lg border" style="border-color: var(--border-color); background-color: var(--bg-secondary);">
+            <h2 class="text-2xl font-bold mb-6">📝 Assessment Overview</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="text-center p-6 rounded-lg" style="background-color: var(--bg-primary); border: 2px solid var(--accent-color);">
+                    <div class="text-4xl mb-3">📱</div>
+                    <div class="text-2xl font-bold mb-3" style="color: var(--accent-color);">Prototype</div>
+                    <div class="text-sm space-y-2" style="color: var(--text-secondary);">
+                        <p><strong>Component A:</strong> Hand-drawn sketches (6-10 screens)</p>
+                        <p><strong>Component B:</strong> User flow diagram</p>
+                        <p class="text-xs pt-2">Must demonstrate 2 UCD principles</p>
+                    </div>
+                </div>
+                <div class="text-center p-6 rounded-lg" style="background-color: var(--bg-primary); border: 2px solid var(--accent-color);">
+                    <div class="text-4xl mb-3">📊</div>
+                    <div class="text-2xl font-bold mb-3" style="color: var(--accent-color);">2 Artefacts</div>
+                    <div class="text-sm space-y-2" style="color: var(--text-secondary);">
+                        <p><strong>Choose from:</strong></p>
+                        <p>• User Research</p>
+                        <p>• Design</p>
+                        <p>• Testing & Evaluation</p>
+                    </div>
+                </div>
+                <div class="text-center p-6 rounded-lg" style="background-color: var(--bg-primary); border: 2px solid var(--accent-color);">
+                    <div class="text-4xl mb-3">📄</div>
+                    <div class="text-2xl font-bold mb-3" style="color: var(--accent-color);">Slide Deck Report</div>
+                    <div class="text-sm space-y-2" style="color: var(--text-secondary);">
+                        <p><strong>10-20 slides</strong> (counted)</p>
+                        <p><strong>~1,700-2,000 words</strong> total</p>
+                        <p class="text-xs pt-2">Section 1: Intro (300w)<br>Section 2: Process (900w)<br>Section 3: Evaluation (500w)</p>
+                    </div>
+                </div>
+            </div>
+            <div class="mt-6 text-center">
+                <button onclick="window.location.href='assessment-guide.html'" class="px-8 py-3 rounded-lg font-bold text-white" style="background-color: var(--accent-color);">
+                    View Complete Assessment Guide →
+                </button>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="border-t mt-12 p-8" style="border-color: var(--border-color);">
+        <div class="max-w-7xl mx-auto text-center" style="color: var(--text-secondary);">
+            <p class="mb-2">User Experience for Creative Industries - Unit Code: 466Z0033 - Level 6</p>
+            <p class="text-sm">Manchester Metropolitan University</p>
+            <p class="text-xs mt-2">Unit Leader: Mike Oustamanolakis - m.oustamanolakis@mmu.ac.uk</p>
+        </div>
+    </footer>
+
+    <script>
+        let isDarkMode = false;
+        let fontSize = 1;
+
+        document.getElementById('darkModeToggle').addEventListener('click', () => {
+            isDarkMode = !isDarkMode;
+            document.body.classList.toggle('dark-mode');
+            document.getElementById('modeIcon').textContent = isDarkMode ? '☀️' : '🌙';
+            localStorage.setItem('uxci_darkMode', isDarkMode);
+        });
+
+        document.getElementById('increaseFont').addEventListener('click', () => {
+            if (fontSize < 1.5) {
+                fontSize += 0.1;
+                document.documentElement.style.setProperty('--font-size', fontSize);
+                localStorage.setItem('uxci_fontSize', fontSize);
+            }
+        });
+
+        document.getElementById('decreaseFont').addEventListener('click', () => {
+            if (fontSize > 0.7) {
+                fontSize -= 0.1;
+                document.documentElement.style.setProperty('--font-size', fontSize);
+                localStorage.setItem('uxci_fontSize', fontSize);
+            }
+        });
+
+        window.addEventListener('DOMContentLoaded', () => {
+            const savedDarkMode = localStorage.getItem('uxci_darkMode') === 'true';
+            const savedFontSize = parseFloat(localStorage.getItem('uxci_fontSize')) || 1;
+            
+            if (savedDarkMode) {
+                document.body.classList.add('dark-mode');
+                document.getElementById('modeIcon').textContent = '☀️';
+                isDarkMode = true;
+            }
+            
+            fontSize = savedFontSize;
+            document.documentElement.style.setProperty('--font-size', fontSize);
+        });
+    </script>
+</body>
+</html>

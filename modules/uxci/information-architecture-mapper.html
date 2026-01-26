@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Information Architecture Mapper - UXCI</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <style>
+        :root {
+            --bg-primary: #ffffff;
+            --bg-secondary: #f9fafb;
+            --text-primary: #111827;
+            --text-secondary: #4b5563;
+            --border-color: #e5e7eb;
+            --accent-color: #8b5cf6;
+            --font-size: 1;
+        }
+        .dark-mode {
+            --bg-primary: #1f2937;
+            --bg-secondary: #111827;
+            --text-primary: #f9fafb;
+            --text-secondary: #9ca3af;
+            --border-color: #374151;
+            --accent-color: #a78bfa;
+        }
+        html { font-size: calc(var(--font-size) * 16px); }
+        body { background-color: var(--bg-primary); color: var(--text-primary); }
+        .node { transition: all 0.2s; }
+        .node:hover { transform: scale(1.05); }
+        .connector { stroke: var(--border-color); stroke-width: 2; fill: none; }
+        @media print { .no-print { display: none; } }
+    </style>
+</head>
+<body class="min-h-screen">
+    <header class="border-b p-4 no-print" style="border-color: var(--border-color);">
+        <div class="max-w-7xl mx-auto flex justify-between items-center flex-wrap gap-4">
+            <div>
+                <h1 class="text-2xl font-bold">🗺️ Information Architecture Mapper</h1>
+                <p class="text-sm" style="color: var(--text-secondary);">Create visual sitemaps and navigation structures</p>
+            </div>
+            <div class="flex gap-2">
+                <button id="decreaseFont" class="px-3 py-2 rounded border" style="border-color: var(--border-color);">A-</button>
+                <button id="increaseFont" class="px-3 py-2 rounded border" style="border-color: var(--border-color);">A+</button>
+                <button id="darkModeToggle" class="px-4 py-2 rounded border" style="border-color: var(--border-color);"><span id="modeIcon">🌙</span></button>
+                <button onclick="window.location.href='index.html'" class="px-4 py-2 rounded border" style="border-color: var(--border-color);">← Back</button>
+            </div>
+        </div>
+    </header>
+
+    <main class="max-w-7xl mx-auto p-8">
+        <!-- Actions -->
+        <div class="mb-8 flex gap-3 no-print">
+            <button onclick="addTopLevel()" class="px-6 py-3 rounded text-white" style="background-color: var(--accent-color);">+ Add Section</button>
+            <button onclick="exportToPNG()" class="px-6 py-3 rounded border" style="border-color: var(--border-color);">📥 Export PNG</button>
+            <button onclick="window.print()" class="px-6 py-3 rounded border" style="border-color: var(--border-color);">🖨️ Print</button>
+        </div>
+
+        <!-- Info -->
+        <div class="mb-8 p-4 rounded-lg" style="background-color: #dbeafe;">
+            <p class="text-sm" style="color: #1e40af;">
+                <strong>💡 Tip:</strong> Start with your home page, then add main sections. Click on any section to add sub-pages beneath it. Keep hierarchy shallow (max 3 levels) for better usability.
+            </p>
+        </div>
+
+        <!-- IA Map Canvas -->
+        <div id="iaCanvas" class="p-8 rounded-lg border min-h-screen" style="border-color: var(--border-color); background-color: white;">
+            <div class="mb-8 text-center">
+                <input type="text" id="siteName" class="text-2xl font-bold text-center border-b-2 p-2" style="border-color: var(--accent-color);" placeholder="Site/App Name" oninput="save()">
+            </div>
+
+            <!-- Tree Structure -->
+            <div id="tree" class="flex flex-col items-center space-y-8">
+                <!-- Will be populated by JavaScript -->
+            </div>
+        </div>
+
+        <!-- Legend -->
+        <div class="mt-8 p-6 rounded-lg border" style="border-color: var(--border-color); background-color: var(--bg-secondary);">
+            <h3 class="font-bold mb-4">📚 IA Best Practices</h3>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
+                <div>
+                    <div class="font-bold mb-2" style="color: var(--accent-color);">🎯 Hierarchy</div>
+                    <ul class="space-y-1" style="color: var(--text-secondary);">
+                        <li>• Keep shallow (2-3 levels max)</li>
+                        <li>• 5-9 items per level ideal</li>
+                        <li>• Group related content</li>
+                    </ul>
+                </div>
+                <div>
+                    <div class="font-bold mb-2" style="color: var(--accent-color);">📝 Naming</div>
+                    <ul class="space-y-1" style="color: var(--text-secondary);">
+                        <li>• Use clear, descriptive labels</li>
+                        <li>• Avoid jargon</li>
+                        <li>• Be consistent</li>
+                    </ul>
+                </div>
+                <div>
+                    <div class="font-bold mb-2" style="color: var(--accent-color);">🧭 Navigation</div>
+                    <ul class="space-y-1" style="color: var(--text-secondary);">
+                        <li>• Show user's location</li>
+                        <li>• Provide breadcrumbs</li>
+                        <li>• Make search accessible</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        let nodeCounter = 0;
+        const structure = {
+            id: 0,
+            label: 'Home',
+            type: 'home',
+            children: []
+        };
+
+        function createNode(parentId, label = 'New Page', type = 'page') {
+            return {
+                id: ++nodeCounter,
+                parentId,
+                label,
+                type,
+                children: []
+            };
+        }
+
+        function findNode(node, id) {
+            if (node.id === id) return node;
+            for (let child of node.children) {
+                const found = findNode(child, id);
+                if (found) return found;
+            }
+            return null;
+        }
+
+        function addTopLevel() {
+            const newNode = createNode(0, 'Section', 'section');
+            structure.children.push(newNode);
+            renderTree();
+        }
+
+        function addChild(parentId) {
+            const parent = findNode(structure, parentId);
+            if (parent && parent.children.length < 10) {
+                const type = parent.type === 'home' ? 'section' : 'page';
+                const label = type === 'section' ? 'Section' : 'Page';
+                const newNode = createNode(parentId, label, type);
+                parent.children.push(newNode);
+                renderTree();
+            } else if (parent.children.length >= 10) {
+                alert('Maximum 10 items per level');
+            }
+        }
+
+        function deleteNode(id) {
+            if (id === 0) return; // Can't delete home
+            
+            function removeFromParent(node) {
+                node.children = node.children.filter(child => {
+                    if (child.id === id) return false;
+                    removeFromParent(child);
+                    return true;
+                });
+            }
+            
+            if (confirm('Delete this page and all its children?')) {
+                removeFromParent(structure);
+                renderTree();
+            }
+        }
+
+        function updateLabel(id, label) {
+            const node = findNode(structure, id);
+            if (node) {
+                node.label = label;
+                save();
+            }
+        }
+
+        function renderTree() {
+            const container = document.getElementById('tree');
+            container.innerHTML = '';
+            
+            // Render home
+            const homeDiv = renderNode(structure, 0);
+            container.appendChild(homeDiv);
+            
+            save();
+        }
+
+        function renderNode(node, level) {
+            const nodeDiv = document.createElement('div');
+            nodeDiv.className = 'flex flex-col items-center';
+            
+            // Color coding
+            const colors = {
+                'home': '#8b5cf6',
+                'section': '#3b82f6',
+                'page': '#10b981'
+            };
+            
+            const nodeCard = document.createElement('div');
+            nodeCard.className = 'node px-6 py-3 rounded-lg border-2 cursor-pointer mb-4';
+            nodeCard.style.borderColor = colors[node.type];
+            nodeCard.style.backgroundColor = 'white';
+            
+            nodeCard.innerHTML = `
+                <div class="flex items-center gap-2">
+                    <input type="text" 
+                           value="${node.label}" 
+                           class="font-bold text-center bg-transparent border-0 outline-none"
+                           style="color: ${colors[node.type]};"
+                           onchange="updateLabel(${node.id}, this.value)"
+                           onclick="event.stopPropagation()">
+                    ${node.id !== 0 ? `<button onclick="deleteNode(${node.id}); event.stopPropagation();" class="text-red-500 hover:text-red-700 ml-2">✕</button>` : ''}
+                </div>
+            `;
+            
+            nodeCard.onclick = () => addChild(node.id);
+            nodeDiv.appendChild(nodeCard);
+            
+            // Render children
+            if (node.children.length > 0) {
+                const childrenContainer = document.createElement('div');
+                childrenContainer.className = 'flex gap-6 justify-center flex-wrap';
+                
+                node.children.forEach(child => {
+                    const childDiv = renderNode(child, level + 1);
+                    childrenContainer.appendChild(childDiv);
+                });
+                
+                // Add connector line
+                const connector = document.createElement('div');
+                connector.style.width = '2px';
+                connector.style.height = '40px';
+                connector.style.backgroundColor = 'var(--border-color)';
+                connector.style.margin = '0 auto';
+                nodeDiv.appendChild(connector);
+                
+                nodeDiv.appendChild(childrenContainer);
+            }
+            
+            return nodeDiv;
+        }
+
+        function save() {
+            const data = {
+                siteName: document.getElementById('siteName').value,
+                structure
+            };
+            localStorage.setItem('uxci_iaMap', JSON.stringify(data));
+        }
+
+        async function exportToPNG() {
+            const canvas = document.getElementById('iaCanvas');
+            try {
+                const canvasEl = await html2canvas(canvas, { backgroundColor: '#ffffff', scale: 2 });
+                canvasEl.toBlob(blob => {
+                    const url = URL.createObjectURL(blob);
+                    const link = document.createElement('a');
+                    link.download = `ia_map_${new Date().toISOString().slice(0,10)}.png`;
+                    link.href = url;
+                    link.click();
+                    URL.revokeObjectURL(url);
+                });
+            } catch (error) {
+                alert('Export error');
+            }
+        }
+
+        // Load saved
+        window.addEventListener('DOMContentLoaded', () => {
+            const saved = localStorage.getItem('uxci_iaMap');
+            if (saved) {
+                const data = JSON.parse(saved);
+                document.getElementById('siteName').value = data.siteName || '';
+                if (data.structure) {
+                    Object.assign(structure, data.structure);
+                    nodeCounter = Math.max(nodeCounter, ...getAllIds(structure));
+                }
+            }
+            renderTree();
+        });
+
+        function getAllIds(node) {
+            let ids = [node.id];
+            node.children.forEach(child => {
+                ids = ids.concat(getAllIds(child));
+            });
+            return ids;
+        }
+
+        // Dark mode & font
+        let isDarkMode = false, fontSize = 1;
+        document.getElementById('darkModeToggle').addEventListener('click', () => {
+            isDarkMode = !isDarkMode;
+            document.body.classList.toggle('dark-mode');
+            document.getElementById('modeIcon').textContent = isDarkMode ? '☀️' : '🌙';
+        });
+        document.getElementById('increaseFont').addEventListener('click', () => {
+            if (fontSize < 1.5) { fontSize += 0.1; document.documentElement.style.setProperty('--font-size', fontSize); }
+        });
+        document.getElementById('decreaseFont').addEventListener('click', () => {
+            if (fontSize > 0.7) { fontSize -= 0.1; document.documentElement.style.setProperty('--font-size', fontSize); }
+        });
+    </script>
+</body>
+</html>
