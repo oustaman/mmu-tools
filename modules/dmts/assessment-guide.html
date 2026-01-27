@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Digital Media Technologies - Assessment Guide</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        :root {
+            --bg-primary: #ffffff;
+            --bg-secondary: #f9fafb;
+            --text-primary: #111827;
+            --text-secondary: #4b5563;
+            --border-color: #e5e7eb;
+            --accent-color: #3b82f6;
+            --font-size: 1;
+            --success-color: #10b981;
+            --warning-color: #f59e0b;
+        }
+        
+        .dark-mode {
+            --bg-primary: #1f2937;
+            --bg-secondary: #111827;
+            --text-primary: #f9fafb;
+            --text-secondary: #d1d5db;
+            --border-color: #374151;
+            --accent-color: #60a5fa;
+            --success-color: #34d399;
+            --warning-color: #fbbf24;
+        }
+        
+        html { font-size: calc(var(--font-size) * 16px); }
+        body { background-color: var(--bg-primary); color: var(--text-primary); }
+        .hero-gradient { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); }
+    </style>
+</head>
+<body class="min-h-screen">
+    <header class="border-b p-4" style="border-color: var(--border-color);">
+        <div class="max-w-7xl mx-auto flex justify-between items-center">
+            <div>
+                <h1 class="text-2xl font-bold">Digital Media Technologies</h1>
+                <p class="text-sm" style="color: var(--text-secondary);">Assessment Guide</p>
+            </div>
+            <div class="flex gap-2">
+                <button onclick="window.location.href='index.html'" class="px-4 py-2 rounded border text-sm" style="border-color: var(--border-color);">
+                    ← Home
+                </button>
+                <button id="decreaseFont" class="px-3 py-2 rounded border" style="border-color: var(--border-color);">A-</button>
+                <button id="increaseFont" class="px-3 py-2 rounded border" style="border-color: var(--border-color);">A+</button>
+                <button id="darkModeToggle" class="px-4 py-2 rounded border" style="border-color: var(--border-color);"><span id="modeIcon">🌙</span></button>
+            </div>
+        </div>
+    </header>
+
+    <div class="hero-gradient text-white py-12">
+        <div class="max-w-4xl mx-auto px-8 text-center">
+            <h2 class="text-4xl font-bold mb-4">Assessment Guide</h2>
+            <p class="text-xl mb-2">Written Report: 2,250 words</p>
+            <p class="text-lg">Analyzing how your chosen technology transformed social processes</p>
+        </div>
+    </div>
+
+    <main class="max-w-4xl mx-auto p-8">
+        <section class="mb-12">
+            <h2 class="text-3xl font-bold mb-6">📋 Assessment Overview</h2>
+            <div class="p-6 rounded-lg" style="background-color: var(--bg-secondary); border-left: 3px solid var(--accent-color);">
+                <p class="text-lg mb-4"><strong>Task:</strong> Write a 2,250-word report analyzing ONE technology (TV, computers, or mobile phones) and how it transformed society.</p>
+                <p class="text-lg"><strong>Worth:</strong> 100% of module grade</p>
+            </div>
+        </section>
+
+        <section class="mb-12">
+            <h2 class="text-3xl font-bold mb-6">🎯 What You Need to Cover</h2>
+            <div class="space-y-4">
+                <div class="p-5 rounded" style="background-color: var(--bg-secondary);">
+                    <h3 class="font-bold text-xl mb-3">1. Technology Development</h3>
+                    <p class="mb-2">Trace your chosen technology from prototype to current form</p>
+                    <ul class="text-sm space-y-1 ml-4">
+                        <li>• Key milestones and innovations</li>
+                        <li>• Statistical data showing growth</li>
+                        <li>• Projected future development</li>
+                    </ul>
+                </div>
+                <div class="p-5 rounded" style="background-color: var(--bg-secondary);">
+                    <h3 class="font-bold text-xl mb-3">2. Adoption & Everyday Life</h3>
+                    <p class="mb-2">Explain how it became part of daily life</p>
+                    <ul class="text-sm space-y-1 ml-4">
+                        <li>• Adoption curves and statistics</li>
+                        <li>• Domestication process</li>
+                        <li>• When it became "normal"</li>
+                    </ul>
+                </div>
+                <div class="p-5 rounded" style="background-color: var(--bg-secondary);">
+                    <h3 class="font-bold text-xl mb-3">3. Core Users & Audience</h3>
+                    <p class="mb-2">Identify who uses it and how</p>
+                    <ul class="text-sm space-y-1 ml-4">
+                        <li>• User demographics (age, income, geography)</li>
+                        <li>• Usage patterns</li>
+                        <li>• Digital divide issues</li>
+                    </ul>
+                </div>
+                <div class="p-5 rounded" style="background-color: var(--bg-secondary);">
+                    <h3 class="font-bold text-xl mb-3">4. Social Transformation</h3>
+                    <p class="mb-2">Analyze how it changed society</p>
+                    <ul class="text-sm space-y-1 ml-4">
+                        <li>• Impact on work, communication, identity</li>
+                        <li>• Cultural shifts</li>
+                        <li>• Both positive and negative effects</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section class="mb-12">
+            <h2 class="text-3xl font-bold mb-6">📚 Required Sources</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div class="p-4 rounded" style="background-color: var(--bg-secondary);">
+                    <p class="font-bold mb-2">📖 2 Book Chapters</p>
+                    <p class="text-sm">Academic books about your technology or media theory</p>
+                </div>
+                <div class="p-4 rounded" style="background-color: var(--bg-secondary);">
+                    <p class="font-bold mb-2">📄 2 Journal Papers</p>
+                    <p class="text-sm">Peer-reviewed research papers from academic journals</p>
+                </div>
+                <div class="p-4 rounded" style="background-color: var(--bg-secondary);">
+                    <p class="font-bold mb-2">🌐 Official Sources</p>
+                    <p class="text-sm">Government statistics, company reports, industry data</p>
+                </div>
+            </div>
+            <div class="mt-4 p-4 rounded" style="background-color: #fef9c3;">
+                <p class="font-bold mb-2" style="color: #854d0e;">⚠️ All sources must use Harvard referencing</p>
+                <p class="text-sm" style="color: #854d0e;">See Cite Them Right guide: https://www.mmu.ac.uk/library/referencing-and-study-support/referencing/cite-them-right-harvard</p>
+            </div>
+        </section>
+
+        <section class="mb-12">
+            <h2 class="text-3xl font-bold mb-6">✅ Marking Criteria</h2>
+            <div class="space-y-4 text-sm">
+                <div class="p-4 rounded" style="background-color: var(--bg-secondary);">
+                    <p class="font-bold mb-2">Find, evaluate, synthesise sources</p>
+                    <p>Quality and range of sources used. Beyond class materials. Primary and secondary sources.</p>
+                </div>
+                <div class="p-4 rounded" style="background-color: var(--bg-secondary);">
+                    <p class="font-bold mb-2">Apply critical analysis</p>
+                    <p>Links between theory and practice. Analysis, not just description. Social impacts explored.</p>
+                </div>
+                <div class="p-4 rounded" style="background-color: var(--bg-secondary);">
+                    <p class="font-bold mb-2">Present ideas effectively</p>
+                    <p>Clear writing. Logical structure. Well-organized arguments. Professional presentation.</p>
+                </div>
+                <div class="p-4 rounded" style="background-color: var(--bg-secondary);">
+                    <p class="font-bold mb-2">Implement Harvard referencing</p>
+                    <p>Correct in-text citations. Complete reference list. No missing sources.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="mb-12">
+            <h2 class="text-3xl font-bold mb-6">📏 Formatting & Submission</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div class="p-4 rounded" style="background-color: var(--bg-secondary);">
+                    <h4 class="font-bold mb-3">Format Requirements</h4>
+                    <ul class="text-sm space-y-2">
+                        <li>• 2,000-2,500 words (±10% of 2,250)</li>
+                        <li>• 12pt font, 1.5 line spacing</li>
+                        <li>• Word or PDF format</li>
+                        <li>• Reference list (doesn't count in word count)</li>
+                    </ul>
+                </div>
+                <div class="p-4 rounded" style="background-color: var(--bg-secondary);">
+                    <h4 class="font-bold mb-3">Submission</h4>
+                    <ul class="text-sm space-y-2">
+                        <li>• Via Moodle</li>
+                        <li>• Check deadline on Moodle</li>
+                        <li>• Individual work only</li>
+                        <li>• Turnitin checks automatically</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section class="mb-12">
+            <h2 class="text-3xl font-bold mb-6">💡 Top Tips for Success</h2>
+            <div class="space-y-3">
+                <div class="p-4 rounded" style="background-color: #d1fae5; border-left: 4px solid #10b981;">
+                    <p class="font-bold mb-2" style="color: #166534;">✓ Start early</p>
+                    <p class="text-sm">Research takes time. Don't leave it until the last week.</p>
+                </div>
+                <div class="p-4 rounded" style="background-color: #d1fae5; border-left: 4px solid #10b981;">
+                    <p class="font-bold mb-2" style="color: #166534;">✓ Be specific</p>
+                    <p class="text-sm">Use concrete examples and statistics. Vague claims = low marks.</p>
+                </div>
+                <div class="p-4 rounded" style="background-color: #d1fae5; border-left: 4px solid #10b981;">
+                    <p class="font-bold mb-2" style="color: #166534;">✓ Analyze, don't just describe</p>
+                    <p class="text-sm">Explain WHY and HOW, not just WHAT happened.</p>
+                </div>
+                <div class="p-4 rounded" style="background-color: #d1fae5; border-left: 4px solid #10b981;">
+                    <p class="font-bold mb-2" style="color: #166534;">✓ Reference everything</p>
+                    <p class="text-sm">Every claim needs a source. No exceptions.</p>
+                </div>
+                <div class="p-4 rounded" style="background-color: #d1fae5; border-left: 4px solid #10b981;">
+                    <p class="font-bold mb-2" style="color: #166534;">✓ Proofread carefully</p>
+                    <p class="text-sm">Read aloud to catch errors. Use spellcheck. Get feedback.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="mb-12">
+            <h2 class="text-3xl font-bold mb-6">❓ Need Help?</h2>
+            <div class="p-6 rounded" style="background-color: var(--bg-secondary);">
+                <ul class="space-y-3">
+                    <li><strong>Unit Leader:</strong> Mike Oustamanolakis</li>
+                    <li><strong>Ask in sessions</strong> - bring your questions to class</li>
+                    <li><strong>Office hours</strong> - book appointments when needed</li>
+                    <li><strong>Week 7 & 11</strong> - dedicated support sessions</li>
+                </ul>
+            </div>
+        </section>
+    </main>
+
+    <footer class="border-t mt-12 p-8" style="border-color: var(--border-color);">
+        <div class="max-w-7xl mx-auto text-center" style="color: var(--text-secondary);">
+            <p class="mb-2">Digital Media Technologies - Unit Code: 463Z0004</p>
+            <p class="text-sm">Manchester Metropolitan University</p>
+        </div>
+    </footer>
+
+    <script>
+        let isDarkMode=false,fontSize=1;
+        document.getElementById('darkModeToggle').addEventListener('click',()=>{isDarkMode=!isDarkMode;document.body.classList.toggle('dark-mode');document.getElementById('modeIcon').textContent=isDarkMode?'☀️':'🌙';});
+        document.getElementById('increaseFont').addEventListener('click',()=>{if(fontSize<1.5){fontSize+=0.1;document.documentElement.style.setProperty('--font-size',fontSize);}});
+        document.getElementById('decreaseFont').addEventListener('click',()=>{if(fontSize>0.7){fontSize-=0.1;document.documentElement.style.setProperty('--font-size',fontSize);}});
+    </script>
+</body>
+</html>

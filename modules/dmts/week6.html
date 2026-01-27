@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Week 6: Social Media & Identity Formation</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .slide { display: none; }
+        .slide.active { display: flex; }
+        :root {
+            --bg-primary: #ffffff; --bg-secondary: #f9fafb; --text-primary: #111827;
+            --text-secondary: #4b5563; --border-color: #e5e7eb; --accent-color: #3b82f6; --font-size: 1;
+        }
+        .dark-mode {
+            --bg-primary: #1f2937; --bg-secondary: #111827; --text-primary: #f9fafb;
+            --text-secondary: #d1d5db; --border-color: #374151; --accent-color: #60a5fa;
+        }
+        html { font-size: calc(var(--font-size) * 16px); }
+        body { background-color: var(--bg-primary); color: var(--text-primary); }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col">
+    <header class="border-b p-4" style="border-color: var(--border-color);">
+        <div class="max-w-7xl mx-auto flex justify-between items-center">
+            <h1 class="text-lg font-semibold">Digital Media Technologies - Week 6</h1>
+            <div class="flex gap-2">
+                <button id="decreaseFont" class="px-3 py-2 rounded border" style="border-color: var(--border-color);">A-</button>
+                <button id="increaseFont" class="px-3 py-2 rounded border" style="border-color: var(--border-color);">A+</button>
+                <button id="darkModeToggle" class="px-4 py-2 rounded border" style="border-color: var(--border-color);"><span id="modeIcon">🌙</span></button>
+            </div>
+        </div>
+    </header>
+    <main class="flex-1 flex items-center justify-center p-8">
+        <div class="w-full max-w-5xl">
+            <!-- Title slide -->
+            <div class="slide active flex-col items-center justify-center text-center h-[70vh]">
+                <h2 class="text-5xl font-bold mb-6">Social Media & Identity Formation</h2>
+                <h3 class="text-3xl mb-8" style="color: var(--text-secondary);">Week 6: Global Perspectives on Digital Identity</h3>
+                <p class="text-xl" style="color: var(--text-secondary);">Week 6 of 11</p>
+            </div>
+            <!-- Slide 2: Social Media & Identity -->
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-4xl font-bold mb-8">Social Media & Identity Formation</h2>
+                <div class="mb-6 p-6 rounded-lg" style="background-color: var(--bg-secondary); border: 2px solid var(--border-color);">
+                    <p class="text-2xl font-semibold mb-3">Social media isn't just communication - it's identity construction</p>
+                </div>
+                <ul class="space-y-4 text-lg">
+                    <li class="flex items-start">
+                        <span class="mr-3">👤</span>
+                        <div><p class="font-bold mb-1">Curated self-presentation</p><p style="color: var(--text-secondary);">Choosing what to share creates public identity. "Instagram vs reality"</p></div>
+                    </li>
+                    <li class="flex items-start">
+                        <span class="mr-3">👥</span>
+                        <div><p class="font-bold mb-1">Social validation</p><p style="color: var(--text-secondary);">Likes, followers, comments = social currency. Quantified popularity</p></div>
+                    </li>
+                    <li class="flex items-start">
+                        <span class="mr-3">🔗</span>
+                        <div><p class="font-bold mb-1">Network effects</p><p style="color: var(--text-secondary);">Your connections define you. Echo chambers form. Filter bubbles emerge</p></div>
+                    </li>
+                    <li class="flex items-start">
+                        <span class="mr-3">🎭</span>
+                        <div><p class="font-bold mb-1">Multiple personas</p><p style="color: var(--text-secondary);">Different platforms = different selves. LinkedIn vs TikTok vs Twitter</p></div>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Slide 3: Global Context -->
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-4xl font-bold mb-8">A Globally Fragmented Internet</h2>
+                <div class="mb-6 p-6 rounded-lg" style="background-color: var(--bg-secondary); border: 2px solid var(--border-color);">
+                    <p class="text-2xl font-semibold mb-4">There is NO single global social media sphere</p>
+                    <p class="text-xl">Instead: Multiple parallel ecosystems with limited overlap</p>
+                </div>
+                <div class="grid grid-cols-3 gap-4 text-base">
+                    <div class="p-4 rounded" style="background-color: #dbeafe;">
+                        <p class="font-bold text-lg mb-2" style="color: #1e40af;">Western Sphere</p>
+                        <p>Facebook, Instagram, Twitter/X, TikTok, YouTube</p>
+                        <p class="text-sm mt-2">~2.5B users</p>
+                    </div>
+                    <div class="p-4 rounded" style="background-color: #fee2e2;">
+                        <p class="font-bold text-lg mb-2" style="color: #991b1b;">Chinese Sphere</p>
+                        <p>WeChat, Weibo, Douyin, Xiaohongshu, Bilibili</p>
+                        <p class="text-sm mt-2">~1B users</p>
+                    </div>
+                    <div class="p-4 rounded" style="background-color: #d1fae5;">
+                        <p class="font-bold text-lg mb-2" style="color: #166534;">Other Spheres</p>
+                        <p>VK (Russia), Telegram, LINE (Japan/Taiwan), KakaoTalk (Korea)</p>
+                        <p class="text-sm mt-2">~500M+ each</p>
+                    </div>
+                </div>
+                <p class="mt-6 text-lg p-4 rounded font-semibold" style="background-color: var(--bg-secondary);">These ecosystems rarely overlap - different users, different content, different rules</p>
+            </div>
+
+            <!-- Slide 4: Western Social Media Landscape -->
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-4xl font-bold mb-8">Western Social Media Ecosystem</h2>
+                <div class="space-y-3">
+                    <div class="p-4 rounded" style="background-color: #dbeafe; border-left: 4px solid #3b82f6;">
+                        <p class="font-bold text-lg mb-2">📘 Facebook/Meta (2004)</p>
+                        <p class="text-base">Personal connections, groups, marketplace. Aging user base in West. 3B+ global users.</p>
+                    </div>
+                    <div class="p-4 rounded" style="background-color: #dbeafe; border-left: 4px solid #3b82f6;">
+                        <p class="font-bold text-lg mb-2">📸 Instagram (2010, Meta-owned)</p>
+                        <p class="text-base">Visual-first, influencer culture, Stories. 2B+ users, younger demographic.</p>
+                    </div>
+                    <div class="p-4 rounded" style="background-color: #dbeafe; border-left: 4px solid #3b82f6;">
+                        <p class="font-bold text-lg mb-2">🐦 Twitter/X (2006)</p>
+                        <p class="text-base">Real-time news, public discourse, brevity. 500M+ users. Influential beyond size.</p>
+                    </div>
+                    <div class="p-4 rounded" style="background-color: #dbeafe; border-left: 4px solid #3b82f6;">
+                        <p class="font-bold text-lg mb-2">🎵 TikTok (2016, Chinese-owned but global)</p>
+                        <p class="text-base">Short-form video, algorithm-driven, viral trends. 1.5B+ users, Gen Z dominated.</p>
+                    </div>
+                    <div class="p-4 rounded" style="background-color: #dbeafe; border-left: 4px solid #3b82f6;">
+                        <p class="font-bold text-lg mb-2">▶️ YouTube (2005, Google-owned)</p>
+                        <p class="text-base">Video platform, creator economy, education + entertainment. 2.5B+ users.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 5: Chinese Social Media Landscape -->
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-4xl font-bold mb-8">Chinese Social Media Ecosystem</h2>
+                <div class="mb-4 p-4 rounded" style="background-color: #fee2e2; border: 2px solid #ef4444;">
+                    <p class="font-bold text-lg mb-2">⚠️ Completely Separate from Western Platforms</p>
+                    <p class="text-base">Great Firewall blocks Facebook, Instagram, Twitter, YouTube. Domestic alternatives dominate.</p>
+                </div>
+                <div class="space-y-3 text-base">
+                    <div class="p-4 rounded" style="background-color: #fee2e2; border-left: 4px solid #ef4444;">
+                        <p class="font-bold text-lg mb-2">💬 WeChat/Weixin (2011)</p>
+                        <p>Super-app: messaging + payments + services + social. 1.3B users. Essential for daily life in China.</p>
+                    </div>
+                    <div class="p-4 rounded" style="background-color: #fee2e2; border-left: 4px solid #ef4444;">
+                        <p class="font-bold text-lg mb-2">📱 Weibo (2009)</p>
+                        <p>Twitter-like microblogging. Public discourse, celebrities, news. 600M+ users.</p>
+                    </div>
+                    <div class="p-4 rounded" style="background-color: #fee2e2; border-left: 4px solid #ef4444;">
+                        <p class="font-bold text-lg mb-2">🎥 Douyin (2016)</p>
+                        <p>Chinese version of TikTok (same company). 700M+ users. Heavily regulated content.</p>
+                    </div>
+                    <div class="p-4 rounded" style="background-color: #fee2e2; border-left: 4px solid #ef4444;">
+                        <p class="font-bold text-lg mb-2">📕 Xiaohongshu/RED (2013)</p>
+                        <p>"Little Red Book" - lifestyle sharing, e-commerce. 300M+ users, female-dominated.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 6: Key Differences West vs China -->
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-4xl font-bold mb-8">Western vs Chinese: Fundamental Differences</h2>
+                <div class="grid grid-cols-2 gap-5 text-base">
+                    <div class="space-y-3">
+                        <div class="p-4 rounded" style="background-color: #dbeafe;">
+                            <p class="font-bold mb-2" style="color: #1e40af;">Western Model:</p>
+                            <ul class="space-y-2">
+                                <li>• Separate apps for different functions</li>
+                                <li>• Content moderation (limited)</li>
+                                <li>• Monetization via ads</li>
+                                <li>• Algorithm-driven feeds</li>
+                                <li>• Private companies, market-driven</li>
+                                <li>• Cross-platform sharing possible</li>
+                            </ul>
+                        </div>
+                        <div class="p-4 rounded" style="background-color: #dbeafe;">
+                            <p class="font-bold mb-2" style="color: #1e40af;">Identity focus:</p>
+                            <p>Individual expression, personal branding, influencer culture</p>
+                        </div>
+                    </div>
+                    <div class="space-y-3">
+                        <div class="p-4 rounded" style="background-color: #fee2e2;">
+                            <p class="font-bold mb-2" style="color: #991b1b;">Chinese Model:</p>
+                            <ul class="space-y-2">
+                                <li>• Super-apps (many functions in one)</li>
+                                <li>• Heavy content moderation/censorship</li>
+                                <li>• Integrated e-commerce/payments</li>
+                            <li>• Government oversight</li>
+                                <li>• Real-name registration required</li>
+                                <li>• Walled gardens (limited external sharing)</li>
+                            </ul>
+                        </div>
+                        <div class="p-4 rounded" style="background-color: #fee2e2;">
+                            <p class="font-bold mb-2" style="color: #991b1b;">Identity focus:</p>
+                            <p>Social harmony, collective values, careful self-presentation</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 7: Other Regional Players -->
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-4xl font-bold mb-8">Beyond West & China: Regional Social Media</h2>
+                <div class="mb-4 p-4 rounded" style="background-color: var(--bg-secondary); border: 2px solid var(--border-color);">
+                    <p class="text-xl">Many countries/regions have developed their own dominant platforms</p>
+                </div>
+                <div class="space-y-3 text-base">
+                    <div class="p-4 rounded" style="background-color: var(--bg-secondary);">
+                        <p class="font-bold text-lg mb-2">🇷🇺 VKontakte (VK) - Russia</p>
+                        <p>Russian Facebook alternative. 100M+ users. Dominant in Russia and former Soviet states.</p>
+                    </div>
+                    <div class="p-4 rounded" style="background-color: var(--bg-secondary);">
+                        <p class="font-bold text-lg mb-2">💬 Telegram - Global (Russia-founded)</p>
+                        <p>Encrypted messaging, channels, groups. 900M+ users. Popular in Middle East, Latin America, Asia.</p>
+                    </div>
+                    <div class="p-4 rounded" style="background-color: var(--bg-secondary);">
+                        <p class="font-bold text-lg mb-2">🇯🇵 LINE - Japan, Taiwan, Thailand</p>
+                        <p>Super-app model. Messaging + payments + games. 200M+ users in East/Southeast Asia.</p>
+                    </div>
+                    <div class="p-4 rounded" style="background-color: var(--bg-secondary);">
+                        <p class="font-bold text-lg mb-2">🇰🇷 KakaoTalk - South Korea</p>
+                        <p>Dominant messaging app in Korea. 50M+ users. Integrated with Korean internet ecosystem.</p>
+                    </div>
+                    <div class="p-4 rounded" style="background-color: var(--bg-secondary);">
+                        <p class="font-bold text-lg mb-2">🌍 WhatsApp (Meta) - Global South</p>
+                        <p>2B+ users. Dominant in India, Brazil, much of Africa, Middle East, Europe.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 8: National Digital Identity -->
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-4xl font-bold mb-8">Social Media & National Identity</h2>
+                <div class="mb-6 p-6 rounded-lg" style="background-color: var(--bg-secondary); border: 2px solid var(--border-color);">
+                    <p class="text-xl">Countries use social media to shape and project national identity</p>
+                </div>
+                <ul class="space-y-4 text-lg">
+                    <li class="flex items-start">
+                        <span class="mr-3">🏛️</span>
+                        <div><p class="font-bold mb-1">China: Social Credit & Social Harmony</p><p style="color: var(--text-secondary);">Social media monitored for stability. Positive content rewarded. Criticism suppressed.</p></div>
+                    </li>
+                    <li class="flex items-start">
+                        <span class="mr-3">🗣️</span>
+                        <div><p class="font-bold mb-1">USA: Free Speech Marketplace</p><p style="color: var(--text-secondary);">Platforms as "town square". Tension between freedom and moderation.</p></div>
+                    </li>
+                    <li class="flex items-start">
+                        <span class="mr-3">🇪🇺</span>
+                        <div><p class="font-bold mb-1">Europe: Privacy & Regulation</p><p style="color: var(--text-secondary);">GDPR, Digital Services Act. User rights over data. Platform accountability.</p></div>
+                    </li>
+                    <li class="flex items-start">
+                        <span class="mr-3">🌍</span>
+                        <div><p class="font-bold mb-1">Global South: Leapfrogging</p><p style="color: var(--text-secondary);">Mobile-first adoption. WhatsApp as primary communication. Different usage patterns.</p></div>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Slide 9: Cultural Differences Usage -->
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-4xl font-bold mb-8">Cultural Differences in Social Media Use</h2>
+                <div class="space-y-4">
+                    <div class="p-5 rounded" style="background-color: var(--bg-secondary); border-left: 4px solid var(--accent-color);">
+                        <p class="font-bold text-xl mb-2">Privacy vs Openness</p>
+                        <p class="text-base">Western: More personal sharing, influencer culture. Asian: More careful self-presentation, group harmony valued</p>
+                    </div>
+                    <div class="p-5 rounded" style="background-color: var(--bg-secondary); border-left: 4px solid var(--accent-color);">
+                        <p class="font-bold text-xl mb-2">Individual vs Collective</p>
+                        <p class="text-base">Western: "This is ME". Chinese/Asian: More contextual identity, different faces for different audiences</p>
+                    </div>
+                    <div class="p-5 rounded" style="background-color: var(--bg-secondary); border-left: 4px solid var(--accent-color);">
+                        <p class="font-bold text-xl mb-2">Commerce Integration</p>
+                        <p class="text-base">Western: Social + commerce separate. Chinese: Fully integrated - social commerce, live shopping normal</p>
+                    </div>
+                    <div class="p-5 rounded" style="background-color: var(--bg-secondary); border-left: 4px solid var(--accent-color);">
+                        <p class="font-bold text-xl mb-2">Platform Loyalty</p>
+                        <p class="text-base">Western: Multi-platform users. Chinese: Super-app ecosystems (do everything in WeChat)</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 10: Identity Formation Across Cultures -->
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-4xl font-bold mb-8">How Social Media Shapes Identity Differently</h2>
+                <div class="grid grid-cols-2 gap-5 text-base">
+                    <div class="p-5 rounded" style="background-color: var(--bg-secondary);">
+                        <p class="font-bold text-xl mb-3">Western Patterns:</p>
+                        <ul class="space-y-2">
+                            <li>• Personal brand building</li>
+                            <li>• Influencer aspiration</li>
+                            <li>• "Authentic" (curated) self</li>
+                            <li>• FOMO and comparison culture</li>
+                            <li>• Political identity expression</li>
+                            <li>• Niche communities/subcultures</li>
+                        </ul>
+                    </div>
+                    <div class="p-5 rounded" style="background-color: var(--bg-secondary);">
+                        <p class="font-bold text-xl mb-3">Chinese Patterns:</p>
+                        <ul class="space-y-2">
+                            <li>• Group belonging emphasis</li>
+                            <li>• KOL (Key Opinion Leader) culture</li>
+                            <li>• Cautious political expression</li>
+                            <li>• Strong e-commerce integration</li>
+                            <li>• Face-saving important</li>
+                            <li>• Super-app daily routines</li>
+                        </ul>
+                    </div>
+                </div>
+                <p class="mt-4 text-lg p-4 rounded font-semibold" style="background-color: var(--bg-secondary);">Neither is "better" - they're shaped by different cultural values and governance models</p>
+            </div>
+
+            <!-- Slide 11: Global Implications -->
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-4xl font-bold mb-8">Implications of Fragmented Social Media</h2>
+                <ul class="space-y-4 text-lg">
+                    <li class="flex items-start">
+                        <span class="mr-3">🌐</span>
+                        <div><p class="font-bold mb-1">No global public sphere</p><p style="color: var(--text-secondary);">Chinese users can't see Western platforms. Russians increasingly isolated. Information silos</p></div>
+                    </li>
+                    <li class="flex items-start">
+                        <span class="mr-3">🗣️</span>
+                        <div><p class="font-bold mb-1">Different "realities"</p><p style="color: var(--text-secondary);">Same event reported completely differently across ecosystems. Parallel narratives</p></div>
+                    </li>
+                    <li class="flex items-start">
+                        <span class="mr-3">🎯</span>
+                        <div><p class="font-bold mb-1">Geopolitical tensions</p><p style="color: var(--text-secondary);">TikTok bans, data sovereignty, digital borders. Tech becomes political weapon</p></div>
+                    </li>
+                    <li class="flex items-start">
+                        <span class="mr-3">💼</span>
+                        <div><p class="font-bold mb-1">Business challenges</p><p style="color: var(--text-secondary);">Companies must navigate multiple ecosystems. What works in US fails in China and vice versa</p></div>
+                    </li>
+                </ul>
+                <p class="mt-6 text-lg p-4 rounded font-semibold" style="background-color: #fee2e2; border-left: 4px solid #ef4444;">The "global internet" is actually several regional internets with limited connection</p>
+            </div>
+
+            <!-- Slide 12: For Your Research -->
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-4xl font-bold mb-6">Research Implications</h2>
+                <div class="space-y-4">
+                    <div class="p-5 rounded-lg" style="background-color: var(--bg-secondary); border-left: 4px solid var(--accent-color);">
+                        <p class="text-xl font-bold mb-3">If studying social media impacts:</p>
+                        <ul class="space-y-2 text-lg">
+                            <li>• Be specific about which platform and which region</li>
+                            <li>• Don't assume Western patterns are universal</li>
+                            <li>• Consider cultural context in usage patterns</li>
+                            <li>• Look at governance/regulation differences</li>
+                            <li>• Examine identity formation in cultural context</li>
+                        </ul>
+                    </div>
+                    <div class="p-5 rounded-lg" style="background-color: #dcfce7; border: 2px solid #10b981;">
+                        <p class="text-lg font-semibold mb-2" style="color: #166534;">Key sources:</p>
+                        <p style="color: #166534;">Company reports, academic studies on digital cultures, government statistics, cross-cultural communication research</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 13: Next Week -->
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-4xl font-bold mb-6">Next Week: MIDTERM CHECK-IN</h2>
+                <div class="p-6 rounded-lg" style="background-color: #fef9c3; border: 2px solid #f59e0b;">
+                    <p class="text-2xl font-bold mb-4" style="color: #854d0e;">Week 7: Progress Review</p>
+                    <p class="text-xl mb-4" style="color: #854d0e;">Individual consultations, feedback session, support for your research progress</p>
+                    <p class="text-lg" style="color: #854d0e;">Come prepared with questions and what you've found so far!</p>
+                </div>
+            </div>
+        </div>
+    </main>
+    <footer class="border-t p-4" style="border-color: var(--border-color);">
+        <div class="max-w-7xl mx-auto flex justify-between items-center">
+            <button id="prevBtn" class="px-6 py-2 rounded border font-medium" style="border-color: var(--border-color);">← Previous</button>
+            <span id="slideCounter" class="text-lg" style="color: var(--text-secondary);">1 / 14</span>
+            <button id="nextBtn" class="px-6 py-2 rounded border font-medium" style="border-color: var(--border-color);">Next →</button>
+        </div>
+    </footer>
+    <script>
+        let currentSlide=0,isDarkMode=false,fontSize=1;const slides=document.querySelectorAll('.slide'),prevBtn=document.getElementById('prevBtn'),nextBtn=document.getElementById('nextBtn'),slideCounter=document.getElementById('slideCounter');function showSlide(n){slides[currentSlide].classList.remove('active');currentSlide=(n+slides.length)%slides.length;slides[currentSlide].classList.add('active');slideCounter.textContent=\`\${currentSlide+1} / \${slides.length}\`;prevBtn.disabled=currentSlide===0;nextBtn.disabled=currentSlide===slides.length-1;prevBtn.style.opacity=currentSlide===0?'0.5':'1';nextBtn.style.opacity=currentSlide===slides.length-1?'0.5':'1';}prevBtn.addEventListener('click',()=>{if(currentSlide>0)showSlide(currentSlide-1);});nextBtn.addEventListener('click',()=>{if(currentSlide<slides.length-1)showSlide(currentSlide+1);});document.getElementById('darkModeToggle').addEventListener('click',()=>{isDarkMode=!isDarkMode;document.body.classList.toggle('dark-mode');document.getElementById('modeIcon').textContent=isDarkMode?'☀️':'🌙';});document.getElementById('increaseFont').addEventListener('click',()=>{if(fontSize<1.5){fontSize+=0.1;document.documentElement.style.setProperty('--font-size',fontSize);}});document.getElementById('decreaseFont').addEventListener('click',()=>{if(fontSize>0.7){fontSize-=0.1;document.documentElement.style.setProperty('--font-size',fontSize);}});document.addEventListener('keydown',(e)=>{if(e.key==='ArrowRight'&&currentSlide<slides.length-1)showSlide(currentSlide+1);if(e.key==='ArrowLeft'&&currentSlide>0)showSlide(currentSlide-1);});showSlide(0);
+    </script>
+</body>
+</html>

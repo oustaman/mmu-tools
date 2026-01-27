@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Week 1: Module Introduction</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .slide { display: none; }
+        .slide.active { display: flex; }
+        
+        :root {
+            --bg-primary: #ffffff;
+            --bg-secondary: #f9fafb;
+            --text-primary: #111827;
+            --text-secondary: #4b5563;
+            --border-color: #e5e7eb;
+            --accent-color: #3b82f6;
+            --font-size: 1;
+        }
+        
+        .dark-mode {
+            --bg-primary: #1f2937;
+            --bg-secondary: #111827;
+            --text-primary: #f9fafb;
+            --text-secondary: #d1d5db;
+            --border-color: #374151;
+            --accent-color: #60a5fa;
+        }
+        
+        html {
+            font-size: calc(var(--font-size) * 16px);
+        }
+        
+        body {
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col">
+    <header class="border-b p-4" style="border-color: var(--border-color);">
+        <div class="max-w-7xl mx-auto flex justify-between items-center">
+            <h1 class="text-lg font-semibold">Digital Media Technologies - Week 1</h1>
+            <div class="flex gap-2">
+                <button id="decreaseFont" class="px-3 py-2 rounded border" style="border-color: var(--border-color);" aria-label="Decrease font size">A-</button>
+                <button id="increaseFont" class="px-3 py-2 rounded border" style="border-color: var(--border-color);" aria-label="Increase font size">A+</button>
+                <button id="darkModeToggle" class="px-4 py-2 rounded border" style="border-color: var(--border-color);" aria-label="Toggle dark mode">
+                    <span id="modeIcon">🌙</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <main class="flex-1 flex items-center justify-center p-8">
+        <div class="w-full max-w-5xl">
+            <!-- Slide 1: Title -->
+            <div class="slide active flex-col items-center justify-center text-center h-[70vh]">
+                <h2 class="text-5xl font-bold mb-6">Digital Media Technologies</h2>
+                <h3 class="text-3xl mb-8" style="color: var(--text-secondary);">Week 1: Module Introduction & Defining Digital Technologies</h3>
+                <p class="text-xl" style="color: var(--text-secondary);">Week 1 of 11</p>
+            </div>
+
+            <!-- Slide 2: Welcome -->
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-4xl font-bold mb-8">Welcome!</h2>
+                <div class="mb-6 p-6 rounded-lg" style="background-color: var(--bg-secondary); border: 2px solid var(--border-color);">
+                    <p class="text-2xl font-semibold mb-4">This module is about understanding how technologies shape society</p>
+                    <p class="text-xl">Not just what technologies do, but <strong>how they transform the way we live, work, communicate, and think</strong></p>
+                </div>
+                <ul class="space-y-4 text-xl mt-6">
+                    <li class="flex items-start">
+                        <span class="mr-3">📺</span>
+                        <span>How did television change family life and public discourse?</span>
+                    </li>
+                    <li class="flex items-start">
+                        <span class="mr-3">💻</span>
+                        <span>How did computers transform work and creativity?</span>
+                    </li>
+                    <li class="flex items-start">
+                        <span class="mr-3">📱</span>
+                        <span>How did mobile phones reshape communication and identity?</span>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Slide 3: Module Structure -->
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-4xl font-bold mb-8">Module Structure</h2>
+                <div class="grid grid-cols-1 gap-4">
+                    <div class="p-5 rounded-lg" style="background-color: var(--bg-secondary);">
+                        <h3 class="text-2xl font-bold mb-2">Weeks 1-6: Understanding Technologies</h3>
+                        <p class="text-lg" style="color: var(--text-secondary);">How technologies develop, spread, and become part of everyday life</p>
+                    </div>
+                    <div class="p-5 rounded-lg" style="background-color: #fef9c3;">
+                        <h3 class="text-2xl font-bold mb-2">Week 7: Midterm Check-in</h3>
+                        <p class="text-lg" style="color: #854d0e;">Progress review and individual support</p>
+                    </div>
+                    <div class="p-5 rounded-lg" style="background-color: var(--bg-secondary);">
+                        <h3 class="text-2xl font-bold mb-2">Weeks 8-10: Research & Analysis</h3>
+                        <p class="text-lg" style="color: var(--text-secondary);">Finding data, evaluating sources, building arguments</p>
+                    </div>
+                    <div class="p-5 rounded-lg" style="background-color: #dcfce7;">
+                        <h3 class="text-2xl font-bold mb-2">Week 11: Final Support</h3>
+                        <p class="text-lg" style="color: #166534;">Last checks and submission preparation</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 4: Assessment Overview -->
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-4xl font-bold mb-8">Your Assessment</h2>
+                <div class="mb-6 p-6 rounded-lg" style="background-color: var(--bg-secondary); border: 2px solid var(--border-color);">
+                    <p class="text-2xl font-semibold mb-4">A 2,250-word written report</p>
+                    <p class="text-xl">Choose ONE technology (TV, computers, or mobile phones) and analyze how it transformed social processes</p>
+                </div>
+                <div class="space-y-4 text-lg">
+                    <div class="p-4 rounded" style="background-color: var(--bg-secondary);">
+                        <p class="font-semibold mb-2">What you'll research:</p>
+                        <ul class="space-y-2">
+                            <li>• Development from prototype to current form (with statistical data)</li>
+                            <li>• How it became part of everyday life</li>
+                            <li>• Core user and audience base (adoption, use, domestication)</li>
+                        </ul>
+                    </div>
+                    <div class="p-4 rounded" style="background-color: var(--bg-secondary);">
+                        <p class="font-semibold mb-2">Required sources:</p>
+                        <ul class="space-y-2">
+                            <li>• 2 book chapters</li>
+                            <li>• 2 journal papers</li>
+                            <li>• Official online sources (with statistics)</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 5: What is a Digital Technology? -->
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-4xl font-bold mb-8">What is a "Digital Technology"?</h2>
+                <div class="mb-6 p-6 rounded-lg" style="background-color: var(--bg-secondary); border: 2px solid var(--border-color);">
+                    <p class="text-xl mb-4">Before we study how technologies transform society, we need to define our terms clearly</p>
+                </div>
+                <div class="space-y-5 text-lg">
+                    <div>
+                        <p class="font-bold text-xl mb-2">Digital = Information as Numbers</p>
+                        <p style="color: var(--text-secondary);">Digital technologies encode information (text, images, sound, video) as binary code (1s and 0s) that computers can process, store, and transmit</p>
+                    </div>
+                    <div class="p-4 rounded" style="background-color: var(--bg-secondary);">
+                        <p class="text-xl font-semibold mb-3">Examples of digital vs analog:</p>
+                        <div class="grid grid-cols-2 gap-4 text-base">
+                            <div>
+                                <p class="font-semibold mb-2" style="color: var(--accent-color);">Digital:</p>
+                                <p>• Digital cameras (pixels)</p>
+                                <p>• MP3 files (sampled audio)</p>
+                                <p>• Netflix (streaming data)</p>
+                            </div>
+                            <div>
+                                <p class="font-semibold mb-2" style="color: var(--text-secondary);">Analog:</p>
+                                <p>• Film cameras (chemical)</p>
+                                <p>• Vinyl records (grooves)</p>
+                                <p>• Broadcast TV (waves)</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 6: Why "Digital" Matters -->
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-4xl font-bold mb-8">Why "Digital" Matters</h2>
+                <p class="text-xl mb-6">Digital encoding creates unique capabilities that transform media:</p>
+                <ul class="space-y-5 text-lg">
+                    <li class="flex items-start">
+                        <span class="text-2xl mr-4">📋</span>
+                        <div>
+                            <p class="font-bold mb-1">Perfect copying</p>
+                            <p style="color: var(--text-secondary);">Analog degrades with each copy. Digital can be copied infinitely without loss</p>
+                        </div>
+                    </li>
+                    <li class="flex items-start">
+                        <span class="text-2xl mr-4">✏️</span>
+                        <div>
+                            <p class="font-bold mb-1">Easy editing</p>
+                            <p style="color: var(--text-secondary);">Manipulating analog requires physical changes. Digital editing is non-destructive</p>
+                        </div>
+                    </li>
+                    <li class="flex items-start">
+                        <span class="text-2xl mr-4">🔄</span>
+                        <div>
+                            <p class="font-bold mb-1">Instant transmission</p>
+                            <p style="color: var(--text-secondary);">Analog requires physical delivery. Digital travels at network speed</p>
+                        </div>
+                    </li>
+                    <li class="flex items-start">
+                        <span class="text-2xl mr-4">💾</span>
+                        <div>
+                            <p class="font-bold mb-1">Compact storage</p>
+                            <p style="color: var(--text-secondary);">Analog requires physical space. Digital can store vast amounts in tiny devices</p>
+                        </div>
+                    </li>
+                    <li class="flex items-start">
+                        <span class="text-2xl mr-4">🔍</span>
+                        <div>
+                            <p class="font-bold mb-1">Searchability</p>
+                            <p style="color: var(--text-secondary);">Analog requires manual indexing. Digital can be instantly searched and analyzed</p>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Slide 7: Technologies vs Devices -->
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-4xl font-bold mb-8">Technologies vs Devices</h2>
+                <div class="mb-6 p-6 rounded-lg" style="background-color: var(--bg-secondary); border: 2px solid var(--border-color);">
+                    <p class="text-xl">Important distinction: We study <strong>technologies</strong> (systems), not just <strong>devices</strong> (objects)</p>
+                </div>
+                <div class="grid grid-cols-2 gap-6">
+                    <div class="p-5 rounded-lg" style="background-color: var(--bg-secondary);">
+                        <p class="text-2xl font-bold mb-4" style="color: var(--accent-color);">Device</p>
+                        <p class="text-lg mb-3">A physical object</p>
+                        <p class="text-base mb-4" style="color: var(--text-secondary);">Examples:</p>
+                        <ul class="text-base space-y-2">
+                            <li>• A Sony TV</li>
+                            <li>• An iPhone 15</li>
+                            <li>• A Dell laptop</li>
+                        </ul>
+                    </div>
+                    <div class="p-5 rounded-lg" style="background-color: var(--bg-secondary);">
+                        <p class="text-2xl font-bold mb-4" style="color: var(--accent-color);">Technology</p>
+                        <p class="text-lg mb-3">A system of infrastructure, standards, practices, and culture</p>
+                        <p class="text-base mb-4" style="color: var(--text-secondary);">Examples:</p>
+                        <ul class="text-base space-y-2">
+                            <li>• Television (broadcasts, content, viewing practices)</li>
+                            <li>• Mobile phones (networks, apps, social norms)</li>
+                            <li>• Computers (internet, software, digital literacy)</li>
+                        </ul>
+                    </div>
+                </div>
+                <p class="mt-6 text-lg p-4 rounded font-semibold" style="background-color: var(--bg-secondary);">
+                    Your assessment focuses on technologies and their social impact, not just device specifications
+                </p>
+            </div>
+
+            <!-- Slide 8: Three Core Technologies -->
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-4xl font-bold mb-8">Our Three Core Technologies</h2>
+                <div class="space-y-4">
+                    <div class="p-5 rounded-lg" style="background-color: var(--bg-secondary); border-left: 4px solid #ef4444;">
+                        <h3 class="text-2xl font-bold mb-2">📺 Television</h3>
+                        <p class="text-lg">Broadcasting → Cable → Satellite → Streaming</p>
+                        <p class="text-base mt-2" style="color: var(--text-secondary);">Transformed: Family routines, news consumption, shared culture, advertising</p>
+                    </div>
+                    <div class="p-5 rounded-lg" style="background-color: var(--bg-secondary); border-left: 4px solid #3b82f6;">
+                        <h3 class="text-2xl font-bold mb-2">💻 Computers</h3>
+                        <p class="text-lg">Mainframes → Personal → Internet → Cloud</p>
+                        <p class="text-base mt-2" style="color: var(--text-secondary);">Transformed: Work, creativity, information access, social connection</p>
+                    </div>
+                    <div class="p-5 rounded-lg" style="background-color: var(--bg-secondary); border-left: 4px solid #10b981;">
+                        <h3 class="text-2xl font-bold mb-2">📱 Mobile Phones</h3>
+                        <p class="text-lg">Car phones → Cellphones → Smartphones → Everything device</p>
+                        <p class="text-base mt-2" style="color: var(--text-secondary);">Transformed: Communication, location, identity, constant connectivity</p>
+                    </div>
+                </div>
+                <p class="mt-6 text-lg p-4 rounded font-semibold" style="background-color: #fef9c3; color: #854d0e;">
+                    You'll choose ONE of these for your assessment
+                </p>
+            </div>
+
+            <!-- Slide 9: From Prototype to Everyday Life -->
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-4xl font-bold mb-8">From Prototype to Everyday Life</h2>
+                <p class="text-xl mb-6">Technologies go through predictable stages:</p>
+                <div class="space-y-4 text-lg">
+                    <div class="p-4 rounded-lg flex items-start gap-4" style="background-color: var(--bg-secondary);">
+                        <span class="text-3xl font-bold" style="color: var(--accent-color);">1</span>
+                        <div>
+                            <p class="font-bold mb-1">Invention & Prototype</p>
+                            <p style="color: var(--text-secondary);">Lab experiments, early demonstrations, technical proof-of-concept</p>
+                        </div>
+                    </div>
+                    <div class="p-4 rounded-lg flex items-start gap-4" style="background-color: var(--bg-secondary);">
+                        <span class="text-3xl font-bold" style="color: var(--accent-color);">2</span>
+                        <div>
+                            <p class="font-bold mb-1">Early Adoption</p>
+                            <p style="color: var(--text-secondary);">Expensive, niche markets, enthusiasts and professionals</p>
+                        </div>
+                    </div>
+                    <div class="p-4 rounded-lg flex items-start gap-4" style="background-color: var(--bg-secondary);">
+                        <span class="text-3xl font-bold" style="color: var(--accent-color);">3</span>
+                        <div>
+                            <p class="font-bold mb-1">Mass Market</p>
+                            <p style="color: var(--text-secondary);">Affordable, widely available, becoming "normal"</p>
+                        </div>
+                    </div>
+                    <div class="p-4 rounded-lg flex items-start gap-4" style="background-color: var(--bg-secondary);">
+                        <span class="text-3xl font-bold" style="color: var(--accent-color);">4</span>
+                        <div>
+                            <p class="font-bold mb-1">Ubiquity & "Domestication"</p>
+                            <p style="color: var(--text-secondary);">Invisible infrastructure, taken for granted, deeply embedded in daily life</p>
+                        </div>
+                    </div>
+                </div>
+                <p class="mt-6 text-lg p-4 rounded font-semibold" style="background-color: var(--bg-secondary);">
+                    Your report will trace this journey with statistical evidence
+                </p>
+            </div>
+
+            <!-- Slide 10: Key Concept - Domestication -->
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-4xl font-bold mb-8">Key Concept: Domestication</h2>
+                <div class="mb-6 p-6 rounded-lg" style="background-color: var(--bg-secondary); border: 2px solid var(--border-color);">
+                    <p class="text-xl"><strong>Domestication:</strong> The process by which a new technology becomes familiar, routine, and integrated into everyday practices and social relationships</p>
+                </div>
+                <div class="space-y-4 text-lg">
+                    <p class="font-semibold text-xl mb-3">Think about mobile phones:</p>
+                    <div class="p-4 rounded" style="background-color: var(--bg-secondary);">
+                        <p class="mb-2"><strong>1990s:</strong> "Only business people need mobile phones"</p>
+                        <p class="mb-2"><strong>2000s:</strong> "Everyone should have a phone for emergencies"</p>
+                        <p class="mb-2"><strong>2010s:</strong> "I can't imagine life without my smartphone"</p>
+                        <p><strong>2020s:</strong> Checking phone is first thing in morning, last thing at night</p>
+                    </div>
+                    <p class="mt-4 text-xl font-semibold p-4 rounded" style="background-color: #fef9c3; color: #854d0e;">
+                        Domestication isn't just adoption - it's transformation of daily life and identity
+                    </p>
+                </div>
+            </div>
+
+            <!-- Slide 11: What Makes Good Research -->
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-4xl font-bold mb-8">What Makes Good Research?</h2>
+                <p class="text-xl mb-6">Your assessment requires evidence-based analysis:</p>
+                <ul class="space-y-4 text-lg">
+                    <li class="flex items-start">
+                        <span class="mr-3">📊</span>
+                        <div>
+                            <p class="font-bold mb-1">Statistical evidence</p>
+                            <p style="color: var(--text-secondary);">Growth rates, adoption figures, usage statistics from reliable sources</p>
+                        </div>
+                    </li>
+                    <li class="flex items-start">
+                        <span class="mr-3">📚</span>
+                        <div>
+                            <p class="font-bold mb-1">Academic sources</p>
+                            <p style="color: var(--text-secondary);">Book chapters and journal papers that analyze social impacts</p>
+                        </div>
+                    </li>
+                    <li class="flex items-start">
+                        <span class="mr-3">🔍</span>
+                        <div>
+                            <p class="font-bold mb-1">Critical analysis</p>
+                            <p style="color: var(--text-secondary);">Not just describing - explaining WHY and HOW technologies transformed society</p>
+                        </div>
+                    </li>
+                    <li class="flex items-start">
+                        <span class="mr-3">📝</span>
+                        <div>
+                            <p class="font-bold mb-1">Proper referencing</p>
+                            <p style="color: var(--text-secondary);">Harvard format (Cite Them Right) - giving credit where it's due</p>
+                        </div>
+                    </li>
+                </ul>
+                <div class="mt-6 p-4 rounded" style="background-color: var(--bg-secondary);">
+                    <p class="text-lg font-semibold">We'll build these skills week by week throughout the module</p>
+                </div>
+            </div>
+
+            <!-- Slide 12: This Week's Focus -->
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-4xl font-bold mb-6">This Week: Choose Your Technology</h2>
+                <div class="mb-6 p-6 rounded-lg" style="background-color: var(--bg-secondary); border: 2px solid var(--border-color);">
+                    <p class="text-2xl font-semibold mb-4">Your first task: Decide which technology to study</p>
+                    <p class="text-xl">📺 Television  |  💻 Computers  |  📱 Mobile Phones</p>
+                </div>
+                <div class="space-y-4 text-lg">
+                    <p class="font-semibold text-xl mb-3">Questions to consider:</p>
+                    <ul class="space-y-3">
+                        <li>• Which technology are you most curious about?</li>
+                        <li>• Which has had the biggest impact on YOUR life?</li>
+                        <li>• Which transformation story interests you most?</li>
+                        <li>• Which could connect to your career interests?</li>
+                    </ul>
+                </div>
+                <div class="mt-6 p-5 rounded" style="background-color: #dcfce7; border: 2px solid #10b981;">
+                    <p class="text-lg font-semibold" style="color: #166534;">
+                        Don't overthink it - all three topics have rich research material available. Choose what genuinely interests you.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Slide 13: Next Steps -->
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-4xl font-bold mb-6">Next Steps</h2>
+                <div class="space-y-4">
+                    <div class="p-5 rounded-lg" style="background-color: var(--bg-secondary); border-left: 4px solid var(--accent-color);">
+                        <p class="text-xl font-bold mb-2">📋 Before Next Week:</p>
+                        <ul class="text-lg space-y-2">
+                            <li>• Choose your technology (TV, computers, or mobile phones)</li>
+                            <li>• Start thinking about what you already know about its history</li>
+                            <li>• Consider: What questions do you want to answer?</li>
+                        </ul>
+                    </div>
+                    <div class="p-5 rounded-lg" style="background-color: var(--bg-secondary); border-left: 4px solid #10b981;">
+                        <p class="text-xl font-bold mb-2">📖 Recommended Reading:</p>
+                        <ul class="text-lg space-y-2">
+                            <li>• Browse the library catalog for books on your chosen technology</li>
+                            <li>• Look for books with "social impact" or "society" in the title</li>
+                            <li>• Don't worry about detailed reading yet - just explore</li>
+                        </ul>
+                    </div>
+                    <div class="p-5 rounded-lg" style="background-color: #fef9c3;">
+                        <p class="text-xl font-bold mb-2" style="color: #854d0e;">🔜 Next Week:</p>
+                        <p class="text-lg" style="color: #854d0e;">The Internet - the infrastructure that changed everything</p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <footer class="border-t p-4" style="border-color: var(--border-color);">
+        <div class="max-w-7xl mx-auto flex justify-between items-center">
+            <button id="prevBtn" class="px-6 py-2 rounded border font-medium" style="border-color: var(--border-color);" aria-label="Previous slide">
+                ← Previous
+            </button>
+            <span id="slideCounter" class="text-lg" style="color: var(--text-secondary);">1 / 13</span>
+            <button id="nextBtn" class="px-6 py-2 rounded border font-medium" style="border-color: var(--border-color);" aria-label="Next slide">
+                Next →
+            </button>
+        </div>
+    </footer>
+
+    <script>
+        let currentSlide = 0;
+        let isDarkMode = false;
+        let fontSize = 1;
+        const slides = document.querySelectorAll('.slide');
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+        const slideCounter = document.getElementById('slideCounter');
+
+        function showSlide(n) {
+            slides[currentSlide].classList.remove('active');
+            currentSlide = (n + slides.length) % slides.length;
+            slides[currentSlide].classList.add('active');
+            slideCounter.textContent = `${currentSlide + 1} / ${slides.length}`;
+            
+            prevBtn.disabled = currentSlide === 0;
+            nextBtn.disabled = currentSlide === slides.length - 1;
+            prevBtn.style.opacity = currentSlide === 0 ? '0.5' : '1';
+            nextBtn.style.opacity = currentSlide === slides.length - 1 ? '0.5' : '1';
+        }
+
+        prevBtn.addEventListener('click', () => {
+            if (currentSlide > 0) showSlide(currentSlide - 1);
+        });
+
+        nextBtn.addEventListener('click', () => {
+            if (currentSlide < slides.length - 1) showSlide(currentSlide + 1);
+        });
+
+        document.getElementById('darkModeToggle').addEventListener('click', () => {
+            isDarkMode = !isDarkMode;
+            document.body.classList.toggle('dark-mode');
+            document.getElementById('modeIcon').textContent = isDarkMode ? '☀️' : '🌙';
+        });
+
+        document.getElementById('increaseFont').addEventListener('click', () => {
+            if (fontSize < 1.5) {
+                fontSize += 0.1;
+                document.documentElement.style.setProperty('--font-size', fontSize);
+            }
+        });
+
+        document.getElementById('decreaseFont').addEventListener('click', () => {
+            if (fontSize > 0.7) {
+                fontSize -= 0.1;
+                document.documentElement.style.setProperty('--font-size', fontSize);
+            }
+        });
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight' && currentSlide < slides.length - 1) showSlide(currentSlide + 1);
+            if (e.key === 'ArrowLeft' && currentSlide > 0) showSlide(currentSlide - 1);
+        });
+
+        showSlide(0);
+    </script>
+</body>
+</html>

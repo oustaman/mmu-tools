@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Week 10: Writing Workshop</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .slide { display: none; }
+        .slide.active { display: flex; }
+        :root {
+            --bg-primary: #ffffff; --bg-secondary: #f9fafb; --text-primary: #111827;
+            --text-secondary: #4b5563; --border-color: #e5e7eb; --accent-color: #3b82f6; --font-size: 1;
+        }
+        .dark-mode {
+            --bg-primary: #1f2937; --bg-secondary: #111827; --text-primary: #f9fafb;
+            --text-secondary: #d1d5db; --border-color: #374151; --accent-color: #60a5fa;
+        }
+        html { font-size: calc(var(--font-size) * 16px); }
+        body { background-color: var(--bg-primary); color: var(--text-primary); }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col">
+    <header class="border-b p-4" style="border-color: var(--border-color);">
+        <div class="max-w-7xl mx-auto flex justify-between items-center">
+            <h1 class="text-lg font-semibold">Digital Media Technologies - Week 10</h1>
+            <div class="flex gap-2">
+                <button id="decreaseFont" class="px-3 py-2 rounded border" style="border-color: var(--border-color);">A-</button>
+                <button id="increaseFont" class="px-3 py-2 rounded border" style="border-color: var(--border-color);">A+</button>
+                <button id="darkModeToggle" class="px-4 py-2 rounded border" style="border-color: var(--border-color);"><span id="modeIcon">🌙</span></button>
+            </div>
+        </div>
+    </header>
+    <main class="flex-1 flex items-center justify-center p-8">
+        <div class="w-full max-w-5xl">
+            <!-- Title slide -->
+            <div class="slide active flex-col items-center justify-center text-center h-[70vh]">
+                <h2 class="text-5xl font-bold mb-6">Writing Workshop</h2>
+                <h3 class="text-3xl mb-8" style="color: var(--text-secondary);">Week 10: Turning Research into Arguments</h3>
+                <p class="text-xl" style="color: var(--text-secondary);">Week 10 of 11</p>
+            </div>
+                        <!-- Slide 2: Assignment Structure -->
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-4xl font-bold mb-8">Your Report Structure</h2>
+                <div class="mb-4 p-4 rounded" style="background-color: var(--bg-secondary); border: 2px solid var(--border-color);">
+                    <p class="text-xl">2,250 words with clear sections</p>
+                </div>
+                <div class="space-y-3 text-base">
+                    <div class="p-4 rounded" style="background-color: var(--bg-secondary);">
+                        <p class="font-bold text-lg mb-2">Introduction (~300 words)</p>
+                        <p>Technology chosen, why it matters, what you'll cover</p>
+                    </div>
+                    <div class="p-4 rounded" style="background-color: var(--bg-secondary);">
+                        <p class="font-bold text-lg mb-2">Development History (~600 words)</p>
+                        <p>From prototype to current form. Key milestones. Statistical growth data.</p>
+                    </div>
+                    <div class="p-4 rounded" style="background-color: var(--bg-secondary);">
+                        <p class="font-bold text-lg mb-2">User Base & Adoption (~600 words)</p>
+                        <p>Demographics. Who uses it? How did it become mainstream? Domestication process.</p>
+                    </div>
+                    <div class="p-4 rounded" style="background-color: var(--bg-secondary);">
+                        <p class="font-bold text-lg mb-2">Social Transformation (~600 words)</p>
+                        <p>How it changed society. Work, communication, identity, culture.</p>
+                    </div>
+                    <div class="p-4 rounded" style="background-color: var(--bg-secondary);">
+                        <p class="font-bold text-lg mb-2">Conclusion (~150 words)</p>
+                        <p>Summary of key points. Current state and future outlook.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 3: Writing Strong Arguments -->
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-4xl font-bold mb-8">Writing Strong Arguments</h2>
+                <div class="space-y-4">
+                    <div class="p-5 rounded" style="background-color: #d1fae5; border-left: 4px solid #10b981;">
+                        <p class="font-bold text-xl mb-2" style="color: #166534;">✓ Good argument structure:</p>
+                        <p class="text-base mb-3" style="color: #166534;"><strong>Claim:</strong> "Mobile phones transformed personal identity"</p>
+                        <p class="text-base mb-3" style="color: #166534;"><strong>Evidence:</strong> "By 2024, 85% of users reported feeling anxious without their phone (Pew, 2024)"</p>
+                        <p class="text-base" style="color: #166534;"><strong>Analysis:</strong> "This demonstrates phones have become extensions of self, not just tools"</p>
+                    </div>
+                    <div class="p-5 rounded" style="background-color: #fee2e2; border-left: 4px solid #ef4444;">
+                        <p class="font-bold text-xl mb-2" style="color: #7f1d1d;">✗ Weak argument:</p>
+                        <p class="text-base" style="color: #7f1d1d;">"Mobile phones are important. Everyone uses them these days. They changed everything."</p>
+                        <p class="text-sm mt-2" style="color: #7f1d1d;">No evidence, no analysis, too vague</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 4: Integrating Sources -->
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-4xl font-bold mb-8">Integrating Sources Smoothly</h2>
+                <div class="space-y-4 text-base">
+                    <div class="p-4 rounded" style="background-color: #d1fae5;">
+                        <p class="font-bold mb-2" style="color: #166534;">✓ Good integration:</p>
+                        <p class="italic mb-2">"The shift to streaming fundamentally altered music consumption patterns. According to Spotify's 2023 annual report, users spent an average of 25 hours per month listening, compared to 15 hours for physical media owners in 2010. This transformation, as Smith (2022) argues, represents not just technological change but a cultural shift from ownership to access."</p>
+                        <p class="text-sm" style="color: #166534;">Sources integrated naturally into your argument</p>
+                    </div>
+                    <div class="p-4 rounded" style="background-color: #fee2e2;">
+                        <p class="font-bold mb-2" style="color: #7f1d1d;">✗ Poor integration:</p>
+                        <p class="italic mb-2">"Streaming changed music. Smith (2022) says ownership shifted to access. Spotify has 600 million users."</p>
+                        <p class="text-sm" style="color: #7f1d1d;">Choppy, no flow, sources feel tacked on</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 5: Common Mistakes -->
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-4xl font-bold mb-8">Common Mistakes to Avoid</h2>
+                <div class="space-y-3 text-base">
+                    <div class="p-4 rounded" style="background-color: #fee2e2;">
+                        <p class="font-bold mb-2">❌ Just describing without analyzing</p>
+                        <p>"Television was invented in 1927. Then color TV came in 1953. Then flat screens..."</p>
+                        <p class="text-sm mt-2 italic">→ Need: WHY it mattered, HOW it changed society</p>
+                    </div>
+                    <div class="p-4 rounded" style="background-color: #fee2e2;">
+                        <p class="font-bold mb-2">❌ Statistics without context</p>
+                        <p>"Smartphone users increased 500% between 2010-2020."</p>
+                        <p class="text-sm mt-2 italic">→ Need: What does this mean? Why did it happen? Social implications?</p>
+                    </div>
+                    <div class="p-4 rounded" style="background-color: #fee2e2;">
+                        <p class="font-bold mb-2">❌ Vague claims</p>
+                        <p>"Computers changed everything and made life better."</p>
+                        <p class="text-sm mt-2 italic">→ Need: Specific changes, evidence, nuanced view (pros AND cons)</p>
+                    </div>
+                    <div class="p-4 rounded" style="background-color: #fee2e2;">
+                        <p class="font-bold mb-2">❌ Poor referencing</p>
+                        <p>"According to a study..." or "Research shows..."</p>
+                        <p class="text-sm mt-2 italic">→ Need: Actual citation with author, year, source</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 6: Checklist -->
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-4xl font-bold mb-6">Final Checklist</h2>
+                <div class="space-y-3 text-lg">
+                    <div class="p-4 rounded" style="background-color: var(--bg-secondary);">
+                        <p class="font-bold mb-3">Before you submit:</p>
+                        <ul class="space-y-2 text-base">
+                            <li>☐ All sections covered with appropriate word counts</li>
+                            <li>☐ Clear argument throughout (not just description)</li>
+                            <li>☐ Statistical evidence integrated with analysis</li>
+                            <li>☐ 2 book chapters + 2 journal papers + official sources cited</li>
+                            <li>☐ Harvard referencing throughout (in-text + bibliography)</li>
+                            <li>☐ Proofread for clarity and grammar</li>
+                            <li>☐ 2,000-2,500 words (±10% of 2,250)</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 7: Next Week -->
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-4xl font-bold mb-6">Next Week: Final Support</h2>
+                <div class="p-6 rounded-lg" style="background-color: #dcfce7; border: 2px solid #10b981;">
+                    <p class="text-2xl font-bold mb-4" style="color: #166534;">Week 11: Last Checks & Submission</p>
+                    <p class="text-xl mb-4" style="color: #166534;">Final questions, last-minute help, submission support</p>
+                    <p class="text-lg" style="color: #166534;">And then: Celebration! You've done it!</p>
+                </div>
+            </div>
+        </div>
+    </main>
+    <footer class="border-t p-4" style="border-color: var(--border-color);">
+        <div class="max-w-7xl mx-auto flex justify-between items-center">
+            <button id="prevBtn" class="px-6 py-2 rounded border font-medium" style="border-color: var(--border-color);">← Previous</button>
+            <span id="slideCounter" class="text-lg" style="color: var(--text-secondary);">1 / 10</span>
+            <button id="nextBtn" class="px-6 py-2 rounded border font-medium" style="border-color: var(--border-color);">Next →</button>
+        </div>
+    </footer>
+    <script>
+        let currentSlide=0,isDarkMode=false,fontSize=1;const slides=document.querySelectorAll('.slide'),prevBtn=document.getElementById('prevBtn'),nextBtn=document.getElementById('nextBtn'),slideCounter=document.getElementById('slideCounter');function showSlide(n){slides[currentSlide].classList.remove('active');currentSlide=(n+slides.length)%slides.length;slides[currentSlide].classList.add('active');slideCounter.textContent=\`\${currentSlide+1} / \${slides.length}\`;prevBtn.disabled=currentSlide===0;nextBtn.disabled=currentSlide===slides.length-1;prevBtn.style.opacity=currentSlide===0?'0.5':'1';nextBtn.style.opacity=currentSlide===slides.length-1?'0.5':'1';}prevBtn.addEventListener('click',()=>{if(currentSlide>0)showSlide(currentSlide-1);});nextBtn.addEventListener('click',()=>{if(currentSlide<slides.length-1)showSlide(currentSlide+1);});document.getElementById('darkModeToggle').addEventListener('click',()=>{isDarkMode=!isDarkMode;document.body.classList.toggle('dark-mode');document.getElementById('modeIcon').textContent=isDarkMode?'☀️':'🌙';});document.getElementById('increaseFont').addEventListener('click',()=>{if(fontSize<1.5){fontSize+=0.1;document.documentElement.style.setProperty('--font-size',fontSize);}});document.getElementById('decreaseFont').addEventListener('click',()=>{if(fontSize>0.7){fontSize-=0.1;document.documentElement.style.setProperty('--font-size',fontSize);}});document.addEventListener('keydown',(e)=>{if(e.key==='ArrowRight'&&currentSlide<slides.length-1)showSlide(currentSlide+1);if(e.key==='ArrowLeft'&&currentSlide>0)showSlide(currentSlide-1);});showSlide(0);
+    </script>
+</body>
+</html>

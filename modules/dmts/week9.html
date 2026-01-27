@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Week 9: Evaluating Sources</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .slide { display: none; }
+        .slide.active { display: flex; }
+        :root {
+            --bg-primary: #ffffff; --bg-secondary: #f9fafb; --text-primary: #111827;
+            --text-secondary: #4b5563; --border-color: #e5e7eb; --accent-color: #3b82f6; --font-size: 1;
+        }
+        .dark-mode {
+            --bg-primary: #1f2937; --bg-secondary: #111827; --text-primary: #f9fafb;
+            --text-secondary: #d1d5db; --border-color: #374151; --accent-color: #60a5fa;
+        }
+        html { font-size: calc(var(--font-size) * 16px); }
+        body { background-color: var(--bg-primary); color: var(--text-primary); }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col">
+    <header class="border-b p-4" style="border-color: var(--border-color);">
+        <div class="max-w-7xl mx-auto flex justify-between items-center">
+            <h1 class="text-lg font-semibold">Digital Media Technologies - Week 9</h1>
+            <div class="flex gap-2">
+                <button id="decreaseFont" class="px-3 py-2 rounded border" style="border-color: var(--border-color);">A-</button>
+                <button id="increaseFont" class="px-3 py-2 rounded border" style="border-color: var(--border-color);">A+</button>
+                <button id="darkModeToggle" class="px-4 py-2 rounded border" style="border-color: var(--border-color);"><span id="modeIcon">🌙</span></button>
+            </div>
+        </div>
+    </header>
+    <main class="flex-1 flex items-center justify-center p-8">
+        <div class="w-full max-w-5xl">
+            <!-- Title slide -->
+            <div class="slide active flex-col items-center justify-center text-center h-[70vh]">
+                <h2 class="text-5xl font-bold mb-6">Evaluating Sources</h2>
+                <h3 class="text-3xl mb-8" style="color: var(--text-secondary);">Week 9: Tech Industry vs Academic Sources & Trend Reports</h3>
+                <p class="text-xl" style="color: var(--text-secondary);">Week 9 of 11</p>
+            </div>
+                        <!-- Slide 2: Sources Overview -->
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-4xl font-bold mb-8">Types of Sources About Technology</h2>
+                <div class="space-y-4">
+                    <div class="p-5 rounded" style="background-color: #dbeafe; border-left: 4px solid #3b82f6;">
+                        <p class="font-bold text-xl mb-2">🏢 Tech Industry Sources</p>
+                        <p class="text-base">Company reports, market research firms, industry associations, tech media</p>
+                    </div>
+                    <div class="p-5 rounded" style="background-color: #dcfce7; border-left: 4px solid #10b981;">
+                        <p class="font-bold text-xl mb-2">🎓 Academic Sources</p>
+                        <p class="text-base">Journal papers, books, academic conferences, university research</p>
+                    </div>
+                    <div class="p-5 rounded" style="background-color: #fef3c7; border-left: 4px solid #f59e0b;">
+                        <p class="font-bold text-xl mb-2">📊 Official Statistics</p>
+                        <p class="text-base">Government agencies, international organizations (UN ITU, World Bank)</p>
+                    </div>
+                </div>
+                <p class="mt-6 text-lg p-4 rounded font-semibold" style="background-color: var(--bg-secondary);">Each type has strengths and biases - use multiple types together</p>
+            </div>
+
+            <!-- Slide 3: Tech Industry Sources -->
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-4xl font-bold mb-8">Tech Industry Sources: Pros & Cons</h2>
+                <div class="grid grid-cols-2 gap-6">
+                    <div class="p-5 rounded" style="background-color: #d1fae5;">
+                        <p class="font-bold text-xl mb-3" style="color: #166534;">✓ Strengths:</p>
+                        <ul class="space-y-2 text-base">
+                            <li>• Current data (real-time)</li>
+                            <li>• Detailed statistics</li>
+                            <li>• Industry insider knowledge</li>
+                            <li>• Specific product/market info</li>
+                            <li>• Often free and accessible</li>
+                        </ul>
+                    </div>
+                    <div class="p-5 rounded" style="background-color: #fee2e2;">
+                        <p class="font-bold text-xl mb-3" style="color: #7f1d1d;">⚠ Weaknesses:</p>
+                        <ul class="space-y-2 text-base">
+                            <li>• Marketing bias (sell products)</li>
+                            <li>• Cherry-picked data</li>
+                            <li>• No peer review</li>
+                            <li>• Commercial agendas</li>
+                            <li>• Hype and speculation</li>
+                        </ul>
+                    </div>
+                </div>
+                <p class="mt-4 text-lg p-4 rounded font-semibold" style="background-color: #fef9c3; color: #854d0e;">Good for: Current statistics, market trends. Bad for: Critical analysis, social impacts</p>
+            </div>
+
+            <!-- Slide 4: Academic Sources -->
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-4xl font-bold mb-8">Academic Sources: Pros & Cons</h2>
+                <div class="grid grid-cols-2 gap-6">
+                    <div class="p-5 rounded" style="background-color: #d1fae5;">
+                        <p class="font-bold text-xl mb-3" style="color: #166534;">✓ Strengths:</p>
+                        <ul class="space-y-2 text-base">
+                            <li>• Peer-reviewed (quality checked)</li>
+                            <li>• Critical analysis</li>
+                            <li>• Methodology transparent</li>
+                            <li>• Social/cultural context</li>
+                            <li>• Less commercial bias</li>
+                        </ul>
+                    </div>
+                    <div class="p-5 rounded" style="background-color: #fee2e2;">
+                        <p class="font-bold text-xl mb-3" style="color: #7f1d1d;">⚠ Weaknesses:</p>
+                        <ul class="space-y-2 text-base">
+                            <li>• Often 2-3 years old</li>
+                            <li>• Dense, technical language</li>
+                            <li>• May lack current data</li>
+                            <li>• Paywalled (access issues)</li>
+                            <li>• Sometimes too theoretical</li>
+                        </ul>
+                    </div>
+                </div>
+                <p class="mt-4 text-lg p-4 rounded font-semibold" style="background-color: #fef9c3; color: #854d0e;">Good for: Social analysis, theoretical frameworks. Bad for: Latest statistics, cutting-edge tech</p>
+            </div>
+
+            <!-- Slide 5: Reading Trend Reports -->
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-4xl font-bold mb-8">How to Read Tech Trend Reports</h2>
+                <div class="mb-6 p-6 rounded-lg" style="background-color: var(--bg-secondary); border: 2px solid var(--border-color);">
+                    <p class="text-xl">Trend reports from Gartner, IDC, Forrester etc. are useful but require critical reading</p>
+                </div>
+                <ul class="space-y-4 text-lg">
+                    <li class="flex items-start">
+                        <span class="mr-3">❓</span>
+                        <div><p class="font-bold mb-1">Who paid for this report?</p><p style="color: var(--text-secondary);">Free reports often promote specific products/vendors</p></div>
+                    </li>
+                    <li class="flex items-start">
+                        <span class="mr-3">📊</span>
+                        <div><p class="font-bold mb-1">What is being measured?</p><p style="color: var(--text-secondary);">Shipments vs installed base? Active users vs registered accounts?</p></div>
+                    </li>
+                    <li class="flex items-start">
+                        <span class="mr-3">🔮</span>
+                        <div><p class="font-bold mb-1">Predictions vs facts</p><p style="color: var(--text-secondary);">Past data = reliable. Future projections = speculation</p></div>
+                    </li>
+                    <li class="flex items-start">
+                        <span class="mr-3">💰</span>
+                        <div><p class="font-bold mb-1">Follow the money</p><p style="color: var(--text-secondary);">Reports from vendors promoting their own technology</p></div>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Slide 6: Red Flags -->
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-4xl font-bold mb-8">Red Flags in Tech Sources</h2>
+                <div class="space-y-3 text-base">
+                    <div class="p-4 rounded" style="background-color: #fee2e2; border-left: 4px solid #ef4444;">
+                        <p class="font-bold mb-2">🚩 No methodology explained</p>
+                        <p>"Studies show..." - which studies? Who was surveyed? How?</p>
+                    </div>
+                    <div class="p-4 rounded" style="background-color: #fee2e2; border-left: 4px solid #ef4444;">
+                        <p class="font-bold mb-2">🚩 Suspiciously perfect numbers</p>
+                        <p>"This technology will grow exactly 15% per year" - too precise = prediction not fact</p>
+                    </div>
+                    <div class="p-4 rounded" style="background-color: #fee2e2; border-left: 4px solid #ef4444;">
+                        <p class="font-bold mb-2">🚩 Promotional language</p>
+                        <p>"Revolutionary", "game-changing", "disruption" - marketing words</p>
+                    </div>
+                    <div class="p-4 rounded" style="background-color: #fee2e2; border-left: 4px solid #ef4444;">
+                        <p class="font-bold mb-2">🚩 No author/organization listed</p>
+                        <p>Who wrote this? What's their expertise? Accountability matters</p>
+                    </div>
+                    <div class="p-4 rounded" style="background-color: #fee2e2; border-left: 4px solid #ef4444;">
+                        <p class="font-bold mb-2">🚩 Conflicting interests</p>
+                        <p>"Study by Google shows Google products are best" - really?</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 7: Combining Sources -->
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-4xl font-bold mb-8">Best Practice: Triangulate Sources</h2>
+                <div class="mb-6 p-6 rounded-lg" style="background-color: var(--bg-secondary); border: 2px solid var(--border-color);">
+                    <p class="text-xl">Use multiple source types together for complete picture</p>
+                </div>
+                <div class="space-y-4 text-lg">
+                    <div class="p-4 rounded" style="background-color: var(--bg-secondary);">
+                        <p class="font-bold mb-2">Example research strategy:</p>
+                        <ul class="space-y-3 text-base">
+                            <li>1. <strong>Tech sources:</strong> Get current statistics (market size, user numbers)</li>
+                            <li>2. <strong>Academic sources:</strong> Understand social/cultural implications</li>
+                            <li>3. <strong>Government stats:</strong> Verify adoption rates, demographics</li>
+                            <li>4. <strong>Compare:</strong> Do they agree? Contradictions reveal bias</li>
+                        </ul>
+                    </div>
+                    <div class="p-4 rounded" style="background-color: #dcfce7; border: 2px solid #10b981;">
+                        <p class="font-bold mb-2" style="color: #166534;">Your assignment requires:</p>
+                        <p class="text-base" style="color: #166534;">2 book chapters + 2 journal papers + official online sources = naturally triangulates!</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 8: For Your Assignment -->
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-4xl font-bold mb-6">Applying This to Your Report</h2>
+                <div class="space-y-4">
+                    <div class="p-5 rounded-lg" style="background-color: var(--bg-secondary); border-left: 4px solid var(--accent-color);">
+                        <p class="text-xl font-bold mb-3">Use industry sources for:</p>
+                        <ul class="space-y-2 text-lg">
+                            <li>• Current statistics and market data</li>
+                            <li>• Growth projections</li>
+                            <li>• Technology specifications</li>
+                        </ul>
+                    </div>
+                    <div class="p-5 rounded-lg" style="background-color: var(--bg-secondary); border-left: 4px solid var(--accent-color);">
+                        <p class="text-xl font-bold mb-3">Use academic sources for:</p>
+                        <ul class="space-y-2 text-lg">
+                            <li>• Social transformation analysis</li>
+                            <li>• Theoretical frameworks (domestication theory)</li>
+                            <li>• Critical perspectives</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 9: Next Week -->
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-4xl font-bold mb-6">Next Week: Writing Workshop</h2>
+                <div class="p-6 rounded-lg" style="background-color: var(--bg-secondary); border-left: 4px solid var(--accent-color);">
+                    <p class="text-xl font-bold mb-3">✍️ Week 10: Turning Research into Arguments</p>
+                    <p class="text-lg mb-4">How to structure your report, write clear arguments, integrate sources effectively</p>
+                    <p class="text-base">Bring your drafts and questions!</p>
+                </div>
+            </div>
+        </div>
+    </main>
+    <footer class="border-t p-4" style="border-color: var(--border-color);">
+        <div class="max-w-7xl mx-auto flex justify-between items-center">
+            <button id="prevBtn" class="px-6 py-2 rounded border font-medium" style="border-color: var(--border-color);">← Previous</button>
+            <span id="slideCounter" class="text-lg" style="color: var(--text-secondary);">1 / 12</span>
+            <button id="nextBtn" class="px-6 py-2 rounded border font-medium" style="border-color: var(--border-color);">Next →</button>
+        </div>
+    </footer>
+    <script>
+        let currentSlide=0,isDarkMode=false,fontSize=1;const slides=document.querySelectorAll('.slide'),prevBtn=document.getElementById('prevBtn'),nextBtn=document.getElementById('nextBtn'),slideCounter=document.getElementById('slideCounter');function showSlide(n){slides[currentSlide].classList.remove('active');currentSlide=(n+slides.length)%slides.length;slides[currentSlide].classList.add('active');slideCounter.textContent=\`\${currentSlide+1} / \${slides.length}\`;prevBtn.disabled=currentSlide===0;nextBtn.disabled=currentSlide===slides.length-1;prevBtn.style.opacity=currentSlide===0?'0.5':'1';nextBtn.style.opacity=currentSlide===slides.length-1?'0.5':'1';}prevBtn.addEventListener('click',()=>{if(currentSlide>0)showSlide(currentSlide-1);});nextBtn.addEventListener('click',()=>{if(currentSlide<slides.length-1)showSlide(currentSlide+1);});document.getElementById('darkModeToggle').addEventListener('click',()=>{isDarkMode=!isDarkMode;document.body.classList.toggle('dark-mode');document.getElementById('modeIcon').textContent=isDarkMode?'☀️':'🌙';});document.getElementById('increaseFont').addEventListener('click',()=>{if(fontSize<1.5){fontSize+=0.1;document.documentElement.style.setProperty('--font-size',fontSize);}});document.getElementById('decreaseFont').addEventListener('click',()=>{if(fontSize>0.7){fontSize-=0.1;document.documentElement.style.setProperty('--font-size',fontSize);}});document.addEventListener('keydown',(e)=>{if(e.key==='ArrowRight'&&currentSlide<slides.length-1)showSlide(currentSlide+1);if(e.key==='ArrowLeft'&&currentSlide>0)showSlide(currentSlide-1);});showSlide(0);
+    </script>
+</body>
+</html>

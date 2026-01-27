@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Week 8: Entertainment & Media Consumption</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .slide { display: none; }
+        .slide.active { display: flex; }
+        :root {
+            --bg-primary: #ffffff; --bg-secondary: #f9fafb; --text-primary: #111827;
+            --text-secondary: #4b5563; --border-color: #e5e7eb; --accent-color: #3b82f6; --font-size: 1;
+        }
+        .dark-mode {
+            --bg-primary: #1f2937; --bg-secondary: #111827; --text-primary: #f9fafb;
+            --text-secondary: #d1d5db; --border-color: #374151; --accent-color: #60a5fa;
+        }
+        html { font-size: calc(var(--font-size) * 16px); }
+        body { background-color: var(--bg-primary); color: var(--text-primary); }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col">
+    <header class="border-b p-4" style="border-color: var(--border-color);">
+        <div class="max-w-7xl mx-auto flex justify-between items-center">
+            <h1 class="text-lg font-semibold">Digital Media Technologies - Week 8</h1>
+            <div class="flex gap-2">
+                <button id="decreaseFont" class="px-3 py-2 rounded border" style="border-color: var(--border-color);">A-</button>
+                <button id="increaseFont" class="px-3 py-2 rounded border" style="border-color: var(--border-color);">A+</button>
+                <button id="darkModeToggle" class="px-4 py-2 rounded border" style="border-color: var(--border-color);"><span id="modeIcon">🌙</span></button>
+            </div>
+        </div>
+    </header>
+    <main class="flex-1 flex items-center justify-center p-8">
+        <div class="w-full max-w-5xl">
+            <!-- Title slide -->
+            <div class="slide active flex-col items-center justify-center text-center h-[70vh]">
+                <h2 class="text-5xl font-bold mb-6">Entertainment & Media Consumption</h2>
+                <h3 class="text-3xl mb-8" style="color: var(--text-secondary);">Week 8: How Digital Technologies Transformed Entertainment</h3>
+                <p class="text-xl" style="color: var(--text-secondary);">Week 8 of 11</p>
+            </div>
+            <!-- Slide 2: Before Digital -->
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-4xl font-bold mb-8">Entertainment Before Digital Technologies</h2>
+                <div class="mb-6 p-6 rounded-lg" style="background-color: var(--bg-secondary); border: 2px solid var(--border-color);">
+                    <p class="text-2xl font-semibold mb-3">Entertainment was scheduled, expensive, and limited by physical media</p>
+                </div>
+                <div class="grid grid-cols-2 gap-5 text-base">
+                    <div class="space-y-3">
+                        <div class="p-4 rounded" style="background-color: var(--bg-secondary);">
+                            <p class="font-bold mb-2">📺 Television (pre-internet):</p>
+                            <p>Watch at scheduled times. Limited channels. No choice in programming. Everyone watches the same thing</p>
+                        </div>
+                        <div class="p-4 rounded" style="background-color: var(--bg-secondary);">
+                            <p class="font-bold mb-2">🎬 Movies:</p>
+                            <p>Cinema only, then rent physical tapes/DVDs. Limited selection. Geographic restrictions</p>
+                        </div>
+                    </div>
+                    <div class="space-y-3">
+                        <div class="p-4 rounded" style="background-color: var(--bg-secondary);">
+                            <p class="font-bold mb-2">🎵 Music:</p>
+                            <p>Buy physical albums/CDs. Expensive. Radio or own collection only. No skip, no shuffle</p>
+                        </div>
+                        <div class="p-4 rounded" style="background-color: var(--bg-secondary);">
+                            <p class="font-bold mb-2">🎮 Gaming:</p>
+                            <p>Console/PC games on physical media. Single-player or local multiplayer only</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 3: Digital Transformation Music -->
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-4xl font-bold mb-8">Music: From Physical to Streaming</h2>
+                <div class="space-y-3 text-lg">
+                    <div class="p-4 rounded" style="background-color: var(--bg-secondary); border-left: 4px solid var(--accent-color);">
+                        <p class="font-bold mb-2">1999: Napster - File Sharing</p>
+                        <p class="text-base">Illegal but revolutionary. "All music should be free". Industry panic.</p>
+                    </div>
+                    <div class="p-4 rounded" style="background-color: var(--bg-secondary); border-left: 4px solid var(--accent-color);">
+                        <p class="font-bold mb-2">2001: iPod + iTunes</p>
+                        <p class="text-base">$0.99/song model. Legal downloads. 1000 songs in your pocket.</p>
+                    </div>
+                    <div class="p-4 rounded" style="background-color: var(--bg-secondary); border-left: 4px solid var(--accent-color);">
+                        <p class="font-bold mb-2">2008: Spotify - Streaming Era</p>
+                        <p class="text-base">Unlimited music, monthly subscription. Access over ownership. Algorithms curate playlists.</p>
+                    </div>
+                    <div class="p-4 rounded" style="background-color: var(--bg-secondary); border-left: 4px solid var(--accent-color);">
+                        <p class="font-bold mb-2">Present: Streaming Dominance</p>
+                        <p class="text-base">600M+ Spotify users. Physical sales <10%. Artists paid per stream, not per album.</p>
+                    </div>
+                </div>
+                <p class="mt-4 text-lg p-4 rounded font-semibold" style="background-color: var(--bg-secondary);">From owning music to renting access. Industry restructured completely.</p>
+            </div>
+
+            <!-- Slide 4: TV/Video Transformation -->
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-4xl font-bold mb-8">Television: From Broadcast to On-Demand</h2>
+                <ul class="space-y-4 text-lg">
+                    <li class="flex items-start">
+                        <span class="mr-3">📼</span>
+                        <div><p class="font-bold mb-1">1990s-2000s: VHS/DVD</p><p style="color: var(--text-secondary);">Record shows, rent movies. Still physical, still limited</p></div>
+                    </li>
+                    <li class="flex items-start">
+                        <span class="mr-3">📀</span>
+                        <div><p class="font-bold mb-1">2005: YouTube</p><p style="color: var(--text-secondary);">User-generated video. Anyone can broadcast. Billions of hours of content</p></div>
+                    </li>
+                    <li class="flex items-start">
+                        <span class="mr-3">📺</span>
+                        <div><p class="font-bold mb-1">2007: Netflix Streaming</p><p style="color: var(--text-secondary);">Watch anything, anytime. Binge-watching born. Original content (2013+)</p></div>
+                    </li>
+                    <li class="flex items-start">
+                        <span class="mr-3">🎬</span>
+                        <div><p class="font-bold mb-1">2010s: Streaming Wars</p><p style="color: var(--text-secondary);">Disney+, Amazon Prime, Apple TV+, HBO Max. Everyone wants subscription</p></div>
+                    </li>
+                </ul>
+                <p class="mt-6 text-lg p-4 rounded font-semibold" style="background-color: #fef9c3; color: #854d0e;">Traditional TV declining. Cord-cutting accelerates. Younger generation doesn't understand "appointment TV"</p>
+            </div>
+
+            <!-- Slide 5: Gaming Transformation -->
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-4xl font-bold mb-8">Gaming: From Solo to Social to Live</h2>
+                <div class="space-y-4">
+                    <div class="p-5 rounded" style="background-color: var(--bg-secondary);">
+                        <p class="font-bold text-xl mb-3">Evolution:</p>
+                        <ul class="space-y-3 text-lg">
+                            <li>• <strong>1980s-90s:</strong> Local multiplayer, same room</li>
+                            <li>• <strong>2000s:</strong> Online multiplayer (Xbox Live, PlayStation Network)</li>
+                            <li>• <strong>2010s:</strong> Mobile gaming explosion (Candy Crush, Pokémon Go)</li>
+                            <li>• <strong>2020s:</strong> Cloud gaming (Stadia, GeForce Now), streaming (Twitch), esports</li>
+                        </ul>
+                    </div>
+                    <div class="p-5 rounded" style="background-color: var(--bg-secondary);">
+                        <p class="font-bold text-xl mb-3">Key changes:</p>
+                        <ul class="space-y-2 text-base">
+                            <li>• From product to service (Fortnite, subscriptions)</li>
+                            <li>• Watching others play (Twitch, YouTube Gaming)</li>
+                            <li>• Professional gaming careers (esports $1B+ industry)</li>
+                            <li>• Social gaming - playing IS socializing</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 6: Social Transformations -->
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-4xl font-bold mb-8">How Digital Changed Entertainment Culture</h2>
+                <ul class="space-y-4 text-lg">
+                    <li class="flex items-start">
+                        <span class="mr-3">⏰</span>
+                        <div><p class="font-bold mb-1">On-demand everything</p><p style="color: var(--text-secondary);">No more waiting. No schedules. "Netflix and chill" not "Thursday at 8pm"</p></div>
+                    </li>
+                    <li class="flex items-start">
+                        <span class="mr-3">🎯</span>
+                        <div><p class="font-bold mb-1">Personalization & algorithms</p><p style="color: var(--text-secondary);">Netflix suggests, Spotify curates, YouTube recommends. Filter bubbles form</p></div>
+                    </li>
+                    <li class="flex items-start">
+                        <span class="mr-3">📱</span>
+                        <div><p class="font-bold mb-1">Mobile & portable</p><p style="color: var(--text-secondary);">Entertainment everywhere. Commute becomes consumption time</p></div>
+                    </li>
+                    <li class="flex items-start">
+                        <span class="mr-3">💬</span>
+                        <div><p class="font-bold mb-1">Social & participatory</p><p style="color: var(--text-secondary);">Comment, review, share, create memes. Audience becomes participants</p></div>
+                    </li>
+                    <li class="flex items-start">
+                        <span class="mr-3">🌐</span>
+                        <div><p class="font-bold mb-1">Global & diverse</p><p style="color: var(--text-secondary);">Korean dramas, Bollywood, anime - accessible worldwide instantly</p></div>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Slide 7: Creator Economy -->
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-4xl font-bold mb-8">The Creator Economy</h2>
+                <div class="mb-6 p-6 rounded-lg" style="background-color: var(--bg-secondary); border: 2px solid var(--border-color);">
+                    <p class="text-xl">Anyone can become an entertainer. No gatekeepers needed.</p>
+                </div>
+                <div class="space-y-4">
+                    <div class="p-5 rounded" style="background-color: var(--bg-secondary);">
+                        <p class="font-bold text-xl mb-3">Platforms enable direct monetization:</p>
+                        <ul class="space-y-2 text-lg">
+                            <li>• YouTube: Ad revenue, sponsorships, Super Chat</li>
+                            <li>• Twitch: Subscriptions, donations, bits</li>
+                            <li>• TikTok: Creator fund, brand deals</li>
+                            <li>• Patreon: Direct fan support</li>
+                            <li>• OnlyFans: Subscription content</li>
+                        </ul>
+                    </div>
+                    <div class="p-5 rounded" style="background-color: #fef9c3;">
+                        <p class="font-bold text-xl mb-2" style="color: #854d0e;">New careers emerge</p>
+                        <p class="text-base" style="color: #854d0e;">Influencer, content creator, streamer - these weren't jobs 20 years ago</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 8: Attention Economy -->
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-4xl font-bold mb-8">The Attention Economy</h2>
+                <div class="mb-6 p-6 rounded-lg" style="background-color: var(--bg-secondary); border: 2px solid var(--border-color);">
+                    <p class="text-xl">With infinite entertainment, attention becomes the scarce resource</p>
+                </div>
+                <div class="space-y-4 text-lg">
+                    <div class="p-4 rounded" style="background-color: var(--bg-secondary);">
+                        <p class="font-bold mb-2">Platforms compete for your time:</p>
+                        <ul class="space-y-2 text-base">
+                            <li>• Infinite scroll (never-ending feed)</li>
+                            <li>• Autoplay (next episode starts automatically)</li>
+                            <li>• Notifications (pull you back in)</li>
+                            <li>• Personalized recommendations</li>
+                        </ul>
+                    </div>
+                    <div class="p-4 rounded" style="background-color: #fee2e2; border-left: 4px solid #ef4444;">
+                        <p class="font-bold mb-2">Consequences:</p>
+                        <ul class="space-y-2 text-base">
+                            <li>• Average 4+ hours/day on entertainment</li>
+                            <li>• Shorter attention spans</li>
+                            <li>• FOMO - fear of missing out</li>
+                            <li>• Analysis paralysis - too many choices</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 9: Business Model Shift -->
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-4xl font-bold mb-8">Business Models: Ownership to Access</h2>
+                <div class="grid grid-cols-2 gap-5">
+                    <div class="p-5 rounded" style="background-color: var(--bg-secondary);">
+                        <p class="font-bold text-xl mb-3">Old Model:</p>
+                        <ul class="space-y-3 text-base">
+                            <li>• Buy individual items (albums, DVDs)</li>
+                            <li>• Ownership</li>
+                            <li>• One-time payment</li>
+                            <li>• Physical media</li>
+                            <li>• Keep forever</li>
+                        </ul>
+                    </div>
+                    <div class="p-5 rounded" style="background-color: var(--bg-secondary);">
+                        <p class="font-bold text-xl mb-3">New Model:</p>
+                        <ul class="space-y-3 text-base">
+                            <li>• Subscribe to access (Netflix, Spotify)</li>
+                            <li>• Rental/license</li>
+                            <li>• Monthly recurring payment</li>
+                            <li>• Cloud-based</li>
+                            <li>• Access while subscribed</li>
+                        </ul>
+                    </div>
+                </div>
+                <p class="mt-4 text-lg p-4 rounded font-semibold" style="background-color: var(--bg-secondary);">"Subscription fatigue" emerging - too many services, costs add up</p>
+            </div>
+
+            <!-- Slide 10: Impact on Traditional Industries -->
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-4xl font-bold mb-8">Industries Disrupted</h2>
+                <div class="space-y-3 text-base">
+                    <div class="p-4 rounded" style="background-color: #fee2e2; border-left: 4px solid #ef4444;">
+                        <p class="font-bold mb-1">Music Industry:</p>
+                        <p>Album sales collapsed. Record stores gone. Artists make money from tours/merch, not records</p>
+                    </div>
+                    <div class="p-4 rounded" style="background-color: #fee2e2; border-left: 4px solid #ef4444;">
+                        <p class="font-bold mb-1">Movie Theaters:</p>
+                        <p>Attendance declining. Streaming same-day releases (COVID accelerated). "Theater experience" premium</p>
+                    </div>
+                    <div class="p-4 rounded" style="background-color: #fee2e2; border-left: 4px solid #ef4444;">
+                        <p class="font-bold mb-1">TV Networks:</p>
+                        <p>Cord-cutting epidemic. Younger generation doesn't have cable. Ad model broken</p>
+                    </div>
+                    <div class="p-4 rounded" style="background-color: #fee2e2; border-left: 4px solid #ef4444;">
+                        <p class="font-bold mb-1">Video Game Retail:</p>
+                        <p>GameStop struggling. Digital downloads 80%+. Physical games becoming obsolete</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 11: Current Statistics -->
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-4xl font-bold mb-8">Current State: Numbers</h2>
+                <div class="grid grid-cols-2 gap-4 text-base">
+                    <div class="space-y-3">
+                        <div class="p-4 rounded" style="background-color: var(--bg-secondary);">
+                            <p class="font-bold mb-2">🎵 Music Streaming:</p>
+                            <p>• Spotify: 600M+ users</p>
+                            <p>• Streaming 85%+ of music revenue</p>
+                            <p>• Physical sales <10%</p>
+                        </div>
+                        <div class="p-4 rounded" style="background-color: var(--bg-secondary);">
+                            <p class="font-bold mb-2">📺 Video Streaming:</p>
+                            <p>• Netflix: 280M+ subscribers</p>
+                            <p>• YouTube: 2.5B+ users</p>
+                            <p>• Average 3+ streaming subscriptions</p>
+                        </div>
+                    </div>
+                    <div class="space-y-3">
+                        <div class="p-4 rounded" style="background-color: var(--bg-secondary);">
+                            <p class="font-bold mb-2">🎮 Gaming:</p>
+                            <p>• 3B+ gamers globally</p>
+                            <p>• $200B+ industry</p>
+                            <p>• Mobile gaming 50%+ of market</p>
+                        </div>
+                        <div class="p-4 rounded" style="background-color: var(--bg-secondary);">
+                            <p class="font-bold mb-2">⏰ Time Spent:</p>
+                            <p>• Average 3-4 hours/day entertainment</p>
+                            <p>• 40%+ of waking hours on screens</p>
+                            <p>• Replacing other activities</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 12: Next Week -->
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-4xl font-bold mb-6">Next Week Preview</h2>
+                <div class="p-6 rounded-lg" style="background-color: var(--bg-secondary); border-left: 4px solid var(--accent-color);">
+                    <p class="text-xl font-bold mb-3">📊 Week 9: Evaluating Sources</p>
+                    <p class="text-lg mb-4">Tech industry sources vs academic sources. Reading trend reports critically.</p>
+                    <p class="text-base">How to tell the difference between marketing and research!</p>
+                </div>
+            </div>
+        </div>
+    </main>
+    <footer class="border-t p-4" style="border-color: var(--border-color);">
+        <div class="max-w-7xl mx-auto flex justify-between items-center">
+            <button id="prevBtn" class="px-6 py-2 rounded border font-medium" style="border-color: var(--border-color);">← Previous</button>
+            <span id="slideCounter" class="text-lg" style="color: var(--text-secondary);">1 / 12</span>
+            <button id="nextBtn" class="px-6 py-2 rounded border font-medium" style="border-color: var(--border-color);">Next →</button>
+        </div>
+    </footer>
+    <script>
+        let currentSlide=0,isDarkMode=false,fontSize=1;const slides=document.querySelectorAll('.slide'),prevBtn=document.getElementById('prevBtn'),nextBtn=document.getElementById('nextBtn'),slideCounter=document.getElementById('slideCounter');function showSlide(n){slides[currentSlide].classList.remove('active');currentSlide=(n+slides.length)%slides.length;slides[currentSlide].classList.add('active');slideCounter.textContent=\`\${currentSlide+1} / \${slides.length}\`;prevBtn.disabled=currentSlide===0;nextBtn.disabled=currentSlide===slides.length-1;prevBtn.style.opacity=currentSlide===0?'0.5':'1';nextBtn.style.opacity=currentSlide===slides.length-1?'0.5':'1';}prevBtn.addEventListener('click',()=>{if(currentSlide>0)showSlide(currentSlide-1);});nextBtn.addEventListener('click',()=>{if(currentSlide<slides.length-1)showSlide(currentSlide+1);});document.getElementById('darkModeToggle').addEventListener('click',()=>{isDarkMode=!isDarkMode;document.body.classList.toggle('dark-mode');document.getElementById('modeIcon').textContent=isDarkMode?'☀️':'🌙';});document.getElementById('increaseFont').addEventListener('click',()=>{if(fontSize<1.5){fontSize+=0.1;document.documentElement.style.setProperty('--font-size',fontSize);}});document.getElementById('decreaseFont').addEventListener('click',()=>{if(fontSize>0.7){fontSize-=0.1;document.documentElement.style.setProperty('--font-size',fontSize);}});document.addEventListener('keydown',(e)=>{if(e.key==='ArrowRight'&&currentSlide<slides.length-1)showSlide(currentSlide+1);if(e.key==='ArrowLeft'&&currentSlide>0)showSlide(currentSlide-1);});showSlide(0);
+    </script>
+</body>
+</html>

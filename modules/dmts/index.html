@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Digital Media Technologies - Module Resources</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        :root {
+            --bg-primary: #ffffff;
+            --bg-secondary: #f9fafb;
+            --text-primary: #111827;
+            --text-secondary: #4b5563;
+            --border-color: #e5e7eb;
+            --accent-color: #3b82f6;
+            --font-size: 1;
+        }
+        
+        .dark-mode {
+            --bg-primary: #1f2937;
+            --bg-secondary: #111827;
+            --text-primary: #f9fafb;
+            --text-secondary: #d1d5db;
+            --border-color: #374151;
+            --accent-color: #60a5fa;
+        }
+        
+        html {
+            font-size: calc(var(--font-size) * 16px);
+        }
+        
+        body {
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+        }
+
+        .session-card {
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .session-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .hero-gradient {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+    </style>
+</head>
+<body class="min-h-screen">
+    <!-- Header -->
+    <header class="border-b p-4" style="border-color: var(--border-color);">
+        <div class="max-w-7xl mx-auto flex justify-between items-center">
+            <div>
+                <h1 class="text-2xl font-bold">Digital Media Technologies</h1>
+                <p class="text-sm" style="color: var(--text-secondary);">Module Resources & Weekly Sessions</p>
+            </div>
+            <div class="flex gap-2">
+                <button onclick="window.location.href='assessment-guide.html'" class="px-4 py-2 rounded border text-sm" style="border-color: var(--border-color);">
+                    📝 Assessment Guide
+                </button>
+                <button id="decreaseFont" class="px-3 py-2 rounded border" style="border-color: var(--border-color);" aria-label="Decrease font size">A-</button>
+                <button id="increaseFont" class="px-3 py-2 rounded border" style="border-color: var(--border-color);" aria-label="Increase font size">A+</button>
+                <button id="darkModeToggle" class="px-4 py-2 rounded border" style="border-color: var(--border-color);" aria-label="Toggle dark mode">
+                    <span id="modeIcon">🌙</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <div class="hero-gradient text-white py-12">
+        <div class="max-w-7xl mx-auto px-8 text-center">
+            <h2 class="text-4xl font-bold mb-4">Digital Media Technologies & Society</h2>
+            <p class="text-xl mb-6">Exploring how technologies transform social processes</p>
+            <div class="flex gap-4 justify-center text-sm">
+                <div class="bg-white bg-opacity-20 rounded-lg px-6 py-3">
+                    <div class="font-bold text-2xl">11</div>
+                    <div>Weeks</div>
+                </div>
+                <div class="bg-white bg-opacity-20 rounded-lg px-6 py-3">
+                    <div class="font-bold text-2xl">2,250</div>
+                    <div>Words Assignment</div>
+                </div>
+                <div class="bg-white bg-opacity-20 rounded-lg px-6 py-3">
+                    <div class="font-bold text-2xl">3</div>
+                    <div>Technologies</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <main class="max-w-7xl mx-auto p-8">
+        <!-- Module Overview -->
+        <section class="mb-12">
+            <h2 class="text-3xl font-bold mb-6">📚 Module Overview</h2>
+            <div class="p-6 rounded-lg" style="background-color: var(--bg-secondary); border-left: 3px solid var(--accent-color);">
+                <p class="text-lg mb-4">This module examines how digital technologies (television, computers, mobile phones) have transformed key social processes. You'll research ONE technology and analyze its development, adoption, and social impact.</p>
+                <p class="text-lg"><strong>Assessment:</strong> A 2,250-word written report analyzing how your chosen technology became part of everyday life and transformed society.</p>
+            </div>
+        </section>
+
+        <!-- Weekly Sessions -->
+        <section class="mb-12">
+            <div class="flex items-center justify-between mb-6">
+                <h2 class="text-3xl font-bold">📅 Weekly Sessions</h2>
+                <p class="text-sm" style="color: var(--text-secondary);">Click any session to view slides</p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <!-- Week 1 -->
+                <div class="session-card p-5 rounded-lg border" style="border-color: var(--border-color); background-color: var(--bg-secondary);" onclick="window.location.href='week1.html'">
+                    <div class="flex items-start gap-4">
+                        <div class="text-3xl font-bold" style="color: var(--accent-color);">01</div>
+                        <div class="flex-1">
+                            <h3 class="font-bold text-lg mb-1">Module Introduction & What is a Digital Technology?</h3>
+                            <p class="text-sm" style="color: var(--text-secondary);">Understanding the module, defining terms, choosing your technology</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Week 2 -->
+                <div class="session-card p-5 rounded-lg border" style="border-color: var(--border-color); background-color: var(--bg-secondary);" onclick="window.location.href='week2.html'">
+                    <div class="flex items-start gap-4">
+                        <div class="text-3xl font-bold" style="color: var(--accent-color);">02</div>
+                        <div class="flex-1">
+                            <h3 class="font-bold text-lg mb-1">The Internet: Infrastructure That Changed Everything</h3>
+                            <p class="text-sm" style="color: var(--text-secondary);">From ARPANET to Web 2.0, how the internet transformed all digital technologies</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Week 3 -->
+                <div class="session-card p-5 rounded-lg border" style="border-color: var(--border-color); background-color: var(--bg-secondary);" onclick="window.location.href='week3.html'">
+                    <div class="flex items-start gap-4">
+                        <div class="text-3xl font-bold" style="color: var(--accent-color);">03</div>
+                        <div class="flex-1">
+                            <h3 class="font-bold text-lg mb-1">Computers: From Mainframe to Personal to Cloud</h3>
+                            <p class="text-sm" style="color: var(--text-secondary);">How computers entered everyday life and transformed work, creativity, and communication</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Week 4 -->
+                <div class="session-card p-5 rounded-lg border" style="border-color: var(--border-color); background-color: var(--bg-secondary);" onclick="window.location.href='week4.html'">
+                    <div class="flex items-start gap-4">
+                        <div class="text-3xl font-bold" style="color: var(--accent-color);">04</div>
+                        <div class="flex-1">
+                            <h3 class="font-bold text-lg mb-1">Mobile Phones & Domestication Theory</h3>
+                            <p class="text-sm" style="color: var(--text-secondary);">From brick phones to smartphones, understanding how technology becomes part of identity</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Week 5 -->
+                <div class="session-card p-5 rounded-lg border" style="border-color: var(--border-color); background-color: var(--bg-secondary);" onclick="window.location.href='week5.html'">
+                    <div class="flex items-start gap-4">
+                        <div class="text-3xl font-bold" style="color: var(--accent-color);">05</div>
+                        <div class="flex-1">
+                            <h3 class="font-bold text-lg mb-1">Finding Statistical Data & Understanding User Demographics</h3>
+                            <p class="text-sm" style="color: var(--text-secondary);">Where to find growth statistics, usage patterns, and demographic data</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Week 6 -->
+                <div class="session-card p-5 rounded-lg border" style="border-color: var(--border-color); background-color: var(--bg-secondary);" onclick="window.location.href='week6.html'">
+                    <div class="flex items-start gap-4">
+                        <div class="text-3xl font-bold" style="color: var(--accent-color);">06</div>
+                        <div class="flex-1">
+                            <h3 class="font-bold text-lg mb-1">Social Media & Identity Formation: Global Perspectives</h3>
+                            <p class="text-sm" style="color: var(--text-secondary);">Western platforms vs Chinese ecosystem vs regional players - understanding fragmented digital spheres</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Week 7 - Midterm -->
+                <div class="session-card p-5 rounded-lg border" style="border-color: var(--border-color); background-color: #fef9c3;" onclick="window.location.href='week7.html'">
+                    <div class="flex items-start gap-4">
+                        <div class="text-3xl font-bold" style="color: #854d0e;">07</div>
+                        <div class="flex-1">
+                            <h3 class="font-bold text-lg mb-1">MIDTERM Progress Review</h3>
+                            <p class="text-sm" style="color: #854d0e;">Individual consultations, feedback session, support for your research</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Week 8 -->
+                <div class="session-card p-5 rounded-lg border" style="border-color: var(--border-color); background-color: var(--bg-secondary);" onclick="window.location.href='week8.html'">
+                    <div class="flex items-start gap-4">
+                        <div class="text-3xl font-bold" style="color: var(--accent-color);">08</div>
+                        <div class="flex-1">
+                            <h3 class="font-bold text-lg mb-1">Entertainment & Media Consumption</h3>
+                            <p class="text-sm" style="color: var(--text-secondary);">How digital technologies transformed music, TV, gaming, and the creator economy</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Week 9 -->
+                <div class="session-card p-5 rounded-lg border" style="border-color: var(--border-color); background-color: var(--bg-secondary);" onclick="window.location.href='week9.html'">
+                    <div class="flex items-start gap-4">
+                        <div class="text-3xl font-bold" style="color: var(--accent-color);">09</div>
+                        <div class="flex-1">
+                            <h3 class="font-bold text-lg mb-1">Evaluating Sources: Industry vs Academic</h3>
+                            <p class="text-sm" style="color: var(--text-secondary);">Reading trend reports critically, understanding bias, triangulating sources</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Week 10 -->
+                <div class="session-card p-5 rounded-lg border" style="border-color: var(--border-color); background-color: var(--bg-secondary);" onclick="window.location.href='week10.html'">
+                    <div class="flex items-start gap-4">
+                        <div class="text-3xl font-bold" style="color: var(--accent-color);">10</div>
+                        <div class="flex-1">
+                            <h3 class="font-bold text-lg mb-1">Writing Workshop: Research into Arguments</h3>
+                            <p class="text-sm" style="color: var(--text-secondary);">Report structure, integrating sources, writing strong arguments</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Week 11 - Final -->
+                <div class="session-card p-5 rounded-lg border" style="border-color: var(--border-color); background-color: #dcfce7;" onclick="window.location.href='week11.html'">
+                    <div class="flex items-start gap-4">
+                        <div class="text-3xl font-bold" style="color: #166534;">11</div>
+                        <div class="flex-1">
+                            <h3 class="font-bold text-lg mb-1">Final Support & Submission</h3>
+                            <p class="text-sm" style="color: #166534;">Last checks, Moodle upload, celebration!</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Assessment Quick Reference -->
+        <section class="mb-12">
+            <h2 class="text-3xl font-bold mb-6">📝 Assignment Quick Reference</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="p-6 rounded-lg" style="background-color: var(--bg-secondary); border-left: 3px solid var(--accent-color);">
+                    <h4 class="font-bold text-xl mb-3">Choose ONE Technology</h4>
+                    <ul class="text-sm space-y-2">
+                        <li>📺 Television</li>
+                        <li>💻 Computers</li>
+                        <li>📱 Mobile Phones</li>
+                    </ul>
+                </div>
+                <div class="p-6 rounded-lg" style="background-color: var(--bg-secondary); border-left: 3px solid var(--accent-color);">
+                    <h4 class="font-bold text-xl mb-3">Required Sources</h4>
+                    <ul class="text-sm space-y-2">
+                        <li>• 2 book chapters</li>
+                        <li>• 2 journal papers</li>
+                        <li>• Official online sources (statistics)</li>
+                        <li>• Harvard referencing</li>
+                    </ul>
+                </div>
+                <div class="p-6 rounded-lg" style="background-color: var(--bg-secondary); border-left: 3px solid var(--accent-color);">
+                    <h4 class="font-bold text-xl mb-3">What to Cover</h4>
+                    <ul class="text-sm space-y-2">
+                        <li>• Development timeline</li>
+                        <li>• Growth statistics</li>
+                        <li>• User demographics</li>
+                        <li>• Social transformation</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="mt-6 text-center">
+                <button onclick="window.location.href='assessment-guide.html'" class="px-8 py-3 rounded text-white font-semibold" style="background-color: var(--accent-color);">
+                    View Full Assessment Guide →
+                </button>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="border-t mt-12 p-8" style="border-color: var(--border-color);">
+        <div class="max-w-7xl mx-auto text-center" style="color: var(--text-secondary);">
+            <p class="mb-2">Digital Media Technologies - Unit Code: 463Z0004</p>
+            <p class="text-sm">Manchester Metropolitan University | Unit Leader: Mike Oustamanolakis</p>
+        </div>
+    </footer>
+
+    <script>
+        let isDarkMode = false;
+        let fontSize = 1;
+
+        // Dark mode toggle
+        document.getElementById('darkModeToggle').addEventListener('click', () => {
+            isDarkMode = !isDarkMode;
+            document.body.classList.toggle('dark-mode');
+            document.getElementById('modeIcon').textContent = isDarkMode ? '☀️' : '🌙';
+        });
+
+        // Font size controls
+        document.getElementById('increaseFont').addEventListener('click', () => {
+            if (fontSize < 1.5) {
+                fontSize += 0.1;
+                document.documentElement.style.setProperty('--font-size', fontSize);
+            }
+        });
+
+        document.getElementById('decreaseFont').addEventListener('click', () => {
+            if (fontSize > 0.7) {
+                fontSize -= 0.1;
+                document.documentElement.style.setProperty('--font-size', fontSize);
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Week 3: Computers</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .slide { display: none; }
+        .slide.active { display: flex; }
+        :root {
+            --bg-primary: #ffffff; --bg-secondary: #f9fafb; --text-primary: #111827;
+            --text-secondary: #4b5563; --border-color: #e5e7eb; --accent-color: #3b82f6; --font-size: 1;
+        }
+        .dark-mode {
+            --bg-primary: #1f2937; --bg-secondary: #111827; --text-primary: #f9fafb;
+            --text-secondary: #d1d5db; --border-color: #374151; --accent-color: #60a5fa;
+        }
+        html { font-size: calc(var(--font-size) * 16px); }
+        body { background-color: var(--bg-primary); color: var(--text-primary); }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col">
+    <header class="border-b p-4" style="border-color: var(--border-color);">
+        <div class="max-w-7xl mx-auto flex justify-between items-center">
+            <h1 class="text-lg font-semibold">Digital Media Technologies - Week 3</h1>
+            <div class="flex gap-2">
+                <button id="decreaseFont" class="px-3 py-2 rounded border" style="border-color: var(--border-color);">A-</button>
+                <button id="increaseFont" class="px-3 py-2 rounded border" style="border-color: var(--border-color);">A+</button>
+                <button id="darkModeToggle" class="px-4 py-2 rounded border" style="border-color: var(--border-color);"><span id="modeIcon">🌙</span></button>
+            </div>
+        </div>
+    </header>
+    <main class="flex-1 flex items-center justify-center p-8">
+        <div class="w-full max-w-5xl">
+            <!-- Title slide -->
+            <div class="slide active flex-col items-center justify-center text-center h-[70vh]">
+                <h2 class="text-5xl font-bold mb-6">Computers</h2>
+                <h3 class="text-3xl mb-8" style="color: var(--text-secondary);">Week 3: From Mainframe to Personal to Cloud</h3>
+                <p class="text-xl" style="color: var(--text-secondary);">Week 3 of 11</p>
+            </div>
+            <!-- Slide 2: Early Computing -->
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-4xl font-bold mb-8">Early Computing: Room-Sized Machines</h2>
+                <div class="mb-6 p-6 rounded-lg" style="background-color: var(--bg-secondary); border: 2px solid var(--border-color);">
+                    <p class="text-2xl font-semibold mb-3">1940s-1960s: Computers were massive, expensive, institutional tools</p>
+                    <p class="text-xl">Not for individuals - only governments, military, large corporations, universities</p>
+                </div>
+                <ul class="space-y-4 text-lg">
+                    <li class="flex items-start">
+                        <span class="mr-3">🏛️</span>
+                        <div><p class="font-bold mb-1">ENIAC (1945)</p><p style="color: var(--text-secondary);">30 tons, filled entire room, 18,000 vacuum tubes. Calculated artillery trajectories</p></div>
+                    </li>
+                    <li class="flex items-start">
+                        <span class="mr-3">💼</span>
+                        <div><p class="font-bold mb-1">IBM Mainframes (1950s-60s)</p><p style="color: var(--text-secondary);">Business data processing - payroll, inventory, accounting. Cost millions. Required specialized operators</p></div>
+                    </li>
+                    <li class="flex items-start">
+                        <span class="mr-3">🎓</span>
+                        <div><p class="font-bold mb-1">University computing</p><p style="color: var(--text-secondary);">Students submitted punch cards, waited hours/days for results. No direct interaction</p></div>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Slide 3: Minicomputers -->
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-4xl font-bold mb-8">1960s-1970s: Minicomputers</h2>
+                <div class="mb-6 p-6 rounded-lg" style="background-color: var(--bg-secondary); border: 2px solid var(--border-color);">
+                    <p class="text-xl">Computers get smaller and cheaper - but still institutional</p>
+                </div>
+                <ul class="space-y-5 text-lg">
+                    <li class="flex items-start">
+                        <span class="text-2xl mr-4">📐</span>
+                        <div>
+                            <p class="font-bold mb-1">DEC PDP series</p>
+                            <p style="color: var(--text-secondary);">Refrigerator-sized instead of room-sized. Universities could afford multiple units</p>
+                        </div>
+                    </li>
+                    <li class="flex items-start">
+                        <span class="text-2xl mr-4">⌨️</span>
+                        <div>
+                            <p class="font-bold mb-1">Time-sharing systems</p>
+                            <p style="color: var(--text-secondary);">Multiple users could access one computer via terminals. First interactive computing</p>
+                        </div>
+                    </li>
+                    <li class="flex items-start">
+                        <span class="text-2xl mr-4">🎮</span>
+                        <div>
+                            <p class="font-bold mb-1">Early culture emerges</p>
+                            <p style="color: var(--text-secondary);">Hackers, early video games (Spacewar!), programming as craft</p>
+                        </div>
+                    </li>
+                </ul>
+                <p class="mt-6 text-lg p-4 rounded font-semibold" style="background-color: var(--bg-secondary);">Still not personal - shared institutional resources</p>
+            </div>
+
+            <!-- Slide 4: The Personal Computer Revolution -->
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-4xl font-bold mb-8">1970s-1980s: The Personal Computer Revolution</h2>
+                <div class="mb-6 p-6 rounded-lg" style="background-color: var(--bg-secondary); border: 2px solid var(--border-color);">
+                    <p class="text-2xl font-semibold mb-3">The radical idea: A computer for ONE person</p>
+                    <p class="text-xl">Computing moves from institutions to individuals</p>
+                </div>
+                <div class="space-y-4 text-lg">
+                    <div class="p-4 rounded" style="background-color: var(--bg-secondary);">
+                        <p class="font-bold text-xl mb-3">Key milestones:</p>
+                        <ul class="space-y-3 text-base">
+                            <li>• 1975: Altair 8800 - first commercial microcomputer (kit for hobbyists)</li>
+                            <li>• 1977: Apple II, Commodore PET - ready-to-use home computers</li>
+                            <li>• 1981: IBM PC - legitimized personal computing for business</li>
+                            <li>• 1984: Apple Macintosh - graphical interface, mouse, accessible to non-technical users</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 5: What Made PCs Different -->
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-4xl font-bold mb-8">What Made Personal Computers Different?</h2>
+                <ul class="space-y-5 text-lg">
+                    <li class="flex items-start">
+                        <span class="text-2xl mr-4">💰</span>
+                        <div>
+                            <p class="font-bold mb-1">Affordable price</p>
+                            <p style="color: var(--text-secondary);">$1,000-$3,000 instead of millions. Middle-class families could buy</p>
+                        </div>
+                    </li>
+                    <li class="flex items-start">
+                        <span class="text-2xl mr-4">📦</span>
+                        <div>
+                            <p class="font-bold mb-1">Desktop size</p>
+                            <p style="color: var(--text-secondary);">Fit on a desk at home or office. No special room needed</p>
+                        </div>
+                    </li>
+                    <li class="flex items-start">
+                        <span class="text-2xl mr-4">👤</span>
+                        <div>
+                            <p class="font-bold mb-1">Individual ownership</p>
+                            <p style="color: var(--text-secondary);">Your computer, your files, your software. Personal control</p>
+                        </div>
+                    </li>
+                    <li class="flex items-start">
+                        <span class="text-2xl mr-4">🎯</span>
+                        <div>
+                            <p class="font-bold mb-1">User-friendly interfaces</p>
+                            <p style="color: var(--text-secondary);">Graphical interfaces (Mac), visual feedback, no programming required</p>
+                        </div>
+                    </li>
+                    <li class="flex items-start">
+                        <span class="text-2xl mr-4">💿</span>
+                        <div>
+                            <p class="font-bold mb-1">Software ecosystem</p>
+                            <p style="color: var(--text-secondary);">Word processors, spreadsheets, games - practical applications for everyone</p>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Slide 6: 1980s-1990s Adoption -->
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-4xl font-bold mb-8">1980s-1990s: Entering Everyday Life</h2>
+                <div class="grid grid-cols-2 gap-6">
+                    <div class="space-y-4">
+                        <div class="p-5 rounded" style="background-color: var(--bg-secondary);">
+                            <p class="font-bold text-xl mb-3">In the workplace:</p>
+                            <ul class="space-y-2 text-base">
+                                <li>• Word processing replaces typewriters</li>
+                                <li>• Spreadsheets (VisiCalc, Lotus 1-2-3, Excel)</li>
+                                <li>• Desktop publishing</li>
+                                <li>• Office productivity explodes</li>
+                            </ul>
+                        </div>
+                        <div class="p-5 rounded" style="background-color: var(--bg-secondary);">
+                            <p class="font-bold text-xl mb-3">In education:</p>
+                            <ul class="space-y-2 text-base">
+                                <li>• Computer labs in schools</li>
+                                <li>• "Computer literacy" classes</li>
+                                <li>• Educational software</li>
+                                <li>• Typing skills essential</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="space-y-4">
+                        <div class="p-5 rounded" style="background-color: var(--bg-secondary);">
+                            <p class="font-bold text-xl mb-3">At home:</p>
+                            <ul class="space-y-2 text-base">
+                                <li>• Gaming (Nintendo, Sega, PC games)</li>
+                                <li>• Home accounting/budgeting</li>
+                                <li>• Letter writing</li>
+                                <li>• Early CD-ROM multimedia</li>
+                            </ul>
+                        </div>
+                        <div class="p-5 rounded" style="background-color: #fef9c3;">
+                            <p class="font-bold text-xl mb-2" style="color: #854d0e;">The digital divide emerges</p>
+                            <p class="text-base" style="color: #854d0e;">Not everyone can afford computers. New inequality forms</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 7: Internet Changes Everything -->
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-4xl font-bold mb-8">Mid-1990s: The Internet Changes Everything</h2>
+                <div class="mb-6 p-6 rounded-lg" style="background-color: var(--bg-secondary); border: 2px solid var(--border-color);">
+                    <p class="text-2xl font-semibold mb-3">PCs transform from standalone tools to connected devices</p>
+                </div>
+                <ul class="space-y-4 text-lg">
+                    <li class="flex items-start">
+                        <span class="mr-3">🌐</span>
+                        <div><p class="font-bold mb-1">World Wide Web (1991-1995)</p><p style="color: var(--text-secondary);">Browsers (Mosaic, Netscape, Internet Explorer) make internet accessible</p></div>
+                    </li>
+                    <li class="flex items-start">
+                        <span class="mr-3">📧</span>
+                        <div><p class="font-bold mb-1">Email becomes essential</p><p style="color: var(--text-secondary);">Communication shifts from phone/mail to instant digital messages</p></div>
+                    </li>
+                    <li class="flex items-start">
+                        <span class="mr-3">🔍</span>
+                        <div><p class="font-bold mb-1">Search engines</p><p style="color: var(--text-secondary);">Yahoo (1994), Google (1998) - access to infinite information</p></div>
+                    </li>
+                    <li class="flex items-start">
+                        <span class="mr-3">💬</span>
+                        <div><p class="font-bold mb-1">Social software emerges</p><p style="color: var(--text-secondary);">Chat rooms, forums, instant messaging (ICQ, AIM)</p></div>
+                    </li>
+                </ul>
+                <p class="mt-6 text-lg p-4 rounded font-semibold" style="background-color: var(--bg-secondary);">Computers stop being calculators and become communication portals</p>
+            </div>
+
+            <!-- Slide 8: 2000s Web 2.0 -->
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-4xl font-bold mb-8">2000s: Web 2.0 & Social Computing</h2>
+                <div class="space-y-4">
+                    <div class="p-5 rounded" style="background-color: var(--bg-secondary); border-left: 4px solid var(--accent-color);">
+                        <p class="font-bold text-xl mb-2">🌍 User-generated content</p>
+                        <p class="text-base">Blogs, Wikipedia (2001), YouTube (2005) - everyone becomes a creator</p>
+                    </div>
+                    <div class="p-5 rounded" style="background-color: var(--bg-secondary); border-left: 4px solid var(--accent-color);">
+                        <p class="font-bold text-xl mb-2">👥 Social media platforms</p>
+                        <p class="text-base">Friendster (2002), MySpace (2003), Facebook (2004), Twitter (2006)</p>
+                    </div>
+                    <div class="p-5 rounded" style="background-color: var(--bg-secondary); border-left: 4px solid var(--accent-color);">
+                        <p class="font-bold text-xl mb-2">📱 Mobile computing begins</p>
+                        <p class="text-base">Laptops become standard. WiFi everywhere. Computing becomes portable</p>
+                    </div>
+                    <div class="p-5 rounded" style="background-color: var(--bg-secondary); border-left: 4px solid var(--accent-color);">
+                        <p class="font-bold text-xl mb-2">☁️ Cloud computing emerges</p>
+                        <p class="text-base">Gmail (2004), Google Docs (2006) - software as service, data in the cloud</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 9: 2010s-Present -->
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-4xl font-bold mb-8">2010s-Present: Cloud, Mobile-First, AI</h2>
+                <div class="mb-6 p-6 rounded-lg" style="background-color: var(--bg-secondary); border: 2px solid var(--border-color);">
+                    <p class="text-xl">The "computer" becomes invisible infrastructure</p>
+                </div>
+                <ul class="space-y-4 text-lg">
+                    <li class="flex items-start">
+                        <span class="mr-3">☁️</span>
+                        <div><p class="font-bold mb-1">Everything moves to cloud</p><p style="color: var(--text-secondary);">Files, photos, software all online. Devices become thin clients</p></div>
+                    </li>
+                    <li class="flex items-start">
+                        <span class="mr-3">📱</span>
+                        <div><p class="font-bold mb-1">Smartphones dominate</p><p style="color: var(--text-secondary);">For many people, phone is their only computer. PC sales decline</p></div>
+                    </li>
+                    <li class="flex items-start">
+                        <span class="mr-3">🤖</span>
+                        <div><p class="font-bold mb-1">AI assistants</p><p style="color: var(--text-secondary);">Siri (2011), Alexa (2014), ChatGPT (2022) - natural language interaction</p></div>
+                    </li>
+                    <li class="flex items-start">
+                        <span class="mr-3">💼</span>
+                        <div><p class="font-bold mb-1">Remote work revolution</p><p style="color: var(--text-secondary);">Zoom, Slack, cloud collaboration. COVID-19 accelerates shift</p></div>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Slide 10: Social Transformations -->
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-4xl font-bold mb-8">How Computers Transformed Society</h2>
+                <div class="space-y-3 text-lg">
+                    <div class="p-4 rounded" style="background-color: var(--bg-secondary); border-left: 4px solid var(--accent-color);">
+                        <p class="font-bold mb-2">💼 Work: From physical to knowledge economy</p>
+                        <p class="text-base">Office work fundamentally digital. Remote work possible. Automation of routine tasks</p>
+                    </div>
+                    <div class="p-4 rounded" style="background-color: var(--bg-secondary); border-left: 4px solid var(--accent-color);">
+                        <p class="font-bold mb-2">🎓 Education: From memorization to information literacy</p>
+                        <p class="text-base">Access to infinite information. Learning to evaluate sources more important than memorizing facts</p>
+                    </div>
+                    <div class="p-4 rounded" style="background-color: var(--bg-secondary); border-left: 4px solid var(--accent-color);">
+                        <p class="font-bold mb-2">🎨 Creativity: Democratization of production</p>
+                        <p class="text-base">Anyone can create music, video, graphics, writing. Professional tools affordable/free</p>
+                    </div>
+                    <div class="p-4 rounded" style="background-color: var(--bg-secondary); border-left: 4px solid var(--accent-color);">
+                        <p class="font-bold mb-2">🌐 Communication: Global, instant, multimodal</p>
+                        <p class="text-base">Geography matters less. Relationships maintained digitally. New forms of community</p>
+                    </div>
+                    <div class="p-4 rounded" style="background-color: var(--bg-secondary); border-left: 4px solid var(--accent-color);">
+                        <p class="font-bold mb-2">🏛️ Politics: Information warfare, digital campaigns, surveillance</p>
+                        <p class="text-base">Social media shapes public opinion. Misinformation spreads. Data = power</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 11: Current Statistics -->
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-4xl font-bold mb-8">Current State: Ubiquitous Computing</h2>
+                <div class="grid grid-cols-2 gap-6 text-base">
+                    <div class="p-5 rounded" style="background-color: var(--bg-secondary);">
+                        <p class="font-bold text-xl mb-4">Global statistics (approximate):</p>
+                        <ul class="space-y-3">
+                            <li>• 2+ billion PCs in use worldwide</li>
+                            <li>• 50%+ of workforce uses computers daily</li>
+                            <li>• 85%+ of students have access to computers</li>
+                            <li>• Average person: 7+ hours/day screen time</li>
+                            <li>• Cloud computing: $500B+ industry</li>
+                        </ul>
+                    </div>
+                    <div class="p-5 rounded" style="background-color: var(--bg-secondary);">
+                        <p class="font-bold text-xl mb-4">What people do on computers:</p>
+                        <ul class="space-y-3">
+                            <li>1. Work/productivity (largest use)</li>
+                            <li>2. Communication (email, social)</li>
+                            <li>3. Entertainment (streaming, games)</li>
+                            <li>4. Shopping & services</li>
+                            <li>5. Education & research</li>
+                        </ul>
+                    </div>
+                </div>
+                <p class="mt-6 text-lg p-4 rounded font-semibold" style="background-color: #fef9c3; color: #854d0e;">Computing is no longer optional - it's infrastructure for modern life</p>
+            </div>
+
+            <!-- Slide 12: For Your Research -->
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-4xl font-bold mb-6">If You're Studying Computers for Your Assignment</h2>
+                <div class="space-y-4">
+                    <div class="p-5 rounded-lg" style="background-color: var(--bg-secondary); border-left: 4px solid var(--accent-color);">
+                        <p class="text-xl font-bold mb-3">Key themes to explore:</p>
+                        <ul class="space-y-2 text-lg">
+                            <li>• From institutional tool to personal device - what enabled this shift?</li>
+                            <li>• How did internet connectivity transform computing?</li>
+                            <li>• Cloud computing vs personal storage - implications for control and privacy</li>
+                            <li>• Digital divide - who has access, who doesn't, why does it matter?</li>
+                            <li>• Work transformation - remote work, gig economy, automation</li>
+                        </ul>
+                    </div>
+                    <div class="p-5 rounded-lg" style="background-color: #dcfce7; border: 2px solid #10b981;">
+                        <p class="text-lg font-semibold mb-2" style="color: #166534;">Where to find data:</p>
+                        <p style="color: #166534;">PC sales data, internet usage statistics, cloud adoption rates, workplace technology surveys, digital literacy studies</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    <footer class="border-t p-4" style="border-color: var(--border-color);">
+        <div class="max-w-7xl mx-auto flex justify-between items-center">
+            <button id="prevBtn" class="px-6 py-2 rounded border font-medium" style="border-color: var(--border-color);">← Previous</button>
+            <span id="slideCounter" class="text-lg" style="color: var(--text-secondary);">1 / 12</span>
+            <button id="nextBtn" class="px-6 py-2 rounded border font-medium" style="border-color: var(--border-color);">Next →</button>
+        </div>
+    </footer>
+    <script>
+        let currentSlide=0,isDarkMode=false,fontSize=1;const slides=document.querySelectorAll('.slide'),prevBtn=document.getElementById('prevBtn'),nextBtn=document.getElementById('nextBtn'),slideCounter=document.getElementById('slideCounter');function showSlide(n){slides[currentSlide].classList.remove('active');currentSlide=(n+slides.length)%slides.length;slides[currentSlide].classList.add('active');slideCounter.textContent=\`\${currentSlide+1} / \${slides.length}\`;prevBtn.disabled=currentSlide===0;nextBtn.disabled=currentSlide===slides.length-1;prevBtn.style.opacity=currentSlide===0?'0.5':'1';nextBtn.style.opacity=currentSlide===slides.length-1?'0.5':'1';}prevBtn.addEventListener('click',()=>{if(currentSlide>0)showSlide(currentSlide-1);});nextBtn.addEventListener('click',()=>{if(currentSlide<slides.length-1)showSlide(currentSlide+1);});document.getElementById('darkModeToggle').addEventListener('click',()=>{isDarkMode=!isDarkMode;document.body.classList.toggle('dark-mode');document.getElementById('modeIcon').textContent=isDarkMode?'☀️':'🌙';});document.getElementById('increaseFont').addEventListener('click',()=>{if(fontSize<1.5){fontSize+=0.1;document.documentElement.style.setProperty('--font-size',fontSize);}});document.getElementById('decreaseFont').addEventListener('click',()=>{if(fontSize>0.7){fontSize-=0.1;document.documentElement.style.setProperty('--font-size',fontSize);}});document.addEventListener('keydown',(e)=>{if(e.key==='ArrowRight'&&currentSlide<slides.length-1)showSlide(currentSlide+1);if(e.key==='ArrowLeft'&&currentSlide>0)showSlide(currentSlide-1);});showSlide(0);
+    </script>
+</body>
+</html>

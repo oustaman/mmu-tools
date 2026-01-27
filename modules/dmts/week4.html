@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Week 4: Mobile Phones</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .slide { display: none; }
+        .slide.active { display: flex; }
+        :root {
+            --bg-primary: #ffffff; --bg-secondary: #f9fafb; --text-primary: #111827;
+            --text-secondary: #4b5563; --border-color: #e5e7eb; --accent-color: #3b82f6; --font-size: 1;
+        }
+        .dark-mode {
+            --bg-primary: #1f2937; --bg-secondary: #111827; --text-primary: #f9fafb;
+            --text-secondary: #d1d5db; --border-color: #374151; --accent-color: #60a5fa;
+        }
+        html { font-size: calc(var(--font-size) * 16px); }
+        body { background-color: var(--bg-primary); color: var(--text-primary); }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col">
+    <header class="border-b p-4" style="border-color: var(--border-color);">
+        <div class="max-w-7xl mx-auto flex justify-between items-center">
+            <h1 class="text-lg font-semibold">Digital Media Technologies - Week 4</h1>
+            <div class="flex gap-2">
+                <button id="decreaseFont" class="px-3 py-2 rounded border" style="border-color: var(--border-color);">A-</button>
+                <button id="increaseFont" class="px-3 py-2 rounded border" style="border-color: var(--border-color);">A+</button>
+                <button id="darkModeToggle" class="px-4 py-2 rounded border" style="border-color: var(--border-color);"><span id="modeIcon">🌙</span></button>
+            </div>
+        </div>
+    </header>
+    <main class="flex-1 flex items-center justify-center p-8">
+        <div class="w-full max-w-5xl">
+            <!-- Title slide -->
+            <div class="slide active flex-col items-center justify-center text-center h-[70vh]">
+                <h2 class="text-5xl font-bold mb-6">Mobile Phones</h2>
+                <h3 class="text-3xl mb-8" style="color: var(--text-secondary);">Week 4: From Brick to Smartphone to Essential Tool</h3>
+                <p class="text-xl" style="color: var(--text-secondary);">Week 4 of 11</p>
+            </div>
+            <!-- Slide 2: Before Mobile Phones -->
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-4xl font-bold mb-8">Before Mobile Phones: Fixed Communication</h2>
+                <div class="mb-6 p-6 rounded-lg" style="background-color: var(--bg-secondary); border: 2px solid var(--border-color);">
+                    <p class="text-2xl font-semibold mb-3">Communication was tied to physical locations</p>
+                </div>
+                <ul class="space-y-5 text-lg">
+                    <li class="flex items-start">
+                        <span class="text-2xl mr-4">🏠</span>
+                        <div>
+                            <p class="font-bold mb-1">Home phones (landlines)</p>
+                            <p style="color: var(--text-secondary);">You called a place, not a person. "Is John home?" Messages left with whoever answered</p>
+                        </div>
+                    </li>
+                    <li class="flex items-start">
+                        <span class="text-2xl mr-4">📞</span>
+                        <div>
+                            <p class="font-bold mb-1">Pay phones</p>
+                            <p style="color: var(--text-secondary);">Need coins, find a booth, pray it works. Public, no privacy</p>
+                        </div>
+                    </li>
+                    <li class="flex items-start">
+                        <span class="text-2xl mr-4">📟</span>
+                        <div>
+                            <p class="font-bold mb-1">Pagers/Beepers (1980s)</p>
+                            <p style="color: var(--text-secondary);">One-way messages. Still need to find a phone to call back</p>
+                        </div>
+                    </li>
+                </ul>
+                <p class="mt-6 text-lg p-4 rounded font-semibold" style="background-color: var(--bg-secondary);">Your location determined your reachability</p>
+            </div>
+
+            <!-- Slide 3: 1980s Car Phones -->
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-4xl font-bold mb-8">1980s: Car Phones & Brick Phones</h2>
+                <div class="grid grid-cols-2 gap-6">
+                    <div class="p-5 rounded" style="background-color: var(--bg-secondary);">
+                        <p class="font-bold text-xl mb-3">📞 Car phones</p>
+                        <ul class="space-y-2 text-base">
+                            <li>• Installed in vehicle</li>
+                            <li>• Required car battery power</li>
+                            <li>• Extremely expensive</li>
+                            <li>• Status symbol for executives</li>
+                        </ul>
+                    </div>
+                    <div class="p-5 rounded" style="background-color: var(--bg-secondary);">
+                        <p class="font-bold text-xl mb-3">📱 "Brick" phones</p>
+                        <ul class="space-y-2 text-base">
+                            <li>• Motorola DynaTAC (1983)</li>
+                            <li>• Weight: 2 pounds (1kg)</li>
+                            <li>• Battery: 30 min talk time</li>
+                            <li>• Price: $3,995 (~$11,000 today)</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="mt-6 p-5 rounded" style="background-color: #fef9c3;">
+                    <p class="font-bold text-xl mb-2" style="color: #854d0e;">Who had them?</p>
+                    <p class="text-base" style="color: #854d0e;">Business executives, doctors, emergency services. Seen as luxuries, not necessities</p>
+                </div>
+            </div>
+
+            <!-- Slide 4: 1990s Mass Adoption Begins -->
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-4xl font-bold mb-8">1990s: From Luxury to Necessity</h2>
+                <div class="space-y-4">
+                    <div class="p-5 rounded" style="background-color: var(--bg-secondary);">
+                        <p class="font-bold text-xl mb-3">What changed:</p>
+                        <ul class="space-y-3 text-lg">
+                            <li>• Smaller size (fit in pocket/purse)</li>
+                            <li>• Better batteries (hours, not minutes)</li>
+                            <li>• Lower prices ($200-500 range)</li>
+                            <li>• Prepaid plans (no credit check needed)</li>
+                            <li>• Network coverage expands dramatically</li>
+                        </ul>
+                    </div>
+                    <div class="p-5 rounded" style="background-color: var(--bg-secondary);">
+                        <p class="font-bold text-xl mb-3">New capabilities:</p>
+                        <ul class="space-y-3 text-lg">
+                            <li>• SMS text messaging (1992 onwards)</li>
+                            <li>• Digital networks (clearer calls)</li>
+                            <li>• Voicemail built in</li>
+                            <li>• Simple games (Snake!)</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 5: Early 2000s Features -->
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-4xl font-bold mb-8">Early 2000s: Feature Phones Era</h2>
+                <div class="mb-6 p-6 rounded-lg" style="background-color: var(--bg-secondary); border: 2px solid var(--border-color);">
+                    <p class="text-xl">Phones gain features beyond calling</p>
+                </div>
+                <ul class="space-y-4 text-lg">
+                    <li class="flex items-start">
+                        <span class="mr-3">📷</span>
+                        <div><p class="font-bold mb-1">Built-in cameras (2000+)</p><p style="color: var(--text-secondary);">Low quality but revolutionary - photos always with you</p></div>
+                    </li>
+                    <li class="flex items-start">
+                        <span class="mr-3">🎵</span>
+                        <div><p class="font-bold mb-1">MP3 players integrated</p><p style="color: var(--text-secondary);">Music on your phone. Goodbye separate devices</p></div>
+                    </li>
+                    <li class="flex items-start">
+                        <span class="mr-3">🌐</span>
+                        <div><p class="font-bold mb-1">Mobile internet (WAP)</p><p style="color: var(--text-secondary);">Slow, expensive, clunky - but the beginning</p></div>
+                    </li>
+                    <li class="flex items-start">
+                        <span class="mr-3">📱</span>
+                        <div><p class="font-bold mb-1">Color screens, customization</p><p style="color: var(--text-secondary);">Ringtones, wallpapers - phones become personal expression</p></div>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Slide 6: iPhone Revolution -->
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-4xl font-bold mb-8">2007: iPhone & The Smartphone Revolution</h2>
+                <div class="mb-6 p-6 rounded-lg" style="background-color: var(--bg-secondary); border: 2px solid var(--border-color);">
+                    <p class="text-2xl font-semibold mb-3">Everything changes</p>
+                    <p class="text-xl">Not a phone with features - a pocket computer that can make calls</p>
+                </div>
+                <div class="space-y-3 text-lg">
+                    <div class="p-4 rounded" style="background-color: var(--bg-secondary);">
+                        <p class="font-bold text-xl mb-2">What made it different:</p>
+                        <ul class="space-y-2 text-base">
+                            <li>• Full touchscreen (no physical keyboard)</li>
+                            <li>• Real internet browser (actual websites)</li>
+                            <li>• App Store (2008) - infinite expandability</li>
+                            <li>• iPod + phone + internet in one device</li>
+                            <li>• Beautiful, intuitive interface</li>
+                        </ul>
+                    </div>
+                    <div class="p-4 rounded" style="background-color: var(--bg-secondary);">
+                        <p class="font-bold text-xl mb-2">Industry response:</p>
+                        <p class="text-base">Android (2008), everyone copies. Feature phones obsolete within 5 years</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 7: Smartphone Capabilities -->
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-4xl font-bold mb-8">Smartphones: Convergence Device</h2>
+                <div class="mb-6 p-6 rounded-lg" style="background-color: var(--bg-secondary); border: 2px solid var(--border-color);">
+                    <p class="text-xl">One device replaces dozens</p>
+                </div>
+                <div class="grid grid-cols-2 gap-4 text-base">
+                    <div class="p-4 rounded" style="background-color: var(--bg-secondary);">
+                        <p class="font-bold mb-2">Devices replaced:</p>
+                        <ul class="space-y-1">
+                            <li>• Phone</li>
+                            <li>• Camera</li>
+                            <li>• Video camera</li>
+                            <li>• Music player</li>
+                            <li>• GPS navigator</li>
+                            <li>• Alarm clock</li>
+                        </ul>
+                    </div>
+                    <div class="p-4 rounded" style="background-color: var(--bg-secondary);">
+                        <p class="font-bold mb-2">More devices replaced:</p>
+                        <ul class="space-y-1">
+                            <li>• Watch</li>
+                            <li>• Flashlight</li>
+                            <li>• Calculator</li>
+                            <li>• Dictionary</li>
+                            <li>• Newspaper</li>
+                            <li>• Wallet (increasingly)</li>
+                        </ul>
+                    </div>
+                </div>
+                <p class="mt-4 text-lg p-4 rounded font-semibold" style="background-color: var(--bg-secondary);">Plus: Social media, games, banking, shopping, booking services, health tracking...</p>
+            </div>
+
+            <!-- Slide 8: Domestication Theory -->
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-4xl font-bold mb-8">Understanding Domestication Theory</h2>
+                <div class="mb-6 p-6 rounded-lg" style="background-color: var(--bg-secondary); border: 2px solid var(--border-color);">
+                    <p class="text-xl"><strong>Domestication:</strong> The process by which a new technology becomes familiar, routine, and integrated into everyday practices and social relationships</p>
+                </div>
+                <div class="space-y-4 text-lg">
+                    <p class="font-semibold text-xl">Four stages of domestication:</p>
+                    <div class="grid grid-cols-2 gap-4">
+                        <div class="p-4 rounded" style="background-color: var(--bg-secondary);">
+                            <p class="font-bold mb-2">1. Appropriation</p>
+                            <p class="text-base">Acquiring the technology, bringing it into your life</p>
+                        </div>
+                        <div class="p-4 rounded" style="background-color: var(--bg-secondary);">
+                            <p class="font-bold mb-2">2. Objectification</p>
+                            <p class="text-base">Displaying it, incorporating it into physical space</p>
+                        </div>
+                        <div class="p-4 rounded" style="background-color: var(--bg-secondary);">
+                            <p class="font-bold mb-2">3. Incorporation</p>
+                            <p class="text-base">Using it in daily routines and practices</p>
+                        </div>
+                        <div class="p-4 rounded" style="background-color: var(--bg-secondary);">
+                            <p class="font-bold mb-2">4. Conversion</p>
+                            <p class="text-base">Using it to express identity and connect with others</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 9: Mobile Phone Domestication Example -->
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-4xl font-bold mb-8">Mobile Phone Domestication in Action</h2>
+                <div class="space-y-4 text-lg">
+                    <div class="p-4 rounded" style="background-color: var(--bg-secondary); border-left: 4px solid var(--accent-color);">
+                        <p class="font-bold mb-2">Appropriation (1990s-2000s)</p>
+                        <p class="text-base">"I'm getting a mobile for emergencies" → Everyone gets one</p>
+                    </div>
+                    <div class="p-4 rounded" style="background-color: var(--bg-secondary); border-left: 4px solid var(--accent-color);">
+                        <p class="font-bold mb-2">Objectification (2000s)</p>
+                        <p class="text-base">Phone cases, customization, displaying brand (iPhone vs Android)</p>
+                    </div>
+                    <div class="p-4 rounded" style="background-color: var(--bg-secondary); border-left: 4px solid var(--accent-color);">
+                        <p class="font-bold mb-2">Incorporation (2010s)</p>
+                        <p class="text-base">First thing you check in morning, last at night. Always within reach. Anxiety when battery low</p>
+                    </div>
+                    <div class="p-4 rounded" style="background-color: var(--bg-secondary); border-left: 4px solid var(--accent-color);">
+                        <p class="font-bold mb-2">Conversion (present)</p>
+                        <p class="text-base">Your phone IS your identity - contacts, photos, social media presence, digital wallet</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 10: Social Transformations -->
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-4xl font-bold mb-8">How Mobile Phones Transformed Society</h2>
+                <ul class="space-y-4 text-lg">
+                    <li class="flex items-start">
+                        <span class="mr-3">👤</span>
+                        <div><p class="font-bold mb-1">Personal identity</p><p style="color: var(--text-secondary);">Your number = you. Losing phone = losing part of yourself</p></div>
+                    </li>
+                    <li class="flex items-start">
+                        <span class="mr-3">⏰</span>
+                        <div><p class="font-bold mb-1">Coordination & "micro-coordination"</p><p style="color: var(--text-secondary);">"I'm running late", "Where are you?", "Change of plans" - constant adjustment</p></div>
+                    </li>
+                    <li class="flex items-start">
+                        <span class="mr-3">🔗</span>
+                        <div><p class="font-bold mb-1">Constant connectivity</p><p style="color: var(--text-secondary);">Expected to be reachable always. FOMO. Notifications rule our attention</p></div>
+                    </li>
+                    <li class="flex items-start">
+                        <span class="mr-3">📍</span>
+                        <div><p class="font-bold mb-1">Location awareness</p><p style="color: var(--text-secondary);">GPS, maps, location sharing. Safety vs surveillance</p></div>
+                    </li>
+                    <li class="flex items-start">
+                        <span class="mr-3">📸</span>
+                        <div><p class="font-bold mb-1">Visual communication & documentation</p><p style="color: var(--text-secondary);">Everything photographed and shared. "Pics or it didn't happen"</p></div>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Slide 11: Current State -->
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-4xl font-bold mb-8">Current State: Mobile-First World</h2>
+                <div class="grid grid-cols-2 gap-6 text-base">
+                    <div class="p-5 rounded" style="background-color: var(--bg-secondary);">
+                        <p class="font-bold text-xl mb-4">Global statistics:</p>
+                        <ul class="space-y-3">
+                            <li>• 6.9 billion smartphone users (2024)</li>
+                            <li>• 85%+ of global population has mobile phone</li>
+                            <li>• Average: 4+ hours/day on phone</li>
+                            <li>• 58% of web traffic from mobile</li>
+                            <li>• Mobile internet > desktop internet</li>
+                        </ul>
+                    </div>
+                    <div class="p-5 rounded" style="background-color: var(--bg-secondary);">
+                        <p class="font-bold text-xl mb-4">What people do:</p>
+                        <ul class="space-y-3">
+                            <li>1. Social media (biggest use)</li>
+                            <li>2. Messaging</li>
+                            <li>3. Video/entertainment</li>
+                            <li>4. Photography</li>
+                            <li>5. Navigation/maps</li>
+                        </ul>
+                    </div>
+                </div>
+                <p class="mt-6 text-lg p-4 rounded font-semibold" style="background-color: #fee2e2; border-left: 4px solid #ef4444;">
+                    Concerns: Addiction, mental health, privacy, constant surveillance, social pressure
+                </p>
+            </div>
+
+            <!-- Slide 12: For Your Research -->
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-4xl font-bold mb-6">If You're Studying Mobile Phones</h2>
+                <div class="space-y-4">
+                    <div class="p-5 rounded-lg" style="background-color: var(--bg-secondary); border-left: 4px solid var(--accent-color);">
+                        <p class="text-xl font-bold mb-3">Key themes:</p>
+                        <ul class="space-y-2 text-lg">
+                            <li>• Journey from luxury to necessity (1980s → 2000s)</li>
+                            <li>• Smartphone revolution and convergence</li>
+                            <li>• Domestication process - how phones became part of identity</li>
+                            <li>• Social impacts: coordination, connectivity, constant availability</li>
+                            <li>• Global reach - developing world leapfrogged landlines entirely</li>
+                        </ul>
+                    </div>
+                    <div class="p-5 rounded-lg" style="background-color: #dcfce7; border: 2px solid #10b981;">
+                        <p class="text-lg font-semibold mb-2" style="color: #166534;">Data sources:</p>
+                        <p style="color: #166534;">Mobile subscription data, smartphone sales, usage statistics, social media adoption rates, app economy figures</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    <footer class="border-t p-4" style="border-color: var(--border-color);">
+        <div class="max-w-7xl mx-auto flex justify-between items-center">
+            <button id="prevBtn" class="px-6 py-2 rounded border font-medium" style="border-color: var(--border-color);">← Previous</button>
+            <span id="slideCounter" class="text-lg" style="color: var(--text-secondary);">1 / 12</span>
+            <button id="nextBtn" class="px-6 py-2 rounded border font-medium" style="border-color: var(--border-color);">Next →</button>
+        </div>
+    </footer>
+    <script>
+        let currentSlide=0,isDarkMode=false,fontSize=1;const slides=document.querySelectorAll('.slide'),prevBtn=document.getElementById('prevBtn'),nextBtn=document.getElementById('nextBtn'),slideCounter=document.getElementById('slideCounter');function showSlide(n){slides[currentSlide].classList.remove('active');currentSlide=(n+slides.length)%slides.length;slides[currentSlide].classList.add('active');slideCounter.textContent=\`\${currentSlide+1} / \${slides.length}\`;prevBtn.disabled=currentSlide===0;nextBtn.disabled=currentSlide===slides.length-1;prevBtn.style.opacity=currentSlide===0?'0.5':'1';nextBtn.style.opacity=currentSlide===slides.length-1?'0.5':'1';}prevBtn.addEventListener('click',()=>{if(currentSlide>0)showSlide(currentSlide-1);});nextBtn.addEventListener('click',()=>{if(currentSlide<slides.length-1)showSlide(currentSlide+1);});document.getElementById('darkModeToggle').addEventListener('click',()=>{isDarkMode=!isDarkMode;document.body.classList.toggle('dark-mode');document.getElementById('modeIcon').textContent=isDarkMode?'☀️':'🌙';});document.getElementById('increaseFont').addEventListener('click',()=>{if(fontSize<1.5){fontSize+=0.1;document.documentElement.style.setProperty('--font-size',fontSize);}});document.getElementById('decreaseFont').addEventListener('click',()=>{if(fontSize>0.7){fontSize-=0.1;document.documentElement.style.setProperty('--font-size',fontSize);}});document.addEventListener('keydown',(e)=>{if(e.key==='ArrowRight'&&currentSlide<slides.length-1)showSlide(currentSlide+1);if(e.key==='ArrowLeft'&&currentSlide>0)showSlide(currentSlide-1);});showSlide(0);
+    </script>
+</body>
+</html>

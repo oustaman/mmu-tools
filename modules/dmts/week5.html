@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Week 5: Finding Data & Understanding Users</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .slide { display: none; }
+        .slide.active { display: flex; }
+        :root {
+            --bg-primary: #ffffff; --bg-secondary: #f9fafb; --text-primary: #111827;
+            --text-secondary: #4b5563; --border-color: #e5e7eb; --accent-color: #3b82f6; --font-size: 1;
+        }
+        .dark-mode {
+            --bg-primary: #1f2937; --bg-secondary: #111827; --text-primary: #f9fafb;
+            --text-secondary: #d1d5db; --border-color: #374151; --accent-color: #60a5fa;
+        }
+        html { font-size: calc(var(--font-size) * 16px); }
+        body { background-color: var(--bg-primary); color: var(--text-primary); }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col">
+    <header class="border-b p-4" style="border-color: var(--border-color);">
+        <div class="max-w-7xl mx-auto flex justify-between items-center">
+            <h1 class="text-lg font-semibold">Digital Media Technologies - Week 5</h1>
+            <div class="flex gap-2">
+                <button id="decreaseFont" class="px-3 py-2 rounded border" style="border-color: var(--border-color);">A-</button>
+                <button id="increaseFont" class="px-3 py-2 rounded border" style="border-color: var(--border-color);">A+</button>
+                <button id="darkModeToggle" class="px-4 py-2 rounded border" style="border-color: var(--border-color);"><span id="modeIcon">🌙</span></button>
+            </div>
+        </div>
+    </header>
+    <main class="flex-1 flex items-center justify-center p-8">
+        <div class="w-full max-w-5xl">
+            <!-- Title slide -->
+            <div class="slide active flex-col items-center justify-center text-center h-[70vh]">
+                <h2 class="text-5xl font-bold mb-6">Finding Data & Understanding Users</h2>
+                <h3 class="text-3xl mb-8" style="color: var(--text-secondary);">Week 5: Statistical Data & User Demographics</h3>
+                <p class="text-xl" style="color: var(--text-secondary);">Week 5 of 11</p>
+            </div>
+            <!-- Slide 2: Why Data Matters -->
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-4xl font-bold mb-8">Why Statistical Data Matters</h2>
+                <div class="mb-6 p-6 rounded-lg" style="background-color: var(--bg-secondary); border: 2px solid var(--border-color);">
+                    <p class="text-2xl font-semibold mb-3">Good research requires evidence, not just opinions</p>
+                </div>
+                <div class="space-y-4 text-lg">
+                    <div class="p-5 rounded" style="background-color: var(--bg-secondary);">
+                        <p class="font-bold text-xl mb-3">Data helps you:</p>
+                        <ul class="space-y-3">
+                            <li>• Prove technology adoption rates ("TV ownership reached 90% by 1970")</li>
+                            <li>• Show growth over time ("Smartphone users grew from 1B in 2012 to 6B in 2024")</li>
+                            <li>• Identify user demographics ("65+ age group fastest growing smartphone adopters")</li>
+                            <li>• Support your arguments with credible evidence</li>
+                        </ul>
+                    </div>
+                    <p class="mt-4 text-xl p-4 rounded font-semibold" style="background-color: #fef9c3; color: #854d0e;">Without data, you're just guessing</p>
+                </div>
+            </div>
+
+            <!-- Slide 3: Types of Statistical Data -->
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-4xl font-bold mb-8">Types of Statistical Data You Need</h2>
+                <div class="space-y-4">
+                    <div class="p-5 rounded" style="background-color: var(--bg-secondary); border-left: 4px solid var(--accent-color);">
+                        <p class="font-bold text-xl mb-2">📈 Growth/Adoption Statistics</p>
+                        <p class="text-base">Number of users over time, market penetration rates, sales figures</p>
+                        <p class="text-sm mt-2 italic" style="color: var(--text-secondary);">Example: "Mobile phone subscriptions grew from 12.4M (1990) to 8.6B (2023)"</p>
+                    </div>
+                    <div class="p-5 rounded" style="background-color: var(--bg-secondary); border-left: 4px solid var(--accent-color);">
+                        <p class="font-bold text-xl mb-2">👥 User Demographics</p>
+                        <p class="text-base">Age, gender, income, education, geographic distribution of users</p>
+                        <p class="text-sm mt-2 italic" style="color: var(--text-secondary);">Example: "18-34 year olds spend average 4.8 hours/day on smartphones"</p>
+                    </div>
+                    <div class="p-5 rounded" style="background-color: var(--bg-secondary); border-left: 4px solid var(--accent-color);">
+                        <p class="font-bold text-xl mb-2">⏰ Usage Patterns</p>
+                        <p class="text-base">How often, how long, what activities, when people use technology</p>
+                        <p class="text-sm mt-2 italic" style="color: var(--text-secondary);">Example: "Average American watches 3.1 hours of TV daily"</p>
+                    </div>
+                    <div class="p-5 rounded" style="background-color: var(--bg-secondary); border-left: 4px solid var(--accent-color);">
+                        <p class="font-bold text-xl mb-2">🌍 Geographic/Market Data</p>
+                        <p class="text-base">Regional differences, country comparisons, urban vs rural</p>
+                        <p class="text-sm mt-2 italic" style="color: var(--text-secondary);">Example: "South Korea has 97% smartphone penetration vs 45% in India"</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 4: Where to Find Growth Statistics -->
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-4xl font-bold mb-8">Where to Find Growth Statistics</h2>
+                <div class="space-y-4 text-lg">
+                    <div class="p-4 rounded" style="background-color: var(--bg-secondary);">
+                        <p class="font-bold text-xl mb-3">Government statistics offices:</p>
+                        <ul class="space-y-2 text-base">
+                            <li>• UK: Office for National Statistics (ONS)</li>
+                            <li>• US: US Census Bureau, Pew Research Center</li>
+                            <li>• International: UN ITU, World Bank Data</li>
+                            <li>• Search: "[technology] adoption statistics [country]"</li>
+                        </ul>
+                    </div>
+                    <div class="p-4 rounded" style="background-color: var(--bg-secondary);">
+                        <p class="font-bold text-xl mb-3">Industry research firms:</p>
+                        <ul class="space-y-2 text-base">
+                            <li>• Statista (free summaries, paid for full reports)</li>
+                            <li>• Gartner, IDC (IT industry analysis)</li>
+                            <li>• Nielsen, ComScore (media measurement)</li>
+                            <li>• GSMA Intelligence (mobile industry)</li>
+                        </ul>
+                    </div>
+                    <div class="p-4 rounded" style="background-color: #dcfce7; border: 2px solid #10b981;">
+                        <p class="font-bold text-lg mb-2" style="color: #166534;">⚠️ Pro tip:</p>
+                        <p class="text-base" style="color: #166534;">Always cite the original source, not Wikipedia. Go to the actual statistics website.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 5: Company Reports -->
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-4xl font-bold mb-8">Company Annual Reports & Investor Relations</h2>
+                <div class="mb-6 p-6 rounded-lg" style="background-color: var(--bg-secondary); border: 2px solid var(--border-color);">
+                    <p class="text-xl">Public companies publish detailed statistics about their products and users</p>
+                </div>
+                <div class="space-y-4 text-lg">
+                    <div class="p-4 rounded" style="background-color: var(--bg-secondary);">
+                        <p class="font-bold text-xl mb-3">Examples:</p>
+                        <ul class="space-y-2 text-base">
+                            <li>• Netflix: Subscriber numbers, viewing hours, regional growth</li>
+                            <li>• Apple: iPhone sales, active devices, services revenue</li>
+                            <li>• Meta: Facebook/Instagram daily active users, ad revenue</li>
+                            <li>• Google: Search queries, YouTube views, Android activations</li>
+                        </ul>
+                    </div>
+                    <div class="p-4 rounded" style="background-color: var(--bg-secondary);">
+                        <p class="font-bold text-xl mb-3">How to find:</p>
+                        <ul class="space-y-2 text-base">
+                            <li>• Search: "[Company name] investor relations"</li>
+                            <li>• Look for: Annual reports, quarterly earnings, presentations</li>
+                            <li>• Usually free and public (legal requirement)</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 6: Academic Surveys -->
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-4xl font-bold mb-8">Academic Research Surveys & Studies</h2>
+                <div class="mb-6 p-6 rounded-lg" style="background-color: var(--bg-secondary); border: 2px solid var(--border-color);">
+                    <p class="text-xl">Academic journals often contain detailed survey data and user studies</p>
+                </div>
+                <div class="space-y-4">
+                    <div class="p-5 rounded" style="background-color: var(--bg-secondary);">
+                        <p class="font-bold text-xl mb-3">Where to search:</p>
+                        <ul class="space-y-3 text-lg">
+                            <li>• Google Scholar (scholar.google.com)</li>
+                            <li>• University library databases (Web of Science, Scopus)</li>
+                            <li>• Search terms: "[technology] adoption survey", "usage patterns", "user demographics"</li>
+                        </ul>
+                    </div>
+                    <div class="p-5 rounded" style="background-color: #fef9c3;">
+                        <p class="font-bold text-xl mb-2" style="color: #854d0e;">Remember:</p>
+                        <p class="text-base" style="color: #854d0e;">You need 2 journal papers for your assignment. Look for papers with survey data or statistical analysis.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 7: Understanding User Demographics -->
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-4xl font-bold mb-8">Understanding User Demographics</h2>
+                <div class="mb-6 p-6 rounded-lg" style="background-color: var(--bg-secondary); border: 2px solid var(--border-color);">
+                    <p class="text-xl">Demographics = who uses the technology and how they differ</p>
+                </div>
+                <div class="grid grid-cols-2 gap-4 text-base">
+                    <div class="space-y-3">
+                        <div class="p-4 rounded" style="background-color: var(--bg-secondary);">
+                            <p class="font-bold mb-2">Age patterns:</p>
+                            <p>• Early adopters (usually younger)</p>
+                            <p>• Late adopters (often older)</p>
+                            <p>• Generation differences in usage</p>
+                        </div>
+                        <div class="p-4 rounded" style="background-color: var(--bg-secondary);">
+                            <p class="font-bold mb-2">Income/Class:</p>
+                            <p>• Luxury → mass market journey</p>
+                            <p>• Digital divide issues</p>
+                            <p>• Affordability barriers</p>
+                        </div>
+                    </div>
+                    <div class="space-y-3">
+                        <div class="p-4 rounded" style="background-color: var(--bg-secondary);">
+                            <p class="font-bold mb-2">Geographic:</p>
+                            <p>• Urban vs rural access</p>
+                            <p>• Country differences</p>
+                            <p>• Infrastructure requirements</p>
+                        </div>
+                        <div class="p-4 rounded" style="background-color: var(--bg-secondary);">
+                            <p class="font-bold mb-2">Education:</p>
+                            <p>• Digital literacy levels</p>
+                            <p>• Technical comfort</p>
+                            <p>• Learning curves</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 8: Demographic Data Sources -->
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-4xl font-bold mb-8">Finding Demographic Data</h2>
+                <div class="space-y-4">
+                    <div class="p-5 rounded" style="background-color: var(--bg-secondary); border-left: 4px solid var(--accent-color);">
+                        <p class="font-bold text-xl mb-2">📊 Pew Research Center</p>
+                        <p class="text-base">Excellent free reports on technology adoption by demographics. pewresearch.org</p>
+                        <p class="text-sm mt-2 italic" style="color: var(--text-secondary);">Example: "Internet & Technology" section has detailed breakdowns by age, race, income</p>
+                    </div>
+                    <div class="p-5 rounded" style="background-color: var(--bg-secondary); border-left: 4px solid var(--accent-color);">
+                        <p class="font-bold text-xl mb-2">📈 Ofcom (UK regulator)</p>
+                        <p class="text-base">Annual "Communications Market Report" - detailed UK statistics. ofcom.org.uk</p>
+                    </div>
+                    <div class="p-5 rounded" style="background-color: var(--bg-secondary); border-left: 4px solid var(--accent-color);">
+                        <p class="font-bold text-xl mb-2">🌍 ITU (UN agency)</p>
+                        <p class="text-base">International telecommunications statistics by country. itu.int</p>
+                    </div>
+                    <div class="p-5 rounded" style="background-color: var(--bg-secondary); border-left: 4px solid var(--accent-color);">
+                        <p class="font-bold text-xl mb-2">📱 GSMA Intelligence</p>
+                        <p class="text-base">Mobile industry data, global and regional. gsmaintelligence.com</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 9: Reading Statistics Critically -->
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-4xl font-bold mb-8">Reading Statistics Critically</h2>
+                <p class="text-xl mb-6">Not all statistics are created equal. Ask questions:</p>
+                <ul class="space-y-4 text-lg">
+                    <li class="flex items-start">
+                        <span class="mr-3">❓</span>
+                        <div><p class="font-bold mb-1">Who collected this data?</p><p style="color: var(--text-secondary);">Government? Company? Industry group? Academic researchers? Bias matters.</p></div>
+                    </li>
+                    <li class="flex items-start">
+                        <span class="mr-3">❓</span>
+                        <div><p class="font-bold mb-1">When was it collected?</p><p style="color: var(--text-secondary);">Is it current or outdated? Technology changes fast.</p></div>
+                    </li>
+                    <li class="flex items-start">
+                        <span class="mr-3">❓</span>
+                        <div><p class="font-bold mb-1">How was it measured?</p><p style="color: var(--text-secondary);">Survey? Actual usage data? Sample size? Methodology matters.</p></div>
+                    </li>
+                    <li class="flex items-start">
+                        <span class="mr-3">❓</span>
+                        <div><p class="font-bold mb-1">What's the context?</p><p style="color: var(--text-secondary);">UK data vs global? One company vs whole industry? Be specific.</p></div>
+                    </li>
+                </ul>
+                <p class="mt-6 text-lg p-4 rounded font-semibold" style="background-color: #fee2e2; border-left: 4px solid #ef4444;">Beware: Companies often cherry-pick impressive statistics</p>
+            </div>
+
+            <!-- Slide 10: Citing Data Properly -->
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-4xl font-bold mb-8">Citing Statistical Data</h2>
+                <div class="mb-6 p-6 rounded-lg" style="background-color: var(--bg-secondary); border: 2px solid var(--border-color);">
+                    <p class="text-xl">Always cite where your statistics come from</p>
+                </div>
+                <div class="space-y-4 text-base">
+                    <div class="p-4 rounded" style="background-color: #d1fae5; border-left: 4px solid #10b981;">
+                        <p class="font-bold mb-2" style="color: #166534;">✓ Good example:</p>
+                        <p class="italic mb-2">"According to the Office for National Statistics (2023), 96% of UK households had internet access, up from 57% in 2006."</p>
+                        <p class="text-sm" style="color: #166534;">Clear source, specific date, exact figure</p>
+                    </div>
+                    <div class="p-4 rounded" style="background-color: #fee2e2; border-left: 4px solid #ef4444;">
+                        <p class="font-bold mb-2" style="color: #7f1d1d;">✗ Bad example:</p>
+                        <p class="italic mb-2">"Most people use smartphones these days."</p>
+                        <p class="text-sm" style="color: #7f1d1d;">No source, vague, no data</p>
+                    </div>
+                    <div class="p-4 rounded" style="background-color: #d1fae5; border-left: 4px solid #10b981;">
+                        <p class="font-bold mb-2" style="color: #166534;">✓ Good example:</p>
+                        <p class="italic mb-2">"Smartphone users increased from 1 billion in 2012 to 6.9 billion in 2024 (Statista, 2024), representing a 590% growth."</p>
+                        <p class="text-sm" style="color: #166534;">Source, dates, specific figures, shows change</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 11: Practical Exercise -->
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-4xl font-bold mb-6">Your Task This Week</h2>
+                <div class="mb-6 p-6 rounded-lg" style="background-color: var(--bg-secondary); border: 2px solid var(--border-color);">
+                    <p class="text-2xl font-semibold mb-3">Find 3 statistical data points for your chosen technology</p>
+                </div>
+                <div class="space-y-4">
+                    <div class="p-5 rounded" style="background-color: var(--bg-secondary);">
+                        <p class="font-bold text-xl mb-3">What to find:</p>
+                        <ul class="space-y-3 text-lg">
+                            <li>• 1 statistic showing growth/adoption over time</li>
+                            <li>• 1 statistic about user demographics</li>
+                            <li>• 1 statistic about current usage patterns</li>
+                        </ul>
+                    </div>
+                    <div class="p-5 rounded" style="background-color: #dcfce7; border: 2px solid #10b981;">
+                        <p class="font-bold text-xl mb-2" style="color: #166534;">Document for each:</p>
+                        <ul class="space-y-2 text-base" style="color: #166534;">
+                            <li>• The exact statistic</li>
+                            <li>• The source (organization/author)</li>
+                            <li>• The date</li>
+                            <li>• The URL or reference</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 12: Next Week Preview -->
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-4xl font-bold mb-6">Next Week Preview</h2>
+                <div class="p-6 rounded-lg" style="background-color: var(--bg-secondary); border-left: 4px solid var(--accent-color);">
+                    <p class="text-xl font-bold mb-3">🌍 Week 6: Social Media & Identity Formation</p>
+                    <p class="text-lg mb-4">Global perspectives - how different countries and cultures use social media differently</p>
+                    <p class="text-base">We'll look at Western platforms (Facebook, Instagram, Twitter) vs Chinese platforms (WeChat, Weibo, Douyin) vs other regional players</p>
+                </div>
+            </div>
+        </div>
+    </main>
+    <footer class="border-t p-4" style="border-color: var(--border-color);">
+        <div class="max-w-7xl mx-auto flex justify-between items-center">
+            <button id="prevBtn" class="px-6 py-2 rounded border font-medium" style="border-color: var(--border-color);">← Previous</button>
+            <span id="slideCounter" class="text-lg" style="color: var(--text-secondary);">1 / 12</span>
+            <button id="nextBtn" class="px-6 py-2 rounded border font-medium" style="border-color: var(--border-color);">Next →</button>
+        </div>
+    </footer>
+    <script>
+        let currentSlide=0,isDarkMode=false,fontSize=1;const slides=document.querySelectorAll('.slide'),prevBtn=document.getElementById('prevBtn'),nextBtn=document.getElementById('nextBtn'),slideCounter=document.getElementById('slideCounter');function showSlide(n){slides[currentSlide].classList.remove('active');currentSlide=(n+slides.length)%slides.length;slides[currentSlide].classList.add('active');slideCounter.textContent=\`\${currentSlide+1} / \${slides.length}\`;prevBtn.disabled=currentSlide===0;nextBtn.disabled=currentSlide===slides.length-1;prevBtn.style.opacity=currentSlide===0?'0.5':'1';nextBtn.style.opacity=currentSlide===slides.length-1?'0.5':'1';}prevBtn.addEventListener('click',()=>{if(currentSlide>0)showSlide(currentSlide-1);});nextBtn.addEventListener('click',()=>{if(currentSlide<slides.length-1)showSlide(currentSlide+1);});document.getElementById('darkModeToggle').addEventListener('click',()=>{isDarkMode=!isDarkMode;document.body.classList.toggle('dark-mode');document.getElementById('modeIcon').textContent=isDarkMode?'☀️':'🌙';});document.getElementById('increaseFont').addEventListener('click',()=>{if(fontSize<1.5){fontSize+=0.1;document.documentElement.style.setProperty('--font-size',fontSize);}});document.getElementById('decreaseFont').addEventListener('click',()=>{if(fontSize>0.7){fontSize-=0.1;document.documentElement.style.setProperty('--font-size',fontSize);}});document.addEventListener('keydown',(e)=>{if(e.key==='ArrowRight'&&currentSlide<slides.length-1)showSlide(currentSlide+1);if(e.key==='ArrowLeft'&&currentSlide>0)showSlide(currentSlide-1);});showSlide(0);
+    </script>
+</body>
+</html>

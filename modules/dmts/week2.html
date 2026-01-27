@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Week 2: The Internet</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .slide { display: none; }
+        .slide.active { display: flex; }
+        :root {
+            --bg-primary: #ffffff; --bg-secondary: #f9fafb; --text-primary: #111827;
+            --text-secondary: #4b5563; --border-color: #e5e7eb; --accent-color: #3b82f6; --font-size: 1;
+        }
+        .dark-mode {
+            --bg-primary: #1f2937; --bg-secondary: #111827; --text-primary: #f9fafb;
+            --text-secondary: #d1d5db; --border-color: #374151; --accent-color: #60a5fa;
+        }
+        html { font-size: calc(var(--font-size) * 16px); }
+        body { background-color: var(--bg-primary); color: var(--text-primary); }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col">
+    <header class="border-b p-4" style="border-color: var(--border-color);">
+        <div class="max-w-7xl mx-auto flex justify-between items-center">
+            <h1 class="text-lg font-semibold">Digital Media Technologies - Week 2</h1>
+            <div class="flex gap-2">
+                <button id="decreaseFont" class="px-3 py-2 rounded border" style="border-color: var(--border-color);">A-</button>
+                <button id="increaseFont" class="px-3 py-2 rounded border" style="border-color: var(--border-color);">A+</button>
+                <button id="darkModeToggle" class="px-4 py-2 rounded border" style="border-color: var(--border-color);"><span id="modeIcon">🌙</span></button>
+            </div>
+        </div>
+    </header>
+    <main class="flex-1 flex items-center justify-center p-8">
+        <div class="w-full max-w-5xl">
+            <div class="slide active flex-col items-center justify-center text-center h-[70vh]">
+                <h2 class="text-5xl font-bold mb-6">The Internet</h2>
+                <h3 class="text-3xl mb-8" style="color: var(--text-secondary);">Week 2: Infrastructure That Changed Everything</h3>
+                <p class="text-xl" style="color: var(--text-secondary);">Week 2 of 11</p>
+            </div>
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-4xl font-bold mb-8">What is the Internet?</h2>
+                <div class="mb-6 p-6 rounded-lg" style="background-color: var(--bg-secondary); border: 2px solid var(--border-color);">
+                    <p class="text-2xl font-semibold mb-4">The Internet is a global network of interconnected computers</p>
+                    <p class="text-xl">It's the infrastructure that enables digital technologies to communicate</p>
+                </div>
+                <div class="space-y-4 text-lg">
+                    <p class="font-semibold text-xl">Key distinction:</p>
+                    <div class="grid grid-cols-2 gap-4">
+                        <div class="p-4 rounded" style="background-color: var(--bg-secondary);">
+                            <p class="font-bold mb-2" style="color: var(--accent-color);">Internet</p>
+                            <p class="text-base">The physical network infrastructure - cables, servers, protocols</p>
+                        </div>
+                        <div class="p-4 rounded" style="background-color: var(--bg-secondary);">
+                            <p class="font-bold mb-2" style="color: var(--accent-color);">World Wide Web</p>
+                            <p class="text-base">One service that runs ON the internet - websites, browsers, hyperlinks</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-4xl font-bold mb-8">Origins: Military to Academic</h2>
+                <ul class="space-y-5 text-lg">
+                    <li class="flex items-start">
+                        <span class="text-2xl mr-4">🏛️</span>
+                        <div>
+                            <p class="font-bold mb-1">1960s: ARPANET</p>
+                            <p style="color: var(--text-secondary);">US Department of Defense project to create resilient communication network. First message sent October 1969 between UCLA and Stanford</p>
+                        </div>
+                    </li>
+                    <li class="flex items-start">
+                        <span class="text-2xl mr-4">🎓</span>
+                        <div>
+                            <p class="font-bold mb-1">1970s-1980s: Academic expansion</p>
+                            <p style="color: var(--text-secondary);">Universities connect. Email emerges. TCP/IP protocol standardized (1983)</p>
+                        </div>
+                    </li>
+                    <li class="flex items-start">
+                        <span class="text-2xl mr-4">🌍</span>
+                        <div>
+                            <p class="font-bold mb-1">1989: The World Wide Web</p>
+                            <p style="color: var(--text-secondary);">Tim Berners-Lee at CERN invents HTML, HTTP, and URLs - making the internet accessible to everyone</p>
+                        </div>
+                    </li>
+                </ul>
+                <p class="mt-6 text-lg p-4 rounded font-semibold" style="background-color: var(--bg-secondary);">The internet took 30 years to become a mass medium</p>
+            </div>
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-4xl font-bold mb-8">1990s: The Commercial Explosion</h2>
+                <div class="space-y-4 text-lg">
+                    <div class="p-5 rounded" style="background-color: var(--bg-secondary);">
+                        <p class="font-bold text-xl mb-3">Key developments:</p>
+                        <ul class="space-y-3">
+                            <li>• 1991: World Wide Web publicly available</li>
+                            <li>• 1993: Mosaic browser makes web accessible to non-technical users</li>
+                            <li>• 1994: Amazon and Yahoo founded</li>
+                            <li>• 1998: Google founded</li>
+                            <li>• 1999: Napster launches (music file-sharing)</li>
+                        </ul>
+                    </div>
+                    <div class="p-5 rounded" style="background-color: #fef9c3;">
+                        <p class="font-bold text-xl mb-2" style="color: #854d0e;">The Dot-Com Bubble (1995-2000)</p>
+                        <p class="text-base" style="color: #854d0e;">Massive investment in internet companies. Many failures. But survivors (Amazon, eBay, Google) became giants</p>
+                    </div>
+                </div>
+            </div>
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-4xl font-bold mb-8">How the Internet Transformed TV, Computers, and Phones</h2>
+                <div class="space-y-4">
+                    <div class="p-4 rounded" style="background-color: var(--bg-secondary); border-left: 4px solid #ef4444;">
+                        <p class="font-bold text-xl mb-2">📺 Television + Internet = Streaming</p>
+                        <p class="text-base">Netflix (1997 DVDs → 2007 streaming), YouTube (2005), on-demand everything</p>
+                    </div>
+                    <div class="p-4 rounded" style="background-color: var(--bg-secondary); border-left: 4px solid #3b82f6;">
+                        <p class="font-bold text-xl mb-2">💻 Computers + Internet = Cloud Computing</p>
+                        <p class="text-base">Software as service, Google Docs, social media, online collaboration</p>
+                    </div>
+                    <div class="p-4 rounded" style="background-color: var(--bg-secondary); border-left: 4px solid #10b981;">
+                        <p class="font-bold text-xl mb-2">📱 Phones + Internet = Smartphones</p>
+                        <p class="text-base">iPhone (2007) made internet portable. Apps, GPS, constant connectivity</p>
+                    </div>
+                </div>
+                <p class="mt-6 text-lg p-4 rounded font-semibold" style="background-color: var(--bg-secondary);">The internet didn't replace these technologies - it transformed them completely</p>
+            </div>
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-4xl font-bold mb-8">Social Transformation: Communication</h2>
+                <p class="text-xl mb-6">How the internet changed how we connect:</p>
+                <ul class="space-y-4 text-lg">
+                    <li class="flex items-start">
+                        <span class="mr-3">📧</span>
+                        <div><p class="font-bold mb-1">Email (1970s onwards)</p><p style="color: var(--text-secondary);">Instant, free, global communication replacing letters</p></div>
+                    </li>
+                    <li class="flex items-start">
+                        <span class="mr-3">💬</span>
+                        <div><p class="font-bold mb-1">Instant messaging (1990s-2000s)</p><p style="color: var(--text-secondary);">ICQ, MSN Messenger, WhatsApp - real-time text conversations</p></div>
+                    </li>
+                    <li class="flex items-start">
+                        <span class="mr-3">👥</span>
+                        <div><p class="font-bold mb-1">Social media (2000s onwards)</p><p style="color: var(--text-secondary);">Facebook, Twitter, Instagram - public identity and networked relationships</p></div>
+                    </li>
+                    <li class="flex items-start">
+                        <span class="mr-3">📹</span>
+                        <div><p class="font-bold mb-1">Video calls (2010s mass adoption)</p><p style="color: var(--text-secondary);">Skype, Zoom, Teams - seeing each other across distance</p></div>
+                    </li>
+                </ul>
+            </div>
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-4xl font-bold mb-8">Social Transformation: Information Access</h2>
+                <div class="mb-6 p-6 rounded-lg" style="background-color: var(--bg-secondary); border: 2px solid var(--border-color);">
+                    <p class="text-xl">Before the internet: Knowledge was scarce and controlled</p>
+                    <p class="text-xl mt-4">After the internet: Information is abundant but requires evaluation skills</p>
+                </div>
+                <div class="space-y-4 text-lg">
+                    <div class="p-4 rounded" style="background-color: var(--bg-secondary);">
+                        <p class="font-semibold mb-2">What changed:</p>
+                        <ul class="space-y-2 text-base">
+                            <li>• Encyclopedia Britannica → Wikipedia (2001)</li>
+                            <li>• Library catalogs → Google Scholar, online databases</li>
+                            <li>• News at 6pm → 24/7 news feeds</li>
+                            <li>• Expert gatekeepers → Anyone can publish</li>
+                        </ul>
+                    </div>
+                    <div class="p-4 rounded" style="background-color: #fef9c3;">
+                        <p class="font-semibold mb-2" style="color: #854d0e;">The challenge:</p>
+                        <p class="text-base" style="color: #854d0e;">More information doesn't mean better information. Critical evaluation matters more than ever.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-4xl font-bold mb-8">Social Transformation: Commerce</h2>
+                <div class="space-y-4">
+                    <div class="p-5 rounded" style="background-color: var(--bg-secondary); border-left: 4px solid var(--accent-color);">
+                        <p class="font-bold text-xl mb-2">🛒 E-commerce</p>
+                        <p>Amazon (1994), eBay (1995), Alibaba (1999) - buying without physical stores</p>
+                    </div>
+                    <div class="p-5 rounded" style="background-color: var(--bg-secondary); border-left: 4px solid var(--accent-color);">
+                        <p class="font-bold text-xl mb-2">💳 Digital payments</p>
+                        <p>PayPal (1998), online banking, contactless, cryptocurrency</p>
+                    </div>
+                    <div class="p-5 rounded" style="background-color: var(--bg-secondary); border-left: 4px solid var(--accent-color);">
+                        <p class="font-bold text-xl mb-2">🚗 Platform economy</p>
+                        <p>Uber, Airbnb, Deliveroo - connecting services through apps</p>
+                    </div>
+                </div>
+                <p class="mt-6 text-lg p-4 rounded font-semibold" style="background-color: var(--bg-secondary);">Traditional retail, banking, and services fundamentally disrupted</p>
+            </div>
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-4xl font-bold mb-8">Social Transformation: Work</h2>
+                <p class="text-xl mb-6">The internet changed where, when, and how we work:</p>
+                <ul class="space-y-4 text-lg">
+                    <li class="flex items-start">
+                        <span class="mr-3">🏠</span>
+                        <div><p class="font-bold mb-1">Remote work</p><p style="color: var(--text-secondary);">Email, video calls, cloud collaboration tools - work from anywhere</p></div>
+                    </li>
+                    <li class="flex items-start">
+                        <span class="mr-3">⏰</span>
+                        <div><p class="font-bold mb-1">Always-on culture</p><p style="color: var(--text-secondary);">Smartphones blur work/life boundaries. Expected to respond 24/7</p></div>
+                    </li>
+                    <li class="flex items-start">
+                        <span class="mr-3">🌐</span>
+                        <div><p class="font-bold mb-1">Global collaboration</p><p style="color: var(--text-secondary);">Teams across continents working on same project in real-time</p></div>
+                    </li>
+                    <li class="flex items-start">
+                        <span class="mr-3">💼</span>
+                        <div><p class="font-bold mb-1">Gig economy</p><p style="color: var(--text-secondary);">Freelancing platforms, flexible contracts, less job security</p></div>
+                    </li>
+                </ul>
+            </div>
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-4xl font-bold mb-8">The Dark Side: Challenges & Concerns</h2>
+                <div class="space-y-4 text-lg">
+                    <div class="p-4 rounded" style="background-color: #fee2e2; border-left: 4px solid #ef4444;">
+                        <p class="font-bold mb-2">Privacy & surveillance</p>
+                        <p class="text-base">Companies and governments tracking online behavior. Data breaches. Loss of anonymity.</p>
+                    </div>
+                    <div class="p-4 rounded" style="background-color: #fee2e2; border-left: 4px solid #ef4444;">
+                        <p class="font-bold mb-2">Misinformation & polarization</p>
+                        <p class="text-base">Fake news spreads faster than truth. Echo chambers. Conspiracy theories.</p>
+                    </div>
+                    <div class="p-4 rounded" style="background-color: #fee2e2; border-left: 4px solid #ef4444;">
+                        <p class="font-bold mb-2">Digital divide</p>
+                        <p class="text-base">Not everyone has equal access. Reinforces existing inequalities.</p>
+                    </div>
+                    <div class="p-4 rounded" style="background-color: #fee2e2; border-left: 4px solid #ef4444;">
+                        <p class="font-bold mb-2">Mental health impacts</p>
+                        <p class="text-base">Social media anxiety. Cyberbullying. FOMO. Addiction.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-4xl font-bold mb-8">Current State: Mobile Internet</h2>
+                <div class="mb-6 p-6 rounded-lg" style="background-color: var(--bg-secondary); border: 2px solid var(--border-color);">
+                    <p class="text-2xl font-semibold mb-3">2007-present: The smartphone era</p>
+                    <p class="text-xl">More people access internet via mobile than desktop</p>
+                </div>
+                <div class="grid grid-cols-2 gap-4 text-base">
+                    <div class="p-4 rounded" style="background-color: var(--bg-secondary);">
+                        <p class="font-bold mb-3">Statistics (approximate global):</p>
+                        <ul class="space-y-2">
+                            <li>• 5.4 billion internet users (2024)</li>
+                            <li>• 67% of world population online</li>
+                            <li>• 60% access via mobile only</li>
+                            <li>• Average 7 hours/day online</li>
+                        </ul>
+                    </div>
+                    <div class="p-4 rounded" style="background-color: var(--bg-secondary);">
+                        <p class="font-bold mb-3">What people do online:</p>
+                        <ul class="space-y-2">
+                            <li>• Social media (biggest use)</li>
+                            <li>• Streaming video</li>
+                            <li>• Shopping</li>
+                            <li>• Banking & services</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-4xl font-bold mb-8">Research Implications</h2>
+                <div class="mb-6 p-6 rounded-lg" style="background-color: var(--bg-secondary); border: 2px solid var(--border-color);">
+                    <p class="text-xl">The internet is the <strong>enabling infrastructure</strong> for TV, computers, and mobile phones in their modern forms</p>
+                </div>
+                <div class="space-y-4 text-lg">
+                    <p class="font-semibold text-xl">For your research:</p>
+                    <ul class="space-y-3">
+                        <li>• If studying TV: How did streaming (internet) change television?</li>
+                        <li>• If studying computers: How did connectivity (internet) transform personal computing?</li>
+                        <li>• If studying phones: How did mobile internet create smartphones?</li>
+                    </ul>
+                </div>
+                <p class="mt-6 text-lg p-4 rounded font-semibold" style="background-color: #fef9c3; color: #854d0e;">You can't fully understand your chosen technology without understanding the internet's role</p>
+            </div>
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-4xl font-bold mb-6">Next Week Preview</h2>
+                <div class="space-y-4">
+                    <div class="p-5 rounded-lg" style="background-color: var(--bg-secondary); border-left: 4px solid var(--accent-color);">
+                        <p class="text-xl font-bold mb-2">💻 Week 3: Computers</p>
+                        <p class="text-lg">From mainframes to personal computing to cloud - how computers entered everyday life</p>
+                    </div>
+                    <div class="p-5 rounded-lg" style="background-color: #dcfce7; border: 2px solid #10b981;">
+                        <p class="text-lg font-semibold mb-2" style="color: #166534;">Think about:</p>
+                        <p style="color: #166534;">What was computing like before the internet? How did connectivity change everything?</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    <footer class="border-t p-4" style="border-color: var(--border-color);">
+        <div class="max-w-7xl mx-auto flex justify-between items-center">
+            <button id="prevBtn" class="px-6 py-2 rounded border font-medium" style="border-color: var(--border-color);">← Previous</button>
+            <span id="slideCounter" class="text-lg" style="color: var(--text-secondary);">1 / 13</span>
+            <button id="nextBtn" class="px-6 py-2 rounded border font-medium" style="border-color: var(--border-color);">Next →</button>
+        </div>
+    </footer>
+    <script>
+        let currentSlide=0,isDarkMode=false,fontSize=1;const slides=document.querySelectorAll('.slide'),prevBtn=document.getElementById('prevBtn'),nextBtn=document.getElementById('nextBtn'),slideCounter=document.getElementById('slideCounter');function showSlide(n){slides[currentSlide].classList.remove('active');currentSlide=(n+slides.length)%slides.length;slides[currentSlide].classList.add('active');slideCounter.textContent=`${currentSlide+1} / ${slides.length}`;prevBtn.disabled=currentSlide===0;nextBtn.disabled=currentSlide===slides.length-1;prevBtn.style.opacity=currentSlide===0?'0.5':'1';nextBtn.style.opacity=currentSlide===slides.length-1?'0.5':'1';}prevBtn.addEventListener('click',()=>{if(currentSlide>0)showSlide(currentSlide-1);});nextBtn.addEventListener('click',()=>{if(currentSlide<slides.length-1)showSlide(currentSlide+1);});document.getElementById('darkModeToggle').addEventListener('click',()=>{isDarkMode=!isDarkMode;document.body.classList.toggle('dark-mode');document.getElementById('modeIcon').textContent=isDarkMode?'☀️':'🌙';});document.getElementById('increaseFont').addEventListener('click',()=>{if(fontSize<1.5){fontSize+=0.1;document.documentElement.style.setProperty('--font-size',fontSize);}});document.getElementById('decreaseFont').addEventListener('click',()=>{if(fontSize>0.7){fontSize-=0.1;document.documentElement.style.setProperty('--font-size',fontSize);}});document.addEventListener('keydown',(e)=>{if(e.key==='ArrowRight'&&currentSlide<slides.length-1)showSlide(currentSlide+1);if(e.key==='ArrowLeft'&&currentSlide>0)showSlide(currentSlide-1);});showSlide(0);
+    </script>
+</body>
+</html>
