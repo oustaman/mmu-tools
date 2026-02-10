@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Five Whys Technique - Design Cheatsheet</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: #ffffff;
+            min-height: 100vh;
+            padding: 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .container {
+            background: white;
+            padding: 3rem;
+            max-width: 1200px;
+            width: 100%;
+        }
+        
+        h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            color: #2d3748;
+            text-align: center;
+        }
+        
+        .subtitle {
+            text-align: center;
+            font-size: 1.3rem;
+            color: #718096;
+            margin-bottom: 2.5rem;
+            font-style: italic;
+        }
+        
+        .concept {
+            background: #f8f9fa;
+            padding: 2rem;
+            border-radius: 8px;
+            margin-bottom: 2rem;
+            border-left: 4px solid #000;
+        }
+        
+        .concept h2 {
+            color: #2d3748;
+            margin-bottom: 1rem;
+            font-size: 1.8rem;
+        }
+        
+        .concept p {
+            color: #4a5568;
+            font-size: 1.2rem;
+            line-height: 1.8;
+        }
+        
+        .comparison {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+        
+        .box {
+            padding: 2rem;
+            border-radius: 12px;
+            border: 3px solid;
+        }
+        
+        .symptoms {
+            background: #fafafa;
+            border-color: #666;
+        }
+        
+        .root {
+            background: #fafafa;
+            border-color: #000;
+        }
+        
+        .box h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .box ul {
+            list-style: none;
+        }
+        
+        .box li {
+            padding: 0.7rem 0;
+            font-size: 1.1rem;
+            color: #374151;
+            border-bottom: 1px solid rgba(0,0,0,0.1);
+        }
+        
+        .box li:last-child {
+            border-bottom: none;
+        }
+        
+        .steps {
+            background: #f8f9fa;
+            color: #000;
+            padding: 2.5rem;
+            border-radius: 8px;
+            margin-bottom: 2rem;
+            border: 2px solid #000;
+        }
+        
+        .steps h2 {
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+        
+        .step {
+            background: #fff;
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            border: 1px solid #ddd;
+        }
+        
+        .step:last-child {
+            margin-bottom: 0;
+        }
+        
+        .step-number {
+            display: inline-block;
+            background: #000;
+            color: #fff;
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 35px;
+            font-weight: bold;
+            margin-right: 1rem;
+            font-size: 1.1rem;
+        }
+        
+        .step-content {
+            display: inline;
+            font-size: 1.2rem;
+        }
+        
+        .example {
+            background: #f8f9fa;
+            padding: 2rem;
+            border-radius: 8px;
+            border-left: 4px solid #000;
+            margin-bottom: 2rem;
+        }
+        
+        .example h3 {
+            color: #000;
+            margin-bottom: 1rem;
+            font-size: 1.6rem;
+        }
+        
+        .example-content {
+            margin-bottom: 1.5rem;
+        }
+        
+        .why-chain {
+            margin-left: 1.5rem;
+        }
+        
+        .why-item {
+            margin-bottom: 0.8rem;
+            font-size: 1.1rem;
+            color: #333;
+        }
+        
+        .why-label {
+            font-weight: bold;
+            color: #000;
+        }
+        
+        .why-arrow {
+            margin-left: 1rem;
+            color: #666;
+        }
+        
+        .format-box {
+            background: #f8f9fa;
+            border: 2px solid #000;
+            padding: 2rem;
+            border-radius: 8px;
+            margin-bottom: 2rem;
+        }
+        
+        .format-box h3 {
+            color: #000;
+            margin-bottom: 1rem;
+            font-size: 1.6rem;
+        }
+        
+        .format-template {
+            font-family: 'Courier New', monospace;
+            font-size: 1.2rem;
+            color: #000;
+            padding: 1rem;
+            background: white;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            border: 1px solid #ddd;
+        }
+        
+        .format-examples {
+            margin-top: 1rem;
+        }
+        
+        .format-example-item {
+            background: white;
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 0.8rem;
+            font-size: 1rem;
+            color: #333;
+            border-left: 4px solid #000;
+        }
+        
+        .highlight {
+            background: #f0f0f0;
+            padding: 0.2rem 0.4rem;
+            border-radius: 4px;
+            font-weight: 600;
+        }
+        
+        .footer {
+            text-align: center;
+            color: #718096;
+            font-size: 1.1rem;
+            padding-top: 2rem;
+            border-top: 2px solid #e2e8f0;
+        }
+        
+        @media (max-width: 768px) {
+            .comparison {
+                grid-template-columns: 1fr;
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+            
+            .container {
+                padding: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎯 Five Whys Technique</h1>
+        <p class="subtitle">Find the root cause, not just the symptom</p>
+        
+        <div class="concept">
+            <h2>💡 The Core Idea</h2>
+            <p>Keep asking "Why?" to move from surface-level symptoms to the underlying root problem. Most initial problem statements describe what you see, not why it's happening.</p>
+        </div>
+        
+        <div class="comparison">
+            <div class="box symptoms">
+                <h3>😵 Symptoms (What you see)</h3>
+                <ul>
+                    <li>"Users don't click the button"</li>
+                    <li>"People abandon the checkout"</li>
+                    <li>"No one uses this feature"</li>
+                    <li>"Complaints about the app"</li>
+                </ul>
+            </div>
+            
+            <div class="box root">
+                <h3>🎯 Root Problems (Why it happens)</h3>
+                <ul>
+                    <li>"Button isn't visible enough"</li>
+                    <li>"Checkout has too many steps"</li>
+                    <li>"Feature doesn't solve user needs"</li>
+                    <li>"App is too complicated"</li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="steps">
+            <h2>How to Use the Five Whys</h2>
+            <div class="step">
+                <span class="step-number">1</span>
+                <span class="step-content">Start with the symptom or surface problem you observe</span>
+            </div>
+            <div class="step">
+                <span class="step-number">2</span>
+                <span class="step-content">Ask "Why does this happen?" and write the answer</span>
+            </div>
+            <div class="step">
+                <span class="step-number">3</span>
+                <span class="step-content">Take that answer and ask "Why?" again</span>
+            </div>
+            <div class="step">
+                <span class="step-number">4</span>
+                <span class="step-content">Repeat 3-5 times until you reach the root cause</span>
+            </div>
+            <div class="step">
+                <span class="step-number">5</span>
+                <span class="step-content">The root cause is something actionable you can design for</span>
+            </div>
+        </div>
+        
+        <div class="example">
+            <h3>📝 Example: Library Study Space Problem</h3>
+            <div class="example-content">
+                <div class="why-chain">
+                    <div class="why-item">
+                        <span class="why-label">Symptom:</span> Students complain they can't find study spaces
+                    </div>
+                    <div class="why-item">
+                        <span class="why-arrow">↓</span> <span class="why-label">Why?</span> Because they don't know which rooms are available
+                    </div>
+                    <div class="why-item">
+                        <span class="why-arrow">↓</span> <span class="why-label">Why?</span> Because the booking system shows all rooms, not just available ones
+                    </div>
+                    <div class="why-item">
+                        <span class="why-arrow">↓</span> <span class="why-label">Why?</span> Because students must check each room individually
+                    </div>
+                    <div class="why-item">
+                        <span class="why-arrow">↓</span> <span class="why-label">Why?</span> Because there's no real-time availability filter
+                    </div>
+                    <div class="why-item">
+                        <span class="why-arrow">↓</span> <span class="why-label">Why?</span> Because the system was designed to show all rooms by default, not to help find available ones quickly
+                    </div>
+                    <div class="why-item" style="margin-top: 1rem; padding: 1rem; background: #f0f0f0; border-radius: 8px; border: 2px solid #000;">
+                        <strong>🎯 Root Cause:</strong> The system prioritizes showing comprehensive information over helping users accomplish their task (finding an available space now)
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="format-box">
+            <h3>✍️ Your Problem Statement Format</h3>
+            <div class="format-template">
+                [User group] needs a way to [user need] because [insight/problem]
+            </div>
+            <div class="format-examples">
+                <div class="format-example-item">
+                    <strong>Example 1:</strong> Students need a way to <span class="highlight">find available study spaces quickly</span> because the current booking system shows all rooms regardless of availability, forcing them to check each room individually.
+                </div>
+                <div class="format-example-item">
+                    <strong>Example 2:</strong> Local residents need a way to <span class="highlight">report potholes easily</span> because the council website requires login, multiple forms, and doesn't provide status updates, leading to unreported issues.
+                </div>
+            </div>
+        </div>
+        
+        <div class="footer">
+            <p><strong>Remember:</strong> Always dig deeper than the surface symptom. The best solutions come from understanding the real problem.</p>
+        </div>
+    </div>
+</body>
+</html>
