@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Week 3 Workshop: Heuristic Evaluation Practice</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        :root {
+            --bg-primary: #ffffff;
+            --bg-secondary: #f9fafb;
+            --text-primary: #111827;
+            --text-secondary: #4b5563;
+            --border-color: #e5e7eb;
+            --accent-color: #8b5cf6;
+            --font-size: 1;
+        }
+        .dark-mode {
+            --bg-primary: #1f2937;
+            --bg-secondary: #111827;
+            --text-primary: #f9fafb;
+            --text-secondary: #d1d5db;
+            --border-color: #374151;
+            --accent-color: #a78bfa;
+        }
+        html { font-size: calc(var(--font-size) * 16px); }
+        body { background-color: var(--bg-primary); color: var(--text-primary); }
+        .step-card {
+            border-left: 4px solid var(--accent-color);
+            transition: all 0.3s;
+        }
+        .step-card:hover {
+            transform: translateX(4px);
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        .heuristic-box {
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .heuristic-box:hover {
+            transform: scale(1.02);
+        }
+    </style>
+</head>
+<body class="min-h-screen">
+    <header class="border-b p-4 sticky top-0 z-10" style="border-color: var(--border-color); background-color: var(--bg-primary);">
+        <div class="max-w-7xl mx-auto flex justify-between items-center">
+            <div>
+                <h1 class="text-lg font-semibold">Week 3 Workshop: Heuristic Evaluation Practice</h1>
+                <p class="text-sm" style="color: var(--text-secondary);">Work at your own pace - we'll come round to chat</p>
+            </div>
+            <div class="flex gap-2">
+                <button id="decreaseFont" class="px-3 py-2 rounded border" style="border-color: var(--border-color);">A-</button>
+                <button id="increaseFont" class="px-3 py-2 rounded border" style="border-color: var(--border-color);">A+</button>
+                <button id="darkModeToggle" class="px-4 py-2 rounded border" style="border-color: var(--border-color);"><span id="modeIcon">🌙</span></button>
+            </div>
+        </div>
+    </header>
+
+    <main class="max-w-7xl mx-auto p-8">
+        <!-- Introduction -->
+        <div class="mb-8 p-6 rounded-lg" style="background-color: var(--bg-secondary); border: 2px solid var(--border-color);">
+            <h2 class="text-3xl font-bold mb-4">Today's Activity: Find UX Problems in Real Apps</h2>
+            <p class="text-lg mb-4">You're going to practice being a UX evaluator by finding usability problems in apps you actually use.</p>
+            <div class="p-4 rounded" style="background-color: #fef9c3;">
+                <p class="font-semibold" style="color: #854d0e;">⏱️ This takes about 45-60 minutes. Work at your own pace.</p>
+            </div>
+        </div>
+
+        <!-- Quick Heuristics Reminder -->
+        <div class="mb-8">
+            <h3 class="text-2xl font-bold mb-4">Quick Reminder: Nielsen's 10 Usability Heuristics</h3>
+            <p class="mb-4" style="color: var(--text-secondary);">These are the principles you'll use to evaluate apps. Click each to see examples:</p>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-3 mb-4">
+                <div class="heuristic-box p-4 rounded border" style="border-color: var(--border-color); background-color: var(--bg-secondary);">
+                    <p class="font-bold">1. Visibility of System Status</p>
+                    <p class="text-sm" style="color: var(--text-secondary);">Always tell users what's happening (loading, sent, saved)</p>
+                </div>
+                <div class="heuristic-box p-4 rounded border" style="border-color: var(--border-color); background-color: var(--bg-secondary);">
+                    <p class="font-bold">2. Match Between System & Real World</p>
+                    <p class="text-sm" style="color: var(--text-secondary);">Use familiar words & concepts, not jargon</p>
+                </div>
+                <div class="heuristic-box p-4 rounded border" style="border-color: var(--border-color); background-color: var(--bg-secondary);">
+                    <p class="font-bold">3. User Control and Freedom</p>
+                    <p class="text-sm" style="color: var(--text-secondary);">Let users undo mistakes easily</p>
+                </div>
+                <div class="heuristic-box p-4 rounded border" style="border-color: var(--border-color); background-color: var(--bg-secondary);">
+                    <p class="font-bold">4. Consistency and Standards</p>
+                    <p class="text-sm" style="color: var(--text-secondary);">Keep things predictable across the interface</p>
+                </div>
+                <div class="heuristic-box p-4 rounded border" style="border-color: var(--border-color); background-color: var(--bg-secondary);">
+                    <p class="font-bold">5. Error Prevention</p>
+                    <p class="text-sm" style="color: var(--text-secondary);">Stop mistakes before they happen</p>
+                </div>
+                <div class="heuristic-box p-4 rounded border" style="border-color: var(--border-color); background-color: var(--bg-secondary);">
+                    <p class="font-bold">6. Recognition Over Recall</p>
+                    <p class="text-sm" style="color: var(--text-secondary);">Show options instead of making users remember</p>
+                </div>
+                <div class="heuristic-box p-4 rounded border" style="border-color: var(--border-color); background-color: var(--bg-secondary);">
+                    <p class="font-bold">7. Flexibility and Efficiency</p>
+                    <p class="text-sm" style="color: var(--text-secondary);">Shortcuts for experts, guidance for beginners</p>
+                </div>
+                <div class="heuristic-box p-4 rounded border" style="border-color: var(--border-color); background-color: var(--bg-secondary);">
+                    <p class="font-bold">8. Aesthetic and Minimalist Design</p>
+                    <p class="text-sm" style="color: var(--text-secondary);">Remove unnecessary clutter</p>
+                </div>
+                <div class="heuristic-box p-4 rounded border" style="border-color: var(--border-color); background-color: var(--bg-secondary);">
+                    <p class="font-bold">9. Help Users Recognize Errors</p>
+                    <p class="text-sm" style="color: var(--text-secondary);">Clear error messages with solutions</p>
+                </div>
+                <div class="heuristic-box p-4 rounded border" style="border-color: var(--border-color); background-color: var(--bg-secondary);">
+                    <p class="font-bold">10. Help and Documentation</p>
+                    <p class="text-sm" style="color: var(--text-secondary);">Easy-to-find help when needed</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Step-by-Step Instructions -->
+        <div class="space-y-6">
+            <!-- Step 1 -->
+            <div class="step-card p-6 rounded-lg" style="background-color: var(--bg-secondary); border-color: var(--accent-color);">
+                <div class="flex items-start gap-4">
+                    <div class="text-3xl font-bold" style="color: var(--accent-color);">1</div>
+                    <div class="flex-1">
+                        <h3 class="text-xl font-bold mb-3">Pick an App You Use Often</h3>
+                        <p class="mb-3">Choose ONE app from your phone or computer that you use regularly:</p>
+                        <div class="grid grid-cols-2 md:grid-cols-4 gap-2 mb-4">
+                            <div class="p-3 rounded text-center" style="background-color: var(--bg-primary);">📱 Instagram</div>
+                            <div class="p-3 rounded text-center" style="background-color: var(--bg-primary);">🎵 Spotify</div>
+                            <div class="p-3 rounded text-center" style="background-color: var(--bg-primary);">📧 Gmail</div>
+                            <div class="p-3 rounded text-center" style="background-color: var(--bg-primary);">🛒 Amazon</div>
+                            <div class="p-3 rounded text-center" style="background-color: var(--bg-primary);">🎮 Discord</div>
+                            <div class="p-3 rounded text-center" style="background-color: var(--bg-primary);">📝 Canvas</div>
+                            <div class="p-3 rounded text-center" style="background-color: var(--bg-primary);">🍕 Deliveroo</div>
+                            <div class="p-3 rounded text-center" style="background-color: var(--bg-primary);">🎬 Netflix</div>
+                        </div>
+                        <p class="text-sm italic" style="color: var(--text-secondary);">Or pick any other app - just make sure you can access it right now</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Step 2 -->
+            <div class="step-card p-6 rounded-lg" style="background-color: var(--bg-secondary); border-color: var(--accent-color);">
+                <div class="flex items-start gap-4">
+                    <div class="text-3xl font-bold" style="color: var(--accent-color);">2</div>
+                    <div class="flex-1">
+                        <h3 class="text-xl font-bold mb-3">Complete a Common Task</h3>
+                        <p class="mb-3">Do something typical in that app. Examples:</p>
+                        <ul class="space-y-2 mb-4">
+                            <li>• Instagram: Post a story, search for a friend</li>
+                            <li>• Spotify: Create a playlist, find a song</li>
+                            <li>• Gmail: Send an email, find an old message</li>
+                            <li>• Amazon: Find a product, add to basket</li>
+                            <li>• Canvas: Submit an assignment, check grades</li>
+                        </ul>
+                        <div class="p-4 rounded" style="background-color: #dbeafe;">
+                            <p class="font-semibold">💡 Tip: Pay attention to EVERY step. Notice what's confusing, frustrating, or unclear.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Step 3 -->
+            <div class="step-card p-6 rounded-lg" style="background-color: var(--bg-secondary); border-color: var(--accent-color);">
+                <div class="flex items-start gap-4">
+                    <div class="text-3xl font-bold" style="color: var(--accent-color);">3</div>
+                    <div class="flex-1">
+                        <h3 class="text-xl font-bold mb-3">Find 3 UX Problems</h3>
+                        <p class="mb-3">Look for things that violate the heuristics. For each problem, write down:</p>
+                        <div class="space-y-3">
+                            <div class="p-4 rounded" style="background-color: var(--bg-primary); border: 2px solid var(--border-color);">
+                                <p class="font-bold mb-2">A. What's the problem?</p>
+                                <p class="text-sm mb-2" style="color: var(--text-secondary);">Example: "When I tap 'Send', nothing happens for 5 seconds. No spinner, no feedback."</p>
+                                <textarea class="w-full p-3 rounded border" style="border-color: var(--border-color); background-color: var(--bg-secondary);" rows="2" placeholder="Describe the problem here..."></textarea>
+                            </div>
+                            <div class="p-4 rounded" style="background-color: var(--bg-primary); border: 2px solid var(--border-color);">
+                                <p class="font-bold mb-2">B. Which heuristic does it violate?</p>
+                                <p class="text-sm mb-2" style="color: var(--text-secondary);">Example: "#1 - Visibility of System Status"</p>
+                                <select class="w-full p-3 rounded border" style="border-color: var(--border-color); background-color: var(--bg-secondary);">
+                                    <option>Choose a heuristic...</option>
+                                    <option>1. Visibility of System Status</option>
+                                    <option>2. Match Between System & Real World</option>
+                                    <option>3. User Control and Freedom</option>
+                                    <option>4. Consistency and Standards</option>
+                                    <option>5. Error Prevention</option>
+                                    <option>6. Recognition Over Recall</option>
+                                    <option>7. Flexibility and Efficiency</option>
+                                    <option>8. Aesthetic and Minimalist Design</option>
+                                    <option>9. Help Users Recognize Errors</option>
+                                    <option>10. Help and Documentation</option>
+                                </select>
+                            </div>
+                            <div class="p-4 rounded" style="background-color: var(--bg-primary); border: 2px solid var(--border-color);">
+                                <p class="font-bold mb-2">C. How would you fix it?</p>
+                                <p class="text-sm mb-2" style="color: var(--text-secondary);">Example: "Show a loading spinner immediately when tapped"</p>
+                                <textarea class="w-full p-3 rounded border" style="border-color: var(--border-color); background-color: var(--bg-secondary);" rows="2" placeholder="Your solution here..."></textarea>
+                            </div>
+                        </div>
+                        <p class="mt-4 text-sm font-semibold">Repeat this for 3 different problems!</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Step 4 -->
+            <div class="step-card p-6 rounded-lg" style="background-color: var(--bg-secondary); border-color: var(--accent-color);">
+                <div class="flex items-start gap-4">
+                    <div class="text-3xl font-bold" style="color: var(--accent-color);">4</div>
+                    <div class="flex-1">
+                        <h3 class="text-xl font-bold mb-3">Take Screenshots (Optional but Helpful)</h3>
+                        <p class="mb-3">If you can, grab screenshots of the problems you found. This will help you remember them for your assessment.</p>
+                        <div class="p-4 rounded" style="background-color: #fef9c3;">
+                            <p class="font-semibold mb-2" style="color: #854d0e;">📸 How to screenshot:</p>
+                            <ul class="text-sm space-y-1" style="color: #854d0e;">
+                                <li>• iPhone: Side button + Volume Up</li>
+                                <li>• Android: Power + Volume Down</li>
+                                <li>• Windows: Win + Shift + S</li>
+                                <li>• Mac: Cmd + Shift + 4</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Step 5 - Bonus -->
+            <div class="step-card p-6 rounded-lg" style="background-color: #dcfce7; border-color: #10b981;">
+                <div class="flex items-start gap-4">
+                    <div class="text-3xl font-bold" style="color: #166534;">✨</div>
+                    <div class="flex-1">
+                        <h3 class="text-xl font-bold mb-3" style="color: #166534;">BONUS: Start Thinking About Your Project</h3>
+                        <p class="mb-3">If you finish early, start brainstorming for your assessment:</p>
+                        <div class="space-y-3">
+                            <div class="p-4 rounded" style="background-color: var(--bg-primary);">
+                                <p class="font-bold mb-2">What's your service?</p>
+                                <p class="text-sm mb-2" style="color: var(--text-secondary);">MMU Moodle, student timetable, bus app, library system, etc.</p>
+                            </div>
+                            <div class="p-4 rounded" style="background-color: var(--bg-primary);">
+                                <p class="font-bold mb-2">What's the main problem?</p>
+                                <p class="text-sm mb-2" style="color: var(--text-secondary);">What frustrates users most about it?</p>
+                            </div>
+                            <div class="p-4 rounded" style="background-color: var(--bg-primary);">
+                                <p class="font-bold mb-2">Which 2 principles will you use?</p>
+                                <p class="text-sm mb-2" style="color: var(--text-secondary);">Pick from the 10 heuristics above</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Bottom Help Section -->
+        <div class="mt-8 p-6 rounded-lg" style="background-color: #fef3c7; border: 2px solid #fbbf24;">
+            <h3 class="text-xl font-bold mb-3" style="color: #854d0e;">Need Help?</h3>
+            <p style="color: #854d0e;">🙋 Raise your hand or call us as we walk around</p>
+            <p class="mt-2" style="color: #854d0e;">💬 Or pair up with someone nearby and compare what you found</p>
+        </div>
+
+        <!-- What This Prepares You For -->
+        <div class="mt-8 p-6 rounded-lg" style="background-color: var(--bg-secondary); border: 2px solid var(--border-color);">
+            <h3 class="text-xl font-bold mb-3">Why We're Doing This</h3>
+            <p class="mb-3">This activity prepares you for your assessment, where you'll need to:</p>
+            <ul class="space-y-2">
+                <li>✓ Identify problems in your chosen service</li>
+                <li>✓ Apply 2 UCD principles to solve those problems</li>
+                <li>✓ Explain WHY those principles matter for your users</li>
+            </ul>
+            <p class="mt-4 font-semibold">Today you're practicing the evaluation part - finding what's broken and knowing WHY it's broken.</p>
+        </div>
+    </main>
+
+    <script>
+        let isDarkMode = false;
+        let fontSize = 1;
+
+        document.getElementById('darkModeToggle').addEventListener('click', () => {
+            isDarkMode = !isDarkMode;
+            document.body.classList.toggle('dark-mode');
+            document.getElementById('modeIcon').textContent = isDarkMode ? '☀️' : '🌙';
+        });
+
+        document.getElementById('increaseFont').addEventListener('click', () => {
+            if (fontSize < 1.5) {
+                fontSize += 0.1;
+                document.documentElement.style.setProperty('--font-size', fontSize);
+            }
+        });
+
+        document.getElementById('decreaseFont').addEventListener('click', () => {
+            if (fontSize > 0.7) {
+                fontSize -= 0.1;
+                document.documentElement.style.setProperty('--font-size', fontSize);
+            }
+        });
+    </script>
+</body>
+</html>
