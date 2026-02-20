@@ -18,6 +18,127 @@
         }
         html { font-size: calc(var(--font-size) * 16px); }
         body { background-color: var(--bg-primary); color: var(--text-primary); }
+
+        /* ─────────────────────────────────────────────
+           PERSONA CARD STYLES
+        ───────────────────────────────────────────── */
+        .persona-shell {
+            background: linear-gradient(135deg, #1e1b4b 0%, #312e81 50%, #4c1d95 100%);
+            border-radius: 18px;
+            color: white;
+            overflow: hidden;
+            box-shadow: 0 12px 40px rgba(76,29,149,0.35);
+        }
+        .persona-avatar {
+            width: 76px; height: 76px; border-radius: 50%;
+            background: linear-gradient(135deg, #f59e0b, #ef4444);
+            display: flex; align-items: center; justify-content: center;
+            font-size: 2.2rem;
+            border: 3px solid rgba(255,255,255,0.35);
+            flex-shrink: 0;
+        }
+        .persona-tag {
+            background: rgba(255,255,255,0.15);
+            border-radius: 20px; padding: 2px 10px;
+            font-size: 0.7rem; backdrop-filter: blur(4px);
+        }
+        .p-stat { text-align: center; }
+        .p-stat .val { font-size: 1.1rem; font-weight: 800; }
+        .p-stat .lbl { font-size: 0.6rem; opacity: 0.65; text-transform: uppercase; letter-spacing: 0.06em; }
+        .p-section { font-size: 0.62rem; text-transform: uppercase; letter-spacing: 0.1em; opacity: 0.65; margin-bottom: 5px; }
+        .quote-bar {
+            background: rgba(255,255,255,0.1);
+            border-left: 3px solid #f59e0b;
+            border-radius: 0 8px 8px 0;
+            padding: 7px 11px; font-style: italic; font-size: 0.85rem;
+        }
+        .p-pill {
+            display: inline-block;
+            background: rgba(245,158,11,0.22);
+            border: 1px solid rgba(245,158,11,0.45);
+            border-radius: 12px; padding: 2px 9px;
+            font-size: 0.72rem; margin: 2px;
+        }
+        .dot-pain { width:7px;height:7px;border-radius:50%;background:#ef4444;flex-shrink:0;margin-top:4px; }
+        .dot-goal { width:7px;height:7px;border-radius:50%;background:#34d399;flex-shrink:0;margin-top:4px; }
+        .p-item { display:flex;align-items:flex-start;gap:6px;font-size:0.78rem;margin-bottom:4px; }
+
+        /* ─────────────────────────────────────────────
+           JOURNEY MAP STYLES
+        ───────────────────────────────────────────── */
+        .jm-stage-header {
+            font-size: 0.68rem; font-weight: 800;
+            text-transform: uppercase; letter-spacing: 0.08em;
+            color: #7c3aed; text-align: center; margin-bottom: 4px;
+        }
+        .jm-action-box {
+            background: #ede9fe; border-radius: 7px; padding: 5px 7px;
+            font-size: 0.7rem; text-align: center; color: #1e1b4b;
+            min-height: 42px; display:flex;align-items:center;justify-content:center;
+        }
+        .jm-touch {
+            background: #f0fdf4; border: 1px solid #bbf7d0;
+            border-radius: 6px; padding: 3px 5px;
+            font-size: 0.68rem; text-align: center; color: #166534;
+            width: 100%;
+        }
+        .jm-pain {
+            background: #fef2f2; border: 1px solid #fecaca;
+            border-radius: 6px; padding: 3px 5px;
+            font-size: 0.68rem; color: #991b1b; width: 100%;
+        }
+        .jm-opp {
+            background: #fff7ed; border: 1px solid #fed7aa;
+            border-radius: 6px; padding: 3px 5px;
+            font-size: 0.68rem; color: #9a3412; width: 100%;
+        }
+        .jm-row-label {
+            font-size: 0.6rem; font-weight: 800; text-transform: uppercase;
+            letter-spacing: 0.07em; writing-mode: horizontal-tb;
+            display:flex;align-items:center;padding:0 8px;
+        }
+
+        /* ─────────────────────────────────────────────
+           EMPATHY MAP STYLES
+        ───────────────────────────────────────────── */
+        .em-q { border-radius: 12px; padding: 11px 13px; }
+        .em-label { font-size: 0.62rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.12em; margin-bottom: 7px; }
+        .em-item { font-size: 0.76rem; padding: 3px 0; border-bottom: 1px solid rgba(0,0,0,0.06); }
+        .em-item:last-child { border-bottom: none; }
+
+        /* ─────────────────────────────────────────────
+           COMPETITOR ANALYSIS STYLES
+        ───────────────────────────────────────────── */
+        .ca-bar { height: 6px; background: #e5e7eb; border-radius: 3px; overflow:hidden; position:relative; }
+        .ca-fill { height: 100%; border-radius: 3px; position:absolute;left:0;top:0; }
+        .ca-leader { 
+            background: linear-gradient(90deg,#f59e0b,#ef4444);
+            color:white; font-size:0.58rem; font-weight:800;
+            border-radius:9px; padding:1px 6px;
+            text-transform:uppercase; letter-spacing:0.07em;
+        }
+
+        /* ─────────────────────────────────────────────
+           LIBRARY BUTTON
+        ───────────────────────────────────────────── */
+        .lib-btn {
+            display:inline-flex;align-items:center;gap:10px;
+            background: linear-gradient(135deg, #7c3aed, #6d28d9);
+            color:white; border-radius:14px; padding:18px 36px;
+            font-size:1.15rem; font-weight:700; text-decoration:none;
+            box-shadow: 0 8px 28px rgba(124,58,237,0.38);
+            transition: transform 0.15s, box-shadow 0.15s;
+        }
+        .lib-btn:hover { transform:translateY(-2px); box-shadow: 0 12px 36px rgba(124,58,237,0.48); }
+
+        /* tool chip */
+        .tool-chip {
+            border-radius: 9px; padding: 9px 11px;
+            border: 1px solid var(--border-color);
+            background: var(--bg-secondary);
+            display:flex; align-items:center; gap:9px;
+        }
+        .tool-icon { font-size:1.25rem; width:32px;height:32px;display:flex;align-items:center;justify-content:center;flex-shrink:0; }
     </style>
 </head>
 <body class="min-h-screen flex flex-col">
@@ -34,12 +155,19 @@
 
     <main class="flex-1 flex items-center justify-center p-8">
         <div class="w-full max-w-5xl">
+
+            <!-- ═══════════════════════════════════════════
+                 SLIDE 1 – Title (unchanged)
+            ═══════════════════════════════════════════ -->
             <div class="slide active flex-col items-center justify-center text-center h-[70vh]">
                 <h2 class="text-5xl font-bold mb-6">Session 4</h2>
                 <h3 class="text-3xl mb-8" style="color: var(--text-secondary);">Research Artefacts Workshop</h3>
                 <p class="text-xl" style="color: var(--text-secondary);">Week 4 of 11</p>
             </div>
 
+            <!-- ═══════════════════════════════════════════
+                 SLIDE 2 – Where We Are (unchanged)
+            ═══════════════════════════════════════════ -->
             <div class="slide flex-col justify-center h-[70vh]">
                 <h2 class="text-4xl font-bold mb-8">Where We Are</h2>
                 <ul class="space-y-4 text-xl">
@@ -53,6 +181,9 @@
                 </p>
             </div>
 
+            <!-- ═══════════════════════════════════════════
+                 SLIDE 3 – What Are UX Artefacts? (unchanged)
+            ═══════════════════════════════════════════ -->
             <div class="slide flex-col justify-center h-[70vh]">
                 <h2 class="text-4xl font-bold mb-8">What Are UX Artefacts?</h2>
                 <div class="mb-6 p-5 rounded" style="background-color: var(--bg-secondary); border: 2px solid var(--border-color);">
@@ -66,6 +197,9 @@
                 </ul>
             </div>
 
+            <!-- ═══════════════════════════════════════════
+                 SLIDE 4 – Assessment Requirement (unchanged)
+            ═══════════════════════════════════════════ -->
             <div class="slide flex-col justify-center h-[70vh]">
                 <h2 class="text-4xl font-bold mb-8">Your Assessment Requirement</h2>
                 <div class="mb-6 p-5 rounded" style="background-color: #dbeafe; border: 2px solid #3b82f6;">
@@ -79,6 +213,9 @@
                 </ul>
             </div>
 
+            <!-- ═══════════════════════════════════════════
+                 SLIDE 5 – Category 1: User Research (unchanged)
+            ═══════════════════════════════════════════ -->
             <div class="slide flex-col justify-center h-[70vh]">
                 <h2 class="text-3xl font-bold mb-6">Category 1: User Research Artefacts</h2>
                 <div class="grid grid-cols-2 gap-4">
@@ -101,6 +238,9 @@
                 </div>
             </div>
 
+            <!-- ═══════════════════════════════════════════
+                 SLIDE 6 – Creating a Persona (unchanged)
+            ═══════════════════════════════════════════ -->
             <div class="slide flex-col justify-center h-[70vh]">
                 <h2 class="text-3xl font-bold mb-6">Creating a Persona</h2>
                 <div class="mb-4 p-4 rounded" style="background-color: var(--bg-secondary);">
@@ -119,38 +259,103 @@
                 </p>
             </div>
 
+            <!-- ═══════════════════════════════════════════
+                 SLIDE 7 – Persona Example (REDESIGNED)
+            ═══════════════════════════════════════════ -->
             <div class="slide flex-col justify-center h-[70vh]">
-                <h2 class="text-3xl font-bold mb-4">Persona Example</h2>
-                <div class="p-5 rounded" style="background-color: var(--bg-secondary); border: 2px solid var(--border-color);">
-                    <div class="flex gap-4 mb-4">
-                        <div class="w-20 h-20 rounded-full bg-gray-300 flex items-center justify-center text-3xl">👨‍🎓</div>
-                        <div>
-                            <p class="text-2xl font-bold">Alex Chen</p>
-                            <p class="text-lg" style="color: var(--text-secondary);">2nd Year Computer Science Student</p>
+                <div class="flex items-center justify-between mb-3">
+                    <h2 class="text-3xl font-bold">Persona Example</h2>
+                    <span style="background:#ede9fe;color:#5b21b6;font-size:0.72rem;font-weight:700;padding:3px 12px;border-radius:20px;">Research Artefact</span>
+                </div>
+
+                <div class="persona-shell p-5">
+                    <!-- Header -->
+                    <div class="flex items-center gap-5 mb-4">
+                        <div class="persona-avatar">👨‍🎓</div>
+                        <div class="flex-1">
+                            <div class="flex items-center gap-3 mb-1 flex-wrap">
+                                <span class="text-2xl font-bold">Alex Chen</span>
+                                <span class="persona-tag">Primary Persona</span>
+                            </div>
+                            <p style="opacity:0.82;font-size:0.88rem;">2nd Year Computer Science Student</p>
+                            <p style="opacity:0.6;font-size:0.75rem;">Based on 8 user interviews + library usage observations</p>
+                        </div>
+                        <!-- Stats strip -->
+                        <div class="flex gap-5">
+                            <div class="p-stat"><div class="val">20</div><div class="lbl">Age</div></div>
+                            <div class="p-stat"><div class="val">On campus</div><div class="lbl">Lives</div></div>
+                            <div class="p-stat"><div class="val">High</div><div class="lbl">Tech comfort</div></div>
                         </div>
                     </div>
-                    <div class="grid grid-cols-2 gap-4 text-sm">
-                        <div>
-                            <p class="font-bold mb-1">Demographics:</p>
-                            <p>Age 20, Lives on campus, High tech literacy</p>
+
+                    <div class="grid grid-cols-3 gap-4">
+                        <!-- Col 1 -->
+                        <div class="space-y-3">
+                            <div>
+                                <div class="p-section">Quote</div>
+                                <div class="quote-bar">"I just want to know if there's a free room NOW, not after clicking through five menus."</div>
+                            </div>
+                            <div>
+                                <div class="p-section">Bio</div>
+                                <p style="font-size:0.78rem;opacity:0.85;line-height:1.5;">Alex lives in halls and spends most of his day between lectures and the library. He relies on his phone for everything from timetables to food delivery. Short gaps between classes mean he needs to act fast.</p>
+                            </div>
+                            <div>
+                                <div class="p-section">Tech comfort</div>
+                                <div class="flex gap-1">
+                                    <div style="height:7px;width:19%;background:#34d399;border-radius:3px;"></div>
+                                    <div style="height:7px;width:19%;background:#34d399;border-radius:3px;"></div>
+                                    <div style="height:7px;width:19%;background:#34d399;border-radius:3px;"></div>
+                                    <div style="height:7px;width:19%;background:#34d399;border-radius:3px;"></div>
+                                    <div style="height:7px;width:19%;background:rgba(255,255,255,0.2);border-radius:3px;"></div>
+                                </div>
+                                <p style="font-size:0.62rem;opacity:0.55;margin-top:3px;">Advanced (4/5)</p>
+                            </div>
                         </div>
-                        <div>
-                            <p class="font-bold mb-1">Goals:</p>
-                            <p>Find quiet study spaces quickly between lectures</p>
+
+                        <!-- Col 2 -->
+                        <div class="space-y-3">
+                            <div>
+                                <div class="p-section">Goals</div>
+                                <div class="p-item"><div class="dot-goal"></div><span>Find a quiet study space quickly between lectures</span></div>
+                                <div class="p-item"><div class="dot-goal"></div><span>Book rooms from his phone without logging into a desktop site</span></div>
+                                <div class="p-item"><div class="dot-goal"></div><span>See real-time availability, not hour-old data</span></div>
+                            </div>
+                            <div>
+                                <div class="p-section">Frustrations</div>
+                                <div class="p-item"><div class="dot-pain"></div><span>Library booking buried in a confusing menu structure</span></div>
+                                <div class="p-item"><div class="dot-pain"></div><span>No notification when a room becomes free</span></div>
+                                <div class="p-item"><div class="dot-pain"></div><span>All rooms show as taken — no waitlist or alternatives</span></div>
+                            </div>
                         </div>
-                        <div>
-                            <p class="font-bold mb-1">Frustrations:</p>
-                            <p>Library booking system too slow, rooms often taken</p>
-                        </div>
-                        <div>
-                            <p class="font-bold mb-1">Context:</p>
-                            <p>Books on mobile while walking to library</p>
+
+                        <!-- Col 3 -->
+                        <div class="space-y-3">
+                            <div>
+                                <div class="p-section">Context</div>
+                                <p style="font-size:0.78rem;opacity:0.85;line-height:1.5;">Books on mobile while walking between buildings. Needs to complete the task in under 90 seconds or he gives up and studies in the corridor instead.</p>
+                            </div>
+                            <div>
+                                <div class="p-section">Typical scenario</div>
+                                <p style="font-size:0.75rem;opacity:0.85;line-height:1.5;">10-minute gap before his next lecture. Checks library app while walking. Gets frustrated when he has to log in again. Closes the app. Studies with headphones in a noisy common room.</p>
+                            </div>
+                            <div>
+                                <div class="p-section">Tools he uses</div>
+                                <div>
+                                    <span class="p-pill">Canvas LMS</span>
+                                    <span class="p-pill">Notion</span>
+                                    <span class="p-pill">Deliveroo</span>
+                                    <span class="p-pill">Discord</span>
+                                    <span class="p-pill">Google Maps</span>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                    <p class="mt-4 italic text-base">"I just want to know if there's a free room NOW, not in 5 minutes after clicking through menus"</p>
                 </div>
             </div>
 
+            <!-- ═══════════════════════════════════════════
+                 SLIDE 8 – Activity: Build Your Persona (unchanged)
+            ═══════════════════════════════════════════ -->
             <div class="slide flex-col justify-center h-[70vh]">
                 <h2 class="text-4xl font-bold mb-6">Activity: Build Your Persona</h2>
                 <div class="mb-6 p-5 rounded" style="background-color: #dbeafe; border: 2px solid #3b82f6;">
@@ -167,6 +372,9 @@
                 </p>
             </div>
 
+            <!-- ═══════════════════════════════════════════
+                 SLIDE 9 – User Journey Maps (unchanged)
+            ═══════════════════════════════════════════ -->
             <div class="slide flex-col justify-center h-[70vh]">
                 <h2 class="text-3xl font-bold mb-6">User Journey Maps</h2>
                 <div class="mb-4 p-4 rounded" style="background-color: var(--bg-secondary);">
@@ -182,33 +390,110 @@
                 </div>
             </div>
 
+            <!-- ═══════════════════════════════════════════
+                 SLIDE 10 – Journey Map Example (REDESIGNED)
+            ═══════════════════════════════════════════ -->
             <div class="slide flex-col justify-center h-[70vh]">
-                <h2 class="text-3xl font-bold mb-4">Journey Map Example</h2>
-                <div class="p-4 rounded" style="background-color: var(--bg-secondary); border: 2px solid var(--border-color);">
-                    <p class="text-lg font-bold mb-3">Task: Book a study room at library</p>
-                    <div class="space-y-3 text-sm">
-                        <div class="p-2 rounded" style="background-color: var(--bg-primary);">
-                            <strong>Stage 1 - Need Arises:</strong> Between lectures, needs quiet space
-                            <br>Action: Opens library website | Emotion: 😐 Neutral
+                <div class="flex items-center justify-between mb-2">
+                    <h2 class="text-3xl font-bold">Journey Map Example</h2>
+                    <span style="background:#ede9fe;color:#5b21b6;font-size:0.72rem;font-weight:700;padding:3px 12px;border-radius:20px;">Research Artefact</span>
+                </div>
+                <p class="text-sm mb-3" style="color:var(--text-secondary);">
+                    <strong>Persona:</strong> Alex Chen &nbsp;|&nbsp; <strong>Task:</strong> Book a study room at the university library &nbsp;|&nbsp; <strong>Channel:</strong> Mobile app
+                </p>
+
+                <!-- Stage headers -->
+                <div style="background:#7c3aed;border-radius:12px 12px 0 0;display:flex;padding:7px 0;">
+                    <div style="width:90px;flex-shrink:0;"></div>
+                    <div style="flex:1;display:flex;">
+                        <div style="flex:1;text-align:center;color:white;font-size:0.68rem;font-weight:800;text-transform:uppercase;letter-spacing:0.08em;">Need Arises</div>
+                        <div style="flex:1;text-align:center;color:white;font-size:0.68rem;font-weight:800;text-transform:uppercase;letter-spacing:0.08em;">Search</div>
+                        <div style="flex:1;text-align:center;color:white;font-size:0.68rem;font-weight:800;text-transform:uppercase;letter-spacing:0.08em;">Booking</div>
+                        <div style="flex:1;text-align:center;color:white;font-size:0.68rem;font-weight:800;text-transform:uppercase;letter-spacing:0.08em;">Outcome</div>
+                    </div>
+                </div>
+
+                <!-- Grid body -->
+                <div style="border:1px solid #ddd6fe;border-top:none;border-radius:0 0 12px 12px;overflow:hidden;flex:1;">
+                    <!-- Actions -->
+                    <div style="display:flex;background:#f5f3ff;border-bottom:1px solid #ede9fe;">
+                        <div style="width:90px;flex-shrink:0;padding:6px 8px;border-right:1px solid #ede9fe;" class="jm-row-label" style="color:#7c3aed;font-size:0.6rem;">💭 Actions</div>
+                        <div style="flex:1;display:flex;">
+                            <div style="flex:1;padding:6px;border-right:1px solid #ede9fe;"><div class="jm-action-box">Between lectures, needs quiet space. Opens library app on phone while walking</div></div>
+                            <div style="flex:1;padding:6px;border-right:1px solid #ede9fe;"><div class="jm-action-box">Hunts through menus for "room booking" — tries 3 different navigation paths</div></div>
+                            <div style="flex:1;padding:6px;border-right:1px solid #ede9fe;"><div class="jm-action-box">Finds booking form. Selects room, enters details, submits — all rooms show "unavailable"</div></div>
+                            <div style="flex:1;padding:6px;"><div class="jm-action-box">Closes browser. Studies in noisy corridor with headphones in</div></div>
                         </div>
-                        <div class="p-2 rounded" style="background-color: var(--bg-primary);">
-                            <strong>Stage 2 - Search:</strong> Tries to find booking page
-                            <br>Action: Clicks through menus | Emotion: 😕 Confused
-                            <br><span style="color: #dc2626;">⚠️ Pain point: Can't find booking link</span>
+                    </div>
+
+                    <!-- Emotions + SVG curve -->
+                    <div style="display:flex;background:white;border-bottom:1px solid #ede9fe;">
+                        <div style="width:90px;flex-shrink:0;padding:6px 8px;border-right:1px solid #ede9fe;" class="jm-row-label" style="color:#7c3aed;font-size:0.6rem;">😊 Emotion</div>
+                        <div style="flex:1;padding:4px 8px;">
+                            <svg viewBox="0 0 460 58" style="width:100%;height:54px;" preserveAspectRatio="none">
+                                <defs>
+                                    <linearGradient id="emG2" x1="0" y1="0" x2="1" y2="0">
+                                        <stop offset="0%"   stop-color="#22c55e"/>
+                                        <stop offset="38%"  stop-color="#f59e0b"/>
+                                        <stop offset="62%"  stop-color="#ef4444"/>
+                                        <stop offset="100%" stop-color="#ef4444"/>
+                                    </linearGradient>
+                                </defs>
+                                <line x1="0" y1="29" x2="460" y2="29" stroke="#e5e7eb" stroke-width="1" stroke-dasharray="4"/>
+                                <polyline fill="none" stroke="url(#emG2)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"
+                                    points="0,16 115,26 230,44 345,48 460,50"/>
+                                <circle cx="0"   cy="16" r="5" fill="#22c55e"/>
+                                <circle cx="115" cy="26" r="5" fill="#f59e0b"/>
+                                <circle cx="230" cy="44" r="5" fill="#ef4444"/>
+                                <circle cx="345" cy="48" r="5" fill="#ef4444"/>
+                                <circle cx="460" cy="50" r="5" fill="#dc2626"/>
+                                <text x="0"   y="56" font-size="8.5" fill="#6b7280" text-anchor="middle">Neutral 😐</text>
+                                <text x="115" y="56" font-size="8.5" fill="#6b7280" text-anchor="middle">Confused 😕</text>
+                                <text x="230" y="56" font-size="8.5" fill="#6b7280" text-anchor="middle">Frustrated 😫</text>
+                                <text x="345" y="56" font-size="8.5" fill="#6b7280" text-anchor="middle">Defeated 😞</text>
+                                <text x="460" y="56" font-size="8.5" fill="#6b7280" text-anchor="middle">Angry 😠</text>
+                            </svg>
                         </div>
-                        <div class="p-2 rounded" style="background-color: var(--bg-primary);">
-                            <strong>Stage 3 - Booking:</strong> Finally finds form
-                            <br>Action: Fills form, checks availability | Emotion: 😫 Frustrated
-                            <br><span style="color: #dc2626;">⚠️ Pain point: All rooms taken, no alternatives shown</span>
+                    </div>
+
+                    <!-- Touchpoints -->
+                    <div style="display:flex;background:#f0fdf4;border-bottom:1px solid #ede9fe;">
+                        <div style="width:90px;flex-shrink:0;padding:6px 8px;border-right:1px solid #ede9fe;" class="jm-row-label" style="color:#166534;font-size:0.6rem;">📍 Touchpoints</div>
+                        <div style="flex:1;display:flex;gap:0;">
+                            <div style="flex:1;padding:5px 6px;border-right:1px solid #ede9fe;display:flex;align-items:center;"><div class="jm-touch">Library mobile app</div></div>
+                            <div style="flex:1;padding:5px 6px;border-right:1px solid #ede9fe;display:flex;align-items:center;"><div class="jm-touch">Navigation menu + search bar</div></div>
+                            <div style="flex:1;padding:5px 6px;border-right:1px solid #ede9fe;display:flex;align-items:center;"><div class="jm-touch">Booking form + availability calendar</div></div>
+                            <div style="flex:1;padding:5px 6px;display:flex;align-items:center;"><div class="jm-touch">Physical corridor</div></div>
                         </div>
-                        <div class="p-2 rounded" style="background-color: var(--bg-primary);">
-                            <strong>Stage 4 - Outcome:</strong> Gives up
-                            <br>Action: Closes browser | Emotion: 😠 Angry
+                    </div>
+
+                    <!-- Pain points -->
+                    <div style="display:flex;background:#fef2f2;border-bottom:1px solid #ede9fe;">
+                        <div style="width:90px;flex-shrink:0;padding:6px 8px;border-right:1px solid #ede9fe;" class="jm-row-label" style="color:#991b1b;font-size:0.6rem;">🔴 Pain Points</div>
+                        <div style="flex:1;display:flex;">
+                            <div style="flex:1;padding:5px 6px;border-right:1px solid #ede9fe;font-size:0.68rem;color:#991b1b;"></div>
+                            <div style="flex:1;padding:5px 6px;border-right:1px solid #ede9fe;"><div class="jm-pain">Room booking hidden in sub-menu — no clear label</div></div>
+                            <div style="flex:1;padding:5px 6px;border-right:1px solid #ede9fe;"><div class="jm-pain">All rooms show "unavailable" — no waitlist or nearby alternatives suggested</div></div>
+                            <div style="flex:1;padding:5px 6px;"><div class="jm-pain">No recovery path — system just says "try again"</div></div>
+                        </div>
+                    </div>
+
+                    <!-- Opportunities -->
+                    <div style="display:flex;background:#fff7ed;">
+                        <div style="width:90px;flex-shrink:0;padding:6px 8px;border-right:1px solid #ede9fe;" class="jm-row-label" style="color:#9a3412;font-size:0.6rem;">💡 Opportunities</div>
+                        <div style="flex:1;display:flex;">
+                            <div style="flex:1;padding:5px 6px;border-right:1px solid #ede9fe;"><div class="jm-opp">Add "Book a Room" to app home screen</div></div>
+                            <div style="flex:1;padding:5px 6px;border-right:1px solid #ede9fe;"><div class="jm-opp">Add search autocomplete + clear IA</div></div>
+                            <div style="flex:1;padding:5px 6px;border-right:1px solid #ede9fe;"><div class="jm-opp">Show alternative rooms + notify when one frees up</div></div>
+                            <div style="flex:1;padding:5px 6px;"><div class="jm-opp">Offer waitlist sign-up to reduce abandonment</div></div>
                         </div>
                     </div>
                 </div>
             </div>
 
+            <!-- ═══════════════════════════════════════════
+                 SLIDE 11 – Empathy Maps (theory, unchanged)
+            ═══════════════════════════════════════════ -->
             <div class="slide flex-col justify-center h-[70vh]">
                 <h2 class="text-3xl font-bold mb-6">Empathy Maps</h2>
                 <div class="grid grid-cols-2 gap-4">
@@ -234,6 +519,156 @@
                 </p>
             </div>
 
+            <!-- ═══════════════════════════════════════════
+                 SLIDE 12 – Empathy Map Example (NEW)
+            ═══════════════════════════════════════════ -->
+            <div class="slide flex-col justify-center h-[70vh]">
+                <div class="flex items-center justify-between mb-3">
+                    <h2 class="text-3xl font-bold">Empathy Map Example</h2>
+                    <span style="background:#ede9fe;color:#5b21b6;font-size:0.72rem;font-weight:700;padding:3px 12px;border-radius:20px;">Research Artefact</span>
+                </div>
+                <p class="text-sm mb-3" style="color:var(--text-secondary);">
+                    <strong>User:</strong> Alex Chen &nbsp;|&nbsp; <strong>Context:</strong> Trying to book a study room via the university library app
+                </p>
+
+                <!-- 4 quadrants -->
+                <div style="display:grid;grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr;gap:9px;flex:1;">
+                    <div class="em-q" style="background:#ede9fe;border:1.5px solid #c4b5fd;">
+                        <div class="em-label" style="color:#5b21b6;">🧠 Thinks &amp; Feels</div>
+                        <div class="em-item" style="color:#3b0764;">"Why is this so complicated — every other app just works"</div>
+                        <div class="em-item" style="color:#3b0764;">Anxious about wasting his only free slot before a lecture</div>
+                        <div class="em-item" style="color:#3b0764;">Wonders if he's missing something obvious everyone else knows</div>
+                        <div class="em-item" style="color:#3b0764;">Momentarily relieved when he finds the booking page — then deflated when rooms are full</div>
+                    </div>
+                    <div class="em-q" style="background:#dbeafe;border:1.5px solid #93c5fd;">
+                        <div class="em-label" style="color:#1e40af;">💬 Says &amp; Does</div>
+                        <div class="em-item" style="color:#1e3a8a;">Mutters "this is useless" while clicking through menus</div>
+                        <div class="em-item" style="color:#1e3a8a;">Tries 3 different search terms before giving up</div>
+                        <div class="em-item" style="color:#1e3a8a;">Texts a friend: "How do you actually book a library room??"</div>
+                        <div class="em-item" style="color:#1e3a8a;">Closes the app and studies in a noisy common room instead</div>
+                    </div>
+                    <div class="em-q" style="background:#dcfce7;border:1.5px solid #86efac;">
+                        <div class="em-label" style="color:#166534;">👂 Hears</div>
+                        <div class="em-item" style="color:#14532d;">Friends say "the library system is always broken"</div>
+                        <div class="em-item" style="color:#14532d;">Coursemates share secret direct links via group chats</div>
+                        <div class="em-item" style="color:#14532d;">Lecturer: "You should be able to book online easily"</div>
+                        <div class="em-item" style="color:#14532d;">Reddit thread: "Just go in person, the app is broken"</div>
+                    </div>
+                    <div class="em-q" style="background:#fef9c3;border:1.5px solid #fde047;">
+                        <div class="em-label" style="color:#854d0e;">👀 Sees</div>
+                        <div class="em-item" style="color:#713f12;">A generic university portal with no clear room booking entry point</div>
+                        <div class="em-item" style="color:#713f12;">Room listings with no photos, no amenity info, no real-time status</div>
+                        <div class="em-item" style="color:#713f12;">Fellow students studying in corridors and stairwells</div>
+                        <div class="em-item" style="color:#713f12;">Empty rooms visible through glass but with "booked" signs on the door</div>
+                    </div>
+                </div>
+
+                <!-- Pains / Gains footer -->
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:9px;">
+                    <div style="background:#fef2f2;border-radius:9px;padding:9px 13px;border:1px solid #fecaca;">
+                        <span style="font-size:0.62rem;font-weight:800;text-transform:uppercase;letter-spacing:0.1em;color:#991b1b;">🔴 Pains</span>
+                        <p style="font-size:0.78rem;color:#7f1d1d;margin-top:3px;">Hidden navigation · No real-time availability · No alternatives when rooms are full · Wasted time</p>
+                    </div>
+                    <div style="background:#f0fdf4;border-radius:9px;padding:9px 13px;border:1px solid #bbf7d0;">
+                        <span style="font-size:0.62rem;font-weight:800;text-transform:uppercase;letter-spacing:0.1em;color:#166534;">🟢 Gains</span>
+                        <p style="font-size:0.78rem;color:#14532d;margin-top:3px;">Wants quick access, visible availability, a waitlist option, and a direct booking route on the home screen</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ═══════════════════════════════════════════
+                 SLIDE 13 – Competitor Analysis (NEW)
+            ═══════════════════════════════════════════ -->
+            <div class="slide flex-col justify-center h-[70vh]">
+                <div class="flex items-center justify-between mb-3">
+                    <h2 class="text-3xl font-bold">Competitor Analysis Example</h2>
+                    <span style="background:#ede9fe;color:#5b21b6;font-size:0.72rem;font-weight:700;padding:3px 12px;border-radius:20px;">Research Artefact</span>
+                </div>
+                <p class="text-sm mb-3" style="color:var(--text-secondary);">
+                    <strong>Context:</strong> Room &amp; space booking systems &nbsp;|&nbsp; Evaluated across 5 UX dimensions &nbsp;|&nbsp; Score: 1–5
+                </p>
+
+                <div style="overflow-x:auto;flex:1;display:flex;flex-direction:column;">
+                    <table style="width:100%;border-collapse:collapse;font-size:0.82rem;">
+                        <thead>
+                            <tr style="background:#4c1d95;color:white;">
+                                <th style="padding:10px 12px;text-align:left;border-radius:8px 0 0 0;min-width:140px;">Product</th>
+                                <th style="padding:10px 8px;text-align:center;font-size:0.7rem;">Discoverability</th>
+                                <th style="padding:10px 8px;text-align:center;font-size:0.7rem;">Booking Speed</th>
+                                <th style="padding:10px 8px;text-align:center;font-size:0.7rem;">Mobile UX</th>
+                                <th style="padding:10px 8px;text-align:center;font-size:0.7rem;">Error Recovery</th>
+                                <th style="padding:10px 8px;text-align:center;font-size:0.7rem;">Accessibility</th>
+                                <th style="padding:10px 8px;text-align:center;font-size:0.7rem;border-radius:0 8px 0 0;">Overall</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Our product -->
+                            <tr style="background:#f5f3ff;border-bottom:1px solid #ddd6fe;">
+                                <td style="padding:9px 12px;">
+                                    <div style="font-weight:700;color:#5b21b6;">🏫 Current Library App</div>
+                                    <div style="font-size:0.65rem;color:#6b7280;">Our product (baseline)</div>
+                                </td>
+                                <td style="padding:7px 8px;text-align:center;"><div style="font-weight:700;color:#ef4444;">2/5</div><div class="ca-bar"><div class="ca-fill" style="width:40%;background:#ef4444;"></div></div></td>
+                                <td style="padding:7px 8px;text-align:center;"><div style="font-weight:700;color:#f59e0b;">3/5</div><div class="ca-bar"><div class="ca-fill" style="width:60%;background:#f59e0b;"></div></div></td>
+                                <td style="padding:7px 8px;text-align:center;"><div style="font-weight:700;color:#ef4444;">2/5</div><div class="ca-bar"><div class="ca-fill" style="width:40%;background:#ef4444;"></div></div></td>
+                                <td style="padding:7px 8px;text-align:center;"><div style="font-weight:700;color:#ef4444;">1/5</div><div class="ca-bar"><div class="ca-fill" style="width:20%;background:#ef4444;"></div></div></td>
+                                <td style="padding:7px 8px;text-align:center;"><div style="font-weight:700;color:#f59e0b;">3/5</div><div class="ca-bar"><div class="ca-fill" style="width:60%;background:#f59e0b;"></div></div></td>
+                                <td style="padding:7px 8px;text-align:center;"><div style="font-size:1.1rem;font-weight:800;color:#5b21b6;">2.2</div></td>
+                            </tr>
+                            <!-- Calendly -->
+                            <tr style="border-bottom:1px solid #e5e7eb;">
+                                <td style="padding:9px 12px;">
+                                    <div style="font-weight:700;">📅 Calendly</div>
+                                    <div style="font-size:0.65rem;color:#6b7280;">Scheduling platform</div>
+                                </td>
+                                <td style="padding:7px 8px;text-align:center;"><div style="font-weight:700;color:#22c55e;">5/5</div><div class="ca-bar"><div class="ca-fill" style="width:100%;background:#22c55e;"></div></div></td>
+                                <td style="padding:7px 8px;text-align:center;"><div style="font-weight:700;color:#22c55e;">5/5</div><div class="ca-bar"><div class="ca-fill" style="width:100%;background:#22c55e;"></div></div></td>
+                                <td style="padding:7px 8px;text-align:center;"><div style="font-weight:700;color:#22c55e;">5/5</div><div class="ca-bar"><div class="ca-fill" style="width:100%;background:#22c55e;"></div></div></td>
+                                <td style="padding:7px 8px;text-align:center;"><div style="font-weight:700;color:#22c55e;">5/5</div><div class="ca-bar"><div class="ca-fill" style="width:100%;background:#22c55e;"></div></div></td>
+                                <td style="padding:7px 8px;text-align:center;"><div style="font-weight:700;color:#22c55e;">4/5</div><div class="ca-bar"><div class="ca-fill" style="width:80%;background:#22c55e;"></div></div></td>
+                                <td style="padding:7px 8px;text-align:center;">
+                                    <div style="font-size:1rem;font-weight:800;color:#166534;">4.8 <span class="ca-leader">Leader</span></div>
+                                </td>
+                            </tr>
+                            <!-- Skedda -->
+                            <tr style="background:#f9fafb;border-bottom:1px solid #e5e7eb;">
+                                <td style="padding:9px 12px;">
+                                    <div style="font-weight:700;">🗓️ Skedda</div>
+                                    <div style="font-size:0.65rem;color:#6b7280;">Venue booking SaaS</div>
+                                </td>
+                                <td style="padding:7px 8px;text-align:center;"><div style="font-weight:700;color:#22c55e;">4/5</div><div class="ca-bar"><div class="ca-fill" style="width:80%;background:#22c55e;"></div></div></td>
+                                <td style="padding:7px 8px;text-align:center;"><div style="font-weight:700;color:#22c55e;">4/5</div><div class="ca-bar"><div class="ca-fill" style="width:80%;background:#22c55e;"></div></div></td>
+                                <td style="padding:7px 8px;text-align:center;"><div style="font-weight:700;color:#f59e0b;">3/5</div><div class="ca-bar"><div class="ca-fill" style="width:60%;background:#f59e0b;"></div></div></td>
+                                <td style="padding:7px 8px;text-align:center;"><div style="font-weight:700;color:#22c55e;">4/5</div><div class="ca-bar"><div class="ca-fill" style="width:80%;background:#22c55e;"></div></div></td>
+                                <td style="padding:7px 8px;text-align:center;"><div style="font-weight:700;color:#22c55e;">4/5</div><div class="ca-bar"><div class="ca-fill" style="width:80%;background:#22c55e;"></div></div></td>
+                                <td style="padding:7px 8px;text-align:center;"><div style="font-size:1.1rem;font-weight:800;color:#374151;">3.8</div></td>
+                            </tr>
+                            <!-- Generic uni portal -->
+                            <tr style="border-bottom:1px solid #e5e7eb;">
+                                <td style="padding:9px 12px;">
+                                    <div style="font-weight:700;">🌐 Typical Uni Portal</div>
+                                    <div style="font-size:0.65rem;color:#6b7280;">Sector benchmark</div>
+                                </td>
+                                <td style="padding:7px 8px;text-align:center;"><div style="font-weight:700;color:#ef4444;">2/5</div><div class="ca-bar"><div class="ca-fill" style="width:40%;background:#ef4444;"></div></div></td>
+                                <td style="padding:7px 8px;text-align:center;"><div style="font-weight:700;color:#ef4444;">2/5</div><div class="ca-bar"><div class="ca-fill" style="width:40%;background:#ef4444;"></div></div></td>
+                                <td style="padding:7px 8px;text-align:center;"><div style="font-weight:700;color:#ef4444;">1/5</div><div class="ca-bar"><div class="ca-fill" style="width:20%;background:#ef4444;"></div></div></td>
+                                <td style="padding:7px 8px;text-align:center;"><div style="font-weight:700;color:#f59e0b;">2/5</div><div class="ca-bar"><div class="ca-fill" style="width:40%;background:#f59e0b;"></div></div></td>
+                                <td style="padding:7px 8px;text-align:center;"><div style="font-weight:700;color:#ef4444;">2/5</div><div class="ca-bar"><div class="ca-fill" style="width:40%;background:#ef4444;"></div></div></td>
+                                <td style="padding:7px 8px;text-align:center;"><div style="font-size:1.1rem;font-weight:800;color:#991b1b;">1.8</div></td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <div style="margin-top:10px;background:#fef3c7;border-radius:10px;padding:9px 14px;border-left:4px solid #f59e0b;display:flex;align-items:flex-start;gap:9px;">
+                        <span style="font-size:1.3rem;flex-shrink:0;">💡</span>
+                        <div style="font-size:0.78rem;color:#78350f;"><strong>Key insight:</strong> Our library app scores lowest on discoverability and error recovery — exactly the stages where Alex gives up. Calendly's 3-step flow and smart alternative suggestions are worth studying as a design reference.</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ═══════════════════════════════════════════
+                 SLIDE 14 – Category 2: Design Artefacts (unchanged)
+            ═══════════════════════════════════════════ -->
             <div class="slide flex-col justify-center h-[70vh]">
                 <h2 class="text-3xl font-bold mb-6">Category 2: Design Artefacts</h2>
                 <div class="space-y-4">
@@ -252,6 +687,9 @@
                 </div>
             </div>
 
+            <!-- ═══════════════════════════════════════════
+                 SLIDE 15 – Category 3: Testing Artefacts (unchanged)
+            ═══════════════════════════════════════════ -->
             <div class="slide flex-col justify-center h-[70vh]">
                 <h2 class="text-3xl font-bold mb-6">Category 3: Testing Artefacts</h2>
                 <div class="space-y-4">
@@ -273,6 +711,9 @@
                 </p>
             </div>
 
+            <!-- ═══════════════════════════════════════════
+                 SLIDE 16 – Choosing Your 2 Artefacts (unchanged)
+            ═══════════════════════════════════════════ -->
             <div class="slide flex-col justify-center h-[70vh]">
                 <h2 class="text-4xl font-bold mb-8">Choosing Your 2 Artefacts</h2>
                 <div class="mb-6 p-5 rounded" style="background-color: var(--bg-secondary); border: 2px solid var(--border-color);">
@@ -289,6 +730,9 @@
                 </p>
             </div>
 
+            <!-- ═══════════════════════════════════════════
+                 SLIDE 17 – Quality Over Quantity (unchanged)
+            ═══════════════════════════════════════════ -->
             <div class="slide flex-col justify-center h-[70vh]">
                 <h2 class="text-4xl font-bold mb-8">Quality Over Quantity</h2>
                 <h3 class="text-2xl mb-6">What makes a GOOD artefact?</h3>
@@ -300,6 +744,9 @@
                 </ul>
             </div>
 
+            <!-- ═══════════════════════════════════════════
+                 SLIDE 18 – Activity: Start Second Artefact (unchanged)
+            ═══════════════════════════════════════════ -->
             <div class="slide flex-col justify-center h-[70vh]">
                 <h2 class="text-4xl font-bold mb-6">Activity: Start Second Artefact</h2>
                 <div class="mb-6 p-5 rounded" style="background-color: #dbeafe; border: 2px solid #3b82f6;">
@@ -314,6 +761,83 @@
                 <p class="text-lg text-center">Choose what makes sense for YOUR project</p>
             </div>
 
+            <!-- ═══════════════════════════════════════════
+                 SLIDE 19 – UX Artifacts Library (NEW)
+            ═══════════════════════════════════════════ -->
+            <div class="slide flex-col items-center justify-center h-[70vh] text-center">
+                <div class="mb-5" style="font-size:3.2rem;">📚</div>
+                <h2 class="text-4xl font-bold mb-4">UX Artifacts Library</h2>
+                <p class="text-xl mb-2" style="color:var(--text-secondary);max-width:560px;margin:0 auto 24px;">
+                    A comprehensive guide to 60+ UX artefacts with instructions sourced from industry websites and blogs — use it to choose, plan, and complete your assessment artefacts.
+                </p>
+                <a href="ux-artifacts-library.html" class="lib-btn">
+                    <span style="font-size:1.4rem;">📖</span> Open UX Artifacts Library
+                </a>
+                <p class="mt-6 text-base" style="color:var(--text-secondary);">
+                    Includes: Artefact Selector · Browse All 60+ Artefacts · UX Design Tools for Students
+                </p>
+            </div>
+
+            <!-- ═══════════════════════════════════════════
+                 SLIDE 20 – What Software to Use? (NEW)
+            ═══════════════════════════════════════════ -->
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-3xl font-bold mb-2">What Software to Use for Your Assessment?</h2>
+                <div class="mb-4 p-4 rounded-lg" style="background:#f0fdf4;border-left:4px solid #22c55e;">
+                    <p class="text-lg font-semibold" style="color:#166534;">✅ You can use <em>anything</em> — there are lots of great options.</p>
+                    <p class="text-base mt-1" style="color:#166534;">The most important thing is to <strong>communicate your process</strong> clearly and <strong>follow industry guidance</strong>. Every artefact in the library links to instructions from real industry sources.</p>
+                </div>
+
+                <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:10px;">
+                    <div class="tool-chip">
+                        <div class="tool-icon">🎨</div>
+                        <div><div class="font-bold text-sm">Figma</div><div style="font-size:0.68rem;color:var(--text-secondary);">Design &amp; prototyping · free for students</div></div>
+                    </div>
+                    <div class="tool-chip">
+                        <div class="tool-icon">🗺️</div>
+                        <div><div class="font-bold text-sm">Miro</div><div style="font-size:0.68rem;color:var(--text-secondary);">Journey maps, empathy maps, workshops</div></div>
+                    </div>
+                    <div class="tool-chip">
+                        <div class="tool-icon">🖊️</div>
+                        <div><div class="font-bold text-sm">Sketch</div><div style="font-size:0.68rem;color:var(--text-secondary);">Mac-native UI design (1 year free)</div></div>
+                    </div>
+                    <div class="tool-chip">
+                        <div class="tool-icon">🌐</div>
+                        <div><div class="font-bold text-sm">Framer</div><div style="font-size:0.68rem;color:var(--text-secondary);">Interactive web prototyping</div></div>
+                    </div>
+                    <div class="tool-chip">
+                        <div class="tool-icon">🔓</div>
+                        <div><div class="font-bold text-sm">Penpot</div><div style="font-size:0.68rem;color:var(--text-secondary);">100% free, open-source, forever</div></div>
+                    </div>
+                    <div class="tool-chip">
+                        <div class="tool-icon">🎭</div>
+                        <div><div class="font-bold text-sm">Adobe XD / CC</div><div style="font-size:0.68rem;color:var(--text-secondary);">57% student discount</div></div>
+                    </div>
+                </div>
+
+                <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:8px;">
+                    <div class="p-3 rounded-lg text-sm" style="background:#dcfce7;border-left:3px solid #22c55e;color:#166534;">
+                        <div class="font-bold mb-1">✅ Essential start</div>
+                        <div>Figma · Miro · Hotjar</div>
+                    </div>
+                    <div class="p-3 rounded-lg text-sm" style="background:#fef3c7;border-left:3px solid #f59e0b;color:#92400e;">
+                        <div class="font-bold mb-1">⚡ By focus area</div>
+                        <div>Sketch/Maze for UX · Framer/Webflow for web · Adobe CC for motion</div>
+                    </div>
+                    <div class="p-3 rounded-lg text-sm" style="background:#dbeafe;border-left:3px solid #3b82f6;color:#1e40af;">
+                        <div class="font-bold mb-1">💡 On a budget</div>
+                        <div>Penpot (free forever) · InVision free tier · Figma free tier</div>
+                    </div>
+                </div>
+
+                <p class="text-sm text-center" style="color:var(--text-secondary);">
+                    💡 Most tools have <strong>free student plans</strong> — apply with your university email at figma.com/education, miro.com/education, sketch.com/education and more. Full list in the UX Artifacts Library.
+                </p>
+            </div>
+
+            <!-- ═══════════════════════════════════════════
+                 SLIDE 21 – What You've Learned Today (unchanged)
+            ═══════════════════════════════════════════ -->
             <div class="slide flex-col justify-center h-[70vh]">
                 <h2 class="text-4xl font-bold mb-8">What You've Learned Today</h2>
                 <ul class="space-y-5 text-xl">
@@ -328,6 +852,9 @@
                 </p>
             </div>
 
+            <!-- ═══════════════════════════════════════════
+                 SLIDE 22 – Homework (unchanged)
+            ═══════════════════════════════════════════ -->
             <div class="slide flex-col justify-center h-[70vh]">
                 <h2 class="text-4xl font-bold mb-8">Homework</h2>
                 <ul class="space-y-5 text-xl">
@@ -340,36 +867,44 @@
                     <p class="text-lg" style="color: var(--text-secondary);">Sketching workshop - Learn to draw UI screens by hand!</p>
                 </div>
             </div>
+
         </div>
     </main>
 
-    <footer class="border-t p-4">
+    <footer class="border-t p-4" style="border-color: var(--border-color);">
         <div class="max-w-7xl mx-auto flex justify-between items-center">
-            <button id="prevBtn" class="px-6 py-2 rounded border font-medium">← Previous</button>
-            <span id="slideCounter" class="text-lg">1 / 18</span>
-            <button id="nextBtn" class="px-6 py-2 rounded border font-medium">Next →</button>
+            <button id="prevBtn" class="px-6 py-2 rounded border font-medium" style="border-color: var(--border-color);">← Previous</button>
+            <span id="slideCounter" class="text-lg" style="color: var(--text-secondary);">1 / 22</span>
+            <button id="nextBtn" class="px-6 py-2 rounded border font-medium" style="border-color: var(--border-color);">Next →</button>
         </div>
     </footer>
 
     <script>
-        let currentSlide = 0; const slides = document.querySelectorAll('.slide');
+        let currentSlide = 0, isDarkMode = false, fontSize = 1;
+        const slides = document.querySelectorAll('.slide');
         function showSlide(n) {
-            slides[currentSlide].classList.remove('active'); currentSlide = (n + slides.length) % slides.length;
+            slides[currentSlide].classList.remove('active');
+            currentSlide = (n + slides.length) % slides.length;
             slides[currentSlide].classList.add('active');
             document.getElementById('slideCounter').textContent = `${currentSlide + 1} / ${slides.length}`;
             document.getElementById('prevBtn').disabled = currentSlide === 0;
             document.getElementById('nextBtn').disabled = currentSlide === slides.length - 1;
+            document.getElementById('prevBtn').style.opacity = currentSlide === 0 ? '0.4' : '1';
+            document.getElementById('nextBtn').style.opacity = currentSlide === slides.length - 1 ? '0.4' : '1';
         }
-        document.getElementById('prevBtn').addEventListener('click', () => { if(currentSlide > 0) showSlide(currentSlide - 1); });
-        document.getElementById('nextBtn').addEventListener('click', () => { if(currentSlide < slides.length - 1) showSlide(currentSlide + 1); });
+        document.getElementById('prevBtn').addEventListener('click', () => { if (currentSlide > 0) showSlide(currentSlide - 1); });
+        document.getElementById('nextBtn').addEventListener('click', () => { if (currentSlide < slides.length - 1) showSlide(currentSlide + 1); });
         document.getElementById('darkModeToggle').addEventListener('click', () => {
+            isDarkMode = !isDarkMode;
             document.body.classList.toggle('dark-mode');
-            document.getElementById('modeIcon').textContent = document.body.classList.contains('dark-mode') ? '☀️' : '🌙';
+            document.getElementById('modeIcon').textContent = isDarkMode ? '☀️' : '🌙';
         });
-        let fontSize = 1;
-        document.getElementById('increaseFont').addEventListener('click', () => { if(fontSize < 1.5) { fontSize += 0.1; document.documentElement.style.setProperty('--font-size', fontSize); }});
-        document.getElementById('decreaseFont').addEventListener('click', () => { if(fontSize > 0.7) { fontSize -= 0.1; document.documentElement.style.setProperty('--font-size', fontSize); }});
-        document.addEventListener('keydown', (e) => { if(e.key === 'ArrowRight') document.getElementById('nextBtn').click(); if(e.key === 'ArrowLeft') document.getElementById('prevBtn').click(); });
+        document.getElementById('increaseFont').addEventListener('click', () => { if (fontSize < 1.5) { fontSize += 0.1; document.documentElement.style.setProperty('--font-size', fontSize); } });
+        document.getElementById('decreaseFont').addEventListener('click', () => { if (fontSize > 0.7) { fontSize -= 0.1; document.documentElement.style.setProperty('--font-size', fontSize); } });
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight' && currentSlide < slides.length - 1) showSlide(currentSlide + 1);
+            if (e.key === 'ArrowLeft' && currentSlide > 0) showSlide(currentSlide - 1);
+        });
         showSlide(0);
     </script>
 </body>

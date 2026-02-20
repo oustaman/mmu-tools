@@ -1,0 +1,552 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Session 5 Lab: Building a Persona from Real Data</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        :root {
+            --bg: #ffffff; --bg2: #f9fafb; --text: #111827; --text2: #4b5563;
+            --border: #e5e7eb; --accent: #8b5cf6; --accent-light: #ede9fe; --font-size: 1;
+        }
+        .dark-mode {
+            --bg: #111827; --bg2: #1f2937; --text: #f9fafb; --text2: #9ca3af;
+            --border: #374151; --accent: #a78bfa; --accent-light: #2e1065;
+        }
+        html { font-size: calc(var(--font-size) * 16px); }
+        body { background: var(--bg); color: var(--text); font-family: 'Segoe UI', system-ui, sans-serif; }
+
+        .phase-track { display: flex; margin-bottom: 28px; }
+        .phase-block { flex: 1; padding: 9px 12px; position: relative; cursor: pointer; }
+        .phase-block::after { content: '▶'; position: absolute; right: -7px; top: 50%; transform: translateY(-50%); color: white; font-size: 0.6rem; z-index: 2; }
+        .phase-block:last-child::after { display: none; }
+        .phase-block:first-child { border-radius: 10px 0 0 10px; }
+        .phase-block:last-child { border-radius: 0 10px 10px 0; }
+        .phase-num { font-size: 0.6rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.1em; opacity: 0.7; }
+        .phase-title { font-size: 0.85rem; font-weight: 700; }
+        .phase-time { font-size: 0.65rem; opacity: 0.7; }
+
+        .source-card { border-radius: 12px; border: 1.5px solid var(--border); background: var(--bg2); overflow: hidden; margin-bottom: 8px; }
+        .source-header { display: flex; align-items: center; gap: 12px; padding: 11px 14px; cursor: pointer; user-select: none; }
+        .source-body { padding: 0 14px 12px 48px; display: none; }
+        .source-body.open { display: block; }
+        .chevron { margin-left: auto; transition: transform 0.2s; color: var(--text2); flex-shrink: 0; }
+        .chevron.open { transform: rotate(180deg); }
+        .source-icon { width: 30px; height: 30px; border-radius: 7px; display: flex; align-items: center; justify-content: center; font-size: 1rem; flex-shrink: 0; }
+        .source-tag { font-size: 0.6rem; font-weight: 700; padding: 2px 7px; border-radius: 9px; text-transform: uppercase; letter-spacing: 0.06em; }
+        .link-row { display: flex; align-items: flex-start; gap: 7px; padding: 5px 0; border-bottom: 1px solid var(--border); font-size: 0.82rem; }
+        .link-row:last-child { border-bottom: none; }
+        .link-row a { color: var(--accent); font-weight: 600; text-decoration: none; }
+        .link-row a:hover { text-decoration: underline; }
+        .link-what { color: var(--text2); font-size: 0.73rem; display: block; margin-top: 1px; }
+
+        .pf-input { width: 100%; background: var(--bg); border: 1.5px solid var(--border); border-radius: 8px; padding: 8px 11px; font-size: 0.85rem; color: var(--text); resize: vertical; font-family: inherit; transition: border-color 0.15s; }
+        .pf-input:focus { outline: none; border-color: var(--accent); }
+        .field-label { display: block; font-size: 0.7rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text2); margin-bottom: 4px; }
+        .source-badge { display: inline-block; font-size: 0.6rem; background: var(--accent-light); color: var(--accent); border-radius: 7px; padding: 1px 6px; font-weight: 700; margin-left: 5px; }
+
+        .tip  { background: #fef9c3; border-left: 3px solid #f59e0b; border-radius: 0 8px 8px 0; padding: 7px 11px; font-size: 0.78rem; color: #78350f; margin-top: 8px; }
+        .warn { background: #fef2f2; border-left: 3px solid #ef4444; border-radius: 0 8px 8px 0; padding: 7px 11px; font-size: 0.78rem; color: #991b1b; margin-top: 8px; }
+
+        .progress-bar { height: 6px; background: var(--border); border-radius: 3px; overflow: hidden; }
+        .progress-fill { height: 100%; background: var(--accent); border-radius: 3px; transition: width 0.4s; }
+
+        .persona-preview { background: linear-gradient(135deg, #1e1b4b 0%, #312e81 60%, #4c1d95 100%); border-radius: 14px; color: white; padding: 18px; }
+        .p-avatar { width: 56px; height: 56px; border-radius: 50%; background: linear-gradient(135deg,#f59e0b,#ef4444); display:flex;align-items:center;justify-content:center;font-size:1.7rem;border:2px solid rgba(255,255,255,0.3);flex-shrink:0; }
+        .p-lbl { font-size: 0.55rem; text-transform: uppercase; letter-spacing: 0.1em; opacity: 0.6; margin-bottom: 3px; }
+        .p-dot-g { width:6px;height:6px;border-radius:50%;background:#34d399;flex-shrink:0;margin-top:5px; }
+        .p-dot-r { width:6px;height:6px;border-radius:50%;background:#ef4444;flex-shrink:0;margin-top:5px; }
+        .p-item { display:flex;gap:6px;font-size:0.74rem;margin-bottom:3px; }
+        .quote-block { background:rgba(255,255,255,0.1);border-left:3px solid #f59e0b;border-radius:0 7px 7px 0;padding:6px 10px;font-style:italic;font-size:0.8rem; }
+
+        .phase-heading { display: flex; align-items: center; gap: 12px; margin-bottom: 16px; }
+        .phase-num-badge { width:34px;height:34px;border-radius:9px;color:white;display:flex;align-items:center;justify-content:center;font-weight:800;flex-shrink:0;font-size:1rem; }
+
+        @media print { .no-print { display: none !important; } }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col">
+
+    <header class="border-b px-6 py-3 no-print" style="border-color:var(--border);">
+        <div class="max-w-3xl mx-auto flex justify-between items-center">
+            <div>
+                <span class="font-bold">UX for Creative Industries</span>
+                <span class="text-sm ml-3" style="color:var(--text2);">Session 5 &middot; Lab &middot; 2 hours</span>
+            </div>
+            <div class="flex gap-2">
+                <button id="decreaseFont" class="px-3 py-1.5 rounded border text-sm" style="border-color:var(--border);">A-</button>
+                <button id="increaseFont" class="px-3 py-1.5 rounded border text-sm" style="border-color:var(--border);">A+</button>
+                <button id="darkModeToggle" class="px-3 py-1.5 rounded border text-sm" style="border-color:var(--border);"><span id="modeIcon">🌙</span></button>
+                <button onclick="window.print()" class="px-3 py-1.5 rounded border text-sm" style="border-color:var(--border);">🖨</button>
+            </div>
+        </div>
+    </header>
+
+    <main class="flex-1 max-w-3xl mx-auto w-full px-6 py-7">
+
+        <!-- Hero -->
+        <div style="background:linear-gradient(135deg,#4c1d95,#7c3aed,#8b5cf6);border-radius:16px;padding:22px 28px;color:white;margin-bottom:24px;">
+            <div style="font-size:0.68rem;font-weight:700;text-transform:uppercase;letter-spacing:0.12em;opacity:0.7;margin-bottom:4px;">Session 5 &middot; Lab</div>
+            <h2 style="font-size:1.7rem;font-weight:800;margin-bottom:5px;">Build a Persona from Real Data</h2>
+            <p style="opacity:0.85;font-size:0.88rem;line-height:1.5;max-width:460px;">No interviews needed. You'll use free UK data sources to build a grounded persona &mdash; exactly how professional UX researchers do desk research.</p>
+            <div style="display:flex;gap:8px;margin-top:14px;flex-wrap:wrap;font-size:0.76rem;">
+                <div style="background:rgba(255,255,255,0.15);border-radius:7px;padding:5px 11px;">🎯 One artefact: <strong>User Persona</strong></div>
+                <div style="background:rgba(255,255,255,0.15);border-radius:7px;padding:5px 11px;">📊 Real UK sources</div>
+                <div style="background:rgba(255,255,255,0.15);border-radius:7px;padding:5px 11px;">⏱ 2 hours</div>
+            </div>
+        </div>
+
+        <!-- Phase nav -->
+        <div class="phase-track no-print">
+            <div class="phase-block" style="background:#312e81;color:white;" onclick="scrollToPhase('phase1')">
+                <div class="phase-num">Phase 1</div><div class="phase-title">Orient</div><div class="phase-time">10 min</div>
+            </div>
+            <div class="phase-block" style="background:#4338ca;color:white;" onclick="scrollToPhase('phase2')">
+                <div class="phase-num">Phase 2</div><div class="phase-title">Research</div><div class="phase-time">50 min</div>
+            </div>
+            <div class="phase-block" style="background:#6d28d9;color:white;" onclick="scrollToPhase('phase3')">
+                <div class="phase-num">Phase 3</div><div class="phase-title">Build</div><div class="phase-time">45 min</div>
+            </div>
+            <div class="phase-block" style="background:#7c3aed;color:white;" onclick="scrollToPhase('phase4')">
+                <div class="phase-num">Phase 4</div><div class="phase-title">Export</div><div class="phase-time">15 min</div>
+            </div>
+        </div>
+
+        <!-- Progress -->
+        <div class="mb-7 no-print">
+            <div class="flex justify-between mb-1">
+                <span class="text-sm font-semibold">Progress</span>
+                <span id="progress-label" class="text-sm" style="color:var(--text2);">0 / 12</span>
+            </div>
+            <div class="progress-bar"><div id="progress-fill" class="progress-fill" style="width:0;"></div></div>
+        </div>
+
+
+        <!-- ─── PHASE 1 ─── -->
+        <div id="phase1" class="mb-9">
+            <div class="phase-heading">
+                <div class="phase-num-badge" style="background:#312e81;">1</div>
+                <h2 class="text-xl font-bold">Orient <span style="color:var(--text2);font-size:0.8rem;font-weight:400;">10 min</span></h2>
+            </div>
+
+            <div style="border:1.5px solid var(--border);border-radius:12px;padding:18px;background:var(--bg2);" class="space-y-3">
+                <div>
+                    <label class="field-label">My service / product</label>
+                    <textarea class="pf-input" rows="1" placeholder="e.g. a local gym booking app, food bank finder, cycle hire scheme, NHS appointment tool…" id="f-topic"></textarea>
+                </div>
+                <div>
+                    <label class="field-label">Who is my primary user?</label>
+                    <textarea class="pf-input" rows="1" placeholder="e.g. older adults in Manchester using public transport" id="f-user-guess"></textarea>
+                </div>
+                <div>
+                    <label class="field-label">What do I want to know about them? (1–2 questions)</label>
+                    <textarea class="pf-input" rows="2" placeholder="e.g. How confident are they online? What device do they use? What stops them using the service?"></textarea>
+                </div>
+            </div>
+
+            <div class="mt-3 flex items-center gap-2 no-print">
+                <input type="checkbox" id="chk1" onchange="updateProgress()" class="w-4 h-4" style="accent-color:var(--accent);">
+                <label for="chk1" class="text-sm cursor-pointer">Topic, user, and research questions written down</label>
+            </div>
+        </div>
+
+
+        <!-- ─── PHASE 2 ─── -->
+        <div id="phase2" class="mb-9">
+            <div class="phase-heading">
+                <div class="phase-num-badge" style="background:#4338ca;">2</div>
+                <h2 class="text-xl font-bold">Desk Research <span style="color:var(--text2);font-size:0.8rem;font-weight:400;">50 min — use 3–4 sources</span></h2>
+            </div>
+            <p class="text-sm mb-4" style="color:var(--text2);">Scan for useful facts — don't read everything. Copy relevant numbers and quotes into a scratch doc as you go.</p>
+
+            <h3 class="font-bold text-sm mb-2" style="color:var(--accent);">📊 Demographics</h3>
+
+            <div class="source-card">
+                <div class="source-header" onclick="toggleSource(this)">
+                    <div class="source-icon" style="background:#e0f2fe;">📋</div>
+                    <div style="flex:1;">
+                        <div class="flex items-center gap-2 flex-wrap">
+                            <span class="font-bold text-sm">ONS — Office for National Statistics</span>
+                            <span class="source-tag" style="background:#dbeafe;color:#1e40af;">Official</span>
+                        </div>
+                        <p class="text-xs mt-0.5" style="color:var(--text2);">Age, income, employment — any area in England &amp; Wales</p>
+                    </div>
+                    <svg class="chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+                </div>
+                <div class="source-body">
+                    <div class="link-row"><span>🔗</span><div><a href="https://www.ons.gov.uk/census/censusresults" target="_blank">Census 2021 results</a><span class="link-what">Search your borough → age breakdown, household composition, economic activity</span></div></div>
+                    <div class="link-row"><span>🔗</span><div><a href="https://www.nomisweb.co.uk/" target="_blank">NOMIS — Labour market stats</a><span class="link-what">Income, employment, occupation by area</span></div></div>
+                    <div class="tip">💡 Go to Census 2021 → Area → Greater Manchester. Check "Economic activity" and "Household deprivation" for your user's age group.</div>
+                </div>
+            </div>
+
+            <div class="source-card">
+                <div class="source-header" onclick="toggleSource(this)">
+                    <div class="source-icon" style="background:#fef3c7;">🗺️</div>
+                    <div style="flex:1;">
+                        <div class="flex items-center gap-2 flex-wrap">
+                            <span class="font-bold text-sm">Greater Manchester Open Data</span>
+                            <span class="source-tag" style="background:#dcfce7;color:#166534;">Local</span>
+                        </div>
+                        <p class="text-xs mt-0.5" style="color:var(--text2);">Transport, health, deprivation — specific to GM boroughs</p>
+                    </div>
+                    <svg class="chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+                </div>
+                <div class="source-body">
+                    <div class="link-row"><span>🔗</span><div><a href="https://www.data.gov.uk/" target="_blank">data.gov.uk</a><span class="link-what">Search "Greater Manchester" for local population and service datasets</span></div></div>
+                    <div class="link-row"><span>🔗</span><div><a href="https://www.greatermanchester-ca.gov.uk/what-we-do/research/" target="_blank">GMCA Research &amp; Intelligence</a><span class="link-what">Transport, housing, health in the GM region</span></div></div>
+                </div>
+            </div>
+
+            <h3 class="font-bold text-sm mb-2 mt-5" style="color:var(--accent);">📱 Digital behaviour</h3>
+
+            <div class="source-card">
+                <div class="source-header" onclick="toggleSource(this)">
+                    <div class="source-icon" style="background:#ede9fe;">📡</div>
+                    <div style="flex:1;">
+                        <div class="flex items-center gap-2 flex-wrap">
+                            <span class="font-bold text-sm">Ofcom — Online Nation</span>
+                            <span class="source-tag" style="background:#dbeafe;color:#1e40af;">Official</span>
+                        </div>
+                        <p class="text-xs mt-0.5" style="color:var(--text2);">How UK people use the internet — by age, device, confidence</p>
+                    </div>
+                    <svg class="chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+                </div>
+                <div class="source-body">
+                    <div class="link-row"><span>🔗</span><div><a href="https://www.ofcom.org.uk/research-and-data/internet-and-on-demand-research/online-nation" target="_blank">Online Nation report (annual)</a><span class="link-what">% of each age group online daily, device split, confidence ratings</span></div></div>
+                    <div class="tip">💡 Search "Ofcom Online Nation 2024" and go straight to the summary PDF — pre-made stats ready to cite.</div>
+                </div>
+            </div>
+
+            <div class="source-card">
+                <div class="source-header" onclick="toggleSource(this)">
+                    <div class="source-icon" style="background:#f0fdf4;">🧮</div>
+                    <div style="flex:1;">
+                        <div class="flex items-center gap-2 flex-wrap">
+                            <span class="font-bold text-sm">Lloyds UK Consumer Digital Index</span>
+                            <span class="source-tag" style="background:#dcfce7;color:#166534;">Behaviour</span>
+                        </div>
+                        <p class="text-xs mt-0.5" style="color:var(--text2);">Digital skills &amp; inclusion by age, income, and region</p>
+                    </div>
+                    <svg class="chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+                </div>
+                <div class="source-body">
+                    <div class="link-row"><span>🔗</span><div><a href="https://www.lloydsbank.com/banking-with-us/whats-happening/consumer-digital-index.html" target="_blank">Lloyds Consumer Digital Index (latest)</a><span class="link-what">Useful if your service involves low-confidence or older users</span></div></div>
+                    <div class="link-row"><span>🔗</span><div><a href="https://www.goodthingsfoundation.org/insights/uk-digital-skills-statistics/" target="_blank">Good Things Foundation — Digital inclusion stats</a><span class="link-what">14.9m UK people lack basic digital skills — breakdowns by age and deprivation</span></div></div>
+                </div>
+            </div>
+
+            <h3 class="font-bold text-sm mb-2 mt-5" style="color:var(--accent);">💬 User attitudes &amp; complaints</h3>
+
+            <div class="source-card">
+                <div class="source-header" onclick="toggleSource(this)">
+                    <div class="source-icon" style="background:#fce7f3;">⭐</div>
+                    <div style="flex:1;">
+                        <div class="flex items-center gap-2 flex-wrap">
+                            <span class="font-bold text-sm">App Store / Google Play / Trustpilot</span>
+                            <span class="source-tag" style="background:#fce7f3;color:#9d174d;">Qualitative</span>
+                        </div>
+                        <p class="text-xs mt-0.5" style="color:var(--text2);">Real user complaints in their own words — goldmine for quotes</p>
+                    </div>
+                    <svg class="chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+                </div>
+                <div class="source-body">
+                    <div class="link-row"><span>🔗</span><div><a href="https://apps.apple.com/gb/charts/iphone" target="_blank">Apple App Store UK</a><span class="link-what">Search your service type → read 1★ reviews for pain points, 5★ for goals</span></div></div>
+                    <div class="link-row"><span>🔗</span><div><a href="https://play.google.com/store/apps" target="_blank">Google Play Store</a><span class="link-what">Same approach across multiple apps in your category</span></div></div>
+                    <div class="link-row"><span>🔗</span><div><a href="https://uk.trustpilot.com/" target="_blank">Trustpilot UK</a><span class="link-what">For websites and services rather than apps — reviews are more detailed</span></div></div>
+                    <div class="tip">💡 If the same complaint appears 3+ times across different reviews, it's a verified pain point. Paraphrase it directly into your persona.</div>
+                </div>
+            </div>
+
+            <div class="source-card">
+                <div class="source-header" onclick="toggleSource(this)">
+                    <div class="source-icon" style="background:#fef3c7;">💬</div>
+                    <div style="flex:1;">
+                        <div class="flex items-center gap-2 flex-wrap">
+                            <span class="font-bold text-sm">Reddit UK communities</span>
+                            <span class="source-tag" style="background:#fef3c7;color:#854d0e;">Qualitative</span>
+                        </div>
+                        <p class="text-xs mt-0.5" style="color:var(--text2);">Unfiltered real talk about services — people are very specific about what frustrates them</p>
+                    </div>
+                    <svg class="chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+                </div>
+                <div class="source-body">
+                    <div class="link-row"><span>🔗</span><div><a href="https://www.reddit.com/r/manchester/" target="_blank">r/manchester</a><span class="link-what">Local issues, services, transport — real Manchester residents</span></div></div>
+                    <div class="link-row"><span>🔗</span><div><a href="https://www.reddit.com/r/AskUK/" target="_blank">r/AskUK</a><span class="link-what">"Why is X so hard in the UK?" threads are direct user insight</span></div></div>
+                    <div class="tip">💡 Google: <em>site:reddit.com/r/manchester [your topic]</em> for faster targeted results.</div>
+                </div>
+            </div>
+
+            <h3 class="font-bold text-sm mb-2 mt-5" style="color:var(--accent);">🏥 Sector-specific sources</h3>
+
+            <div class="source-card">
+                <div class="source-header" onclick="toggleSource(this)">
+                    <div class="source-icon" style="background:#f0fdf4;">🏥</div>
+                    <div style="flex:1;">
+                        <div class="flex items-center gap-2 flex-wrap">
+                            <span class="font-bold text-sm">Health &amp; NHS</span>
+                            <span class="source-tag" style="background:#dcfce7;color:#166534;">Sector</span>
+                        </div>
+                        <p class="text-xs mt-0.5" style="color:var(--text2);">Health, wellbeing, NHS, mental health, or social care</p>
+                    </div>
+                    <svg class="chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+                </div>
+                <div class="source-body">
+                    <div class="link-row"><span>🔗</span><div><a href="https://digital.nhs.uk/data-and-information" target="_blank">NHS Digital — data &amp; information</a><span class="link-what">GP appointments, digital health usage, patient demographics</span></div></div>
+                    <div class="link-row"><span>🔗</span><div><a href="https://www.nhssurveys.org/" target="_blank">NHS Patient Surveys</a><span class="link-what">Patients describe their experience in their own words</span></div></div>
+                    <div class="link-row"><span>🔗</span><div><a href="https://www.kingsfund.org.uk/insight-and-analysis" target="_blank">The King's Fund</a><span class="link-what">In-depth reports on NHS experience and patient behaviour</span></div></div>
+                </div>
+            </div>
+
+            <div class="source-card">
+                <div class="source-header" onclick="toggleSource(this)">
+                    <div class="source-icon" style="background:#e0f2fe;">🚌</div>
+                    <div style="flex:1;">
+                        <div class="flex items-center gap-2 flex-wrap">
+                            <span class="font-bold text-sm">Transport &amp; Travel</span>
+                            <span class="source-tag" style="background:#dbeafe;color:#1e40af;">Sector</span>
+                        </div>
+                        <p class="text-xs mt-0.5" style="color:var(--text2);">Buses, cycling, car sharing, travel booking, navigation</p>
+                    </div>
+                    <svg class="chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+                </div>
+                <div class="source-body">
+                    <div class="link-row"><span>🔗</span><div><a href="https://www.tfgm.com/news/open-data" target="_blank">Transport for Greater Manchester — Open Data</a><span class="link-what">Bus and Metrolink usage, passenger data, service performance</span></div></div>
+                    <div class="link-row"><span>🔗</span><div><a href="https://www.gov.uk/government/statistics/national-travel-survey-2023" target="_blank">DfT National Travel Survey</a><span class="link-what">How UK people travel by age, income, and region</span></div></div>
+                </div>
+            </div>
+
+            <div class="source-card">
+                <div class="source-header" onclick="toggleSource(this)">
+                    <div class="source-icon" style="background:#ede9fe;">🛒</div>
+                    <div style="flex:1;">
+                        <div class="flex items-center gap-2 flex-wrap">
+                            <span class="font-bold text-sm">Retail, Food &amp; Local Services</span>
+                            <span class="source-tag" style="background:#ede9fe;color:#5b21b6;">Sector</span>
+                        </div>
+                        <p class="text-xs mt-0.5" style="color:var(--text2);">Food, shopping, hospitality, local businesses, community services</p>
+                    </div>
+                    <svg class="chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+                </div>
+                <div class="source-body">
+                    <div class="link-row"><span>🔗</span><div><a href="https://www.mintel.com/free-reports/" target="_blank">Mintel Free Reports</a><span class="link-what">Consumer behaviour summaries on food, retail, leisure — free headline stats</span></div></div>
+                    <div class="link-row"><span>🔗</span><div><a href="https://www.which.co.uk/reviews" target="_blank">Which? consumer research</a><span class="link-what">UK consumer attitudes and complaints — readable and user-voiced</span></div></div>
+                </div>
+            </div>
+
+            <div class="source-card">
+                <div class="source-header" onclick="toggleSource(this)">
+                    <div class="source-icon" style="background:#fce7f3;">🎓</div>
+                    <div style="flex:1;">
+                        <div class="flex items-center gap-2 flex-wrap">
+                            <span class="font-bold text-sm">Education, Culture &amp; Sport</span>
+                            <span class="source-tag" style="background:#fce7f3;color:#9d174d;">Sector</span>
+                        </div>
+                        <p class="text-xs mt-0.5" style="color:var(--text2);">Libraries, museums, sports facilities, community centres, learning platforms</p>
+                    </div>
+                    <svg class="chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+                </div>
+                <div class="source-body">
+                    <div class="link-row"><span>🔗</span><div><a href="https://www.artscouncil.org.uk/research-and-data" target="_blank">Arts Council England</a><span class="link-what">Audience demographics and barriers to cultural participation</span></div></div>
+                    <div class="link-row"><span>🔗</span><div><a href="https://www.sportengland.org/research-and-data/data/active-lives" target="_blank">Sport England — Active Lives Survey</a><span class="link-what">Who plays sport, how often, barriers — by age, income, ethnicity</span></div></div>
+                    <div class="link-row"><span>🔗</span><div><a href="https://www.cilip.org.uk/page/UKlibrarystatistics" target="_blank">CILIP — UK Library Statistics</a><span class="link-what">Library usage demographics and trends</span></div></div>
+                </div>
+            </div>
+
+            <!-- Research notes -->
+            <div class="mt-5 p-4 rounded-xl" style="background:var(--bg2);border:1.5px solid var(--border);">
+                <label class="field-label">📝 Scratch notes — paste useful facts here as you find them</label>
+                <textarea class="pf-input mt-1" rows="5" placeholder="e.g.&#10;ONS 2021: 23% of Manchester residents aged 65+ (higher than national 18%)&#10;Ofcom 2024: 68% of over-65s use smartphones daily, only 31% feel 'confident' online&#10;Trustpilot: 'the app keeps logging me out and I can't remember my password every time'&#10;r/manchester: 'The Bee Network app is confusing if you've never used contactless'"></textarea>
+            </div>
+
+            <div class="mt-3 space-y-2 no-print">
+                <div class="flex items-center gap-2"><input type="checkbox" id="chk2" onchange="updateProgress()" class="w-4 h-4" style="accent-color:var(--accent);"><label for="chk2" class="text-sm cursor-pointer">Found demographic data from at least one source</label></div>
+                <div class="flex items-center gap-2"><input type="checkbox" id="chk3" onchange="updateProgress()" class="w-4 h-4" style="accent-color:var(--accent);"><label for="chk3" class="text-sm cursor-pointer">Found digital behaviour data (device use, internet confidence)</label></div>
+                <div class="flex items-center gap-2"><input type="checkbox" id="chk4" onchange="updateProgress()" class="w-4 h-4" style="accent-color:var(--accent);"><label for="chk4" class="text-sm cursor-pointer">Found real user quotes or complaints</label></div>
+                <div class="flex items-center gap-2"><input type="checkbox" id="chk5" onchange="updateProgress()" class="w-4 h-4" style="accent-color:var(--accent);"><label for="chk5" class="text-sm cursor-pointer">Notes saved with specific numbers and source names</label></div>
+            </div>
+        </div>
+
+
+        <!-- ─── PHASE 3 ─── -->
+        <div id="phase3" class="mb-9">
+            <div class="phase-heading">
+                <div class="phase-num-badge" style="background:#6d28d9;">3</div>
+                <h2 class="text-xl font-bold">Build your persona <span style="color:var(--text2);font-size:0.8rem;font-weight:400;">45 min</span></h2>
+            </div>
+
+            <!-- Tool choice -->
+            <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:16px;font-size:0.8rem;">
+                <div style="border-radius:10px;padding:10px 12px;border:1.5px solid var(--accent);background:var(--accent-light);">
+                    <div class="font-bold mb-0.5">🥇 Figma (free)</div>
+                    <div style="color:var(--text2);font-size:0.71rem;">Search "persona" in Community templates</div>
+                    <a href="https://www.figma.com/community/search?resource_type=templates&q=persona" target="_blank" style="display:block;margin-top:5px;font-size:0.71rem;color:var(--accent);font-weight:600;">figma.com/community →</a>
+                </div>
+                <div style="border-radius:10px;padding:10px 12px;border:1.5px solid var(--border);background:var(--bg);">
+                    <div class="font-bold mb-0.5">🗺️ Miro (free)</div>
+                    <div style="color:var(--text2);font-size:0.71rem;">Templates → "User Persona"</div>
+                    <a href="https://miro.com/templates/personas/" target="_blank" style="display:block;margin-top:5px;font-size:0.71rem;color:var(--accent);font-weight:600;">miro.com/templates →</a>
+                </div>
+                <div style="border-radius:10px;padding:10px 12px;border:1.5px solid var(--border);background:var(--bg);">
+                    <div class="font-bold mb-0.5">📄 Canva / Slides</div>
+                    <div style="color:var(--text2);font-size:0.71rem;">Search "UX persona template"</div>
+                    <a href="https://www.canva.com/templates/?query=ux+persona" target="_blank" style="display:block;margin-top:5px;font-size:0.71rem;color:var(--accent);font-weight:600;">canva.com →</a>
+                </div>
+            </div>
+
+            <!-- Persona form -->
+            <div style="border:2px solid var(--accent);border-radius:14px;padding:20px;background:var(--bg2);">
+                <p class="font-bold text-sm mb-4" style="color:var(--accent);">📋 Fill this in → then copy into your chosen tool</p>
+
+                <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-bottom:12px;">
+                    <div><label class="field-label">Name <span class="source-badge">make up</span></label><input class="pf-input" type="text" placeholder="e.g. Fatima, David…" id="f-name" oninput="syncPreview()"></div>
+                    <div><label class="field-label">Age <span class="source-badge">from ONS</span></label><input class="pf-input" type="text" placeholder="e.g. 34" id="f-age" oninput="syncPreview()"></div>
+                    <div><label class="field-label">Location <span class="source-badge">local</span></label><input class="pf-input" type="text" placeholder="e.g. Salford" id="f-location" oninput="syncPreview()"></div>
+                </div>
+
+                <div style="margin-bottom:12px;"><label class="field-label">Occupation <span class="source-badge">from NOMIS</span></label><input class="pf-input" type="text" placeholder="e.g. Part-time care worker" id="f-job" oninput="syncPreview()"></div>
+
+                <div style="margin-bottom:12px;">
+                    <label class="field-label">Bio (2–3 sentences) <span class="source-badge">cite data here</span></label>
+                    <textarea class="pf-input" rows="3" placeholder="Who are they? Daily life? Reference your data — e.g. 'According to ONS 2021, 44% of households in Salford have no car…'" id="f-bio" oninput="syncPreview()"></textarea>
+                </div>
+
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px;">
+                    <div><label class="field-label">Tech comfort <span class="source-badge">from Ofcom</span></label><textarea class="pf-input" rows="2" placeholder="Device + confidence level. e.g. 'Ofcom 2024: 42% of adults her age find new apps difficult to use'" id="f-tech" oninput="syncPreview()"></textarea></div>
+                    <div><label class="field-label">Quote <span class="source-badge">from reviews</span></label><textarea class="pf-input" rows="2" placeholder='"I just want it to be simple — I haven't got time to learn a new app"' id="f-quote" oninput="syncPreview()"></textarea></div>
+                </div>
+
+                <div style="margin-bottom:12px;">
+                    <label class="field-label">Goals (3 items) <span class="source-badge">from 5★ reviews</span></label>
+                    <textarea class="pf-input" rows="3" placeholder="1. Get information quickly without logging in every time&#10;2. Works on her older Android phone&#10;3. Complete task in under 2 minutes" id="f-goals" oninput="syncPreview()"></textarea>
+                </div>
+
+                <div>
+                    <label class="field-label">Frustrations (3 items) <span class="source-badge">from 1★ reviews</span></label>
+                    <textarea class="pf-input" rows="3" placeholder="1. App logs her out every time she opens it&#10;2. 'the mobile site is unusable' (Trustpilot)&#10;3. Error messages with no guidance on what to do" id="f-frustrations" oninput="syncPreview()"></textarea>
+                </div>
+
+                <div class="warn mt-3">⚠️ Every claim needs a source. You'll cite these in your 150–200 word written explanation.</div>
+            </div>
+
+            <!-- Live preview -->
+            <p class="text-sm font-semibold mt-5 mb-2" style="color:var(--text2);">👀 Live preview</p>
+            <div class="persona-preview">
+                <div class="flex items-center gap-4 mb-3">
+                    <div class="p-avatar">👤</div>
+                    <div>
+                        <div id="prev-name" style="font-size:1.3rem;font-weight:800;">Your Persona</div>
+                        <div id="prev-job" style="opacity:0.75;font-size:0.82rem;">Occupation · Location</div>
+                        <div id="prev-age" style="opacity:0.55;font-size:0.72rem;">Age · Tech comfort</div>
+                    </div>
+                </div>
+                <div id="prev-quote" class="quote-block mb-3" style="display:none;"></div>
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+                    <div><div class="p-lbl">Goals</div><div id="prev-goals"><span style="opacity:0.4;font-size:0.75rem;font-style:italic;">Fill in goals above…</span></div></div>
+                    <div><div class="p-lbl">Frustrations</div><div id="prev-frustrations"><span style="opacity:0.4;font-size:0.75rem;font-style:italic;">Fill in frustrations above…</span></div></div>
+                </div>
+                <div id="prev-bio" style="margin-top:10px;font-size:0.76rem;opacity:0.8;line-height:1.6;display:none;"></div>
+            </div>
+
+            <div class="mt-3 space-y-2 no-print">
+                <div class="flex items-center gap-2"><input type="checkbox" id="chk6" onchange="updateProgress()" class="w-4 h-4" style="accent-color:var(--accent);"><label for="chk6" class="text-sm cursor-pointer">Name, age, occupation, location filled in</label></div>
+                <div class="flex items-center gap-2"><input type="checkbox" id="chk7" onchange="updateProgress()" class="w-4 h-4" style="accent-color:var(--accent);"><label for="chk7" class="text-sm cursor-pointer">Bio cites at least one data source</label></div>
+                <div class="flex items-center gap-2"><input type="checkbox" id="chk8" onchange="updateProgress()" class="w-4 h-4" style="accent-color:var(--accent);"><label for="chk8" class="text-sm cursor-pointer">3 goals + 3 frustrations — each traceable to real data</label></div>
+                <div class="flex items-center gap-2"><input type="checkbox" id="chk9" onchange="updateProgress()" class="w-4 h-4" style="accent-color:var(--accent);"><label for="chk9" class="text-sm cursor-pointer">Quote paraphrased from a real review</label></div>
+                <div class="flex items-center gap-2"><input type="checkbox" id="chk10" onchange="updateProgress()" class="w-4 h-4" style="accent-color:var(--accent);"><label for="chk10" class="text-sm cursor-pointer">Content copied into Figma / Miro / Canva template</label></div>
+            </div>
+        </div>
+
+
+        <!-- ─── PHASE 4 ─── -->
+        <div id="phase4" class="mb-9">
+            <div class="phase-heading">
+                <div class="phase-num-badge" style="background:#7c3aed;">4</div>
+                <h2 class="text-xl font-bold">Export &amp; write your explanation <span style="color:var(--text2);font-size:0.8rem;font-weight:400;">15 min</span></h2>
+            </div>
+
+            <div style="border:1.5px solid var(--border);border-radius:12px;padding:18px;background:var(--bg2);" class="space-y-4">
+                <div>
+                    <p class="font-semibold text-sm mb-1">📤 Export</p>
+                    <p class="text-sm" style="color:var(--text2);">Figma: Select frame → Export → PDF/PNG. Miro: Export → Image. Canva: Share → Download → PDF. Filename: <code style="background:var(--bg);padding:1px 5px;border-radius:3px;">YourName_Persona_S5.pdf</code></p>
+                </div>
+
+                <div>
+                    <p class="font-semibold text-sm mb-1">✍️ Draft your 150–200 word explanation</p>
+                    <div style="display:grid;grid-template-columns:auto 1fr;gap:4px 10px;font-size:0.82rem;margin-bottom:10px;align-items:start;">
+                        <div style="font-weight:800;color:var(--accent);">WHAT</div><div>What is a user persona and what is it used for?</div>
+                        <div style="font-weight:800;color:var(--accent);">HOW</div><div>Which data sources did you use and what did you find?</div>
+                        <div style="font-weight:800;color:var(--accent);">WHY</div><div>How does this persona help your design decisions?</div>
+                    </div>
+                    <textarea class="pf-input" rows="5" placeholder="Draft here… &#10;&#10;e.g. A user persona is a research-based character representing a user segment. This one was built using desk research rather than primary interviews. ONS 2021 data confirmed 44% of Salford households have no car, shaping Fatima's transport context. Ofcom 2024 data informed her tech confidence level. Her frustrations come from recurring 1-star Google Play reviews where 'logs me out every time' appeared in 14 of the 50 most recent reviews. This persona will inform session management design — prioritising persistent login for low-confidence users."></textarea>
+                </div>
+
+                <div class="tip">💡 Specific data citations (even just 1–2) are what makes this a credible assessment artefact rather than a guess.</div>
+            </div>
+
+            <div class="mt-3 space-y-2 no-print">
+                <div class="flex items-center gap-2"><input type="checkbox" id="chk11" onchange="updateProgress()" class="w-4 h-4" style="accent-color:var(--accent);"><label for="chk11" class="text-sm cursor-pointer">Persona exported with a clear filename</label></div>
+                <div class="flex items-center gap-2"><input type="checkbox" id="chk12" onchange="updateProgress()" class="w-4 h-4" style="accent-color:var(--accent);"><label for="chk12" class="text-sm cursor-pointer">150–200 word explanation drafted with data sources named</label></div>
+            </div>
+        </div>
+
+        <!-- Done -->
+        <div class="p-4 rounded-xl mb-6" style="background:var(--accent-light);border:2px solid var(--accent);">
+            <h3 class="font-bold mb-1">🎉 Done</h3>
+            <p class="text-sm" style="line-height:1.6;">Your persona is <strong>synthesised from real data</strong> — not invented. That's what makes it a credible UX artefact. For the assessment, refine it further and pair it with a second artefact. Keep your source notes.</p>
+        </div>
+
+    </main>
+
+    <footer class="border-t px-6 py-3 text-center text-sm no-print" style="border-color:var(--border);color:var(--text2);">
+        UX for Creative Industries · Session 5 · Keep your editable file and source notes for submission.
+    </footer>
+
+    <script>
+        function toggleSource(header) {
+            const body = header.nextElementSibling;
+            const ch = header.querySelector('.chevron');
+            body.classList.toggle('open');
+            ch.classList.toggle('open');
+        }
+        const checkIds = ['chk1','chk2','chk3','chk4','chk5','chk6','chk7','chk8','chk9','chk10','chk11','chk12'];
+        function updateProgress() {
+            const done = checkIds.filter(id => { const el = document.getElementById(id); return el && el.checked; }).length;
+            document.getElementById('progress-label').textContent = done + ' / ' + checkIds.length;
+            document.getElementById('progress-fill').style.width = ((done / checkIds.length) * 100) + '%';
+        }
+        function scrollToPhase(id) { document.getElementById(id).scrollIntoView({ behavior: 'smooth', block: 'start' }); }
+        function syncPreview() {
+            const name  = document.getElementById('f-name').value.trim();
+            const job   = document.getElementById('f-job').value.trim();
+            const age   = document.getElementById('f-age').value.trim();
+            const loc   = document.getElementById('f-location').value.trim();
+            const bio   = document.getElementById('f-bio').value.trim();
+            const quote = document.getElementById('f-quote').value.trim();
+            const goals = document.getElementById('f-goals').value.trim();
+            const frust = document.getElementById('f-frustrations').value.trim();
+            const tech  = document.getElementById('f-tech').value.trim();
+            document.getElementById('prev-name').textContent = name || 'Your Persona';
+            document.getElementById('prev-job').textContent  = [job, loc].filter(Boolean).join(' · ') || 'Occupation · Location';
+            document.getElementById('prev-age').textContent  = [(age ? 'Age ' + age : ''), (tech ? tech.substring(0,55)+(tech.length>55?'…':'') : '')].filter(Boolean).join(' · ') || 'Age · Tech comfort';
+            const qEl = document.getElementById('prev-quote');
+            if (quote) { qEl.textContent = quote; qEl.style.display = 'block'; } else { qEl.style.display = 'none'; }
+            const bEl = document.getElementById('prev-bio');
+            if (bio) { bEl.textContent = bio; bEl.style.display = 'block'; } else { bEl.style.display = 'none'; }
+            const gEl = document.getElementById('prev-goals');
+            gEl.innerHTML = goals
+                ? goals.split('\n').filter(l=>l.trim()).map(l=>'<div class="p-item"><div class="p-dot-g"></div><span>'+l.replace(/^\d+\.\s*/,'')+'</span></div>').join('')
+                : '<span style="opacity:0.4;font-size:0.75rem;font-style:italic;">Fill in goals…</span>';
+            const fEl = document.getElementById('prev-frustrations');
+            fEl.innerHTML = frust
+                ? frust.split('\n').filter(l=>l.trim()).map(l=>'<div class="p-item"><div class="p-dot-r"></div><span>'+l.replace(/^\d+\.\s*/,'')+'</span></div>').join('')
+                : '<span style="opacity:0.4;font-size:0.75rem;font-style:italic;">Fill in frustrations…</span>';
+        }
+        let fontSize=1, dark=false;
+        document.getElementById('increaseFont').addEventListener('click',()=>{ if(fontSize<1.5){fontSize+=0.1;document.documentElement.style.setProperty('--font-size',fontSize);} });
+        document.getElementById('decreaseFont').addEventListener('click',()=>{ if(fontSize>0.7){fontSize-=0.1;document.documentElement.style.setProperty('--font-size',fontSize);} });
+        document.getElementById('darkModeToggle').addEventListener('click',()=>{ dark=!dark; document.body.classList.toggle('dark-mode'); document.getElementById('modeIcon').textContent=dark?'☀️':'🌙'; });
+    </script>
+</body>
+</html>
