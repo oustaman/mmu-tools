@@ -237,16 +237,11 @@
                     <p class="text-xl">If you need more time than today's 15-minute check-in:</p>
                 </div>
                 <ul class="space-y-5 text-xl">
-                    <li class="flex items-start"><span class="mr-3">📧</span><span><strong>Email me:</strong> <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="0f6221607a7c7b6e626e6160636e64667c4f62627a216e6c217a64">[email&#160;protected]</a></span></li>
+                    <li class="flex items-start"><span class="mr-3">📧</span><span><strong>Email me:</strong> <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="7f1251100a0c0b1e121e1110131e14160c3f12120a511e1c510a14">[email&#160;protected]</a></span></li>
                     <li class="flex items-start"><span class="mr-3">⏰</span><span><strong>Office hours:</strong> Check Moodle for times</span></li>
                     <li class="flex items-start"><span class="mr-3">💬</span><span><strong>In-class:</strong> Ask questions during any session</span></li>
                 </ul>
-                <p class="mt-8 text-xl font-semibold p-4 rounded" style="background-color: #dcfce7;">
-                    Don't suffer in silence - ask for help!
-                </p>
-            </div>
-
-            <div class="slide flex-col justify-center h-[70vh]">
+                <p class="mt-8 text-xl font-semibold p-4 rounded" style="background-color: #dass="slide flex-col justify-center h-[70vh]">
                 <h2 class="text-4xl font-bold mb-8">You're Doing Great!</h2>
                 <div class="mb-8 text-center">
                     <p class="text-3xl mb-6">🎉 Halfway through the module!</p>
@@ -287,7 +282,7 @@
         </div>
     </footer>
 
-    <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+    <script>
         let currentSlide = 0; const slides = document.querySelectorAll('.slide');
         function showSlide(n) {
             slides[currentSlide].classList.remove('active'); currentSlide = (n + slides.length) % slides.length;
@@ -305,4 +300,8 @@
         let fontSize = 1;
         document.getElementById('increaseFont').addEventListener('click', () => { if(fontSize < 1.5) { fontSize += 0.1; document.documentElement.style.setProperty('--font-size', fontSize); }});
         document.getElementById('decreaseFont').addEventListener('click', () => { if(fontSize > 0.7) { fontSize -= 0.1; document.documentElement.style.setProperty('--font-size', fontSize); }});
-        docum
+        document.addEventListener('keydown', (e) => { if(e.key === 'ArrowRight') document.getElementById('nextBtn').click(); if(e.key === 'ArrowLeft') document.getElementById('prevBtn').click(); });
+        showSlide(0);
+    </script>
+</body>
+</html>
