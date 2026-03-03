@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Morphological Idea Generator</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=DM+Serif+Display&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #1a1410;
+    --paper: #f5f0e8;
+    --cream: #ede8dc;
+    --rule: #c8bfaa;
+    --accent: #d4451a;
+    --accent-light: #f5ddd6;
+    --muted: #7a7060;
+    --locked: #2a6b3a;
+    --locked-bg: #d8f0de;
+    --silly: #7b3fbf;
+    --silly-bg: #f0e8ff;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'DM Sans', sans-serif; background: var(--paper); color: var(--ink); min-height: 100vh; }
+
+  header {
+    border-bottom: 3px solid var(--ink);
+    padding: 22px 40px 18px;
+    display: flex; align-items: flex-end; justify-content: space-between; gap: 20px;
+  }
+  .header-left h1 { font-family: 'DM Serif Display', serif; font-size: clamp(24px, 3.5vw, 44px); line-height: 1; letter-spacing: -1px; }
+  .header-left h1 em { font-style: italic; color: var(--accent); }
+  .header-left p { font-size: 12px; color: var(--muted); margin-top: 5px; font-family: 'DM Sans', sans-serif; }
+  .header-right { display: flex; gap: 8px; flex-shrink: 0; }
+
+  .btn {
+    display: inline-flex; align-items: center; gap: 6px;
+    padding: 9px 18px; font-family: 'DM Sans', sans-serif;
+    font-size: 11px; font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase;
+    cursor: pointer; border: 2px solid var(--ink); background: transparent; color: var(--ink); transition: all 0.15s;
+  }
+  .btn:hover { background: var(--ink); color: var(--paper); }
+  .btn-primary { background: var(--accent); border-color: var(--accent); color: white; font-size: 13px; padding: 12px 32px; }
+  .btn-primary:hover { background: #b33a15; border-color: #b33a15; color: white; }
+
+  .tabs { display: flex; border-bottom: 2px solid var(--ink); }
+  .tab {
+    padding: 12px 28px; font-family: 'DM Sans', sans-serif;
+    font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase;
+    cursor: pointer; border: none; background: transparent; color: var(--muted);
+    border-bottom: 3px solid transparent; margin-bottom: -2px; transition: all 0.15s;
+  }
+  .tab:hover { color: var(--ink); }
+  .tab.active { color: var(--ink); border-bottom-color: var(--accent); font-weight: 600; }
+  .tab-content { display: none; }
+  .tab-content.active { display: block; }
+
+  /* GENERATOR */
+  .generator-layout { display: grid; grid-template-columns: 1fr 340px; min-height: calc(100vh - 155px); }
+  .matrix-panel { border-right: 2px solid var(--ink); padding: 32px 40px; }
+  .section-label {
+    font-family: 'DM Sans', sans-serif; font-size: 10px; letter-spacing: 0.15em;
+    text-transform: uppercase; color: var(--muted); margin-bottom: 20px;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .section-label::after { content:''; flex:1; height:1px; background:var(--rule); }
+
+  .dim-block { margin-bottom: 28px; padding-bottom: 24px; border-bottom: 1px solid var(--cream); }
+  .dim-block:last-child { border-bottom: none; margin-bottom: 0; }
+  .dim-header { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; }
+  .dim-icon { font-size: 18px; }
+  .dim-label { font-family: 'DM Serif Display', serif; font-size: 17px; font-style: italic; flex: 1; }
+  .lock-btn {
+    background: none; border: 1.5px solid var(--rule); width: 28px; height: 28px;
+    cursor: pointer; border-radius: 4px; font-size: 13px;
+    display: flex; align-items: center; justify-content: center; transition: all 0.15s; color: var(--muted);
+  }
+  .lock-btn:hover { border-color: var(--ink); color: var(--ink); }
+  .lock-btn.locked { background: var(--locked-bg); border-color: var(--locked); color: var(--locked); }
+
+  .options-list { display: flex; flex-wrap: wrap; gap: 8px; }
+  .option-chip {
+    padding: 7px 16px; font-size: 13px; border: 1.5px solid var(--rule);
+    border-radius: 100px; cursor: pointer; background: white; color: var(--ink);
+    transition: all 0.15s; font-family: 'DM Sans', sans-serif; user-select: none;
+  }
+  .option-chip:hover { border-color: var(--ink); }
+  .option-chip.selected { background: var(--accent); border-color: var(--accent); color: white; font-weight: 600; box-shadow: 0 2px 10px rgba(212,69,26,0.3); }
+  .option-chip.locked-selected { background: var(--locked); border-color: var(--locked); color: white; font-weight: 600; }
+  .platform-chips .option-chip { padding: 9px 28px; font-size: 14px; font-weight: 500; }
+
+  .add-option-form { display: flex; align-items: center; gap: 4px; }
+  .add-input {
+    padding: 6px 12px; font-size: 12px; border: 1.5px dashed var(--rule);
+    background: transparent; font-family: 'DM Sans', sans-serif; color: var(--ink);
+    width: 120px; outline: none; border-radius: 100px;
+  }
+  .add-input:focus { border-color: var(--accent); }
+  .add-confirm { background: none; border: none; cursor: pointer; font-size: 16px; color: var(--accent); padding: 2px; line-height:1; }
+
+  .sidebar { padding: 28px; display: flex; flex-direction: column; gap: 20px; }
+  .combo-card { background: white; border: 2px solid var(--ink); padding: 22px; min-height: 150px; }
+  .combo-card.empty { display: flex; align-items: center; justify-content: center; border-style: dashed; }
+  .combo-empty-msg { text-align: center; color: var(--muted); font-family: 'DM Sans', sans-serif; font-size: 11px; line-height: 1.8; }
+  .combo-title { font-family: 'DM Serif Display', serif; font-size: 17px; line-height: 1.4; margin-bottom: 14px; }
+  .combo-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 14px; }
+  .combo-tag { font-size: 10px; font-family: 'DM Sans', sans-serif; padding: 3px 8px; background: var(--accent-light); color: var(--accent); border-radius: 3px; letter-spacing: 0.04em; }
+  .combo-tag.is-locked { background: var(--locked-bg); color: var(--locked); }
+  .ai-concept { font-size: 13px; line-height: 1.7; color: var(--ink); padding-top: 14px; border-top: 1px solid var(--cream); }
+  .ai-concept.loading { color: var(--muted); font-family: 'DM Sans', sans-serif; font-size: 11px; animation: pulse 1.5s ease-in-out infinite; }
+  @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.4} }
+  .generate-bar { display: flex; gap: 8px; }
+  .generate-bar .btn-primary { flex: 1; justify-content: center; }
+  .history-list { display: flex; flex-direction: column; gap: 6px; max-height: 180px; overflow-y: auto; }
+  .history-item { padding: 8px 12px; border: 1px solid var(--rule); background: white; cursor: pointer; transition: all 0.1s; font-size: 12px; line-height: 1.5; }
+  .history-item:hover { border-color: var(--ink); background: var(--accent-light); }
+  .history-dims { font-family: 'DM Sans', sans-serif; font-size: 10px; color: var(--muted); margin-top: 2px; }
+
+  /* HOW TO USE */
+  .howto-content { max-width: 820px; margin: 0 auto; padding: 48px 40px; }
+  .howto-intro { font-family: 'DM Serif Display', serif; font-size: clamp(26px, 3vw, 40px); line-height: 1.2; margin-bottom: 8px; }
+  .howto-intro em { font-style: italic; color: var(--accent); }
+  .howto-subtitle { font-family: 'DM Sans', sans-serif; font-size: 12px; color: var(--muted); margin-bottom: 40px; }
+
+  .step-block { display: grid; grid-template-columns: 56px 1fr; gap: 20px; margin-bottom: 36px; align-items: start; }
+  .step-num { font-family: 'DM Serif Display', serif; font-size: 52px; line-height: 1; color: var(--cream); font-style: italic; -webkit-text-stroke: 2px var(--rule); text-align: center; }
+  .step-body h3 { font-family: 'DM Serif Display', serif; font-size: 20px; font-style: italic; margin-bottom: 6px; }
+  .step-body p { font-size: 14px; line-height: 1.7; color: #3a3028; margin-bottom: 10px; }
+
+  .silly-section { margin-top: 48px; border-top: 3px solid var(--ink); padding-top: 40px; }
+  .silly-header { display: flex; align-items: center; gap: 16px; margin-bottom: 24px; }
+  .silly-header h2 { font-family: 'DM Serif Display', serif; font-size: 28px; font-style: italic; }
+  .silly-badge { background: var(--silly); color: white; font-family: 'DM Sans', sans-serif; font-size: 10px; letter-spacing: 0.1em; padding: 4px 10px; border-radius: 100px; text-transform: uppercase; }
+  .silly-intro { font-size: 14px; line-height: 1.7; color: var(--muted); margin-bottom: 28px; max-width: 600px; }
+  .silly-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 16px; }
+  .silly-card { background: white; border: 2px solid var(--ink); padding: 18px 20px; position: relative; transition: transform 0.15s; }
+  .silly-card:hover { transform: translateY(-3px); }
+  .silly-card-emoji { font-size: 28px; margin-bottom: 10px; display: block; }
+  .silly-card-title { font-family: 'DM Serif Display', serif; font-size: 15px; font-style: italic; line-height: 1.3; margin-bottom: 8px; }
+  .silly-card-tags { display: flex; flex-wrap: wrap; gap: 4px; margin-bottom: 10px; }
+  .silly-tag { font-family: 'DM Sans', sans-serif; font-size: 9px; letter-spacing: 0.05em; padding: 2px 7px; border-radius: 3px; background: var(--silly-bg); color: var(--silly); }
+  .silly-card-desc { font-size: 12px; line-height: 1.6; color: var(--muted); }
+  .silly-corner { position: absolute; top: 12px; right: 14px; font-family: 'DM Sans', sans-serif; font-size: 9px; color: var(--rule); letter-spacing: 0.05em; }
+
+  .tip-box { background: var(--cream); border-left: 4px solid var(--accent); padding: 16px 20px; font-size: 13px; line-height: 1.7; margin-top: 16px; }
+  .tip-box strong { color: var(--accent); }
+
+  ::-webkit-scrollbar { width: 4px; }
+  ::-webkit-scrollbar-thumb { background: var(--rule); }
+
+  @media (max-width: 800px) {
+    .generator-layout { grid-template-columns: 1fr; }
+    .matrix-panel { border-right: none; border-bottom: 2px solid var(--ink); }
+    header { flex-direction: column; align-items: flex-start; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-left">
+    <h1>Morphological <em>Idea</em> Generator</h1>
+    <p>Mix dimensions → generate a concept → hit ✦ Brief for an AI summary</p>
+  </div>
+  <div class="header-right">
+    <button class="btn" id="reset-btn">↺ Reset</button>
+  </div>
+</header>
+
+<div class="tabs">
+  <button class="tab active" data-tab="generator">⚡ Generator</button>
+  <button class="tab" data-tab="howto">📖 How to Use</button>
+</div>
+
+<!-- GENERATOR TAB -->
+<div class="tab-content active" id="tab-generator">
+  <div class="generator-layout">
+    <div class="matrix-panel">
+      <div class="section-label">Morphological Matrix</div>
+      <div id="matrix-body"></div>
+    </div>
+    <div class="sidebar">
+      <div>
+        <div class="section-label">Your Concept</div>
+        <div class="combo-card empty" id="combo-card">
+          <div class="combo-empty-msg">Hit <b>⚡ Generate</b> for a random combo<br>or pick options from the matrix</div>
+        </div>
+      </div>
+      <div class="generate-bar">
+        <button class="btn btn-primary" id="generate-btn">⚡ Generate</button>
+        <button class="btn" id="ai-btn" style="white-space:nowrap">✦ Brief</button>
+      </div>
+      <div style="font-size:12px;color:var(--muted);line-height:1.6;padding:12px 14px;border:1px dashed var(--rule);background:var(--cream);">
+        🔒 Lock any row to <b>keep that choice</b> while randomising everything else.
+      </div>
+      <div id="history-section" style="display:none">
+        <div class="section-label">Recent Ideas</div>
+        <div class="history-list" id="history-list"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- HOW TO USE TAB -->
+<div class="tab-content" id="tab-howto">
+  <div class="howto-content">
+    <p class="howto-intro">How to use the<br><em>Idea Generator</em></p>
+    <p class="howto-subtitle">// a quick guide — takes 2 minutes to read</p>
+
+    <div class="step-block">
+      <div class="step-num">1</div>
+      <div class="step-body">
+        <h3>Pick options across four dimensions</h3>
+        <p>The matrix has four rows: <b>Target User</b>, <b>Core Problem</b>, <b>Platform</b>, and <b>Key Mechanic</b>. Click one chip in each row. You don't have to fill all four to get started — even two or three is enough to see where an idea might go.</p>
+      </div>
+    </div>
+
+    <div class="step-block">
+      <div class="step-num">2</div>
+      <div class="step-body">
+        <h3>Or just hit ⚡ Generate</h3>
+        <p>Don't overthink it. Hit Generate and the tool picks a random combination for you. Keep hitting it — new combinations appear instantly. You're looking for the one that makes you think <i>"…wait, that could actually work."</i></p>
+      </div>
+    </div>
+
+    <div class="step-block">
+      <div class="step-num">3</div>
+      <div class="step-body">
+        <h3>Lock what you like, randomise the rest</h3>
+        <p>See a row you want to keep? Click the 🔓 lock icon to freeze it. Now hit Generate again — everything else changes, your locked row stays. This is how you explore variations without starting from scratch every time.</p>
+      </div>
+    </div>
+
+    <div class="step-block">
+      <div class="step-num">4</div>
+      <div class="step-body">
+        <h3>Get an AI concept brief</h3>
+        <p>Found a combination you like? Hit <b>✦ Brief</b>. An AI writes a short product concept summary — just enough to help you decide if the idea is worth developing further.</p>
+        <div class="tip-box">
+          <strong>Remember:</strong> the brief is a spark, not a spec. Your job is to take the seed and ask the real questions: who is this actually for? What do they struggle with? Would they use this every day? That thinking is the UX work.
+        </div>
+      </div>
+    </div>
+
+    <div class="step-block">
+      <div class="step-num">5</div>
+      <div class="step-body">
+        <h3>Add your own options</h3>
+        <p>The defaults are starting points. Each row (except Platform) has a <b>+ add own…</b> field. Type in something more specific — a niche user group, a problem you've personally observed — and press Enter to add it to that row.</p>
+      </div>
+    </div>
+
+    <!-- SILLY EXAMPLES -->
+    <div class="silly-section">
+      <div class="silly-header">
+        <h2>The Silly Examples</h2>
+        <span class="silly-badge">Just for fun</span>
+      </div>
+
+      <p class="silly-intro">
+        The whole point of morphological analysis is that <i>any valid combination of options can produce a real concept</i>. To prove it — here's what happens when you run the matrix on complete nonsense.
+      </p>
+
+      <div class="silly-grid">
+        <div class="silly-card">
+          <span class="silly-card-emoji">🌋</span>
+          <div class="silly-corner">concept #1</div>
+          <div class="silly-card-title">"LavaDash" — escape route navigator for drivers inside a volcano</div>
+          <div class="silly-card-tags">
+            <span class="silly-tag">user: thrill-seekers</span>
+            <span class="silly-tag">problem: not dying</span>
+            <span class="silly-tag">mobile app</span>
+            <span class="silly-tag">mechanic: real-time routing</span>
+          </div>
+          <div class="silly-card-desc">Turn-by-turn navigation out of an active volcano. Reroutes around lava flows in real time. In-app purchases include asbestos tyre upgrades and a panic button that calls your mum.</div>
+        </div>
+
+        <div class="silly-card">
+          <span class="silly-card-emoji">🌊</span>
+          <div class="silly-corner">concept #2</div>
+          <div class="silly-card-title">"DeepPark" — crowdsourced parking finder, 200 metres underwater</div>
+          <div class="silly-card-tags">
+            <span class="silly-tag">user: submarine drivers</span>
+            <span class="silly-tag">problem: parking</span>
+            <span class="silly-tag">web app</span>
+            <span class="silly-tag">mechanic: crowdsourcing</span>
+          </div>
+          <div class="silly-card-desc">Community-reported parking availability on the ocean floor. Premium tier shows which spots have charging points and decent signal depth. Reviews include notes about the vibe of the coral reef nearby.</div>
+        </div>
+
+        <div class="silly-card">
+          <span class="silly-card-emoji">🪂</span>
+          <div class="silly-corner">concept #3</div>
+          <div class="silly-card-title">"DropZone Eats" — food delivery for people mid-freefall</div>
+          <div class="silly-card-tags">
+            <span class="silly-tag">user: skydivers</span>
+            <span class="silly-tag">problem: hunger at 10,000ft</span>
+            <span class="silly-tag">mobile app</span>
+            <span class="silly-tag">mechanic: AI trajectory calc</span>
+          </div>
+          <div class="silly-card-desc">Order a sandwich at altitude, receive it mid-freefall. AI calculates wind speed, your descent rate, and optimal burrito packaging pressure. 5-star reviews only, because one-star users didn't survive to write one.</div>
+        </div>
+
+        <div class="silly-card">
+          <span class="silly-card-emoji">🚀</span>
+          <div class="silly-corner">concept #4</div>
+          <div class="silly-card-title">"SpaceRoads" — Google Maps for the solar system</div>
+          <div class="silly-card-tags">
+            <span class="silly-tag">user: interplanetary commuters</span>
+            <span class="silly-tag">problem: navigation</span>
+            <span class="silly-tag">web app</span>
+            <span class="silly-tag">mechanic: live orbit data</span>
+          </div>
+          <div class="silly-card-desc">Turn-by-turn directions between planets. Live traffic warnings near the asteroid belt. "In 40,000km, turn left at Jupiter." Estimated arrival time updates whenever a comet causes unexpected delays.</div>
+        </div>
+
+        <div class="silly-card">
+          <span class="silly-card-emoji">⚔️</span>
+          <div class="silly-corner">concept #5</div>
+          <div class="silly-card-title">"BattleCalm" — mindfulness app for medieval knights</div>
+          <div class="silly-card-tags">
+            <span class="silly-tag">user: knights</span>
+            <span class="silly-tag">problem: pre-battle anxiety</span>
+            <span class="silly-tag">mobile app</span>
+            <span class="silly-tag">mechanic: guided breathing</span>
+          </div>
+          <div class="silly-card-desc">Guided breathing exercises for the 30 seconds before a sword fight. Chainmail-compatible haptic feedback. Offline mode for when you're in a dungeon. Night mode activates automatically when the visor goes down.</div>
+        </div>
+
+        <div class="silly-card">
+          <span class="silly-card-emoji">🦕</span>
+          <div class="silly-corner">concept #6</div>
+          <div class="silly-card-title">"DinoLinkedIn" — professional networking for dinosaurs</div>
+          <div class="silly-card-tags">
+            <span class="silly-tag">user: dinosaurs</span>
+            <span class="silly-tag">problem: career growth</span>
+            <span class="silly-tag">web app</span>
+            <span class="silly-tag">mechanic: community</span>
+          </div>
+          <div class="silly-card-desc">Connect with other T-Rexes in your industry. Endorse skills like "tiny arms but great attitude." Premium tier removes meteors from your feed. Open to connections from other eras — discrimination is frowned upon.</div>
+        </div>
+      </div>
+
+      <div class="tip-box" style="margin-top:28px">
+        <strong>The point:</strong> if a morphological matrix can generate a product concept for <i>cars in volcanoes</i>, it can absolutely generate one for your actual project. The tool doesn't care if it makes sense — <b>that's your job</b>. Hit generate, look at what comes out, and ask: <i>is there a version of this that would genuinely help someone?</i> That question is where real product design begins.
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+const DIMENSIONS = [
+  {
+    id: 'user', icon: '👤', label: 'Target User',
+    options: ['Students', 'Parents', 'Seniors', 'Freelancers', 'Athletes', 'Travellers', 'Healthcare workers', 'Small business owners', 'Creatives', 'Commuters']
+  },
+  {
+    id: 'problem', icon: '💡', label: 'Core Problem',
+    options: ['Time management', 'Communication', 'Learning & skills', 'Health tracking', 'Financial planning', 'Task organisation', 'Social connection', 'Mental wellbeing', 'Navigation', 'Content discovery']
+  },
+  {
+    id: 'platform', icon: '📱', label: 'Platform',
+    options: ['Mobile App', 'Web App'],
+    noAdd: true
+  },
+  {
+    id: 'mechanic', icon: '⚙️', label: 'Key Mechanic',
+    options: ['AI assistance', 'Gamification', 'Social / sharing', 'Real-time data', 'Personalisation', 'Offline-first', 'Automation', 'Community forum', 'Subscription model', 'Marketplace']
+  }
+];
+
+let selections = {};
+let locked = {};
+let history = [];
+
+function init() {
+  DIMENSIONS.forEach(d => { selections[d.id] = null; locked[d.id] = false; });
+  renderMatrix();
+}
+
+function renderMatrix() {
+  const body = document.getElementById('matrix-body');
+  body.innerHTML = '';
+  DIMENSIONS.forEach(dim => {
+    const block = document.createElement('div');
+    block.className = 'dim-block';
+    const header = document.createElement('div');
+    header.className = 'dim-header';
+    header.innerHTML = `
+      <span class="dim-icon">${dim.icon}</span>
+      <span class="dim-label">${dim.label}</span>
+      <button class="lock-btn ${locked[dim.id] ? 'locked' : ''}" data-dim="${dim.id}">${locked[dim.id] ? '🔒' : '🔓'}</button>
+    `;
+    const list = document.createElement('div');
+    list.className = 'options-list' + (dim.id === 'platform' ? ' platform-chips' : '');
+    dim.options.forEach(opt => {
+      const chip = document.createElement('button');
+      chip.className = 'option-chip';
+      chip.textContent = opt;
+      chip.dataset.dim = dim.id;
+      chip.dataset.opt = opt;
+      if (selections[dim.id] === opt) chip.classList.add(locked[dim.id] ? 'locked-selected' : 'selected');
+      chip.addEventListener('click', () => selectOption(dim.id, opt));
+      list.appendChild(chip);
+    });
+    if (!dim.noAdd) {
+      const addForm = document.createElement('div');
+      addForm.className = 'add-option-form';
+      addForm.innerHTML = `<input class="add-input" placeholder="+ add own…" data-dim="${dim.id}" maxlength="30"/><button class="add-confirm" data-dim="${dim.id}">+</button>`;
+      list.appendChild(addForm);
+    }
+    block.appendChild(header);
+    block.appendChild(list);
+    body.appendChild(block);
+  });
+  document.querySelectorAll('.lock-btn').forEach(btn => {
+    btn.addEventListener('click', e => { e.stopPropagation(); toggleLock(btn.dataset.dim); });
+  });
+  document.querySelectorAll('.add-confirm').forEach(btn => {
+    btn.addEventListener('click', () => addCustomOption(btn.dataset.dim));
+  });
+  document.querySelectorAll('.add-input').forEach(input => {
+    input.addEventListener('keydown', e => { if (e.key === 'Enter') addCustomOption(input.dataset.dim); });
+  });
+}
+
+function selectOption(dimId, opt) {
+  selections[dimId] = selections[dimId] === opt ? null : opt;
+  refreshChips(dimId);
+  updateComboCard();
+}
+
+function toggleLock(dimId) {
+  if (!selections[dimId]) return;
+  locked[dimId] = !locked[dimId];
+  refreshChips(dimId);
+  const btn = document.querySelector(`.lock-btn[data-dim="${dimId}"]`);
+  if (btn) { btn.classList.toggle('locked', locked[dimId]); btn.textContent = locked[dimId] ? '🔒' : '🔓'; }
+}
+
+function refreshChips(dimId) {
+  document.querySelectorAll(`.option-chip[data-dim="${dimId}"]`).forEach(chip => {
+    chip.classList.remove('selected', 'locked-selected');
+    if (chip.dataset.opt === selections[dimId]) chip.classList.add(locked[dimId] ? 'locked-selected' : 'selected');
+  });
+}
+
+function addCustomOption(dimId) {
+  const input = document.querySelector(`.add-input[data-dim="${dimId}"]`);
+  const val = input.value.trim();
+  if (!val) return;
+  const dim = DIMENSIONS.find(d => d.id === dimId);
+  if (!dim.options.includes(val)) dim.options.push(val);
+  input.value = '';
+  selections[dimId] = val;
+  locked[dimId] = false;
+  renderMatrix();
+  updateComboCard();
+}
+
+function generateRandom() {
+  DIMENSIONS.forEach(dim => {
+    if (!locked[dim.id]) selections[dim.id] = dim.options[Math.floor(Math.random() * dim.options.length)];
+  });
+  renderMatrix();
+  updateComboCard();
+  addToHistory();
+}
+
+function buildTitle() {
+  const u = selections['user'], p = selections['problem'];
+  const pl = selections['platform'], m = selections['mechanic'];
+  let t = '';
+  if (u && p) t = `A ${pl ? pl.toLowerCase() : 'product'} for <b>${u}</b> to solve <b>${p.toLowerCase()}</b>`;
+  else if (u) t = `A product designed for <b>${u}</b>`;
+  else if (p) t = `A solution for <b>${p.toLowerCase()}</b>`;
+  else t = `A new digital product concept`;
+  if (m) t += ` — powered by <b>${m.toLowerCase()}</b>`;
+  return t;
+}
+
+function updateComboCard() {
+  const card = document.getElementById('combo-card');
+  const any = Object.values(selections).some(v => v);
+  if (!any) {
+    card.innerHTML = `<div class="combo-empty-msg">Hit <b>⚡ Generate</b> for a random combo<br>or pick options from the matrix</div>`;
+    card.classList.add('empty'); return;
+  }
+  card.classList.remove('empty');
+  const tags = DIMENSIONS.filter(d => selections[d.id])
+    .map(d => `<span class="combo-tag ${locked[d.id] ? 'is-locked' : ''}">${locked[d.id] ? '🔒 ' : ''}${selections[d.id]}</span>`).join('');
+  card.innerHTML = `
+    <div class="combo-title">${buildTitle()}</div>
+    <div class="combo-tags">${tags}</div>
+    <div id="ai-output" class="ai-concept" style="display:none"></div>
+  `;
+}
+
+function addToHistory() {
+  const parts = DIMENSIONS.map(d => selections[d.id]).filter(Boolean);
+  if (!parts.length) return;
+  history.unshift({ parts, snapshot: {...selections} });
+  if (history.length > 6) history.pop();
+  const section = document.getElementById('history-section');
+  const list = document.getElementById('history-list');
+  section.style.display = 'block';
+  list.innerHTML = '';
+  history.forEach(entry => {
+    const item = document.createElement('div');
+    item.className = 'history-item';
+    item.innerHTML = `<div>${entry.parts.slice(0,2).join(' · ')}</div><div class="history-dims">${entry.parts.slice(2).join(' · ')}</div>`;
+    item.addEventListener('click', () => {
+      Object.assign(selections, entry.snapshot);
+      DIMENSIONS.forEach(d => locked[d.id] = false);
+      renderMatrix(); updateComboCard();
+    });
+    list.appendChild(item);
+  });
+}
+
+async function generateAIBrief() {
+  const any = Object.values(selections).some(v => v);
+  if (!any) return;
+  const output = document.getElementById('ai-output');
+  if (!output) return;
+  output.style.display = 'block';
+  output.className = 'ai-concept loading';
+  output.textContent = '✦ generating concept brief…';
+  const combo = DIMENSIONS.filter(d => selections[d.id]).map(d => `${d.label}: ${selections[d.id]}`).join('\n');
+  const prompt = `You are a UX product design educator. A student has used a morphological analysis matrix and selected:\n\n${combo}\n\nWrite a 2-3 sentence product concept brief. Be specific, practical, and encouraging. Give it a punchy working title in quotes at the start. Tone: enthusiastic design educator.`;
+  try {
+    const response = await fetch("https://api.anthropic.com/v1/messages", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ model: "claude-sonnet-4-20250514", max_tokens: 1000, messages: [{ role: "user", content: prompt }] })
+    });
+    const data = await response.json();
+    const text = data.content?.map(b => b.text || '').join('') || 'Could not generate brief.';
+    output.className = 'ai-concept';
+    output.innerHTML = text.replace(/\n/g, '<br>');
+  } catch {
+    output.className = 'ai-concept';
+    output.textContent = 'Could not connect to AI. Try again.';
+  }
+}
+
+document.querySelectorAll('.tab').forEach(tab => {
+  tab.addEventListener('click', () => {
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+    tab.classList.add('active');
+    document.getElementById('tab-' + tab.dataset.tab).classList.add('active');
+  });
+});
+
+document.getElementById('generate-btn').addEventListener('click', generateRandom);
+document.getElementById('ai-btn').addEventListener('click', generateAIBrief);
+document.getElementById('reset-btn').addEventListener('click', () => {
+  DIMENSIONS.forEach(d => { selections[d.id] = null; locked[d.id] = false; });
+  renderMatrix(); updateComboCard();
+});
+
+init();
+</script>
+</body>
+</html>

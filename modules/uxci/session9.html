@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Session 9: Problem-Solution Evaluation</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=DM+Serif+Display&display=swap" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         .slide { display: none; }
@@ -17,7 +19,109 @@
             --text-secondary: #d1d5db; --border-color: #374151; --accent-color: #a78bfa;
         }
         html { font-size: calc(var(--font-size) * 16px); }
+        body, button, input, select, textarea { font-family: 'DM Sans', sans-serif !important; }
+        h1, h2, h3 { font-family: 'DM Serif Display', serif !important; font-weight: 400 !important; }
         body { background-color: var(--bg-primary); color: var(--text-primary); }
+        /* ── Annotation toggle ── */
+        .anno-hidden .anno-el,
+        .anno-hidden .annotation { display: none !important; }
+        .anno-hidden .hl-problem, .anno-hidden .hl-metric,
+        .anno-hidden .hl-quote, .anno-hidden .hl-impact {
+          background: none !important; border-bottom: none !important;
+          color: inherit !important; font-weight: inherit !important; padding: 0 !important;
+        }
+        .anno-hidden .problem-block, .anno-hidden .evidence-block, .anno-hidden .impact-block {
+          border-left: none !important; padding-left: 0 !important;
+        }
+        .toggle-track input:checked ~ .toggle-thumb { left: 21px !important; }
+        .toggle-track:has(input:checked) { background: #8b5cf6 !important; }
+
+
+        /* ── Highlight system ── */
+        .hl-problem {
+          background: #fecaca;
+          color: #7f1d1d;
+          font-weight: 600;
+          padding: 1px 4px;
+          border-radius: 3px;
+          border-bottom: 2px solid #ef4444;
+        }
+        .hl-metric {
+          background: #fef08a;
+          color: #713f12;
+          font-weight: 700;
+          padding: 1px 5px;
+          border-radius: 3px;
+          border-bottom: 2px solid #eab308;
+          font-size: 1.05em;
+        }
+        .hl-quote {
+          background: #e0e7ff;
+          color: #312e81;
+          font-style: italic;
+          padding: 1px 5px;
+          border-radius: 3px;
+          border-bottom: 2px solid #6366f1;
+        }
+        .hl-impact {
+          background: #fce7f3;
+          color: #831843;
+          font-weight: 600;
+          padding: 1px 4px;
+          border-radius: 3px;
+          border-bottom: 2px solid #ec4899;
+        }
+        .annotation {
+          display: inline-flex;
+          align-items: center;
+          background: #b45309;
+          color: white;
+          font-size: 0.6rem;
+          font-weight: 700;
+          padding: 2px 7px;
+          border-radius: 99px;
+          margin-left: 4px;
+          vertical-align: middle;
+          letter-spacing: 0.05em;
+          text-transform: uppercase;
+          white-space: nowrap;
+          font-family: 'DM Sans', sans-serif !important;
+        }
+        .annotation-blue  { background: #2563eb; }
+        .annotation-red   { background: #dc2626; }
+        .annotation-pink  { background: #db2777; }
+
+        /* paragraph-level problem block */
+        .problem-block {
+          border-left: 4px solid #ef4444;
+          padding-left: 12px;
+          margin-bottom: 0.85rem;
+        }
+        .impact-block {
+          border-left: 4px solid #ec4899;
+          padding-left: 12px;
+          margin-bottom: 0.85rem;
+        }
+        .evidence-block {
+          border-left: 4px solid #eab308;
+          padding-left: 12px;
+          margin-bottom: 0.85rem;
+        }
+
+        /* legend strip */
+        .hl-legend {
+          display: flex;
+          flex-wrap: wrap;
+          gap: 10px;
+          margin-bottom: 12px;
+          padding: 8px 12px;
+          background: rgba(0,0,0,0.04);
+          border-radius: 6px;
+          font-size: 0.7rem;
+          font-weight: 600;
+        }
+        .hl-legend-item { display: flex; align-items: center; gap: 5px; }
+        .hl-legend-swatch { width: 14px; height: 14px; border-radius: 3px; flex-shrink: 0; }
     </style>
 </head>
 <body class="min-h-screen flex flex-col">
@@ -100,13 +204,42 @@
             </div>
 
             <div class="slide flex-col justify-center h-[70vh]">
-                <h2 class="text-3xl font-bold mb-4">Example: Problem Analysis</h2>
-                <div class="p-5 rounded text-base" style="background-color: #fef3c7; border: 2px solid #f59e0b;">
-                    <p class="font-bold mb-3">Library Study Room Booking (234 words)</p>
-                    <p class="mb-3">Students at MMU struggled to find and book available study rooms efficiently. The current booking system required users to navigate through multiple menus—clicking from the library homepage to services, then facilities, then booking—taking an average of 7 clicks and 3 minutes to reach the availability calendar. User reviews on app stores showed consistent complaints: "By the time I found a room, it was already taken" and "Too slow, just gave up."</p>
-                    <p class="mb-3">Analytics data revealed a 73% abandonment rate on the booking flow, with most users leaving after the second screen. Observational research showed students checking multiple times throughout the day, wasting 10-15 minutes between lectures trying to secure study space. During exam periods, this problem intensified, with booking times extending to 5+ minutes due to high demand and limited availability information.</p>
-                    <p>This inefficiency directly impacted students' academic performance and stress levels. Lost study time meant less preparation for assessments, while the frustration of the booking process discouraged library use entirely. Students reported choosing less optimal study environments (cafés, home) simply to avoid the booking system, undermining the library's role as a primary learning space.</p>
+                <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;">
+                  <h2 class="text-3xl font-bold" style="margin:0;">Example: Problem Analysis</h2>
+                  <label style="display:flex;align-items:center;gap:8px;cursor:pointer;font-size:0.8rem;font-weight:600;color:var(--text-secondary);">
+                    <span>Annotations</span>
+                    <div class="toggle-track" style="position:relative;width:42px;height:24px;background:#d1d5db;border-radius:99px;transition:background .2s;">
+                      <input type="checkbox" style="opacity:0;position:absolute;width:0;height:0;" onchange="toggleAnnotations(this,'problem-example')">
+                      <div class="toggle-thumb" style="position:absolute;top:3px;left:3px;width:18px;height:18px;background:white;border-radius:50%;transition:left .2s;box-shadow:0 1px 3px rgba(0,0,0,.3);"></div>
+                    </div>
+                  </label>
                 </div>
+                <div id="problem-example" class="anno-hidden">
+                <!-- Legend -->
+                <div class="hl-legend anno-el">
+                  <div class="hl-legend-item"><div class="hl-legend-swatch" style="background:#fecaca;border-bottom:2px solid #ef4444;"></div> Problem statement</div>
+                  <div class="hl-legend-item"><div class="hl-legend-swatch" style="background:#fef08a;border-bottom:2px solid #eab308;"></div> Data / metric</div>
+                  <div class="hl-legend-item"><div class="hl-legend-swatch" style="background:#e0e7ff;border-bottom:2px solid #6366f1;"></div> User quote</div>
+                  <div class="hl-legend-item"><div class="hl-legend-swatch" style="background:#fce7f3;border-bottom:2px solid #ec4899;"></div> Impact on user</div>
+                  <div class="hl-legend-item"><span class="annotation" style="position:static;font-size:0.6rem;">label</span> Annotation tag</div>
+                </div>
+
+                <div class="p-5 rounded text-base" style="background-color: #fef3c7; border: 2px solid #f59e0b; line-height: 1.85;">
+                    <p class="font-bold mb-3">Library Study Room Booking <span style="font-weight:400; color:#92400e;">(234 words)</span></p>
+
+                    <div class="problem-block">
+                      <p><span class="hl-problem">Students at MMU struggled to find and book available study rooms efficiently.</span> The current booking system required users to navigate through multiple menus—clicking from the library homepage to services, then facilities, then booking—taking an average of <span class="hl-metric">7 clicks</span> <span class="annotation">navigation depth</span> and <span class="hl-metric">3 minutes</span> <span class="annotation">time-on-task</span> to reach the availability calendar. User reviews on app stores showed consistent complaints: <span class="hl-quote">"By the time I found a room, it was already taken"</span> and <span class="hl-quote">"Too slow, just gave up."</span> <span class="annotation annotation-blue">user quotes</span></p>
+                    </div>
+
+                    <div class="evidence-block">
+                      <p>Analytics data revealed a <span class="hl-metric">73% abandonment rate</span> <span class="annotation annotation-red">key metric</span> on the booking flow, with most users leaving after the second screen. Observational research showed students checking multiple times throughout the day, wasting <span class="hl-metric">10–15 minutes</span> <span class="annotation">observed behaviour</span> between lectures trying to secure study space. During exam periods, this problem intensified, with booking times extending to <span class="hl-metric">5+ minutes</span> <span class="annotation">peak scenario</span> due to high demand and limited availability information.</p>
+                    </div>
+
+                    <div class="impact-block">
+                      <p><span class="hl-impact">This inefficiency directly impacted students' academic performance and stress levels.</span> Lost study time meant less preparation for assessments, while <span class="hl-impact">the frustration of the booking process discouraged library use entirely.</span> Students reported <span class="hl-quote">"choosing cafés or home just to avoid the system"</span> <span class="annotation annotation-blue">user behaviour</span> — undermining the library's role as a primary learning space and creating <span class="hl-metric">measurable drop-off in facility utilisation</span> <span class="annotation annotation-pink">downstream impact</span>.</p>
+                    </div>
+                </div>
+                </div><!-- /problem-example -->
             </div>
 
             <div class="slide flex-col justify-center h-[70vh]">
@@ -173,12 +306,79 @@
             </div>
 
             <div class="slide flex-col justify-center h-[70vh]">
-                <h2 class="text-3xl font-bold mb-4">Example: Solution Evaluation</h2>
-                <div class="p-5 rounded text-base" style="background-color: #dbeafe; border: 2px solid #3b82f6;">
-                    <p class="font-bold mb-3">Library Study Room Booking Solution (221 words)</p>
-                    <p class="mb-3">My design addresses the core availability problem by displaying all free study rooms directly on the home screen, using color-coding (green=available now, yellow=available soon, grey=booked). This eliminates the 7-click navigation process entirely. Users can see room status, capacity, and equipment at a glance, applying filters without leaving the main view.</p>
-                    <p class="mb-3">The booking flow is reduced to two steps: select room and confirm time. Real-time updates prevent the "already taken" frustration by showing live availability as other students book. Error prevention is built in through availability constraints—users cannot select unavailable slots, and the system confirms bookings immediately.</p>
-                    <p>Expected improvements include reducing booking time from 3 minutes to approximately 30 seconds, cutting abandonment rates from 73% to under 30%, and eliminating navigation confusion entirely. Success would be measured through: completion rates, time-on-task metrics, user satisfaction surveys, and reduced support requests about the booking system. The design applies visibility of system status (Heuristic #1) and error prevention (Heuristic #5), directly addressing the usability issues identified in research.</p>
+                <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;">
+                  <h2 class="text-3xl font-bold" style="margin:0;">Example: Solution Evaluation</h2>
+                  <label style="display:flex;align-items:center;gap:8px;cursor:pointer;font-size:0.8rem;font-weight:600;color:var(--text-secondary);">
+                    <span>Annotations</span>
+                    <div class="toggle-track" style="position:relative;width:42px;height:24px;background:#d1d5db;border-radius:99px;transition:background .2s;">
+                      <input type="checkbox" style="opacity:0;position:absolute;width:0;height:0;" onchange="toggleAnnotations(this,'solution-example')">
+                      <div class="toggle-thumb" style="position:absolute;top:3px;left:3px;width:18px;height:18px;background:white;border-radius:50%;transition:left .2s;box-shadow:0 1px 3px rgba(0,0,0,.3);"></div>
+                    </div>
+                  </label>
+                </div>
+                <div id="solution-example" class="anno-hidden">
+                <!-- Legend -->
+                <div class="hl-legend anno-el">
+                  <div class="hl-legend-item"><div class="hl-legend-swatch" style="background:#fecaca;border-bottom:2px solid #ef4444;"></div> Problem addressed</div>
+                  <div class="hl-legend-item"><div class="hl-legend-swatch" style="background:#fef08a;border-bottom:2px solid #eab308;"></div> Metric / improvement</div>
+                  <div class="hl-legend-item"><div class="hl-legend-swatch" style="background:#e0e7ff;border-bottom:2px solid #6366f1;"></div> User quote resolved</div>
+                  <div class="hl-legend-item"><span class="annotation annotation-red" style="position:static;font-size:0.6rem;">problem solved</span></div>
+                  <div class="hl-legend-item"><span class="annotation annotation-blue" style="position:static;font-size:0.6rem;">success metric</span></div>
+                </div>
+
+                <div class="p-5 rounded text-base" style="background-color: #dbeafe; border: 2px solid #3b82f6; line-height: 1.85;">
+                    <p class="font-bold mb-3">Library Study Room Booking Solution <span style="font-weight:400; color:#1d4ed8;">(221 words)</span></p>
+
+                    <div class="problem-block" style="border-left-color:#3b82f6;">
+                      <p>My design addresses the <span class="hl-problem">core availability problem</span> <span class="annotation annotation-red">problem solved</span> by displaying all free study rooms directly on the home screen, using color-coding <span class="anno-el" style="background:#dcfce7;color:#166534;padding:1px 5px;border-radius:3px;font-weight:600;border-bottom:2px solid #16a34a;">(green=available now, yellow=available soon, grey=booked)</span>. This <span class="hl-metric">eliminates the 7-click navigation process entirely</span>. Users can see room status, capacity, and equipment at a glance, applying filters without leaving the main view.</p>
+                    </div>
+
+                    <div class="evidence-block" style="border-left-color:#3b82f6;">
+                      <p>The booking flow is reduced to <span class="hl-metric">two steps</span> <span class="annotation">simplified flow</span>: select room and confirm time. Real-time updates prevent the <span class="hl-quote">"already taken"</span> frustration <span class="annotation annotation-blue">quote resolved</span> by showing live availability as other students book. Error prevention is built in through availability constraints — users cannot select unavailable slots, and the system confirms bookings immediately.</p>
+                    </div>
+
+                    <div class="impact-block" style="border-left-color:#3b82f6;">
+                      <p>Expected improvements: booking time from <span class="hl-metric">3 minutes → ~30 seconds</span> <span class="annotation annotation-red">6× faster</span>, abandonment rates from <span class="hl-metric">73% → under 30%</span> <span class="annotation annotation-red">key metric</span>, navigation confusion eliminated entirely. Success measured through: <span class="anno-el" style="background:#e0e7ff;color:#3730a3;padding:1px 5px;border-radius:3px;font-weight:600;border-bottom:2px solid #6366f1;">completion rates, time-on-task, satisfaction surveys, support requests</span> <span class="annotation annotation-blue">success metrics</span>. Design applies <span class="hl-metric">Heuristic #1</span> (visibility of system status) and <span class="hl-metric">Heuristic #5</span> (error prevention) <span class="annotation annotation-blue">heuristics applied</span>, directly addressing usability issues found in research.</p>
+                    </div>
+                </div>
+                </div><!-- /solution-example -->
+            </div>
+
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-4xl font-bold mb-6">The Same Pattern Everywhere</h2>
+                <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;">
+                  <p class="text-base" style="color:var(--text-secondary);max-width:36em;">Problem → Solution → Impact. This pattern works in <strong style="color:var(--text-primary);">assignments, portfolios, job applications</strong> — anywhere you need to show you understand a problem and can fix it.</p>
+                  <label style="display:flex;align-items:center;gap:8px;cursor:pointer;font-size:0.8rem;font-weight:600;color:var(--text-secondary);flex-shrink:0;margin-left:20px;">
+                    <span>Annotations</span>
+                    <div class="toggle-track" style="position:relative;width:42px;height:24px;background:#d1d5db;border-radius:99px;transition:background .2s;">
+                      <input type="checkbox" style="opacity:0;position:absolute;width:0;height:0;" onchange="toggleAnnotations(this,'coverletter-example')">
+                      <div class="toggle-thumb" style="position:absolute;top:3px;left:3px;width:18px;height:18px;background:white;border-radius:50%;transition:left .2s;box-shadow:0 1px 3px rgba(0,0,0,.3);"></div>
+                    </div>
+                  </label>
+                </div>
+
+                <div id="coverletter-example" class="anno-hidden">
+                  <div class="hl-legend anno-el" style="margin-bottom:10px;">
+                    <div class="hl-legend-item"><div class="hl-legend-swatch" style="background:#fecaca;border-bottom:2px solid #ef4444;"></div> Problem identified</div>
+                    <div class="hl-legend-item"><div class="hl-legend-swatch" style="background:#fef08a;border-bottom:2px solid #eab308;"></div> Evidence / metric</div>
+                    <div class="hl-legend-item"><div class="hl-legend-swatch" style="background:#dcfce7;border-bottom:2px solid #16a34a;"></div> Your solution</div>
+                    <div class="hl-legend-item"><div class="hl-legend-swatch" style="background:#fce7f3;border-bottom:2px solid #ec4899;"></div> Impact / outcome</div>
+                  </div>
+
+                  <div class="p-5 rounded text-base" style="background-color:#f8fafc;border:2px solid #cbd5e1;line-height:1.85;margin-bottom:14px;">
+                    <p class="font-semibold mb-3" style="color:var(--text-secondary);font-size:0.75rem;letter-spacing:0.08em;text-transform:uppercase;">Cover letter extract — UX Designer (graduate)</p>
+                    <p>
+                      During my final-year project, I identified that <span class="hl-problem">students at my university were spending an average of 7 clicks and 3 minutes just to book a study room</span> <span class="annotation anno-el">problem</span> — a friction point confirmed by a <span class="hl-metric">73% task-abandonment rate</span> <span class="annotation annotation-red anno-el">key metric</span> I uncovered through analytics review and user interviews. I redesigned the booking flow to surface room availability on the home screen with real-time colour-coding, <span class="anno-el" style="background:#dcfce7;color:#166534;padding:1px 5px;border-radius:3px;font-weight:600;border-bottom:2px solid #16a34a;">reducing the process to two taps</span> <span class="annotation annotation-blue anno-el">solution</span> and eliminating the navigational dead-ends that caused users to give up. <span class="hl-impact">Projected outcome testing showed a 6× reduction in booking time and an expected drop in abandonment to under 30%</span> <span class="annotation annotation-pink anno-el">impact</span> — demonstrating that clearly visible system status and error prevention aren't just heuristic principles, but measurable design decisions.
+                    </p>
+                  </div>
+
+                  <!-- Infobox -->
+                  <div style="display:flex;align-items:flex-start;gap:12px;padding:12px 16px;background:var(--bg-secondary);border:1px solid var(--border-color);border-radius:8px;border-left:4px solid #8b5cf6;">
+                    <span style="font-size:1.2rem;flex-shrink:0;margin-top:1px;">💡</span>
+                    <p style="font-size:0.82rem;line-height:1.65;color:var(--text-secondary);margin:0;">
+                      <strong style="color:var(--text-primary);">Problem → Solution → Impact</strong> is the core narrative structure for documenting UX work — in your <strong>assignment write-up</strong>, your <strong>portfolio case study</strong>, and your <strong>job application cover letter</strong>. Recruiters and markers both look for the same thing: did you understand the problem, what did you do about it, and how do you know it worked?
+                    </p>
+                  </div>
                 </div>
             </div>
 
@@ -299,7 +499,7 @@
     <footer class="border-t p-4">
         <div class="max-w-7xl mx-auto flex justify-between items-center">
             <button id="prevBtn" class="px-6 py-2 rounded border font-medium">← Previous</button>
-            <span id="slideCounter" class="text-lg">1 / 16</span>
+            <span id="slideCounter" class="text-lg">1 / 17</span>
             <button id="nextBtn" class="px-6 py-2 rounded border font-medium">Next →</button>
         </div>
     </footer>
@@ -324,6 +524,20 @@
         document.getElementById('decreaseFont').addEventListener('click', () => { if(fontSize > 0.7) { fontSize -= 0.1; document.documentElement.style.setProperty('--font-size', fontSize); }});
         document.addEventListener('keydown', (e) => { if(e.key === 'ArrowRight') document.getElementById('nextBtn').click(); if(e.key === 'ArrowLeft') document.getElementById('prevBtn').click(); });
         showSlide(0);
+
+        function toggleAnnotations(checkbox, id) {
+          const slide = document.getElementById(id);
+          const thumb = checkbox.parentElement.querySelector('.toggle-thumb');
+          if (!checkbox.checked) {
+            slide.classList.add('anno-hidden');
+            thumb.style.left = '3px';
+            checkbox.parentElement.style.background = '#d1d5db';
+          } else {
+            slide.classList.remove('anno-hidden');
+            thumb.style.left = '21px';
+            checkbox.parentElement.style.background = '#8b5cf6';
+          }
+        }
     </script>
 </body>
 </html>

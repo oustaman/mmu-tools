@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Session 7: Flow Diagram Workshop</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=DM+Serif+Display&display=swap" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         .slide { display: none; }
@@ -17,6 +19,8 @@
             --text-secondary: #d1d5db; --border-color: #374151; --accent-color: #a78bfa;
         }
         html { font-size: calc(var(--font-size) * 16px); }
+        body, button, input, select, textarea { font-family: 'DM Sans', sans-serif !important; }
+        h1, h2, h3 { font-family: 'DM Serif Display', serif !important; font-weight: 400 !important; }
         body { background-color: var(--bg-primary); color: var(--text-primary); }
     </style>
 </head>
@@ -93,7 +97,7 @@
                     </div>
                     <div class="p-4 rounded" style="background-color: var(--bg-secondary); border: 2px solid var(--border-color);">
                         <div class="text-center mb-3">
-                            <div class="inline-block border-2 px-6 py-2" style="border-color: var(--accent-color); transform: rotate(45deg); margin: 20px;">Decision</div>
+                            <div style="display:inline-flex; align-items:center; justify-content:center; width:90px; height:90px; border:2px solid var(--accent-color); transform:rotate(45deg); margin:16px;"><span style="transform:rotate(-45deg); font-size:0.75rem; text-align:center; line-height:1.2;">Decision</span></div>
                         </div>
                         <p class="text-sm font-bold">Diamond = Decision Point</p>
                         <p class="text-xs" style="color: var(--text-secondary);">User makes a choice (yes/no, which option?)</p>
@@ -117,40 +121,76 @@
 
             <div class="slide flex-col justify-center h-[70vh]">
                 <h2 class="text-3xl font-bold mb-4">Example Flow: Booking a Study Room</h2>
-                <div class="p-5 rounded text-sm" style="background-color: var(--bg-secondary); border: 2px solid var(--border-color);">
-                    <div class="space-y-3">
-                        <div class="flex items-center gap-2">
-                            <div class="border-2 rounded-full px-3 py-1 text-xs" style="border-color: var(--accent-color);">START</div>
-                            <span>→</span>
-                            <div class="border-2 px-4 py-2" style="border-color: var(--accent-color);">Home Screen</div>
-                        </div>
-                        <div class="ml-20 flex items-center gap-2">
-                            <span>→</span>
-                            <div class="border-2 px-4 py-2" style="border-color: var(--accent-color); transform: rotate(45deg) scale(0.8);">Logged in?</div>
-                        </div>
-                        <div class="ml-32 space-y-2">
-                            <div class="flex items-center gap-2">
-                                <span class="text-xs">Yes →</span>
-                                <div class="border-2 px-4 py-2" style="border-color: var(--accent-color);">Available Rooms</div>
-                            </div>
-                            <div class="flex items-center gap-2">
-                                <span class="text-xs">No →</span>
-                                <div class="border-2 px-4 py-2" style="border-color: #dc2626;">Login Screen</div>
-                            </div>
-                        </div>
-                        <div class="ml-20 flex items-center gap-2">
-                            <span>→</span>
-                            <div class="border-2 px-4 py-2" style="border-color: var(--accent-color);">Room Details</div>
-                            <span>→</span>
-                            <div class="border-2 px-4 py-2" style="border-color: var(--accent-color);">Booking Form</div>
-                        </div>
-                        <div class="ml-20 flex items-center gap-2">
-                            <span>→</span>
-                            <div class="border-2 px-4 py-2" style="border-color: #16a34a;">Confirmation</div>
-                            <span>→</span>
-                            <div class="border-2 rounded-full px-3 py-1 text-xs" style="border-color: var(--accent-color);">END</div>
-                        </div>
-                    </div>
+                <div class="rounded" style="background-color: var(--bg-secondary); border: 2px solid var(--border-color); overflow:hidden;">
+                <svg viewBox="0 0 760 340" width="100%" style="display:block; font-family:'DM Sans',sans-serif;" xmlns="http://www.w3.org/2000/svg">
+                  <defs>
+                    <marker id="arr" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+                      <path d="M0,0 L0,6 L8,3 z" fill="#8b5cf6"/>
+                    </marker>
+                    <marker id="arr-red" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+                      <path d="M0,0 L0,6 L8,3 z" fill="#dc2626"/>
+                    </marker>
+                    <marker id="arr-green" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+                      <path d="M0,0 L0,6 L8,3 z" fill="#16a34a"/>
+                    </marker>
+                  </defs>
+
+                  <!-- START oval -->
+                  <ellipse cx="80" cy="40" rx="46" ry="20" fill="none" stroke="#8b5cf6" stroke-width="2"/>
+                  <text x="80" y="45" text-anchor="middle" font-size="12" fill="currentColor">START</text>
+
+                  <!-- START → Home Screen -->
+                  <line x1="126" y1="40" x2="188" y2="40" stroke="#8b5cf6" stroke-width="1.5" marker-end="url(#arr)"/>
+
+                  <!-- Home Screen box -->
+                  <rect x="192" y="22" width="130" height="36" fill="none" stroke="#8b5cf6" stroke-width="2"/>
+                  <text x="257" y="45" text-anchor="middle" font-size="13" fill="currentColor">Home Screen</text>
+
+                  <!-- Home Screen → down to diamond -->
+                  <line x1="257" y1="58" x2="257" y2="105" stroke="#8b5cf6" stroke-width="1.5" marker-end="url(#arr)"/>
+
+                  <!-- Diamond: Logged in? centred at (257, 145) -->
+                  <polygon points="257,110 310,145 257,180 204,145" fill="none" stroke="#8b5cf6" stroke-width="2"/>
+                  <text x="257" y="149" text-anchor="middle" font-size="11" fill="currentColor">Logged in?</text>
+
+                  <!-- YES branch: right from diamond → Available Rooms -->
+                  <line x1="310" y1="145" x2="368" y2="145" stroke="#8b5cf6" stroke-width="1.5" marker-end="url(#arr)"/>
+                  <text x="336" y="138" text-anchor="middle" font-size="10" fill="#8b5cf6">Yes</text>
+                  <rect x="372" y="127" width="140" height="36" fill="none" stroke="#8b5cf6" stroke-width="2"/>
+                  <text x="442" y="150" text-anchor="middle" font-size="13" fill="currentColor">Available Rooms</text>
+
+                  <!-- NO branch: left from diamond → Login Screen -->
+                  <line x1="204" y1="145" x2="100" y2="145" stroke="#dc2626" stroke-width="1.5" marker-end="url(#arr-red)"/>
+                  <text x="155" y="138" text-anchor="middle" font-size="10" fill="#dc2626">No</text>
+                  <rect x="16" y="127" width="120" height="36" fill="none" stroke="#dc2626" stroke-width="2"/>
+                  <text x="76" y="150" text-anchor="middle" font-size="13" fill="currentColor">Login Screen</text>
+
+                  <!-- Available Rooms → down → Room Details -->
+                  <line x1="442" y1="163" x2="442" y2="210" stroke="#8b5cf6" stroke-width="1.5" marker-end="url(#arr)"/>
+
+                  <!-- Room Details box -->
+                  <rect x="362" y="214" width="130" height="36" fill="none" stroke="#8b5cf6" stroke-width="2"/>
+                  <text x="427" y="237" text-anchor="middle" font-size="13" fill="currentColor">Room Details</text>
+
+                  <!-- Room Details → Booking Form -->
+                  <line x1="492" y1="232" x2="550" y2="232" stroke="#8b5cf6" stroke-width="1.5" marker-end="url(#arr)"/>
+                  <rect x="554" y="214" width="130" height="36" fill="none" stroke="#8b5cf6" stroke-width="2"/>
+                  <text x="619" y="237" text-anchor="middle" font-size="13" fill="currentColor">Booking Form</text>
+
+                  <!-- Booking Form → down → Confirmation -->
+                  <line x1="619" y1="250" x2="619" y2="280" stroke="#16a34a" stroke-width="1.5"/>
+                  <line x1="619" y1="280" x2="442" y2="280" stroke="#16a34a" stroke-width="1.5"/>
+                  <line x1="442" y1="280" x2="442" y2="296" stroke="#16a34a" stroke-width="1.5" marker-end="url(#arr-green)"/>
+
+                  <!-- Confirmation box -->
+                  <rect x="362" y="300" width="130" height="36" fill="none" stroke="#16a34a" stroke-width="2"/>
+                  <text x="427" y="323" text-anchor="middle" font-size="13" fill="currentColor">Confirmation</text>
+
+                  <!-- Confirmation → END -->
+                  <line x1="492" y1="318" x2="554" y2="318" stroke="#16a34a" stroke-width="1.5" marker-end="url(#arr-green)"/>
+                  <ellipse cx="592" cy="318" rx="34" ry="17" fill="none" stroke="#16a34a" stroke-width="2"/>
+                  <text x="592" y="323" text-anchor="middle" font-size="12" fill="currentColor">END</text>
+                </svg>
                 </div>
             </div>
 

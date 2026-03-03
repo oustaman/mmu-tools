@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Session 6: Midterm Progress Review</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=DM+Serif+Display&display=swap" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         .slide { display: none; }
@@ -17,6 +19,8 @@
             --text-secondary: #d1d5db; --border-color: #374151; --accent-color: #a78bfa;
         }
         html { font-size: calc(var(--font-size) * 16px); }
+        body, button, input, select, textarea { font-family: 'DM Sans', sans-serif !important; }
+        h1, h2, h3 { font-family: 'DM Serif Display', serif !important; font-weight: 400 !important; }
         body { background-color: var(--bg-primary); color: var(--text-primary); }
     </style>
 </head>
@@ -233,7 +237,7 @@
                     <p class="text-xl">If you need more time than today's 15-minute check-in:</p>
                 </div>
                 <ul class="space-y-5 text-xl">
-                    <li class="flex items-start"><span class="mr-3">📧</span><span><strong>Email me:</strong> m.oustamanolakis@mmu.ac.uk</span></li>
+                    <li class="flex items-start"><span class="mr-3">📧</span><span><strong>Email me:</strong> <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="0f6221607a7c7b6e626e6160636e64667c4f62627a216e6c217a64">[email&#160;protected]</a></span></li>
                     <li class="flex items-start"><span class="mr-3">⏰</span><span><strong>Office hours:</strong> Check Moodle for times</span></li>
                     <li class="flex items-start"><span class="mr-3">💬</span><span><strong>In-class:</strong> Ask questions during any session</span></li>
                 </ul>
@@ -283,7 +287,7 @@
         </div>
     </footer>
 
-    <script>
+    <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
         let currentSlide = 0; const slides = document.querySelectorAll('.slide');
         function showSlide(n) {
             slides[currentSlide].classList.remove('active'); currentSlide = (n + slides.length) % slides.length;
@@ -301,8 +305,4 @@
         let fontSize = 1;
         document.getElementById('increaseFont').addEventListener('click', () => { if(fontSize < 1.5) { fontSize += 0.1; document.documentElement.style.setProperty('--font-size', fontSize); }});
         document.getElementById('decreaseFont').addEventListener('click', () => { if(fontSize > 0.7) { fontSize -= 0.1; document.documentElement.style.setProperty('--font-size', fontSize); }});
-        document.addEventListener('keydown', (e) => { if(e.key === 'ArrowRight') document.getElementById('nextBtn').click(); if(e.key === 'ArrowLeft') document.getElementById('prevBtn').click(); });
-        showSlide(0);
-    </script>
-</body>
-</html>
+        docum
