@@ -7,7 +7,8 @@
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
 <script src="https://cdn.tailwindcss.com"></script>
 <style>
-.slide{display:none;}.slide.active{display:flex;}
+.slide{display:none;box-sizing:border-box;}.slide.active{display:flex;}
+#slide-wrap{width:100%;} /* JS sets height on this wrapper */
 :root{
   --bg:#fff;--bg2:#f8fafc;--bgcard:#f1f5f9;
   --tx:#0f172a;--tx2:#64748b;--border:#e2e8f0;
@@ -95,6 +96,18 @@ body{background:var(--bg);color:var(--tx);font-family:'DM Sans',sans-serif;trans
 .mkt-btn{padding:3px 12px;font-size:.6rem;font-weight:700;cursor:pointer;background:var(--bg2);color:var(--tx2);border:none;border-right:1px solid var(--border);letter-spacing:.05em;transition:background .15s,color .15s;}
 .mkt-btn:last-child{border-right:none;}
 .mkt-btn.on{background:var(--red);color:#fff;}
+/* Animated market panel row */
+.mkt-row{display:flex;align-items:flex-start;}
+.mkt-panel{
+  min-width:0;overflow:hidden;
+  flex:1 1 0;opacity:1;margin-right:1rem;
+  transition:flex-grow .42s cubic-bezier(.4,0,.2,1),
+             flex-basis .42s cubic-bezier(.4,0,.2,1),
+             opacity .28s ease,
+             margin .42s ease;
+}
+.mkt-panel:last-child{margin-right:0;}
+.mkt-panel.mp-hidden{flex:0 0 0px;opacity:0;margin-right:0;pointer-events:none;}
 /* Card sort paper cards */
 .sort-col{flex:1;}
 .paper-card{
@@ -138,10 +151,10 @@ body{background:var(--bg);color:var(--tx);font-family:'DM Sans',sans-serif;trans
 </header>
 
 <main class="flex-1 flex items-center justify-center px-6 py-4" style="background:var(--bg);">
-<div class="w-full max-w-5xl">
+<div class="w-full max-w-5xl" id="slide-wrap">
 
 <!-- ═════════════ S1 Title ═════════════ -->
-<div class="slide active flex-col justify-center min-h-[70vh]" data-sec="Section 1 — Theory">
+<div class="slide active flex-col justify-center" data-sec="Section 1 — Theory">
   <div class="rule"></div>
   <p class="slabel mb-4">Guest Lecture · Information Management &amp; Library Studies</p>
   <h1 class="serif font-normal leading-tight mb-4" style="font-size:clamp(2.2rem,5vw,3.6rem);">Navigation<br><em>as Argument</em></h1>
@@ -154,7 +167,7 @@ body{background:var(--bg);color:var(--tx);font-family:'DM Sans',sans-serif;trans
 </div>
 
 <!-- ═════════════ S2 Why IA ═════════════ -->
-<div class="slide flex-col justify-center min-h-[70vh]" data-sec="Section 1 — Theory">
+<div class="slide flex-col justify-center" data-sec="Section 1 — Theory">
   <div class="rule"></div>
   <p class="slabel mb-2">Why This Matters</p>
   <h2 class="serif text-4xl font-normal mb-5">The Architecture of Information<br><em>Is Never Neutral</em></h2>
@@ -168,7 +181,7 @@ body{background:var(--bg);color:var(--tx);font-family:'DM Sans',sans-serif;trans
 </div>
 
 <!-- ═════════════ S3 Information Scent ═════════════ -->
-<div class="slide flex-col justify-center min-h-[70vh]" data-sec="Section 1 — Theory">
+<div class="slide flex-col justify-center" data-sec="Section 1 — Theory">
   <div class="rule"></div>
   <div class="flex items-center gap-3 mb-1"><p class="slabel">Theoretical Framework</p><span class="theory-pill">◆ Theory</span></div>
   <h2 class="serif text-4xl font-normal mb-1">Information Scent</h2>
@@ -191,7 +204,7 @@ body{background:var(--bg);color:var(--tx);font-family:'DM Sans',sans-serif;trans
 </div>
 
 <!-- ═════════════ S4 Mental Models ═════════════ -->
-<div class="slide flex-col justify-center min-h-[70vh]" data-sec="Section 1 — Theory">
+<div class="slide flex-col justify-center" data-sec="Section 1 — Theory">
   <div class="rule"></div>
   <div class="flex items-center gap-3 mb-1"><p class="slabel">Theoretical Framework</p><span class="theory-pill">◆ Theory</span></div>
   <h2 class="serif text-4xl font-normal mb-1">Mental Models &amp;<br><em>Navigation as Design Artefact</em></h2>
@@ -209,7 +222,7 @@ body{background:var(--bg);color:var(--tx);font-family:'DM Sans',sans-serif;trans
 </div>
 
 <!-- ═════════════ S5 Discussion #1 ═════════════ -->
-<div class="slide disc-slide flex-col items-center justify-center min-h-[70vh]" data-sec="Section 1 — Theory">
+<div class="slide disc-slide flex-col items-center justify-center" data-sec="Section 1 — Theory">
   <div style="width:44px;height:3px;background:#DB0011;border-radius:2px;margin-bottom:1.5rem;"></div>
   <p style="font-size:.68rem;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:#DB0011;margin-bottom:1.5rem;">Discussion — 5 Minutes</p>
   <h2 class="serif font-normal text-center mb-5" style="font-size:clamp(1.4rem,2.8vw,2rem);color:#f1f5f9;max-width:640px;line-height:1.5;">Think of an information system you use regularly — a library catalogue, university portal, or government website.</h2>
@@ -220,7 +233,7 @@ body{background:var(--bg);color:var(--tx);font-family:'DM Sans',sans-serif;trans
 </div>
 
 <!-- ═════════════ S6 The Numbers ═════════════ -->
-<div class="slide flex-col justify-center min-h-[70vh]" data-sec="Section 2 — The Comparison">
+<div class="slide flex-col justify-center" data-sec="Section 2 — The Comparison">
   <div class="rule"></div>
   <p class="slabel mb-2">One Bank, Two Markets</p>
   <h2 class="serif text-4xl font-normal mb-4">The Numbers</h2>
@@ -254,7 +267,7 @@ body{background:var(--bg);color:var(--tx);font-family:'DM Sans',sans-serif;trans
 </div>
 
 <!-- ═════════════ S7 100% Stacked ═════════════ -->
-<div class="slide flex-col justify-center min-h-[70vh]" data-sec="Section 2 — The Comparison">
+<div class="slide flex-col justify-center" data-sec="Section 2 — The Comparison">
   <div class="rule"></div>
   <p class="slabel mb-2">One Bank, Two Markets</p>
   <h2 class="serif text-4xl font-normal mb-1">Proportional Navigation Space</h2>
@@ -299,7 +312,7 @@ body{background:var(--bg);color:var(--tx);font-family:'DM Sans',sans-serif;trans
 </div>
 
 <!-- ═════════════ S8 Investing: UK vs HK (moved first) ═════════════ -->
-<div class="slide flex-col justify-center min-h-[70vh]" data-sec="Section 2 — The Comparison">
+<div class="slide flex-col justify-center" data-sec="Section 2 — The Comparison">
   <div class="rule"></div>
   <div class="flex items-center justify-between mb-2">
     <div>
@@ -315,8 +328,8 @@ body{background:var(--bg);color:var(--tx);font-family:'DM Sans',sans-serif;trans
       </div>
     </div>
   </div>
-  <div class="grid grid-cols-2 gap-4" id="ms8">
-    <div id="ms8-uk">
+  <div class="mkt-row" id="ms8">
+    <div id="ms8-uk" class="mkt-panel">
       <div class="flex items-center gap-3 mb-1.5"><span class="text-xs font-bold uppercase tracking-wider" style="color:var(--blue);">HSBC UK Investing</span><span class="text-xs px-2 py-0.5 rounded" style="background:var(--blue-bg);color:var(--blue);">~17 links · 4 sub-sections</span></div>
       <div class="menu-shell">
         <div class="menu-topbar"><div class="mtab on">Investing</div></div>
@@ -341,7 +354,7 @@ body{background:var(--bg);color:var(--tx);font-family:'DM Sans',sans-serif;trans
         </div>
       </div>
     </div>
-    <div id="ms8-hk">
+    <div id="ms8-hk" class="mkt-panel">
       <div class="flex items-center gap-3 mb-1.5"><span class="text-xs font-bold uppercase tracking-wider" style="color:var(--green);">HSBC HK Investing</span><span class="text-xs px-2 py-0.5 rounded" style="background:var(--green-bg);color:var(--green);">~32 links · 8 sub-sections</span></div>
       <div class="menu-shell">
         <div class="menu-topbar"><div class="mtab on">Investing</div></div>
@@ -375,7 +388,7 @@ body{background:var(--bg);color:var(--tx);font-family:'DM Sans',sans-serif;trans
 </div>
 
 <!-- ═════════════ S9 Wellbeing vs Insights ═════════════ -->
-<div class="slide flex-col justify-center min-h-[70vh]" data-sec="Section 2 — The Comparison">
+<div class="slide flex-col justify-center" data-sec="Section 2 — The Comparison">
   <div class="rule"></div>
   <div class="flex items-center justify-between mb-2">
     <div>
@@ -391,8 +404,8 @@ body{background:var(--bg);color:var(--tx);font-family:'DM Sans',sans-serif;trans
       </div>
     </div>
   </div>
-  <div class="grid grid-cols-2 gap-4" id="ms9">
-    <div id="ms9-uk">
+  <div class="mkt-row" id="ms9">
+    <div id="ms9-uk" class="mkt-panel">
       <div class="flex items-center gap-2 mb-1.5"><span class="text-xs font-bold uppercase tracking-wider" style="color:#d97706;">HSBC UK — Wellbeing</span><span class="text-xs px-2 py-0.5 rounded" style="background:rgba(217,119,6,.1);color:#d97706;">Financial health &amp; support</span></div>
       <div class="menu-shell">
         <div class="menu-topbar"><div class="mtab on">Wellbeing</div><div class="mtab">Banking</div><div class="mtab">Borrowing</div></div>
@@ -414,7 +427,7 @@ body{background:var(--bg);color:var(--tx);font-family:'DM Sans',sans-serif;trans
         </div>
       </div>
     </div>
-    <div id="ms9-hk">
+    <div id="ms9-hk" class="mkt-panel">
       <div class="flex items-center gap-2 mb-1.5"><span class="text-xs font-bold uppercase tracking-wider" style="color:var(--green);">HSBC HK — Insights</span><span class="text-xs px-2 py-0.5 rounded" style="background:var(--green-bg);color:var(--green);">Analysis &amp; Market Data</span></div>
       <div class="menu-shell">
         <div class="menu-topbar"><div class="mtab on">Insights</div><div class="mtab">Banking</div><div class="mtab">Investing</div></div>
@@ -440,7 +453,7 @@ body{background:var(--bg);color:var(--tx);font-family:'DM Sans',sans-serif;trans
 </div>
 
 <!-- ═════════════ S10 HK Borrowing ═════════════ -->
-<div class="slide flex-col justify-center min-h-[70vh]" data-sec="Section 2 — The Comparison">
+<div class="slide flex-col justify-center" data-sec="Section 2 — The Comparison">
   <div class="rule"></div>
   <div class="flex items-center justify-between mb-2">
     <div>
@@ -491,7 +504,7 @@ body{background:var(--bg);color:var(--tx);font-family:'DM Sans',sans-serif;trans
 </div>
 
 <!-- ═════════════ S11 Reading the Numbers — suppress ═════════════ -->
-<div class="slide flex-col justify-center min-h-[70vh]" data-sec="Section 2 — The Comparison">
+<div class="slide flex-col justify-center" data-sec="Section 2 — The Comparison">
   <div class="rule"></div>
   <div class="flex items-center justify-between mb-4">
     <div><p class="slabel mb-1">One Bank, Two Markets</p><h2 class="serif text-4xl font-normal">Reading the Numbers</h2></div>
@@ -524,7 +537,7 @@ body{background:var(--bg);color:var(--tx);font-family:'DM Sans',sans-serif;trans
 </div>
 
 <!-- ═════════════ S12 Thinking in Journeys ═════════════ -->
-<div class="slide flex-col justify-center min-h-[70vh]" data-sec="Section 3 — User Journeys">
+<div class="slide flex-col justify-center" data-sec="Section 3 — User Journeys">
   <div class="rule"></div>
   <p class="slabel mb-2">Section 3 — User Journeys</p>
   <h2 class="serif text-4xl font-normal mb-5">Thinking in Journeys</h2>
@@ -548,7 +561,7 @@ body{background:var(--bg);color:var(--tx);font-family:'DM Sans',sans-serif;trans
 </div>
 
 <!-- ═════════════ S13 Journey 1 — Sarah intro ═════════════ -->
-<div class="slide flex-col justify-center min-h-[70vh]" data-sec="Section 3 — User Journeys">
+<div class="slide flex-col justify-center" data-sec="Section 3 — User Journeys">
   <div class="rule"></div>
   <p class="slabel mb-2">Journey 1 — User / Persona</p>
   <h2 class="serif text-4xl font-normal mb-4">Sarah — HSBC UK<br><em>Financial Difficulty</em></h2>
@@ -571,7 +584,7 @@ body{background:var(--bg);color:var(--tx);font-family:'DM Sans',sans-serif;trans
 </div>
 
 <!-- ═════════════ S14 Sarah Journey Map ═════════════ -->
-<div class="slide flex-col justify-center min-h-[70vh]" data-sec="Section 3 — User Journeys">
+<div class="slide flex-col justify-center" data-sec="Section 3 — User Journeys">
   <div class="rule"></div>
   <p class="slabel mb-2">Journey 1 — Map</p>
   <h2 class="serif text-3xl font-normal mb-4">Sarah's Journey — HSBC UK</h2>
@@ -596,7 +609,7 @@ body{background:var(--bg);color:var(--tx);font-family:'DM Sans',sans-serif;trans
 </div>
 
 <!-- ═════════════ S15 Journey 2 — James intro ═════════════ -->
-<div class="slide flex-col justify-center min-h-[70vh]" data-sec="Section 3 — User Journeys">
+<div class="slide flex-col justify-center" data-sec="Section 3 — User Journeys">
   <div class="rule"></div>
   <p class="slabel mb-2">Journey 2 — User / Persona</p>
   <h2 class="serif text-4xl font-normal mb-4">James — HSBC Hong Kong<br><em>Retail Investor</em></h2>
@@ -619,7 +632,7 @@ body{background:var(--bg);color:var(--tx);font-family:'DM Sans',sans-serif;trans
 </div>
 
 <!-- ═════════════ S16 James Journey Map ═════════════ -->
-<div class="slide flex-col justify-center min-h-[70vh]" data-sec="Section 3 — User Journeys">
+<div class="slide flex-col justify-center" data-sec="Section 3 — User Journeys">
   <div class="rule"></div>
   <p class="slabel mb-2">Journey 2 — Map</p>
   <h2 class="serif text-3xl font-normal mb-4">James's Journey — HSBC HK — Two Valid Paths</h2>
@@ -635,7 +648,7 @@ body{background:var(--bg);color:var(--tx);font-family:'DM Sans',sans-serif;trans
 </div>
 
 <!-- ═════════════ S17 Discussion #2 ═════════════ -->
-<div class="slide disc-slide flex-col items-center justify-center min-h-[70vh]" data-sec="Section 3 — User Journeys">
+<div class="slide disc-slide flex-col items-center justify-center" data-sec="Section 3 — User Journeys">
   <div style="width:44px;height:3px;background:#DB0011;border-radius:2px;margin-bottom:1.5rem;"></div>
   <p style="font-size:.68rem;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:#DB0011;margin-bottom:1.5rem;">Discussion — 7 Minutes</p>
   <h2 class="serif font-normal text-center mb-5" style="font-size:clamp(1.4rem,2.8vw,2rem);color:#f1f5f9;max-width:640px;line-height:1.5;">Sarah and James are both educated adults using their bank's website for a legitimate purpose.</h2>
@@ -646,7 +659,7 @@ body{background:var(--bg);color:var(--tx);font-family:'DM Sans',sans-serif;trans
 </div>
 
 <!-- ═════════════ S18 Min-Ji intro ═════════════ -->
-<div class="slide flex-col justify-center min-h-[70vh]" data-sec="Section 3 — User Journeys">
+<div class="slide flex-col justify-center" data-sec="Section 3 — User Journeys">
   <div class="rule"></div>
   <p class="slabel mb-2">Journey 3 — User / Persona</p>
   <h2 class="serif text-4xl font-normal mb-4">Min-Ji — Same User, Different Market:<br><em>Cognitive Dissonance in Navigation</em></h2>
@@ -678,7 +691,7 @@ body{background:var(--bg);color:var(--tx);font-family:'DM Sans',sans-serif;trans
 </div>
 
 <!-- ═════════════ S19 Min-Ji Map ═════════════ -->
-<div class="slide flex-col justify-center min-h-[70vh]" data-sec="Section 3 — User Journeys">
+<div class="slide flex-col justify-center" data-sec="Section 3 — User Journeys">
   <div class="rule"></div>
   <p class="slabel mb-2">Journey 3 — Parallel Map</p>
   <h2 class="serif text-3xl font-normal mb-2">Min-Ji: Same User, Two Menus</h2>
@@ -711,7 +724,7 @@ body{background:var(--bg);color:var(--tx);font-family:'DM Sans',sans-serif;trans
 </div>
 
 <!-- ═════════════ S20 What Does Each IA Assume — WITH suppress ═════════════ -->
-<div class="slide flex-col justify-center min-h-[70vh]" data-sec="Section 3 — User Journeys">
+<div class="slide flex-col justify-center" data-sec="Section 3 — User Journeys">
   <div class="rule"></div>
   <div class="flex items-center justify-between mb-4">
     <div><p class="slabel mb-1">Reading the Architecture</p><h2 class="serif text-4xl font-normal">What Does Each IA <em>Assume</em>?</h2></div>
@@ -746,7 +759,7 @@ body{background:var(--bg);color:var(--tx);font-family:'DM Sans',sans-serif;trans
 </div>
 
 <!-- ═════════════ S21 Card Sorting Method ═════════════ -->
-<div class="slide flex-col justify-center min-h-[70vh]" data-sec="Section 3 — User Journeys">
+<div class="slide flex-col justify-center" data-sec="Section 3 — User Journeys">
   <div class="rule"></div>
   <div class="flex items-center gap-3 mb-1"><p class="slabel">Practical Method</p><span class="theory-pill">◆ Method</span></div>
   <h2 class="serif text-4xl font-normal mb-4">Card Sorting: Grounding IA<br><em>in User Evidence</em></h2>
@@ -759,7 +772,7 @@ body{background:var(--bg);color:var(--tx);font-family:'DM Sans',sans-serif;trans
 </div>
 
 <!-- ═════════════ S22 Card Sorting Deep Dive ═════════════ -->
-<div class="slide flex-col justify-center min-h-[70vh]" data-sec="Section 3 — User Journeys">
+<div class="slide flex-col justify-center" data-sec="Section 3 — User Journeys">
   <div class="rule"></div>
   <p class="slabel mb-1">Card Sorting — Comparative Outcomes</p>
   <h2 class="serif text-3xl font-normal mb-1">Same Cards, Different Mental Models</h2>
@@ -832,7 +845,7 @@ body{background:var(--bg);color:var(--tx);font-family:'DM Sans',sans-serif;trans
 </div>
 
 <!-- ═════════════ S23 Discussion #3 ═════════════ -->
-<div class="slide disc-slide flex-col items-center justify-center min-h-[70vh]" data-sec="Section 3 — User Journeys">
+<div class="slide disc-slide flex-col items-center justify-center" data-sec="Section 3 — User Journeys">
   <div style="width:44px;height:3px;background:#DB0011;border-radius:2px;margin-bottom:1.5rem;"></div>
   <p style="font-size:.68rem;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:#DB0011;margin-bottom:1.5rem;">Discussion — 10 Minutes</p>
   <h2 class="serif font-normal text-center mb-5" style="font-size:clamp(1.4rem,2.8vw,2rem);color:#f1f5f9;max-width:640px;line-height:1.5;">Think about a library catalogue, institutional repository, or research database in your field.</h2>
@@ -843,7 +856,7 @@ body{background:var(--bg);color:var(--tx);font-family:'DM Sans',sans-serif;trans
 </div>
 
 <!-- ═════════════ S24 Apps — Part 1: Overview ═════════════ -->
-<div class="slide flex-col justify-center min-h-[70vh]" data-sec="Section 2 — The Comparison">
+<div class="slide flex-col justify-center" data-sec="Section 2 — The Comparison">
   <div class="rule"></div>
   <p class="slabel mb-1">One Bank, Two Markets — The App Layer</p>
   <h2 class="serif text-3xl font-normal mb-1">When the App <em>Is</em> the IA</h2>
@@ -900,7 +913,7 @@ body{background:var(--bg);color:var(--tx);font-family:'DM Sans',sans-serif;trans
 </div>
 
 <!-- ═════════════ S24b Apps — Part 2: Where in the menus ═════════════ -->
-<div class="slide flex-col justify-center min-h-[70vh]" data-sec="Section 2 — The Comparison">
+<div class="slide flex-col justify-center" data-sec="Section 2 — The Comparison">
   <div class="rule"></div>
   <p class="slabel mb-1">One Bank, Two Markets — Finding the Apps</p>
   <h2 class="serif text-3xl font-normal mb-1">Where Apps Live in the Navigation</h2>
@@ -1000,7 +1013,7 @@ body{background:var(--bg);color:var(--tx);font-family:'DM Sans',sans-serif;trans
 </div>
 
 <!-- ═════════════ S25 The IA is the Argument ═════════════ -->
-<div class="slide flex-col justify-center min-h-[70vh]" data-sec="Section 4 — Synthesis">
+<div class="slide flex-col justify-center" data-sec="Section 4 — Synthesis">
   <div class="rule"></div>
   <p class="slabel mb-2">Section 4 — Synthesis</p>
   <h2 class="serif text-4xl font-normal mb-4">The IA <em>Is</em> the Argument</h2>
@@ -1019,7 +1032,7 @@ body{background:var(--bg);color:var(--tx);font-family:'DM Sans',sans-serif;trans
 </div>
 
 <!-- ═════════════ S26 Key Takeaways ═════════════ -->
-<div class="slide flex-col justify-center min-h-[70vh]" data-sec="Section 4 — Synthesis">
+<div class="slide flex-col justify-center" data-sec="Section 4 — Synthesis">
   <div class="rule"></div>
   <p class="slabel mb-2">Section 4 — Synthesis</p>
   <h2 class="serif text-4xl font-normal mb-4">Key Takeaways</h2>
@@ -1052,7 +1065,7 @@ body{background:var(--bg);color:var(--tx);font-family:'DM Sans',sans-serif;trans
 </div>
 
 <!-- ═════════════ S27 Implications ═════════════ -->
-<div class="slide flex-col justify-center min-h-[70vh]" data-sec="Section 4 — Synthesis">
+<div class="slide flex-col justify-center" data-sec="Section 4 — Synthesis">
   <div class="rule"></div>
   <p class="slabel mb-2">Section 4 — Synthesis</p>
   <h2 class="serif text-4xl font-normal mb-4">Implications for <em>Your</em> Field</h2>
@@ -1074,7 +1087,7 @@ body{background:var(--bg);color:var(--tx);font-family:'DM Sans',sans-serif;trans
 </div>
 
 <!-- ═════════════ S28 Q&A ═════════════ -->
-<div class="slide flex-col items-center justify-center min-h-[70vh]" data-sec="Section 4 — Synthesis">
+<div class="slide flex-col items-center justify-center" data-sec="Section 4 — Synthesis">
   <div class="rule" style="margin:0 auto 1.5rem;"></div>
   <p class="slabel mb-4">Open for Discussion</p>
   <h2 class="serif font-normal text-center mb-3" style="font-size:clamp(2.8rem,6vw,4.5rem);">Questions?</h2>
@@ -1141,39 +1154,30 @@ function initMenuHL(slideId){
 initMenuHL('ms8'); initMenuHL('ms9'); initMenuHL('ms10');
 
 // ─── Market toggle (UK / Both / HK) ───
-// ms8 has ids ms8-uk, ms8-hk;  ms9 has ms9-uk, ms9-hk
+// Animated market toggle — uses flex transitions, no display:none
 function setMkt(n, mode){
+  if(n===10) return;
   const btns=document.querySelectorAll(`#mkt${n} .mkt-btn`);
   btns.forEach(b=>b.classList.remove('on'));
-  // find the clicked button
-  btns.forEach(b=>{
-    const bMode = b.textContent.trim().toLowerCase();
-    if(bMode===mode || (mode==='hk view' && bMode==='hk view')) b.classList.add('on');
-  });
-  if(n===10) return; // S10 is single-market, no toggle needed
+  btns.forEach(b=>{ if(b.textContent.trim().toLowerCase()===mode) b.classList.add('on'); });
   const ukEl=document.getElementById(`ms${n}-uk`);
   const hkEl=document.getElementById(`ms${n}-hk`);
-  const grid=document.getElementById(`ms${n}`);
   if(mode==='uk'){
-    ukEl.style.display=''; hkEl.style.display='none';
-    grid.classList.remove('grid-cols-2'); grid.style.gridTemplateColumns='1fr';
-    ukEl.style.maxWidth='';
+    ukEl.classList.remove('mp-hidden');
+    hkEl.classList.add('mp-hidden');
   } else if(mode==='hk'){
-    ukEl.style.display='none'; hkEl.style.display='';
-    grid.classList.remove('grid-cols-2'); grid.style.gridTemplateColumns='1fr';
-    hkEl.style.maxWidth='';
+    hkEl.classList.remove('mp-hidden');
+    ukEl.classList.add('mp-hidden');
   } else {
-    ukEl.style.display=''; hkEl.style.display='';
-    grid.style.gridTemplateColumns=''; grid.classList.add('grid-cols-2');
-    ukEl.style.maxWidth=''; hkEl.style.maxWidth='';
+    ukEl.classList.remove('mp-hidden');
+    hkEl.classList.remove('mp-hidden');
   }
 }
-// fix button labels to match mode strings
+// wire up buttons
 document.querySelectorAll('#mkt8 .mkt-btn, #mkt9 .mkt-btn').forEach(b=>{
-  b.onclick = function(){
-    const n = this.closest('.mkt-toggle').id.replace('mkt','');
-    const t = this.textContent.trim().toLowerCase();
-    setMkt(parseInt(n), t);
+  b.onclick=function(){
+    const n=this.closest('.mkt-toggle').id.replace('mkt','');
+    setMkt(parseInt(n), this.textContent.trim().toLowerCase());
   };
 });
 
@@ -1194,7 +1198,35 @@ if(sortGrid){
   });
 }
 
-show(0);
+// ─── Lock all slides to the tallest measured height ───
+(function lockSlideHeight(){
+  const wrap = document.getElementById('slide-wrap');
+  const allSlides = [...document.querySelectorAll('.slide')];
+  let maxH = 0;
+
+  // Temporarily make every slide visible (off-screen) to measure
+  allSlides.forEach(s => {
+    s.style.display = 'flex';
+    s.style.visibility = 'hidden';
+    s.style.position = 'absolute';
+    s.style.width = wrap.offsetWidth + 'px';
+  });
+
+  allSlides.forEach(s => {
+    maxH = Math.max(maxH, s.scrollHeight);
+  });
+
+  // Restore — hide all, remove measurement overrides
+  allSlides.forEach(s => {
+    s.style.display = '';
+    s.style.visibility = '';
+    s.style.position = '';
+    s.style.width = '';
+    s.style.minHeight = maxH + 'px';
+  });
+
+  show(0);
+})();
 </script>
 </body>
 </html>
