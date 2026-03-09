@@ -1,0 +1,1124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Navigation as Argument — IA, Information Scent & Market Design</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com"></script>
+<style>
+.slide{display:none;}.slide.active{display:flex;}
+:root{
+  --bg:#fff;--bg2:#f8fafc;--bgcard:#f1f5f9;
+  --tx:#0f172a;--tx2:#64748b;--border:#e2e8f0;
+  --red:#DB0011;--red-bg:rgba(219,0,17,.07);
+  --green:#15803d;--green-bg:rgba(21,128,61,.07);--green-b:#16a34a;
+  --amber:#b45309;--amber-bg:rgba(180,83,9,.08);
+  --blue:#1d4ed8;--blue-bg:rgba(29,78,216,.07);
+  --purple:#7c3aed;--purple-bg:rgba(124,58,237,.07);
+  --fs:1.2;
+}
+.dark{
+  --bg:#0f172a;--bg2:#1e293b;--bgcard:#1e293b;
+  --tx:#f1f5f9;--tx2:#94a3b8;--border:#334155;
+  --red:#f87171;--red-bg:rgba(248,113,113,.1);
+  --green:#4ade80;--green-bg:rgba(74,222,128,.07);--green-b:#22c55e;
+  --amber:#fbbf24;--amber-bg:rgba(251,191,36,.08);
+  --blue:#60a5fa;--blue-bg:rgba(96,165,250,.07);
+  --purple:#a78bfa;--purple-bg:rgba(167,139,250,.08);
+}
+html{font-size:calc(var(--fs)*16px);}
+body{background:var(--bg);color:var(--tx);font-family:'DM Sans',sans-serif;transition:background .3s,color .3s;}
+.serif{font-family:'DM Serif Display',serif;}
+.disc-slide{background:#0d1117!important;}
+.dark .disc-slide{background:#020617!important;}
+.slabel{font-size:.68rem;font-weight:600;letter-spacing:.13em;text-transform:uppercase;color:var(--red);}
+.rule{width:44px;height:3px;background:var(--red);margin-bottom:1rem;border-radius:2px;}
+.tag{font-size:.64rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-bottom:.3rem;}
+.card{background:var(--bg2);border:1px solid var(--border);border-radius:8px;padding:.85rem 1.05rem;}
+.card-l{border-left:3px solid var(--red);background:var(--red-bg);border-radius:0 8px 8px 0;padding:.75rem 1.05rem;}
+.theory-pill{display:inline-flex;align-items:center;gap:4px;padding:2px 8px;border:1.5px solid var(--red);border-radius:20px;font-size:.58rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--red);background:var(--red-bg);}
+.kt-box{border-left:3px solid #d97706;background:rgba(217,119,6,.08);border-radius:0 8px 8px 0;padding:.65rem .95rem;margin-top:.55rem;}
+.kt-label{font-size:.58rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:#d97706;margin-bottom:.2rem;}
+.stat{font-family:'DM Serif Display',serif;font-size:2.4rem;line-height:1;color:var(--red);}
+.bwrap{height:10px;border-radius:3px;overflow:hidden;background:var(--border);margin-top:2px;}
+.bfill{height:100%;border-radius:3px;}
+.srow{display:flex;height:34px;border-radius:6px;overflow:hidden;gap:1px;}
+.sseg{display:flex;align-items:center;justify-content:center;font-size:.56rem;font-weight:700;color:#fff;overflow:hidden;cursor:default;}
+.sseg:hover{filter:brightness(1.12);}
+/* Journey nodes */
+.jn{display:flex;flex-direction:column;align-items:center;justify-content:center;border-radius:6px;padding:.38rem .6rem;border:2px solid;min-width:82px;text-align:center;}
+.jnl{font-size:.57rem;color:var(--tx2);}
+.jnt{font-size:.68rem;font-weight:600;}
+.jn-n{border-color:var(--border);background:var(--bgcard);}.jn-n .jnt{color:var(--tx);}
+.jn-ok{border-color:var(--green-b);background:var(--green-bg);}.jn-ok .jnt{color:var(--green);}
+.jn-w{border-color:#d97706;background:var(--amber-bg);}.jn-w .jnt{color:var(--amber);}
+.jn-f{border-color:#dc2626;background:rgba(220,38,38,.07);}.jn-f .jnt{color:#dc2626;}
+.jarr{display:flex;flex-direction:column;align-items:center;padding:0 .18rem;font-size:1rem;}
+/* Persona badge */
+.persona-badge{display:inline-flex;flex-wrap:wrap;gap:.35rem;margin-bottom:.5rem;}
+.pb{font-size:.63rem;font-weight:600;padding:2px 7px;border-radius:12px;background:var(--bgcard);border:1px solid var(--border);color:var(--tx2);}
+/* Menu reconstruction */
+.menu-shell{border:1px solid var(--border);border-radius:8px;overflow:hidden;}
+.menu-topbar{display:flex;background:#f1f5f9;border-bottom:1px solid var(--border);overflow-x:auto;}
+.dark .menu-topbar{background:#0f172a;}
+.mtab{padding:.28rem .8rem;font-size:.65rem;font-weight:600;color:var(--tx2);cursor:pointer;border-right:1px solid var(--border);white-space:nowrap;flex-shrink:0;}
+.mtab.on{background:var(--bg);color:var(--tx);border-bottom:2px solid var(--red);margin-bottom:-1px;}
+.dark .mtab.on{background:#1e293b;}
+.menu-body{display:flex;}
+.mcol{flex:1;padding:.5rem .7rem;border-right:1px solid var(--border);}
+.mcol:last-child{border-right:none;}
+.mcol.dk{background:#1a2437;}
+.dark .mcol.dk{background:#070d1a;}
+.mh{font-size:.68rem;font-weight:700;color:var(--tx);margin-bottom:.3rem;padding-bottom:.22rem;border-bottom:1px solid var(--border);}
+.dark .mh,.mcol.dk .mh{color:#f1f5f9;}
+.mcol.dk .mh{border-bottom-color:#334155;}
+.mi{font-size:.61rem;color:var(--tx2);padding:.13rem .18rem;border-radius:3px;display:block;cursor:pointer;transition:background .12s,color .12s;user-select:none;}
+.mi:hover,.menu-hl-on .mi:hover{background:var(--red-bg);color:var(--red);}
+.mcol.dk .mi{color:#94a3b8;}
+.mi.hi{background:#fef08a!important;color:#713f12!important;font-weight:600;}
+.dark .mi.hi{background:#854d0e!important;color:#fef3c7!important;}
+.menu-logo{display:flex;align-items:center;padding:.28rem .8rem;gap:5px;font-size:.7rem;font-weight:700;}
+.hsbc-hex{width:18px;height:18px;background:#DB0011;clip-path:polygon(50% 0%,100% 25%,100% 75%,50% 100%,0% 75%,0% 25%);flex-shrink:0;}
+/* Breadcrumb */
+.bc{display:flex;align-items:center;flex-wrap:wrap;gap:.15rem;}
+.bc-step{font-size:.63rem;background:var(--bgcard);border:1px solid var(--border);border-radius:4px;padding:2px 7px;color:var(--tx);}
+.bc-sep{font-size:.7rem;color:var(--tx2);}
+.bc-end{font-size:.63rem;font-weight:700;border-radius:4px;padding:2px 8px;color:#fff;}
+/* Suppress / toggle */
+.sup-btn{padding:3px 9px;border-radius:4px;font-size:.6rem;font-weight:600;cursor:pointer;border:1.5px solid var(--border);color:var(--tx2);background:var(--bg2);transition:all .2s;}
+.sup-btn.on{border-color:#d97706;background:var(--amber-bg);color:var(--amber);}
+.suppressable{transition:opacity .3s;}
+.suppressable.dim{opacity:.13;pointer-events:none;}
+/* Market toggle */
+.mkt-toggle{display:flex;border:1.5px solid var(--border);border-radius:6px;overflow:hidden;}
+.mkt-btn{padding:3px 12px;font-size:.6rem;font-weight:700;cursor:pointer;background:var(--bg2);color:var(--tx2);border:none;border-right:1px solid var(--border);letter-spacing:.05em;transition:background .15s,color .15s;}
+.mkt-btn:last-child{border-right:none;}
+.mkt-btn.on{background:var(--red);color:#fff;}
+/* Card sort paper cards */
+.sort-col{flex:1;}
+.paper-card{
+  display:inline-flex;align-items:center;justify-content:center;
+  width:82px;height:52px;
+  background:#fff;border:1px solid #d1d5db;
+  border-radius:4px;
+  box-shadow:1px 2px 4px rgba(0,0,0,.09);
+  font-size:.6rem;font-weight:500;text-align:center;
+  line-height:1.25;padding:4px 5px;
+  cursor:default;
+  transition:transform .15s, box-shadow .15s, background .15s, border-color .15s;
+  vertical-align:top;margin:3px;color:#374151;
+}
+.dark .paper-card{background:#1e293b;border-color:#334155;color:#cbd5e1;}
+.paper-card:hover{transform:translateY(-2px);box-shadow:2px 5px 10px rgba(0,0,0,.14);}
+.paper-card.xhi{background:#fef08a!important;border-color:#ca8a04!important;color:#713f12!important;transform:translateY(-2px);box-shadow:0 0 0 2px #ca8a04;}
+.paper-card.sc-faded{opacity:.3;cursor:default;}
+.paper-card.uk-c{border-left:3px solid #3b82f6;}
+.paper-card.hk-c{border-left:3px solid #16a34a;}
+.bucket{border:1.5px dashed var(--border);border-radius:7px;padding:.4rem .55rem;background:var(--bg2);margin-bottom:.4rem;}
+.blabel{font-size:.58rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;margin-bottom:.3rem;color:var(--tx2);}
+/* App cards */
+.app-card{border:1px solid var(--border);border-radius:8px;padding:.7rem .85rem;background:var(--bg2);}
+.app-icon{width:36px;height:36px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:1.1rem;flex-shrink:0;}
+.takeaway-n{font-family:'DM Serif Display',serif;font-size:1.7rem;line-height:1;color:var(--red);flex-shrink:0;width:2rem;}
+</style>
+</head>
+<body class="min-h-screen flex flex-col">
+
+<header class="border-b px-6 py-2.5 flex-shrink-0" style="border-color:var(--border);background:var(--bg);">
+  <div class="max-w-5xl mx-auto flex justify-between items-center">
+    <span class="slabel" id="secLabel">Section 1 — Theory</span>
+    <span class="text-xs hidden sm:block" style="color:var(--tx2);">Navigation as Argument · IA &amp; User Journeys</span>
+    <div class="flex gap-2">
+      <button onclick="fs(-1)" class="px-2.5 py-1.5 rounded border text-sm" style="border-color:var(--border);" aria-label="Decrease font">A−</button>
+      <button onclick="fs(1)"  class="px-2.5 py-1.5 rounded border text-sm" style="border-color:var(--border);" aria-label="Increase font">A+</button>
+      <button onclick="dm()"   class="px-2.5 py-1.5 rounded border text-sm" style="border-color:var(--border);" aria-label="Dark mode"><span id="dmIcon">🌙</span></button>
+    </div>
+  </div>
+</header>
+
+<main class="flex-1 flex items-center justify-center px-6 py-4" style="background:var(--bg);">
+<div class="w-full max-w-5xl">
+
+<!-- ═════════════ S1 Title ═════════════ -->
+<div class="slide active flex-col justify-center min-h-[70vh]" data-sec="Section 1 — Theory">
+  <div class="rule"></div>
+  <p class="slabel mb-4">Guest Lecture · Information Management &amp; Library Studies</p>
+  <h1 class="serif font-normal leading-tight mb-4" style="font-size:clamp(2.2rem,5vw,3.6rem);">Navigation<br><em>as Argument</em></h1>
+  <p class="text-lg mb-7" style="color:var(--tx2);">Information Architecture, Information Scent,<br>and the Markets They Reflect</p>
+  <div class="flex flex-wrap gap-6 text-sm">
+    <div><p class="text-xs font-semibold uppercase tracking-wider mb-1" style="color:var(--tx2);">Case Study</p><p class="font-semibold">HSBC UK × HSBC Hong Kong</p></div>
+    <div style="border-left:1px solid var(--border);padding-left:1.5rem;"><p class="text-xs font-semibold uppercase tracking-wider mb-1" style="color:var(--tx2);">Frameworks</p><p class="font-semibold">Pirolli &amp; Card · Norman · Card Sorting</p></div>
+    <div style="border-left:1px solid var(--border);padding-left:1.5rem;"><p class="text-xs font-semibold uppercase tracking-wider mb-1" style="color:var(--tx2);">Methods</p><p class="font-semibold">User Journeys · Scent Analysis</p></div>
+  </div>
+</div>
+
+<!-- ═════════════ S2 Why IA ═════════════ -->
+<div class="slide flex-col justify-center min-h-[70vh]" data-sec="Section 1 — Theory">
+  <div class="rule"></div>
+  <p class="slabel mb-2">Why This Matters</p>
+  <h2 class="serif text-4xl font-normal mb-5">The Architecture of Information<br><em>Is Never Neutral</em></h2>
+  <div class="grid grid-cols-2 gap-3 mb-4">
+    <div class="card"><p class="tag" style="color:var(--red);">Findability</p><p class="text-sm" style="color:var(--tx2);">Organisation determines whether users reach their goal — or abandon the attempt. Poor IA is invisible friction.</p></div>
+    <div class="card"><p class="tag" style="color:var(--red);">Embedded Assumptions</p><p class="text-sm" style="color:var(--tx2);">Every label, grouping, and hierarchy encodes a claim about who the user is. IA is never a neutral container.</p></div>
+    <div class="card"><p class="tag" style="color:var(--red);">Institutional Power</p><p class="text-sm" style="color:var(--tx2);">What is foregrounded, what is buried, what has no home — these decisions serve some users and marginalise others.</p></div>
+    <div class="card"><p class="tag" style="color:var(--red);">Your Professional Literacy</p><p class="text-sm" style="color:var(--tx2);">Information professionals navigate, maintain, and design these systems. Reading and critiquing IA is a core skill.</p></div>
+  </div>
+  <div class="card-l"><p class="text-sm font-semibold">The central question: when you look at a navigation system, can you read <em>who it was designed for</em> — and who it was not?</p></div>
+</div>
+
+<!-- ═════════════ S3 Information Scent ═════════════ -->
+<div class="slide flex-col justify-center min-h-[70vh]" data-sec="Section 1 — Theory">
+  <div class="rule"></div>
+  <div class="flex items-center gap-3 mb-1"><p class="slabel">Theoretical Framework</p><span class="theory-pill">◆ Theory</span></div>
+  <h2 class="serif text-4xl font-normal mb-1">Information Scent</h2>
+  <p class="text-sm mb-4" style="color:var(--tx2);">Pirolli &amp; Card, 1999 — Information Foraging Theory</p>
+  <div class="grid grid-cols-3 gap-4 mb-3">
+    <div class="card col-span-2">
+      <p class="tag" style="color:var(--red);">The Metaphor</p>
+      <p class="text-sm mb-3" style="color:var(--tx2);">Users behave like predators following a scent trail. Labels, snippets, and visual signals predict whether a path leads toward the goal. Users constantly weigh cost against benefit: is following this link worth the effort?</p>
+      <div class="grid grid-cols-2 gap-3">
+        <div class="p-3 rounded-lg" style="border:1.5px solid var(--green-b);background:var(--green-bg);"><p class="tag" style="color:var(--green);">Strong Scent</p><p class="text-xs mb-1.5" style="color:var(--tx2);">Label predicts content. User advances with low cognitive cost.</p><p class="text-xs font-semibold">→ "Mortgage Payment Support"</p></div>
+        <div class="p-3 rounded-lg" style="border:1.5px solid #dc2626;background:rgba(220,38,38,.07);"><p class="tag" style="color:#dc2626;">Broken Scent</p><p class="text-xs mb-1.5" style="color:var(--tx2);">Ambiguous label. User hesitates, backtracks, or abandons.</p><p class="text-xs font-semibold">→ "Ways to Bank" (for what?)</p></div>
+      </div>
+    </div>
+    <div class="flex flex-col gap-3">
+      <div class="card flex-1"><p class="tag" style="color:var(--red);">Key Insight</p><p class="text-sm" style="color:var(--tx2);">Scent must match the <em>target user's</em> vocabulary. The same label can be strong for one user and broken for another.</p></div>
+      <div class="card flex-1"><p class="tag" style="color:var(--red);">Implication</p><p class="text-sm" style="color:var(--tx2);">Different markets, different users → different scent. Trails cannot be transplanted across contexts.</p></div>
+    </div>
+  </div>
+  <div class="kt-box"><p class="kt-label">◆ Key Takeaway</p><p class="text-sm"><strong>Navigation labels are promises.</strong> If kept, the user advances. If broken, they leave — not because content is missing, but because the path was built for someone else.</p></div>
+</div>
+
+<!-- ═════════════ S4 Mental Models ═════════════ -->
+<div class="slide flex-col justify-center min-h-[70vh]" data-sec="Section 1 — Theory">
+  <div class="rule"></div>
+  <div class="flex items-center gap-3 mb-1"><p class="slabel">Theoretical Framework</p><span class="theory-pill">◆ Theory</span></div>
+  <h2 class="serif text-4xl font-normal mb-1">Mental Models &amp;<br><em>Navigation as Design Artefact</em></h2>
+  <p class="text-sm mb-4" style="color:var(--tx2);">Norman, 1988 — The Design of Everyday Things</p>
+  <div class="grid grid-cols-3 gap-4 mb-3">
+    <div class="card"><p class="tag" style="color:var(--red);">Mental Model</p><p class="text-sm" style="color:var(--tx2);">The user's internal representation of the system. Not necessarily accurate — but they navigate according to <em>their</em> model, not the designer's.</p></div>
+    <div class="card"><p class="tag" style="color:var(--red);">Design Model</p><p class="text-sm" style="color:var(--tx2);">The model embedded by designers — made visible in every category label, grouping, and hierarchy decision.</p></div>
+    <div class="card"><p class="tag" style="color:#dc2626;">The Gap</p><p class="text-sm" style="color:var(--tx2);">When user model ≠ design model, navigation fails. The user cannot find what they need — not because it's absent, but because the path doesn't match their expectations.</p></div>
+  </div>
+  <div class="card mb-3" style="border-left:3px solid var(--red);">
+    <p class="font-semibold mb-1.5">The Navigation Menu Is a Claim About Users</p>
+    <p class="text-sm" style="color:var(--tx2);">What gets a top-level slot versus what is buried three levels deep — each decision encodes an assumption about how users think about the domain. Reading any menu critically means reading the assumptions of its designers, and the market they designed for.</p>
+  </div>
+  <div class="kt-box"><p class="kt-label">◆ Key Takeaway</p><p class="text-sm">When a user's mental model diverges from the design model, the interface <strong>fails that user structurally</strong> — regardless of content quality. IA determines access.</p></div>
+</div>
+
+<!-- ═════════════ S5 Discussion #1 ═════════════ -->
+<div class="slide disc-slide flex-col items-center justify-center min-h-[70vh]" data-sec="Section 1 — Theory">
+  <div style="width:44px;height:3px;background:#DB0011;border-radius:2px;margin-bottom:1.5rem;"></div>
+  <p style="font-size:.68rem;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:#DB0011;margin-bottom:1.5rem;">Discussion — 5 Minutes</p>
+  <h2 class="serif font-normal text-center mb-5" style="font-size:clamp(1.4rem,2.8vw,2rem);color:#f1f5f9;max-width:640px;line-height:1.5;">Think of an information system you use regularly — a library catalogue, university portal, or government website.</h2>
+  <div style="max-width:540px;text-align:center;">
+    <p style="color:#94a3b8;font-size:.9rem;line-height:1.75;margin-bottom:.8rem;">What assumptions does its navigation make about you? Can you identify from the structure alone who it was <em style="color:#f1f5f9;">not</em> designed for?</p>
+    <p style="color:#475569;font-size:.78rem;">Pairs · Share one example with the group</p>
+  </div>
+</div>
+
+<!-- ═════════════ S6 The Numbers ═════════════ -->
+<div class="slide flex-col justify-center min-h-[70vh]" data-sec="Section 2 — The Comparison">
+  <div class="rule"></div>
+  <p class="slabel mb-2">One Bank, Two Markets</p>
+  <h2 class="serif text-4xl font-normal mb-4">The Numbers</h2>
+  <div class="grid grid-cols-4 gap-3 mb-4">
+    <div class="card text-center"><p class="text-xs font-semibold uppercase tracking-wider mb-2" style="color:var(--tx2);">Top-level categories</p><div class="flex justify-center gap-5"><div><div class="stat">6</div><p class="text-xs mt-1" style="color:var(--tx2);">UK</p></div><div><div class="stat">6</div><p class="text-xs mt-1" style="color:var(--tx2);">HK</p></div></div><p class="text-xs mt-2 italic" style="color:var(--tx2);">Identical surface</p></div>
+    <div class="card text-center"><p class="text-xs font-semibold uppercase tracking-wider mb-2" style="color:var(--tx2);">Navigable links</p><div class="flex justify-center gap-4"><div><div class="stat">~155</div><p class="text-xs mt-1" style="color:var(--tx2);">UK</p></div><div><div class="stat">~190</div><p class="text-xs mt-1" style="color:var(--tx2);">HK</p></div></div><p class="text-xs mt-2 italic" style="color:var(--tx2);">+22% more in HK</p></div>
+    <div class="card text-center"><p class="text-xs font-semibold uppercase tracking-wider mb-2" style="color:var(--tx2);">Dedicated apps</p><div class="flex justify-center gap-5"><div><div class="stat">1</div><p class="text-xs mt-1" style="color:var(--tx2);">UK</p></div><div><div class="stat">5</div><p class="text-xs mt-1" style="color:var(--tx2);">HK</p></div></div><p class="text-xs mt-2 italic" style="color:var(--tx2);">5× more app surface</p></div>
+    <div class="card text-center"><p class="text-xs font-semibold uppercase tracking-wider mb-2" style="color:var(--tx2);">Investment sub-sections</p><div class="flex justify-center gap-5"><div><div class="stat">4</div><p class="text-xs mt-1" style="color:var(--tx2);">UK</p></div><div><div class="stat">8</div><p class="text-xs mt-1" style="color:var(--tx2);">HK</p></div></div><p class="text-xs mt-2 italic" style="color:var(--tx2);">2× deeper</p></div>
+  </div>
+  <div class="grid grid-cols-2 gap-4">
+    <div class="card">
+      <p class="text-xs font-semibold uppercase tracking-wider mb-3" style="color:var(--tx2);">What each market uses its two non-core category slots for</p>
+      <div class="space-y-3 text-xs">
+        <div><div class="flex justify-between mb-1"><span>UK — Banking, Borrowing, Investing, Insurance</span><span style="color:var(--tx2);">4/6</span></div><div class="bwrap"><div class="bfill" style="width:67%;background:#3b82f6;"></div></div></div>
+        <div><div class="flex justify-between mb-1"><span>UK — <strong>Wellbeing</strong> + Help <span style="color:#d97706;font-size:.56rem;margin-left:3px;">← welfare &amp; utility (FCA Consumer Duty)</span></span><span style="color:#d97706;">2/6</span></div><div class="bwrap"><div class="bfill" style="width:33%;background:#d97706;"></div></div></div>
+        <div style="border-top:1px solid var(--border);padding-top:.55rem;"><div class="flex justify-between mb-1"><span>HK — Banking, Borrowing, Investing, Insurance</span><span style="color:var(--tx2);">4/6</span></div><div class="bwrap"><div class="bfill" style="width:67%;background:#3b82f6;"></div></div></div>
+        <div><div class="flex justify-between mb-1"><span>HK — <strong>Insights</strong> + Offers <span style="color:var(--green);font-size:.56rem;margin-left:3px;">← market intelligence &amp; commercial opportunity</span></span><span style="color:var(--green);">2/6</span></div><div class="bwrap"><div class="bfill" style="width:33%;background:#16a34a;"></div></div></div>
+      </div>
+    </div>
+    <div class="card">
+      <p class="text-xs font-semibold uppercase tracking-wider mb-3" style="color:var(--tx2);">Links per domain (approximate)</p>
+      <div class="space-y-3 text-xs">
+        <div><div class="flex justify-between mb-1"><span>Banking</span><span style="color:var(--tx2);">UK ~34 · HK ~50</span></div><div class="bwrap mb-1"><div class="bfill" style="width:42%;background:#3b82f670;"></div></div><div class="bwrap"><div class="bfill" style="width:62%;background:#3b82f6;"></div></div></div>
+        <div><div class="flex justify-between mb-1"><span>Borrowing</span><span style="color:var(--tx2);">UK ~35 · HK ~45</span></div><div class="bwrap mb-1"><div class="bfill" style="width:44%;background:#8b5cf670;"></div></div><div class="bwrap"><div class="bfill" style="width:56%;background:#8b5cf6;"></div></div></div>
+        <div><div class="flex justify-between mb-1"><span>Investing</span><span style="color:var(--tx2);">UK ~17 · HK ~32</span></div><div class="bwrap mb-1"><div class="bfill" style="width:21%;background:#0891b270;"></div></div><div class="bwrap"><div class="bfill" style="width:40%;background:#0891b2;"></div></div></div>
+        <div><div class="flex justify-between mb-1"><span>5th+6th slot</span><span style="color:var(--tx2);">UK ~45 · HK ~38</span></div><div class="bwrap mb-1"><div class="bfill" style="width:56%;background:#d9780670;"></div></div><div class="bwrap"><div class="bfill" style="width:47%;background:#16a34a;"></div></div></div>
+      </div>
+      <div class="flex gap-4 mt-3 text-xs"><div class="flex items-center gap-1.5"><div style="width:10px;height:10px;border-radius:2px;background:#3b82f670;"></div>UK</div><div class="flex items-center gap-1.5"><div style="width:10px;height:10px;border-radius:2px;background:#3b82f6;"></div>HK</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ═════════════ S7 100% Stacked ═════════════ -->
+<div class="slide flex-col justify-center min-h-[70vh]" data-sec="Section 2 — The Comparison">
+  <div class="rule"></div>
+  <p class="slabel mb-2">One Bank, Two Markets</p>
+  <h2 class="serif text-4xl font-normal mb-1">Proportional Navigation Space</h2>
+  <p class="text-sm mb-4" style="color:var(--tx2);">Both bars = 100% of that market's navigable links. Each segment = share allocated to that category.</p>
+  <div class="flex flex-wrap gap-3 mb-4 text-xs">
+    <div class="flex items-center gap-1.5"><div style="width:11px;height:11px;border-radius:2px;background:#3b82f6;"></div>Banking</div>
+    <div class="flex items-center gap-1.5"><div style="width:11px;height:11px;border-radius:2px;background:#8b5cf6;"></div>Borrowing</div>
+    <div class="flex items-center gap-1.5"><div style="width:11px;height:11px;border-radius:2px;background:#0891b2;"></div>Investing</div>
+    <div class="flex items-center gap-1.5"><div style="width:11px;height:11px;border-radius:2px;background:#ea580c;"></div>Insurance</div>
+    <div class="flex items-center gap-1.5"><div style="width:11px;height:11px;border-radius:2px;background:#d97706;"></div>Wellbeing <span style="color:var(--tx2);">[UK]</span></div>
+    <div class="flex items-center gap-1.5"><div style="width:11px;height:11px;border-radius:2px;background:#6b7280;"></div>Help <span style="color:var(--tx2);">[UK]</span></div>
+    <div class="flex items-center gap-1.5"><div style="width:11px;height:11px;border-radius:2px;background:#16a34a;"></div>Insights <span style="color:var(--tx2);">[HK]</span></div>
+    <div class="flex items-center gap-1.5"><div style="width:11px;height:11px;border-radius:2px;background:#7c3aed;"></div>Offers <span style="color:var(--tx2);">[HK]</span></div>
+  </div>
+  <div class="mb-1">
+    <p class="text-xs font-bold uppercase tracking-wider mb-1.5" style="color:var(--blue);">UK — ~155 links</p>
+    <div class="srow">
+      <div class="sseg" style="width:21%;background:#3b82f6;" title="Banking 21%">21%</div>
+      <div class="sseg" style="width:23%;background:#8b5cf6;" title="Borrowing 23%">23%</div>
+      <div class="sseg" style="width:11%;background:#0891b2;" title="Investing 11%">11%</div>
+      <div class="sseg" style="width:19%;background:#ea580c;" title="Insurance 19%">19%</div>
+      <div class="sseg" style="width:16%;background:#d97706;" title="Wellbeing 16%">Wellbeing 16%</div>
+      <div class="sseg" style="width:10%;background:#6b7280;" title="Help 10%">10%</div>
+    </div>
+  </div>
+  <div class="mb-5">
+    <p class="text-xs font-bold uppercase tracking-wider mb-1.5" style="color:var(--green);">HK — ~190 links</p>
+    <div class="srow">
+      <div class="sseg" style="width:26%;background:#3b82f6;" title="Banking 26%">26%</div>
+      <div class="sseg" style="width:24%;background:#8b5cf6;" title="Borrowing 24%">24%</div>
+      <div class="sseg" style="width:17%;background:#0891b2;" title="Investing 17%">17%</div>
+      <div class="sseg" style="width:14%;background:#ea580c;" title="Insurance 14%">14%</div>
+      <div class="sseg" style="width:7%;background:#16a34a;" title="Insights 7%"><span style="font-size:.5rem;">7%</span></div>
+      <div class="sseg" style="width:12%;background:#7c3aed;" title="Offers 12%">Offers 12%</div>
+    </div>
+  </div>
+  <div class="grid grid-cols-3 gap-3">
+    <div class="card"><p class="tag" style="color:#0891b2;">Investing: 11% → 17%</p><p class="text-xs" style="color:var(--tx2);">+55% relative increase in navigation space. Reflects mass-market equity participation in HK — investment is an everyday behaviour, not a specialist product.</p></div>
+    <div class="card"><p class="tag" style="color:#d97706;">UK welfare slots = 26%</p><p class="text-xs" style="color:var(--tx2);">Over a quarter of UK navigation space is welfare and utility (Wellbeing 16% + Help 10%). HK's equivalent slots are commercially oriented: Insights + Offers = 19%.</p></div>
+    <div class="card"><p class="tag" style="color:#3b82f6;">HK Banking = 26%</p><p class="text-xs" style="color:var(--tx2);">Proportionally larger — it houses 5 apps, GBA cross-border services, and RMB/FX tools absent from the UK entirely.</p></div>
+  </div>
+</div>
+
+<!-- ═════════════ S8 Investing: UK vs HK (moved first) ═════════════ -->
+<div class="slide flex-col justify-center min-h-[70vh]" data-sec="Section 2 — The Comparison">
+  <div class="rule"></div>
+  <div class="flex items-center justify-between mb-2">
+    <div>
+      <p class="slabel mb-0.5">Menu Reconstruction — Same Category, Different Depth</p>
+      <h2 class="serif text-3xl font-normal">Investing: UK vs HK</h2>
+      <p class="text-xs mt-1" style="color:var(--tx2);">Same category name, same brand. Hover items to highlight · toggle to focus on one market.</p>
+    </div>
+    <div class="flex items-center gap-2 ml-4">
+      <div class="mkt-toggle" id="mkt8">
+        <button class="mkt-btn" onclick="setMkt(8,'uk')">UK</button>
+        <button class="mkt-btn on" onclick="setMkt(8,'both')">Both</button>
+        <button class="mkt-btn" onclick="setMkt(8,'hk')">HK</button>
+      </div>
+    </div>
+  </div>
+  <div class="grid grid-cols-2 gap-4" id="ms8">
+    <div id="ms8-uk">
+      <div class="flex items-center gap-3 mb-1.5"><span class="text-xs font-bold uppercase tracking-wider" style="color:var(--blue);">HSBC UK Investing</span><span class="text-xs px-2 py-0.5 rounded" style="background:var(--blue-bg);color:var(--blue);">~17 links · 4 sub-sections</span></div>
+      <div class="menu-shell">
+        <div class="menu-topbar"><div class="menu-logo"><div class="hsbc-hex"></div>HSBC</div><div class="mtab on">Investing</div></div>
+        <div class="menu-body" style="min-height:230px;">
+          <div class="mcol">
+            <div class="mh">Investing</div>
+            <span class="mi">Stocks &amp; shares ISA</span><span class="mi">Invest in funds</span><span class="mi">Investment calculator</span><span class="mi">Ready-made portfolios</span><span class="mi">Invest in shares</span><span class="mi">New to investing?</span>
+            <div class="mh mt-2">Advice</div>
+            <span class="mi">Financial advice</span><span class="mi">Premier investment management</span>
+          </div>
+          <div class="mcol">
+            <div class="mh">Retirement</div>
+            <span class="mi">Retirement calculator</span><span class="mi">Investing for retirement</span>
+            <div class="mh mt-2">Wealth planning</div>
+            <span class="mi">Wealth Insights</span><span class="mi">Future Planner</span><span class="mi">Investment goals</span><span class="mi">Your financial action plan</span>
+          </div>
+          <div class="mcol dk">
+            <div class="mh">Already investing?</div>
+            <span class="mi">Global Investment Centre</span><span class="mi">InvestDirect</span><span class="mi">Manage your investments</span><span class="mi">Personal pension</span><span class="mi">Flexible Retirement Account</span>
+            <p class="text-xs italic mt-3" style="color:#64748b;">No stock screener, no IPOs, no warrants, no live market data.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div id="ms8-hk">
+      <div class="flex items-center gap-3 mb-1.5"><span class="text-xs font-bold uppercase tracking-wider" style="color:var(--green);">HSBC HK Investing</span><span class="text-xs px-2 py-0.5 rounded" style="background:var(--green-bg);color:var(--green);">~32 links · 8 sub-sections</span></div>
+      <div class="menu-shell">
+        <div class="menu-topbar"><div class="menu-logo"><div class="hsbc-hex"></div>HSBC</div><div class="mtab on">Investing</div></div>
+        <div class="menu-body" style="min-height:230px;">
+          <div class="mcol">
+            <div class="mh">Wealth Products</div>
+            <span class="mi">Stocks</span><span class="mi">Unit Trusts</span><span class="mi">Bonds / CDs</span><span class="mi">Structured Products</span><span class="mi">Warrants &amp; CBBCs</span><span class="mi">Latest IPOs</span><span class="mi">Gold trading services</span><span class="mi">HSBC Gold Token</span>
+            <div class="mh mt-2">Start Investing</div>
+            <span class="mi">Investment Account Opening</span>
+          </div>
+          <div class="mcol">
+            <div class="mh">Wealth Mobile Solutions</div>
+            <span class="mi">HSBC HK Easy Invest</span><span class="mi">HSBC Top Trader Club</span><span class="mi">FlexInvest</span>
+            <div class="mh mt-2">Currency Exchange</div>
+            <span class="mi">Currency Exchange Rates</span>
+            <div class="mh mt-2">Greater Bay Area</div>
+            <span class="mi">HSBC GBA Wealth Connect</span><span class="mi">Capital Investment Entrant Scheme</span>
+          </div>
+          <div class="mcol dk">
+            <div class="mh">Wealth Management</div>
+            <span class="mi">Hybrid Wealth Management</span><span class="mi">Future Planner</span><span class="mi">Retirement</span><span class="mi">Wealth Portfolio Intelligence</span>
+            <div class="mh mt-2">Wealth Insights</div>
+            <span class="mi">Our House Views</span>
+            <div class="mh mt-2">Quick Links</div>
+            <span class="mi">Trade Stocks Online</span><span class="mi">Buy Unit Trusts Online</span><span class="mi">Buy Bonds/CDs Online</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═════════════ S9 Wellbeing vs Insights ═════════════ -->
+<div class="slide flex-col justify-center min-h-[70vh]" data-sec="Section 2 — The Comparison">
+  <div class="rule"></div>
+  <div class="flex items-center justify-between mb-2">
+    <div>
+      <p class="slabel mb-0.5">Menu Reconstruction — The 5th Category Slot</p>
+      <h2 class="serif text-3xl font-normal">Same Slot, Different Worlds</h2>
+      <p class="text-xs mt-1" style="color:var(--tx2);">UK uses its 5th slot for <strong>Wellbeing</strong>. HK uses its 5th slot for <strong>Insights</strong>. Hover to highlight · toggle to focus.</p>
+    </div>
+    <div class="flex items-center gap-2 ml-4">
+      <div class="mkt-toggle" id="mkt9">
+        <button class="mkt-btn" onclick="setMkt(9,'uk')">UK</button>
+        <button class="mkt-btn on" onclick="setMkt(9,'both')">Both</button>
+        <button class="mkt-btn" onclick="setMkt(9,'hk')">HK</button>
+      </div>
+    </div>
+  </div>
+  <div class="grid grid-cols-2 gap-4" id="ms9">
+    <div id="ms9-uk">
+      <div class="flex items-center gap-2 mb-1.5"><span class="text-xs font-bold uppercase tracking-wider" style="color:#d97706;">HSBC UK — Wellbeing</span><span class="text-xs px-2 py-0.5 rounded" style="background:rgba(217,119,6,.1);color:#d97706;">Financial health &amp; support</span></div>
+      <div class="menu-shell">
+        <div class="menu-topbar"><div class="menu-logo"><div class="hsbc-hex"></div>HSBC</div><div class="mtab on">Wellbeing</div><div class="mtab">Banking</div><div class="mtab">Borrowing</div></div>
+        <div class="menu-body" style="min-height:210px;">
+          <div class="mcol">
+            <div class="mh">Financial fitness</div>
+            <span class="mi">Financial health tools &amp; webinars</span><span class="mi">Everyday budgeting</span><span class="mi">Managing debt</span><span class="mi">Growing your money</span><span class="mi">Staying safe and secure</span>
+            <div class="mh mt-2">New beginnings</div>
+            <span class="mi">Help pay for your wedding</span><span class="mi">Planning for retirement</span><span class="mi">Buying your first home</span><span class="mi">Going to uni</span>
+          </div>
+          <div class="mcol">
+            <div class="mh">Life events</div>
+            <span class="mi">Bereavement support</span><span class="mi">Assisting someone with their money</span><span class="mi">Separation</span><span class="mi">Losing your job</span><span class="mi">Power of Attorney</span><span class="mi">Mental health and support</span><span class="mi">Moving abroad</span>
+          </div>
+          <div class="mcol dk">
+            <div class="mh">Money worries</div>
+            <span class="mi">How we can help</span><span class="mi">Mortgage payment support</span><span class="mi">Financial and domestic abuse</span><span class="mi">Rising cost of living</span><span class="mi">Support for gambling</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div id="ms9-hk">
+      <div class="flex items-center gap-2 mb-1.5"><span class="text-xs font-bold uppercase tracking-wider" style="color:var(--green);">HSBC HK — Insights</span><span class="text-xs px-2 py-0.5 rounded" style="background:var(--green-bg);color:var(--green);">Analysis &amp; Market Data</span></div>
+      <div class="menu-shell">
+        <div class="menu-topbar"><div class="menu-logo"><div class="hsbc-hex"></div>HSBC</div><div class="mtab on">Insights</div><div class="mtab">Banking</div><div class="mtab">Investing</div></div>
+        <div class="menu-body" style="min-height:210px;">
+          <div class="mcol">
+            <div class="mh">New to Investing</div>
+            <span class="mi">Start Investing in 5 Steps</span><span class="mi">Learn to invest in 7 days</span><span class="mi">Must-read for Investment Newbies</span><span class="mi">Learn about Bonds</span><span class="mi">Set &amp; Reach Goals with HSBC FinFit</span>
+          </div>
+          <div class="mcol">
+            <div class="mh">Advanced Investor</div>
+            <span class="mi">HSBC Investment Views</span><span class="mi">FX Insights</span><span class="mi">Regional Investment Opportunities</span><span class="mi">ESG Outlook</span>
+            <div class="mh mt-2">Wealth Tool</div>
+            <span class="mi">Browse for Funds</span><span class="mi">Bond/CD Screener</span><span class="mi">Stock Quotes</span>
+          </div>
+          <div class="mcol dk">
+            <p class="text-xs italic mt-1" style="color:#64748b;padding:.2rem;">HK "Insights" serves an active investor. There is no equivalent of "Bereavement Support", "Losing your job", or "Mental health" anywhere in the HK navigation.</p>
+            <p class="text-xs italic mt-2" style="color:#64748b;padding:.2rem;">The omission reflects a different market assumption about what a bank is for.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═════════════ S10 HK Borrowing ═════════════ -->
+<div class="slide flex-col justify-center min-h-[70vh]" data-sec="Section 2 — The Comparison">
+  <div class="rule"></div>
+  <div class="flex items-center justify-between mb-2">
+    <div>
+      <p class="slabel mb-0.5">Menu Reconstruction — HK Borrowing</p>
+      <h2 class="serif text-3xl font-normal">Borrowing: Instrument Depth &amp; Tools</h2>
+      <p class="text-xs mt-1" style="color:var(--tx2);">The HK Borrowing menu assumes a transactionally mature user who expects tools, not just products. Hover to highlight.</p>
+    </div>
+    <div class="flex items-center gap-2 ml-4">
+      <div class="mkt-toggle" id="mkt10">
+        <button class="mkt-btn on" onclick="setMkt(10,'hk')">HK view</button>
+      </div>
+    </div>
+  </div>
+  <div id="ms10">
+    <div class="menu-shell">
+      <div class="menu-topbar">
+        <div class="menu-logo"><div class="hsbc-hex"></div>HSBC</div>
+        <div class="mtab">Banking<span style="font-size:.55rem;display:block;color:#94a3b8;">Accounts &amp; Services</span></div>
+        <div class="mtab on">Borrowing<span style="font-size:.55rem;display:block;color:#94a3b8;">Cards &amp; Loans</span></div>
+        <div class="mtab">Investing<span style="font-size:.55rem;display:block;color:#94a3b8;">Securities &amp; Currency</span></div>
+        <div class="mtab">Insurance<span style="font-size:.55rem;display:block;color:#94a3b8;">Protection &amp; Planning</span></div>
+        <div class="mtab">Insights<span style="font-size:.55rem;display:block;color:#94a3b8;">Analysis &amp; Market Data</span></div>
+        <div class="mtab">Offers<span style="font-size:.55rem;display:block;color:#94a3b8;">Latest Rewards</span></div>
+      </div>
+      <div class="menu-body">
+        <div class="mcol">
+          <div class="mh">Credit Cards</div>
+          <span class="mi">HSBC EveryMile Credit Card</span><span class="mi">HSBC Red Credit Card</span><span class="mi">Visa Signature Card</span><span class="mi">HSBC easy Credit Card</span><span class="mi">Premier MasterCard</span><span class="mi">HSBC Pulse Dual Currency Card</span><span class="mi">Visa Gold Card for Students</span><span class="mi">UnionPay Dual Currency Card</span><span class="mi">Apply for a new credit card</span><span class="mi">Compare Credit Cards</span>
+          <div class="mh mt-2">Overdrafts</div><span class="mi">See all</span>
+        </div>
+        <div class="mcol">
+          <div class="mh">Use Your Credit Card</div>
+          <span class="mi">Cards Promotions</span><span class="mi">HSBC Reward+</span><span class="mi">Mobile Payments</span><span class="mi">HSBC Virtual Credit Card</span><span class="mi">Octopus Auto Top-up</span><span class="mi">Cash Advance</span><span class="mi">Spending Instalment Plan</span><span class="mi">All-You-Can-Split</span><span class="mi">Cash Instalment Plan</span><span class="mi">Interest-free Merchant Instalment Plan</span>
+        </div>
+        <div class="mcol">
+          <div class="mh">Mortgages</div>
+          <span class="mi">Home Mortgage Loans</span><span class="mi">Home-related Loans</span><span class="mi">Mortgage Repayment Options</span><span class="mi">See all mortgages</span>
+          <div class="mh mt-2">Loans</div>
+          <span class="mi">Personal Instalment Loan</span><span class="mi">Revolving Credit Facility</span><span class="mi">Balance Consolidation Program</span><span class="mi">Electric Vehicle Personal Instalment Loan</span><span class="mi">Smart Tips on Loans</span>
+        </div>
+        <div class="mcol dk">
+          <div class="mh">Tools &amp; Forms</div>
+          <span class="mi">Credit Cards Application</span><span class="mi">Mortgage online application</span><span class="mi">Loans Application</span><span class="mi">Submit documents for credit/debit cards</span><span class="mi">Submit documents for Credit Limit Increase</span><span class="mi">Submit documents for Loans</span><span class="mi">Submit documents for Cash Instalment Plan</span><span class="mi">Instant Mortgage Assessment</span><span class="mi">Property Valuation Tool</span><span class="mi">Form and Document Download</span>
+        </div>
+      </div>
+    </div>
+    <div class="grid grid-cols-3 gap-3 mt-3">
+      <div class="card"><p class="tag" style="color:var(--green);">Dedicated "Tools &amp; Forms" panel</p><p class="text-xs" style="color:var(--tx2);">Dark utility column at far right — direct action paths (applications, document submission) separated from product discovery. A triage layer built into the menu itself.</p></div>
+      <div class="card"><p class="tag" style="color:var(--green);">Market-specific products</p><p class="text-xs" style="color:var(--tx2);">"Electric Vehicle Personal Instalment Loan" and "Octopus Auto Top-up" encode HK infrastructure assumptions — Octopus card ubiquity and EV adoption trajectory.</p></div>
+      <div class="card"><p class="tag" style="color:var(--green);">No welfare framing</p><p class="text-xs" style="color:var(--tx2);">Compare with UK Borrowing which includes "Financial difficulty" pathways. HK Borrowing is entirely transactional — the user has made their decision and needs execution, not guidance.</p></div>
+    </div>
+  </div>
+</div>
+
+<!-- ═════════════ S11 Reading the Numbers — suppress ═════════════ -->
+<div class="slide flex-col justify-center min-h-[70vh]" data-sec="Section 2 — The Comparison">
+  <div class="rule"></div>
+  <div class="flex items-center justify-between mb-4">
+    <div><p class="slabel mb-1">One Bank, Two Markets</p><h2 class="serif text-4xl font-normal">Reading the Numbers</h2></div>
+    <div class="flex gap-2">
+      <button id="sUK" onclick="toggleSup('col-uk','sUK')" class="sup-btn">Dim UK ←</button>
+      <button id="sHK" onclick="toggleSup('col-hk','sHK')" class="sup-btn">→ Dim HK</button>
+    </div>
+  </div>
+  <div class="grid grid-cols-2 gap-5">
+    <div class="suppressable" id="col-uk">
+      <p class="text-xs font-bold uppercase tracking-wider mb-3" style="color:var(--blue);">HSBC UK — What the IA Signals</p>
+      <div class="space-y-2">
+        <div class="flex gap-2 text-sm"><span style="color:var(--red);font-weight:700;flex-shrink:0;">→</span><span style="color:var(--tx2);"><strong>"Wellbeing"</strong> is a top-level category — same weight as Banking. Financial vulnerability is a <em>primary</em> use case.</span></div>
+        <div class="flex gap-2 text-sm"><span style="color:var(--red);font-weight:700;flex-shrink:0;">→</span><span style="color:var(--tx2);">Direct links to: <strong>Money Worries, Bereavement, Domestic Abuse, Mental Health, Power of Attorney</strong> — welfare infrastructure in the nav itself.</span></div>
+        <div class="flex gap-2 text-sm"><span style="color:var(--red);font-weight:700;flex-shrink:0;">→</span><span style="color:var(--tx2);">One app. Investing: ISAs, funds, ready-made portfolios. <strong>No stock screener, no IPOs, no warrants.</strong></span></div>
+        <div class="flex gap-2 text-sm"><span style="color:var(--red);font-weight:700;flex-shrink:0;">→</span><span style="color:var(--tx2);"><strong>FCA Consumer Duty (2023)</strong> requires active support for vulnerable customers — regulatory intent made visible as IA.</span></div>
+      </div>
+    </div>
+    <div class="suppressable" id="col-hk">
+      <p class="text-xs font-bold uppercase tracking-wider mb-3" style="color:var(--green);">HSBC Hong Kong — What the IA Signals</p>
+      <div class="space-y-2">
+        <div class="flex gap-2 text-sm"><span style="color:var(--green);font-weight:700;flex-shrink:0;">→</span><span style="color:var(--tx2);"><strong>"Insights"</strong> and <strong>"Offers"</strong> are top-level. Market intelligence and commercial opportunity are primary use cases.</span></div>
+        <div class="flex gap-2 text-sm"><span style="color:var(--green);font-weight:700;flex-shrink:0;">→</span><span style="color:var(--tx2);">Five apps: HSBC HK, Reward+, Easy Invest, PayMe, Lite Mode. <strong>Mobile financial activity assumed frequent, varied, and specialised.</strong></span></div>
+        <div class="flex gap-2 text-sm"><span style="color:var(--green);font-weight:700;flex-shrink:0;">→</span><span style="color:var(--tx2);">Absent from UK: <strong>Warrants &amp; CBBCs, Gold Token, IPOs, RMB services, GBA Wealth Connect, MPF.</strong></span></div>
+        <div class="flex gap-2 text-sm"><span style="color:var(--green);font-weight:700;flex-shrink:0;">→</span><span style="color:var(--tx2);">HK retail equity participation &gt;50% of households. <strong>Investment is mass-market and everyday.</strong></span></div>
+      </div>
+    </div>
+  </div>
+  <div class="card-l mt-4"><p class="text-sm font-semibold">Same number of top-level categories; radically different worlds beneath them. The architecture is calibrated to its market. Information scent is almost entirely non-transferable across them.</p></div>
+</div>
+
+<!-- ═════════════ S12 Thinking in Journeys ═════════════ -->
+<div class="slide flex-col justify-center min-h-[70vh]" data-sec="Section 3 — User Journeys">
+  <div class="rule"></div>
+  <p class="slabel mb-2">Section 3 — User Journeys</p>
+  <h2 class="serif text-4xl font-normal mb-5">Thinking in Journeys</h2>
+  <div class="grid grid-cols-2 gap-4 mb-4">
+    <div class="card">
+      <p class="tag" style="color:var(--red);">User Journey Mapping</p>
+      <p class="text-sm mb-2" style="color:var(--tx2);">Traces a specific user toward a goal — capturing the path taken, emotional state at each step, friction points, and where they give up or succeed.</p>
+      <p class="text-sm mb-2" style="color:var(--tx2);">Journeys are always constructed for a named, specific user with a defined goal — not a generic "typical user". The specificity is the point: it makes IA assumptions legible.</p>
+      <p class="text-xs font-semibold">Key question: <em>Where does the scent break?</em></p>
+    </div>
+    <div class="card">
+      <p class="tag" style="color:var(--red);">Scent Analysis at Each Step</p>
+      <p class="text-sm mb-2" style="color:var(--tx2);">At every decision point in a journey, evaluate: does the current label predict the next step reliably? Does the user's own vocabulary appear in the navigation? Is the user confident they're on the right path?</p>
+      <p class="text-sm mb-2" style="color:var(--tx2);">Scent quality is rated across the journey: <strong style="color:var(--green);">Strong</strong> (user advances confidently) · <strong style="color:#d97706;">Weak</strong> (user hesitates) · <strong style="color:#dc2626;">Broken</strong> (user backtracks or abandons)</p>
+      <p class="text-xs font-semibold">Key question: <em>Is the user's language in the menu?</em></p>
+    </div>
+  </div>
+  <div class="card" style="border-left:3px solid var(--border);">
+    <p class="text-sm" style="color:var(--tx2);">We will trace three journeys through both menus. At each step, evaluate the scent quality — and notice when the IA's embedded assumptions serve or fail the user. The personas were chosen to represent users the IA was designed <em>for</em>, and users it was <em>not</em>.</p>
+  </div>
+</div>
+
+<!-- ═════════════ S13 Journey 1 — Sarah intro ═════════════ -->
+<div class="slide flex-col justify-center min-h-[70vh]" data-sec="Section 3 — User Journeys">
+  <div class="rule"></div>
+  <p class="slabel mb-2">Journey 1 — User / Persona</p>
+  <h2 class="serif text-4xl font-normal mb-4">Sarah — HSBC UK<br><em>Financial Difficulty</em></h2>
+  <div class="grid grid-cols-2 gap-5">
+    <div class="space-y-3">
+      <div class="card">
+        <p class="tag" style="color:var(--red);">User / Persona</p>
+        <div class="persona-badge">
+          <span class="pb">Sarah, 34</span><span class="pb">Manchester, UK</span><span class="pb">Former office manager</span><span class="pb">Recently redundant</span><span class="pb">HSBC current account holder</span>
+        </div>
+        <p class="text-sm" style="color:var(--tx2);">Worried about next month's mortgage. Visits hsbc.co.uk for help — she doesn't know the product name, only that she has a problem and needs a door.</p>
+      </div>
+      <div class="card"><p class="tag" style="color:var(--red);">Market Context</p><p class="text-sm" style="color:var(--tx2);">FCA Consumer Duty (2023) obliges banks to actively support customers in financial difficulty. This regulatory requirement has direct, visible consequences for IA structure.</p></div>
+    </div>
+    <div class="space-y-3">
+      <div class="card"><p class="tag" style="color:var(--red);">Today's Goal</p><p class="text-sm" style="color:var(--tx2);">Find whether she can request a mortgage payment holiday. <strong>Emotional state: anxious, unsure of vocabulary.</strong> She needs the language of care — not the language of products.</p></div>
+      <div class="p-3 rounded-lg" style="border:1.5px solid var(--green-b);background:var(--green-bg);"><p class="tag" style="color:var(--green);">Scent Prediction</p><p class="text-sm" style="color:var(--tx2);">UK has "Wellbeing" at top-level, with "Money Worries" and "Mortgage Payment Support" as named destinations. The scent trail for Sarah should be strong — let's trace it.</p></div>
+    </div>
+  </div>
+</div>
+
+<!-- ═════════════ S14 Sarah Journey Map ═════════════ -->
+<div class="slide flex-col justify-center min-h-[70vh]" data-sec="Section 3 — User Journeys">
+  <div class="rule"></div>
+  <p class="slabel mb-2">Journey 1 — Map</p>
+  <h2 class="serif text-3xl font-normal mb-4">Sarah's Journey — HSBC UK</h2>
+  <div class="card mb-4 py-5">
+    <div class="flex items-center justify-center gap-1 flex-wrap">
+      <div class="jn jn-n"><span class="jnl">HSBC UK</span><span class="jnt">Homepage</span></div>
+      <div class="jarr"><span style="font-size:1.2rem;color:var(--green);">→</span><span class="text-xs font-bold" style="color:var(--green);">STRONG</span></div>
+      <div class="jn jn-ok"><span class="jnl">Top nav</span><span class="jnt">Wellbeing</span></div>
+      <div class="jarr"><span style="font-size:1.2rem;color:var(--green);">→</span><span class="text-xs font-bold" style="color:var(--green);">STRONG</span></div>
+      <div class="jn jn-ok"><span class="jnl">Submenu</span><span class="jnt">Money Worries</span></div>
+      <div class="jarr"><span style="font-size:1.2rem;color:var(--green);">→</span><span class="text-xs font-bold" style="color:var(--green);">STRONG</span></div>
+      <div class="jn jn-ok" style="min-width:110px;"><span class="jnl">Destination</span><span class="jnt">Mortgage Payment Support</span></div>
+      <div class="jarr"><span style="font-size:1.2rem;color:var(--green);">→</span></div>
+      <div class="flex items-center justify-center w-9 h-9 rounded-full text-white font-bold text-lg" style="background:var(--green);">✓</div>
+    </div>
+  </div>
+  <div class="grid grid-cols-3 gap-4">
+    <div class="p-3 rounded-lg" style="border:1.5px solid var(--green-b);background:var(--green-bg);"><p class="tag" style="color:var(--green);">Scent: Strong throughout</p><p class="text-xs" style="color:var(--tx2);">"Wellbeing" is legible for a distressed user. Her vocabulary is in the menu. She is not asked to translate her problem into product language.</p></div>
+    <div class="p-3 rounded-lg" style="border:1.5px solid var(--green-b);background:var(--green-bg);"><p class="tag" style="color:var(--green);">4 clicks to destination</p><p class="text-xs" style="color:var(--tx2);">Homepage → Wellbeing → Money Worries → Mortgage Payment Support. Each step narrows predictably. No dead ends.</p></div>
+    <div class="card"><p class="tag" style="color:var(--red);">The Design Decision</p><p class="text-xs" style="color:var(--tx2);">Elevating "Wellbeing" to top-level is a claim: <em>users in difficulty are a primary user group.</em> Regulatory intent made into IA.</p></div>
+  </div>
+</div>
+
+<!-- ═════════════ S15 Journey 2 — James intro ═════════════ -->
+<div class="slide flex-col justify-center min-h-[70vh]" data-sec="Section 3 — User Journeys">
+  <div class="rule"></div>
+  <p class="slabel mb-2">Journey 2 — User / Persona</p>
+  <h2 class="serif text-4xl font-normal mb-4">James — HSBC Hong Kong<br><em>Retail Investor</em></h2>
+  <div class="grid grid-cols-2 gap-5">
+    <div class="space-y-3">
+      <div class="card">
+        <p class="tag" style="color:var(--red);">User / Persona</p>
+        <div class="persona-badge">
+          <span class="pb">James, 41</span><span class="pb">Hong Kong SAR</span><span class="pb">Financial sector professional</span><span class="pb">Regular retail investor</span><span class="pb">HSBC Premier account</span>
+        </div>
+        <p class="text-sm" style="color:var(--tx2);">Trades HK and US stocks, holds unit trusts. Today: explore GBA investment options and check latest HSBC analyst views.</p>
+      </div>
+      <div class="card"><p class="tag" style="color:var(--red);">Market Context</p><p class="text-sm" style="color:var(--tx2);">HK retail equity participation exceeds 50% of households. Investment is everyday behaviour. The HK–Mainland border is increasingly porous for wealth flows via GBA Wealth Connect.</p></div>
+    </div>
+    <div class="space-y-3">
+      <div class="card"><p class="tag" style="color:var(--red);">Today's Goal</p><p class="text-sm" style="color:var(--tx2);">Find GBA Wealth Connect, then check HSBC house analyst views. <strong>Emotional state: purposeful, efficient.</strong> He knows what he wants — his issue is navigation efficiency, not orientation.</p></div>
+      <div class="p-3 rounded-lg" style="border:1.5px solid var(--blue);background:var(--blue-bg);"><p class="tag" style="color:var(--blue);">Multiple Entry Points</p><p class="text-sm" style="color:var(--tx2);">Unlike Sarah's single path, James has multiple valid routes. A feature of sophisticated IA for a sophisticated user population.</p></div>
+    </div>
+  </div>
+</div>
+
+<!-- ═════════════ S16 James Journey Map ═════════════ -->
+<div class="slide flex-col justify-center min-h-[70vh]" data-sec="Section 3 — User Journeys">
+  <div class="rule"></div>
+  <p class="slabel mb-2">Journey 2 — Map</p>
+  <h2 class="serif text-3xl font-normal mb-4">James's Journey — HSBC HK — Two Valid Paths</h2>
+  <div class="grid grid-cols-2 gap-4 mb-4">
+    <div class="card py-4"><p class="tag mb-3" style="color:var(--blue);">Path A — GBA Wealth Connect</p><div class="flex items-center gap-1 flex-wrap"><div class="jn jn-n" style="min-width:60px;"><span class="jnl">HSBC HK</span><span class="jnt">Home</span></div><span style="color:var(--green);font-size:1.1rem;">→</span><div class="jn jn-ok" style="min-width:60px;"><span class="jnl">Investing</span><span class="jnt">GBA section</span></div><span style="color:var(--green);font-size:1.1rem;">→</span><div class="jn jn-ok" style="min-width:80px;"><span class="jnl">Destination</span><span class="jnt">Wealth Connect ✓</span></div></div></div>
+    <div class="card py-4"><p class="tag mb-3" style="color:var(--blue);">Path B — Investment Analysis</p><div class="flex items-center gap-1 flex-wrap"><div class="jn jn-n" style="min-width:60px;"><span class="jnl">HSBC HK</span><span class="jnt">Home</span></div><span style="color:var(--green);font-size:1.1rem;">→</span><div class="jn jn-ok" style="min-width:60px;"><span class="jnl">Insights</span><span class="jnt">Adv. Investor</span></div><span style="color:var(--green);font-size:1.1rem;">→</span><div class="jn jn-ok" style="min-width:80px;"><span class="jnl">Destination</span><span class="jnt">Investment Views ✓</span></div></div></div>
+  </div>
+  <div class="grid grid-cols-3 gap-4">
+    <div class="p-3 rounded-lg" style="border:1.5px solid var(--green-b);background:var(--green-bg);"><p class="tag" style="color:var(--green);">Scent: Strong</p><p class="text-xs" style="color:var(--tx2);">James's vocabulary — "Insights", "Investment Views", "GBA" — is in the menu. The IA mirrors his mental model because the assumed users are like him.</p></div>
+    <div class="p-3 rounded-lg" style="border:1.5px solid var(--blue);background:var(--blue-bg);"><p class="tag" style="color:var(--blue);">Redundant Pathways</p><p class="text-xs" style="color:var(--tx2);">Multiple routes to the same goal. His objective is reachable even if his mental model path doesn't exactly match the primary path.</p></div>
+    <div class="card"><p class="tag" style="color:var(--red);">What's Missing</p><p class="text-xs" style="color:var(--tx2);">No "Wellbeing" equivalent. A user in financial distress would find no obvious entry point. James's IA would fail Sarah completely — and was not designed otherwise.</p></div>
+  </div>
+</div>
+
+<!-- ═════════════ S17 Discussion #2 ═════════════ -->
+<div class="slide disc-slide flex-col items-center justify-center min-h-[70vh]" data-sec="Section 3 — User Journeys">
+  <div style="width:44px;height:3px;background:#DB0011;border-radius:2px;margin-bottom:1.5rem;"></div>
+  <p style="font-size:.68rem;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:#DB0011;margin-bottom:1.5rem;">Discussion — 7 Minutes</p>
+  <h2 class="serif font-normal text-center mb-5" style="font-size:clamp(1.4rem,2.8vw,2rem);color:#f1f5f9;max-width:640px;line-height:1.5;">Sarah and James are both educated adults using their bank's website for a legitimate purpose.</h2>
+  <div style="max-width:560px;text-align:center;">
+    <p style="color:#94a3b8;font-size:.9rem;line-height:1.75;margin-bottom:.8rem;">Why does one journey feel like <em style="color:#f1f5f9;">seeking help</em> and the other like <em style="color:#f1f5f9;">browsing products</em>? Could the UK IA serve James? Could the HK IA serve Sarah? What would need to change?</p>
+    <p style="color:#475569;font-size:.78rem;">Small groups · Consider structural and cultural dimensions</p>
+  </div>
+</div>
+
+<!-- ═════════════ S18 Min-Ji intro ═════════════ -->
+<div class="slide flex-col justify-center min-h-[70vh]" data-sec="Section 3 — User Journeys">
+  <div class="rule"></div>
+  <p class="slabel mb-2">Journey 3 — User / Persona</p>
+  <h2 class="serif text-4xl font-normal mb-4">Min-Ji — Same User, Different Market:<br><em>Cognitive Dissonance in Navigation</em></h2>
+  <div class="grid grid-cols-2 gap-5">
+    <div class="space-y-3">
+      <div class="card">
+        <p class="tag" style="color:var(--red);">User / Persona</p>
+        <div class="persona-badge">
+          <span class="pb">Min-Ji, 38</span><span class="pb">Now: Manchester, UK</span><span class="pb">Previously: 8 yrs Hong Kong</span><span class="pb">Finance professional</span><span class="pb">HSBC customer since HK</span>
+        </div>
+        <p class="text-sm" style="color:var(--tx2);">Recently relocated. Opens hsbc.co.uk expecting a sophisticated financial platform — based on 8 years of HK banking experience.</p>
+      </div>
+      <div class="card"><p class="tag" style="color:var(--red);">Her HK Mental Model</p><ul class="text-sm space-y-1" style="color:var(--tx2);"><li>→ Multiple apps for distinct purposes</li><li>→ Dedicated investment research section</li><li>→ FX and multi-currency management</li><li>→ Active stock trading at low friction</li><li>→ Cross-border wealth tools</li></ul></div>
+    </div>
+    <div class="space-y-3">
+      <div class="p-3 rounded-lg" style="border:1.5px solid var(--red);background:var(--red-bg);">
+        <p class="tag" style="color:var(--red);">What She Finds in the UK</p>
+        <ul class="text-sm space-y-1" style="color:var(--tx2);">
+          <li>→ <strong>"Wellbeing"</strong> as primary category — no equivalent in her mental model</li>
+          <li>→ <strong>One app</strong> — her 5-app workflow has collapsed</li>
+          <li>→ No "Insights", no analyst views, no live market data</li>
+          <li>→ No individual stock trading — funds and portfolios only</li>
+          <li>→ <strong>"Money Worries"</strong> — she reads this as for distressed users; not her</li>
+        </ul>
+      </div>
+      <div class="card"><p class="tag" style="color:var(--amber);">The Disconnect</p><p class="text-sm" style="color:var(--tx2);">Min-Ji isn't the UK IA's assumed user. The IA tells her implicitly: <em>"You are not the user we designed this for."</em></p></div>
+    </div>
+  </div>
+</div>
+
+<!-- ═════════════ S19 Min-Ji Map ═════════════ -->
+<div class="slide flex-col justify-center min-h-[70vh]" data-sec="Section 3 — User Journeys">
+  <div class="rule"></div>
+  <p class="slabel mb-2">Journey 3 — Parallel Map</p>
+  <h2 class="serif text-3xl font-normal mb-2">Min-Ji: Same User, Two Menus</h2>
+  <p class="text-sm mb-4" style="color:var(--tx2);">Goal: access stock trading and market analysis — her routine behaviour in HK.</p>
+  <div class="grid grid-cols-2 gap-4 mb-4">
+    <div class="card py-4" style="border-color:var(--green-b);">
+      <p class="tag mb-3" style="color:var(--green);">In Hong Kong — Familiar Territory</p>
+      <div class="flex items-center gap-1 flex-wrap mb-2">
+        <div class="jn jn-ok" style="min-width:58px;"><span class="jnl">HSBC HK</span><span class="jnt">Home</span></div>
+        <span style="color:var(--green);">→</span><div class="jn jn-ok" style="min-width:58px;"><span class="jnl">Investing</span><span class="jnt">→ Stocks</span></div>
+        <span style="color:var(--green);">→</span><div class="jn jn-ok" style="min-width:58px;"><span class="jnl">Insights</span><span class="jnt">→ Views</span></div>
+        <span style="color:var(--green);">→</span><div class="flex items-center justify-center w-8 h-8 rounded-full text-white font-bold" style="background:var(--green);">✓</div>
+      </div>
+      <p class="text-xs" style="color:var(--green);">4 clicks. Strong scent. Vocabulary matches throughout.</p>
+    </div>
+    <div class="card py-4" style="border-color:#dc2626;">
+      <p class="tag mb-3" style="color:#dc2626;">In the UK — Broken Scent</p>
+      <div class="flex items-center gap-1 flex-wrap mb-2">
+        <div class="jn jn-n" style="min-width:58px;"><span class="jnl">HSBC UK</span><span class="jnt">Home</span></div>
+        <div class="jarr"><span style="color:#d97706;">→</span><span class="text-xs font-bold" style="color:#d97706;">WEAK</span></div>
+        <div class="jn jn-w" style="min-width:68px;"><span class="jnl">Investing?</span><span class="jnt">No stocks…</span></div>
+        <div class="jarr"><span style="color:#dc2626;">→</span><span class="text-xs font-bold" style="color:#dc2626;">NONE</span></div>
+        <div class="jn jn-f" style="min-width:68px;"><span class="jnl">Wellbeing?</span><span class="jnt">Irrelevant</span></div>
+        <span style="color:#dc2626;">→</span><div class="flex items-center justify-center w-8 h-8 rounded-full text-white font-bold" style="background:#dc2626;">✗</div>
+      </div>
+      <p class="text-xs" style="color:#dc2626;">Confusion at step 2. No equivalent categories. Abandonment likely.</p>
+    </div>
+  </div>
+  <div class="card-l"><p class="text-sm font-semibold mb-1">The Theoretical Point</p><p class="text-sm" style="color:var(--tx2);">Min-Ji's fluency in HK reflects alignment between her mental model and the design model — not individual skill. In the UK, that alignment breaks. No amount of user expertise compensates for structural mismatch.</p></div>
+</div>
+
+<!-- ═════════════ S20 What Does Each IA Assume — WITH suppress ═════════════ -->
+<div class="slide flex-col justify-center min-h-[70vh]" data-sec="Section 3 — User Journeys">
+  <div class="rule"></div>
+  <div class="flex items-center justify-between mb-4">
+    <div><p class="slabel mb-1">Reading the Architecture</p><h2 class="serif text-4xl font-normal">What Does Each IA <em>Assume</em>?</h2></div>
+    <div class="flex gap-2">
+      <button id="sUK2" onclick="toggleSup('col-uk2','sUK2')" class="sup-btn">Dim UK ←</button>
+      <button id="sHK2" onclick="toggleSup('col-hk2','sHK2')" class="sup-btn">→ Dim HK</button>
+    </div>
+  </div>
+  <div class="grid grid-cols-2 gap-5 mb-4">
+    <div class="suppressable" id="col-uk2">
+      <p class="text-xs font-bold uppercase tracking-wider mb-3" style="color:var(--blue);">The UK IA assumes a user who…</p>
+      <div class="space-y-1.5">
+        <div class="flex gap-2"><div class="w-1.5 h-1.5 rounded-full mt-1.5 flex-shrink-0" style="background:var(--blue);"></div><p class="text-sm" style="color:var(--tx2);">…may be financially vulnerable and needs support framed in human terms</p></div>
+        <div class="flex gap-2"><div class="w-1.5 h-1.5 rounded-full mt-1.5 flex-shrink-0" style="background:var(--blue);"></div><p class="text-sm" style="color:var(--tx2);">…treats investment as a specialist, infrequent activity</p></div>
+        <div class="flex gap-2"><div class="w-1.5 h-1.5 rounded-full mt-1.5 flex-shrink-0" style="background:var(--blue);"></div><p class="text-sm" style="color:var(--tx2);">…wants managed, curated products — not direct market access</p></div>
+        <div class="flex gap-2"><div class="w-1.5 h-1.5 rounded-full mt-1.5 flex-shrink-0" style="background:var(--blue);"></div><p class="text-sm" style="color:var(--tx2);">…operates within a single jurisdiction with no cross-border needs</p></div>
+        <div class="flex gap-2"><div class="w-1.5 h-1.5 rounded-full mt-1.5 flex-shrink-0" style="background:var(--blue);"></div><p class="text-sm" style="color:var(--tx2);">…uses one app occasionally, not five apps habitually</p></div>
+      </div>
+    </div>
+    <div class="suppressable" id="col-hk2">
+      <p class="text-xs font-bold uppercase tracking-wider mb-3" style="color:var(--green);">The HK IA assumes a user who…</p>
+      <div class="space-y-1.5">
+        <div class="flex gap-2"><div class="w-1.5 h-1.5 rounded-full mt-1.5 flex-shrink-0" style="background:var(--green);"></div><p class="text-sm" style="color:var(--tx2);">…reads market intelligence as part of a normal daily routine</p></div>
+        <div class="flex gap-2"><div class="w-1.5 h-1.5 rounded-full mt-1.5 flex-shrink-0" style="background:var(--green);"></div><p class="text-sm" style="color:var(--tx2);">…treats equities, bonds, IPOs, and warrants as everyday consumer products</p></div>
+        <div class="flex gap-2"><div class="w-1.5 h-1.5 rounded-full mt-1.5 flex-shrink-0" style="background:var(--green);"></div><p class="text-sm" style="color:var(--tx2);">…wants platform efficiency — multiple apps, multiple entry points, no hand-holding</p></div>
+        <div class="flex gap-2"><div class="w-1.5 h-1.5 rounded-full mt-1.5 flex-shrink-0" style="background:var(--green);"></div><p class="text-sm" style="color:var(--tx2);">…manages assets in multiple currencies and jurisdictions routinely</p></div>
+        <div class="flex gap-2"><div class="w-1.5 h-1.5 rounded-full mt-1.5 flex-shrink-0" style="background:var(--green);"></div><p class="text-sm" style="color:var(--tx2);">…is motivated by commercial opportunity — not seeking institutional reassurance</p></div>
+      </div>
+    </div>
+  </div>
+  <div class="card-l"><p class="text-sm font-semibold">Neither assumption is wrong — both are calibrated to their market. The question is: what happens when the user doesn't match the assumption? And whose responsibility is it to know?</p></div>
+</div>
+
+<!-- ═════════════ S21 Card Sorting Method ═════════════ -->
+<div class="slide flex-col justify-center min-h-[70vh]" data-sec="Section 3 — User Journeys">
+  <div class="rule"></div>
+  <div class="flex items-center gap-3 mb-1"><p class="slabel">Practical Method</p><span class="theory-pill">◆ Method</span></div>
+  <h2 class="serif text-4xl font-normal mb-4">Card Sorting: Grounding IA<br><em>in User Evidence</em></h2>
+  <div class="grid grid-cols-3 gap-4 mb-3">
+    <div class="card"><p class="tag" style="color:var(--red);">Open Card Sort</p><p class="text-sm mb-2" style="color:var(--tx2);">Participants receive unlabelled content cards. They create their own groups and name them. No predefined categories — pure user taxonomy.</p><p class="text-xs font-semibold">Output: the user's spontaneous vocabulary — their actual mental model of the domain.</p></div>
+    <div class="card"><p class="tag" style="color:var(--red);">Closed Card Sort</p><p class="text-sm mb-2" style="color:var(--tx2);">Same content cards, but category labels are predefined. Participants place each item into the most appropriate category — testing IA legibility.</p><p class="text-xs font-semibold">Output: evidence of whether the IA is legible — or opaque — to the target population.</p></div>
+    <div class="card"><p class="tag" style="color:var(--red);">Applied to Our Case</p><p class="text-sm mb-2" style="color:var(--tx2);">An open sort with UK users produces "Wellbeing" and "Help" as natural groups. The same sort with HK users produces investment sub-categories the UK menu doesn't contain.</p><p class="text-xs font-semibold">These menus are the outputs of market-calibrated sorting over years of user research.</p></div>
+  </div>
+  <div class="kt-box"><p class="kt-label">◆ Key Takeaway</p><p class="text-sm">Information scent is the <strong>test</strong> — does the navigation work? Card sorting is the <strong>method</strong> that helps you build scent that works for your users. Used together: the empirical core of user-centred IA practice.</p></div>
+</div>
+
+<!-- ═════════════ S22 Card Sorting Deep Dive ═════════════ -->
+<div class="slide flex-col justify-center min-h-[70vh]" data-sec="Section 3 — User Journeys">
+  <div class="rule"></div>
+  <p class="slabel mb-1">Card Sorting — Comparative Outcomes</p>
+  <h2 class="serif text-3xl font-normal mb-1">Same Cards, Different Mental Models</h2>
+  <p class="text-sm mb-3" style="color:var(--tx2);">Same banking content cards. Open sort run separately with UK and HK participants. <strong>Hover any card to see where it lands in the other market.</strong></p>
+  <div class="grid grid-cols-2 gap-5" id="sort-grid">
+    <!-- UK -->
+    <div>
+      <p class="text-xs font-bold uppercase tracking-wider mb-2" style="color:var(--blue);">UK Participants — Groups Created</p>
+      <div class="bucket mb-2">
+        <div class="blabel" style="color:var(--blue);">Getting Help &amp; Support</div>
+        <span class="paper-card uk-c" data-card="mortgage-holiday">mortgage holiday</span>
+        <span class="paper-card uk-c" data-card="redundancy-support">redundancy support</span>
+        <span class="paper-card uk-c" data-card="mental-health">mental health</span>
+        <span class="paper-card uk-c" data-card="debt-consolidation">debt consolidation</span>
+        <span class="paper-card uk-c" data-card="bereavement">bereavement</span>
+      </div>
+      <div class="bucket mb-2">
+        <div class="blabel" style="color:var(--blue);">Saving &amp; Investing</div>
+        <span class="paper-card uk-c" data-card="isa">ISA</span>
+        <span class="paper-card uk-c" data-card="savings-account">savings account</span>
+      </div>
+      <div class="bucket mb-2">
+        <div class="blabel" style="color:var(--blue);">Cards &amp; Borrowing</div>
+        <span class="paper-card uk-c" data-card="credit-card">credit card</span>
+      </div>
+      <div class="bucket">
+        <div class="blabel">Unsorted / Unfamiliar</div>
+        <span class="paper-card sc-faded" data-card="warrants">warrants</span>
+        <span class="paper-card sc-faded" data-card="gba-transfer">GBA transfer</span>
+        <span class="paper-card sc-faded" data-card="rmb-exchange">RMB exchange</span>
+        <span class="paper-card sc-faded" data-card="ipo">IPO subscription</span>
+        <span class="paper-card sc-faded" data-card="payme">PayMe</span>
+        <p class="text-xs mt-1 italic" style="color:var(--tx2);">No mental model — HK-specific products with no UK cognitive category</p>
+      </div>
+    </div>
+    <!-- HK -->
+    <div>
+      <p class="text-xs font-bold uppercase tracking-wider mb-2" style="color:var(--green);">HK Participants — Groups Created</p>
+      <div class="bucket mb-2">
+        <div class="blabel" style="color:var(--green);">Investments &amp; Trading</div>
+        <span class="paper-card hk-c" data-card="stock-trading">stock trading</span>
+        <span class="paper-card hk-c" data-card="warrants">warrants</span>
+        <span class="paper-card hk-c" data-card="ipo">IPO subscription</span>
+        <span class="paper-card hk-c" data-card="isa">ISA</span>
+      </div>
+      <div class="bucket mb-2">
+        <div class="blabel" style="color:var(--green);">Cross-border &amp; FX</div>
+        <span class="paper-card hk-c" data-card="gba-transfer">GBA transfer</span>
+        <span class="paper-card hk-c" data-card="rmb-exchange">RMB exchange</span>
+      </div>
+      <div class="bucket mb-2">
+        <div class="blabel" style="color:var(--green);">Cards &amp; Everyday</div>
+        <span class="paper-card hk-c" data-card="credit-card">credit card</span>
+        <span class="paper-card hk-c" data-card="payme">PayMe</span>
+        <span class="paper-card hk-c" data-card="savings-account">savings account</span>
+        <span class="paper-card hk-c" data-card="ev-loan">EV loan</span>
+      </div>
+      <div class="bucket">
+        <div class="blabel">Unsorted / Unfamiliar</div>
+        <span class="paper-card sc-faded" data-card="mortgage-holiday">mortgage holiday</span>
+        <span class="paper-card sc-faded" data-card="bereavement">bereavement</span>
+        <span class="paper-card sc-faded" data-card="mental-health">mental health</span>
+        <span class="paper-card sc-faded" data-card="redundancy-support">redundancy support</span>
+        <span class="paper-card sc-faded" data-card="debt-consolidation">debt consolidation</span>
+        <p class="text-xs mt-1 italic" style="color:var(--tx2);">No expectation a bank provides welfare support — UK welfare framing has no HK mental category</p>
+      </div>
+    </div>
+  </div>
+  <div class="card-l mt-3"><p class="text-sm font-semibold">UK users immediately create "Getting Help &amp; Support". HK users immediately create "Cross-border &amp; FX". <em>Neither group appears in the opposite market's sort.</em> These are the raw materials from which IA should be built.</p></div>
+</div>
+
+<!-- ═════════════ S23 Discussion #3 ═════════════ -->
+<div class="slide disc-slide flex-col items-center justify-center min-h-[70vh]" data-sec="Section 3 — User Journeys">
+  <div style="width:44px;height:3px;background:#DB0011;border-radius:2px;margin-bottom:1.5rem;"></div>
+  <p style="font-size:.68rem;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:#DB0011;margin-bottom:1.5rem;">Discussion — 10 Minutes</p>
+  <h2 class="serif font-normal text-center mb-5" style="font-size:clamp(1.4rem,2.8vw,2rem);color:#f1f5f9;max-width:640px;line-height:1.5;">Think about a library catalogue, institutional repository, or research database in your field.</h2>
+  <div style="max-width:560px;text-align:center;">
+    <p style="color:#94a3b8;font-size:.9rem;line-height:1.75;margin-bottom:.8rem;">Who is the assumed user? What would an open card sort reveal if conducted with each user group? What is the equivalent of HSBC UK's "Wellbeing" — content signalling care rather than mere retrieval?</p>
+    <p style="color:#475569;font-size:.78rem;">Groups of 3–4 · Nominate a spokesperson · 5 min report back</p>
+  </div>
+</div>
+
+<!-- ═════════════ S24 Apps — NEW SLIDE ═════════════ -->
+<div class="slide flex-col justify-center min-h-[70vh]" data-sec="Section 2 — The Comparison">
+  <div class="rule"></div>
+  <p class="slabel mb-2">One Bank, Two Markets — The App Layer</p>
+  <h2 class="serif text-3xl font-normal mb-1">When the App <em>Is</em> the IA</h2>
+  <p class="text-sm mb-4" style="color:var(--tx2);">UK offers 1 general-purpose banking app. HK offers 5 purpose-built apps. Each HK app is an IA decision — a claim that certain user activities are distinct enough to deserve their own information space.</p>
+  <div class="grid grid-cols-2 gap-4 mb-4">
+    <!-- UK -->
+    <div>
+      <p class="text-xs font-bold uppercase tracking-wider mb-2" style="color:var(--blue);">HSBC UK — 1 App</p>
+      <div class="app-card flex items-center gap-3 mb-2">
+        <div class="app-icon" style="background:#1d4ed8;">📱</div>
+        <div class="flex-1">
+          <p class="text-sm font-bold">HSBC UK Mobile Banking</p>
+          <p class="text-xs mb-2" style="color:var(--tx2);">Accounts · Transfers · Payments · Borrowing · Investing</p>
+          <div class="bc">
+            <span class="bc-step">Banking</span><span class="bc-sep">›</span>
+            <span class="bc-step">Ways to Bank</span><span class="bc-sep">›</span>
+            <span class="bc-end" style="background:#1d4ed8;">Mobile Banking App</span>
+          </div>
+        </div>
+      </div>
+      <div class="card" style="border-left:3px solid var(--blue);">
+        <p class="text-xs font-semibold mb-1" style="color:var(--blue);">What 1 app signals:</p>
+        <p class="text-xs" style="color:var(--tx2);">Banking is a unified activity. Users have one financial relationship with one interface. Complexity is managed by the bank, not distributed across specialist tools. The user is not expected to choose which instrument to use for which task.</p>
+      </div>
+    </div>
+    <!-- HK -->
+    <div>
+      <p class="text-xs font-bold uppercase tracking-wider mb-2" style="color:var(--green);">HSBC HK — 5 Apps</p>
+      <div class="space-y-1.5">
+        <div class="app-card flex items-center gap-3">
+          <div class="app-icon" style="background:#DB0011;">🏦</div>
+          <div class="flex-1">
+            <p class="text-xs font-bold">HSBC HK App <span class="text-xs font-normal" style="color:var(--tx2);">— Main banking hub</span></p>
+            <div class="bc mt-1"><span class="bc-step">Banking</span><span class="bc-sep">›</span><span class="bc-step">Ways to Bank</span><span class="bc-sep">›</span><span class="bc-end" style="background:#DB0011;">HSBC HK App</span></div>
+          </div>
+        </div>
+        <div class="app-card flex items-center gap-3">
+          <div class="app-icon" style="background:#16a34a;">📊</div>
+          <div class="flex-1">
+            <p class="text-xs font-bold">Easy Invest <span class="text-xs font-normal" style="color:var(--tx2);">— Dedicated trading platform</span></p>
+            <div class="bc mt-1"><span class="bc-step">Investing</span><span class="bc-sep">›</span><span class="bc-step">Wealth Mobile Solutions</span><span class="bc-sep">›</span><span class="bc-end" style="background:#16a34a;">Easy Invest</span></div>
+          </div>
+        </div>
+        <div class="app-card flex items-center gap-3">
+          <div class="app-icon" style="background:#7c3aed;">💳</div>
+          <div class="flex-1">
+            <p class="text-xs font-bold">Reward+ <span class="text-xs font-normal" style="color:var(--tx2);">— Credit card rewards management</span></p>
+            <div class="bc mt-1"><span class="bc-step">Borrowing</span><span class="bc-sep">›</span><span class="bc-step">Use Your Credit Card</span><span class="bc-sep">›</span><span class="bc-end" style="background:#7c3aed;">HSBC Reward+</span></div>
+          </div>
+        </div>
+        <div class="app-card flex items-center gap-3">
+          <div class="app-icon" style="background:#0891b2;">💬</div>
+          <div class="flex-1">
+            <p class="text-xs font-bold">PayMe <span class="text-xs font-normal" style="color:var(--tx2);">— Peer-to-peer &amp; merchant payments</span></p>
+            <div class="bc mt-1"><span class="bc-step">Banking</span><span class="bc-sep">›</span><span class="bc-step">Accounts &amp; Services</span><span class="bc-sep">›</span><span class="bc-end" style="background:#0891b2;">PayMe</span></div>
+          </div>
+        </div>
+        <div class="app-card flex items-center gap-3">
+          <div class="app-icon" style="background:#64748b;">📋</div>
+          <div class="flex-1">
+            <p class="text-xs font-bold">Lite Mode <span class="text-xs font-normal" style="color:var(--tx2);">— Simplified interface for basic banking</span></p>
+            <div class="bc mt-1"><span class="bc-step">Banking</span><span class="bc-sep">›</span><span class="bc-step">Ways to Bank</span><span class="bc-sep">›</span><span class="bc-end" style="background:#64748b;">Lite Mode</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="grid grid-cols-3 gap-3">
+    <div class="card"><p class="tag" style="color:var(--green);">App-as-IA</p><p class="text-xs" style="color:var(--tx2);">In HK, the first IA decision is <em>which app to open</em>. The navigation structure is distributed across five separate information spaces. Each app is a distinct mental model made into a product.</p></div>
+    <div class="card"><p class="tag" style="color:var(--green);">Modular financial life</p><p class="text-xs" style="color:var(--tx2);">HK assumes financial activity is multi-dimensional and specialised: trading ≠ payments ≠ rewards ≠ basic banking. Users are expected to self-segment by task.</p></div>
+    <div class="card"><p class="tag" style="color:var(--green);">Each app is a market signal</p><p class="text-xs" style="color:var(--tx2);">PayMe exists because P2P payments are a mass-market daily behaviour in HK. Easy Invest exists because active retail trading is assumed. These apps could not exist without the market that demands them.</p></div>
+  </div>
+</div>
+
+<!-- ═════════════ S25 The IA is the Argument ═════════════ -->
+<div class="slide flex-col justify-center min-h-[70vh]" data-sec="Section 4 — Synthesis">
+  <div class="rule"></div>
+  <p class="slabel mb-2">Section 4 — Synthesis</p>
+  <h2 class="serif text-4xl font-normal mb-4">The IA <em>Is</em> the Argument</h2>
+  <div class="grid grid-cols-2 gap-5">
+    <div class="space-y-3">
+      <div class="p-3 rounded-lg" style="border-left:3px solid var(--red);background:var(--red-bg);"><p class="text-sm font-semibold mb-1">"Wellbeing" as top-level</p><p class="text-sm" style="color:var(--tx2);">…is a claim: <em>users in difficulty are a primary use case, not an edge case.</em></p></div>
+      <div class="p-3 rounded-lg" style="border-left:3px solid var(--green);background:var(--green-bg);"><p class="text-sm font-semibold mb-1">"Insights" as top-level</p><p class="text-sm" style="color:var(--tx2);">…is a claim: <em>users consume market intelligence regularly and need direct access to it.</em></p></div>
+      <div class="p-3 rounded-lg" style="border-left:3px solid var(--purple);background:var(--purple-bg);"><p class="text-sm font-semibold mb-1">"Offers" as top-level</p><p class="text-sm" style="color:var(--tx2);">…is a claim: <em>users are motivated by commercial opportunity and actively seek incentives.</em></p></div>
+      <div class="p-3 rounded-lg" style="border-left:3px solid var(--blue);background:var(--blue-bg);"><p class="text-sm font-semibold mb-1">5 apps instead of 1</p><p class="text-sm" style="color:var(--tx2);">…is a claim: <em>financial life is modular, specialised, and too varied for a single interface.</em></p></div>
+    </div>
+    <div class="space-y-3">
+      <div class="card"><p class="font-semibold mb-2">None of these are neutral decisions.</p><p class="text-sm mb-2" style="color:var(--tx2);">Every IA decision is a claim about users. Some claims are made consciously — through research, card sorting, deliberate design. Others are made by default: replicating legacy structures, designing for the designer's own mental model.</p><p class="text-sm" style="color:var(--tx2);">The two HSBC menus make these invisible forces visible.</p></div>
+      <div class="kt-box"><p class="kt-label">◆ Key Takeaway</p><p class="text-sm">For information professionals: you are often the people who make these decisions, inherit these structures, and — with the right tools — can identify when they are failing the people they were built to serve.</p></div>
+    </div>
+  </div>
+</div>
+
+<!-- ═════════════ S26 Key Takeaways ═════════════ -->
+<div class="slide flex-col justify-center min-h-[70vh]" data-sec="Section 4 — Synthesis">
+  <div class="rule"></div>
+  <p class="slabel mb-2">Section 4 — Synthesis</p>
+  <h2 class="serif text-4xl font-normal mb-4">Key Takeaways</h2>
+  <div class="grid grid-cols-2 gap-3">
+    <div class="card flex gap-3 items-start">
+      <span class="takeaway-n">01</span>
+      <div><div class="flex items-center gap-2 mb-1"><p class="font-semibold text-sm">Navigation labels are promises — broken scent means abandonment</p><span class="theory-pill" style="font-size:.5rem;flex-shrink:0;">Pirolli &amp; Card</span></div><p class="text-xs" style="color:var(--tx2);">Scent must match the target user's vocabulary. Failure is structural, not content-based.</p></div>
+    </div>
+    <div class="card flex gap-3 items-start">
+      <span class="takeaway-n">02</span>
+      <div><div class="flex items-center gap-2 mb-1"><p class="font-semibold text-sm">IA embeds assumptions — those assumptions need evidence</p><span class="theory-pill" style="font-size:.5rem;flex-shrink:0;">Norman</span></div><p class="text-xs" style="color:var(--tx2);">Every label is a hypothesis about user mental models. Test it with card sorting and user journeys before building.</p></div>
+    </div>
+    <div class="card flex gap-3 items-start">
+      <span class="takeaway-n">03</span>
+      <div><div class="flex items-center gap-2 mb-1"><p class="font-semibold text-sm">Same brand; radically different IA for different markets</p><span class="theory-pill" style="font-size:.5rem;flex-shrink:0;">Mental Models</span></div><p class="text-xs" style="color:var(--tx2);">IA is not portable. It must be grown from the mental models of its actual users — not transplanted from another context.</p></div>
+    </div>
+    <div class="card flex gap-3 items-start">
+      <span class="takeaway-n">04</span>
+      <div><div class="flex items-center gap-2 mb-1"><p class="font-semibold text-sm">User journeys expose the gap between intended and actual users</p><span class="theory-pill" style="font-size:.5rem;flex-shrink:0;">Journey Mapping</span></div><p class="text-xs" style="color:var(--tx2);">Trace a journey for someone the system was <em>not</em> designed for — structural assumptions become immediately visible.</p></div>
+    </div>
+    <div class="card flex gap-3 items-start">
+      <span class="takeaway-n">05</span>
+      <div><div class="flex items-center gap-2 mb-1"><p class="font-semibold text-sm">Card sorting grounds IA in user evidence, not intuition</p><span class="theory-pill" style="font-size:.5rem;flex-shrink:0;">Card Sorting</span></div><p class="text-xs" style="color:var(--tx2);">Open sort first — find users' vocabulary. Closed sort second — test legibility. Never build from a blank wireframe without evidence.</p></div>
+    </div>
+    <div class="card flex gap-3 items-start">
+      <span class="takeaway-n">06</span>
+      <div><p class="font-semibold text-sm mb-1">IA critique is a core professional competency</p><p class="text-xs" style="color:var(--tx2);">You will work with, maintain, and sometimes design these systems. Reading embedded assumptions — and identifying whose needs they serve — is professional literacy.</p></div>
+    </div>
+  </div>
+</div>
+
+<!-- ═════════════ S27 Implications ═════════════ -->
+<div class="slide flex-col justify-center min-h-[70vh]" data-sec="Section 4 — Synthesis">
+  <div class="rule"></div>
+  <p class="slabel mb-2">Section 4 — Synthesis</p>
+  <h2 class="serif text-4xl font-normal mb-4">Implications for <em>Your</em> Field</h2>
+  <div class="grid grid-cols-2 gap-5">
+    <div>
+      <p class="font-semibold mb-3">Questions to carry from today</p>
+      <div class="space-y-2.5">
+        <div class="flex gap-2"><span style="color:var(--red);font-weight:700;flex-shrink:0;">?</span><p class="text-sm" style="color:var(--tx2);">Who is the assumed user of your institution's information systems — and is that assumption still accurate as user populations shift?</p></div>
+        <div class="flex gap-2"><span style="color:var(--red);font-weight:700;flex-shrink:0;">?</span><p class="text-sm" style="color:var(--tx2);">What would an open card sort reveal if conducted with your library's actual users — versus its assumed users?</p></div>
+        <div class="flex gap-2"><span style="color:var(--red);font-weight:700;flex-shrink:0;">?</span><p class="text-sm" style="color:var(--tx2);">What is the equivalent of "Wellbeing" in your catalogue? What signals does your IA send about institutional care versus mere retrieval?</p></div>
+        <div class="flex gap-2"><span style="color:var(--red);font-weight:700;flex-shrink:0;">?</span><p class="text-sm" style="color:var(--tx2);">What is buried three levels deep that perhaps should be top-level — and why did it end up buried?</p></div>
+      </div>
+    </div>
+    <div class="space-y-3">
+      <div class="card"><p class="font-semibold mb-2">The parallel with library IA</p><p class="text-sm" style="color:var(--tx2);">A catalogue designed for doctoral researchers will fail a first-year undergraduate exactly as the HK menu fails Sarah — not because content is absent, but because the path was designed for someone else.</p></div>
+      <div class="kt-box"><p class="kt-label">◆ The Stakes</p><p class="text-sm">Where a bank failing its users costs financial friction, a library failing its users can cost access to knowledge. That framing may help when making the case for user research investment.</p></div>
+    </div>
+  </div>
+</div>
+
+<!-- ═════════════ S28 Q&A ═════════════ -->
+<div class="slide flex-col items-center justify-center min-h-[70vh]" data-sec="Section 4 — Synthesis">
+  <div class="rule" style="margin:0 auto 1.5rem;"></div>
+  <p class="slabel mb-4">Open for Discussion</p>
+  <h2 class="serif font-normal text-center mb-3" style="font-size:clamp(2.8rem,6vw,4.5rem);">Questions?</h2>
+  <p class="text-xl text-center mb-8" style="color:var(--tx2);">Navigation as Argument — IA, Information Scent &amp; Market Design</p>
+  <div class="grid grid-cols-3 gap-4 w-full max-w-3xl">
+    <div class="card text-center"><p class="text-xs font-semibold uppercase tracking-wider mb-2" style="color:var(--tx2);">Core Framework</p><p class="text-sm font-medium">Pirolli &amp; Card (1999)<br>Information Foraging Theory</p></div>
+    <div class="card text-center"><p class="text-xs font-semibold uppercase tracking-wider mb-2" style="color:var(--tx2);">Case Study</p><p class="text-sm font-medium">HSBC UK × HSBC HK<br>Same brand · different markets</p></div>
+    <div class="card text-center"><p class="text-xs font-semibold uppercase tracking-wider mb-2" style="color:var(--tx2);">Methods</p><p class="text-sm font-medium">User journeys · Card sorting<br>Scent analysis</p></div>
+  </div>
+</div>
+
+</div></main>
+
+<footer class="border-t px-6 py-3 flex-shrink-0" style="border-color:var(--border);background:var(--bg);">
+  <div class="max-w-5xl mx-auto flex justify-between items-center">
+    <button id="prevBtn" onclick="go(-1)" class="px-5 py-2 rounded border text-sm font-medium" style="border-color:var(--border);" aria-label="Previous">← Previous</button>
+    <span id="counter" class="text-sm" style="color:var(--tx2);">1 / 28</span>
+    <button id="nextBtn" onclick="go(1)"  class="px-5 py-2 rounded border text-sm font-medium" style="border-color:var(--border);" aria-label="Next">Next →</button>
+  </div>
+</footer>
+
+<script>
+let cur=0, isDark=false, fsize=1.2;
+const slides=[...document.querySelectorAll('.slide')];
+const prevBtn=document.getElementById('prevBtn');
+const nextBtn=document.getElementById('nextBtn');
+const counter=document.getElementById('counter');
+const secLabel=document.getElementById('secLabel');
+
+function show(n){
+  slides[cur].classList.remove('active');
+  cur=Math.max(0,Math.min(n,slides.length-1));
+  slides[cur].classList.add('active');
+  counter.textContent=`${cur+1} / ${slides.length}`;
+  const s=slides[cur].dataset.sec; if(s) secLabel.textContent=s;
+  prevBtn.disabled=cur===0; prevBtn.style.opacity=cur===0?'.35':'1';
+  nextBtn.disabled=cur===slides.length-1; nextBtn.style.opacity=cur===slides.length-1?'.35':'1';
+}
+function go(d){show(cur+d);}
+function dm(){isDark=!isDark;document.body.classList.toggle('dark',isDark);document.getElementById('dmIcon').textContent=isDark?'☀️':'🌙';}
+function fs(d){fsize=Math.max(.75,Math.min(1.6,Math.round((fsize+d*.1)*10)/10));document.documentElement.style.setProperty('--fs',fsize);}
+document.addEventListener('keydown',e=>{
+  if(e.key==='ArrowRight'||e.key==='ArrowDown') go(1);
+  if(e.key==='ArrowLeft'||e.key==='ArrowUp') go(-1);
+});
+
+// ─── Suppress columns ───
+function toggleSup(id,btnId){
+  const el=document.getElementById(id), btn=document.getElementById(btnId);
+  el.classList.toggle('dim');
+  btn.classList.toggle('on',el.classList.contains('dim'));
+}
+
+// ─── Menu highlight: event delegation, click to toggle .hi ───
+function initMenuHL(slideId){
+  const el=document.getElementById(slideId);
+  if(!el) return;
+  el.addEventListener('click',function(e){
+    const item=e.target.closest('.mi');
+    if(!item) return;
+    item.classList.toggle('hi');
+  });
+}
+initMenuHL('ms8'); initMenuHL('ms9'); initMenuHL('ms10');
+
+// ─── Market toggle (UK / Both / HK) ───
+// ms8 has ids ms8-uk, ms8-hk;  ms9 has ms9-uk, ms9-hk
+function setMkt(n, mode){
+  const btns=document.querySelectorAll(`#mkt${n} .mkt-btn`);
+  btns.forEach(b=>b.classList.remove('on'));
+  // find the clicked button
+  btns.forEach(b=>{
+    const bMode = b.textContent.trim().toLowerCase();
+    if(bMode===mode || (mode==='hk view' && bMode==='hk view')) b.classList.add('on');
+  });
+  if(n===10) return; // S10 is single-market, no toggle needed
+  const ukEl=document.getElementById(`ms${n}-uk`);
+  const hkEl=document.getElementById(`ms${n}-hk`);
+  const grid=document.getElementById(`ms${n}`);
+  if(mode==='uk'){
+    ukEl.style.display=''; hkEl.style.display='none';
+    grid.classList.remove('grid-cols-2'); grid.style.gridTemplateColumns='1fr';
+    ukEl.style.maxWidth='580px';
+  } else if(mode==='hk'){
+    ukEl.style.display='none'; hkEl.style.display='';
+    grid.classList.remove('grid-cols-2'); grid.style.gridTemplateColumns='1fr';
+    hkEl.style.maxWidth='580px';
+  } else {
+    ukEl.style.display=''; hkEl.style.display='';
+    grid.style.gridTemplateColumns=''; grid.classList.add('grid-cols-2');
+    ukEl.style.maxWidth=''; hkEl.style.maxWidth='';
+  }
+}
+// fix button labels to match mode strings
+document.querySelectorAll('#mkt8 .mkt-btn, #mkt9 .mkt-btn').forEach(b=>{
+  b.onclick = function(){
+    const n = this.closest('.mkt-toggle').id.replace('mkt','');
+    const t = this.textContent.trim().toLowerCase();
+    setMkt(parseInt(n), t);
+  };
+});
+
+// ─── Card sort cross-highlight ───
+const sortGrid=document.getElementById('sort-grid');
+if(sortGrid){
+  sortGrid.addEventListener('mouseover',function(e){
+    const card=e.target.closest('.paper-card');
+    if(!card||card.classList.contains('sc-faded')) return;
+    const id=card.dataset.card;
+    sortGrid.querySelectorAll(`.paper-card[data-card="${id}"]`).forEach(c=>c.classList.add('xhi'));
+  });
+  sortGrid.addEventListener('mouseout',function(e){
+    const card=e.target.closest('.paper-card');
+    if(!card) return;
+    const id=card.dataset.card;
+    sortGrid.querySelectorAll(`.paper-card[data-card="${id}"]`).forEach(c=>c.classList.remove('xhi'));
+  });
+}
+
+show(0);
+</script>
+</body>
+</html>
