@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Session 8: Heuristic Evaluation Lab</title>
+    <title>Session 8: Prototyping Tools & Thinking in Flows</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=DM+Serif+Display&display=swap" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
@@ -38,321 +38,383 @@
 
     <main class="flex-1 flex items-center justify-center p-8">
         <div class="w-full max-w-5xl">
+
+            <!-- SLIDE 1: Title -->
             <div class="slide active flex-col items-center justify-center text-center h-[70vh]">
                 <h2 class="text-5xl font-bold mb-6">Session 8</h2>
-                <h3 class="text-3xl mb-8" style="color: var(--text-secondary);">Heuristic Evaluation Lab</h3>
+                <h3 class="text-3xl mb-8" style="color: var(--text-secondary);">Prototyping Tools &amp; Thinking in Flows</h3>
                 <p class="text-xl" style="color: var(--text-secondary);">Week 8 of 11</p>
             </div>
 
+            <!-- SLIDE 2: Where We Are -->
             <div class="slide flex-col justify-center h-[70vh]">
                 <h2 class="text-4xl font-bold mb-8">Where We Are</h2>
                 <ul class="space-y-4 text-xl">
-                    <li>✓ You have: Sketches, flow diagram, artefacts</li>
-                    <li>✓ Your design is taking shape!</li>
-                    <li>✓ Now: Time to evaluate it critically</li>
+                    <li>✓ You have: Sketches, artefacts, heuristic evaluation</li>
+                    <li>✓ You know what's wrong with your design</li>
+                    <li>✓ Now: Time to build a <strong>clickable prototype</strong></li>
                 </ul>
                 <p class="mt-8 text-2xl font-semibold p-4 rounded" style="background-color: var(--bg-secondary);">
-                    Today: Learn professional evaluation methods
+                    Today: From static screens to interactive flows
                 </p>
             </div>
 
+            <!-- SLIDE 3: What is Google Stitch -->
             <div class="slide flex-col justify-center h-[70vh]">
-                <h2 class="text-4xl font-bold mb-8">What is Heuristic Evaluation?</h2>
-                <div class="mb-6 p-5 rounded" style="background-color: var(--bg-secondary); border: 2px solid var(--border-color);">
-                    <p class="text-2xl">A systematic review of a design using established usability principles</p>
+                <h2 class="text-4xl font-bold mb-6">What is Google Stitch?</h2>
+                <div class="mb-5 p-5 rounded" style="background-color: var(--bg-secondary); border: 2px solid var(--border-color);">
+                    <p class="text-xl">A free AI tool from Google Labs that turns a text prompt — or a sketch photo — into a high-fidelity mobile or web UI in seconds</p>
                 </div>
-                <ul class="space-y-5 text-xl">
-                    <li class="flex items-start"><span class="mr-3">📋</span><span>Expert evaluation method</span></li>
-                    <li class="flex items-start"><span class="mr-3">🔍</span><span>Uses Nielsen's 10 heuristics as checklist</span></li>
-                    <li class="flex items-start"><span class="mr-3">⚠️</span><span>Finds problems before users encounter them</span></li>
-                    <li class="flex items-start"><span class="mr-3">💼</span><span>Industry-standard UX practice</span></li>
-                </ul>
-            </div>
-
-            <div class="slide flex-col justify-center h-[70vh]">
-                <h2 class="text-4xl font-bold mb-8">Why Do This?</h2>
-                <div class="space-y-4">
-                    <div class="p-4 rounded" style="background-color: #dcfce7; border-left: 4px solid #16a34a;">
-                        <p class="text-lg"><strong>For your assessment:</strong> Can be one of your testing artefacts</p>
+                <div class="space-y-3 text-lg">
+                    <div class="flex items-start gap-3">
+                        <span>🌐</span><span><strong>stitch.withgoogle.com</strong> — free, just needs a Google account</span>
                     </div>
-                    <div class="p-4 rounded" style="background-color: #dbeafe; border-left: 4px solid #3b82f6;">
-                        <p class="text-lg"><strong>For your learning:</strong> Shows critical thinking and self-reflection</p>
+                    <div class="flex items-start gap-3">
+                        <span>✍️</span><span>Describe your screen in plain English — or upload your paper sketch</span>
                     </div>
-                    <div class="p-4 rounded" style="background-color: #fef3c7; border-left: 4px solid #f59e0b;">
-                        <p class="text-lg"><strong>For your career:</strong> Professional UX skill used in real projects</p>
+                    <div class="flex items-start gap-3">
+                        <span>🎨</span><span>Generates multiple screen variants with real components, typography, colour</span>
                     </div>
-                    <div class="p-4 rounded" style="background-color: #e0e7ff; border-left: 4px solid #6366f1;">
-                        <p class="text-lg"><strong>For your design:</strong> Identifies specific improvements to make</p>
+                    <div class="flex items-start gap-3">
+                        <span>📤</span><span>Export to Figma, copy as HTML/CSS, or screenshot for your slide deck</span>
+                    </div>
+                    <div class="flex items-start gap-3">
+                        <span>🔗</span><span>New canvas mode: stitch screens together into interactive prototype flows</span>
                     </div>
                 </div>
             </div>
 
+            <!-- SLIDE 4: What Stitch Is Good For -->
             <div class="slide flex-col justify-center h-[70vh]">
-                <h2 class="text-4xl font-bold mb-8">The Method</h2>
-                <div class="space-y-4 text-lg">
-                    <div class="p-4 rounded flex items-center gap-4" style="background-color: var(--bg-secondary); border-left: 4px solid var(--accent-color);">
-                        <span class="text-3xl">1</span>
-                        <span><strong>Review design</strong> against each of Nielsen's 10 heuristics</span>
+                <h2 class="text-4xl font-bold mb-6">What Stitch Is (and Isn't) Good For</h2>
+                <div class="grid grid-cols-2 gap-5">
+                    <div>
+                        <p class="font-bold text-lg mb-3" style="color: #16a34a;">✅ Great for</p>
+                        <div class="space-y-2 text-base">
+                            <div class="p-3 rounded" style="background-color: #dcfce7;">Generating a starting point fast</div>
+                            <div class="p-3 rounded" style="background-color: #dcfce7;">Turning paper sketches into digital screens</div>
+                            <div class="p-3 rounded" style="background-color: #dcfce7;">Exploring multiple visual directions quickly</div>
+                            <div class="p-3 rounded" style="background-color: #dcfce7;">Non-designers producing credible-looking UI</div>
+                        </div>
                     </div>
-                    <div class="p-4 rounded flex items-center gap-4" style="background-color: var(--bg-secondary); border-left: 4px solid var(--accent-color);">
-                        <span class="text-3xl">2</span>
-                        <span><strong>Identify violations</strong> - where design breaks principles</span>
-                    </div>
-                    <div class="p-4 rounded flex items-center gap-4" style="background-color: var(--bg-secondary); border-left: 4px solid var(--accent-color);">
-                        <span class="text-3xl">3</span>
-                        <span><strong>Rate severity</strong> of each issue (0-4 scale)</span>
-                    </div>
-                    <div class="p-4 rounded flex items-center gap-4" style="background-color: var(--bg-secondary); border-left: 4px solid var(--accent-color);">
-                        <span class="text-3xl">4</span>
-                        <span><strong>Document findings</strong> with specific examples</span>
-                    </div>
-                    <div class="p-4 rounded flex items-center gap-4" style="background-color: var(--bg-secondary); border-left: 4px solid var(--accent-color);">
-                        <span class="text-3xl">5</span>
-                        <span><strong>Suggest improvements</strong> for each issue</span>
+                    <div>
+                        <p class="font-bold text-lg mb-3" style="color: #dc2626;">⚠️ Limitations</p>
+                        <div class="space-y-2 text-base">
+                            <div class="p-3 rounded" style="background-color: #fee2e2;">Doesn't think about your users — you do</div>
+                            <div class="p-3 rounded" style="background-color: #fee2e2;">One screen at a time, not a full flow</div>
+                            <div class="p-3 rounded" style="background-color: #fee2e2;">Complex interactions still need human design</div>
+                            <div class="p-3 rounded" style="background-color: #fee2e2;">Output needs review against your UCD principles</div>
+                        </div>
                     </div>
                 </div>
+                <p class="mt-5 text-base p-3 rounded" style="background-color: #fef3c7;">
+                    💡 Think of Stitch as a <strong>fast sketching tool</strong> — it gives you raw material, not a finished design
+                </p>
             </div>
 
+            <!-- SLIDE 5: Activity — Try Stitch -->
             <div class="slide flex-col justify-center h-[70vh]">
-                <h2 class="text-4xl font-bold mb-6">Severity Rating Scale</h2>
-                <div class="space-y-3">
-                    <div class="p-4 rounded" style="background-color: #dcfce7; border-left: 4px solid #16a34a;">
-                        <p class="text-lg"><strong>0 = Not a usability problem</strong></p>
-                        <p class="text-sm" style="color: var(--text-secondary);">Everything works as expected</p>
-                    </div>
-                    <div class="p-4 rounded" style="background-color: #dbeafe; border-left: 4px solid #3b82f6;">
-                        <p class="text-lg"><strong>1 = Cosmetic problem only</strong></p>
-                        <p class="text-sm" style="color: var(--text-secondary);">Fix if time allows, not critical</p>
-                    </div>
-                    <div class="p-4 rounded" style="background-color: #fef3c7; border-left: 4px solid #f59e0b;">
-                        <p class="text-lg"><strong>2 = Minor usability problem</strong></p>
-                        <p class="text-sm" style="color: var(--text-secondary);">Low priority fix, causes slight inconvenience</p>
-                    </div>
-                    <div class="p-4 rounded" style="background-color: #fed7aa; border-left: 4px solid #ea580c;">
-                        <p class="text-lg"><strong>3 = Major usability problem</strong></p>
-                        <p class="text-sm" style="color: var(--text-secondary);">High priority, significantly impacts usability</p>
-                    </div>
-                    <div class="p-4 rounded" style="background-color: #fee2e2; border-left: 4px solid #dc2626;">
-                        <p class="text-lg"><strong>4 = Usability catastrophe</strong></p>
-                        <p class="text-sm" style="color: var(--text-secondary);">MUST fix before release, prevents task completion</p>
-                    </div>
-                </div>
-            </div>
-
-            <div class="slide flex-col justify-center h-[70vh]">
-                <h2 class="text-3xl font-bold mb-4">Example Evaluation</h2>
-                <div class="p-5 rounded" style="background-color: var(--bg-secondary); border: 2px solid var(--border-color);">
-                    <p class="text-lg font-bold mb-4">Banking App - Transaction Screen</p>
-                    <div class="mb-4 p-3 rounded" style="background-color: var(--bg-primary);">
-                        <p class="font-semibold mb-2">Heuristic #3: User Control and Freedom</p>
-                        <p class="text-sm mb-2"><strong>Issue:</strong> No way to cancel transaction once "Submit" is pressed. User must complete transaction or close app entirely (losing all data).</p>
-                        <p class="text-sm mb-2"><strong>Severity:</strong> 3 (Major usability problem)</p>
-                        <p class="text-sm mb-2"><strong>Evidence:</strong> Users report accidentally submitting wrong amounts, no undo option available</p>
-                        <p class="text-sm"><strong>Recommendation:</strong> Add "Cancel" button visible during processing, Add confirmation dialog before final submit</p>
-                    </div>
-                </div>
-            </div>
-
-            <div class="slide flex-col justify-center h-[70vh]">
-                <h2 class="text-4xl font-bold mb-6">Activity: Evaluate Sample App (15 min)</h2>
-                <div class="mb-6 p-5 rounded" style="background-color: #dbeafe; border: 2px solid #3b82f6;">
-                    <p class="text-xl font-semibold mb-3">Everyone evaluate the same app:</p>
-                    <p class="text-lg">MMU Library App (or another app we choose together)</p>
+                <h2 class="text-4xl font-bold mb-6">Activity: Try Stitch (10 min)</h2>
+                <div class="mb-5 p-4 rounded" style="background-color: #dbeafe; border: 2px solid #3b82f6;">
+                    <p class="text-lg font-semibold">Generate one key screen from your community service app</p>
                 </div>
                 <div class="space-y-3 text-base">
                     <div class="p-3 rounded" style="background-color: var(--bg-secondary);">
-                        1. Open the app and explore main features
+                        1. Go to <strong>stitch.withgoogle.com</strong> and sign in
                     </div>
                     <div class="p-3 rounded" style="background-color: var(--bg-secondary);">
-                        2. Go through Nielsen's 10 heuristics one by one
+                        2. Write a prompt — include: app purpose, screen name, key elements (e.g. "a home screen for a local library app showing search, opening hours, and event listings, clean and accessible")
                     </div>
                     <div class="p-3 rounded" style="background-color: var(--bg-secondary);">
-                        3. Document 5 issues you find
+                        3. Try a second variant with a different style or layout
                     </div>
                     <div class="p-3 rounded" style="background-color: var(--bg-secondary);">
-                        4. Rate severity for each (0-4)
-                    </div>
-                    <div class="p-3 rounded" style="background-color: var(--bg-secondary);">
-                        5. Suggest fix for each issue
+                        4. Screenshot or export the version closest to your vision
                     </div>
                 </div>
-            </div>
-
-            <div class="slide flex-col justify-center h-[70vh]">
-                <h2 class="text-4xl font-bold mb-8">Compare Findings</h2>
-                <div class="mb-6 p-5 rounded" style="background-color: var(--bg-secondary); border: 2px solid var(--border-color);">
-                    <p class="text-xl">Let's discuss what everyone found:</p>
-                </div>
-                <ul class="space-y-4 text-lg">
-                    <li class="flex items-start"><span class="mr-3">📊</span><span>Which issues were most common?</span></li>
-                    <li class="flex items-start"><span class="mr-3">⚖️</span><span>Do we agree on severity ratings?</span></li>
-                    <li class="flex items-start"><span class="mr-3">💡</span><span>What's the most critical issue found?</span></li>
-                    <li class="flex items-start"><span class="mr-3">🔍</span><span>Did anyone find something unique?</span></li>
-                </ul>
-                <p class="mt-8 text-base p-4 rounded" style="background-color: #fef3c7;">
-                    Multiple evaluators often find different issues - that's normal and valuable!
+                <p class="mt-4 text-base p-3 rounded" style="background-color: #fef3c7;">
+                    🎯 Goal: a usable screenshot to drop into your prototype later today
                 </p>
             </div>
 
+            <!-- SLIDE 6: Navbar Consistency Problem -->
             <div class="slide flex-col justify-center h-[70vh]">
-                <h2 class="text-4xl font-bold mb-8">Now: Evaluate YOUR Design</h2>
-                <div class="mb-6 p-5 rounded" style="background-color: #fef3c7; border: 2px solid #f59e0b;">
-                    <p class="text-xl">Time to be honest about your own work</p>
+                <h2 class="text-4xl font-bold mb-5">Stitch Problem: Inconsistent Navbars</h2>
+                <div class="mb-5 p-4 rounded" style="background-color: #fee2e2; border: 2px solid #dc2626;">
+                    <p class="text-base">⚠️ Even when you ask Stitch to generate multiple screens for the same app, the navbar or bottom menu often shifts — different icons, labels, or layout. This breaks the illusion of a real product.</p>
                 </div>
-                <ul class="space-y-5 text-xl">
-                    <li class="flex items-start"><span class="mr-3">🔍</span><span>Review your sketches against all 10 heuristics</span></li>
-                    <li class="flex items-start"><span class="mr-3">💭</span><span>Be critical - finding issues shows good judgment</span></li>
-                    <li class="flex items-start"><span class="mr-3">📝</span><span>Document everything you find</span></li>
-                    <li class="flex items-start"><span class="mr-3">✅</span><span>Note what you did WELL too!</span></li>
-                </ul>
+                <div class="grid grid-cols-2 gap-5 text-sm">
+                    <div class="p-4 rounded" style="background-color: var(--bg-secondary); border: 2px solid var(--border-color);">
+                        <p class="font-bold text-base mb-3" style="color: #2563eb;">Solution 1 — Prompt discipline</p>
+                        <p class="mb-2" style="color: var(--text-secondary);">Be pedantic and persistent in your prompts</p>
+                        <ul class="space-y-2">
+                            <li>• Lock the navbar in your prompt every time: <em>"keep the same bottom nav with exactly these 4 tabs: Home, Search, Book, Profile"</em></li>
+                            <li>• Describe icon labels, order, and active state explicitly</li>
+                            <li>• If it drifts, regenerate — don't accept a broken version</li>
+                        </ul>
+                        <p class="mt-3 p-2 rounded text-xs" style="background-color: #dbeafe;">Takes patience but gives you the cleanest, most consistent output</p>
+                    </div>
+                    <div class="p-4 rounded" style="background-color: var(--bg-secondary); border: 2px solid var(--border-color);">
+                        <p class="font-bold text-base mb-3" style="color: #7c3aed;">Solution 2 — Crop and overlay</p>
+                        <p class="mb-2" style="color: var(--text-secondary);">Fix inconsistency in your slide deck directly</p>
+                        <ul class="space-y-2">
+                            <li>• From your best-looking screen, crop just the navbar</li>
+                            <li>• On every other slide, cover the wrong navbar by placing your cropped version on top as an image overlay</li>
+                            <li>• In Google Slides or PowerPoint: paste image → drag to position → align to bottom</li>
+                        </ul>
+                        <p class="mt-3 p-2 rounded text-xs" style="background-color: #e0e7ff;">Faster fix — good enough for a prototype, especially if you're short on time</p>
+                    </div>
+                </div>
             </div>
 
+            <!-- SLIDE 7: Screens vs Flows -->
             <div class="slide flex-col justify-center h-[70vh]">
-                <h2 class="text-4xl font-bold mb-6">Activity: Self-Evaluation (20 min)</h2>
-                <div class="mb-6 p-5 rounded" style="background-color: #dbeafe; border: 2px solid #3b82f6;">
-                    <p class="text-xl font-semibold">Evaluate your own sketches</p>
+                <h2 class="text-4xl font-bold mb-6">Screens vs Flows — What's the Difference?</h2>
+                <div class="grid grid-cols-2 gap-6 text-base">
+                    <div class="p-5 rounded" style="background-color: var(--bg-secondary); border: 2px solid var(--border-color);">
+                        <p class="font-bold text-xl mb-3">🖼 A screen</p>
+                        <p class="mb-3" style="color: var(--text-secondary);">A static picture of one state of the UI</p>
+                        <ul class="space-y-2">
+                            <li>• Shows layout and content</li>
+                            <li>• Has no memory of where the user came from</li>
+                            <li>• Has no awareness of what happens next</li>
+                        </ul>
+                        <p class="mt-4 text-sm p-2 rounded" style="background-color: #fee2e2;">Alone, it cannot be tested or evaluated as a user experience</p>
+                    </div>
+                    <div class="p-5 rounded" style="background-color: var(--bg-secondary); border: 2px solid var(--accent-color);">
+                        <p class="font-bold text-xl mb-3">🔗 A flow</p>
+                        <p class="mb-3" style="color: var(--text-secondary);">A sequence of connected screens that tells a story</p>
+                        <ul class="space-y-2">
+                            <li>• Represents a task from start to finish</li>
+                            <li>• Shows decisions and paths</li>
+                            <li>• Reveals transitions, errors, and confirmations</li>
+                        </ul>
+                        <p class="mt-4 text-sm p-2 rounded" style="background-color: #dcfce7;">This is what you prototype and test</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SLIDE 7: Thinking in Flows -->
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-4xl font-bold mb-6">Thinking in Flows: The Mindset Shift</h2>
+                <p class="text-lg mb-5" style="color: var(--text-secondary);">Stop asking <em>"what does this screen look like?"</em> — start asking:</p>
+                <div class="space-y-4 text-base">
+                    <div class="p-4 rounded flex items-start gap-4" style="background-color: var(--bg-secondary); border-left: 4px solid var(--accent-color);">
+                        <span class="text-2xl">👤</span>
+                        <span><strong>Who is the user and what are they trying to accomplish?</strong> One task at a time.</span>
+                    </div>
+                    <div class="p-4 rounded flex items-start gap-4" style="background-color: var(--bg-secondary); border-left: 4px solid var(--accent-color);">
+                        <span class="text-2xl">🚪</span>
+                        <span><strong>Where do they enter?</strong> What is the first screen they see, and why are they here?</span>
+                    </div>
+                    <div class="p-4 rounded flex items-start gap-4" style="background-color: var(--bg-secondary); border-left: 4px solid var(--accent-color);">
+                        <span class="text-2xl">➡️</span>
+                        <span><strong>What triggers the next screen?</strong> A button tap, a form submit, a selection?</span>
+                    </div>
+                    <div class="p-4 rounded flex items-start gap-4" style="background-color: var(--bg-secondary); border-left: 4px solid var(--accent-color);">
+                        <span class="text-2xl">❌</span>
+                        <span><strong>What can go wrong?</strong> What does the user see if they make an error or tap the wrong thing?</span>
+                    </div>
+                    <div class="p-4 rounded flex items-start gap-4" style="background-color: var(--bg-secondary); border-left: 4px solid var(--accent-color);">
+                        <span class="text-2xl">🏁</span>
+                        <span><strong>What does success look like?</strong> What is the final confirmation or destination?</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SLIDE 8: How to Map a Flow -->
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-4xl font-bold mb-6">How to Map Your Flow Before You Build It</h2>
+                <p class="text-lg mb-5" style="color: var(--text-secondary);">Do this on paper or in your head first — before touching any tool</p>
+                <div class="space-y-3 text-base">
+                    <div class="p-4 rounded flex items-center gap-4" style="background-color: var(--bg-secondary); border-left: 4px solid var(--accent-color);">
+                        <span class="text-2xl font-bold" style="color: var(--accent-color);">1</span>
+                        <span><strong>Pick one task</strong> — e.g. "Book a library seat" or "Report a missed bin collection"</span>
+                    </div>
+                    <div class="p-4 rounded flex items-center gap-4" style="background-color: var(--bg-secondary); border-left: 4px solid var(--accent-color);">
+                        <span class="text-2xl font-bold" style="color: var(--accent-color);">2</span>
+                        <span><strong>List every screen</strong> the user needs to pass through to complete that task (aim for 4–7)</span>
+                    </div>
+                    <div class="p-4 rounded flex items-center gap-4" style="background-color: var(--bg-secondary); border-left: 4px solid var(--accent-color);">
+                        <span class="text-2xl font-bold" style="color: var(--accent-color);">3</span>
+                        <span><strong>Name the trigger</strong> between each screen — what does the user tap, type, or select?</span>
+                    </div>
+                    <div class="p-4 rounded flex items-center gap-4" style="background-color: var(--bg-secondary); border-left: 4px solid var(--accent-color);">
+                        <span class="text-2xl font-bold" style="color: var(--accent-color);">4</span>
+                        <span><strong>Mark decision points</strong> — where the flow branches (e.g. logged in / not logged in)</span>
+                    </div>
+                    <div class="p-4 rounded flex items-center gap-4" style="background-color: var(--bg-secondary); border-left: 4px solid var(--accent-color);">
+                        <span class="text-2xl font-bold" style="color: var(--accent-color);">5</span>
+                        <span><strong>Now build your screens</strong> — one slide (or Stitch export) per screen in your flow</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SLIDE 9: Activity — Map Your Flow -->
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-4xl font-bold mb-6">Activity: Map Your Flow (10 min)</h2>
+                <div class="mb-5 p-4 rounded" style="background-color: #dbeafe; border: 2px solid #3b82f6;">
+                    <p class="text-lg font-semibold">Pick your most important user task and map the screens</p>
                 </div>
                 <div class="grid grid-cols-2 gap-4 text-sm">
                     <div class="p-4 rounded" style="background-color: var(--bg-secondary);">
-                        <p class="font-bold mb-2">Look for:</p>
-                        <ul class="space-y-1">
-                            <li>• Missing feedback (visibility)</li>
-                            <li>• Confusing language (match real world)</li>
-                            <li>• No back button (user control)</li>
-                            <li>• Inconsistent buttons (consistency)</li>
-                            <li>• No error prevention</li>
-                            <li>• Hidden navigation (recognition)</li>
+                        <p class="font-bold mb-2">Draw on paper:</p>
+                        <ul class="space-y-2">
+                            <li>• Boxes = screens (give each a name)</li>
+                            <li>• Arrows = user actions (label them)</li>
+                            <li>• Diamonds = decision points</li>
+                            <li>• Aim for a happy path of 4–7 screens</li>
                         </ul>
                     </div>
                     <div class="p-4 rounded" style="background-color: var(--bg-secondary);">
-                        <p class="font-bold mb-2">Document:</p>
-                        <ul class="space-y-1">
-                            <li>• Which heuristic violated</li>
-                            <li>• Specific description</li>
-                            <li>• Severity rating (0-4)</li>
-                            <li>• Where it occurs (which screen)</li>
-                            <li>• How to fix it</li>
+                        <p class="font-bold mb-2">Ask yourself:</p>
+                        <ul class="space-y-2">
+                            <li>• Does every screen have a clear purpose?</li>
+                            <li>• Can the user go back at every point?</li>
+                            <li>• What's the very last screen they see?</li>
+                            <li>• Are there any screens you're missing?</li>
                         </ul>
                     </div>
                 </div>
-            </div>
-
-            <div class="slide flex-col justify-center h-[70vh]">
-                <h2 class="text-4xl font-bold mb-6">Document Your Findings</h2>
-                <div class="mb-4 p-4 rounded" style="background-color: var(--bg-secondary); border: 2px solid var(--border-color);">
-                    <p class="text-lg font-semibold mb-3">Create a findings summary table:</p>
-                    <table class="w-full text-sm">
-                        <thead>
-                            <tr style="background-color: var(--bg-primary);">
-                                <th class="p-2 text-left">Heuristic</th>
-                                <th class="p-2 text-left">Issue</th>
-                                <th class="p-2 text-left">Severity</th>
-                                <th class="p-2 text-left">Fix</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr style="background-color: var(--bg-primary);">
-                                <td class="p-2">#1 Visibility</td>
-                                <td class="p-2">No loading indicator</td>
-                                <td class="p-2">2</td>
-                                <td class="p-2">Add spinner</td>
-                            </tr>
-                            <tr style="background-color: var(--bg-primary);">
-                                <td class="p-2">#3 Control</td>
-                                <td class="p-2">Can't cancel booking</td>
-                                <td class="p-2">3</td>
-                                <td class="p-2">Add cancel button</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-                <p class="text-base p-3 rounded" style="background-color: #dcfce7;">
-                    ✓ This can be one of your 2 artefacts! (Testing category)
+                <p class="mt-5 text-base p-3 rounded" style="background-color: #dcfce7;">
+                    ✓ This map becomes the blueprint for your prototype — each box is one slide
                 </p>
             </div>
 
+            <!-- SLIDE 10: Clickable Prototypes in Slides — How To -->
             <div class="slide flex-col justify-center h-[70vh]">
-                <h2 class="text-4xl font-bold mb-8">Share Discoveries</h2>
-                <div class="space-y-6 text-xl">
-                    <p class="font-semibold">Volunteer to share:</p>
-                    <ul class="space-y-4">
-                        <li class="flex items-start"><span class="mr-3">•</span><span>What issue did you find in your design?</span></li>
-                        <li class="flex items-start"><span class="mr-3">•</span><span>What surprised you?</span></li>
-                        <li class="flex items-start"><span class="mr-3">•</span><span>What did you do really well?</span></li>
-                        <li class="flex items-start"><span class="mr-3">•</span><span>What would you change if you could?</span></li>
-                    </ul>
+                <h2 class="text-3xl font-bold mb-5">Building a Clickable Prototype in Google Slides or PowerPoint</h2>
+                <div class="grid grid-cols-2 gap-5 text-sm">
+                    <div>
+                        <p class="font-bold text-base mb-3" style="color: var(--accent-color);">Google Slides</p>
+                        <div class="space-y-2">
+                            <div class="p-3 rounded" style="background-color: var(--bg-secondary);">
+                                <strong>1.</strong> One slide = one screen. Paste your Stitch screenshot or sketch as a background image.
+                            </div>
+                            <div class="p-3 rounded" style="background-color: var(--bg-secondary);">
+                                <strong>2.</strong> Draw a transparent shape over a button area: <em>Insert → Shape → Rectangle</em>. Set fill to transparent, no border.
+                            </div>
+                            <div class="p-3 rounded" style="background-color: var(--bg-secondary);">
+                                <strong>3.</strong> Right-click the shape → <em>Link → Slides in this presentation</em> → pick the destination slide.
+                            </div>
+                            <div class="p-3 rounded" style="background-color: var(--bg-secondary);">
+                                <strong>4.</strong> Repeat for every tappable element. Present in <em>Slideshow mode</em> — clicking the hotspot jumps to the linked slide.
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <p class="font-bold text-base mb-3" style="color: var(--accent-color);">PowerPoint</p>
+                        <div class="space-y-2">
+                            <div class="p-3 rounded" style="background-color: var(--bg-secondary);">
+                                <strong>1.</strong> One slide = one screen. Paste your screen design as an image.
+                            </div>
+                            <div class="p-3 rounded" style="background-color: var(--bg-secondary);">
+                                <strong>2.</strong> Draw a shape over the button area. In <em>Format Shape</em>: fill = No Fill, line = No Line.
+                            </div>
+                            <div class="p-3 rounded" style="background-color: var(--bg-secondary);">
+                                <strong>3.</strong> Right-click shape → <em>Hyperlink → Place in This Document</em> → choose the slide.
+                            </div>
+                            <div class="p-3 rounded" style="background-color: var(--bg-secondary);">
+                                <strong>4.</strong> Run <em>Slide Show → From Beginning</em>. Click hotspots to navigate. Share the .pptx or a published link.
+                            </div>
+                        </div>
+                    </div>
                 </div>
-            </div>
-
-            <div class="slide flex-col justify-center h-[70vh]">
-                <h2 class="text-4xl font-bold mb-8">Iteration Based on Findings</h2>
-                <div class="mb-6 p-5 rounded" style="background-color: var(--bg-secondary); border: 2px solid var(--border-color);">
-                    <p class="text-xl">Professional designers iterate based on testing</p>
-                </div>
-                <ul class="space-y-4 text-lg">
-                    <li class="flex items-start"><span class="mr-3">📝</span><span>Note changes you'd make if you had more time</span></li>
-                    <li class="flex items-start"><span class="mr-3">🎯</span><span>Prioritize: What's most critical to fix?</span></li>
-                    <li class="flex items-start"><span class="mr-3">💭</span><span>Explain your reasoning for decisions</span></li>
-                    <li class="flex items-start"><span class="mr-3">✨</span><span>This shows professional self-reflection</span></li>
-                </ul>
-                <p class="mt-6 text-lg font-semibold p-4 rounded" style="background-color: #dbeafe;">
-                    Perfect designs don't exist - showing you can find and fix problems is the skill
+                <p class="mt-4 text-sm p-3 rounded text-center font-semibold" style="background-color: #e0e7ff;">
+                    💡 Tip: Add a "back" hotspot on every screen so testers can always navigate backwards
                 </p>
             </div>
 
+            <!-- SLIDE 11: Figma vs Slides -->
             <div class="slide flex-col justify-center h-[70vh]">
-                <h2 class="text-4xl font-bold mb-8">Goes in Your Slide Deck</h2>
-                <div class="mb-6 p-5 rounded" style="background-color: var(--bg-secondary); border: 2px solid var(--border-color);">
-                    <p class="text-xl"><strong>Section 2: Testing Methods & Iteration</strong></p>
+                <h2 class="text-4xl font-bold mb-6">Figma vs Slide Deck — Which Should You Use?</h2>
+                <div class="grid grid-cols-2 gap-5 text-base">
+                    <div class="p-5 rounded" style="background-color: var(--bg-secondary); border: 2px solid var(--border-color);">
+                        <p class="font-bold text-lg mb-3">Figma</p>
+                        <ul class="space-y-2">
+                            <li>✅ Industry-standard design tool</li>
+                            <li>✅ Precise components and constraints</li>
+                            <li>✅ Native prototyping with transitions</li>
+                            <li>✅ Great for building a design portfolio</li>
+                            <li class="mt-2" style="color: var(--text-secondary);">⏱ Learning curve if you're not already familiar</li>
+                            <li style="color: var(--text-secondary);">⏱ Free tier limitations on projects</li>
+                        </ul>
+                    </div>
+                    <div class="p-5 rounded" style="background-color: var(--bg-secondary); border: 2px solid var(--accent-color);">
+                        <p class="font-bold text-lg mb-3">Google Slides / PowerPoint</p>
+                        <ul class="space-y-2">
+                            <li>✅ Tools you already know</li>
+                            <li>✅ Fast to set up — no onboarding</li>
+                            <li>✅ Easy to share a link or file</li>
+                            <li>✅ Perfectly adequate for 4–8 screen flows</li>
+                            <li class="mt-2" style="color: var(--text-secondary);">⚠ Less precise than Figma for spacing/layout</li>
+                            <li style="color: var(--text-secondary);">⚠ No component reuse or design systems</li>
+                        </ul>
+                    </div>
                 </div>
-                <div class="space-y-3 text-base">
-                    <div class="p-3 rounded" style="background-color: #fef3c7;">
-                        <strong>Testing Methods slide:</strong> Mention heuristic evaluation, explain what you did
+                <div class="mt-5 p-4 rounded text-center text-lg font-semibold" style="background-color: #dcfce7; border: 2px solid #16a34a;">
+                    For this assessment: <strong>no preference, no extra marks</strong> for using Figma over a slide deck. What matters is that your prototype demonstrates your design decisions and is clickable.
+                </div>
+            </div>
+
+            <!-- SLIDE 12: What the Assessment Actually Needs -->
+            <div class="slide flex-col justify-center h-[70vh]">
+                <h2 class="text-4xl font-bold mb-6">What Your Prototype Needs to Show</h2>
+                <p class="text-lg mb-5" style="color: var(--text-secondary);">From the brief — your prototype must demonstrate <strong>two key UCD principles</strong></p>
+                <div class="space-y-4 text-base">
+                    <div class="p-4 rounded" style="background-color: #dbeafe; border-left: 4px solid #3b82f6;">
+                        <strong>It must be clickable</strong> — a single static screen is not a prototype. The assessor needs to navigate through it.
                     </div>
-                    <div class="p-3 rounded" style="background-color: #fef3c7;">
-                        <strong>Include:</strong> Key findings from evaluation, 2-3 specific issues identified
+                    <div class="p-4 rounded" style="background-color: #dbeafe; border-left: 4px solid #3b82f6;">
+                        <strong>It must represent a real user task</strong> — show a complete flow, not just your best-looking screen.
                     </div>
-                    <div class="p-3 rounded" style="background-color: #fef3c7;">
-                        <strong>Iteration slide:</strong> What you learned, changes you'd make, design decisions
+                    <div class="p-4 rounded" style="background-color: #dbeafe; border-left: 4px solid #3b82f6;">
+                        <strong>It must reflect your design decisions</strong> — the choices you discuss in Section 2 of your slide deck should be visible in the prototype.
+                    </div>
+                    <div class="p-4 rounded" style="background-color: #dbeafe; border-left: 4px solid #3b82f6;">
+                        <strong>Submit a link</strong> — a shared Google Slides link, a published Figma prototype URL, or a shared PowerPoint link. Test the link before submitting.
                     </div>
                 </div>
             </div>
 
+            <!-- SLIDE 13: What You've Learned Today -->
             <div class="slide flex-col justify-center h-[70vh]">
                 <h2 class="text-4xl font-bold mb-8">What You've Learned Today</h2>
                 <ul class="space-y-5 text-xl">
-                    <li>✓ Heuristic evaluation method</li>
-                    <li>✓ How to systematically find usability issues</li>
-                    <li>✓ Severity rating framework</li>
-                    <li>✓ Critical evaluation skills</li>
-                    <li>✓ Professional testing approach</li>
-                    <li>✓ Self-reflection and iteration</li>
+                    <li>✓ What Google Stitch is and how to use it</li>
+                    <li>✓ The difference between a screen and a flow</li>
+                    <li>✓ How to map a user flow before building it</li>
+                    <li>✓ How to create hotspot-linked slides as a prototype</li>
+                    <li>✓ Why Figma and slide decks are equally valid for this brief</li>
+                    <li>✓ Exactly what your prototype needs to demonstrate</li>
                 </ul>
                 <p class="mt-8 text-xl font-semibold p-4 rounded" style="background-color: var(--bg-secondary);">
-                    You can now evaluate designs like a professional!
+                    You have everything you need to build and submit your prototype
                 </p>
             </div>
 
+            <!-- SLIDE 14: Homework -->
             <div class="slide flex-col justify-center h-[70vh]">
                 <h2 class="text-4xl font-bold mb-8">Homework</h2>
                 <ul class="space-y-5 text-xl">
-                    <li class="flex items-start"><span class="mr-3">1.</span><span><strong>Complete evaluation</strong> of your design (all 10 heuristics)</span></li>
-                    <li class="flex items-start"><span class="mr-3">2.</span><span><strong>Write findings summary</strong> - table format works well</span></li>
-                    <li class="flex items-start"><span class="mr-3">3.</span><span><strong>Note iteration decisions</strong> for slide deck</span></li>
-                    <li class="flex items-start"><span class="mr-3">4.</span><span><strong>Optional:</strong> Create this as one of your artefacts (testing category)</span></li>
+                    <li class="flex items-start"><span class="mr-3">1.</span><span><strong>Finalise your flow map</strong> — 4–7 screens covering your core user task</span></li>
+                    <li class="flex items-start"><span class="mr-3">2.</span><span><strong>Build or refine your screens</strong> — use Stitch, Figma, paper scans, or hand-drawn</span></li>
+                    <li class="flex items-start"><span class="mr-3">3.</span><span><strong>Assemble your clickable prototype</strong> — Google Slides, PowerPoint, or Figma</span></li>
+                    <li class="flex items-start"><span class="mr-3">4.</span><span><strong>Test the link</strong> — open it in a new browser tab as if you were the assessor</span></li>
                 </ul>
                 <div class="mt-10 p-5 rounded text-center" style="background-color: var(--bg-secondary); border: 2px solid var(--accent-color);">
-                    <p class="text-2xl font-bold mb-2">Next Week: Problem-Solution Evaluation</p>
-                    <p class="text-lg" style="color: var(--text-secondary);">Writing Section 3 - critically evaluating your work</p>
+                    <p class="text-2xl font-bold mb-2">Next Week: Writing Section 3</p>
+                    <p class="text-lg" style="color: var(--text-secondary);">Problem–solution evaluation and your recommendations</p>
                 </div>
             </div>
+
         </div>
     </main>
 
     <footer class="border-t p-4">
         <div class="max-w-7xl mx-auto flex justify-between items-center">
             <button id="prevBtn" class="px-6 py-2 rounded border font-medium">← Previous</button>
-            <span id="slideCounter" class="text-lg">1 / 17</span>
+            <span id="slideCounter" class="text-lg">1 / 15</span>
             <button id="nextBtn" class="px-6 py-2 rounded border font-medium">Next →</button>
         </div>
     </footer>
