@@ -277,11 +277,11 @@ const EXAMPLE = {
     },
     {
      "t": "pre",
-     "x": "CONTRAST\n  body on background   = 3.1:1\n  accent on background = 1.9:1",
+     "x": "CONTRAST\n  body on background   = 3.45:1\n  accent on background = 1.75:1",
      "note": {
       "c": 2,
       "band": "Third",
-      "s": "Two rows for five colours, and BOTH FAIL. 3.1:1 and 1.9:1 are recorded, unremarked and unchanged — the student measured the problem in week 5 and did nothing. This is the clearest single reason the work sits in the third band rather than the 2:2: the evidence of a failure is in the document, uncorrected."
+      "s": "Two rows for five colours, and BOTH FAIL. 3.45:1 and 1.75:1 are recorded, unremarked and unchanged — the student measured the problem in week 5 and did nothing. This is the clearest single reason the work sits in the third band rather than the 2:2: the evidence of a failure is in the document, uncorrected."
      }
     }
    ],
@@ -676,7 +676,7 @@ const EXAMPLE = {
    "name": "User-Centred Thinking",
    "band": "Third · 40–49%",
    "mark": 40,
-   "s": "Basic acknowledgement of user needs and nothing more. Accessibility is asserted in C5 and evidenced nowhere: A6 is blank, and the contrast figures the student recorded themselves show body text at 3.1:1 and the accent at 1.9:1, both left uncorrected. The rubric's third band is \"some accessibility consideration but inconsistently applied\" — this is at the floor of it."
+   "s": "Basic acknowledgement of user needs and nothing more. Accessibility is asserted in C5 and evidenced nowhere: A6 is blank, and the contrast figures the student recorded themselves show body text at 3.45:1 and the accent at 1.75:1, both left uncorrected. The rubric's third band is \"some accessibility consideration but inconsistently applied\" — this is at the floor of it."
   },
   {
    "n": 3,
