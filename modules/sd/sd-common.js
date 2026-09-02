@@ -103,7 +103,7 @@ const PARTS = [
        "Links are checked for existence and destination, not elegance."]}
   ]},
  {id:"C", name:"Rationale", tag:"500–700 words total",
-  desc:"The written part. Eight short answers, drafted across weeks 5, 6, 9 and 10 — not all at the end. Every one quotes a number from Part A.",
+  desc:"The written part. Nine short answers, each drafted in the week that made the decision it defends — C1 in week 2, C2 in week 3, C3 in week 4, C4 and C7 in week 5, C8 in week 6, C6 in week 7, C5 in week 9, C9 in week 11. None of it is written at the end. Every one quotes a number from Part A.",
   items:[
    {sec:"C1", t:"Theme & audience", dw:10, d:"~70 words, quoting A1", wd:"70 w",
     h:"Who it is for, what they need, why this topic.",

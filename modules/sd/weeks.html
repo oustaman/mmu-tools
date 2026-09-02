@@ -234,7 +234,13 @@
     #panel .rrow:has(.take){grid-template-columns:52px minmax(0,1fr)}
     .take{grid-column:2;margin-top:9px;padding:9px 0 0;border-left:0;border-top:1px dashed var(--line-2)}
   }
-</style>
+  .btwnline{display:grid;grid-template-columns:132px 1fr;gap:14px;align-items:baseline;
+    border:1px solid var(--line);border-left:3px solid var(--wsh);background:var(--wsh-soft);
+    padding:11px 14px;margin-top:8px;border-radius:3px}
+  .btwnline>b{font:600 11px/1.4 var(--mono);letter-spacing:.09em;text-transform:uppercase;color:var(--wsh)}
+  .btwnline>span{font-size:14px;line-height:1.55}
+  @media(max-width:640px){.btwnline{grid-template-columns:1fr;gap:4px}}
+  </style>
 </head>
 <body>
 
@@ -392,6 +398,13 @@ function render(){
     h += `<div class="doneline" style="background:var(--surface-2);border-color:var(--line-2)">
             <b style="color:var(--ink-3)">Done when</b><span>${rich(w.workshop.done)}</span></div>`;
     h += `<div class="missline"><b>Common mistake</b><span>${esc(w.workshop.mistake)}</span></div>`;
+    /* 30 credits is 300 notional hours and the eleven sessions are 22 of them.
+       The other 278 went unmentioned anywhere in this module, which is how the
+       six-to-eight finished screens came to be assumed rather than asked for.
+       Every week now says what happens before the next one, including the
+       weeks where the honest answer is nothing. */
+    if (w.workshop.between)
+      h += `<div class="btwnline"><b>Before next week</b><span>${rich(w.workshop.between)}</span></div>`;
     h += `<div class="sh2">Questions that come up</div><dl class="qa">${
       w.workshop.stuck.map(([q,a]) => `<dt>${esc(q)}</dt><dd>${rich(a)}</dd>`).join('')}</dl>`;
   }
