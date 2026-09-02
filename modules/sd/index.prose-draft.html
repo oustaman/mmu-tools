@@ -1,0 +1,516 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Screen Design 2026–27 — module hub</title>
+<style>
+  :root{
+    --bg:#F5F4F2; --surface:#FFFFFF; --surface-2:#EDEBE8;
+    --ink:#1A1618; --ink-2:#56504F; --ink-3:#8B8382;
+    --line:#DFDBD7; --line-2:#C9C3BE;
+    --accent:#8C2437; --accent-2:#6E1B2B; --accent-soft:#F2E3E5;
+    --ok:#2C5F3E; --ok-soft:#E3EFE7;
+    --warn:#8A5D05; --warn-soft:#F4EAD3;
+    --mono:ui-monospace,"SF Mono",Menlo,Consolas,monospace;
+    --sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Inter,Roboto,sans-serif;
+    --serif:"Iowan Old Style","Palatino Linotype",Palatino,Georgia,serif;
+    --fs:1rem;
+  }
+  html[data-theme="dark"]{
+    --bg:#151314; --surface:#1E1B1C; --surface-2:#262223;
+    --ink:#EDE9E7; --ink-2:#B5AEAB; --ink-3:#847C79;
+    --line:#332E2F; --line-2:#463F40;
+    --accent:#D4788A; --accent-2:#E39AA8; --accent-soft:#2E1F23;
+    --ok:#7FBF97; --ok-soft:#1C2A22;
+    --warn:#D9AE5F; --warn-soft:#2B2317;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--serif);
+       font-size:var(--fs);line-height:1.62;-webkit-text-size-adjust:100%}
+  .wrap{max-width:1120px;margin:0 auto;padding:0 24px}
+  @media(max-width:420px){.wrap{padding:0 16px}}
+
+  /* ---- header ---- */
+  header{border-bottom:1px solid var(--line);background:var(--surface);position:sticky;top:0;z-index:20}
+  .bar{display:flex;align-items:center;gap:14px;padding:14px 0;flex-wrap:wrap}
+  .title{font-family:var(--sans);font-weight:650;font-size:1.05rem;letter-spacing:-0.01em;margin:0}
+  .code{font-family:var(--mono);font-size:0.7rem;color:var(--ink-3);letter-spacing:0.06em;
+        border:1px solid var(--line);border-radius:4px;padding:3px 7px;white-space:nowrap}
+  .sp{flex:1}
+  .ctl{display:flex;gap:6px}
+  .ctl button{font-family:var(--mono);font-size:0.72rem;background:var(--surface);color:var(--ink-2);
+    border:1px solid var(--line-2);border-radius:5px;padding:5px 9px;cursor:pointer;line-height:1}
+  .ctl button:hover{border-color:var(--accent);color:var(--accent)}
+
+  /* ---- hero ---- */
+  .hero{padding:44px 0 30px;border-bottom:1px solid var(--line)}
+  .hero h1{font-family:var(--sans);font-size:clamp(1.9rem,4.6vw,2.9rem);line-height:1.1;
+           letter-spacing:-0.025em;margin:0 0 12px;font-weight:680}
+  .hero p{font-size:1.08rem;color:var(--ink-2);max-width:62ch;margin:0}
+  .stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(150px,100%),1fr));
+         gap:1px;background:var(--line);border:1px solid var(--line);border-radius:8px;
+         overflow:hidden;margin-top:28px}
+  .stat{background:var(--surface);padding:15px 17px}
+  .stat b{display:block;font-family:var(--sans);font-size:1.55rem;font-weight:660;letter-spacing:-0.02em}
+  .stat span{font-family:var(--mono);font-size:0.68rem;letter-spacing:0.09em;text-transform:uppercase;color:var(--ink-3)}
+
+  /* ---- sections ---- */
+  section{padding:44px 0;border-bottom:1px solid var(--line)}
+  section:last-of-type{border-bottom:0}
+  .sec-head{display:flex;align-items:baseline;gap:12px;margin-bottom:6px}
+  .sec-num{font-family:var(--mono);font-size:0.72rem;color:var(--accent);letter-spacing:0.08em}
+  .sec-head h2{font-family:var(--sans);font-size:1.5rem;font-weight:660;letter-spacing:-0.02em;margin:0}
+  .lede{color:var(--ink-2);max-width:66ch;margin:0 0 22px}
+
+  /* ---- the week ---- */
+  .slots{display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(min(280px,100%),1fr))}
+  .slot{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:18px 19px;
+        border-top:3px solid var(--accent)}
+  .slot.studio{border-top-color:var(--ink-3)}
+  .slot-h{display:flex;align-items:baseline;gap:9px;margin-bottom:4px;flex-wrap:wrap}
+  .slot-h b{font-family:var(--sans);font-size:1.12rem;font-weight:650}
+  .hrs{font-family:var(--mono);font-size:0.74rem;color:var(--accent);border:1px solid var(--accent);
+       border-radius:4px;padding:2px 6px;line-height:1.35}
+  .slot.studio .hrs{color:var(--ink-3);border-color:var(--line-2)}
+  .who{font-family:var(--mono);font-size:0.68rem;color:var(--ink-3);letter-spacing:0.05em;
+       text-transform:uppercase;display:block;margin-bottom:9px}
+  .slot p{margin:0 0 10px;font-size:0.95rem;color:var(--ink-2)}
+  .slot .must{font-family:var(--mono);font-size:0.7rem;letter-spacing:0.04em;padding:4px 8px;
+       border-radius:4px;display:inline-block}
+  .must.yes{background:var(--accent-soft);color:var(--accent-2)}
+  .must.no{background:var(--surface-2);color:var(--ink-3)}
+  html[data-theme="dark"] .must.yes{color:var(--accent)}
+
+  /* ---- notes ---- */
+  .note{border-left:3px solid var(--accent);background:var(--surface);padding:14px 18px;
+        margin:22px 0;border-radius:0 8px 8px 0}
+  .note.warn{border-left-color:var(--warn)}
+  .note.ok{border-left-color:var(--ok)}
+  .note h4{font-family:var(--mono);font-size:0.7rem;letter-spacing:0.1em;text-transform:uppercase;
+           color:var(--accent);margin:0 0 7px}
+  .note.warn h4{color:var(--warn)} .note.ok h4{color:var(--ok)}
+  .note p{margin:0 0 8px;font-size:0.96rem;color:var(--ink-2)}
+  .note p:last-child{margin-bottom:0}
+
+  /* ---- assessment ---- */
+  .parts{display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(min(290px,100%),1fr))}
+  .part{background:var(--surface);border:1px solid var(--line);border-radius:10px;overflow:hidden}
+  .part-h{padding:15px 18px;border-bottom:1px solid var(--line);background:var(--surface-2)}
+  .part-h b{font-family:var(--sans);font-size:1.05rem;font-weight:650;display:block}
+  .part-h span{font-family:var(--mono);font-size:0.7rem;color:var(--ink-3);letter-spacing:0.05em}
+  .part-b{padding:15px 18px}
+  .part-b ol,.part-b ul{margin:0;padding-left:1.1rem;font-size:0.93rem;color:var(--ink-2)}
+  .part-b li{margin-bottom:6px}
+  .part-b li b{color:var(--ink);font-weight:620}
+
+  table{width:100%;border-collapse:collapse;font-size:0.92rem}
+  .scroller{overflow-x:auto;border:1px solid var(--line);border-radius:8px;background:var(--surface)}
+  th{font-family:var(--mono);font-size:0.66rem;letter-spacing:0.08em;text-transform:uppercase;
+     color:var(--ink-3);text-align:left;padding:10px 14px;border-bottom:1px solid var(--line);
+     background:var(--surface-2);font-weight:500;white-space:nowrap}
+  td{padding:11px 14px;border-bottom:1px solid var(--line);color:var(--ink-2);vertical-align:top}
+  tr:last-child td{border-bottom:0}
+  td b{color:var(--ink);font-weight:620}
+
+  /* ---- weeks ---- */
+  .weeks{display:grid;gap:10px}
+  .wk{background:var(--surface);border:1px solid var(--line);border-radius:10px;overflow:hidden}
+  .wk[open]{border-color:var(--line-2)}
+  .wk summary{display:grid;grid-template-columns:52px minmax(0,1fr) auto;gap:14px;align-items:center;
+              padding:14px 18px;cursor:pointer;list-style:none}
+  .wk summary::-webkit-details-marker{display:none}
+  .wk summary:hover .wk-t{color:var(--accent)}
+  .wk summary:focus-visible{outline:2px solid var(--accent);outline-offset:-2px}
+  .wk-n{font-family:var(--mono);font-size:0.72rem;color:var(--ink-3);letter-spacing:0.05em}
+  .wk-t{font-family:var(--sans);font-weight:620;font-size:1.02rem;min-width:0}
+  .wk-o{font-family:var(--mono);font-size:0.68rem;color:var(--accent);white-space:nowrap}
+  @media(max-width:600px){
+    .wk summary{grid-template-columns:44px minmax(0,1fr);gap:10px}
+    .wk-o{display:none}
+  }
+  .wk-body{padding:0 18px 18px;display:grid;gap:12px;grid-template-columns:1fr 1fr}
+  @media(max-width:700px){.wk-body{grid-template-columns:1fr}}
+  .wk-cell{border-top:1px solid var(--line);padding-top:11px}
+  .wk-cell h5{font-family:var(--mono);font-size:0.66rem;letter-spacing:0.09em;text-transform:uppercase;
+              color:var(--ink-3);margin:0 0 5px;font-weight:500}
+  .wk-cell p{margin:0;font-size:0.93rem;color:var(--ink-2)}
+  .outs{display:flex;flex-wrap:wrap;gap:5px;margin-top:8px}
+  .out{font-family:var(--mono);font-size:0.68rem;background:var(--accent-soft);color:var(--accent-2);
+       border-radius:4px;padding:3px 8px}
+  html[data-theme="dark"] .out{color:var(--accent)}
+  .wk.dead summary .wk-t{color:var(--ink-3)}
+  .wk.dead{border-style:dashed}
+
+  /* ---- exhibits ---- */
+  .links{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(min(260px,100%),1fr))}
+  .lnk{display:block;background:var(--surface);border:1px solid var(--line);border-radius:10px;
+       padding:16px 18px;text-decoration:none;color:inherit}
+  .lnk:hover{border-color:var(--accent)}
+  .lnk b{font-family:var(--sans);font-weight:640;display:block;margin-bottom:4px}
+  .lnk span{font-size:0.9rem;color:var(--ink-2);display:block}
+  .lnk .u{font-family:var(--mono);font-size:0.68rem;color:var(--ink-3);display:block;margin-top:7px}
+  .soon{opacity:0.62;cursor:default}
+  .soon:hover{border-color:var(--line)}
+  .tag{font-family:var(--mono);font-size:0.62rem;letter-spacing:0.07em;text-transform:uppercase;
+       border:1px solid var(--line-2);color:var(--ink-3);border-radius:3px;padding:2px 6px;
+       margin-left:7px;vertical-align:2px}
+
+  footer{padding:30px 0 50px;color:var(--ink-3);font-size:0.86rem}
+  footer p{margin:0 0 6px;max-width:70ch}
+  code{font-family:var(--mono);font-size:0.88em;background:var(--surface-2);padding:1px 5px;border-radius:3px;
+       overflow-wrap:anywhere}
+  a{color:var(--accent)}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap bar">
+    <h2 class="title">Screen Design</h2>
+    <span class="code">REF-H24-047 · L4 · 30 credits</span>
+    <span class="sp"></span>
+    <div class="ctl">
+      <button id="smaller" aria-label="Smaller text">A−</button>
+      <button id="bigger" aria-label="Larger text">A+</button>
+      <button id="theme" aria-label="Toggle dark mode">◐</button>
+    </div>
+  </div>
+</header>
+
+<div class="wrap">
+
+  <div class="hero">
+    <h1>Screen Design 2026–27</h1>
+    <p>Eleven weeks. You will design a multi-screen prototype on a theme of your own choosing, and
+      you will be able to say <em>why</em> every decision in it is the one you made. That second half
+      is the module.</p>
+    <div class="stats">
+      <div class="stat"><b>11</b><span>weeks</span></div>
+      <div class="stat"><b>5</b><span>contact hours a week</span></div>
+      <div class="stat"><b>1</b><span>portfolio, three parts</span></div>
+      <div class="stat"><b>100%</b><span>of the mark</span></div>
+      <div class="stat"><b>Sem 1</b><span>submission in January</span></div>
+    </div>
+  </div>
+
+  <!-- ============ 01 how the week works ============ -->
+  <section id="week">
+    <div class="sec-head"><span class="sec-num">01</span><h2>How your week works</h2></div>
+    <p class="lede">The same three slots every week, so you never have to check what is happening.
+      One hour together, two hours making something, two hours with the door open.</p>
+
+    <div class="slots">
+      <div class="slot">
+        <div class="slot-h"><b>Lecture</b><span class="hrs">1 hr</span></div>
+        <span class="who">Whole cohort · lecture theatre</span>
+        <p>One idea, demonstrated live. There is no slide deck — the tool we are using is the exhibit,
+          and you will use the same one yourself two hours later. It ends by naming exactly what the
+          workshop will produce.</p>
+        <span class="must yes">Come to this one</span>
+      </div>
+      <div class="slot">
+        <div class="slot-h"><b>Workshop</b><span class="hrs">2 hrs</span></div>
+        <span class="who">Three groups of ~33 · breakout rooms</span>
+        <p>You work in the week's instrument and <b>leave with one finished piece of your portfolio</b>.
+          All three rooms run the identical sheet, so it does not matter which room you are in or who
+          is standing at the front.</p>
+        <span class="must yes">Come to this one</span>
+      </div>
+      <div class="slot studio">
+        <div class="slot-h"><b>Studio</b><span class="hrs">2 hrs</span></div>
+        <span class="who">Same rooms · staffed, nothing taught</span>
+        <p>Nothing is taught and nothing is missable. The room is open and a tutor is in it. Book a
+          ten-minute check-in, or just work here, or don't come. <b>Nothing is delivered in this slot
+          that you could miss and be disadvantaged by.</b></p>
+        <span class="must no">Optional — but see below</span>
+      </div>
+    </div>
+
+    <div class="note">
+      <h4>The studio hours are where the marks actually move</h4>
+      <p>Ten-minute check-ins run against a rota — twelve slots per room per week, which across the
+        semester is roughly <b>three booked check-ins each</b>, landing near weeks 3, 6 and 9.
+        Sign up in advance.</p>
+      <p>A check-in is not a tutorial and not a critique. You open your spec sheet, we ask what is
+        blank and why, and you leave with <b>one thing to fix</b>, written down. Ten minutes. The
+        students who use these do not arrive in January with a problem that took five weeks to become
+        unfixable.</p>
+    </div>
+
+    <div class="note warn">
+      <h4>Two weeks that are not like the others</h4>
+      <p><b>Week 6</b> is a full teaching week, not a reading week — it is the tools-and-AI session,
+        and it lands there because that is the point in the semester when you have enough declared
+        decisions for AI to be useful rather than decorative.</p>
+      <p><b>Week 11</b> is deliberately dead. No lecture, no workshop, studio only, for submission
+        problems — exports, PDF assembly, Moodle. If your work is done you do not need to be there.</p>
+    </div>
+  </section>
+
+  <!-- ============ 02 what you hand in ============ -->
+  <section id="assessment">
+    <div class="sec-head"><span class="sec-num">02</span><h2>What you hand in</h2></div>
+    <p class="lede">One portfolio, as a single PDF, worth 100% of the module. About 2,000 words'
+      equivalence in three parts. <b>You do not build it in December</b> — every workshop produces one
+      component of it, so by week 10 it is assembled rather than started.</p>
+
+    <div class="parts">
+      <div class="part">
+        <div class="part-h"><b>Part A — Design spec sheet</b><span>≈ 400 words equivalent · structured fields</span></div>
+        <div class="part-b">
+          <ol>
+            <li><b>Theme &amp; audience</b> — one sentence each</li>
+            <li><b>Screen inventory</b> — 6–8 screens, each with a named job</li>
+            <li><b>Layout</b> — columns, gutter, margin, max width, three breakpoints, spacing scale</li>
+            <li><b>Typography</b> — families and roles, sizes, line heights, scale ratio, measure</li>
+            <li><b>Colour</b> — hex values with roles, <b>plus a contrast ratio for every text/background pair</b></li>
+            <li><b>Accessibility</b> — minimum touch target, focus state, non-colour cues</li>
+            <li><b>AI use log</b> — tool, what it produced, what you changed, why</li>
+          </ol>
+        </div>
+      </div>
+
+      <div class="part">
+        <div class="part-h"><b>Part B — The work</b><span>visual · no word count</span></div>
+        <div class="part-b">
+          <ul>
+            <li><b>Multi-screen prototype</b> — 6–8 screens, plus two key screens shown at all three of
+              your declared breakpoints</li>
+            <li><b>Supporting artefacts</b> — concept sketches, wireframe set, mood board, style tile</li>
+            <li><b>One annotation per artefact</b> — about 100 words: what it is, and what it decided</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="part">
+        <div class="part-h"><b>Part C — Reflective rationale</b><span>500–700 words · six sections</span></div>
+        <div class="part-b">
+          <ol>
+            <li><b>Theme &amp; audience</b> — who, what they need, why <span class="tag">~80 w</span></li>
+            <li><b>Hierarchy &amp; layout</b> — what you wanted read first <span class="tag">~120 w</span></li>
+            <li><b>Typography</b> — why this pairing, scale, measure <span class="tag">~120 w</span></li>
+            <li><b>Colour</b> — what the contrast figures made you change <span class="tag">~120 w</span></li>
+            <li><b>Accessibility &amp; users</b> — one decision, and its cost <span class="tag">~120 w</span></li>
+            <li><b>Next</b> — what you'd change, on what evidence <span class="tag">~80 w</span></li>
+          </ol>
+        </div>
+      </div>
+    </div>
+
+    <div class="note ok">
+      <h4>The rule that decides most of your mark</h4>
+      <p><b>Every section of Part C must cite at least one declared value from Part A.</b> Not "I chose
+        a warm palette because it felt friendly" — <em>"I moved the body text from #8B8382 to #56504F
+        because at 16px on #F5F4F2 the first pair measured 2.9:1 and failed AA."</em></p>
+      <p>That is the whole difference between describing a design and defending one, and it is the
+        thing this module is actually assessing. It is also checkable, which is why it is the rule.</p>
+    </div>
+
+    <div class="note warn">
+      <h4>On AI, plainly</h4>
+      <p><b>Use whatever tools you like.</b> Figma, Figma AI, generative image tools, anything. Tool
+        skill is not what is being marked, and pretending otherwise at Level 4 in 2026 would be
+        theatre.</p>
+      <p>What you must do is <b>log it</b> — Part A §7: the tool, what it produced, what you changed,
+        and why. A generated screen can be excellent. It just has to be <em>owned</em>, and owning it
+        means being able to say what you decided and what the machine decided.</p>
+      <p>The honest version of this: if you can generate a competent-looking screen in a minute, then
+        "does this look good" has stopped measuring anything. So the marks sit on the parts a
+        generator cannot supply for you — a type scale your own specimens obey, contrast ratios that
+        match the hex values they came from, and a rationale citing your own numbers.</p>
+    </div>
+
+    <h3 style="font-family:var(--sans);font-size:1.1rem;margin:30px 0 10px">What it is marked against</h3>
+    <div class="scroller">
+      <table>
+        <thead><tr><th>Learning outcome</th><th>Evidenced by</th></tr></thead>
+        <tbody>
+          <tr><td><b>LO1</b> Apply fundamental design principles to produce visually engaging layouts</td>
+              <td>Part B prototype and wireframe set · Part A §2–3 · rationale §2</td></tr>
+          <tr><td><b>LO2</b> Create user-centered design solutions, incorporating effective typography and colour theory</td>
+              <td>Part A §4–6 · Part B style tile and mood board · rationale §3–5</td></tr>
+          <tr><td><b>LO3</b> Describe and explain key principles of visual design and their application in screen-based media</td>
+              <td>Part C in full · the annotations on Part B</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ============ 03 week by week ============ -->
+  <section id="weeks">
+    <div class="sec-head"><span class="sec-num">03</span><h2>Week by week</h2></div>
+    <p class="lede">Open a week to see the lecture, the workshop and what you leave with. Every
+      workshop output is a piece of the portfolio — the tags on the right are the parts of Part A and
+      Part B they become.</p>
+    <div class="weeks" id="weeks-list"></div>
+  </section>
+
+  <!-- ============ 04 instruments ============ -->
+  <section id="tools">
+    <div class="sec-head"><span class="sec-num">04</span><h2>The instruments</h2></div>
+    <p class="lede">Each week's lecture is a live demonstration in one of these, and the workshop is
+      you using it. Whatever you make in one exports into your spec sheet — that is the point of them
+      and the reason there is no slide deck.</p>
+    <div class="links" id="tools-list"></div>
+    <div class="note warn">
+      <h4>These are in build over the summer</h4>
+      <p>Anything marked <span class="tag">in build</span> is not linked yet. This page is the plan,
+        and a plan that pretended its tools already existed would be the first thing this module
+        teaches you not to do.</p>
+    </div>
+  </section>
+
+  <!-- ============ 05 exhibits ============ -->
+  <section id="exhibits">
+    <div class="sec-head"><span class="sec-num">05</span><h2>Where the examples come from</h2></div>
+    <p class="lede">There is no slide deck because there are three public reference buildings instead.
+      They are cited in the lectures and you can walk them yourself — they hold real, sourced material
+      rather than screenshots of things somebody liked.</p>
+    <div class="links">
+      <a class="lnk" href="https://interfaces.institute/" target="_blank" rel="noopener">
+        <b>Interfaces Institute</b>
+        <span>Ten principles, each shipping two working interfaces — one that breaks it and one that
+          keeps it, both timed. Plus twenty-two collections of interaction evidence and a dictionary
+          of 787 terms.</span>
+        <span class="u">interfaces.institute · weeks 1, 2, 6, 7, 8, 9</span>
+      </a>
+      <a class="lnk" href="https://written.institute/" target="_blank" rel="noopener">
+        <b>Written Institute</b>
+        <span>The Type Laboratory, the Hall of Typologies and an atlas of 42 script plaques. The whole
+          building is set in one typeface — restraint demonstrated rather than asserted.</span>
+        <span class="u">written.institute · weeks 3, 4</span>
+      </a>
+      <a class="lnk" href="https://symbolic.institute/" target="_blank" rel="noopener">
+        <b>Symbolic Institute</b>
+        <span>Twelve visual-grammar entries — traffic colour, hazard diamonds, the hamburger, the
+          arrow — and eleven collections, each marked with how well evidenced it is.</span>
+        <span class="u">symbolic.institute · weeks 2, 5, 6, 7, 10</span>
+      </a>
+    </div>
+    <div class="note">
+      <h4>Two things worth knowing about those buildings</h4>
+      <p>Every claim on them carries a marker saying how well evidenced it is — <b>documented</b>,
+        <b>traditional</b> or <b>folk</b>. Miller's 7±2 is filed as folk, on a site that also explains
+        why people keep quoting it. That habit is what week 10 is teaching you to do in your own
+        rationale.</p>
+      <p>They also publish their own corrections. The Interfaces Institute has a page listing every
+        change it has made, including the ones where it was wrong. You are allowed to cite them; you
+        are also allowed to catch them out, and that is worth more.</p>
+    </div>
+  </section>
+
+  <footer>
+    <p><b>Screen Design</b> · Level 4 · 30 credits · Semester 1 · School of English, Faculty of Arts
+      and Humanities. Module code <code>REF-H24-047</code> — in development, subject to change.</p>
+    <p>Draft delivery plan, 27 August 2026. The three learning outcomes and the module specification
+      are fixed; the assessment brief and the weekly plan on this page are the parts that were rebuilt
+      for 2026–27 delivery.</p>
+  </footer>
+</div>
+
+<script>
+/* The weeks live in data, not markup, so the run sheets and this page can be
+   checked against each other rather than drifting apart by hand. */
+const WEEKS = [
+ {n:1, t:"Why screens look the way they do",
+  lec:"From manuscript margin to print grid to screen. The claim: every layout decision you will make was made before, for reasons, and those reasons still hold. Live teardown of three screens.",
+  ws:"Screen teardown — three screens each, marking reading order and naming the device doing the work. Ends with a theme shortlist.",
+  out:["3 teardown sheets","Theme shortlist (3)"]},
+ {n:2, t:"Composition and visual hierarchy",
+  lec:"Scale, weight, space, alignment, proximity. Gestalt as a working tool rather than a list. What a focal point costs, and why you only get one.",
+  ws:"Thumbnail studies — eight rough compositions for a single screen, on paper, ten minutes each. No software, deliberately. Peer swap and rank at the end.",
+  out:["8 thumbnail studies","Theme locked"]},
+ {n:3, t:"The grid",
+  lec:"Columns, gutters, margins, and the spacing scale that stops every gap being a guess. Why a grid is a decision you make once so you do not remake it four hundred times.",
+  ws:"Define your grid — fix columns, spacing scale and three breakpoints for your theme.",
+  out:["Layout spec → §3"]},
+ {n:4, t:"Typography",
+  lec:"Anatomy, classification and pairing; measure, leading, and the fact that most bad screen type is a line-length problem wearing a font problem's clothes.",
+  ws:"Build your type scale — base size, ratio, roles. Then set one screen in it to prove it holds.",
+  out:["Type spec → §4","Specimen screen"]},
+ {n:5, t:"Colour",
+  lec:"Harmony, temperature and semantics — then contrast, which is the one part of colour that is measurable and therefore the one part nobody can argue with you about.",
+  ws:"Build your palette — assign roles, record every ratio, fix the pairs that fail AA.",
+  out:["Colour spec → §5","Contrast table"]},
+ {n:6, t:"Contemporary tools, and working with AI",
+  lec:"What generation is genuinely good at, what it cannot decide for you, and what disclosure looks like. Live: generate three variants of your own style tile and critique all three against the specs you have already declared.",
+  ws:"Style tile — type, colour and spacing assembled into one system with sample components. AI-use log opened.",
+  out:["Style tile","Mood board","AI log started → §7"]},
+ {n:7, t:"UX and interaction basics",
+  lec:"Who is this for and what are they trying to do. States — empty, loading, error, success — and why the screens people forget to design are the ones users meet on their worst day.",
+  ws:"Screen inventory and flow — name every screen and its job, then draw the flow between them.",
+  out:["Screen inventory (6–8) → §2","Flow diagram"]},
+ {n:8, t:"Wireframe to screen",
+  lec:"The fidelity ladder, and content-first as a discipline. A wireframe is an argument about priority, not a grey drawing of a finished thing.",
+  ws:"Wireframe the set — all six to eight screens on paper against your declared grid. Peer check: can someone else name each screen's job without being told?",
+  out:["Wireframe set (6–8)"]},
+ {n:9, t:"Responsive is adaptation, not shrinking",
+  lec:"Reflow, priority and touch targets. Accessibility as a design constraint that improves the work, rather than a checklist that follows it.",
+  ws:"Variants and audit — two key screens at three breakpoints, then the accessibility checklist over the whole set, failures logged.",
+  out:["2 screens × 3 breakpoints","Accessibility audit → §6"]},
+ {n:10, t:"Justifying a decision",
+  lec:"The difference between describing a design and defending one. Worked examples of the same paragraph written badly and well, side by side.",
+  ws:"Draft the rationale — six sections against the word budget, each citing a declared value. Completeness check run in the room; gaps become your studio agenda.",
+  out:["Rationale draft","Spec sheet complete","Portfolio assembled"]},
+ {n:11, t:"Submission surgery", dead:true,
+  lec:"No lecture. Dead week by design — nothing is taught and nothing is missable.",
+  ws:"Studio only, drop-in. Export problems, PDF assembly, Moodle mechanics, last read-throughs.",
+  out:["Submission"]}
+];
+
+const TOOLS = [
+ {n:"Hierarchy Teardown", w:"Week 1", d:"Mark reading order on a real screen and name the device doing the work — scale, weight, colour, space or position."},
+ {n:"Grid & Breakpoint Playground", w:"Week 3", d:"Set columns, gutters, margins and a spacing scale, and watch them hold across three widths. Exports to spec sheet §3."},
+ {n:"Type Scale Playground", w:"Week 4", d:"Base size, ratio and roles, with live specimens that obey the scale you declared. Exports to §4."},
+ {n:"Contrast & Palette Lab", w:"Week 5", d:"Assign colour roles and get the ratio for every text/background pair, with the AA failures named. Exports to §5."},
+ {n:"Style Tile Builder", w:"Week 6", d:"Type, colour and spacing assembled into one system with sample components."},
+ {n:"Flow Symbol Library", w:"Week 7", d:"The standard notation for a flow diagram, so your inventory reads the same way as everyone else's."},
+ {n:"Accessibility Checklist", w:"Week 9", d:"Run over the whole set: target sizes, focus states, non-colour cues, contrast. Exports to §6."},
+ {n:"Completeness Checker", w:"Week 10", d:"Reads your spec sheet and rationale and tells you which sections do not yet cite a declared value."},
+ {n:"Decision Logger", w:"All weeks", d:"One line per decision, running all semester. It is where your studio check-ins get written down, and it is most of Part C already drafted."}
+];
+
+const wl = document.getElementById('weeks-list');
+wl.innerHTML = WEEKS.map(w => `
+  <details class="wk${w.dead ? ' dead' : ''}">
+    <summary>
+      <span class="wk-n">WK ${String(w.n).padStart(2,'0')}</span>
+      <span class="wk-t">${w.t}</span>
+      <span class="wk-o">${w.out[0]}</span>
+    </summary>
+    <div class="wk-body">
+      <div class="wk-cell"><h5>Lecture · 1 hr</h5><p>${w.lec}</p></div>
+      <div class="wk-cell"><h5>Workshop · 2 hrs</h5><p>${w.ws}</p>
+        <div class="outs">${w.out.map(o=>`<span class="out">${o}</span>`).join('')}</div>
+      </div>
+    </div>
+  </details>`).join('');
+
+document.getElementById('tools-list').innerHTML = TOOLS.map(t => `
+  <div class="lnk soon">
+    <b>${t.n}<span class="tag">in build</span></b>
+    <span>${t.d}</span>
+    <span class="u">${t.w}</span>
+  </div>`).join('');
+
+/* Text size and theme, remembered. Wrapped because a browser with site data
+   blocked throws on read, and the page must still work. */
+const root = document.documentElement;
+let fs = 1;
+try { fs = parseFloat(localStorage.getItem('sd-fs')) || 1;
+      const th = localStorage.getItem('sd-theme'); if (th) root.dataset.theme = th; } catch (e) {}
+const setFs = v => { fs = Math.min(1.5, Math.max(0.85, v)); root.style.setProperty('--fs', fs + 'rem');
+                     try { localStorage.setItem('sd-fs', fs); } catch (e) {} };
+setFs(fs);
+document.getElementById('bigger').onclick  = () => setFs(fs + 0.08);
+document.getElementById('smaller').onclick = () => setFs(fs - 0.08);
+document.getElementById('theme').onclick = () => {
+  const dark = root.dataset.theme === 'dark';
+  root.dataset.theme = dark ? 'light' : 'dark';
+  try { localStorage.setItem('sd-theme', root.dataset.theme); } catch (e) {}
+};
+if (!root.dataset.theme && window.matchMedia('(prefers-color-scheme: dark)').matches) root.dataset.theme = 'dark';
+</script>
+</body>
+</html>

@@ -1,0 +1,285 @@
+<title>The Screen Corpus</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&family=Instrument+Serif:ital@0;1&display=swap">
+
+<style>
+  :root {
+    --bg:#F5F4F2; --surface:#FFFFFF; --surface-2:#EDEBE8;
+    --ink:#1A1618; --ink-2:#56504F; --ink-3:#8B8382;
+    --rule:#DEDAD7; --rule-2:#C9C3BF;
+    --accent:#8C2437; --accent-2:#6E1B2B; --accent-soft:#F2E3E5;
+    --good:#2F6B4F; --good-soft:#E2EDE7;
+    --warn:#8A5D05; --warn-soft:#F4EAD3;
+    --build:#3B4C8A; --build-soft:#E3E6F1;
+    --serif:"Instrument Serif","Iowan Old Style",Georgia,serif;
+    --sans:"IBM Plex Sans",-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif;
+    --mono:"IBM Plex Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
+    --measure:68ch; --pad:clamp(1.25rem,4vw,3.5rem);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg:#161315; --surface:#1E1A1C; --surface-2:#262123;
+      --ink:#F2EEEC; --ink-2:#B9B0AE; --ink-3:#877E7C;
+      --rule:#332C2F; --rule-2:#443A3E;
+      --accent:#E4899A; --accent-2:#F0A8B5; --accent-soft:#3A2126;
+      --good:#7BC5A0; --good-soft:#1E2E27;
+      --warn:#DCAE49; --warn-soft:#302713;
+      --build:#9AAAE4; --build-soft:#22263A;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg:#161315; --surface:#1E1A1C; --surface-2:#262123;
+    --ink:#F2EEEC; --ink-2:#B9B0AE; --ink-3:#877E7C;
+    --rule:#332C2F; --rule-2:#443A3E;
+    --accent:#E4899A; --accent-2:#F0A8B5; --accent-soft:#3A2126;
+    --good:#7BC5A0; --good-soft:#1E2E27;
+    --warn:#DCAE49; --warn-soft:#302713;
+    --build:#9AAAE4; --build-soft:#22263A;
+  }
+
+  * { box-sizing:border-box; }
+  body { background:var(--bg); color:var(--ink); font-family:var(--sans); font-size:16px; line-height:1.62; margin:0; -webkit-font-smoothing:antialiased; }
+  .wrap { max-width:1080px; margin:0 auto; padding:0 var(--pad) 6rem; }
+
+  .masthead { border-bottom:2px solid var(--ink); padding:clamp(2.5rem,6vw,4.5rem) 0 1.5rem; display:flex; flex-direction:column; gap:1.35rem; }
+  .eyebrow { font-family:var(--mono); font-size:0.72rem; letter-spacing:0.14em; text-transform:uppercase; color:var(--accent); margin:0; }
+  h1 { font-family:var(--serif); font-weight:400; font-size:clamp(2.7rem,7.5vw,4.75rem); line-height:1; letter-spacing:-0.015em; margin:0; text-wrap:balance; }
+  h1 em { font-style:italic; color:var(--accent); }
+  .standfirst { font-size:clamp(1.05rem,2.2vw,1.18rem); color:var(--ink-2); max-width:60ch; margin:0; }
+
+  .totals { display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); gap:1px; background:var(--rule); border:1px solid var(--rule); margin-top:0.5rem; }
+  .total { background:var(--bg); padding:0.9rem 1rem; }
+  .total dt { font-family:var(--mono); font-size:0.64rem; letter-spacing:0.12em; text-transform:uppercase; color:var(--ink-3); margin:0 0 0.3rem; }
+  .total dd { margin:0; font-family:var(--serif); font-size:1.65rem; line-height:1; font-variant-numeric:tabular-nums; }
+  .total dd small { font-family:var(--sans); font-size:0.8rem; color:var(--ink-3); }
+
+  section { margin-top:4.25rem; scroll-margin-top:2rem; }
+  .sec-head { display:flex; align-items:baseline; gap:0.9rem; border-bottom:1px solid var(--ink); padding-bottom:0.6rem; margin-bottom:1.75rem; }
+  .sec-num { font-family:var(--mono); font-size:0.8rem; font-weight:500; color:var(--accent); font-variant-numeric:tabular-nums; }
+  h2 { font-family:var(--serif); font-weight:400; font-size:clamp(1.8rem,4vw,2.5rem); line-height:1.1; margin:0; letter-spacing:-0.01em; text-wrap:balance; }
+  h3 { font-size:1.02rem; font-weight:600; margin:2.25rem 0 0.7rem; letter-spacing:-0.005em; }
+  h4 { font-family:var(--mono); font-size:0.7rem; font-weight:600; letter-spacing:0.12em; text-transform:uppercase; color:var(--ink-3); margin:0 0 0.6rem; }
+  p,li { max-width:var(--measure); }
+  p { margin:0 0 1rem; }
+  ul,ol { padding-left:1.15rem; margin:0 0 1rem; }
+  li { margin-bottom:0.4rem; }
+  a { color:var(--accent); text-underline-offset:2px; }
+  :focus-visible { outline:2px solid var(--accent); outline-offset:3px; border-radius:2px; }
+  code { font-family:var(--mono); font-size:0.86em; background:var(--surface-2); padding:0.1em 0.36em; border-radius:2px; }
+
+  .scroller { overflow-x:auto; margin:0 0 1.5rem; border:1px solid var(--rule); background:var(--surface); }
+  table { border-collapse:collapse; width:100%; font-size:0.87rem; min-width:640px; }
+  th,td { text-align:left; padding:0.7rem 0.85rem; border-bottom:1px solid var(--rule); vertical-align:top; }
+  th { font-family:var(--mono); font-size:0.65rem; letter-spacing:0.1em; text-transform:uppercase; color:var(--ink-3); font-weight:600; background:var(--surface-2); border-bottom:1px solid var(--rule-2); white-space:nowrap; }
+  tbody tr:last-child td { border-bottom:none; }
+  td p { margin:0; max-width:none; }
+  .num { font-family:var(--mono); font-variant-numeric:tabular-nums; white-space:nowrap; }
+
+  .pill { display:inline-block; font-family:var(--mono); font-size:0.63rem; letter-spacing:0.08em; text-transform:uppercase; font-weight:600; padding:0.18em 0.5em; border-radius:2px; white-space:nowrap; }
+  .p1 { background:var(--accent-soft); color:var(--accent-2); }
+  .p2 { background:var(--warn-soft); color:var(--warn); }
+  .p3 { background:var(--build-soft); color:var(--build); }
+  .p-join { background:var(--good-soft); color:var(--good); }
+
+  .note { border-left:3px solid var(--accent); background:var(--surface); padding:1rem 1.25rem; margin:1.5rem 0; }
+  .note.warn { border-left-color:var(--warn); }
+  .note h4 { color:var(--accent); }
+  .note.warn h4 { color:var(--warn); }
+  .note p:last-child { margin-bottom:0; }
+
+  /* dataset cards */
+  .ds { border:1px solid var(--rule); border-left:3px solid var(--rule-2); background:var(--surface); padding:1.25rem 1.4rem; margin-bottom:1px; }
+  .ds.pri1 { border-left-color:var(--accent); }
+  .ds.pri2 { border-left-color:var(--warn); }
+  .ds.pri3 { border-left-color:var(--build); }
+  .ds-top { display:flex; flex-wrap:wrap; align-items:baseline; gap:0.65rem 1rem; margin-bottom:0.5rem; }
+  .ds-name { font-family:var(--mono); font-size:0.95rem; font-weight:600; }
+  .ds-stats { margin-left:auto; font-family:var(--mono); font-size:0.72rem; color:var(--ink-3); font-variant-numeric:tabular-nums; }
+  .ds > p { font-size:0.9rem; color:var(--ink-2); margin-bottom:0.9rem; }
+  .fields { font-family:var(--mono); font-size:0.75rem; line-height:1.75; color:var(--ink-2); background:var(--surface-2); padding:0.75rem 0.9rem; overflow-x:auto; }
+  .fields b { color:var(--ink); font-weight:600; }
+  .ds-why { font-size:0.85rem; color:var(--ink-2); margin:0.9rem 0 0; border-top:1px dashed var(--rule-2); padding-top:0.7rem; max-width:none; }
+  .ds-why b { color:var(--ink); }
+
+  /* schedule bars */
+  .sched { display:grid; gap:1px; background:var(--rule); border:1px solid var(--rule); margin-bottom:1.5rem; }
+  .sr { background:var(--surface); display:grid; gap:0.4rem 1rem; padding:0.7rem 0.9rem; align-items:center; }
+  @media (min-width:720px) { .sr { grid-template-columns:11rem 1fr 5rem; } }
+  .sr-name { font-family:var(--mono); font-size:0.8rem; font-weight:500; }
+  .sr-hrs { font-family:var(--mono); font-size:0.75rem; color:var(--ink-3); font-variant-numeric:tabular-nums; text-align:right; }
+  .bar { height:0.55rem; background:var(--surface-2); position:relative; }
+  .bar i { position:absolute; top:0; bottom:0; display:block; }
+  .b1 { background:var(--accent); }
+  .b2 { background:var(--warn); }
+  .b3 { background:var(--build); }
+  .sched-key { display:flex; flex-wrap:wrap; gap:0.35rem 1.25rem; font-family:var(--mono); font-size:0.68rem; color:var(--ink-3); margin-bottom:1.5rem; }
+  .sched-key span { display:flex; align-items:center; gap:0.4rem; }
+  .sched-key i { width:0.75rem; height:0.55rem; display:block; }
+
+  footer { border-top:2px solid var(--ink); margin-top:4rem; padding-top:1.25rem; font-family:var(--mono); font-size:0.72rem; color:var(--ink-3); display:flex; flex-wrap:wrap; gap:0.5rem 1.5rem; justify-content:space-between; }
+
+  @media (prefers-reduced-motion: reduce) { * { animation:none!important; transition:none!important; } }
+</style>
+
+<div class="wrap">
+
+  <header class="masthead">
+    <p class="eyebrow">Screen Design 2026–27 · summer build</p>
+    <h1>The Screen<br><em>Corpus</em></h1>
+    <p class="standfirst">Nine datasets to build before September — and one of them is the join key that the other eight hang off. Build that one properly and the instruments mostly assemble themselves.</p>
+    <dl class="totals">
+      <div class="total"><dt>Datasets</dt><dd>9</dd></div>
+      <div class="total"><dt>Must exist by wk 1</dt><dd>4</dd></div>
+      <div class="total"><dt>Full build</dt><dd>88 <small>hrs</small></dd></div>
+      <div class="total"><dt>Minimum viable</dt><dd>46 <small>hrs</small></dd></div>
+    </dl>
+  </header>
+
+  <section>
+    <div class="sec-head"><span class="sec-num">01</span><h2>One corpus, eight views</h2></div>
+
+    <p>The instinct here is to build a dataset per instrument — screenshots for the teardown tool, layouts for the grid playground, failures for the accessibility checklist. Don't. Those are the same objects with different fields queried.</p>
+
+    <p><strong>Capture each screen once, annotate it richly, give it an id.</strong> <code>sd-scr-047</code> is then simultaneously a hierarchy exhibit in week 1, a grid decomposition in week 3, a colour example in week 5, and an accessibility case in week 9 — and because it's one record, a student who clicks a principle can see the screens that demonstrate it, and a screen can show every principle it touches. That cross-linking is what makes the instruments feel like a system rather than eight unrelated pages, and it costs nothing if the ids exist from the start.</p>
+
+    <p>It also means the annotation effort concentrates in one place, which matters when the realistic budget is one summer.</p>
+
+    <div class="note">
+      <h4>File conventions</h4>
+      <p>JSON with a metadata envelope, matching <code>facilities/campus_rooms_data.json</code> — <code>dataset_name</code>, <code>extraction_date</code>, <code>source_citation</code> per record. The provenance fields aren't bureaucracy here: for the screen corpus they're the copyright position, and for the rationale bank they're the moderation trail.</p>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-head"><span class="sec-num">02</span><h2>The datasets</h2></div>
+
+    <div class="ds pri1">
+      <div class="ds-top"><span class="ds-name">screens.json</span><span class="pill p1">Before wk 1</span><span class="pill p-join">Join key</span><span class="ds-stats">~140 records · 28 hrs</span></div>
+      <p>Annotated captures of real interfaces. The single largest build and the one everything else references. Aim for breadth of <em>screen type</em> rather than breadth of brand — six checkout flows teach less than one each of onboarding, empty state, error, form, list and detail.</p>
+      <div class="fields"><b>id</b> · source · platform · url_or_app · captured_date · category · <b>screen_type</b> (onboarding / list / detail / form / empty / error / success / settings) · reading_order[] · devices_used[] (scale, weight, colour, space, position) · does_well[] · does_badly[] · principle_ids[] · a11y_failures[] · grid{} · breakpoints_captured[] · <b>licence_note</b></div>
+      <p class="ds-why"><b>Sizing:</b> ~70 records covers weeks 1–5 and is the pre-term minimum. Capture 20 of them at all three breakpoints for week 9. Budget 3–4 screens an hour if you're annotating properly — the capture is fast, the <code>reading_order</code> and <code>devices_used</code> fields are where the time goes, and those are the fields that make the teardown instrument work.</p>
+    </div>
+
+    <div class="ds pri1">
+      <div class="ds-top"><span class="ds-name">themes.json</span><span class="pill p1">Before wk 1</span><span class="ds-stats">~80 records · 6 hrs</span></div>
+      <p>The theme bank students choose their portfolio subject from — the SD equivalent of UXCI's service-selector, and at a hundred students the thing that prevents forty identical Spotify redesigns.</p>
+      <div class="fields"><b>id</b> · theme · domain · why_it_works_at_L4 · screen_count_estimate · <b>pitfalls</b>[] · too_big_variant · example_screen_ids[]</div>
+      <p class="ds-why"><b>Why 80:</b> with 100 students you need enough options that collisions are incidental rather than systemic. The <code>too_big_variant</code> field earns its place — it names the version of each theme that's too large for the module, so the tool can say "not a music streaming service; one playlist-sharing feature" rather than just rejecting the idea.</p>
+    </div>
+
+    <div class="ds pri1">
+      <div class="ds-top"><span class="ds-name">principles.json</span><span class="pill p1">Before wk 1</span><span class="ds-stats">~30 records · 8 hrs</span></div>
+      <p>The Level 4 subset — visual design principles alongside the UCD basics, each anchored to a real example and a real counter-example from the corpus. This is the adapt of <code>ucd-principles-library</code>, cut down hard.</p>
+      <div class="fields"><b>id</b> · family (visual / ucd / accessibility) · name · one_line · <b>plain_gloss</b> · example_screen_id · counter_example_screen_id · common_misuse · weeks[]</div>
+      <p class="ds-why"><b>The two fields that matter:</b> <code>plain_gloss</code>, because the existing library is pitched at Level 6 and these students have no design vocabulary yet; and <code>common_misuse</code>, because it's what a tutor circulating a workshop actually needs — the misreading that's about to appear in thirty portfolios.</p>
+    </div>
+
+    <div class="ds pri1">
+      <div class="ds-top"><span class="ds-name">rationales.json</span><span class="pill p1">Before wk 1</span><span class="ds-stats">48 paragraphs · 10 hrs</span></div>
+      <p>Banded exemplar paragraphs — six rationale sections × four grade bands × two examples each. Small file, highest leverage in the set.</p>
+      <div class="fields"><b>section</b> (1–6) · <b>band</b> (fail / pass / good / excellent) · text · why_this_band · what_moves_it_up</div>
+      <p class="ds-why"><b>Do this one yourself and don't skip it.</b> It's three things at once: the week 10 lecture material (the same paragraph written badly and well, side by side), the calibration anchor for the automated pre-check, and your moderation evidence. Without it the LLM feedback has nothing to compare against and will drift toward generic encouragement — which is worse than no feedback, because students act on it. It's also the one dataset that can't be delegated or generated, since the whole point is that the bands reflect <em>your</em> standard.</p>
+    </div>
+
+    <div class="ds pri2">
+      <div class="ds-top"><span class="ds-name">typefaces.json</span><span class="pill p2">By wk 3</span><span class="ds-stats">~50 + 25 pairs · 8 hrs</span></div>
+      <p>Google Fonts only — free, students can actually use them, and they load inside your instruments' content policy where anything else silently falls back. Plus a curated pairings file with a stated reason per pair.</p>
+      <div class="fields"><b>family</b> · classification · weights[] · x_height_band · best_roles[] · pairs_with[] · avoid_with[] · google_fonts_url · notes<br><b>pairings:</b> display_family · body_family · why_it_works · <b>what_it_suits</b> · example_screen_id</div>
+      <p class="ds-why"><b>Constraint worth stating in the tool itself:</b> restricting to Google Fonts is a teaching decision, not just a licensing one. A bounded set makes pairing a judgement about fit rather than a search problem, which is the right difficulty at Level 4.</p>
+    </div>
+
+    <div class="ds pri2">
+      <div class="ds-top"><span class="ds-name">palettes.json</span><span class="pill p2">By wk 4</span><span class="ds-stats">~30 records · 6 hrs</span></div>
+      <p>Worked palettes with roles assigned and every pair's contrast ratio pre-computed. Half exemplary, half deliberately failing — the failures teach more, and you need them for the week 5 workshop.</p>
+      <div class="fields"><b>id</b> · name · context · swatches[{ hex, role }] · pairs[{ fg, bg, <b>ratio</b>, aa, aaa }] · teaching_note · deliberate_failure (bool)</div>
+      <p class="ds-why"><b>The ratios compute themselves</b> — write the WCAG relative-luminance function once and generate the <code>pairs</code> array from the swatches. That same function is the engine of the Contrast Lab and of the automated check that a student's declared ratios match their declared hex values, so it gets written regardless. Build it here first.</p>
+    </div>
+
+    <div class="ds pri2">
+      <div class="ds-top"><span class="ds-name">grids.json</span><span class="pill p2">By wk 2</span><span class="ds-stats">~30 records · 6 hrs</span></div>
+      <p>Real layouts decomposed into their underlying structure. Strictly an extension of <code>screens.json</code> rather than a standalone file — same ids, extra fields.</p>
+      <div class="fields"><b>screen_id</b> · viewport · columns · gutter · margin · max_width · spacing_base · spacing_steps[] · notes</div>
+      <p class="ds-why"><b>Needed early</b> despite being a week 3 topic — the grid playground needs specimens to demonstrate against from its first lecture, and decomposing a layout accurately is slower than it looks.</p>
+    </div>
+
+    <div class="ds pri3">
+      <div class="ds-top"><span class="ds-name">ai-samples.json</span><span class="pill p3">Capture late</span><span class="ds-stats">~20 records · 5 hrs</span></div>
+      <p>Generated screens and style tiles with the prompt kept alongside the output and a critique attached. For the week 6 lecture.</p>
+      <div class="fields"><b>id</b> · prompt · tool · <b>generated_date</b> · output_ref · competent[] · wrong[] · student_must_fix[]</div>
+      <p class="ds-why"><b>Deliberately last.</b> This is the only dataset that gets worse with age — capture it in weeks 1–4, not over the summer, or you'll stand in a lecture theatre in November showing students what generation couldn't do six months ago while they hold a phone that does it. Date-stamp every record and plan to recapture annually.</p>
+    </div>
+
+    <div class="ds pri3">
+      <div class="ds-top"><span class="ds-name">a11y-cases.json</span><span class="pill p3">By wk 8</span><span class="ds-stats">~25 records · 4 hrs</span></div>
+      <p>Screens with specific, nameable accessibility failures and the fix for each. Another extension of the corpus, not a new capture effort.</p>
+      <div class="fields"><b>screen_id</b> · failure_type · wcag_ref · what_breaks · who_it_affects · <b>the_fix</b> · severity</div>
+      <p class="ds-why"><b>Keep <code>who_it_affects</code> concrete.</b> "Fails 1.4.3" teaches nothing at Level 4; "unreadable in sunlight, and for the ~8% of men with red-green colour blindness" is the version that changes how someone designs.</p>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-head"><span class="sec-num">03</span><h2>Build order</h2></div>
+
+    <p>Roughly 88 hours across all nine. That's a substantial summer commitment and worth being honest about before committing to it — so the ordering below front-loads everything that has to exist for week 1 to happen at all.</p>
+
+    <div class="sched">
+      <div class="sr"><span class="sr-name">screens.json</span><span class="bar"><i class="b1" style="left:0;width:64%"></i><i class="b2" style="left:64%;width:16%"></i></span><span class="sr-hrs">28 h</span></div>
+      <div class="sr"><span class="sr-name">rationales.json</span><span class="bar"><i class="b1" style="left:4%;width:34%"></i></span><span class="sr-hrs">10 h</span></div>
+      <div class="sr"><span class="sr-name">principles.json</span><span class="bar"><i class="b1" style="left:22%;width:28%"></i></span><span class="sr-hrs">8 h</span></div>
+      <div class="sr"><span class="sr-name">themes.json</span><span class="bar"><i class="b1" style="left:34%;width:20%"></i></span><span class="sr-hrs">6 h</span></div>
+      <div class="sr"><span class="sr-name">typefaces.json</span><span class="bar"><i class="b2" style="left:48%;width:26%"></i></span><span class="sr-hrs">8 h</span></div>
+      <div class="sr"><span class="sr-name">grids.json</span><span class="bar"><i class="b2" style="left:56%;width:20%"></i></span><span class="sr-hrs">6 h</span></div>
+      <div class="sr"><span class="sr-name">palettes.json</span><span class="bar"><i class="b2" style="left:64%;width:20%"></i></span><span class="sr-hrs">6 h</span></div>
+      <div class="sr"><span class="sr-name">a11y-cases.json</span><span class="bar"><i class="b3" style="left:74%;width:14%"></i></span><span class="sr-hrs">4 h</span></div>
+      <div class="sr"><span class="sr-name">ai-samples.json</span><span class="bar"><i class="b3" style="left:86%;width:14%"></i></span><span class="sr-hrs">5 h</span></div>
+    </div>
+    <div class="sched-key">
+      <span><i class="b1"></i> Before week 1</span>
+      <span><i class="b2"></i> During weeks 1–4</span>
+      <span><i class="b3"></i> Before the week it's needed</span>
+    </div>
+
+    <h3>If the summer gets eaten</h3>
+    <p>The minimum that lets week 1 happen and the module stay coherent to week 5, at <strong>46 hours</strong>:</p>
+    <div class="scroller">
+      <table>
+        <thead><tr><th>Dataset</th><th>Cut to</th><th class="num">Hours</th><th>What you lose</th></tr></thead>
+        <tbody>
+          <tr><td><b>screens.json</b></td><td>70 records, weeks 1–5 only, no breakpoint captures</td><td class="num">14</td><td>Week 9 responsive exhibits — add during term</td></tr>
+          <tr><td><b>rationales.json</b></td><td>24 paragraphs (one per section per band)</td><td class="num">6</td><td>Nothing structural; the bands still anchor</td></tr>
+          <tr><td><b>principles.json</b></td><td>20 principles, no counter-examples</td><td class="num">5</td><td>Counter-examples are the better half — restore first</td></tr>
+          <tr><td><b>themes.json</b></td><td>Full 80. Don't cut this one</td><td class="num">6</td><td>—</td></tr>
+          <tr><td><b>typefaces.json</b></td><td>30 families, 15 pairings</td><td class="num">5</td><td>Choice narrows, which is arguably fine</td></tr>
+          <tr><td><b>grids.json</b></td><td>15 records</td><td class="num">3</td><td>Fewer specimens to demo against</td></tr>
+          <tr><td><b>palettes.json</b></td><td>15 records</td><td class="num">3</td><td>Little — the ratio engine matters more than the count</td></tr>
+          <tr><td colspan="4"><em>a11y-cases and ai-samples fall after week 5 and can be built during term as planned.</em></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>What can be handed off</h3>
+    <p>Screen capture is the one genuinely delegable chunk — a GTA or PGR can capture and fill the factual fields (<code>source</code>, <code>platform</code>, <code>screen_type</code>, <code>captured_date</code>) at maybe 12 screens an hour, leaving you the interpretive fields. That splits 28 hours into roughly 6 delegated and 16 yours. <code>themes.json</code> drafts fast with assistance and edits down. <code>rationales.json</code> cannot be delegated at all, and <code>principles.json</code> shouldn't be — both encode your standard, which is the entire point of them.</p>
+  </section>
+
+  <section>
+    <div class="sec-head"><span class="sec-num">04</span><h2>Two things to settle before capturing</h2></div>
+
+    <div class="note warn">
+      <h4>Copyright, and where the corpus lives</h4>
+      <p>Screenshots of commercial interfaces for classroom teaching sit under fair dealing for illustration for instruction — but that depends on the audience being your students, not the open web. Your module instruments have historically been served from a public webroot, and a public gallery of 140 annotated commercial screenshots is a materially different thing from a teaching exhibit.</p>
+      <p><strong>Put the corpus behind Moodle authentication</strong>, or keep the images there and let the public instrument reference them by id. Record <code>source</code>, <code>captured_date</code> and <code>licence_note</code> on every record from the first capture — retrofitting provenance across 140 records is miserable, and you'd be doing it under pressure.</p>
+    </div>
+
+    <div class="note">
+      <h4>Screens go stale, so decide the refresh now</h4>
+      <p>A meaningful slice of a 140-screen corpus will be wrong within eighteen months — apps redesign, and a teardown of a layout that no longer exists undercuts you in the room. The <code>captured_date</code> field makes this manageable if the instrument surfaces it: show the capture date on every exhibit, and let a student see they're looking at something from two years ago. That's honest, it's a small build, and it turns staleness from an embarrassment into a discussion about how fast the field moves.</p>
+    </div>
+  </section>
+
+  <footer>
+    <span>Screen Design · dataset build plan · summer 2026</span>
+    <span>9 datasets · 88 hrs full · 46 hrs minimum</span>
+  </footer>
+
+</div>

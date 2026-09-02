@@ -1,0 +1,465 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The assessment, explained — Screen Design</title>
+<style>
+  :root{
+    --bg:#F5F4F2; --surface:#FFFFFF; --surface-2:#EDEBE8;
+    --ink:#1A1618; --ink-2:#56504F; --ink-3:#8B8382;
+    --line:#DFDBD7; --line-2:#C9C3BE;
+    --lec:#8C2437; --lec-soft:#F6E8EA;
+    --wsh:#1D5C7A; --wsh-soft:#E4EEF3;
+    --ok:#2C5F3E; --ok-soft:#E3EFE7;
+    --warn:#8A5D05; --warn-soft:#F4EAD3;
+    --mono:ui-monospace,"SF Mono",Menlo,Consolas,monospace;
+    --sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Inter,Roboto,sans-serif;
+  }
+  html[data-theme="dark"]{
+    --bg:#151314; --surface:#1E1B1C; --surface-2:#262223;
+    --ink:#EDE9E7; --ink-2:#B5AEAB; --ink-3:#847C79;
+    --line:#332E2F; --line-2:#463F40;
+    --lec:#E08A9B; --lec-soft:#332226; --wsh:#7FBEDC; --wsh-soft:#16262E;
+    --ok:#7FBF97; --ok-soft:#1C2A22; --warn:#DCB469; --warn-soft:#2A2417;
+  }
+  *{box-sizing:border-box}
+  html,body{height:100%}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);
+    line-height:1.4;overflow:hidden;display:flex;flex-direction:column}
+
+  .top{display:flex;align-items:center;gap:12px;padding:9px 20px;border-bottom:1px solid var(--line);
+    background:var(--surface);flex:none}
+  .top b{font-size:0.9rem;letter-spacing:-0.01em}
+  .top .sp{flex:1}
+  .top a,.top button{font-family:var(--mono);font-size:0.7rem;color:var(--ink-3);text-decoration:none;
+    background:none;border:1px solid var(--line-2);border-radius:5px;padding:5px 9px;cursor:pointer}
+  .top a.on{background:var(--lec);color:#fff;border-color:var(--lec)}
+  html[data-theme="dark"] .top a.on{color:#151314}
+  .top a:hover,.top button:hover{border-color:var(--lec);color:var(--lec)}
+
+  .body{flex:1;display:flex;min-height:0}
+  /* Contents, always visible. One or two words per slide — a reader glancing at
+     it should know where they are without reading it. */
+  .toc{flex:none;width:172px;border-right:1px solid var(--line);background:var(--surface);
+    padding:18px 0;overflow-y:auto}
+  .toc ol{list-style:none;margin:0;padding:0}
+  .toc li{position:relative}
+  .toc button{display:flex;align-items:baseline;gap:9px;width:100%;text-align:left;background:none;
+    border:0;cursor:pointer;padding:7px 16px;font-family:var(--sans);font-size:0.84rem;color:var(--ink-3);
+    border-left:2px solid transparent}
+  .toc button:hover{color:var(--ink);background:var(--surface-2)}
+  .toc button i{font-style:normal;font-family:var(--mono);font-size:0.64rem;color:var(--ink-3);width:14px;flex:none}
+  .toc li.on button{color:var(--ink);font-weight:640;border-left-color:var(--lec);background:var(--lec-soft)}
+  .toc li.on button i{color:var(--lec)}
+  .toc li.past button{color:var(--ink-2)}
+  @media(max-width:820px){.toc{display:none}}
+
+  .stage{flex:1;position:relative;overflow:hidden;min-width:0}
+  .slide{position:absolute;inset:0;display:none;flex-direction:column;justify-content:center;
+    padding:min(6vh,54px) min(6vw,72px);overflow-y:auto}
+  .slide.active{display:flex}
+  .slide.center{align-items:center;text-align:center}
+
+  .eyebrow{font-family:var(--mono);font-size:0.72rem;letter-spacing:0.14em;text-transform:uppercase;
+    color:var(--lec);margin-bottom:14px}
+  h1{font-size:clamp(2rem,5.4vw,3.6rem);line-height:1.02;letter-spacing:-0.035em;margin:0 0 14px;font-weight:730}
+  h2{font-size:clamp(1.5rem,3.4vw,2.4rem);line-height:1.08;letter-spacing:-0.03em;margin:0 0 16px;font-weight:700}
+  .lead{font-size:clamp(1rem,1.9vw,1.4rem);color:var(--ink-2);max-width:44ch;margin:0}
+  .slide.center .lead{margin:0 auto}
+  .big{font-size:clamp(3rem,11vw,8rem);font-weight:750;letter-spacing:-0.05em;line-height:0.88;color:var(--lec)}
+  .huge-l{font-size:clamp(0.9rem,1.5vw,1.15rem);color:var(--ink-2);margin-top:10px}
+
+  ul.pts{margin:6px 0 0;padding:0;list-style:none;display:grid;gap:12px;max-width:52ch}
+  ul.pts li{display:grid;grid-template-columns:26px 1fr;gap:12px;align-items:baseline;
+    font-size:clamp(0.98rem,1.7vw,1.25rem)}
+  ul.pts i{font-style:normal;font-family:var(--mono);font-size:0.8em;color:var(--lec)}
+
+  .cols{display:grid;gap:16px;grid-template-columns:repeat(auto-fit,minmax(min(230px,100%),1fr));width:100%}
+  .card{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:18px 20px}
+  .card .k{display:block;font-family:var(--mono);font-size:0.68rem;letter-spacing:0.09em;
+    text-transform:uppercase;color:var(--ink-3);margin-bottom:8px}
+  .card .n{font-size:2.4rem;font-weight:730;letter-spacing:-0.03em;line-height:1;color:var(--lec)}
+  .card h3{margin:4px 0 6px;font-size:1.05rem;font-weight:660}
+  .card p{margin:0;font-size:0.92rem;color:var(--ink-2)}
+  .card.a{border-top:4px solid var(--lec)} .card.b{border-top:4px solid var(--wsh)}
+  .card.c{border-top:4px solid var(--ok)}
+  .card.a .n{color:var(--lec)} .card.b .n{color:var(--wsh)} .card.c .n{color:var(--ok)}
+
+  .secs{display:flex;flex-wrap:wrap;gap:5px;margin-top:12px}
+  .secs span{font-family:var(--mono);font-size:0.74rem;border:1px solid var(--line-2);
+    border-radius:5px;padding:3px 8px;color:var(--ink-2);background:var(--surface)}
+
+  .vs{display:grid;grid-template-columns:1fr 1fr;gap:16px;width:100%;max-width:1000px}
+  @media(max-width:760px){.vs{grid-template-columns:1fr}}
+  .vs > div{border-radius:12px;padding:18px 20px;border:1px solid}
+  .vs .no{background:var(--lec-soft);border-color:var(--lec)}
+  .vs .yes{background:var(--ok-soft);border-color:var(--ok)}
+  .vs b{display:block;font-family:var(--mono);font-size:0.7rem;letter-spacing:0.09em;
+    text-transform:uppercase;margin-bottom:9px}
+  .vs .no b{color:var(--lec)} .vs .yes b{color:var(--ok)}
+  .vs p{margin:0;font-size:clamp(0.95rem,1.5vw,1.12rem);line-height:1.5}
+
+  table.tl{width:100%;max-width:840px;border-collapse:collapse;font-size:clamp(0.82rem,1.3vw,0.98rem)}
+  table.tl th{font-family:var(--mono);font-size:0.64rem;letter-spacing:0.08em;text-transform:uppercase;
+    color:var(--ink-3);text-align:left;padding:6px 10px;border-bottom:1px solid var(--line);font-weight:500}
+  table.tl td{padding:6px 10px;border-bottom:1px solid var(--line);color:var(--ink-2)}
+  /* The week table is eleven rows plus a heading, and on a 768-tall projector
+     that was the one slide that scrolled. A scrolling slide in a lecture
+     theatre is a slide nobody sees the bottom of. */
+  .slide.dense{padding-top:min(3vh,26px);padding-bottom:min(3vh,26px)}
+  .slide.dense h2{margin-bottom:10px;font-size:clamp(1.3rem,2.6vw,1.9rem)}
+  .slide.dense h2.mk{font-size:clamp(1.5rem,3vw,2.2rem)}
+  .slide.dense ul.crit li{font-size:clamp(0.94rem,1.6vw,1.18rem)}
+  .slide.dense ul.crit{gap:9px}
+  .slide.dense .lead.mk2{margin-top:14px}
+  .slide.dense .eyebrow{margin-bottom:8px}
+  .slide.dense table.tl th,.slide.dense table.tl td{padding:4px 10px}
+  .slide.dense table.tl{font-size:clamp(0.78rem,1.15vw,0.92rem)}
+  table.tl td:first-child{font-family:var(--mono);color:var(--ink-3);white-space:nowrap}
+  table.tl td b{color:var(--ink)}
+  table.tl tr.hi td{background:var(--wsh-soft)}
+
+  .quote{font-family:var(--mono);background:var(--surface-2);border-radius:10px;padding:16px 18px;
+    font-size:clamp(0.78rem,1.2vw,0.95rem);line-height:1.6;color:var(--ink-2);white-space:pre;overflow:auto;max-width:100%}
+
+  .card .ic{display:block;width:34px;height:34px;margin-bottom:10px}
+  .card .ic svg{width:100%;height:100%}
+  .card.a .ic{color:var(--lec)} .card.b .ic{color:var(--wsh)} .card.c .ic{color:var(--ok)}
+
+  .two{display:grid;grid-template-columns:1fr 1fr;gap:26px;width:100%;max-width:980px}
+  @media(max-width:760px){.two{grid-template-columns:1fr;gap:16px}}
+  .two > div > b{display:block;font-family:var(--mono);font-size:0.68rem;letter-spacing:0.09em;
+    text-transform:uppercase;margin-bottom:10px}
+  .t-good{color:var(--ok)} .t-bad{color:var(--lec)}
+  ul.pts.sm li{font-size:clamp(0.86rem,1.35vw,1rem);gap:9px;grid-template-columns:18px 1fr}
+  .two .t-good ~ ul.pts i{color:var(--ok)} .two .t-bad ~ ul.pts i{color:var(--lec)}
+
+  /* the marking slide is read from the back of a lecture theatre */
+  h2.mk{font-size:clamp(1.7rem,3.8vw,2.7rem)}
+  ul.crit li{font-size:clamp(1rem,1.85vw,1.35rem);gap:16px;grid-template-columns:38px 1fr;align-items:start}
+  ul.crit i{font-family:var(--mono);font-size:0.85em;color:var(--lec);font-weight:600}
+  ul.crit b{display:block}
+  ul.crit em{display:block;font-style:normal;font-size:0.78em;color:var(--ink-2);margin-top:3px;line-height:1.45}
+  .lead.mk2{font-size:clamp(0.95rem,1.6vw,1.2rem);margin-top:22px;max-width:60ch}
+  table.tl.big{font-size:clamp(0.95rem,1.7vw,1.25rem)}
+  table.tl.big td{padding:11px 12px}
+
+  /* rubric */
+  table.rub td{font-size:clamp(0.72rem,1.05vw,0.86rem);vertical-align:top;line-height:1.4}
+  table.rub td:first-child{white-space:normal;color:var(--ink)}
+  table.rub .lo{font-family:var(--mono);font-size:0.62rem;color:var(--lec);border:1px solid var(--lec);
+    border-radius:3px;padding:0 4px}
+  .draft,.fake{font-family:var(--mono);font-size:0.6rem;letter-spacing:0.08em;text-transform:uppercase;
+    background:var(--warn-soft);color:var(--warn);border:1px solid var(--warn);border-radius:4px;
+    padding:2px 7px;margin-left:8px;white-space:nowrap}
+
+  /* worked examples */
+  .ex{display:grid;grid-template-columns:120px 1fr;gap:20px;align-items:start;width:100%;max-width:940px}
+  @media(max-width:700px){.ex{grid-template-columns:1fr;gap:12px}}
+  .ex-mark{text-align:center;border-radius:12px;padding:16px 10px}
+  .ex.bad .ex-mark{background:var(--lec-soft);border:1px solid var(--lec)}
+  .ex.good .ex-mark{background:var(--ok-soft);border:1px solid var(--ok)}
+  .ex-mark b{display:block;font-size:2.6rem;font-weight:740;letter-spacing:-0.04em;line-height:1}
+  .ex.bad .ex-mark b{color:var(--lec)} .ex.good .ex-mark b{color:var(--ok)}
+  .ex-mark span{font-family:var(--mono);font-size:0.66rem;color:var(--ink-3)}
+  .ex-q{font-size:clamp(0.92rem,1.45vw,1.1rem);line-height:1.55;margin:0 0 14px;
+    padding:14px 16px;border-radius:10px;background:var(--surface);border:1px solid var(--line)}
+  .ex-why{margin:0;font-size:clamp(0.85rem,1.25vw,0.98rem);line-height:1.55;color:var(--ink-2)}
+  .ex-why b{color:var(--ink)}
+
+  .fixnote{margin-top:20px;padding:11px 15px;border-left:3px solid var(--ok);background:var(--ok-soft);
+    border-radius:0 8px 8px 0;font-size:clamp(0.82rem,1.2vw,0.95rem);line-height:1.55;color:var(--ink-2);max-width:64ch}
+  .fixnote b{color:var(--ink)}
+  .bar{flex:none;display:flex;align-items:center;gap:12px;padding:9px 20px;border-top:1px solid var(--line);
+    background:var(--surface)}
+  .bar button{font-family:var(--mono);font-size:0.78rem;background:var(--surface);color:var(--ink);
+    border:1px solid var(--line-2);border-radius:7px;padding:7px 14px;cursor:pointer}
+  .bar button:hover:not(:disabled){border-color:var(--lec);color:var(--lec)}
+  .bar button:disabled{opacity:.35;cursor:default}
+  .count{font-family:var(--mono);font-size:0.76rem;color:var(--ink-3);min-width:62px;text-align:center}
+  .prog{flex:1;height:4px;background:var(--surface-2);border-radius:99px;overflow:hidden}
+  .prog i{display:block;height:100%;background:var(--lec);transition:width .18s}
+  .hint{font-family:var(--mono);font-size:0.66rem;color:var(--ink-3)}
+  @media(max-width:620px){.hint{display:none}}
+
+  /* A deck is a projector document, but it is also the thing a student opens on
+     a phone on the bus. The quote block is preformatted text and cannot wrap,
+     so below 420px it scrolls inside itself rather than widening the page. */
+  @media(max-width:420px){
+    /* Title, two links, two buttons. At 320 the bar is the widest thing on the
+       page, so the title goes — the tab already says what this is. */
+    .top{padding:8px 10px;gap:5px} .top a,.top button{padding:4px 6px;font-size:0.6rem}
+    .top b{display:none}
+    .slide{padding:22px 14px} .bar{padding:8px 12px;gap:8px}
+    .quote{font-size:0.66rem;max-width:100%;padding:10px 12px}
+    .slide{max-width:100vw;overflow-x:hidden}
+    .secs span{font-size:0.66rem}
+    table.tl{font-size:0.72rem} table.tl th,table.tl td{padding:4px 6px}
+  }
+
+  @media print{
+    body{overflow:visible;height:auto} .top,.bar{display:none}
+    .toc{display:none} .body{display:block}
+    .stage{overflow:visible} .slide{position:static;display:flex !important;
+      page-break-after:always;min-height:88vh;border-bottom:1px solid #ccc}
+  }
+</style>
+</head>
+<body>
+
+<div class="top">
+  <b>The assessment, explained</b>
+  <span class="sp"></span>
+  <a href="index.html">Weeks</a><a href="weeks.html">Materials</a><a href="brief.html" class='on'>The brief</a><a href="assessment.html">What to hand in</a>
+  <button id="theme">◐</button>
+  <button id="print">Print</button>
+</div>
+
+<div class="body">
+  <nav class="toc" aria-label="Contents"><ol id="toc"></ol></nav>
+  <div class="stage" id="stage"></div>
+</div>
+
+<div class="bar">
+  <button id="prev">← Back</button>
+  <span class="count" id="count"></span>
+  <button id="next">Next →</button>
+  <span class="prog"><i id="prog"></i></span>
+  <span class="hint">← → arrows · F for full screen</span>
+</div>
+
+<script src="sd-common.js"></script>
+<script src="weeks-data.js"></script>
+<script src="rubric-data.js"></script>
+<script>
+const A = PARTS[0], B = PARTS[1], C = PARTS[2];
+const secs = p => p.items.map(i => `<span>${i.sec}</span>`).join('');
+const pd = SD.partDeadlines();
+
+/* Ten slides. Anything longer than this belongs in the full brief, which is a
+   click away in the top bar — a deck is for the hour in the room, not for
+   holding every rule.
+   
+   `nav` is the one or two words that appear in the contents rail. */
+/* Ten slides. Anything longer belongs in the full brief, one click away in the
+   top bar — a deck is for the hour in the room, not for holding every rule. */
+const ICON = {
+  doc:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5"/>
+    <path d="M9 12h6M9 16h6M9 8h1"/></svg>`,
+  pencil:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M4 20h4L19 9a2.8 2.8 0 0 0-4-4L4 16z"/><path d="M14.5 5.5 18.5 9.5"/><path d="M4 20l1-4"/></svg>`,
+  speak:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M20 15a2 2 0 0 1-2 2H8l-4 3V5a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2z"/>
+    <path d="M8.5 9.5h7M8.5 12.5h4"/></svg>`
+};
+
+const SLIDES = [
+{nav:"Start", html:`<div class="slide center active">
+  <div class="eyebrow">Screen Design · Level 4 · 30 credits · 2026–27</div>
+  <h1>The assessment,<br>in ten slides</h1>
+  <p class="lead">One slide deck. You fill in a section of it every week.
+    Nothing is handed in until January.</p>
+</div>`},
+
+{nav:"The work", html:`<div class="slide">
+  <div class="eyebrow">What you are making</div>
+  <h2>Six to eight screens, and a record of why they look like that.</h2>
+  <ul class="pts">
+    <li><i>01</i><span>Pick a topic in week 2 and keep it.</span></li>
+    <li><i>02</i><span>Draw the screens rough on paper first — that is what weeks 2 and 8 are for.</span></li>
+    <li><i>03</i><span>Write down every choice as you make it.</span></li>
+    <li><i>04</i><span>In week 10, explain six of those choices.</span></li>
+  </ul>
+  <p class="lead" style="margin-top:18px"><b>100% of the mark.</b> No exam, no presentation, no group work.</p>
+</div>`},
+
+{nav:"What to use", html:`<div class="slide">
+  <div class="eyebrow">"But how do I actually draw a screen?"</div>
+  <h2>Paper first. Then whatever you like.</h2>
+  <div class="cols">
+    <div class="card"><span class="k">Start here · free</span><h3>Paper and a marker</h3>
+      <p>Weeks 2 and 8 are on paper on purpose. It is faster, and eight rough layouts teach you more
+        than one neat one. Photograph them — that is the artefact.</p></div>
+    <div class="card"><span class="k">No sign-up needed</span><h3>Excalidraw</h3>
+      <p><b>excalidraw.com</b> — opens and works, no account. Boxes, arrows and text. Good enough for
+        every wireframe on this module.</p></div>
+    <div class="card"><span class="k">This is the one</span><h3>PowerPoint or Google Slides</h3>
+      <p><b>Your whole hand-in is one deck.</b> Free with your MMU login, already installed, and it is
+        what makes the prototype free: each screen is a slide, you link them in week 10, and the links
+        survive the export to PDF. The brief allows &ldquo;or equivalent&rdquo; — this is the equivalent.</p></div>
+    <div class="card"><span class="k">If you want it</span><h3>Figma</h3>
+      <p>Free for students, needs an account. Nobody is marking whether you used it — tool skill is
+        not assessed on this module. Whatever you draw in it still lands in the deck.</p></div>
+  </div>
+</div>`},
+
+{nav:"Your topic", html:`<div class="slide">
+  <div class="eyebrow">Choosing a topic</div>
+  <h2>Small, real, and yours.</h2>
+  <div class="two">
+    <div>
+      <b class="t-good">What works</b>
+      <ul class="pts sm">
+        <li><i>✓</i><span>Something you already understand — a hobby, a job you have had, a problem where you live</span></li>
+        <li><i>✓</i><span>One task, not a whole company. "Book a badminton court", not "a sports app"</span></li>
+        <li><i>✓</i><span>Six to eight screens' worth. If you cannot list six, it is too small; if you cannot stop at eight, too big</span></li>
+        <li><i>✓</i><span>Something with an empty state and an error — a form, a booking, a report</span></li>
+      </ul>
+    </div>
+    <div>
+      <b class="t-bad">What causes trouble</b>
+      <ul class="pts sm">
+        <li><i>✕</i><span>Redesigning Spotify or Instagram. You end up critiquing them instead of designing, and there is nothing of yours to mark</span></li>
+        <li><i>✕</i><span>Anything needing research you have not done — medical, legal, financial</span></li>
+        <li><i>✕</i><span>A topic you picked because it looks impressive. Eleven weeks is a long time with something you do not care about</span></li>
+      </ul>
+    </div>
+  </div>
+  <p class="lead" style="margin-top:16px">You lock it in week 2 and you keep it. Changing in week 7
+    is the single most common way this goes wrong.</p>
+</div>`},
+
+{nav:"Three parts", html:`<div class="slide">
+  <div class="eyebrow">One deck, ${SD.total} sections</div>
+  <h2>Three parts, and only one of them is writing.</h2>
+  <div class="cols">
+    <div class="card a"><span class="ic">${ICON.doc}</span><span class="k">Part A · ${A.items.length} sections</span>
+      <h3>Your choices, written down</h3>
+      <p>Short answers and figures — your topic, your screens, your sizes, your colours. Filled in
+        during workshops, a section at a time.</p></div>
+    <div class="card b"><span class="ic">${ICON.pencil}</span><span class="k">Part B · ${B.items.length} sections</span>
+      <h3>The work itself</h3>
+      <p>Sketches, mood board, style tile, flow diagram, wireframes and the finished screens.
+        About 100 words under each one.</p></div>
+    <div class="card c"><span class="ic">${ICON.speak}</span><span class="k">Part C · ${C.items.length} sections</span>
+      <h3>Six short answers</h3>
+      <p>500–700 words in total, written in one workshop in week 10. The longest is about 120 words.</p></div>
+  </div>
+</div>`},
+
+{nav:"The rule", html:`<div class="slide center">
+  <div class="eyebrow">The one rule that moves your grade</div>
+  <h1 style="max-width:22ch">Every answer in Part C points at something you wrote in Part A.</h1>
+  <p class="lead">That is the difference between saying what your design looks like and saying
+    why it is that way. It costs you nothing — the answers are already in your own document.</p>
+</div>`},
+
+{nav:"Marking", html:`<div class="slide dense">
+  <div class="eyebrow">How it is marked</div>
+  <h2 class="mk">Four things, one overall mark.</h2>
+  <ul class="pts crit">
+    ${RUBRIC.map(r => `<li><i>${r.n}</i><span><b>${r.name}</b><em>${r.what}</em></span></li>`).join('')}
+  </ul>
+  <p class="lead mk2">Not weighted separately — <b>one mark for the portfolio as a whole.</b>
+    The full band descriptions are in the brief.</p>
+</div>`},
+
+{nav:"Also marked", html:`<div class="slide">
+  <div class="eyebrow">In the rationale, and easy to miss</div>
+  <h2 class="mk">Four things the brief asks for by name.</h2>
+  <ul class="pts crit">
+    <li><i>♻</i><span><b>Ethics or sustainability</b><em>One paragraph on the environmental, ethical or social dimension of your design.</em></span></li>
+    <li><i>🌍</i><span><b>A cross-cultural consideration</b><em>Colour symbolism, reading direction, icon universality, or cultural specificity of imagery.</em></span></li>
+    <li><i>◆</i><span><b>Accessibility</b><em>How your choices serve user needs and promote accessibility.</em></span></li>
+    <li><i>✳</i><span><b>Your AI use</b><em>Which tools, for what, and how you evaluated or changed the output. Or why you chose not to.</em></span></li>
+  </ul>
+  <p class="lead mk2">These are not extras. Criterion 4 is where they are marked, and leaving them
+    out caps that criterion.</p>
+</div>`},
+
+{nav:"The weeks", html:`<div class="slide dense">
+  <div class="eyebrow">You never work on all of it at once</div>
+  <h2>Every workshop fills in one part of it.</h2>
+  <table class="tl">
+    <thead><tr><th>Week</th><th>Date</th><th>You fill in</th></tr></thead>
+    <tbody>${WEEKS.map(w => {
+      const d = SD.dueIn(w.n);
+      return `<tr><td>${String(w.n).padStart(2,'0')}</td><td>${SD.fmtShort(SD.dateOf(w.n))}</td>
+        <td>${d.length ? d.map(i => `<b>${i.sec}</b> ${i.t}`).join(' · ') : '—'}</td></tr>`;
+    }).join('')}</tbody>
+  </table>
+</div>`},
+
+{nav:"Dates", html:`<div class="slide">
+  <div class="eyebrow">Dates</div>
+  <h2>Three targets and one deadline.</h2>
+  <table class="tl big" style="max-width:700px">
+    <tbody>
+      ${pd.map(d => `<tr><td><b>Part ${d.id} finished</b></td><td>Week ${d.week}</td><td>${SD.fmt(d.date)}</td></tr>`).join('')}
+      <tr class="hi"><td><b>Upload to Moodle</b></td><td>—</td><td><b>${SD.fmtFull(SD.dead)}</b></td></tr>
+    </tbody>
+  </table>
+  <p class="lead" style="margin-top:18px">The first three are targets you set yourself.
+    Only the last one is a deadline.</p>
+</div>`},
+
+{nav:"Week 1", html:`<div class="slide">
+  <div class="eyebrow">Start here, in your first workshop</div>
+  <h2>Set it up once. Then just fill it in.</h2>
+  <ul class="pts">
+    <li><i>01</i><span>OneDrive → a folder called <b>ScreenDesign</b></span></li>
+    <li><i>02</i><span>Share it with your tutors</span></li>
+    <li><i>03</i><span>A <b>PowerPoint or Google Slides</b> deck inside it called <b>screen-design-portfolio</b></span></li>
+    <li><i>04</i><span>Copy the ${SD.total}-section structure from the brief and paste it in</span></li>
+    <li><i>05</i><span>Put your name nowhere in it — it is marked without your name</span></li>
+  </ul>
+  <p class="lead" style="margin-top:18px">Turn up, fill in one section, repeat ten times.
+    That is the whole assessment.</p>
+  <p class="fixnote"><b>What you have just seen does not change.</b> The sections, the four marking
+    criteria and the deadline are fixed. Weekly content can be adjusted during the term; the
+    assessment cannot.</p>
+</div>`}
+];
+
+const stage = document.getElementById('stage');
+stage.innerHTML = SLIDES.map(s => s.html).join('');
+document.getElementById('toc').innerHTML = SLIDES.map((s, i) =>
+  `<li data-i="${i}"><button type="button"><i>${String(i + 1).padStart(2,'0')}</i>${s.nav}</button></li>`).join('');
+document.getElementById('toc').onclick = e => {
+  const li = e.target.closest('li'); if (li) show(+li.dataset.i);
+};
+const slides = [...document.querySelectorAll('.slide')];
+let cur = 0;
+
+function show(n){
+  slides[cur].classList.remove('active');
+  cur = Math.max(0, Math.min(slides.length - 1, n));
+  slides[cur].classList.add('active');
+  slides[cur].scrollTop = 0;
+  document.getElementById('count').textContent = `${cur + 1} / ${slides.length}`;
+  document.querySelectorAll('#toc li').forEach((li, i) => {
+    li.classList.toggle('on', i === cur);
+    li.classList.toggle('past', i < cur);
+  });
+  document.getElementById('prog').style.width = ((cur + 1) / slides.length * 100) + '%';
+  document.getElementById('prev').disabled = cur === 0;
+  document.getElementById('next').disabled = cur === slides.length - 1;
+  try { history.replaceState(null, '', '#' + (cur + 1)); } catch(e){}
+}
+document.getElementById('prev').onclick = () => show(cur - 1);
+document.getElementById('next').onclick = () => show(cur + 1);
+document.getElementById('print').onclick = () => window.print();
+addEventListener('keydown', e => {
+  if (['ArrowRight','PageDown',' '].includes(e.key)) { e.preventDefault(); show(cur + 1); }
+  if (['ArrowLeft','PageUp'].includes(e.key))        { e.preventDefault(); show(cur - 1); }
+  if (e.key === 'Home') show(0);
+  if (e.key === 'End')  show(slides.length - 1);
+  if (e.key.toLowerCase() === 'f') {
+    document.fullscreenElement ? document.exitFullscreen() : document.documentElement.requestFullscreen();
+  }
+});
+const start = parseInt(location.hash.slice(1), 10);
+show(Number.isFinite(start) && start > 0 ? start - 1 : 0);
+
+const root = document.documentElement;
+try { const t = localStorage.getItem('sd-theme'); if (t) root.dataset.theme = t; } catch(e){}
+if (!root.dataset.theme && matchMedia('(prefers-color-scheme: dark)').matches) root.dataset.theme = 'dark';
+document.getElementById('theme').onclick = () => {
+  root.dataset.theme = root.dataset.theme === 'dark' ? 'light' : 'dark';
+  try { localStorage.setItem('sd-theme', root.dataset.theme); } catch(e){}
+};
+</script>
+</body>
+</html>

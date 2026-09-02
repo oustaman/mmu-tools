@@ -1,0 +1,512 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Screen Design 2026–27</title>
+<style>
+  :root{
+    --bg:#F5F4F2; --surface:#FFFFFF; --surface-2:#EDEBE8;
+    --ink:#1A1618; --ink-2:#56504F; --ink-3:#8B8382;
+    --line:#DFDBD7; --line-2:#C9C3BE;
+    --lec:#8C2437; --lec-soft:#F6E8EA;
+    --wsh:#1D5C7A; --wsh-soft:#E4EEF3;
+    --sup:#5B5350; --sup-soft:#ECE9E7;
+    --ok:#2C5F3E; --ok-soft:#E3EFE7;
+    --mono:ui-monospace,"SF Mono",Menlo,Consolas,monospace;
+    --sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Inter,Roboto,sans-serif;
+    --fs:1rem;
+  }
+  html[data-theme="dark"]{
+    --bg:#151314; --surface:#1E1B1C; --surface-2:#262223;
+    --ink:#EDE9E7; --ink-2:#B5AEAB; --ink-3:#847C79;
+    --line:#332E2F; --line-2:#463F40;
+    --lec:#E08A9B; --lec-soft:#332226;
+    --wsh:#7FBEDC; --wsh-soft:#16262E;
+    --sup:#A49B98; --sup-soft:#262223;
+    --ok:#7FBF97; --ok-soft:#1C2A22;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);
+       font-size:var(--fs);line-height:1.5;-webkit-text-size-adjust:100%}
+  .wrap{max-width:1100px;margin:0 auto;padding:0 22px}
+  @media(max-width:420px){.wrap{padding:0 14px}}
+  @media(max-width:340px){.wrap{padding:0 10px}}
+  a{color:inherit}
+
+  /* The bar, identical on every page. Defined once here and pasted into each
+     file rather than shared, because these open from a Moodle download as
+     often as from a server and a missing stylesheet must not cost the nav. */
+  header{border-bottom:1px solid var(--line);background:var(--surface);position:sticky;top:0;z-index:40}
+  .bar{display:flex;align-items:center;gap:10px;padding:11px 0;flex-wrap:nowrap}
+  .brand{font-weight:680;font-size:1rem;letter-spacing:-0.015em;white-space:nowrap}
+  .sp{flex:1}
+  .navl{font-size:0.85rem;color:var(--ink-2);text-decoration:none;padding:6px 10px;border-radius:6px;white-space:nowrap}
+  .navl:hover{background:var(--surface-2);color:var(--ink)}
+  .navl.on{background:var(--lec);color:#fff}
+  html[data-theme="dark"] .navl.on{color:#151314}
+  .ctl button{font-family:var(--mono);font-size:0.7rem;background:none;color:var(--ink-3);
+    border:1px solid var(--line-2);border-radius:5px;padding:5px 8px;cursor:pointer;line-height:1}
+  .ctl button:hover{border-color:var(--lec);color:var(--lec)}
+  @media(max-width:760px){ .navl.hideable{display:none} .bar{gap:6px} .navl{padding:6px 8px;font-size:0.82rem} }
+  @media(max-width:430px){ .brand{font-size:0.9rem} .navl{padding:5px 6px;font-size:0.76rem} }
+  h1{font-size:clamp(1.6rem,4.4vw,2.4rem);line-height:1.08;letter-spacing:-0.028em;
+     margin:26px 0 6px;font-weight:700}
+  .sub{color:var(--ink-2);font-size:1rem;margin:0 0 22px;max-width:52ch}
+
+  /* ================= the week, as a diagram ================= */
+  /* ---- this week ---- */
+  .nowbox{background:var(--surface);border:1px solid var(--line);border-left:5px solid var(--wsh);
+    border-radius:12px;padding:18px 20px;margin:22px 0 4px}
+  .nowbox.pre{border-left-color:var(--ink-3)} .nowbox.late{border-left-color:var(--lec)}
+  .nb-top{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;margin-bottom:3px}
+  .nb-wk{font-family:var(--mono);font-size:0.68rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--wsh)}
+  .nowbox.pre .nb-wk{color:var(--ink-3)} .nowbox.late .nb-wk{color:var(--lec)}
+  .nb-days{margin-left:auto;font-family:var(--mono);font-size:0.72rem;color:var(--ink-3);white-space:nowrap}
+  .nb-days b{color:var(--ink);font-size:0.95rem}
+  .nb-do{font-size:1.32rem;font-weight:690;letter-spacing:-0.022em;line-height:1.2;margin:0 0 10px}
+  .nb-list{display:grid;gap:6px;margin:0 0 14px;padding:0;list-style:none}
+  .nb-list li{display:grid;grid-template-columns:20px 1fr;gap:9px;align-items:baseline;font-size:0.95rem}
+  .nb-list i{font-style:normal;color:var(--wsh);font-size:0.9rem}
+  .nb-list .sec{font-family:var(--mono);font-size:0.72rem;color:var(--wsh);border:1px solid var(--wsh);
+    border-radius:4px;padding:1px 5px;margin-right:6px;font-weight:400}
+  .nb-list li.ok .sec{color:var(--ink-3);border-color:var(--line-2)}
+  .nb-list li.ok i{color:var(--hnd,#2C5F3E)} .nb-list li.ok span{color:var(--ink-3);text-decoration:line-through}
+  .nb-bar{margin-top:12px;padding-top:13px;border-top:1px solid var(--line)}
+  .nb-bl{display:flex;align-items:baseline;gap:8px;font-size:0.82rem;color:var(--ink-2);margin-bottom:7px;flex-wrap:wrap}
+  .nb-bl b{color:var(--ink);font-size:1.05rem}
+  .nb-bl .beh{margin-left:auto;font-family:var(--mono);font-size:0.72rem;padding:2px 8px;border-radius:4px}
+  .beh.on{background:var(--hnd-soft,#E3EFE7);color:#2C5F3E;border:1px solid #2C5F3E}
+  .beh.off{background:var(--lec-soft);color:var(--lec);border:1px solid var(--lec)}
+  .nb-track{position:relative;height:11px;border-radius:99px;background:var(--surface-2);
+    border:1px solid var(--line);overflow:hidden}
+  .nb-you{position:absolute;inset:0 auto 0 0;background:#2C5F3E;border-radius:99px;transition:width .3s}
+  /* Where you should be: a line on the track, not a second bar. It is a
+     target, and a target is a position rather than a quantity. */
+  .nb-should{position:absolute;top:-4px;bottom:-4px;width:2px;background:var(--lec)}
+  .nb-key{display:flex;gap:14px;margin-top:7px;font-family:var(--mono);font-size:0.65rem;color:var(--ink-3);flex-wrap:wrap}
+  .nb-key i{font-style:normal;display:inline-block;width:9px;height:9px;border-radius:2px;margin-right:4px;vertical-align:-1px}
+  .nb-cta{display:inline-block;margin-top:12px;font-family:var(--mono);font-size:0.74rem;
+    text-decoration:none;color:var(--wsh);border:1px solid var(--wsh);border-radius:6px;padding:5px 11px}
+  .nb-cta:hover{background:var(--wsh);color:#fff}
+
+  .weekbox{background:var(--surface);border:1px solid var(--line);border-radius:12px;
+           padding:18px 20px 20px;margin-bottom:14px}
+  .wb-top{display:flex;align-items:baseline;gap:10px;margin-bottom:14px;flex-wrap:wrap}
+  .wb-top b{font-size:1.05rem;font-weight:670}
+  .wb-top span{font-family:var(--mono);font-size:0.72rem;color:var(--ink-3);letter-spacing:0.05em}
+
+  .hbar{display:grid;grid-template-columns:repeat(5,1fr);gap:8px}
+  @media(max-width:760px){.hbar{grid-template-columns:1fr}.hbar .hcell{grid-column:span 1 !important}}
+  .hcell{border-radius:9px;padding:14px 15px;border:1px solid transparent}
+  .hcell.l{background:var(--lec-soft);border-color:var(--lec)}
+  .hcell.w{background:var(--wsh-soft);border-color:var(--wsh)}
+  .hcell.s{background:var(--sup-soft);border-color:var(--line-2)}
+  .hh{display:flex;align-items:baseline;gap:8px;margin-bottom:9px;flex-wrap:wrap}
+  .htime{font-family:var(--mono);font-size:0.76rem;color:var(--ink-2);margin-left:auto;white-space:nowrap}
+  .hrow small{color:var(--ink-3);font-size:0.78rem}
+  .hn{font-size:1.5rem;font-weight:720;letter-spacing:-0.03em;line-height:1}
+  .hcell.l .hn{color:var(--lec)} .hcell.w .hn{color:var(--wsh)} .hcell.s .hn{color:var(--ink-2)}
+  .hl{font-weight:660;font-size:0.98rem}
+  .hmeta{display:grid;gap:5px}
+  .hrow{display:grid;grid-template-columns:64px 1fr;gap:9px;font-size:0.85rem;align-items:baseline}
+  .hrow i{font-family:var(--mono);font-size:0.65rem;letter-spacing:0.07em;text-transform:uppercase;
+          color:var(--ink-3);font-style:normal}
+  .hrow b{font-weight:600;color:var(--ink)}
+  .hrow span{color:var(--ink-2)}
+
+  /* the cohort split, drawn */
+  .split{display:flex;align-items:center;gap:10px;margin-top:14px;padding-top:13px;
+         border-top:1px dashed var(--line-2);flex-wrap:wrap}
+  .sblk{display:flex;align-items:center;gap:5px}
+  .dots{display:grid;grid-template-columns:repeat(10,5px);gap:2px}
+  .dots i{width:5px;height:5px;border-radius:50%;background:var(--ink-3);display:block}
+  .dots.l i{background:var(--lec)}
+  .dots.g1 i{background:var(--wsh)} .dots.g2 i{background:var(--wsh);opacity:.72}
+  .dots.g3 i{background:var(--wsh);opacity:.5}
+  .sblk small{font-family:var(--mono);font-size:0.66rem;color:var(--ink-3);white-space:nowrap}
+  .arrow{color:var(--ink-3);font-size:1rem}
+
+  /* ================= week grid ================= */
+  .gridwrap{overflow-x:auto;border:1px solid var(--line);border-radius:12px;background:var(--surface)}
+  table.wk{width:100%;border-collapse:collapse;font-size:0.9rem;min-width:660px}
+  table.wk th{font-family:var(--mono);font-size:0.62rem;letter-spacing:0.08em;text-transform:uppercase;
+    color:var(--ink-3);text-align:left;padding:9px 12px;border-bottom:1px solid var(--line);
+    background:var(--surface-2);font-weight:500;position:sticky;top:0}
+  table.wk td{padding:10px 12px;border-bottom:1px solid var(--line);vertical-align:top;color:var(--ink-2)}
+  table.wk tr:last-child td{border-bottom:0}
+  table.wk tr:hover td{background:var(--surface-2)}
+  table.wk tr.now td{background:var(--wsh-soft);box-shadow:inset 0 0 0 1px var(--wsh)}
+  table.wk tr.now .wt{color:var(--wsh)}
+  table.wk tr.past td{opacity:.62}
+  .wn{font-family:var(--mono);font-size:0.72rem;color:var(--ink-3);white-space:nowrap}
+  .wt{color:var(--ink);font-weight:620}
+  .wmake{display:flex;flex-wrap:wrap;gap:4px}
+  .chip{font-family:var(--mono);font-size:0.65rem;border-radius:4px;padding:2px 7px;white-space:nowrap}
+  .chip.mk{background:var(--wsh-soft);color:var(--wsh);border:1px solid var(--wsh)}
+  .chip.no{background:var(--surface-2);color:var(--ink-3);border:1px solid var(--line-2)}
+  /* display:flex on a <td> takes it out of the table's row layout entirely —
+     the cell stops stretching to the row height, so its bottom border drew
+     short and high, and the divider under the Sheets column sat a few pixels
+     above the one under the rest of the row. The cell stays a cell; the flex
+     goes on a span inside it. */
+  .sheets{white-space:nowrap}
+  .docs{display:flex;gap:6px}
+  /* Sheets, drawn as sheets. A page with a folded corner and three ruled lines,
+     in the colour of the session it belongs to — red for the lecture hour, blue
+     for the workshop, matching the day diagram above. */
+  .doc{display:inline-flex;align-items:center;gap:6px;text-decoration:none;
+    font-family:var(--mono);font-size:0.63rem;letter-spacing:0.03em;color:var(--ink-2);
+    border:1px solid var(--line-2);border-radius:6px;padding:4px 8px 4px 6px;background:var(--surface)}
+  /* Drawn as an SVG, not a stack of CSS gradients. The previous version painted
+     the folded corner with a linear-gradient over the element's own border, so
+     the fold rendered as a solid triangle sticking out past the page edge — and
+     it changed shape under the hover background. */
+  .doc svg{display:block;width:13px;height:16px;flex:none}
+  .doc-c{color:var(--lec)} .doc-c:hover{border-color:var(--lec);background:var(--lec-soft)}
+  .doc-w{color:var(--wsh)} .doc-w:hover{border-color:var(--wsh);background:var(--wsh-soft)}
+  @media(max-width:900px){.doc span,.doc{font-size:0.6rem}}
+  tr.dead td{opacity:.6}
+  tr.dead .wt{font-style:italic}
+
+  /* ================= generic ================= */
+  section{padding:34px 0 8px}
+  .sh{display:flex;align-items:baseline;gap:10px;margin-bottom:4px;flex-wrap:wrap}
+  .sh h2{font-size:1.28rem;font-weight:680;letter-spacing:-0.02em;margin:0}
+  .sh em{font-family:var(--mono);font-size:0.68rem;font-style:normal;color:var(--ink-3);letter-spacing:0.06em}
+  .lede{color:var(--ink-2);margin:0 0 16px;max-width:60ch;font-size:0.95rem}
+
+  .three{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(min(260px,100%),1fr))}
+  .card{background:var(--surface);border:1px solid var(--line);border-radius:11px;padding:16px 18px}
+  .card h3{margin:0 0 3px;font-size:1rem;font-weight:660}
+  .card .k{font-family:var(--mono);font-size:0.66rem;letter-spacing:0.07em;text-transform:uppercase;
+           color:var(--ink-3);display:block;margin-bottom:9px}
+  .card ul{margin:0;padding-left:1.05rem;font-size:0.88rem;color:var(--ink-2)}
+  .card li{margin-bottom:4px}
+  .big{font-size:1.9rem;font-weight:720;letter-spacing:-0.03em;line-height:1}
+
+  .ctarow{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(min(290px,100%),1fr));margin:16px 0 4px}
+  .ctarow .cta{margin:0}
+  .cta2{background:var(--wsh)}
+  .cta3{background:var(--ink);color:var(--bg)}
+  html[data-theme="dark"] .cta3{color:#151314}
+  .cta{display:flex;align-items:center;gap:14px;background:var(--lec);color:#fff;border-radius:12px;
+       padding:18px 22px;text-decoration:none;margin:16px 0 4px;flex-wrap:wrap}
+  html[data-theme="dark"] .cta{color:#151314}
+  .cta b{font-size:1.08rem;font-weight:690;display:block}
+  .cta span{font-size:0.9rem;opacity:.9}
+  .cta .go{margin-left:auto;font-family:var(--mono);font-size:0.85rem;white-space:nowrap}
+
+  .rulecta{display:flex;align-items:center;gap:14px;background:var(--surface);border:1px solid var(--line);
+    border-left:4px solid var(--wsh);border-radius:11px;padding:14px 18px;text-decoration:none;
+    margin-bottom:20px;flex-wrap:wrap}
+  .rulecta:hover{border-color:var(--wsh)}
+  .rulecta .rn{font-size:1.7rem;font-weight:730;color:var(--wsh);line-height:1;letter-spacing:-0.03em}
+  .rulecta b{display:block;font-size:1rem;font-weight:660}
+  .rulecta > span > span{font-size:0.88rem;color:var(--ink-2)}
+  .rulecta .go{margin-left:auto;font-family:var(--mono);font-size:0.8rem;color:var(--wsh)}
+
+  .links{display:grid;gap:10px;grid-template-columns:repeat(auto-fit,minmax(min(240px,100%),1fr))}
+  .lnk{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:13px 15px;
+       text-decoration:none;display:block}
+  .lnk:hover{border-color:var(--lec)}
+  .lnk b{display:block;font-size:0.95rem;font-weight:640;margin-bottom:2px}
+  .lnk span{font-size:0.84rem;color:var(--ink-2)}
+  .lnk u{display:block;font-family:var(--mono);font-size:0.65rem;color:var(--ink-3);
+         margin-top:6px;text-decoration:none}
+  .soon{opacity:.55}
+  .soon:hover{border-color:var(--line)}
+
+  footer{padding:32px 0 46px;color:var(--ink-3);font-size:0.8rem;border-top:1px solid var(--line);margin-top:30px}
+  footer p{margin:0 0 5px;max-width:74ch}
+  code{font-family:var(--mono);font-size:0.88em;overflow-wrap:anywhere}
+
+  /* Said on every page a student might plan against. Content moves; the
+     assessment does not — and being explicit about which is which is what
+     stops a reworded workshop reading as a moved goalpost. */
+  .subject{margin:0 0 8px;padding:11px 14px;border-left:3px solid var(--warn,#8A5D05);
+    background:var(--warn-soft,#F4EAD3);border-radius:0 8px 8px 0;
+    font-size:0.86rem;line-height:1.55;color:var(--ink-2);max-width:78ch}
+  .subject b{color:var(--ink)}
+  html[data-theme="dark"] .subject{background:#2A2417;border-left-color:#DCB469}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap bar">
+    <span class="brand">Screen Design</span>
+    <span class="sp"></span>
+    <a class="navl on" href="index.html">Weeks</a><a class="navl" href="weeks.html">Materials</a><a class="navl hideable" href="brief.html">The brief</a><a class="navl hideable" href="assessment.html">What to hand in</a>
+    <span class="ctl"><button id="theme" aria-label="Dark mode">◐</button></span>
+  </div>
+</header>
+
+<div class="wrap">
+
+  <!-- ===== THIS WEEK ===== -->
+  <div class="nowbox" id="nowbox"></div>
+
+  <h1>Screen Design 2026–27</h1>
+  <p class="sub">One slide deck, filled in over eleven weeks. Nothing is handed in weekly — you export it as a PDF and upload it by <b id="dl"></b>.</p>
+
+  <!-- ========== THE WEEK, FIRST ========== -->
+  <div class="weekbox">
+    <div class="wb-top"><b>Every Tuesday, the same shape</b><span id="wb-hours">5 HOURS</span></div>
+
+    <div class="hbar" id="hbar"></div>
+
+    <div class="split">
+      <span class="sblk"><span class="dots l" id="d100"></span><small>100+ together</small></span>
+      <span class="arrow">→</span>
+      <span class="sblk"><span class="dots g1" id="dg1"></span><small>~33</small></span>
+      <span class="sblk"><span class="dots g2" id="dg2"></span><small>~33</small></span>
+      <span class="sblk"><span class="dots g3" id="dg3"></span><small>~34</small></span>
+      <span class="sblk"><small style="color:var(--wsh)">3 rooms · identical session</small></span>
+    </div>
+  </div>
+
+  <a class="rulecta" href="weeks.html#rules">
+    <span class="rn" id="rulen">–</span>
+    <span><b>Rules that apply every week</b>
+      <span>Where your work lives, what to bring, how to name files, what to do if you miss a week.</span></span>
+    <span class="go">Read →</span>
+  </a>
+
+  <!-- ========== WEEK GRID ========== -->
+  <section id="weeks" style="padding-top:14px">
+    <div class="sh"><h2>What happens each week</h2><em>11 WEEKS</em></div>
+    <p class="lede">The workshop is where you make things. Everything in the fourth column goes
+      into your one deck. <b>Both sheets are open to everyone</b> — the one your tutor runs
+      from is the one you can read.</p>
+    <div class="gridwrap">
+      <table class="wk">
+        <thead><tr><th style="width:52px">Wk</th><th style="width:62px">Date</th><th style="width:22%">Shown in class · 1h</th>
+          <th style="width:30%">Workshop · 2h</th><th style="width:24%">Fills in</th>
+          <th style="width:96px">Sheets</th></tr></thead>
+        <tbody id="wkbody"></tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ========== ASSESSMENT CTA ========== -->
+  <section id="assess">
+    <div class="sh"><h2>The hand-in</h2><em>100% OF THE MARK</em></div>
+    <div class="three">
+      <div class="card"><span class="k">Part A</span><span class="big">7</span>
+        <h3>Spec sheet</h3>
+        <ul><li>Fill-in fields, not an essay</li><li>Made in the workshops</li><li>≈400 words equivalent</li></ul></div>
+      <div class="card"><span class="k">Part B</span><span class="big">6–8</span>
+        <h3>Screens + artefacts</h3>
+        <ul><li>Prototype screens</li><li>2 shown at 3 sizes</li><li>Sketches, wireframes, style tile</li></ul></div>
+      <div class="card"><span class="k">Part C</span><span class="big">6</span>
+        <h3>Short sections</h3>
+        <ul><li>500–700 words total</li><li>Each cites a number from Part A</li><li>Drafted in week 10</li></ul></div>
+    </div>
+    <div class="ctarow">
+      <a class="cta" href="assessment.html">
+        <span><b>Open the checklist</b><span>All 20 sections, ticked off as you go.</span></span>
+        <span class="go">Open →</span>
+      </a>
+      <a class="cta cta2" href="brief.html">
+        <span><b>The brief, explained</b><span>Sixteen slides. What it is and how it is marked.</span></span>
+        <span class="go">Open →</span>
+      </a>
+    </div>
+  </section>
+
+  <!-- ========== TOOLS ========== -->
+  <section id="tools">
+    <div class="sh"><h2>Use these any time</h2><em>PUBLIC · NO LOGIN</em></div>
+    <p class="lede">Not module tools — they are public and they stay up after you graduate.
+      Every one of them is evidence you can cite in Part C.</p>
+    <div class="links" id="tools-list"></div>
+  </section>
+
+  <!-- ========== HELP ========== -->
+  <section id="help">
+    <div class="sh"><h2>Stuck?</h2></div>
+    <div class="three">
+      <div class="card"><span class="k">Fastest</span><h3>Support hours</h3>
+        <ul><li>2 hours every week</li><li>Same rooms as your workshop</li><li>Just turn up</li></ul></div>
+      <div class="card"><span class="k">Booked</span><h3>10-minute check-in</h3>
+        <ul><li>Sign up in advance</li><li>~3 each per semester</li><li>Bring your spec sheet</li></ul></div>
+      <div class="card"><span class="k">Reference</span><h3>Examples</h3>
+        <ul><li><a href="https://interfaces.institute/stairwell/">Ten principles, shown broken and fixed</a></li>
+            <li><a href="https://written.institute/laboratory">Type laboratory</a></li>
+            <li><a href="https://symbolic.institute/visual-grammar/">Visual grammar</a></li></ul></div>
+    </div>
+  </section>
+
+  <p class="subject"><b>The weekly content may change.</b> What is shown in class and how a workshop runs can be adjusted during the term — check the week before you rely on it. <b>The assessment does not change.</b> The <span class="seccount">24</span> sections, the four marking criteria and the deadline are fixed, and anything that did change would be announced, not quietly edited.</p>
+
+  <footer>
+    <p><b>Screen Design</b> · Level 4 · 30 credits · Semester 1 · <code>1L4Z0045</code> · School of English,
+      Faculty of Arts and Humanities. Approved, v1.0. Module coordinator Alex Hughes.</p>
+    <p>Staff: every week's two sheets are on <a href="weeks.html">the materials page</a>, and the
+      week 1 marking exercise has <a href="example-sheet.html">its own sheet</a>.</p>
+  </footer>
+</div>
+
+<script src="sd-common.js"></script>
+<script src="weeks-data.js"></script>
+<script>
+/* The table is derived from weeks-data.js, not kept a second time. An earlier
+   version held its own copy of the eleven weeks and the two drifted the moment
+   a workshop was reworded. */
+const ROWS = WEEKS.map(w => ({
+  n: w.n, dead: !!w.dead, l: w.title, w: w.workshop.aim, m: w.makes
+}));
+
+/* Public, live, and none of it expires with the module. Each one is something a
+   student can point at in Part C — which is what "cite a source" means here. */
+const TOOLS = [
+ {n:"The Stairwell", d:"Ten principles, each with two working interfaces — one that breaks it, one that keeps it. Press both.",
+  w:"Weeks 2, 7, 9", u:"https://interfaces.institute/stairwell/"},
+ {n:"The button, drawn eight times", d:"One control across three decades, plus 63 real buttons measured off live design systems.",
+  w:"Week 8", u:"https://interfaces.institute/components/button/"},
+ {n:"Published layout grids", d:"Sixty-eight publishers who wrote their grid down, each plate drawn to its own numbers.",
+  w:"Week 3", u:"https://interfaces.institute/collections/grids/"},
+ {n:"Design systems, measured", d:"122 systems with their real body face, size and palette read off the live page.",
+  w:"Weeks 4, 6", u:"https://interfaces.institute/collections/design-systems/"},
+ {n:"Bank interfaces", d:"Fifty banks, colour measured and sorted by hue. Useful when you cannot decide on a palette.",
+  w:"Weeks 2, 5", u:"https://interfaces.institute/collections/bank-interfaces/"},
+ {n:"Where text breaks", d:"Forty-nine line-breaking classes with a specimen for each. Why your Thai or Japanese text wraps wrong.",
+  w:"Week 4", u:"https://interfaces.institute/collections/line-breaking/"},
+ {n:"WCAG 2.2", d:"All 87 success criteria, filterable. The accessibility source you cite in §6.",
+  w:"Week 9", u:"https://interfaces.institute/collections/wcag/"},
+ {n:"The UX dictionary", d:"787 terms with a definition and every page that uses them. Use it when a brief says a word you do not know.",
+  w:"Any week", u:"https://interfaces.institute/dictionary/"},
+ {n:"The type laboratory", d:"Anatomy and classification, set in the faces it describes.",
+  w:"Week 4", u:"https://written.institute/laboratory/"},
+ {n:"Colour associations", d:"What a hue means, and where it means something else.",
+  w:"Week 5", u:"https://symbolic.institute/collections/colour-associations/"},
+ {n:"Visual grammar", d:"Twelve marks and how each one got its meaning — traffic colour, the hamburger, the arrow.",
+  w:"Weeks 5, 7", u:"https://symbolic.institute/visual-grammar/"},
+ {n:"WebAIM contrast checker", d:"The one third-party tool on this list. Week 5 needs it and it is the standard.",
+  w:"Week 5", u:"https://webaim.org/resources/contrastchecker/"}
+];
+
+const NOW = SD.week();
+/* One page glyph, used for both sheet links. */
+const PAGE = `<svg viewBox="0 0 13 16" fill="none" stroke="currentColor" stroke-width="1"
+  stroke-linejoin="round" aria-hidden="true">
+  <path d="M.5 1.4A.9.9 0 0 1 1.4.5h5.9l4.7 4.7v9.4a.9.9 0 0 1-.9.9H1.4a.9.9 0 0 1-.9-.9z"/>
+  <path d="M7.3.5v4.7h4.7"/>
+  <path d="M3.2 8.4h6.1M3.2 10.6h6.1M3.2 12.8h3.6" stroke-linecap="round" opacity=".7"/>
+</svg>`;
+document.getElementById('wkbody').innerHTML = ROWS.map(w => `
+  <tr class="${w.dead ? 'dead' : ''} ${w.n === NOW ? 'now' : ''} ${NOW && w.n < NOW ? 'past' : ''}">
+    <td class="wn">${w.n === NOW ? '▶ ' : ''}${String(w.n).padStart(2,'0')}</td>
+    <td class="wn">${SD.fmtShort(SD.dateOf(w.n))}</td>
+    <td class="wt">${w.l}</td>
+    <td>${w.w}</td>
+    <td><span class="wmake">${w.m.map(x=>`<span class="chip ${w.dead?'no':'mk'}">${x}</span>`).join('')}</span></td>
+    <td class="sheets"><span class="docs">
+      <a class="doc doc-c" href="weeks.html?w=${w.n}&p=shown" title="What is shown in class">${PAGE}Class</a>
+      <a class="doc doc-w" href="weeks.html?w=${w.n}&p=workshop" title="The workshop sheet">${PAGE}Workshop</a>
+    </span></td>
+  </tr>`).join('');
+
+document.getElementById('tools-list').innerHTML = TOOLS.map(t => `
+  <a class="lnk" href="${t.u}" target="_blank" rel="noopener"><b>${t.n}</b><span>${t.d}</span><u>${t.w}</u></a>`).join('');
+
+/* This week, and whether you are behind. Everything here is derived from the
+   two dates in sd-common.js — nothing is typed and nothing goes stale. */
+/* The day, from SESSIONS. Times and rooms live in sd-common.js so they are
+   stated once — a room number in three files is a room number that will be
+   wrong in two of them. */
+document.getElementById('hbar').innerHTML = SD.SESSIONS.map(x => `
+  <div class="hcell ${x.k === 'lecture' ? 'l' : x.k === 'workshop' ? 'w' : 's'}"
+       style="grid-column:span ${x.hrs}">
+    <div class="hh"><span class="hn">${x.hrs}</span><span class="hl">${x.n}</span>
+      <span class="htime">${x.from}–${x.to}</span></div>
+    <div class="hmeta">
+      <div class="hrow"><i>Who</i><span>${x.who}</span></div>
+      <div class="hrow"><i>Where</i><span><b>${x.where}</b><br><small>${x.building}</small></span></div>
+      <div class="hrow"><i>Led by</i><span>${x.led}</span></div>
+      <div class="hrow"><i>You do</i><span>${x.you}</span></div>
+    </div>
+  </div>`).join('');
+
+document.getElementById('dl').textContent = SD.fmtFull(SD.dead);
+document.getElementById('rulen').textContent = RULES.length;
+
+(function nowBox(){
+  const el = document.getElementById('nowbox');
+  const w = SD.week(), days = SD.daysToDeadline(), done = SD.doneCount(), total = SD.total;
+  const wk = ROWS.find(x => x.n === w);
+
+  let cls = '', wkLine = '', title = '', list = '';
+  if (w === 0) {
+    cls = 'pre';
+    wkLine = `First class ${SD.DAY} ${SD.fmt(SD.dateOf(1))}, 09:00 · GM LT7`;
+    title = 'Nothing to do yet.';
+  } else if (w > SD.WEEKS) {
+    cls = days < 0 ? 'late' : '';
+    wkLine = 'Teaching finished';
+    title = days > 0 ? 'Finish and submit.' : 'The deadline has passed.';
+  } else {
+    wkLine = `Week ${w} of ${SD.WEEKS} · ${SD.DAY} ${SD.fmtShort(SD.dateOf(w))} · 09:00 GM LT7`;
+    const due = SD.dueIn(w);
+    title = due.length
+      ? `This week, fill in ${due.length === 1 ? 'this section' : 'these ' + due.length + ' sections'} of your deck:`
+      : (wk && wk.dead ? 'Submission week. Nothing new — finish it and hand it in.'
+           : wk ? `This week: ${wk.l}. Nothing new is due — catch up.` : 'Nothing new is due — catch up.');
+    list = due.map(i => {
+      const ok = SD.isDone(i.key);
+      return `<li class="${ok ? 'ok' : ''}"><i>${ok ? '✓' : '○'}</i><span><b class="sec">${i.sec}</b> ${i.t}</span></li>`;
+    }).join('');
+  }
+
+  const should = w === 0 ? 0 : SD.expectedBy(Math.min(w, SD.WEEKS));
+  const behind = done < should;
+  const pc = n => Math.round(n / total * 100);
+
+  el.className = 'nowbox ' + cls;
+  el.innerHTML = `
+    <div class="nb-top"><span class="nb-wk">${wkLine}</span>
+      <span class="nb-days">${days > 0 ? `<b>${days}</b> days to hand in` :
+        days === 0 ? '<b>Due today</b>' : '<b>Deadline passed</b>'}</span></div>
+    <p class="nb-do">${title}</p>
+    ${list ? `<ul class="nb-list">${list}</ul>` : ''}
+    <div class="nb-bar">
+      <div class="nb-bl"><b>${done} of ${total}</b><span>items finished</span>
+        ${w === 0 ? '' : `<span class="beh ${behind ? 'off' : 'on'}">${
+          behind ? `${should - done} behind` : 'on track'}</span>`}</div>
+      <div class="nb-track">
+        <span class="nb-you" style="width:${pc(done)}%"></span>
+        ${should ? `<span class="nb-should" style="left:${pc(should)}%"></span>` : ''}
+      </div>
+      <div class="nb-key">
+        <span><i style="background:#2C5F3E"></i>you</span>
+        ${should ? `<span><i style="background:var(--lec);width:2px;border-radius:0"></i>where you should be by the end of week ${Math.min(w, SD.WEEKS)} (${should})</span>` : ''}
+      </div>
+      <a class="nb-cta" href="assessment.html">Tick things off →</a>
+    </div>`;
+})();
+
+/* The cohort split, drawn rather than described. Ten dots a row, so 100 reads
+   as 100 without anyone counting. */
+const fill = (id, n) => { const el=document.getElementById(id); if(!el) return;
+  el.innerHTML = Array.from({length:n}, ()=>'<i></i>').join(''); };
+fill('d100',100); fill('dg1',33); fill('dg2',33); fill('dg3',34);
+
+const root=document.documentElement;
+try{ const t=localStorage.getItem('sd-theme'); if(t) root.dataset.theme=t; }catch(e){}
+if(!root.dataset.theme && matchMedia('(prefers-color-scheme: dark)').matches) root.dataset.theme='dark';
+document.getElementById('theme').onclick=()=>{
+  root.dataset.theme = root.dataset.theme==='dark' ? 'light' : 'dark';
+  try{ localStorage.setItem('sd-theme', root.dataset.theme); }catch(e){}
+};
+</script>
+<script>
+/* The section count is written in prose in one sentence on three pages. It is
+   filled from PARTS so that adding a section cannot leave the sentence behind —
+   which is exactly how "22 sections" survived next to a 23-section list. */
+document.querySelectorAll('.seccount').forEach(el => {
+  el.textContent = PARTS.reduce((n, p) => n + p.items.length, 0);
+});
+</script>
+</body>
+</html>
