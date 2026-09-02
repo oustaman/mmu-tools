@@ -461,6 +461,41 @@ limit. A rewrite that breaks the brief is not a rewrite, it is a longer answer.
 
 ---
 
+### SD·09 — The B6 gap, and the redistribution
+`modules/sd/weeks-data.js` · **FIXED 2026-09-02 — a defect in the plan, not a missing artefact**
+
+**What was wrong.** `B6` — six to eight finished screens, the largest visual
+deliverable in the module — was declared an output of week 9 and produced
+nowhere. Week 8 left with wireframes photographed. Week 9 opened with *"two
+screens at three sizes"*, which cannot be done without two finished screens.
+Nothing asked for the set, and nothing could have: **the module carried no
+independent-study guidance at all.** 30 credits is 300 notional hours; eleven
+sessions are 22 of them. The other 278 were unmentioned.
+
+**The fix.** Week 8 now ends by building the first two screens in the room, out
+of decisions already made in weeks 3 to 6. Week 9 opens by putting the set on
+the wall. Every week carries a `between` line saying what happens before the
+next session — including the four weeks where the honest answer is *nothing*.
+
+**The redistribution.** Every rationale section moved to the week that makes the
+decision it defends — C1→2, C2→3, C3→4, C4→5, C6→7, C9→11 — which is what the
+brief already said Part C was for.
+
+| | weeks 1–3 | weeks 4–8 | weeks 9–11 |
+|---|---|---|---|
+| before | 8 (5%) | 60 (34%) | **106 (61%)** |
+| after | 28 (16%) | **99 (57%)** | 47 (27%) |
+
+Peak week drops from 70 to 27. Week 10 stops drafting and does what it is named
+after; week 11 stops being an empty drop-in.
+
+**Still true after the move**, and checked rather than asserted: all eleven
+workshops total exactly 120 minutes, every running clock agrees with its
+durations, all 24 sections are produced exactly once, and no C section is
+written before the A section it quotes.
+
+---
+
 ## 5 · Defects to fix
 
 **The button page contradicts itself — and students hit it in both week 8 and week 9.**
