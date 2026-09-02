@@ -120,12 +120,24 @@ NOT_REACHED = {
 }
 
 
-def png_size(p: Path):
-    """Width and height straight out of the IHDR, without decoding 155 megapixels."""
+def image_size(p: Path):
+    """Width and height out of the file header, without decoding 155 megapixels.
+
+    Both formats, because the corpus is WebP apart from one capture 54,056
+    pixels tall — past WebP's 16,383 limit — which stays PNG. Kept
+    dependency-free rather than reaching for Pillow: this script's only job is
+    to be runnable next to the captures.
+    """
     with p.open('rb') as fh:
-        head = fh.read(24)
-    assert head[:8] == b'\x89PNG\r\n\x1a\n', p
-    return struct.unpack('>II', head[16:24])
+        head = fh.read(30)
+    if head[:8] == b'\x89PNG\r\n\x1a\n':
+        return struct.unpack('>II', head[16:24])
+    if head[:4] == b'RIFF' and head[8:12] == b'WEBP':
+        assert head[12:16] == b'VP8L', f'{p}: only lossless WebP is expected here, got {head[12:16]!r}'
+        # VP8L: one signature byte, then 14 bits of width-1 and 14 of height-1
+        bits = struct.unpack('<I', head[21:25])[0]
+        return ((bits & 0x3FFF) + 1, ((bits >> 14) & 0x3FFF) + 1)
+    raise AssertionError(f'{p}: not a PNG or a lossless WebP')
 
 
 def main():
@@ -141,7 +153,7 @@ def main():
         for n in steps:
             assert n in by_n, f'{fid} has no step {n}'
             full = HERE / DIRS[fid] / Path(by_n[n]['fullpage_image']).name
-            w, h = png_size(full)
+            w, h = image_size(full)
             assert w == 2880, f'{full} is {w}px wide, not the captured 1440 at DPR 2'
             heights.append(h // 2)
             files.append(full.name)
