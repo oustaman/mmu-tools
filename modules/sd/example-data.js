@@ -696,3 +696,48 @@ const EXAMPLE = {
  "overall": "42 · Third. Everything the brief asks for is nominally present and almost none of it is evidenced — which is what makes this hard for a student to recognise in their own work. The portfolio is not empty; it is thin. The single most consequential fault is that the student measured their contrast, wrote the failing figures into A5, and changed nothing: the evidence of the problem and the failure to act on it are in the same deck.",
  "followup": "Before releasing a mark, the AI declaration must be raised with the student. A7 and C8 both say none; B4 does not look like none. That is a conversation, not an assumption — and it is a question about academic conduct rather than about the quality of the design."
 };
+
+/* ---------------------------------------------------------------------------
+ * Week 10, on a slide: the same design, described and defended.
+ *
+ * C4 is the pair because it is the only rationale section where the student
+ * already recorded real numbers — the 3.45:1 and 1.75:1 sitting unremarked in
+ * A5. So the defended version invents nothing about this submission. It reads
+ * the evidence the student collected and did not use, which is the point:
+ * describing lets you walk past your own measurements, and defending does not.
+ *
+ * `described` is not written here. It is read out of the C4 slide at run time,
+ * so the pair cannot drift from the portfolio it is a pair with.
+ * ------------------------------------------------------------------------- */
+EXAMPLE.defended = {
+  sec: "C4",
+  allowance: 90,
+  criterion: 4,
+  defended:
+    "Five values: #FFFFFF and #F4F4F4 for surfaces, #8A8A8A for body text, #B4B4B4 for " +
+    "secondary, and one accent, #7ED957. Green because the accent is the only saturated thing " +
+    "on a screen of greys, so it carries the identity by itself. A5 records the measurements: " +
+    "body 3.45:1 and accent 1.75:1 against white. WCAG 2.2 clause 1.4.3 asks 4.5:1 for text at " +
+    "this size, so the body grey fails. Darkening it to #767676 gives 4.54:1 and holds the same " +
+    "neutral. That change is not in this submission and should have been.",
+  moves: [
+    ["It names the values.",
+     "Five hex codes instead of “green” and “grey”. Nothing else in the paragraph is possible until this happens."],
+    ["It reads its own evidence.",
+     "The figures were already in A5, two pages earlier, recorded by the student and never mentioned again. Defending the decision is what makes you go back and look."],
+    ["It names the rule and the number.",
+     "1.4.3, 4.5:1, and which way it fails. “Not too harsh” is a feeling; 3.45 against 4.5 is a fact a marker can check."],
+    ["It names the fix, with its measurement.",
+     "#767676 at 4.54:1. A claim someone can verify in thirty seconds, which is what makes it worth writing."],
+    ["It admits what is still wrong.",
+     "The last sentence is the one that turns a description into a defence, and it is the sentence students are most afraid to write."],
+  ],
+  unchanged:
+    "Not one colour changed. The design in the defended paragraph is the same design, on the " +
+    "same screens, with the same faults. Only the account of it changed.",
+  reveal:
+    "Critical Reflection is the lowest of the four criteria in this portfolio — 38, against 50 " +
+    "for the visual work — and the marker's reason is a single word: descriptive. The student " +
+    "did not lose those marks by designing badly. They lost them by writing the first paragraph " +
+    "when the second one was available for the same effort and the same design.",
+};

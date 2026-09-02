@@ -96,7 +96,22 @@
     .card,.ms-top,table.run,.qa{break-inside:avoid}
     h2{break-after:avoid}
   }
-</style>
+    .wk{font:600 10px/1 var(--mono);letter-spacing:.09em;text-transform:uppercase;color:var(--ink-3);
+        border:1px solid var(--line);border-radius:3px;padding:3px 6px;vertical-align:middle}
+    .twopar{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+    @media(max-width:760px){.twopar{grid-template-columns:1fr}}
+    .par{border:1px solid var(--line);background:var(--surface);padding:14px 16px 16px}
+    .par-def{border-left:3px solid var(--lec)}
+    .parhead{display:flex;justify-content:space-between;align-items:baseline;gap:10px;
+             font:600 11px/1 var(--mono);letter-spacing:.09em;text-transform:uppercase;
+             color:var(--ink);margin-bottom:9px}
+    .parw{font-weight:400;letter-spacing:.04em;color:var(--ink-3)}
+    .par p{margin:0;font-size:14px;line-height:1.62}
+    .moves{margin:0;padding:0 0 0 22px;display:flex;flex-direction:column;gap:9px}
+    .moves li{font-size:14px;line-height:1.55}
+    .moves li b{display:block}
+    .moves li span{color:var(--ink-2)}
+  </style>
 </head>
 <body>
 
@@ -145,6 +160,9 @@
 
   <h2><span>06</span>What the room gets wrong, and what they will ask</h2>
   <div id="qa"></div>
+
+  <h2><span>07</span>Two paragraphs, same design <span class="wk">week 10</span></h2>
+  <div id="defended"></div>
 
   <footer>
     <p>Screen Design · Level 4 · 30 credits · 2026–27 · staff sheet, not for circulation to students
@@ -237,7 +255,46 @@ document.getElementById('qa').innerHTML =
      are not a mechanical average, so the number is a judgement. It sits a point below the mean because
      two elements the brief names — C6 and C7 — are absent entirely, and absence of a required element
      is not the same as doing it badly.</dd>
-   <dl>`;
+   </dl>`;
+
+/* 07 — the week 10 pair. The described half is read off the C4 slide rather
+   than restated here, so the two paragraphs cannot drift apart, and the
+   allowance is checked rather than trusted: a rewrite that breaks the brief's
+   own word limit is not a rewrite, it is a longer answer. */
+{
+  const D = EXAMPLE.defended;
+  const slide = EXAMPLE.slides.find(s => s.sec === D.sec);
+  const described = slide.blocks.find(b => b.t === 'p').x;
+  const crit = EXAMPLE.criteria.find(c => c.n === D.criterion);
+  const words = t => t.trim().split(/\s+/).length;
+  if (words(D.defended) > D.allowance) {
+    throw new Error(`example-sheet: the defended ${D.sec} paragraph runs to ` +
+      `${words(D.defended)} words against an allowance of ${D.allowance}.`);
+  }
+  document.getElementById('defended').innerHTML =
+    `<p class="sub" style="margin:0 0 14px">Put these two up together, read both aloud, and say
+      nothing. Wait for someone in the room to say which one is worth more. Only then reveal that
+      <b>the design is identical</b> — same five colours, same screens, same faults.</p>
+     <div class="twopar">
+       <div class="par">
+         <span class="parhead">Described<span class="parw">${words(described)} of ${D.allowance} words</span></span>
+         <p>${esc(described)}</p>
+       </div>
+       <div class="par par-def">
+         <span class="parhead">Defended<span class="parw">${words(D.defended)} of ${D.allowance} words</span></span>
+         <p>${esc(D.defended)}</p>
+       </div>
+     </div>
+     <p class="sub" style="margin:16px 0 8px"><b>What the second one does that the first does not.</b>
+       Five moves, and not one of them is writing better English.</p>
+     <ol class="moves">${D.moves.map(m => `<li><b>${esc(m[0])}</b><span>${esc(m[1])}</span></li>`).join('')}</ol>
+     <p class="okbox" style="margin-top:14px"><b>What did not change.</b> ${esc(D.unchanged)}</p>
+     <p class="warnbox"><b class="k">The reveal</b>${esc(D.reveal)}</p>
+     <p class="sub" style="font-size:13px;margin-top:10px">Criterion ${D.criterion},
+       ${esc(crit.name)} — ${crit.mark}, ${esc(crit.band)}. The described paragraph spent
+       ${words(described)} of its ${D.allowance} words; the defended one spent ${words(D.defended)}.
+       <b>They had the same allowance.</b> Nobody was short of room.</p>`;
+}
 </script>
 </body>
 </html>

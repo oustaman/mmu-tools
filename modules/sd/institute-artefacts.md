@@ -119,23 +119,33 @@ requirement the approved spec makes.
 
 ## 2 · Coverage today
 
-44 lecture items across 11 weeks. All 21 unique URLs return 200 — nothing is
-broken. 20 institute pages carry the module: **14 interfaces · 3 symbolic · 3 written.**
+**Closed, 2026-09-02.** 44 lecture items across 11 weeks, and **every one now has
+something behind it** — down from 12 with nothing at the audit. All 34 unique URLs
+return 200 and every anchor resolves, checked rather than assumed.
 
-| Wk | Topic | Items | Institute-backed | No artefact |
-|---|---|---|---|---|
-| 01 | Why screens look the way they do | 6 | 3 | 1 |
-| 02 | Composition and hierarchy | 4 | 3 | 1 |
-| 03 | The grid | 4 | 1 unique (grids ×2) | 2 |
-| 04 | Typography | 5 | 4 (1 mislinked) | 1 |
-| 05 | Colour | 5 | 4 + WebAIM | 0 |
-| 06 | **AI** | 4 | **0** | **3** |
-| 07 | The five states | 4 | 2 unique (state ×2) | 1 |
-| 08 | Components | 4 | 2 unique (button ×2) | 1 |
-| 09 | Accessibility | 4 | 3 | 1 |
-| 10 | Rationale | 4 | 1 | 1 |
+Where the 44 point: **interfaces 29 · module-local 7 · written 4 · symbolic 3 ·
+WebAIM 1.**
 
-**43 of the 57 rooms on interfaces.institute are unused by this module.**
+| Wk | Topic | Items | Institute rooms | Module pages | Elsewhere | No artefact |
+|---|---|---|---|---|---|---|
+| 01 | Why screens look the way they do | 6 | 3 | 3 | — | 0 |
+| 02 | Composition and hierarchy | 4 | 4 | — | — | 0 |
+| 03 | The grid | 4 | 3 | — | — | 0 |
+| 04 | Typography | 5 | 5 | — | — | 0 |
+| 05 | Colour | 5 | 4 | — | 1 | 0 |
+| 06 | **AI** | 4 | 2 | 1 | — | 0 |
+| 07 | The five states | 4 | 3 | — | — | 0 |
+| 08 | Components | 4 | 3 | — | — | 0 |
+| 09 | Accessibility | 4 | 4 | — | — | 0 |
+| 10 | Rationale | 4 | 1 | 3 | — | 0 |
+
+Week 11 carries no lecture items by design.
+
+**A caution about this table.** Every cell reading 0 was earned by building
+something, not by lowering the bar — but a link is not a lesson. The
+week-by-week entries in §4 say what each artefact actually demonstrates, and
+three of them (SD·01, SD·05, SD·06) shipped in a different shape from the one
+proposed here. Those differences are recorded rather than tidied away.
 
 Syllabus items with no dedicated artefact: **2 (contemporary tools)** and
 **3 (visual hierarchy)**. Both are *taught* — the gap is evidence to teach them
@@ -151,7 +161,7 @@ These rooms already exist and close a gap on the day they are linked.
 | Room | Closes | Note |
 |---|---|---|
 | `/collections/design-tools/` | Syllabus 2 · W5 · W9 | **120 tools, 11 categories.** Its finding — *thirty of the hundred and twenty answer with a verdict rather than a number, and two checkers can disagree on the same pair of colours* — is a better week 5 artefact than the external WebAIM link the module currently uses. It is also the only thing on the federation that serves syllabus item 2. |
-| `/collections/keyboard-grammar/` | W9 "tab through a real page" | 27 keys off the ARIA Authoring Practices, with the Space-vs-Enter finding. This *is* the demo. |
+| `/collections/keyboard-grammar/` | W9 "tab through a real page" | ~~This *is* the demo.~~ **It was not, and this row was wrong.** The 27 keys are all keys you press once focus has arrived; the collection was complete and silent on the key that put it there. Closed by building — see **SD·07**. |
 | `/whole-systems/bank-navigation/` | W1 "three live teardowns" | HSBC UK × HSBC Hong Kong, full navigation reconstruction, comparative. One of the three teardowns, already written. |
 | `/patterns/empty-states/` | W7 | W7 links `/stairwell/state/` twice. This replaces the duplicate with the concrete pattern room. |
 
@@ -172,7 +182,16 @@ measure published things, then state a finding a reader can check.**
 ---
 
 ### SD·01 — Generated screens, measured
-`interfaces.institute/collections/generated/` · **highest priority**
+`interfaces.institute/collections/generated/` · **BUILT 2026-09-02 — commissioned and empty, on purpose**
+
+> The room and `pipeline/capture_generated.mjs` ship; the rows do not, and may
+> not be fabricated — see `datasets/generated/CAPTURE.md`. Deliberately **not**
+> registered in `COLLECTIONS`, so the site's collection count stays a claim
+> about pages a reader can actually read. Week 6's two items point at it, which
+> makes the live demonstration the artefact this term and puts the schema
+> somewhere a colleague can find it.
+
+*The original proposal:*
 
 | | |
 |---|---|
@@ -295,7 +314,27 @@ sizes — which is precisely the fault the example portfolio's A4 carries.
 ---
 
 ### SD·05 — Real content versus placeholder
-`interfaces.institute/collections/` · lower priority
+`interfaces.institute/collections/flow-census/#placeholder` · **BUILT 2026-09-02**
+
+> **Shipped in a different shape from the proposal below, and the proposal was
+> wrong.** The plan was to survey design systems for whether their component
+> examples use real content. What was built instead is a live specimen on the
+> flow census: the same 300px card rendered three ways — one placeholder in
+> every slot, lorem matched word-for-word to each real heading, and the twenty-four
+> real headings — with heights, column length and wrap counts measured off the
+> rendered page.
+>
+> The reason for the change is a measurement. The usual claim — that lorem ipsum
+> misleads because Latin words are the wrong length — was tested and is false:
+> 5.31 characters per word against 5.38 for these headings. Matched word for word,
+> lorem behaves as the real thing does (6 of 24 cards wrapping against 5). The
+> vice is the set a wireframe actually uses, one string everywhere, where nothing
+> wraps at all. A survey of design systems would have counted the wrong thing.
+>
+> The three-way comparison exists so the middle set is a control. Without it this
+> is a plausible claim; with it, it survives someone checking.
+
+*The original proposal, kept for the record:*
 
 | | |
 |---|---|
@@ -312,7 +351,28 @@ wrap, break or run long.
 ---
 
 ### SD·06 — Published user flows
-`interfaces.institute/collections/flows/` · lower priority · **added at the revision**
+`interfaces.institute/collections/flow-census/` · **BUILT 2026-09-02**
+
+> **Shipped as *The flow census*, from this module's own captures rather than
+> from published flow documentation.** Four public services were walked end to
+> end and photographed — Register to Vote, NHS Find a GP, a news front page, a
+> retail product page — and the collection is the reduction of those 43 captures
+> to the 24 screens they contain.
+>
+> The finding: a form photographed empty and then filled in is one screen, twice.
+> Twenty of the twenty-four screens carry a control leading somewhere the walk
+> did not go — a postcode you do not know, an address not on the list, a
+> nationality you cannot provide. Only four have no way off but forward, and
+> three of those take one value and continue. **The happy path is the smallest
+> part of a real service**, which is the whole of week 7 in one number.
+>
+> No screenshots are published and none may be: showing captures of a live
+> service to a class is fair dealing for instruction, a public webroot is not.
+> The reduction script lives with the captures in this repo
+> (`datasets/screens/flows/reduce_flows.py`) and only the JSON crosses over.
+> It refuses to run if a capture is unaccounted for or a job runs to ten words.
+
+*The original proposal, kept for the record:*
 
 | | |
 |---|---|
@@ -336,6 +396,68 @@ detail*), which is the pattern this building keeps turning up.
 to be the thirty patterns of the ARIA Authoring Practices with their keys and
 roles (*twenty-three of thirty specify keyboard interaction*). Useful, unused by
 this module, and nothing to do with flows. Nothing on the federation holds this.
+
+---
+
+### SD·07 — Tab, and the ring
+`interfaces.institute/collections/keyboard-grammar/#tabstops` · **BUILT 2026-09-02 — not in the original plan**
+
+| | |
+|---|---|
+| **Serves** | Week 9 · module B3 · programme A4 |
+| **Why** | §3 above listed keyboard-grammar as a free win for week 9 and that was a mistake. The 27 keys are the keys you press *after* focus has arrived. Tab is not among them and never will be — the Authoring Practices describe patterns, and Tab belongs to the document. The collection was complete and silent on the thing everyone means by "keyboard navigation". |
+
+**What it is.** A specimen modelled on a real registration form that counts
+itself: **10 focusable controls, 8 tab stops.** The two differ because three
+radio buttons are one stop and the arrows move inside the group — which is
+`Arrow Down` and `Arrow Up` from the table above, doing the job Tab is not
+doing. The rule is implemented, not described, so the count survives someone
+editing the markup.
+
+**The demonstration.** A button takes the focus ring away and puts it back.
+While it is off, the readout says only *"the specimen is not saying"* — the page
+still knows exactly where focus is and has simply stopped telling you, which is
+the failure in one sentence. Restore the ring and it shows the path taken while
+blind. Opt-in and reversible: a page that hides its own focus ring by default is
+a page a keyboard user cannot read, and this one is read by exactly those people.
+
+**In the room.** This is the lecture item verbatim — *"then tab through one where
+the focus ring was removed; say nothing during the second one"* — so run it, do
+not narrate it.
+
+The four criteria are read out of the WCAG collection rather than typed. 2.1.1 is
+among them on purpose: removing the ring does not fail Focus Visible alone, it
+fails **Keyboard at Level A**, because a control you cannot locate is a control
+you cannot operate.
+
+---
+
+### SD·08 — Two paragraphs, same design
+`modules/sd/example-sheet.html#defended` · **BUILT 2026-09-02 — module page, not an institute room**
+
+| | |
+|---|---|
+| **Serves** | Week 10 · Criterion 4 |
+| **Why** | W10's *"two paragraphs, same design"* was the last item with nothing behind it, and it was the one that should **not** become an institute room. Describing versus defending is not a measurable fact about interfaces; it is a fact about this rubric, on this brief, with these students. The federation publishes measured evidence, and putting a writing exercise there would have been a category error. |
+
+**What it is.** C4 of the example portfolio, described and defended, side by
+side — the described half read off the C4 slide at run time so the pair cannot
+drift from the portfolio it belongs to.
+
+**Why C4 and not another section.** It is the only rationale section where the
+student already recorded real numbers: the 3.45:1 and 1.75:1 sitting unremarked
+in A5. So the defended paragraph invents nothing about this submission. It reads
+evidence the student collected and walked past — which is the point. Describing
+lets you do that; defending does not.
+
+**The reveal.** Critical Reflection is the lowest of the four criteria here — **38,
+against 50 for the visual work** — and the marker's reason is one word:
+*descriptive*. Not one colour changed between the two paragraphs. The described
+one spent 40 of its 90 words; the defended one spent 88. **They had the same
+allowance.**
+
+The sheet throws at load if the defended paragraph exceeds the brief's word
+limit. A rewrite that breaks the brief is not a rewrite, it is a longer answer.
 
 ---
 
