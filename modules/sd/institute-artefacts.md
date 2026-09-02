@@ -498,22 +498,20 @@ written before the A section it quotes.
 
 ## 5 · Defects to fix
 
-**The button page contradicts itself — and students hit it in both week 8 and week 9.**
-- Intro: *"sixty-eight design-system buttons"*
-- Data section: *"63 measured"*
-- Components floor: *"sixty-eight primary buttons measured off live pages"*
+**Fixed (2 Sept 2026). The button page contradicted itself** — *"sixty-eight"*
+in the prose against *"63 measured"* in the data, with students meeting it in
+both week 8 and week 9. Its own breakdown is 20 square + 31 rounded + 12 pill =
+**63**, and 68 had been copied from the grids collection. Both prose instances
+now derive from the register rather than restating it. Verified on the live
+page: every instance reads 63.
 
-Its own breakdown is 20 square + 31 rounded + 12 pill = **63**. So 63 is correct
-and 68 looks copied from the grids collection. Two sentences, one rebuild, one
-deploy.
-
-**The referencing link has moved.** `http://libguides.mmu.ac.uk/refguide` — used
-in the weekly rules, in C9 and in the CAF brief — now 301s to
-`https://www.mmu.ac.uk/library/referencing`. The old URL still works, so nothing
-is broken today, but the canonical URL has changed and the redirect will not last
-forever. The destination sits behind a Cloudflare challenge, so it could not be
-read from here; it resolves for a student in a browser. Worth updating in all
-three places, and switching to `https://` while you are there.
+**Fixed (2 Sept 2026). The referencing link was on `http://`.** It appears in the
+weekly rules, in C9 and in the CAF brief. Correcting this file's own earlier claim
+while fixing it: the URL has **not** moved to `https://www.mmu.ac.uk/library/referencing`.
+`http://libguides.mmu.ac.uk/refguide` 301s to `https://libguides.mmu.ac.uk/refguide` —
+the same host, upgraded to TLS, and nothing else. The materials now use `https://`
+directly. The bare-text mention in `sd-common.js` is display text inside a form
+field rather than a link, and is left as it reads.
 
 **Link audit, 1 Sept 2026.** All 46 distinct links across the materials were
 checked. Every local target exists; every institute URL returns 200; the only
@@ -534,9 +532,9 @@ retired — the two files had been numbering them in opposite directions, and we
 
 **Fixed (1 Sept 2026).** The module code is `1L4Z0045` throughout, the module is
 described as Approved v1.0 rather than "in development", and the school is School
-of English with Alex Hughes as coordinator. C9 (References) now has a producing
-workshop — it closes in week 10's assemble step, where every citation is checked
-against the list.
+of English with Alex Hughes as coordinator. C9 (References) has a producing
+workshop. It moved to week 11 in the 2 September redistribution (SD·09) and closes
+in that session's reference step, where every citation is checked against the list.
 
 **Fixed (1 Sept 2026).** The hand-in became a slide deck and the prototype
 requirement went with it — see §1. New section **B8**, new rule *One screen per
