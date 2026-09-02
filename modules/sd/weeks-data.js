@@ -289,7 +289,7 @@ const WEEKS = [
   {s:"Target size, measured", d:"Sixty-three design system buttons; forty-two are shorter than 44px. Say what 2.5.5 actually is — AAA, whole target, exceptions.", u:"https://interfaces.institute/components/button/", take:"Forty-two of sixty-three shipped buttons are under 44px. Yours has a measured minimum and it goes in A6."},
   {s:"Fitts, both panes", d:"A 14px confirm in the far corner against a 44px one under your cursor. Let the wrong-click count do the arguing.", u:"https://interfaces.institute/stairwell/fitts/", take:"A target that is hard to hit is a design failure you can measure. That measurement belongs in C5."},
   {s:"Colour is not a cue on its own", d:"A status that differs only by hue, then the same with a shape or a word added.", u:"https://interfaces.institute/collections/wcag/", take:"Colour on its own is not a cue. Add a shape or a word, and say why in C5."},
-  {s:"Tab through a real page", d:"Then tab through one where the focus ring was removed. Say nothing during the second one.", take:"Tab through your own screens. If you cannot see where you are, neither can anyone using a keyboard."}
+  {s:"Tab through a real page", u:"https://interfaces.institute/collections/keyboard-grammar/#tabstops", d:"Then tab through one where the focus ring was removed. Say nothing during the second one. The specimen has a button that takes the ring away and puts it back \u2014 tab it blind, then restore it and it shows the path they took. <b>10 controls, 8 tab stops</b>, both counted live.", take:"Tab through your own screens. If you cannot see where you are, neither can anyone using a keyboard."}
  ],
  workshop:{
   aim:"Six images and an honest audit.",
