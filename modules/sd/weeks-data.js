@@ -229,7 +229,7 @@ const WEEKS = [
   {s:"The five states", d:"Run the bad pane: loading, empty, error and offline all look identical. Step through them on the projector.", u:"https://interfaces.institute/stairwell/state/", take:"Four of the five states look identical when nobody designs them. Empty, loading, error and offline are screens, and they belong in A2."},
   {s:"Now the good pane", d:"Same five, each saying what happened and what to do. The empty state is not an error and should not apologise.", u:"https://interfaces.institute/stairwell/state/", take:"An empty state is not an error and should not apologise. It should offer the action that fills it."},
   {s:"Feedback", d:"Two buttons, both take 2.5 seconds. One says nothing. Press it as often as you like and count the jugs you bought.", u:"https://interfaces.institute/stairwell/feedback/", take:"A button that says nothing while it works gets pressed twice. That is a real cost, not a style point."},
-  {s:"A flow, drawn crudely", d:"Six boxes, arrows, one decision. Deliberately rough.", take:"Six to eight screens, each with a job in under ten words. If two share a job, you have seven screens, not eight."}
+  {s:"A flow, drawn crudely", u:"https://interfaces.institute/collections/flow-census/", d:"Six boxes, arrows, one decision. Deliberately rough. Draw one on the board from the census \u2014 <b>four real services walked, 43 screenshots, 24 screens</b>, and 20 of the 24 with a door the walk did not take.", take:"Six to eight screens, each with a job in under ten words. If two share a job, you have seven screens, not eight."}
  ],
  workshop:{
   aim:"Six to eight named screens, and the flow between them.",
