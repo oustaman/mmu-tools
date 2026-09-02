@@ -196,9 +196,9 @@ const WEEKS = [
  makes:["Style tile","Mood board","AI log → Part A §7"],
  idea:"A generator can make a competent screen in a minute. It cannot make your decisions, and the decisions are what is marked.",
  shown:[
-  {s:"Generate one, live", d:"Prompt for a screen. Show the output and say honestly: that is competent.", take:"A generator makes something competent in a minute. It cannot decide anything, and the deciding is what is marked."},
+  {s:"Generate one, live", u:"https://interfaces.institute/collections/generated/", d:"Prompt for a screen. Show the output and say honestly: that is competent. <b>Generate it in the room, on the day</b> \u2014 the linked page says why this one is not pre-baked, and holds the schema the samples get measured with.", take:"A generator makes something competent in a minute. It cannot decide anything, and the deciding is what is marked."},
   {s:"Now check it against a spec", u:"https://interfaces.institute/collections/design-tools/#pairs", d:"Take your own type scale and contrast table from weeks 4 and 5 and check the generated screen against them. It will not comply. That gap is the whole hour. <b>The pair table computes all six ratios</b> from your five hexes, and opens on the example portfolio's palette — where every pair fails.", take:"Generated work still has to obey the numbers you declared in A3–A5. Check it against them."},
-  {s:"Three variants, one prompt", d:"Critique all three against the same declared numbers, out loud.", take:"Three variants from one prompt is a useful exercise. Judging all three against your own spec is the assessable part."},
+  {s:"Three variants, one prompt", u:"https://interfaces.institute/collections/generated/", d:"Critique all three against the same declared numbers, out loud. Run the same prompt three times in front of them \u2014 what varies when nothing in the request did is the point.", take:"Three variants from one prompt is a useful exercise. Judging all three against your own spec is the assessable part."},
   {s:"What the log looks like", d:"Part A §7 with a real line in it: tool, what it made, what you changed, why.", u:"assessment.html", take:"A7 is the record of what you used. C8 is what you make of it — was it any good, whose work is it, what did you change."}
  ],
  workshop:{
