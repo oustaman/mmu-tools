@@ -335,7 +335,7 @@ const WEEKS = [
  shown:[
   {s:"Two paragraphs, same design", u:"example-sheet.html#defended", d:"One described, one defended. Read both aloud. Do not explain the difference yet. Both are C4 of the example portfolio they already have, and <b>the design in them is identical</b> \u2014 same five colours, same faults. Staff sheet \u00a707.", take:"Describing a design and defending one are different activities. Only one of them is marked."},
   {s:"Name the difference", d:"The second cites a number the student produced. That is all of it.", u:"assessment.html", take:"The difference is a number you produced yourself. Every C section quotes one."},
-  {s:"All six sections", d:"Word count and the Part A field each one must cite.", u:"assessment.html", take:"Nothing is drafted today. All eight were written in the week that made the decision — the work is turning them from description into defence."},
+  {s:"All nine sections", d:"Word count and the Part A field each one must cite. Eight are drafted; C9 closes in week 11.", u:"assessment.html", take:"Nothing is drafted today. All eight were written in the week that made the decision — the work is turning them from description into defence."},
   {s:"A building correcting itself", d:"A published claim that was wrong, the correction, and the reasoning kept. Section 6 asks you to do this about your own work.", u:"https://interfaces.institute/updates/", take:"Admitting a limit with evidence is the top band, not a weakness. That is what Criterion 4 rewards."}
  ],
  workshop:{

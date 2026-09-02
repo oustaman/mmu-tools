@@ -111,7 +111,15 @@
     .moves li{font-size:14px;line-height:1.55}
     .moves li b{display:block}
     .moves li span{color:var(--ink-2)}
-  </style>
+    .tot td{border-top:2px solid var(--ink)}
+  .bank{margin:18px 0 26px}
+  .bank h3{margin:0 0 4px;font-size:0.95rem}
+  .bank .what{margin:0 0 10px;font-size:0.82rem;color:var(--ink-3)}
+  .bank .bd{white-space:nowrap;font-family:var(--mono);font-size:0.72rem;color:var(--ink-2)}
+  .look{margin:12px 0 4px;font-size:0.8rem}
+  .look-l{margin:0;padding-left:20px;font-size:0.85rem;line-height:1.6}
+  .look-l li{margin-bottom:3px}
+</style>
 </head>
 <body>
 
@@ -163,6 +171,16 @@
 
   <h2><span>07</span>Two paragraphs, same design <span class="wk">week 10</span></h2>
   <div id="defended"></div>
+
+  <h2><span>08</span>Marking a real submission <span class="wk">for every group</span></h2>
+  <p class="lede" id="combine-lede"></p>
+  <div class="scroller"><table class="run" id="combine"></table></div>
+
+  <h2><span>09</span>The evidence test, criterion by criterion</h2>
+  <p class="lede">The band descriptors below are the rubric's own. The <b>look for</b> list is the
+    part of this brief that settles each one, so two markers in two rooms answer the same question
+    instead of forming the same impression. Where a band turns on a number, the number is named.</p>
+  <div id="bank"></div>
 
   <footer>
     <p>Screen Design · Level 4 · 30 credits · 2026–27 · staff sheet, not for circulation to students
@@ -295,6 +313,67 @@ document.getElementById('qa').innerHTML =
        ${words(described)} of its ${D.allowance} words; the defended one spent ${words(D.defended)}.
        <b>They had the same allowance.</b> Nobody was short of room.</p>`;
 }
+
+/* 08 — how four criteria become one mark.
+   The example carried four criterion marks and an overall that did not follow
+   from them: 50, 40, 44 and 38 average to 43, the recorded overall was 42, and
+   no weighting is stated anywhere in the module. A worked example that cannot
+   explain its own total is the one thing a consistency sheet must not ship, so
+   the arithmetic is computed here and shown. If the 42 is a deliberate holistic
+   judgement it needs recording as one, with its reason. */
+(function () {
+  var m = EXAMPLE.criteria.map(function (c) { return c.mark; });
+  var sum = m.reduce(function (a, b) { return a + b; }, 0);
+  var mean = sum / m.length, shown = Math.round(mean);
+  document.getElementById('combine-lede').innerHTML =
+    'Four criteria, <b>equally weighted</b> \u2014 no other weighting is stated anywhere in the module, ' +
+    'so this is the only defensible reading. Mark each criterion against its own descriptors first and ' +
+    'let the total follow. Deciding the overall first and reverse-engineering four numbers to reach it ' +
+    'is what makes two groups diverge.';
+  document.getElementById('combine').innerHTML =
+    '<tr><th>Criterion</th><th>Example</th><th>What decided it</th></tr>' +
+    EXAMPLE.criteria.map(function (c) {
+      return '<tr><td><b>' + c.n + '. ' + esc(c.name) + '</b></td><td class="num">' + c.mark +
+             '</td><td>' + esc(String(c.s).replace(/<[^>]+>/g, '').split('. ')[0]) + '.</td></tr>';
+    }).join('') +
+    '<tr class="tot"><td><b>Overall</b></td><td class="num"><b>' + shown + '</b></td><td>' +
+    m.join(' + ') + ' = ' + sum + ', \u00f7 ' + m.length + ' = ' + mean.toFixed(2) +
+    (shown !== EXAMPLE.mark.overall
+      ? '. <b>The stored overall is ' + EXAMPLE.mark.overall + '</b>, which does not follow from the four ' +
+        'criteria. Use ' + shown + ' until that is resolved.'
+      : '.') + '</td></tr>';
+
+  var LOOK = {
+    1: ['A3 has all seven numbers, and B6 is visibly built on them',
+        'A4 names a ratio and a measure, not only a list of sizes',
+        'B7 is a reflow \u2014 a different layout, not a scaled copy',
+        'B2 and B3 agree with what B6 actually does'],
+    2: ['A6 is filled in \u2014 not asserted in C5 and left blank in A6',
+        'A5 carries a ratio on every text pair, with nothing under 4.5:1 left standing',
+        'B7 exists at three sizes and the smallest one is usable',
+        'C7 names one cross-cultural consideration rather than a general remark'],
+    3: ['B1, B4 and B5 exist and are legible without the student narrating them',
+        'B6 is six to eight screens, not five',
+        'B8 is six links that land, from controls that are actually drawn',
+        'A7 logs every AI use with what was changed afterwards'],
+    4: ['Every C section quotes a number the student produced themselves',
+        'C6 names one dimension \u2014 ethics or sustainability \u2014 and applies it to this work',
+        'C9 lists everything cited, and those citations appear in the text',
+        'Something rejected is named, and something still wrong is admitted']
+  };
+  var BANDS = ['Fail \u00b7 0\u201339', 'Third \u00b7 40\u201349', '2:2 \u00b7 50\u201359',
+               '2:1 \u00b7 60\u201369', 'First \u00b7 70+'];
+  document.getElementById('bank').innerHTML = RUBRIC.map(function (c) {
+    return '<div class="bank"><h3>' + c.n + '. ' + esc(c.name) + '</h3>' +
+      '<p class="what">' + esc(c.what) + '</p>' +
+      '<table class="run"><tr><th>Band</th><th>The rubric says</th></tr>' +
+      c.b.map(function (txt, i) {
+        return '<tr><td class="bd">' + BANDS[i] + '</td><td>' + esc(txt) + '</td></tr>';
+      }).join('') + '</table>' +
+      '<p class="look"><b>Look for, in this order</b></p><ol class="look-l">' +
+      LOOK[c.n].map(function (x) { return '<li>' + esc(x) + '</li>'; }).join('') + '</ol></div>';
+  }).join('');
+})();
 </script>
 </body>
 </html>
