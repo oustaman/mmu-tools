@@ -144,12 +144,29 @@ def main():
     check = '--check' in sys.argv
     src = json.loads((HERE / 'flows.json').read_text())
     flows = {f['id']: f for f in src['flows']}
-    rows, per_flow = [], {}
+    rows, per_flow, absent = [], {}, set()
+    # Heights and file lists for walks whose images are not distributed, carried
+    # from the last run that could see them. Measured once, on the machine that
+    # captured them; recorded here rather than recomputed from nothing.
+    prev = HERE / 'flow-census.json'
+    PRIOR = {(r['flow'], r['screen']): {'files': r['files'], 'height_css': r['height_css']}
+             for r in (json.loads(prev.read_text())['screens'] if prev.exists() else [])}
 
     for fid, steps, name, kind, job, door in SCREENS:
         f = flows[fid]
         by_n = {s['n']: s for s in f['steps']}
         heights, files = [], []
+        # The commercial walks' images are not distributed (see flows.json's
+        # distribution note), so a fresh clone has the rows and not the files.
+        # That is a known state, not a broken one: say so and keep the recorded
+        # measurements rather than dying on a missing path.
+        if not (HERE / DIRS[fid]).is_dir():
+            absent.add(fid)
+            rows.append(dict(PRIOR[(fid, name)], flow=fid, flow_name=f['name'].split(' — ')[0],
+                             screen=name, kind=kind, job=job, job_words=len(job.split()),
+                             door_not_taken=door, captures=len(steps), steps=steps))
+            per_flow.setdefault(fid, []).append(rows[-1])
+            continue
         for n in steps:
             assert n in by_n, f'{fid} has no step {n}'
             full = HERE / DIRS[fid] / Path(by_n[n]['fullpage_image']).name
@@ -228,6 +245,9 @@ def main():
     (HERE / 'flow-census.json').write_text(json.dumps(out, indent=1, ensure_ascii=False) + '\n')
     c = out['counts']
     print(f"  {c['screens']} screens from {c['captures']} captures  (×{c['collapse_ratio']})")
+    if absent:
+        print('  ' + ', '.join(sorted(DIRS[f] for f in absent)) +
+              ': images not distributed, measurements carried from the recorded census')
     print(f"  {c['with_door_not_taken']} carry a door the walk did not take, {c['without']} do not")
     print(f"  questions run {c['question_height_min']}–{c['question_height_max']} CSS px; "
           f"tallest screen is {c['tallest_screen']} at {c['tallest_height']}")

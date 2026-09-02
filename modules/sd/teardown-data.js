@@ -85,13 +85,15 @@ const TEARDOWNS = [
   meta:'© BBC · captured 1 September 2026 · teaching use only, not republished',
   link:{href:'https://www.bbc.co.uk/news', text:'bbc.co.uk/news'}},
 
- {k:'shot', n:'What is today about?', img:FLOWDIR+'/news-bbc/01-start.webp',
+ {k:'shot', n:'What is today about?', redraw: '<div class="rd rd-news"><div class="rd-mast"><span>NEWS</span><nav><i>Home</i><i>World</i><i>UK</i><i>Business</i><i>Tech</i></nav></div><div class="rd-grid"><article class="rd-lead"><div class="rd-img"></div><h3>Council votes to keep the swimming pool open through winter</h3><p>The decision follows a petition signed by 4,000 residents.</p></article><div class="rd-side"><article><div class="rd-img rd-sm"></div><h3>Rail strike suspended after late talks</h3></article><article><div class="rd-img rd-sm"></div><h3>Two new bus routes for the eastern suburbs</h3></article><article><div class="rd-img rd-sm"></div><h3>Hospital trust names its next chief executive</h3></article></div></div><div class="rd-row"><article><h3>Weather warning issued for Thursday</h3></article><article><h3>Museum returns a collection after 90 years</h3></article><article><h3>Record entries for the half marathon</h3></article><article><h3>Roadworks begin on the ring road</h3></article></div></div>',
+   redrawWhy: 'Redrawn, not captured. The point is scale and position, and those survive the redrawing — the publisher’s own headlines and photographs are not needed to make it. Open the live page beside this and the same reading holds.',
   src:{url:'bbc.co.uk/news', live:'https://www.bbc.co.uk/news'},
   h:'One glance tells you the lead story.',
   say:'Every headline here is the same colour and the same font. The lead wins on <b>scale</b> and <b>position</b> alone — bigger, and top-left, where a left-to-right reader starts. Cover the page and uncover it for a second: you will get the lead right every time.',
   foot:'Worth checking with a student: this page has no h1 at all. A screen reader user gets no "you are here". That is a fact you can verify, not a matter of taste.'},
 
- {k:'shot', n:'A decision above the price', img:FLOWDIR+'/shop-screwfix/02-consent-rejected.webp',
+ {k:'shot', n:'A decision above the price', redraw: '<div class="rd rd-shop"><div class="rd-crumb">Home &rsaquo; Tools &rsaquo; Measuring &rsaquo; Tape Measures</div><div class="rd-cols"><div class="rd-photo"></div><div class="rd-buy"><p class="rd-brand">TAPE MEASURE 5M</p><p class="rd-price"><b>&pound;14</b><sup>.98</sup> <span>inc vat</span></p><div class="rd-fulfil"><p class="rd-fl">How do you want it?</p><label><input type="radio" name="rdf" checked> <span>Collect &mdash; ready in 1 minute</span></label><label><input type="radio" name="rdf"> <span>Deliver &mdash; tomorrow</span></label></div><button type="button" class="rd-cta">Add to basket</button><p class="rd-note">Check stock in your local store</p></div></div></div>',
+   redrawWhy: 'Redrawn, not captured. What matters is the order of two controls, which is the one thing a redrawing carries faithfully. The live page is linked — check the order there.',
   src:{url:'screwfix.com/p/stanley-fatmax-5m-tape-measure/31529',
        live:'https://www.screwfix.com/p/stanley-fatmax-5m-tape-measure/31529'},
   h:'Collect or deliver, before you have decided to buy.',

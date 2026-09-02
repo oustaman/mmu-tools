@@ -136,7 +136,61 @@
     .stage{position:static}
     .slide{position:static;display:flex!important;height:100vh;page-break-after:always;border:0}
   }
-</style>
+
+  /* Two slides are redrawn rather than captured: the publishers of those pages
+     licence nothing, and both slides argue from scale and position, which a
+     redrawing carries exactly. Always labelled, and the live page always linked
+     — a drawing presented as a capture would be the one thing this deck is
+     teaching students not to do. */
+  .redraw{position:relative;margin:0;background:#fff;border:1px solid var(--line-2);border-radius:4px;
+    box-shadow:0 6px 30px rgba(0,0,0,.22);width:100%;max-width:960px;
+    padding:0;font-family:var(--sans,system-ui,sans-serif);
+    transform:scale(var(--rd-scale,1));transform-origin:center top}
+  .rdtag{position:absolute;top:0;right:0;z-index:2;font-family:var(--mono);font-size:.6rem;
+    letter-spacing:.09em;text-transform:uppercase;background:var(--warn-soft);color:var(--warn);
+    border-left:1px solid var(--line-2);border-bottom:1px solid var(--line-2);padding:5px 9px}
+  .rdwhy{flex:none;font-size:.72rem;line-height:1.5;color:var(--ink-3);padding-top:6px;max-width:88ch}
+  .rdwhy b{color:var(--ink-2)}
+  .rd{color:var(--ink);text-align:left}
+  .rd h3{font-size:.9rem;line-height:1.22;margin:6px 0 0;font-weight:700}
+
+  .rd-news{padding:0 0 15px}
+  .rd-mast{display:flex;align-items:baseline;gap:22px;border-bottom:3px solid var(--ink);
+    padding:10px 18px 8px;margin-bottom:12px}
+  .rd-mast span{font-weight:800;font-size:1.25rem;letter-spacing:-.02em;color:#B8171F}
+  .rd-mast nav{display:flex;gap:15px}
+  .rd-mast i{font-style:normal;font-size:.74rem;color:var(--ink-2)}
+  .rd-grid{display:grid;grid-template-columns:1.9fr 1fr;gap:18px;padding:0 18px}
+  /* Short, wide placeholders: the slide has to fit a projector, and the point
+     is the ratio between the lead and the rest, not the size of a photograph. */
+  .rd-img{background:var(--surface-2);border:1px solid var(--line);aspect-ratio:2.9/1}
+  .rd-img.rd-sm{aspect-ratio:3.4/1}
+  .rd-lead h3{font-size:1.55rem;line-height:1.12;letter-spacing:-.02em;margin-top:10px}
+  .rd-lead p{font-size:.84rem;color:var(--ink-2);margin:7px 0 0;line-height:1.4}
+  .rd-side{display:flex;flex-direction:column;gap:11px}
+  .rd-side h3{font-size:.86rem}
+  .rd-row{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;padding:13px 18px 0;
+    margin-top:13px;border-top:1px solid var(--line)}
+  .rd-row h3{font-size:.8rem;margin:0}
+
+  .rd-shop{padding:0 0 20px}
+  .rd-crumb{font-size:.7rem;color:var(--ink-3);padding:11px 18px;border-bottom:1px solid var(--line)}
+  .rd-cols{display:grid;grid-template-columns:1fr 1.15fr;gap:26px;padding:18px}
+  .rd-photo{background:var(--surface-2);border:1px solid var(--line);aspect-ratio:1}
+  .rd-brand{font-weight:700;font-size:1rem;margin:0;letter-spacing:.01em}
+  .rd-price{margin:9px 0 0;font-size:2rem;font-weight:800;letter-spacing:-.03em;line-height:1}
+  .rd-price sup{font-size:1rem;top:-.7em}
+  .rd-price span{font-size:.62rem;font-weight:600;color:var(--ink-3);letter-spacing:.06em;text-transform:uppercase}
+  /* the whole argument of the slide: this block sits above the button */
+  .rd-fulfil{border:2px solid var(--ink);padding:11px 13px;margin:16px 0 14px}
+  .rd-fl{margin:0 0 8px;font-size:.72rem;font-weight:700;letter-spacing:.05em;text-transform:uppercase}
+  .rd-fulfil label{display:flex;align-items:center;gap:8px;font-size:.84rem;padding:3px 0}
+  .rd-cta{display:block;width:100%;background:#0B7A3B;color:#fff;border:0;border-radius:3px;
+    padding:13px;font:700 .95rem var(--sans,system-ui,sans-serif);cursor:default}
+  .rd-note{margin:11px 0 0;font-size:.76rem;color:var(--wsh);text-decoration:underline}
+  @media (max-width:900px){.rd-grid,.rd-cols{grid-template-columns:1fr}
+    .rd-row{grid-template-columns:repeat(2,1fr)}.rd-lead h3{font-size:1.4rem}}
+  </style>
 </head>
 <body>
 
@@ -178,8 +232,12 @@ function render(s, i){
       return `<div class="shot">
         <div class="head"><p class="eyebrow">${s.n}</p><h2>${s.h}</h2></div>
         <div class="pic">
-          <img src="${s.img}" alt="${s.n}">
+          ${s.redraw
+            ? `<figure class="redraw"><span class="rdtag">redrawn, not a capture</span>
+                 ${s.redraw}</figure>`
+            : `<img src="${s.img}" alt="${s.n}">`}
         </div>
+        ${s.redrawWhy ? `<p class="rdwhy"><b>Why this one is a drawing.</b> ${s.redrawWhy}</p>` : ''}
         ${s.src ? `<p class="srcline">
           <span class="u">${s.src.url}</span>
           <a href="${s.src.live}" target="_blank" rel="noopener">open it live →</a>
@@ -219,7 +277,29 @@ function show(i){
   document.getElementById('prev').disabled = cur === 0;
   document.getElementById('next').disabled = cur === TEARDOWNS.length - 1;
   location.hash = 's' + (cur + 1);
+  fitRedraws();
 }
+
+/* A redrawn slide is a fixed layout, not a picture, so it cannot letterbox the
+   way object-fit does for the captures. It is drawn at its natural size and
+   then scaled down to whatever the room's projector actually gives us —
+   measured, because tuning the numbers until it fitted one viewport is how you
+   get a slide that clips on the machine in the lecture theatre. */
+function fitRedraws(){
+  document.querySelectorAll('.slide.active .redraw').forEach((r) => {
+    r.style.setProperty('--rd-scale', '1');
+    r.style.marginBottom = '0px';
+    const box = r.parentElement;
+    const avail = box.clientHeight, natural = r.offsetHeight;
+    const k = (avail && natural > avail) ? Math.max(0.55, avail / natural) : 1;
+    r.style.setProperty('--rd-scale', String(k));
+    /* transform does not change layout, so the box would still reserve its full
+       height and the flex centring would push the drawing up over the heading.
+       Pull the reserved height down to the drawn height. */
+    r.style.marginBottom = k < 1 ? `${-Math.round(natural * (1 - k))}px` : '0px';
+  });
+}
+addEventListener('resize', fitRedraws);
 jump.addEventListener('change', () => show(+jump.value));
 document.getElementById('prev').onclick = () => show(cur - 1);
 document.getElementById('next').onclick = () => show(cur + 1);
