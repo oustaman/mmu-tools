@@ -296,9 +296,9 @@ const WEEKS = [
  }
 },
 {
- n:9, title:"Responsive is adaptation, not shrinking",
+ n:9, title:"Adaptation and access",
  makes:["2 screens × 3 sizes","Access audit → Part A §6","C5 drafted"],
- idea:"Accessibility is a design constraint that improves the work, not a checklist that follows it.",
+ idea:"The conditions you designed in are not the conditions it will be used in.",
  shown:[
   {s:"Every size a screen has been", u:"https://interfaces.institute/collections/screen-sizes/", d:"Run the instrument in front of them. Same page, same words, every screen from a 1981 CGA to a 4K panel.", take:"A phone gained <b>twenty times the pixels</b> between 2007 and 2023 and <b>1.23 times the room</b> \u2014 320 CSS pixels to 393. The commonest screen in the world is 360 wide, a third of a 1990 desktop. Device pixels are sharpness; CSS pixels are room, and only one of them is what you design in."},
   {s:"What a breakpoint is for", u:"https://interfaces.institute/collections/grids/#breakpoints", d:"Nine published grids, and what each one actually does when the screen changes.", take:"Of 67 grids in the register, only <b>nine</b> write down how they behave across sizes. Five change the column count \u2014 Material 4\u21928\u219212, Carbon 4\u21928\u219216. Four keep twelve columns and change only the container width. Both are decisions; only one is adaptation."},

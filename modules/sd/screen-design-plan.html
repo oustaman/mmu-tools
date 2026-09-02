@@ -1,3 +1,4 @@
+<meta charset="utf-8">
 <title>Screen Design 2026–27</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -430,6 +431,9 @@
   @media (prefers-reduced-motion: reduce) {
     * { animation: none !important; transition: none !important; scroll-behavior: auto !important; }
   }
+  .o-sec{font:600 11px/1 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.03em;
+    border:1px solid currentColor;border-radius:2px;padding:1px 4px;opacity:.7;margin-right:4px}
+  .o-none{opacity:.6}
 </style>
 
 <div class="wrap">
@@ -629,7 +633,7 @@
 
         <div class="week">
           <div class="week-n">Week <b>7</b></div>
-          <div><h3>Lecture — UX and interaction basics</h3><p>Who is this for and what are they trying to do. States — empty, loading, error, success — and why the screens students forget to design are the ones users meet on their worst day.</p></div>
+          <div><h3>Lecture — UX basics and screen states</h3><p>Who is this for and what are they trying to do. States — empty, loading, error, success — and why the screens students forget to design are the ones users meet on their worst day.</p></div>
           <div><h3>Workshop — Screen inventory and flow</h3><p>Name every screen and its job, then draw the flow between them using the symbol library.</p></div>
           <div class="out"><b>Output</b>Screen inventory (6–8)<br>Flow diagram<br>→ spec sheet §2</div>
         </div>
@@ -643,7 +647,7 @@
 
         <div class="week">
           <div class="week-n">Week <b>9</b></div>
-          <div><h3>Lecture — Responsive is adaptation, not shrinking</h3><p>Reflow, priority and touch targets. Accessibility as a design constraint that improves the work rather than a checklist that follows it.</p></div>
+          <div><h3>Lecture — Adaptation and access</h3><p>Reflow, priority and touch targets. Accessibility as a design constraint that improves the work rather than a checklist that follows it.</p></div>
           <div><h3>Workshop — Variants and audit</h3><p>Two key screens at three breakpoints, then the accessibility checklist run over the whole set and the failures logged.</p></div>
           <div class="out"><b>Output</b>2 screens × 3 breakpoints<br>Accessibility audit</div>
         </div>
@@ -883,3 +887,30 @@
     </main>
   </div>
 </div>
+
+<script src="sd-common.js"></script>
+<script src="weeks-data.js"></script>
+<script>
+/* The Output blocks were written by hand and had gone stale: after the
+   2 September redistribution they still showed week 8 without B6, and week 10
+   drafting a rationale that now happens across weeks 2 to 7. Restating the plan
+   in a second place is what caused that, so they are read out of weeks-data.js.
+   The prose above them stays prose; these are data.
+
+   The hand-written text is left in the markup rather than emptied, so a failure
+   to load leaves the old block rather than an empty one. */
+(function () {
+  if (typeof WEEKS === 'undefined' || typeof PARTS === 'undefined') return;
+  var sec = {};
+  PARTS.forEach(function (g) { g.items.forEach(function (i) { sec[i.sec] = i.t; }); });
+  var blocks = document.querySelectorAll('.week .out');
+  WEEKS.forEach(function (w, i) {
+    var el = blocks[i];
+    if (!el) return;
+    var made = (w.workshop.out.sec || []).filter(function (x) { return sec[x]; });
+    el.innerHTML = '<b>Output</b>' + (made.length
+      ? made.map(function (x) { return '<span class="o-sec">' + x + '</span> ' + sec[x]; }).join('<br>')
+      : '<i class="o-none">nothing handed in this week</i>');
+  });
+})();
+</script>
