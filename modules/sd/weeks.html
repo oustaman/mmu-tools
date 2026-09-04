@@ -380,8 +380,8 @@ function render(){
       </div>
       <div class="gcol gout">
         <b>Sections you fill in</b>
-        <span class="osecs">${w.workshop.out.sec.map(x =>
-          `<i${x === '—' ? ' class="none"' : ''}>${esc(x)}</i>`).join('')}</span>
+        <span class="osecs">${w.workshop.out.sec.filter(x => x !== '—').map(x =>
+          `<i>${esc(x)}</i>`).join('') || '<span class="none">Nothing — this session sets the deck up</span>'}</span>
         <span class="owhat">${esc(w.workshop.out.what)}</span>
         <span class="ointo">of your one deck — nothing is handed in this week</span>
       </div>
