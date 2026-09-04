@@ -229,6 +229,62 @@
     font-size:0.86rem;line-height:1.55;color:var(--ink-2);max-width:78ch}
   .subject b{color:var(--ink)}
   html[data-theme="dark"] .subject{background:#2A2417;border-left-color:#DCB469}
+
+  /* the handout, on screen and on paper */
+  #handout{border:0;padding:0;max-width:820px;width:calc(100% - 32px);max-height:88vh;
+    background:var(--surface);color:var(--ink);border-radius:6px;box-shadow:0 18px 60px rgba(0,0,0,.3)}
+  #handout::backdrop{background:rgba(26,22,24,.55)}
+  .ho-bar{position:sticky;top:0;z-index:2;display:flex;align-items:center;justify-content:space-between;
+    gap:12px;padding:12px 18px;background:var(--surface-2);border-bottom:1px solid var(--line)}
+  .ho-kicker{font-family:var(--mono);font-size:.72rem;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-3)}
+  .ho-tools{display:flex;gap:8px}
+  .ho-btn{font:600 .76rem/1 inherit;padding:7px 12px;border:1px solid var(--line-2);border-radius:4px;
+    background:var(--surface);color:var(--ink-2);cursor:pointer}
+  .ho-btn:hover{border-color:var(--ink-3);color:var(--ink)}
+  .ho-x{background:var(--ink);color:var(--surface);border-color:var(--ink)}
+  .ho-body{padding:22px 26px 30px;overflow:auto;max-height:calc(88vh - 52px)}
+  .ho-body h2{margin:0 0 6px;font-size:1.5rem;letter-spacing:-.02em;line-height:1.15}
+  .ho-idea{margin:0 0 20px;font-size:1rem;line-height:1.5;color:var(--ink-2);
+    border-left:3px solid var(--ink);padding-left:13px}
+  .ho-sec{margin:0 0 22px;padding:16px 18px;border:1px solid var(--line);border-radius:4px;background:var(--bg)}
+  /* the workshop is the flagship: it gets the accent, the top slot and the room */
+  .ho-main{border-left:4px solid var(--wsh);background:var(--wsh-soft)}
+  .ho-quiet{background:var(--surface);opacity:.94}
+  .ho-sec h3{margin:0 0 10px;font-size:.78rem;letter-spacing:.07em;text-transform:uppercase;
+    display:flex;flex-wrap:wrap;align-items:baseline;gap:10px}
+  .ho-n{color:var(--ink)}
+  .ho-dur{font-family:var(--mono);font-size:.68rem;letter-spacing:.04em;text-transform:none;color:var(--ink-3)}
+  .ho-aim{margin:0 0 10px;font-size:1.02rem;font-weight:600;line-height:1.35}
+  .ho-bring,.ho-leave,.ho-miss,.ho-next{margin:10px 0 0;font-size:.86rem;line-height:1.55}
+  .ho-lab{display:block;font-size:.68rem;letter-spacing:.07em;
+    text-transform:uppercase;color:var(--ink-3);margin-bottom:2px;font-weight:600}
+  .ho-bring b,.ho-leave b,.ho-miss b,.ho-next b{font-weight:700;color:var(--ink)}
+  .ho-run{list-style:none;margin:12px 0 0;padding:0}
+  .ho-run li{display:grid;grid-template-columns:52px 1fr;gap:12px;padding:8px 0;border-top:1px solid var(--line)}
+  .ho-t{font-family:var(--mono);font-size:.74rem;color:var(--ink-3)}
+  .ho-run b{display:block;font-size:.9rem;margin-bottom:2px}
+  .ho-run span span,.ho-run li>span:last-child{font-size:.86rem;line-height:1.55}
+  .ho-tab{width:100%;border-collapse:collapse;font-size:.86rem}
+  .ho-tab th{text-align:left;font-size:.68rem;letter-spacing:.07em;text-transform:uppercase;
+    color:var(--ink-3);padding:0 0 6px;border-bottom:1px solid var(--line)}
+  .ho-tab td{padding:8px 10px 8px 0;border-bottom:1px solid var(--line);vertical-align:top;line-height:1.5}
+  .ho-tab td b{font-family:var(--mono);font-size:.78rem}
+  .ho-tab td span{display:block;font-size:.8rem;color:var(--ink-3)}
+  .ho-wd{display:inline-block !important;margin-left:8px;font-family:var(--mono);font-size:.72rem;
+    border:1px solid var(--line-2);border-radius:3px;padding:1px 5px;color:var(--ink-3) !important}
+  .ho-none{margin:0;font-size:.88rem;color:var(--ink-2)}
+  .ho-takes{margin:0;padding-left:20px;font-size:.86rem;line-height:1.6}
+  .ho-takes li{margin-bottom:6px}
+  .ho-foot{margin:0;font-size:.74rem;color:var(--ink-3);line-height:1.5}
+  .doc-h{color:var(--sup);cursor:pointer;font:inherit}
+  .doc-h:hover{border-color:var(--sup);background:var(--sup-soft)}
+  @media(max-width:620px){ .ho-body{padding:16px 14px 22px} .ho-run li{grid-template-columns:44px 1fr;gap:8px} }
+  @media print{
+    body>*:not(#handout){display:none !important}
+    #handout{position:static;max-width:none;width:auto;max-height:none;box-shadow:none;border-radius:0}
+    .ho-bar{display:none} .ho-body{max-height:none;overflow:visible;padding:0}
+    .ho-sec{break-inside:avoid;background:#fff !important}
+  }
 </style>
 </head>
 <body>
@@ -282,8 +338,8 @@
     <div class="gridwrap">
       <table class="wk">
         <thead><tr><th style="width:52px">Wk</th><th style="width:62px">Date</th><th style="width:22%">Shown in class · 1h</th>
-          <th style="width:30%">Workshop · 2h</th><th style="width:24%">Fills in</th>
-          <th style="width:96px">Sheets</th></tr></thead>
+          <th style="width:34%">Workshop · 2h</th>
+          <th style="width:172px">Sheets</th></tr></thead>
         <tbody id="wkbody"></tbody>
       </table>
     </div>
@@ -348,6 +404,17 @@
   </footer>
 </div>
 
+<dialog id="handout" aria-labelledby="ho-title">
+  <div class="ho-bar">
+    <span class="ho-kicker" id="ho-kicker"></span>
+    <span class="ho-tools">
+      <button type="button" class="ho-btn" id="ho-print">Print</button>
+      <button type="button" class="ho-btn ho-x" id="ho-close">Close</button>
+    </span>
+  </div>
+  <div class="ho-body" id="ho-body"></div>
+</dialog>
+
 <script src="sd-common.js"></script>
 <script src="weeks-data.js"></script>
 <script>
@@ -395,16 +462,22 @@ const PAGE = `<svg viewBox="0 0 13 16" fill="none" stroke="currentColor" stroke-
   <path d="M7.3.5v4.7h4.7"/>
   <path d="M3.2 8.4h6.1M3.2 10.6h6.1M3.2 12.8h3.6" stroke-linecap="round" opacity=".7"/>
 </svg>`;
+/* A hand, not a page: the handout is what students take away, and it should not
+   read as a third staff sheet beside the two that are. */
+const HAND = `<svg viewBox="0 0 14 18" width="11" height="14" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.3">
+  <path d="M2 9.6V4.3a1.1 1.1 0 0 1 2.2 0v4M4.2 8.3V2.6a1.1 1.1 0 0 1 2.2 0v5.7M6.4 8.3V3.4a1.1 1.1 0 0 1 2.2 0v4.9M8.6 8.6V5.6a1.1 1.1 0 0 1 2.2 0v6.2c0 2.9-1.7 4.6-4 4.6-1.7 0-2.8-.7-3.6-2L1.4 11c-.4-.7-.1-1.4.5-1.7.6-.3 1.2-.1 1.6.5l.7 1" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>`;
+
 document.getElementById('wkbody').innerHTML = ROWS.map(w => `
   <tr class="${w.dead ? 'dead' : ''} ${w.n === NOW ? 'now' : ''} ${NOW && w.n < NOW ? 'past' : ''}">
     <td class="wn">${w.n === NOW ? '▶ ' : ''}${String(w.n).padStart(2,'0')}</td>
     <td class="wn">${SD.fmtShort(SD.dateOf(w.n))}</td>
     <td class="wt">${w.l}</td>
     <td>${w.w}</td>
-    <td><span class="wmake">${w.m.map(x=>`<span class="chip ${w.dead?'no':'mk'}">${x}</span>`).join('')}</span></td>
     <td class="sheets"><span class="docs">
       <a class="doc doc-c" href="weeks.html?w=${w.n}&p=shown" title="What is shown in class">${PAGE}Class</a>
       <a class="doc doc-w" href="weeks.html?w=${w.n}&p=workshop" title="The workshop sheet">${PAGE}Workshop</a>
+        <button type="button" class="doc doc-h" data-handout="${w.n}" title="The handout for this session">${HAND}Handout</button>
     </span></td>
   </tr>`).join('');
 
@@ -515,6 +588,93 @@ document.querySelectorAll('.seccount').forEach(el => {
   var el = document.querySelector('[data-sec-count]');
   if (el && typeof PARTS !== 'undefined')
     el.textContent = PARTS.reduce(function (n, g) { return n + g.items.length; }, 0);
+})();
+
+/* ── The handout ──────────────────────────────────────────────────────────────
+   One page a student can take away, built from the same data as everything
+   else so it cannot say something the week does not.
+
+   The workshop leads and gets the most room. That is deliberate: two of the
+   three hours are the workshop, everything handed in is made there, and a
+   handout that opened with the lecture would tell students the lecture is the
+   event. It is not — it is the hour that sets up the two that matter.
+
+   "How this applies to your assessment" is not a summary. It names the sections
+   of the brief this session fills, quotes what each one has to contain, and
+   ends on the thing that is due before the next session. */
+(function () {
+  const dlg  = document.getElementById('handout');
+  if (!dlg || typeof WEEKS === 'undefined') return;
+  const body = document.getElementById('ho-body');
+  const kick = document.getElementById('ho-kicker');
+  const esc  = t => String(t).replace(/[<&]/g, c => c === '<' ? '&lt;' : '&amp;');
+
+  const SEC = {};
+  if (typeof PARTS !== 'undefined')
+    PARTS.forEach(g => g.items.forEach(i => { SEC[i.sec] = { ...i, part: g.id, partName: g.name }; }));
+
+  function build(n) {
+    const w = WEEKS.find(x => x.n === n);
+    if (!w) return;
+    const k = w.workshop;
+    const made = (k.out.sec || []).filter(x => SEC[x]);
+
+    kick.innerHTML = `Week ${w.n} · ${SD.fmt(SD.dateOf(w.n))}`;
+
+    const step = k.run.map(r =>
+      `<li><span class="ho-t">${esc(r.w)}</span><span><b>${r.s}</b> ${r.d}</span></li>`).join('');
+
+    const takes = w.shown.filter(x => x.take).map(x =>
+      `<li>${x.take}</li>`).join('');
+
+    const apply = made.length
+      ? `<table class="ho-tab"><tr><th>Section</th><th>What it has to contain</th></tr>${
+          made.map(x => {
+            const it = SEC[x];
+            return `<tr><td><b>${x}</b><span>${esc(it.t)}</span></td><td>${esc(it.d)}${
+              it.wd ? `<span class="ho-wd">${esc(it.wd)}</span>` : ''}</td></tr>`;
+          }).join('')}</table>`
+      : `<p class="ho-none">Nothing is filled in this week. ${esc(k.out.what)}</p>`;
+
+    body.innerHTML = `
+      <h2 id="ho-title">${esc(w.title)}</h2>
+      <p class="ho-idea">${esc(w.idea)}</p>
+
+      <div class="ho-sec ho-main">
+        <h3><span class="ho-n">The workshop</span> <span class="ho-dur">2 hours · the part that counts</span></h3>
+        <p class="ho-aim">${esc(k.aim)}</p>
+        <p class="ho-bring"><span class="ho-lab">Bring</span> ${k.bring}</p>
+        <ol class="ho-run">${step}</ol>
+        <p class="ho-leave"><span class="ho-lab">You leave with</span> ${k.leave}</p>
+        ${k.mistake ? `<p class="ho-miss"><span class="ho-lab">The mistake everyone makes</span> ${esc(k.mistake)}</p>` : ''}
+      </div>
+
+      <div class="ho-sec">
+        <h3><span class="ho-n">How this applies to your assessment</span></h3>
+        ${apply}
+        ${k.between ? `<p class="ho-next"><span class="ho-lab">Before next week</span> ${k.between}</p>` : ''}
+      </div>
+
+      ${takes ? `<div class="ho-sec ho-quiet">
+        <h3><span class="ho-n">From the hour before</span> <span class="ho-dur">what to keep</span></h3>
+        <ul class="ho-takes">${takes}</ul>
+      </div>` : ''}
+
+      <p class="ho-foot">Screen Design · Level 4 · 30 credits · deadline ${SD.fmtFull(SD.dead)}.
+        Every section above is in the one deck you set up in week 1.</p>`;
+  }
+
+  document.addEventListener('click', e => {
+    const b = e.target.closest('[data-handout]');
+    if (!b) return;
+    build(+b.dataset.handout);
+    dlg.showModal();
+  });
+  document.getElementById('ho-close').onclick = () => dlg.close();
+  document.getElementById('ho-print').onclick = () => window.print();
+  /* click the backdrop to dismiss — the dialog itself is the only child that
+     receives the click when the content is hit */
+  dlg.addEventListener('click', e => { if (e.target === dlg) dlg.close(); });
 })();
 </script>
 </body>
