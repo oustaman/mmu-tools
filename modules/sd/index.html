@@ -305,11 +305,11 @@
     </div>
     <div class="ctarow">
       <a class="cta" href="assessment.html">
-        <span><b>Open the checklist</b><span>All 20 sections, ticked off as you go.</span></span>
+        <span><b>Open the checklist</b><span>All <span data-sec-count>24</span> sections, ticked off as you go.</span></span>
         <span class="go">Open →</span>
       </a>
       <a class="cta cta2" href="brief.html">
-        <span><b>The brief, explained</b><span>Sixteen slides. What it is and how it is marked.</span></span>
+        <span><b>The brief, explained</b><span>What it is and how it is marked.</span></span>
         <span class="go">Open →</span>
       </a>
     </div>
@@ -507,6 +507,15 @@ document.getElementById('theme').onclick=()=>{
 document.querySelectorAll('.seccount').forEach(el => {
   el.textContent = PARTS.reduce((n, p) => n + p.items.length, 0);
 });
+
+/* Counted off PARTS rather than typed. This line has been wrong twice — "20"
+   against a brief that held 24, and "Sixteen slides" against a deck of 22 —
+   because a number in prose does not move when the data does. */
+(function () {
+  var el = document.querySelector('[data-sec-count]');
+  if (el && typeof PARTS !== 'undefined')
+    el.textContent = PARTS.reduce(function (n, g) { return n + g.items.length; }, 0);
+})();
 </script>
 </body>
 </html>
