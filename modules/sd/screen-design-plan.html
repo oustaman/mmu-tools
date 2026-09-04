@@ -1,0 +1,916 @@
+<meta charset="utf-8">
+<title>Screen Design 2026–27</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&family=Instrument+Serif:ital@0;1&display=swap">
+
+<style>
+  :root {
+    --bg:        #F5F4F2;
+    --surface:   #FFFFFF;
+    --surface-2: #EDEBE8;
+    --ink:       #1A1618;
+    --ink-2:     #56504F;
+    --ink-3:     #8B8382;
+    --rule:      #DEDAD7;
+    --rule-2:    #C9C3BF;
+    --accent:    #8C2437;
+    --accent-2:  #6E1B2B;
+    --accent-soft:#F2E3E5;
+    --good:      #2F6B4F;
+    --good-soft: #E2EDE7;
+    --warn:      #8A5D05;
+    --warn-soft: #F4EAD3;
+    --build:     #3B4C8A;
+    --build-soft:#E3E6F1;
+
+    --serif: "Instrument Serif", "Iowan Old Style", Georgia, serif;
+    --sans: "IBM Plex Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+    --mono: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+
+    --measure: 68ch;
+    --pad: clamp(1.25rem, 4vw, 3.5rem);
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg:        #161315;
+      --surface:   #1E1A1C;
+      --surface-2: #262123;
+      --ink:       #F2EEEC;
+      --ink-2:     #B9B0AE;
+      --ink-3:     #877E7C;
+      --rule:      #332C2F;
+      --rule-2:    #443A3E;
+      --accent:    #E4899A;
+      --accent-2:  #F0A8B5;
+      --accent-soft:#3A2126;
+      --good:      #7BC5A0;
+      --good-soft: #1E2E27;
+      --warn:      #DCAE49;
+      --warn-soft: #302713;
+      --build:     #9AAAE4;
+      --build-soft:#22263A;
+    }
+  }
+
+  :root[data-theme="dark"] {
+    --bg:        #161315;
+    --surface:   #1E1A1C;
+    --surface-2: #262123;
+    --ink:       #F2EEEC;
+    --ink-2:     #B9B0AE;
+    --ink-3:     #877E7C;
+    --rule:      #332C2F;
+    --rule-2:    #443A3E;
+    --accent:    #E4899A;
+    --accent-2:  #F0A8B5;
+    --accent-soft:#3A2126;
+    --good:      #7BC5A0;
+    --good-soft: #1E2E27;
+    --warn:      #DCAE49;
+    --warn-soft: #302713;
+    --build:     #9AAAE4;
+    --build-soft:#22263A;
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: var(--sans);
+    font-size: 16px;
+    line-height: 1.62;
+    -webkit-font-smoothing: antialiased;
+    margin: 0;
+  }
+
+  .wrap {
+    max-width: 1180px;
+    margin: 0 auto;
+    padding: 0 var(--pad) 6rem;
+  }
+
+  /* ---------- masthead ---------- */
+
+  .masthead {
+    border-bottom: 2px solid var(--ink);
+    padding: clamp(2.5rem, 6vw, 4.5rem) 0 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  .eyebrow {
+    font-family: var(--mono);
+    font-size: 0.72rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin: 0;
+  }
+
+  h1 {
+    font-family: var(--serif);
+    font-weight: 400;
+    font-size: clamp(2.9rem, 8vw, 5.25rem);
+    line-height: 0.98;
+    letter-spacing: -0.015em;
+    margin: 0;
+    text-wrap: balance;
+  }
+
+  h1 em { font-style: italic; color: var(--accent); }
+
+  .standfirst {
+    font-size: clamp(1.05rem, 2.2vw, 1.2rem);
+    color: var(--ink-2);
+    max-width: 58ch;
+    margin: 0;
+  }
+
+  .facts {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 1px;
+    background: var(--rule);
+    border: 1px solid var(--rule);
+    margin-top: 0.5rem;
+  }
+  .fact { background: var(--bg); padding: 0.85rem 1rem; }
+  .fact dt {
+    font-family: var(--mono);
+    font-size: 0.66rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--ink-3);
+    margin: 0 0 0.3rem;
+  }
+  .fact dd {
+    margin: 0;
+    font-size: 0.98rem;
+    font-weight: 500;
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* ---------- layout ---------- */
+
+  /* A grid item's min-width is auto, so a single wide descendant anywhere
+     inside either column pushes the track past the viewport and takes the
+     whole page with it. minmax(0,…) lets the track shrink; whatever is
+     genuinely too wide then scrolls inside its own box instead. */
+  .cols {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 3rem;
+    margin-top: 3rem;
+  }
+  .cols > * { min-width: 0; }
+
+  @media (min-width: 1000px) {
+    .cols { grid-template-columns: 200px minmax(0, 1fr); gap: 4rem; align-items: start; }
+    .toc { position: sticky; top: 2rem; }
+  }
+
+  .toc { font-family: var(--mono); font-size: 0.78rem; }
+  .toc p {
+    font-size: 0.66rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--ink-3);
+    margin: 0 0 0.75rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid var(--rule);
+  }
+  .toc ol { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 0.45rem; }
+  .toc a {
+    color: var(--ink-2);
+    text-decoration: none;
+    display: grid;
+    grid-template-columns: 1.9em 1fr;
+    line-height: 1.35;
+  }
+  .toc a:hover, .toc a:focus-visible { color: var(--accent); }
+  .toc a span { color: var(--ink-3); }
+
+  /* ---------- sections ---------- */
+
+  section { margin-bottom: 4.5rem; scroll-margin-top: 2rem; }
+
+  .sec-head {
+    display: flex;
+    align-items: baseline;
+    gap: 0.9rem;
+    border-bottom: 1px solid var(--ink);
+    padding-bottom: 0.6rem;
+    margin-bottom: 1.75rem;
+  }
+  .sec-num {
+    font-family: var(--mono);
+    font-size: 0.8rem;
+    font-weight: 500;
+    color: var(--accent);
+    font-variant-numeric: tabular-nums;
+  }
+  h2 {
+    font-family: var(--serif);
+    font-weight: 400;
+    font-size: clamp(1.8rem, 4vw, 2.5rem);
+    line-height: 1.1;
+    margin: 0;
+    letter-spacing: -0.01em;
+    text-wrap: balance;
+  }
+
+  h3 {
+    font-family: var(--sans);
+    font-size: 1.02rem;
+    font-weight: 600;
+    letter-spacing: -0.005em;
+    margin: 2.25rem 0 0.75rem;
+  }
+
+  h4 {
+    font-family: var(--mono);
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--ink-3);
+    margin: 0 0 0.6rem;
+  }
+
+  p, li { max-width: var(--measure); }
+  p { margin: 0 0 1rem; }
+  ul, ol { padding-left: 1.15rem; margin: 0 0 1rem; }
+  li { margin-bottom: 0.4rem; }
+
+  strong { font-weight: 600; }
+  em { font-style: italic; }
+
+  a { color: var(--accent); text-decoration-thickness: 1px; text-underline-offset: 2px; }
+  :focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 2px; }
+
+  code, .m {
+    font-family: var(--mono);
+    font-size: 0.86em;
+    background: var(--surface-2);
+    padding: 0.1em 0.36em;
+    border-radius: 2px;
+  }
+
+  /* ---------- tables ---------- */
+
+  .scroller { overflow-x: auto; margin: 0 0 1.5rem; border: 1px solid var(--rule); background: var(--surface); }
+  table { border-collapse: collapse; width: 100%; font-size: 0.88rem; min-width: 620px; }
+  th, td { text-align: left; padding: 0.7rem 0.85rem; border-bottom: 1px solid var(--rule); vertical-align: top; }
+  th {
+    font-family: var(--mono);
+    font-size: 0.66rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ink-3);
+    font-weight: 600;
+    background: var(--surface-2);
+    border-bottom: 1px solid var(--rule-2);
+    white-space: nowrap;
+  }
+  tbody tr:last-child td { border-bottom: none; }
+  td p { margin: 0; max-width: none; }
+  .num { font-family: var(--mono); font-variant-numeric: tabular-nums; white-space: nowrap; }
+
+  /* ---------- pills ---------- */
+
+  .pill {
+    display: inline-block;
+    font-family: var(--mono);
+    font-size: 0.64rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    font-weight: 600;
+    padding: 0.18em 0.5em;
+    border-radius: 2px;
+    white-space: nowrap;
+  }
+  .p-reuse { background: var(--good-soft); color: var(--good); }
+  .p-adapt { background: var(--warn-soft); color: var(--warn); }
+  .p-build { background: var(--build-soft); color: var(--build); }
+  .p-lo    { background: var(--accent-soft); color: var(--accent-2); }
+
+  /* ---------- callouts ---------- */
+
+  .note {
+    border-left: 3px solid var(--accent);
+    background: var(--surface);
+    padding: 1rem 1.25rem;
+    margin: 1.5rem 0;
+  }
+  .note.warn { border-left-color: var(--warn); }
+  .note h4 { color: var(--accent); }
+  .note.warn h4 { color: var(--warn); }
+  .note p:last-child { margin-bottom: 0; }
+
+  /* ---------- the five-hour grid ---------- */
+
+  .slots {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1px;
+    background: var(--rule);
+    border: 1px solid var(--rule);
+    margin-bottom: 1.5rem;
+  }
+  @media (min-width: 760px) { .slots { grid-template-columns: 1fr 2fr 2fr; } }
+
+  .slot { background: var(--surface); padding: 1.1rem 1.2rem; display: flex; flex-direction: column; gap: 0.5rem; }
+  .slot-top { display: flex; align-items: baseline; justify-content: space-between; gap: 0.75rem; }
+  .slot-hrs {
+    font-family: var(--mono);
+    font-size: 1.5rem;
+    font-variant-numeric: tabular-nums;
+    line-height: 1;
+    color: var(--accent);
+  }
+  .slot-who {
+    font-family: var(--mono);
+    font-size: 0.62rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ink-3);
+    text-align: right;
+  }
+  .slot h3 { margin: 0; font-size: 0.98rem; }
+  .slot p { font-size: 0.86rem; color: var(--ink-2); margin: 0; max-width: none; }
+  .slot-meta {
+    font-family: var(--mono);
+    font-size: 0.68rem;
+    color: var(--ink-3);
+    border-top: 1px dashed var(--rule-2);
+    padding-top: 0.5rem;
+    margin-top: auto;
+  }
+
+  /* ---------- week cards ---------- */
+
+  .week {
+    border: 1px solid var(--rule);
+    border-left: 3px solid var(--accent);
+    background: var(--surface);
+    margin-bottom: 1px;
+    padding: 1.15rem 1.35rem;
+    display: grid;
+    gap: 0.9rem;
+  }
+  @media (min-width: 820px) {
+    .week { grid-template-columns: 5.5rem 1fr 1fr 12rem; gap: 1.5rem; align-items: start; }
+  }
+  .week.quiet { border-left-color: var(--rule-2); }
+  .week-n {
+    font-family: var(--mono);
+    font-size: 0.7rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ink-3);
+  }
+  .week-n b {
+    display: block;
+    font-family: var(--serif);
+    font-size: 2.1rem;
+    font-weight: 400;
+    line-height: 1;
+    color: var(--accent);
+    letter-spacing: 0;
+  }
+  .week.quiet .week-n b { color: var(--ink-3); }
+  .week h3 { margin: 0 0 0.35rem; font-size: 0.95rem; }
+  .week p { font-size: 0.86rem; color: var(--ink-2); margin: 0; max-width: none; }
+  .week .out {
+    font-family: var(--mono);
+    font-size: 0.74rem;
+    color: var(--ink-2);
+    background: var(--surface-2);
+    padding: 0.6rem 0.7rem;
+    line-height: 1.45;
+  }
+  .week .out b { display: block; font-size: 0.62rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 0.25rem; font-weight: 600; }
+
+  /* ---------- rationale spec ---------- */
+
+  .spec { display: grid; gap: 1px; background: var(--rule); border: 1px solid var(--rule); margin-bottom: 1.5rem; }
+  .spec-row { background: var(--surface); padding: 0.9rem 1.1rem; display: grid; gap: 0.5rem; }
+  @media (min-width: 760px) { .spec-row { grid-template-columns: 13rem 1fr 6rem; gap: 1.25rem; align-items: baseline; } }
+  .spec-row > b { font-size: 0.9rem; font-weight: 600; }
+  .spec-row p { font-size: 0.85rem; color: var(--ink-2); margin: 0; max-width: none; }
+  .spec-w { font-family: var(--mono); font-size: 0.76rem; color: var(--ink-3); font-variant-numeric: tabular-nums; }
+
+  /* ---------- checkable / not ---------- */
+
+  .split { display: grid; gap: 1.5rem; margin-bottom: 1.5rem; }
+  @media (min-width: 760px) { .split { grid-template-columns: 1fr 1fr; } }
+  .panel { border: 1px solid var(--rule); background: var(--surface); padding: 1.15rem 1.3rem; }
+  .panel.yes { border-top: 3px solid var(--good); }
+  .panel.no { border-top: 3px solid var(--ink-3); }
+  .panel h3 { margin-top: 0; }
+  .panel ul { font-size: 0.87rem; color: var(--ink-2); padding-left: 1.05rem; margin-bottom: 0; }
+  .panel li { max-width: none; }
+
+  footer {
+    border-top: 2px solid var(--ink);
+    margin-top: 2rem;
+    padding-top: 1.25rem;
+    font-family: var(--mono);
+    font-size: 0.72rem;
+    color: var(--ink-3);
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem 1.5rem;
+    justify-content: space-between;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    * { animation: none !important; transition: none !important; scroll-behavior: auto !important; }
+  }
+  .o-sec{font:600 11px/1 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.03em;
+    border:1px solid currentColor;border-radius:2px;padding:1px 4px;opacity:.7;margin-right:4px}
+  .o-none{opacity:.6}
+</style>
+
+<div class="wrap">
+
+  <header class="masthead">
+    <p class="eyebrow">Delivery plan &amp; assessment brief — draft for review</p>
+    <h1>Screen&nbsp;Design<br><em>2026–27</em></h1>
+    <p class="standfirst">Eleven weeks, five contact hours, three parallel groups and a hundred students — rebuilt so the instruments carry the teaching and one marker survives the marking.</p>
+    <dl class="facts">
+      <div class="fact"><dt>Level</dt><dd>4</dd></div>
+      <div class="fact"><dt>Credits</dt><dd>30</dd></div>
+      <div class="fact"><dt>Delivery</dt><dd>Semester 1</dd></div>
+      <div class="fact"><dt>Contact</dt><dd>5 hrs / week</dd></div>
+      <div class="fact"><dt>Cohort</dt><dd>100+</dd></div>
+      <div class="fact"><dt>Assessment</dt><dd>100% portfolio</dd></div>
+    </dl>
+  </header>
+
+  <div class="cols">
+
+    <nav class="toc" aria-label="Contents">
+      <p>Contents</p>
+      <ol>
+        <li><a href="#constraints"><span>01</span> What changed</a></li>
+        <li><a href="#shape"><span>02</span> The weekly shape</a></li>
+        <li><a href="#instruments"><span>03</span> Instruments</a></li>
+        <li><a href="#weeks"><span>04</span> Week by week</a></li>
+        <li><a href="#studio"><span>05</span> The studio hours</a></li>
+        <li><a href="#runsheet"><span>06</span> Workshop run sheet</a></li>
+        <li><a href="#brief"><span>07</span> Assessment brief</a></li>
+        <li><a href="#marking"><span>08</span> Marking at scale</a></li>
+        <li><a href="#decisions"><span>09</span> Decisions needed</a></li>
+      </ol>
+    </nav>
+
+    <main>
+
+      <section id="constraints">
+        <div class="sec-head"><span class="sec-num">01</span><h2>What changed, and what it forces</h2></div>
+
+        <p>Four things about this year's delivery break the model UXCI runs on. Each one has a consequence that shapes everything downstream.</p>
+
+        <div class="scroller">
+          <table>
+            <thead><tr><th>Change</th><th>Consequence</th></tr></thead>
+            <tbody>
+              <tr>
+                <td><b>Five hours a week</b>, split 1 + 2 + 2 across a lecture theatre and three breakout rooms</td>
+                <td>Three tutors deliver the same workshop simultaneously. The session plan can no longer live in one person's head — it has to be a document a colleague can open and run cold.</td>
+              </tr>
+              <tr>
+                <td><b>100+ students, one marker</b></td>
+                <td>Marking has to be triaged, not endured. That means the portfolio must contain structured, declared values a machine can check before a human looks at anything.</td>
+              </tr>
+              <tr>
+                <td><b>No software teaching</b> — students use Figma, Figma AI, generative image tools, whatever they like</td>
+                <td>Tool skill stops being assessable, which is correct at Level 4 anyway. What remains assessable is <em>judgement</em>: the decisions, their internal consistency, and the justification.</td>
+              </tr>
+              <tr>
+                <td><b>Slides replaced by instruments</b></td>
+                <td>The lecture hour becomes a live demonstration in a tool the students then use themselves in the workshop. Build the instrument once; it serves as exhibit, worksheet and marking evidence.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="note warn">
+          <h4>The thing generative tools actually break</h4>
+          <p>If a student can generate a competent-looking screen in a minute, then "does this look good" has stopped measuring anything you wanted to measure. The assessment below moves the weight onto the parts a generator cannot supply on the student's behalf: a declared type scale that its own specimens obey, contrast ratios that match the hex values they came from, and a rationale that cites the student's own numbers. A generated screen can still be excellent — it just has to be <em>owned</em>, and owning it means being able to say why every value is what it is.</p>
+        </div>
+      </section>
+
+      <section id="shape">
+        <div class="sec-head"><span class="sec-num">02</span><h2>The weekly shape</h2></div>
+
+        <p>Same three slots every week, so students and staff stop having to check what's happening. Weeks 1–10 are content; week 11 is submission surgery.</p>
+
+        <div class="slots">
+          <div class="slot">
+            <div class="slot-top"><span class="slot-hrs">1h</span><span class="slot-who">Whole cohort<br>You</span></div>
+            <h3>Lecture</h3>
+            <p>One idea, demonstrated live in the week's instrument. No deck — the tool is the exhibit. Ends by naming exactly what the workshop will produce.</p>
+            <div class="slot-meta">Lecture theatre · 100 cap</div>
+          </div>
+          <div class="slot">
+            <div class="slot-top"><span class="slot-hrs">2h</span><span class="slot-who">3 × ~33<br>You + 2 colleagues</span></div>
+            <h3>Workshop</h3>
+            <p>Students work in the instrument and leave with one finished portfolio component. Runs from a one-page sheet, identical in all three rooms.</p>
+            <div class="slot-meta">3 breakout rooms · parallel</div>
+          </div>
+          <div class="slot">
+            <div class="slot-top"><span class="slot-hrs">2h</span><span class="slot-who">3 × ~33<br>Staffed, unscheduled</span></div>
+            <h3>Studio</h3>
+            <p>Nothing taught. Room open, tutor present, booked ten-minute check-ins running against a rota. Everyone else works or leaves.</p>
+            <div class="slot-meta">Same rooms · drop-in + rota</div>
+          </div>
+        </div>
+
+        <p>The studio hour is the part that pays for itself. Weekly formative contact is what stops a hundred portfolios arriving in January with the same five fixable problems — which is the actual cause of marking burnout, more than the volume is.</p>
+
+        <div class="note">
+          <h4>Week 6 and week 11</h4>
+          <p>Because check-ins now happen every week in the studio slot, <strong>week 6 no longer needs to be a teaching gap</strong> — it becomes a full content week, and the plan below uses it for the tools-and-AI session, which is where students are ready for it. <strong>Week 11 stays dead by design</strong>: no lecture, no workshop, studio only. Attendance will be low and that is fine; the work should be done by then. Put nothing in it that a student could miss and be disadvantaged by.</p>
+        </div>
+      </section>
+
+      <section id="instruments">
+        <div class="sec-head"><span class="sec-num">03</span><h2>Instruments</h2></div>
+
+        <p>You have 91 HTML instruments across the tree and no index that spans them — <code>sidebar-links.js</code> covers the staff tools only, and each module hub is unaware of the others. Worth building that master map regardless; for SD specifically, here is the set.</p>
+
+        <h3>Carried over from UXCI</h3>
+        <div class="scroller">
+          <table>
+            <thead><tr><th>Instrument</th><th>Status</th><th>What changes</th><th>Week</th></tr></thead>
+            <tbody>
+              <tr><td><b>accessibility-checklist</b></td><td><span class="pill p-reuse">Reuse</span></td><td>Nothing. Works as-is.</td><td class="num">9</td></tr>
+              <tr><td><b>flow-diagram-symbols</b></td><td><span class="pill p-reuse">Reuse</span></td><td>Nothing.</td><td class="num">7</td></tr>
+              <tr><td><b>competitor-analysis-matrix</b></td><td><span class="pill p-reuse">Reuse</span></td><td>Reframed as visual-reference comparison rather than service comparison.</td><td class="num">2</td></tr>
+              <tr><td><b>ucd-principles-library</b></td><td><span class="pill p-adapt">Adapt</span></td><td>Filter to the Level 4 subset; add visual-design principles alongside the UCD ones.</td><td class="num">1, 7</td></tr>
+              <tr><td><b>design-decision-logger</b></td><td><span class="pill p-adapt">Adapt</span></td><td>Becomes the spine of the rationale — add the AI-use fields.</td><td class="num">all</td></tr>
+              <tr><td><b>word-count-dashboard</b></td><td><span class="pill p-adapt">Adapt</span></td><td>Retarget to the rationale's six sections and their word budgets.</td><td class="num">10</td></tr>
+              <tr><td><b>midterm-checker</b></td><td><span class="pill p-adapt">Adapt</span></td><td>Becomes the weekly portfolio completeness checker, not a week-6 event.</td><td class="num">all</td></tr>
+              <tr><td><b>heuristic-evaluator</b></td><td><span class="pill p-adapt">Adapt</span></td><td>Cut to a short visual-design heuristic set — full Nielsen is a Level 6 ask.</td><td class="num">9</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h3>To build</h3>
+        <p>Six new instruments. Each is the lecture exhibit, the workshop worksheet and the evidence generator for one portfolio component — so each earns its build cost three times.</p>
+        <div class="scroller">
+          <table>
+            <thead><tr><th>Instrument</th><th>What it does</th><th>Exports</th><th>Week</th></tr></thead>
+            <tbody>
+              <tr><td><b>Hierarchy Teardown</b> <span class="pill p-build">Build</span></td><td>Upload or pick a screenshot, mark the reading order, rank elements by visual weight, name the device doing the work (scale, weight, colour, space, position).</td><td>Annotated teardown sheet</td><td class="num">1–2</td></tr>
+              <tr><td><b>Grid &amp; Breakpoint Playground</b> <span class="pill p-build">Build</span></td><td>Set columns, gutter, margin, max width and a spacing scale; drag a viewport handle to watch the layout reflow at each breakpoint.</td><td>Layout spec</td><td class="num">3</td></tr>
+              <tr><td><b>Type Scale Playground</b> <span class="pill p-build">Build</span></td><td>Base size and ratio in, live specimen out — headings, body, captions, measure and leading, with a warning when the measure leaves the 45–75 character band.</td><td>Type spec + specimen</td><td class="num">4</td></tr>
+              <tr><td><b>Contrast &amp; Palette Lab</b> <span class="pill p-build">Build</span></td><td>Build the palette, assign roles, and get every text-on-background pair scored against WCAG AA/AAA automatically.</td><td>Colour spec with ratios</td><td class="num">5</td></tr>
+              <tr><td><b>Style Tile Builder</b> <span class="pill p-build">Build</span></td><td>Pulls the type, colour and spacing specs into one tile with sample components. The moment the three specs become a system.</td><td>Style tile</td><td class="num">6</td></tr>
+              <tr><td><b>Portfolio Spec Sheet</b> <span class="pill p-build">Build</span></td><td>The master instrument. Accumulates every declared value across the semester and exports the structured sheet that fronts the submission and drives the automated feedback.</td><td>Spec sheet (PDF + JSON)</td><td class="num">all</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="note">
+          <h4>Why the spec sheet is the important one</h4>
+          <p>Build it first, even before the playgrounds. Every other instrument writes into it, students see their portfolio filling up week by week, and it produces the one artefact that makes automated first-pass feedback possible at all. If only one thing gets built this summer, build this.</p>
+        </div>
+      </section>
+
+      <section id="weeks">
+        <div class="sec-head"><span class="sec-num">04</span><h2>Week by week</h2></div>
+
+        <p>Every workshop ends with a component in the portfolio. By week 10 the portfolio is assembled rather than started — which is the only version of this that works with a hundred students.</p>
+
+        <div class="week">
+          <div class="week-n">Week <b>1</b></div>
+          <div><h3>Lecture — Why screens look the way they do</h3><p>From manuscript margin to print grid to screen. The claim: every layout decision you'll make was made before, for reasons, and those reasons still hold. Live teardown of three screens.</p></div>
+          <div><h3>Workshop — Screen teardown</h3><p>Three screens each in the Hierarchy Teardown, marking reading order and naming the device doing the work. Ends with a theme shortlist.</p></div>
+          <div class="out"><b>Output</b>3 teardown sheets<br>Theme shortlist (3)</div>
+        </div>
+
+        <div class="week">
+          <div class="week-n">Week <b>2</b></div>
+          <div><h3>Lecture — Composition and visual hierarchy</h3><p>Scale, weight, space, alignment, proximity. Gestalt as a working tool rather than a list. What a focal point costs and why you only get one.</p></div>
+          <div><h3>Workshop — Thumbnail studies</h3><p>Eight rough compositions for a single screen, on paper, ten minutes each. No software, deliberately. Peer swap and rank at the end.</p></div>
+          <div class="out"><b>Output</b>8 thumbnail studies<br><b>Theme locked</b></div>
+        </div>
+
+        <div class="week">
+          <div class="week-n">Week <b>3</b></div>
+          <div><h3>Lecture — The grid</h3><p>Columns, gutters, margins, and the spacing scale that stops every gap being a guess. Why a grid is a decision you make once so you don't remake it four hundred times.</p></div>
+          <div><h3>Workshop — Define your grid</h3><p>Grid &amp; Breakpoint Playground: fix columns, spacing scale and three breakpoints for the chosen theme.</p></div>
+          <div class="out"><b>Output</b>Layout spec<br>→ spec sheet §3</div>
+        </div>
+
+        <div class="week">
+          <div class="week-n">Week <b>4</b></div>
+          <div><h3>Lecture — Typography</h3><p>Anatomy, classification and pairing; measure, leading and the fact that most bad screen type is a line-length problem wearing a font problem's clothes.</p></div>
+          <div><h3>Workshop — Build your type scale</h3><p>Type Scale Playground: base size, ratio, roles. Set one screen in the resulting scale to prove it holds.</p></div>
+          <div class="out"><b>Output</b>Type spec<br>Specimen screen<br>→ spec sheet §4</div>
+        </div>
+
+        <div class="week">
+          <div class="week-n">Week <b>5</b></div>
+          <div><h3>Lecture — Colour</h3><p>Harmony, temperature and semantics — then contrast as the one part of colour that is measurable, and therefore the one part nobody can argue with you about.</p></div>
+          <div><h3>Workshop — Build your palette</h3><p>Contrast &amp; Palette Lab: assign roles, record every ratio, fix the pairs that fail AA.</p></div>
+          <div class="out"><b>Output</b>Colour spec<br>Contrast table<br>→ spec sheet §5</div>
+        </div>
+
+        <div class="week">
+          <div class="week-n">Week <b>6</b></div>
+          <div><h3>Lecture — Contemporary tools, and working with AI</h3><p>What generation is genuinely good at, what it cannot decide for you, and what disclosure looks like. Live: generate three variants of their own style tile and critique all three against the specs they've already declared.</p></div>
+          <div><h3>Workshop — Style tile</h3><p>Style Tile Builder: type, colour and spacing assembled into one system with sample components. AI-use log opened.</p></div>
+          <div class="out"><b>Output</b>Style tile<br>Mood board<br>AI log started</div>
+        </div>
+
+        <div class="week">
+          <div class="week-n">Week <b>7</b></div>
+          <div><h3>Lecture — UX basics and screen states</h3><p>Who is this for and what are they trying to do. States — empty, loading, error, success — and why the screens students forget to design are the ones users meet on their worst day.</p></div>
+          <div><h3>Workshop — Screen inventory and flow</h3><p>Name every screen and its job, then draw the flow between them using the symbol library.</p></div>
+          <div class="out"><b>Output</b>Screen inventory (6–8)<br>Flow diagram<br>→ spec sheet §2</div>
+        </div>
+
+        <div class="week">
+          <div class="week-n">Week <b>8</b></div>
+          <div><h3>Lecture — Wireframe to screen</h3><p>The fidelity ladder, and content-first as a discipline. A wireframe is an argument about priority, not a grey drawing of a finished thing.</p></div>
+          <div><h3>Workshop — Wireframe the set</h3><p>All six to eight screens wireframed on paper against the declared grid. Peer check: can someone else name each screen's job without being told?</p></div>
+          <div class="out"><b>Output</b>Wireframe set (6–8)</div>
+        </div>
+
+        <div class="week">
+          <div class="week-n">Week <b>9</b></div>
+          <div><h3>Lecture — Adaptation and access</h3><p>Reflow, priority and touch targets. Accessibility as a design constraint that improves the work rather than a checklist that follows it.</p></div>
+          <div><h3>Workshop — Variants and audit</h3><p>Two key screens at three breakpoints, then the accessibility checklist run over the whole set and the failures logged.</p></div>
+          <div class="out"><b>Output</b>2 screens × 3 breakpoints<br>Accessibility audit</div>
+        </div>
+
+        <div class="week">
+          <div class="week-n">Week <b>10</b></div>
+          <div><h3>Lecture — Justifying a decision</h3><p>The difference between describing a design and defending one. Worked examples of the same paragraph written badly and well, side by side.</p></div>
+          <div><h3>Workshop — Draft the rationale</h3><p>Six sections against the word budget, each citing a declared value. Completeness checker run in the room; gaps become the studio agenda.</p></div>
+          <div class="out"><b>Output</b>Rationale draft<br>Spec sheet complete<br>Portfolio assembled</div>
+        </div>
+
+        <div class="week quiet">
+          <div class="week-n">Week <b>11</b></div>
+          <div><h3>No lecture</h3><p>Dead week by design. Nothing is taught and nothing is missable.</p></div>
+          <div><h3>Studio only — submission surgery</h3><p>Drop-in. Export problems, PDF assembly, Moodle mechanics, last read-throughs. Expect low attendance and staff it lightly.</p></div>
+          <div class="out"><b>Output</b>Submission</div>
+        </div>
+      </section>
+
+      <section id="studio">
+        <div class="sec-head"><span class="sec-num">05</span><h2>The studio hours</h2></div>
+
+        <p>Two hours, three rooms, roughly 33 students per room, weeks 2 through 10. Nothing is scheduled — but the time is structured, or it evaporates.</p>
+
+        <div class="scroller">
+          <table>
+            <thead><tr><th>Element</th><th>Detail</th></tr></thead>
+            <tbody>
+              <tr><td><b>Booked check-ins</b></td><td>12 × 10-minute slots per room per week, signed up in advance. Across nine studio weeks that's 108 slots against 33 students — <b>roughly three booked check-ins each</b>, landing near weeks 3, 6 and 9.</td></tr>
+              <tr><td><b>Everyone else</b></td><td>Open studio. Work in the room, use the tutor when the queue is empty, or leave. Attendance is not the point; availability is.</td></tr>
+              <tr><td><b>The check-in itself</b></td><td>Open their spec sheet. Ask what's blank and why. Ten minutes, one thing to fix, written into the decision logger before they leave. No feedback essays.</td></tr>
+              <tr><td><b>Escalation</b></td><td>Any student who misses two booked slots gets flagged into the engagement monitor rather than chased individually.</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="note">
+          <h4>Protect the boundary</h4>
+          <p>Five hours of contact plus a hundred students is already at the edge. The studio slot works only if it stays genuinely unplanned teaching — the moment it acquires content, three staff are preparing five hours a week instead of three, and the model collapses. If a colleague asks what to prepare for studio, the answer is nothing.</p>
+        </div>
+      </section>
+
+      <section id="runsheet">
+        <div class="sec-head"><span class="sec-num">06</span><h2>Workshop run sheet</h2></div>
+
+        <p>One page per week, identical structure, written so a colleague who has not seen the lecture can run the room. This is the artefact that makes three parallel groups survivable.</p>
+
+        <div class="scroller">
+          <table>
+            <thead><tr><th class="num">Time</th><th>Phase</th><th>What the tutor does</th></tr></thead>
+            <tbody>
+              <tr><td class="num">0:00–0:05</td><td><b>Set</b></td><td>Read the framing paragraph aloud. It's written on the sheet. It restates the lecture's one idea and names today's output.</td></tr>
+              <tr><td class="num">0:05–0:15</td><td><b>Demo</b></td><td>Open the instrument on the projector, work one example to completion. The sheet lists the exact clicks.</td></tr>
+              <tr><td class="num">0:15–1:20</td><td><b>Work</b></td><td>Students work. Tutor circulates. The sheet lists the three questions this task usually generates, with answers.</td></tr>
+              <tr><td class="num">1:20–1:40</td><td><b>Swap</b></td><td>Pairs exchange work against a two-line check printed on the sheet. Not a critique — a can-you-tell-what-this-is test.</td></tr>
+              <tr><td class="num">1:40–1:55</td><td><b>Fix</b></td><td>Act on what the swap surfaced.</td></tr>
+              <tr><td class="num">1:55–2:00</td><td><b>Export</b></td><td>Everyone exports into the spec sheet before leaving. Tutor confirms the room is empty of unexported work.</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <p>Each sheet also carries: <b>Done looks like</b> — three bullets a tutor can check at a glance; <b>If they're stuck</b> — the two most common blocks and the unblock; <b>If they missed last week</b> — the minimum catch-up, because with a hundred students someone always did.</p>
+      </section>
+
+      <section id="brief">
+        <div class="sec-head"><span class="sec-num">07</span><h2>Revised assessment brief</h2></div>
+
+        <p>Same shape as your draft — 100% portfolio, ~2,000-word equivalence, single PDF — restructured into three parts so that the machine-checkable material is separated from the material that needs your eyes.</p>
+
+        <h3>Part A — Design spec sheet <span class="pill p-lo">≈400 w equiv.</span></h3>
+        <p>Declared values, generated by the instruments across the semester. Structured fields, not prose. This is the part that makes automated first-pass feedback possible.</p>
+        <div class="scroller">
+          <table>
+            <thead><tr><th>§</th><th>Field</th><th>Declared</th></tr></thead>
+            <tbody>
+              <tr><td class="num">1</td><td>Theme &amp; audience</td><td>One sentence each</td></tr>
+              <tr><td class="num">2</td><td>Screen inventory</td><td>6–8 screens, each with a named job</td></tr>
+              <tr><td class="num">3</td><td>Layout</td><td>Columns, gutter, margin, max width, 3 breakpoints, spacing scale</td></tr>
+              <tr><td class="num">4</td><td>Typography</td><td>Families and roles, sizes, line-heights, scale ratio, measure</td></tr>
+              <tr><td class="num">5</td><td>Colour</td><td>Hex values with roles, plus contrast ratio for every text/background pair</td></tr>
+              <tr><td class="num">6</td><td>Accessibility</td><td>Minimum touch target, focus state, non-colour cues</td></tr>
+              <tr><td class="num">7</td><td>AI use log</td><td>Tool, what it produced, what you changed, why</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h3>Part B — The work <span class="pill p-lo">visual</span></h3>
+        <ul>
+          <li><b>Multi-screen prototype</b> — 6–8 screens, plus two key screens shown at all three declared breakpoints</li>
+          <li><b>Supporting artefacts</b> — concept sketches, wireframe set, mood board, style tile</li>
+          <li><b>One annotation per artefact</b> — ~100 words, what it is and what it decided</li>
+        </ul>
+
+        <h3>Part C — Reflective rationale <span class="pill p-lo">500–700 w</span></h3>
+        <p>Six numbered sections. <strong>Each must cite at least one declared value from Part A</strong> — this is the mechanism that separates justification from description, and it is checkable.</p>
+
+        <div class="spec">
+          <div class="spec-row"><b>1. Theme &amp; audience</b><p>Who this is for, what they need, why this theme.</p><span class="spec-w">~80 w</span></div>
+          <div class="spec-row"><b>2. Hierarchy &amp; layout</b><p>What you wanted read first, and the grid and spacing decisions that made it happen.</p><span class="spec-w">~120 w</span></div>
+          <div class="spec-row"><b>3. Typography</b><p>Why this pairing, this scale, this measure — cite the ratio.</p><span class="spec-w">~120 w</span></div>
+          <div class="spec-row"><b>4. Colour</b><p>Why these values and roles; what the contrast figures made you change.</p><span class="spec-w">~120 w</span></div>
+          <div class="spec-row"><b>5. Accessibility &amp; users</b><p>One decision made specifically for a user need, and its cost.</p><span class="spec-w">~120 w</span></div>
+          <div class="spec-row"><b>6. Next</b><p>What you'd change with more time, and on what evidence.</p><span class="spec-w">~80 w</span></div>
+        </div>
+
+        <h3>Mapping to the approved outcomes</h3>
+        <p>The spec and its three LOs are fixed, so the brief carries <strong>those three verbatim</strong> and nothing else. The A1/B1/B2/B3 list in the current draft has to go — B3 was flagged in your own document as inferred, and it turns out not to be needed: the spec's third outcome already carries the reflective work.</p>
+        <div class="scroller">
+          <table>
+            <thead><tr><th>Approved outcome</th><th>Evidenced by</th></tr></thead>
+            <tbody>
+              <tr>
+                <td><b>LO1</b><br>Apply fundamental design principles to produce visually engaging layouts</td>
+                <td>Part B prototype and wireframe set · Part A §2–3 (screen inventory, layout) · rationale §2</td>
+              </tr>
+              <tr>
+                <td><b>LO2</b><br>Create user-centered design solutions, incorporating effective typography and colour theory</td>
+                <td>Part A §4–6 (type, colour, accessibility) · Part B style tile and mood board · rationale §3, §4, §5</td>
+              </tr>
+              <tr>
+                <td><b>LO3</b><br>Describe and explain key principles of visual design and their application in screen-based media</td>
+                <td>Part C rationale throughout, especially §1 and §6 · the ~100-word artefact annotations</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="note">
+          <h4>Where "responsive" now sits</h4>
+          <p>None of the three outcomes mentions responsiveness, so it cannot be a marking criterion on its own — but it can stay in the <em>task</em>, which the brief controls. Keep the requirement for two key screens at three declared breakpoints, and mark it <strong>under LO1 as evidence that the grid decision holds up</strong> rather than as a separate thing being assessed. That keeps the brief inside the approved outcomes while preserving the teaching, and the spec's own reference to "emerging formats, such as web and mobile" is the justification if anyone asks at moderation.</p>
+        </div>
+
+        <h4>Changes from your current draft</h4>
+        <ul>
+          <li><b>LO list replaced</b> with the spec's three, verbatim. Criteria map to those and only those.</li>
+          <li><b>"Responsive" narrowed</b> to two key screens at three declared breakpoints, and reframed as task rather than criterion, per the note above.</li>
+          <li><b>The spec sheet is new.</b> It converts the portfolio's invisible decisions into declared values.</li>
+          <li><b>AI disclosure is required</b>, as a log rather than a statement, and is assessed as part of the rationale's honesty rather than policed separately.</li>
+          <li><b>Word budgets are per-section</b>, matching the UXCI approach that made LLM pre-checking work there.</li>
+        </ul>
+      </section>
+
+      <section id="marking">
+        <div class="sec-head"><span class="sec-num">08</span><h2>Marking at scale</h2></div>
+
+        <p>The honest constraint: <strong>an LLM cannot tell you whether a design is any good.</strong> It cannot see hierarchy in a PDF reliably, it will praise generated mediocrity, and it has no taste. So don't ask it to. Ask it only about consistency, completeness and reasoning — where it is genuinely reliable, and where most of the formative feedback students need actually lives.</p>
+
+        <div class="split">
+          <div class="panel yes">
+            <h3>Give the machine this</h3>
+            <ul>
+              <li>Are all seven spec-sheet sections present and populated?</li>
+              <li>Do the declared type sizes actually follow the declared ratio?</li>
+              <li>Do the stated contrast ratios match the stated hex pairs — and do any fail AA?</li>
+              <li>Do the wireframe labels match the screen inventory?</li>
+              <li>Are three breakpoints declared and all three shown?</li>
+              <li>Does each rationale section cite a declared value, or is it generic?</li>
+              <li>Word budgets per section; is the AI log filled in?</li>
+              <li>Does the rationale contradict the spec sheet anywhere?</li>
+            </ul>
+          </div>
+          <div class="panel no">
+            <h3>Keep this yourself</h3>
+            <ul>
+              <li>Is the composition any good?</li>
+              <li>Is the type pairing appropriate to the theme?</li>
+              <li>Does the palette do what the student claims it does?</li>
+              <li>Is the reasoning genuine or fluent-sounding filler?</li>
+              <li>Craft, restraint, and whether the thing holds together</li>
+              <li>Anything that decides a boundary between grade bands</li>
+            </ul>
+          </div>
+        </div>
+
+        <h3>The sequence</h3>
+        <ol>
+          <li><b>Automated pre-check</b> runs on every submission and produces a completeness-and-consistency report. This is formative — release it to students, and run it in week 10 too, before submission, so the fixable problems get fixed rather than marked.</li>
+          <li><b>You mark Part B and the quality of Part C</b>, with the pre-check report open beside you. The mechanical questions are already answered, so your attention goes where only it can go.</li>
+          <li><b>Moderation sample</b> drawn as usual — the existing moderator and consistency-checker tools already handle this.</li>
+        </ol>
+
+        <div class="note warn">
+          <h4>Two cautions worth writing down now</h4>
+          <p><strong>The pre-check is not a grade and must never be described as one</strong> — to students, to colleagues, or in the Moodle wording. It reports whether required things are present and internally consistent. A portfolio can pass every check and be weak work.</p>
+          <p><strong>Check the assessment regulations before any student-facing text mentions automated processing.</strong> Formative self-check tooling that students run themselves is uncontroversial; anything that reads as automated marking is a different conversation with the faculty, and it is much easier to have it in advance than retrospectively.</p>
+        </div>
+      </section>
+
+      <section id="decisions">
+        <div class="sec-head"><span class="sec-num">09</span><h2>Decisions needed</h2></div>
+
+        <p>Three things I could not settle from the documents — the learning-outcome question is now closed, since the spec is fixed and the brief is the only thing that moves.</p>
+
+        <div class="scroller">
+          <table>
+            <thead><tr><th>Issue</th><th>What's wrong</th><th>Recommendation</th></tr></thead>
+            <tbody>
+              <tr>
+                <td><b>Learning outcomes</b> <span class="pill p-lo">Settled</span></td>
+                <td>The brief's A1/B1/B2/B3 list doesn't match the approved spec's three outcomes. Since the spec can't change, the brief has to.</td>
+                <td><b>Replace the LO list with the spec's three, verbatim</b>, and map every criterion to those — see the mapping in §07. B3 disappears without loss, because the spec's third outcome already covers the reflective work. Responsive stays as a task requirement marked under LO1, not as a criterion of its own.</td>
+              </tr>
+              <tr>
+                <td><b>Module leader</b></td>
+                <td>The spec names Alex Hughes; your coursework brief names you.</td>
+                <td>Resolve before the brief goes to students — it determines who owns the run sheets and who the other two workshop tutors answer to.</td>
+              </tr>
+              <tr>
+                <td><b>Module code</b></td>
+                <td>Now <code>1L4Z0045</code>. The module record is <b>Approved at v1.0</b>; the "in development, subject to change" wording came off a March 2025 download of the spec and is stale.</td>
+                <td>Worth confirming the spec is actually signed off before instruments get built against it.</td>
+              </tr>
+              <tr>
+                <td><b>Weeks: 11 or 12?</b></td>
+                <td>I've assumed 11, matching UXCI, DMT and DMTS. The plan above is 10 content weeks plus a dead week.</td>
+                <td>If it's 12, the extra week goes in after week 6 as a second studio-and-catch-up week — not as more content.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h3>What I'd do next, in order</h3>
+        <ol>
+          <li>Reissue the brief against the spec's three outcomes, since that's the only document that can move.</li>
+          <li>Build the <b>Portfolio Spec Sheet</b> instrument — everything else writes into it.</li>
+          <li>Write weeks 1–3 run sheets in full as the template, then batch the rest.</li>
+          <li>Build the three playgrounds (grid, type, contrast) — they're the weeks with the heaviest tool dependency.</li>
+          <li>Build the cross-module instrument index while the inventory is fresh.</li>
+        </ol>
+      </section>
+
+      <footer>
+        <span>Screen Design · Level 4 · 30 credits · Semester 1, 2026–27</span>
+        <span>Draft delivery plan — not yet approved</span>
+      </footer>
+
+    </main>
+  </div>
+</div>
+
+<script src="sd-common.js"></script>
+<script src="weeks-data.js"></script>
+<script>
+/* The Output blocks were written by hand and had gone stale: after the
+   2 September redistribution they still showed week 8 without B6, and week 10
+   drafting a rationale that now happens across weeks 2 to 7. Restating the plan
+   in a second place is what caused that, so they are read out of weeks-data.js.
+   The prose above them stays prose; these are data.
+
+   The hand-written text is left in the markup rather than emptied, so a failure
+   to load leaves the old block rather than an empty one. */
+(function () {
+  if (typeof WEEKS === 'undefined' || typeof PARTS === 'undefined') return;
+  var sec = {};
+  PARTS.forEach(function (g) { g.items.forEach(function (i) { sec[i.sec] = i.t; }); });
+  var blocks = document.querySelectorAll('.week .out');
+  WEEKS.forEach(function (w, i) {
+    var el = blocks[i];
+    if (!el) return;
+    var made = (w.workshop.out.sec || []).filter(function (x) { return sec[x]; });
+    el.innerHTML = '<b>Output</b>' + (made.length
+      ? made.map(function (x) { return '<span class="o-sec">' + x + '</span> ' + sec[x]; }).join('<br>')
+      : '<i class="o-none">nothing handed in this week</i>');
+  });
+})();
+</script>

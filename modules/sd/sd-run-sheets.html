@@ -1,0 +1,608 @@
+<title>Screen Design Workshops</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&family=Instrument+Serif:ital@0;1&display=swap">
+
+<style>
+  :root {
+    --bg:#F5F4F2; --surface:#FFFFFF; --surface-2:#EDEBE8;
+    --ink:#1A1618; --ink-2:#56504F; --ink-3:#8B8382;
+    --rule:#DEDAD7; --rule-2:#C9C3BF;
+    --accent:#8C2437; --accent-2:#6E1B2B; --accent-soft:#F2E3E5;
+    --good:#2F6B4F; --good-soft:#E2EDE7;
+    --warn:#8A5D05; --warn-soft:#F4EAD3;
+    --plaque:#2E4756; --plaque-soft:#E3EAEE;
+    --serif:"Instrument Serif","Iowan Old Style",Georgia,serif;
+    --sans:"IBM Plex Sans",-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif;
+    --mono:"IBM Plex Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
+    --pad:clamp(1.1rem,3.5vw,2.75rem);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg:#161315; --surface:#1E1A1C; --surface-2:#262123;
+      --ink:#F2EEEC; --ink-2:#B9B0AE; --ink-3:#877E7C;
+      --rule:#332C2F; --rule-2:#443A3E;
+      --accent:#E4899A; --accent-2:#F0A8B5; --accent-soft:#3A2126;
+      --good:#7BC5A0; --good-soft:#1E2E27;
+      --warn:#DCAE49; --warn-soft:#302713;
+      --plaque:#9DBCCC; --plaque-soft:#1C282F;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg:#161315; --surface:#1E1A1C; --surface-2:#262123;
+    --ink:#F2EEEC; --ink-2:#B9B0AE; --ink-3:#877E7C;
+    --rule:#332C2F; --rule-2:#443A3E;
+    --accent:#E4899A; --accent-2:#F0A8B5; --accent-soft:#3A2126;
+    --good:#7BC5A0; --good-soft:#1E2E27;
+    --warn:#DCAE49; --warn-soft:#302713;
+    --plaque:#9DBCCC; --plaque-soft:#1C282F;
+  }
+
+  * { box-sizing:border-box; }
+  body { background:var(--bg); color:var(--ink); font-family:var(--sans); font-size:15.5px; line-height:1.55; margin:0; -webkit-font-smoothing:antialiased; }
+  .wrap { max-width:980px; margin:0 auto; padding:0 var(--pad) 5rem; }
+
+  .intro { border-bottom:2px solid var(--ink); padding:clamp(2.25rem,5vw,3.75rem) 0 1.5rem; }
+  .eyebrow { font-family:var(--mono); font-size:0.7rem; letter-spacing:0.14em; text-transform:uppercase; color:var(--accent); margin:0 0 1rem; }
+  h1 { font-family:var(--serif); font-weight:400; font-size:clamp(2.5rem,7vw,4.25rem); line-height:1; letter-spacing:-0.015em; margin:0 0 1.1rem; text-wrap:balance; }
+  h1 em { font-style:italic; color:var(--accent); }
+  .intro p { font-size:1.03rem; color:var(--ink-2); max-width:64ch; margin:0 0 0.9rem; }
+  .intro strong { color:var(--ink); font-weight:600; }
+
+  section { margin-top:3.5rem; }
+  .sec-head { display:flex; align-items:baseline; gap:0.9rem; border-bottom:1px solid var(--ink); padding-bottom:0.6rem; margin-bottom:1.6rem; }
+  .sec-num { font-family:var(--mono); font-size:0.78rem; font-weight:500; color:var(--accent); font-variant-numeric:tabular-nums; }
+  h2 { font-family:var(--serif); font-weight:400; font-size:clamp(1.75rem,4vw,2.4rem); line-height:1.1; margin:0; letter-spacing:-0.01em; text-wrap:balance; }
+  h3.sub { font-size:1rem; font-weight:600; margin:2rem 0 0.7rem; }
+  p,li { max-width:70ch; }
+  p { margin:0 0 0.85rem; }
+  ul,ol { padding-left:1.15rem; margin:0 0 0.85rem; }
+  li { margin-bottom:0.35rem; }
+  a { color:var(--accent); text-underline-offset:2px; }
+  :focus-visible { outline:2px solid var(--accent); outline-offset:3px; border-radius:2px; }
+  code { font-family:var(--mono); font-size:0.86em; background:var(--surface-2); padding:0.1em 0.34em; border-radius:2px; }
+
+  .scroller { overflow-x:auto; margin:0 0 1.4rem; border:1px solid var(--rule); background:var(--surface); }
+  table { border-collapse:collapse; width:100%; font-size:0.86rem; min-width:660px; }
+  th,td { text-align:left; padding:0.65rem 0.8rem; border-bottom:1px solid var(--rule); vertical-align:top; }
+  th { font-family:var(--mono); font-size:0.64rem; letter-spacing:0.1em; text-transform:uppercase; color:var(--ink-3); font-weight:600; background:var(--surface-2); border-bottom:1px solid var(--rule-2); white-space:nowrap; }
+  tbody tr:last-child td { border-bottom:none; }
+  td p { margin:0; max-width:none; }
+  .num { font-family:var(--mono); font-variant-numeric:tabular-nums; white-space:nowrap; }
+
+  .note { border-left:3px solid var(--accent); background:var(--surface); padding:0.95rem 1.2rem; margin:1.4rem 0; }
+  .note.warn { border-left-color:var(--warn); }
+  /* Two cells in the "what moved" table carry the consequence rather than the
+     fact, and one of them is a warning. Named classes rather than inline
+     styles, so the next edit to this table cannot lose them. */
+  td.hi { background:var(--surface); }
+  td.hi strong { color:var(--ink); }
+  td.warn-cell { background:var(--surface); }
+  td.warn-cell strong { color:var(--warn); }
+  .note h4 { font-family:var(--mono); font-size:0.67rem; font-weight:600; letter-spacing:0.11em; text-transform:uppercase; color:var(--accent); margin:0 0 0.5rem; }
+  .note.warn h4 { color:var(--warn); }
+  .note p:last-child { margin-bottom:0; }
+
+  /* ---- sheets ---- */
+  .sheet { border:1px solid var(--rule); background:var(--surface); margin-top:2.5rem; }
+  .sheet-head { border-bottom:2px solid var(--ink); padding:1.2rem 1.4rem 1rem; display:flex; flex-wrap:wrap; gap:0.7rem 1.4rem; align-items:flex-end; }
+  .sh-wk { font-family:var(--mono); font-size:0.66rem; letter-spacing:0.12em; text-transform:uppercase; color:var(--ink-3); }
+  .sh-wk b { display:block; font-family:var(--serif); font-size:2.4rem; font-weight:400; line-height:0.9; color:var(--accent); letter-spacing:0; margin-top:0.2rem; }
+  .sh-title { flex:1 1 16rem; }
+  .sh-title h2 { font-family:var(--serif); font-weight:400; font-size:clamp(1.5rem,3.4vw,2rem); line-height:1.08; margin:0 0 0.22rem; }
+  .sh-title p { margin:0; font-size:0.84rem; color:var(--ink-2); }
+  .sh-meta { font-family:var(--mono); font-size:0.69rem; line-height:1.6; color:var(--ink-3); text-align:right; min-width:8.5rem; }
+  .sh-meta b { color:var(--ink); font-weight:600; }
+  .sheet-body { padding:1.3rem 1.4rem 1.5rem; }
+
+  h3 { font-family:var(--mono); font-size:0.67rem; font-weight:600; letter-spacing:0.12em; text-transform:uppercase; color:var(--accent); margin:1.8rem 0 0.65rem; padding-bottom:0.38rem; border-bottom:1px solid var(--rule); }
+  h3:first-child { margin-top:0; }
+
+  /* ---- exhibits ---- */
+  .exhibits { display:grid; gap:1px; background:var(--rule); border:1px solid var(--rule); margin-bottom:0.9rem; }
+  .ex { background:var(--surface); padding:0.8rem 0.95rem; display:grid; gap:0.3rem 1rem; }
+  @media (min-width:700px) { .ex { grid-template-columns:11rem 1fr; } }
+  .ex-src { font-family:var(--mono); font-size:0.7rem; color:var(--plaque); font-weight:600; line-height:1.4; }
+  .ex-src span { display:block; color:var(--ink-3); font-weight:400; font-size:0.65rem; letter-spacing:0.06em; text-transform:uppercase; margin-top:0.15rem; }
+  .ex-rooms { font-size:0.86rem; color:var(--ink-2); }
+  .ex-rooms b { color:var(--ink); font-weight:600; }
+  .ex-rooms em { font-style:normal; font-family:var(--mono); font-size:0.8rem; color:var(--plaque); background:var(--plaque-soft); padding:0.08em 0.34em; border-radius:2px; }
+  .ex-use { display:block; margin-top:0.3rem; color:var(--ink-3); font-size:0.83rem; }
+
+  /* ---- feed ---- */
+  .feed { border:1px solid var(--rule); border-left:3px solid var(--good); background:var(--surface); padding:0.85rem 1.05rem; margin-bottom:0.5rem; }
+  .feed h4 { font-family:var(--mono); font-size:0.65rem; font-weight:600; letter-spacing:0.1em; text-transform:uppercase; color:var(--good); margin:0 0 0.5rem; }
+  .feed-rows { display:grid; gap:0.4rem; font-size:0.86rem; }
+  .feed-row { display:grid; gap:0.15rem 0.8rem; }
+  @media (min-width:640px) { .feed-row { grid-template-columns:1fr 12rem 4rem; align-items:baseline; } }
+  .feed-row b { font-weight:600; }
+  .feed-to { font-family:var(--mono); font-size:0.78rem; color:var(--ink-2); }
+  .feed-lo { font-family:var(--mono); font-size:0.68rem; font-weight:600; color:var(--accent-2); background:var(--accent-soft); padding:0.1em 0.4em; border-radius:2px; justify-self:start; white-space:nowrap; }
+
+  /* ---- phases ---- */
+  .phases { display:grid; gap:1px; background:var(--rule); border:1px solid var(--rule); }
+  .ph { background:var(--surface); display:grid; gap:0.15rem 1.1rem; padding:0.72rem 0.9rem; }
+  @media (min-width:680px) { .ph { grid-template-columns:6.4rem 5.4rem 1fr; align-items:start; } }
+  .ph-time { font-family:var(--mono); font-size:0.8rem; font-weight:600; font-variant-numeric:tabular-nums; color:var(--accent); white-space:nowrap; }
+  .ph-name { font-family:var(--mono); font-size:0.66rem; letter-spacing:0.1em; text-transform:uppercase; color:var(--ink-3); font-weight:600; padding-top:0.1rem; }
+  .ph-do { font-size:0.87rem; color:var(--ink-2); }
+  .ph-do b { color:var(--ink); font-weight:600; }
+  .ph-do ul { margin:0.35rem 0 0; padding-left:1rem; font-size:0.85rem; }
+  .ph-do li { margin-bottom:0.22rem; }
+
+  .script { border-left:3px solid var(--accent); background:var(--accent-soft); padding:0.85rem 1.05rem; margin:0 0 0.9rem; }
+  .script p { font-size:0.95rem; margin:0 0 0.6rem; max-width:64ch; color:var(--ink); }
+  .script p:last-child { margin-bottom:0; }
+  .script em { font-style:italic; }
+
+  .split { display:grid; gap:1px; background:var(--rule); border:1px solid var(--rule); margin-bottom:0.5rem; }
+  @media (min-width:700px) { .split { grid-template-columns:1fr 1fr; } }
+  .box { background:var(--surface); padding:0.9rem 1.05rem; }
+  .box h4 { font-family:var(--mono); font-size:0.65rem; font-weight:600; letter-spacing:0.1em; text-transform:uppercase; margin:0 0 0.5rem; }
+  .box.done h4 { color:var(--good); }
+  .box.stuck h4 { color:var(--warn); }
+  .box ul { margin:0; padding-left:1rem; font-size:0.85rem; color:var(--ink-2); }
+  .box li { margin-bottom:0.32rem; }
+  .box li b { color:var(--ink); }
+
+  .missed { border:1px solid var(--rule); border-left:3px solid var(--rule-2); background:var(--surface); padding:0.85rem 1.05rem; font-size:0.85rem; color:var(--ink-2); }
+  .missed h4 { font-family:var(--mono); font-size:0.65rem; font-weight:600; letter-spacing:0.1em; text-transform:uppercase; color:var(--ink-3); margin:0 0 0.45rem; }
+  .missed p { margin:0; max-width:none; }
+
+  .kit { font-family:var(--mono); font-size:0.77rem; color:var(--ink-2); background:var(--surface-2); padding:0.65rem 0.85rem; line-height:1.7; }
+  .kit b { color:var(--ink); font-weight:600; }
+
+  footer { border-top:2px solid var(--ink); margin-top:3.5rem; padding-top:1.15rem; font-family:var(--mono); font-size:0.7rem; color:var(--ink-3); display:flex; flex-wrap:wrap; gap:0.5rem 1.5rem; justify-content:space-between; }
+
+  @media print {
+    :root { --bg:#fff; --surface:#fff; --surface-2:#f2f2f2; --ink:#000; --ink-2:#333; --ink-3:#666; --rule:#bbb; --rule-2:#999; --accent-soft:#fff; --plaque-soft:#f0f0f0; --plaque:#2E4756; }
+    body { font-size:10pt; background:#fff; }
+    .wrap { max-width:none; padding:0; }
+    .intro, .no-print, footer { display:none; }
+    .sheet { break-inside:avoid; page-break-inside:avoid; break-after:page; page-break-after:always; margin-top:0; border:none; }
+    .sheet:last-of-type { break-after:auto; page-break-after:auto; }
+    .sheet-body { padding:0.7rem 0 0; }
+    .sheet-head { padding:0 0 0.55rem; }
+    .script { background:#fff; border-left:3px solid #000; }
+    h3 { margin-top:0.9rem; }
+  }
+  @media (prefers-reduced-motion: reduce) { * { animation:none!important; transition:none!important; } }
+</style>
+
+<div class="wrap">
+
+  <header class="intro">
+    <p class="eyebrow">Screen Design 2026–27 · weeks 1–11</p>
+    <h1>Screen Design<br><em>Workshops</em></h1>
+    <p>Every week runs on exhibits drawn from the institutes. The rooms are the slide deck — already written, already sourced, already yours — and each workshop turns one of them into a portfolio component.</p>
+    <p><strong>Weeks 1–3 are full run sheets.</strong> Written so a colleague who did not attend the lecture can walk into one of the three rooms and run the session cold: the framing is scripted, the demo is a numbered click path, and the predictable blocks come with answers. Weeks 4–11 carry their exhibit map and assessment feed, ready to expand into sheets on the same pattern.</p>
+    <p>Two rules hold throughout: <strong>every student leaves having exported</strong>, and <strong>the swap is not a critique</strong> — it tests whether the work reads without its author standing next to it.</p>
+  </header>
+
+  <section class="no-print">
+    <div class="sec-head"><span class="sec-num">01</span><h2>The institutes as exhibits</h2></div>
+
+    <p>Three of the six live institutes have an honest claim on screen design. The others don't, and the specimen rule settles it: if an institute cannot finish <em>"this object is evidence of ___"</em> distinctly for a screen-design question, it gets no page here.</p>
+
+    <div class="note">
+      <h4>Re-verified against the live hosts, 27 August 2026</h4>
+      <p>Every figure below was counted from each institute's sitemap and pages on the day of writing, not carried over from the previous draft. <strong>Five of them had changed</strong>, two of them enough to move a week's material — the detail is in <em>What moved</em> at the foot of this section.</p>
+    </div>
+
+    <div class="scroller">
+      <table>
+        <thead><tr><th>Institute</th><th>What it holds for this module</th><th>Weeks</th></tr></thead>
+        <tbody>
+          <tr><td><b>interfaces.institute</b><br><span class="num" style="color:var(--ink-3);font-size:0.78rem">the building</span></td><td>The Stairwell's ten principles, <strong>each now shipping a working bench</strong> — two real interfaces for one task, one breaking the principle and one keeping it, both timed. Seven pattern rooms, six documented failures in the Basement, two whole-system specimens, the button's biography on Floor 2, <strong>twenty-two</strong> derived collections including WCAG 2.2, the component census and what the law requires, and a dictionary of 787 admitted terms with 419 entry pages.</td><td class="num">1, 2, 6, 7, 8, 9</td></tr>
+          <tr><td><b>written.institute</b><br><span class="num" style="color:var(--ink-3);font-size:0.78rem">the museum</span></td><td>The Type Laboratory, the Hall of Typologies, the Atlas of <strong>42</strong> script plaques, twenty numeral systems, and the Machinery of Text reading room with twenty entries. The building is set entirely in Noto — restraint demonstrated rather than asserted.</td><td class="num">3, 4</td></tr>
+          <tr><td><b>symbolic.institute</b><br><span class="num" style="color:var(--ink-3);font-size:0.78rem">the atlas</span></td><td><strong>Twelve</strong> visual-grammar entries — Traffic colour, Hazard diamonds, The warning grammar, The hamburger, The arrow, Check and cross, Thumbs up, The transport set, The protected emblems, The graveyard, The symbol that recruited, The 10,000-year problem — plus eleven collections, forty-four atlas plates and the confidence-marker method itself.</td><td class="num">2, 5, 6, 7, 10</td></tr>
+          <tr><td colspan="3" style="color:var(--ink-3)"><em>Corpus, Canto and Hanzi Design have no honest fit. Urbanity, Hellenic, LocIntel and Timesys are in outline with no domains — and the charter forbids linking to an institute that is not live, so they cannot appear at all.</em></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3 class="sub">What moved, and what it changes</h3>
+
+    <div class="scroller">
+      <table>
+        <thead><tr><th>Change</th><th>Then</th><th>Now</th><th>Consequence</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><b>The Stairwell got benches</b></td>
+            <td>Ten principles as text on one long page</td>
+            <td>Ten principles, each with two working interfaces for one task — a violation and a solution, instrumented with a clock and a wrong-click count</td>
+            <td class="hi"><strong>The largest single gain for this module.</strong> A bench is not an exhibit, it is an exercise: a tutor who did not attend the lecture can say <em>"do this task in both panes, tell me your wrong-click count"</em> and the session runs itself. Weeks 1 and 2 stop needing a demo written for them.</td>
+          </tr>
+          <tr>
+            <td><b>Floor 2 opened</b></td>
+            <td>Components shut, nothing written</td>
+            <td>The button's biography: eight specimens drawn in CSS across three decades, and sixty-three primary buttons measured off live design-system pages</td>
+            <td>Week 8 was rebuilt <em>because</em> this floor was shut. That workaround can be undone — the room is now the better source, and it carries a finding students can check: forty-two of the sixty-three are shorter than 44px.</td>
+          </tr>
+          <tr>
+            <td><b>symbol-standards rejected</b></td>
+            <td>600 records planned as the icon register</td>
+            <td>600 archived as fabricated; nine GHS pictograms remain, drawn from the legal text and live</td>
+            <td class="warn-cell"><strong>Week 7 loses its register.</strong> Nine pictograms support one close-reading exercise, not a survey. See the week 7 note below.</td>
+          </tr>
+          <tr>
+            <td><b>Collections 18 → 22</b></td>
+            <td>Eighteen</td>
+            <td>Twenty-two, several now carrying instruments: an address formatter across 198 jurisdictions, measured colour and marks on banks, design systems and government portals, and the line-breaking classes with a specimen for each</td>
+            <td>Weeks 4 and 9 gain material that did not exist. The address tool is a workshop in itself.</td>
+          </tr>
+          <tr>
+            <td><b>national-symbols corrected</b></td>
+            <td>A published figure that did not add up</td>
+            <td>123 designated in law, 106 by grant, 374 not designated</td>
+            <td>Any week 5 or week 10 slide quoting the old split is wrong. The correction itself is the week 10 material — it is a worked example of the confidence method catching its own publisher.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="note warn">
+      <h4>Week 7 needs a decision before September</h4>
+      <p>The icon week was planned against a 600-record register of standardised symbols. That return was <strong>rejected whole</strong> — filled in rather than researched — and what survives is a nine-record GHS tranche read from the CLP consolidated text.</p>
+      <p>Nine is enough for the best exercise in the week and not enough for the week. The finding those nine carry is unusually good teaching: <em>GHS mandates colour roles and no colour values at all</em> — black symbol, white ground, red frame "sufficiently wide to be clearly visible", with no Pantone, NCS, Munsell or hex anywhere in the binding text. A student who has spent week 5 on colour tokens meeting a law that refuses to name one is the whole point of the module in a single artefact.</p>
+      <p>Three ways to fill the rest, in order of cost: <strong>(a)</strong> lean on symbolic's twelve visual-grammar entries, which are written and live and cover the hamburger, the arrow, check-and-cross and the transport set; <strong>(b)</strong> commission an ISO 7010 tranche sourced from national adopting regulations, which are free and legally authoritative where ISO itself is paywalled and bot-blocked; <strong>(c)</strong> move the icon week to the component census and teach naming disagreement instead. <em>(a)</em> needs no new data and is the safe default.</p>
+    </div>
+
+    <div class="note warn">
+      <h4>Verified against the content, not the map</h4>
+      <p><code>building-map.json</code> lists floors as full of rooms, but it is <strong>composer input, not a room inventory</strong>. The previous draft caught this once and the same check has now caught the reverse: Floor 2 was recorded as shut in that draft and is open in the build.</p>
+      <p>Counted from the live host on 27 August 2026: <strong>twenty-six authored rooms and twenty-two collections</strong> — ten Stairwell principles, seven pattern rooms, six Basement failures, two whole-system specimens and one component room. Floors 4 and R remain shut and have nothing written. <em>Verify against the live host, never against a document</em> — including this one, which will be wrong again.</p>
+    </div>
+
+    <h3 class="sub">A note on direction of linking</h3>
+    <p>The module site links <em>out</em> to the institutes. Nothing links back. Under link-map rule 4 a topical link on a specific page is one-directional, so this is clean — but resist any impulse to add an MMU coursework link to an institute colophon. That would be exactly the reciprocal-topical shape the rule exists to prevent, and coursework is not a treaty partner.</p>
+  </section>
+
+  <section class="no-print">
+    <div class="sec-head"><span class="sec-num">02</span><h2>What still needs building</h2></div>
+
+    <p>Dropping the screenshot corpus in favour of a curated referatory plus the institutes' own rooms takes the summer build from roughly 88 hours to <strong>44</strong>. It also removes both problems the corpus carried: the copyright exposure of 140 annotated commercial screenshots, and the fact that a meaningful slice of them would be wrong within eighteen months.</p>
+
+    <div class="scroller">
+      <table>
+        <thead><tr><th>Dataset</th><th>What it is</th><th class="num">Was</th><th class="num">Now</th></tr></thead>
+        <tbody>
+          <tr><td><b>exhibits.json</b></td><td>The map below, as data: week → institute → room → URL → what it teaches. Drives the module hub and every run sheet.</td><td class="num">—</td><td class="num">4 h</td></tr>
+          <tr><td><b>sources.json</b></td><td>The referatory — ~40 curated libraries (Screenlane, Mobbin, Page Flows, Land-book, Really Good UX, deceptive.design, Web Design Museum and so on) with what each is good for, and an <code>access</code> field, since several have moved behind paywalls and that matters at a hundred students. <b>Verify every entry's access tier before term.</b></td><td class="num">28 h</td><td class="num">6 h</td></tr>
+          <tr><td><b>themes.json</b></td><td>~80 portfolio themes with pitfalls and a <code>too_big_variant</code>. Unchanged — don't cut this one.</td><td class="num">6 h</td><td class="num">6 h</td></tr>
+          <tr><td><b>principles.json</b></td><td>~30 Level 4 principles. Now cites institute rooms as worked examples instead of needing its own screenshots — the Stairwell supplies ten of them outright.</td><td class="num">8 h</td><td class="num">5 h</td></tr>
+          <tr><td><b>rationales.json</b></td><td>48 banded exemplar paragraphs. Unchanged, undelegable, highest leverage in the set.</td><td class="num">10 h</td><td class="num">10 h</td></tr>
+          <tr><td><b>typefaces.json</b></td><td>~50 Google Fonts families plus 25 pairings. The Atlas and the Type Laboratory feed it.</td><td class="num">8 h</td><td class="num">7 h</td></tr>
+          <tr><td><b>palettes.json</b></td><td>~30 palettes with pre-computed contrast ratios. Symbolic's visual grammar supplies the semantics half.</td><td class="num">6 h</td><td class="num">5 h</td></tr>
+          <tr><td><b>grids.json</b></td><td>Cut to 15 specimens, decomposed live from referatory sites rather than stored.</td><td class="num">6 h</td><td class="num">3 h</td></tr>
+          <tr><td><b>a11y-cases.json</b></td><td>Nearly free — <code>audits/TOUCH-AA.md</code> and <code>KEYBOARD-AA.md</code> already exist, complete with what could not be verified.</td><td class="num">4 h</td><td class="num">2 h</td></tr>
+          <tr><td><b>ai-samples.json</b></td><td>~20 generations with prompt, critique and date. Still build this <b>late</b> — weeks 1–4, not over the summer. It is the one dataset that ages badly.</td><td class="num">5 h</td><td class="num">5 h</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="note">
+      <h4>The seed set problem, and its answer</h4>
+      <p>Dropping the corpus costs one thing: the teardown instrument loses its ground-truth reading order, so week 1's <em>Compare</em> step has nothing to compare against. The answer is already written — <strong>the Basement's six failures and the two whole-system specimens are the worked seed set</strong>, each with published analysis and named sources. The referatory gives breadth; your own building gives the answer key. That's worth about 22 hours of not capturing screenshots.</p>
+    </div>
+  </section>
+
+  <!-- ================= WEEK 1 ================= -->
+  <article class="sheet">
+    <div class="sheet-head">
+      <div class="sh-wk">Week<b>1</b></div>
+      <div class="sh-title"><h2>Screen teardown</h2><p>Lecture: <em>Why screens look the way they do</em></p></div>
+      <div class="sh-meta"><b>2 hours</b><br>~33 students<br>3 rooms parallel</div>
+    </div>
+    <div class="sheet-body">
+
+      <h3>Exhibits</h3>
+      <div class="exhibits">
+        <div class="ex">
+          <span class="ex-src">interfaces<span>The Basement</span></span>
+          <span class="ex-rooms">All six documented failures — <em>/basement/norman/</em> <em>/basement/hawaii/</em> <em>/basement/dark/</em> <em>/basement/mode/</em> <em>/basement/cookie-banner/</em> <em>/basement/accidental-commerce/</em>
+          <span class="ex-use">The lecture's spine. Each is a failure with a named cause and a source a student can go and check — which is the difference between "this is bad" and an analysis. Hawaii is the one that lands hardest in a room of first-years.</span></span>
+        </div>
+        <div class="ex">
+          <span class="ex-src">interfaces<span>Whole systems</span></span>
+          <span class="ex-rooms">Bank navigation · MTR station colour
+          <span class="ex-use">Widens the frame past apps in the first hour. The MTR specimen is narrowed to station colour, which quietly models the scoping discipline students will need for their own theme next week.</span></span>
+        </div>
+      </div>
+
+      <h3>Kit</h3>
+      <div class="kit"><b>Instrument:</b> Hierarchy Teardown · <b>Data:</b> exhibits.json, sources.json, themes.json<br><b>Room:</b> projector + student laptops · <b>Print:</b> none</div>
+
+      <h3>Set — read this aloud</h3>
+      <div class="script">
+        <p>"This morning we said every screen makes an argument about what you look at first, second, third — and that it makes that argument with five tools: <em>size, weight, colour, space and position.</em></p>
+        <p>Today you prove it on three real screens. Not judge them. Not redesign them. Work out what order they want to be read in, and which of the five is doing the work.</p>
+        <p>You'll finish with three teardown sheets in your portfolio and three candidate themes. You do <em>not</em> decide your theme today — you need three candidates, not an answer."</p>
+      </div>
+
+      <h3>Phases</h3>
+      <div class="phases">
+        <div class="ph"><span class="ph-time">0:00–0:05</span><span class="ph-name">Set</span><span class="ph-do">Read the script. Don't extend it — the work is the lesson.</span></div>
+        <div class="ph"><span class="ph-time">0:05–0:16</span><span class="ph-name">Demo</span><span class="ph-do">Project <b>Hierarchy Teardown</b> and work one exhibit to completion:
+          <ul>
+            <li>Load <b>Norman doors</b> from the Basement — it's the cleanest cause-and-effect in the building</li>
+            <li>Click elements in the order you'd read them. Numbers appear.</li>
+            <li>Tag each with which of the five tools makes it stand out. Some take two.</li>
+            <li><b>Compare</b> — reveals the reading the Basement room published, with its source. Say out loud if yours differed; that's interesting, not wrong.</li>
+            <li>Export, and show where it lands in the spec sheet.</li>
+          </ul></span></div>
+        <div class="ph"><span class="ph-time">0:16–1:20</span><span class="ph-name">Work</span><span class="ph-do"><b>Three teardowns.</b> First is assigned — everyone does <b>the Hawaii alert</b>, so the room shares a reference and sees that a hierarchy failure can have consequences past irritation. Second and third are their own, pulled from the referatory, and must be <b>different screen types</b>.<br>The prompt that unsticks nearly anyone: <em>"if you saw this for one second, what would you have seen?"</em></span></div>
+        <div class="ph"><span class="ph-time">1:20–1:40</span><span class="ph-name">Swap</span><span class="ph-do">Pairs. Partner reads one teardown <b>without being talked through it</b> and says what the screen is for. If they can't tell, the teardown describes decoration rather than hierarchy — that's the finding.</span></div>
+        <div class="ph"><span class="ph-time">1:40–1:52</span><span class="ph-name">Fix</span><span class="ph-do">Act on the swap, then shortlist three themes from the picker. Nobody decides today.</span></div>
+        <div class="ph"><span class="ph-time">1:52–2:00</span><span class="ph-name">Export</span><span class="ph-do">Everyone exports before leaving. <b>Check the room</b> — unexported work is work that doesn't exist.</span></div>
+      </div>
+
+      <h3>How this feeds the assessment</h3>
+      <div class="feed">
+        <h4>Portfolio ← this session</h4>
+        <div class="feed-rows">
+          <div class="feed-row"><b>Three teardown sheets</b><span class="feed-to">Part B · artefact evidence</span><span class="feed-lo">LO3</span></div>
+          <div class="feed-row"><b>Theme shortlist (3)</b><span class="feed-to">Part A §1 · draft</span><span class="feed-lo">LO1</span></div>
+          <div class="feed-row"><b>The vocabulary itself</b><span class="feed-to">Part C rationale §2</span><span class="feed-lo">LO3</span></div>
+        </div>
+      </div>
+      <p style="font-size:0.85rem;color:var(--ink-2);margin-top:0.7rem">Say this explicitly in the room: the five tools they're naming today are the words they'll be marked on in January. Rationale §2 asks what they wanted read first and what made it happen — <b>that is this session, three months later.</b></p>
+
+      <h3>Checks</h3>
+      <div class="split">
+        <div class="box done"><h4>Done looks like</h4><ul>
+          <li><b>Three</b> teardowns exported, covering at least two screen types</li>
+          <li>Every element tagged with at least one of the five tools</li>
+          <li><b>Three</b> themes shortlisted — not one, not ten</li>
+        </ul></div>
+        <div class="box stuck"><h4>If they're stuck</h4><ul>
+          <li><b>"There's no hierarchy, it's all the same."</b> That's a finding, not a failure. Have them write why it doesn't work.</li>
+          <li><b>Redesigning instead of describing.</b> Very common in hour one. "Not what it should be — what it <em>is</em>."</li>
+          <li><b>Can't pick a theme.</b> They don't need one today. Show them <code>too_big_variant</code> and let them watch a huge idea get cut down.</li>
+        </ul></div>
+      </div>
+
+      <div class="missed"><h4>Late enrolment</h4><p>A hundred students means arrivals through clearing all fortnight. Late joiners need only the Moodle intro and today's three teardowns — there is no prior work. Say so explicitly; they assume they're behind when they aren't.</p></div>
+    </div>
+  </article>
+
+  <!-- ================= WEEK 2 ================= -->
+  <article class="sheet">
+    <div class="sheet-head">
+      <div class="sh-wk">Week<b>2</b></div>
+      <div class="sh-title"><h2>Thumbnail studies</h2><p>Lecture: <em>Composition and visual hierarchy</em></p></div>
+      <div class="sh-meta"><b>2 hours</b><br>~33 students<br>Paper session</div>
+    </div>
+    <div class="sheet-body">
+
+      <h3>Exhibits</h3>
+      <div class="exhibits">
+        <div class="ex">
+          <span class="ex-src">interfaces<span>Whole systems</span></span>
+          <span class="ex-rooms">MTR station colour
+          <span class="ex-use">Composition as a system rather than a picture: one variable — colour at a station — doing navigational work across a whole network. Shows that a compositional decision scales or fails at scale.</span></span>
+        </div>
+        <div class="ex">
+          <span class="ex-src">symbolic<span>Visual grammar</span></span>
+          <span class="ex-rooms">The transport set · The arrow
+          <span class="ex-use">A family of marks that holds together because of shared construction rules. The direct ancestor of what a style tile does in week 6 — worth naming that forward link out loud.</span></span>
+        </div>
+        <div class="ex">
+          <span class="ex-src">interfaces<span>The Stairwell</span></span>
+          <span class="ex-rooms">Hick · Miller · Fitts
+          <span class="ex-use">Three principles that explain why eight rough options beat one polished one, and why the thumbnail with fourteen elements failed before it was drawn.</span></span>
+        </div>
+      </div>
+
+      <h3>Kit</h3>
+      <div class="kit"><b>Instrument:</b> theme picker (locking) · <b>Data:</b> themes.json, exhibits.json<br><b>Room:</b> tables; laptops closed until the last 10 min<br><b>Print in advance:</b> 8-up thumbnail grids, <b>4 per student ≈ 140 sheets per room</b> plus spares. Order the week before.</div>
+
+      <h3>Set — read this aloud</h3>
+      <div class="script">
+        <p>"Phones away, laptops closed. For the next ninety minutes you work on paper — not nostalgia, arithmetic. You can draw eight layouts in the time it takes to make one look finished, and eight rough ideas beat one polished one every time at this stage.</p>
+        <p>Nobody is judging your drawing. Boxes and squiggles are the correct fidelity. If a thumbnail takes more than three minutes you're drawing instead of thinking.</p>
+        <p>You'll leave with eight compositions, two developed, and your theme locked. That last part is real — from next week everything you build attaches to what you choose today."</p>
+      </div>
+
+      <h3>Phases</h3>
+      <div class="phases">
+        <div class="ph"><span class="ph-time">0:00–0:06</span><span class="ph-name">Set</span><span class="ph-do">Read the script. Hand out grids. Check everyone has a pen — across three rooms of thirty-three, someone won't.</span></div>
+        <div class="ph"><span class="ph-time">0:06–0:14</span><span class="ph-name">Demo</span><span class="ph-do">Draw <b>three thumbnails yourself</b>, fast and badly, talking through only the hierarchy decision each time.<br><b>Do it badly on purpose.</b> This is the highest-risk demo in the module — if your examples look competent, half the room spends ninety minutes drawing instead of thinking.</span></div>
+        <div class="ph"><span class="ph-time">0:14–0:40</span><span class="ph-name">Work · round 1</span><span class="ph-do"><b>Eight thumbnails, three minutes each.</b> Call time every three minutes; make them move on mid-line if necessary. One screen from their shortlist, eight arrangements of the same content.<br>Rule: <em>no two may lead with the same element.</em> That constraint is what forces range.</span></div>
+        <div class="ph"><span class="ph-time">0:40–0:50</span><span class="ph-name">Select</span><span class="ph-do">Lay all eight out. Pick the two most <b>different from each other</b> — not the two best. Say why to a neighbour.</span></div>
+        <div class="ph"><span class="ph-time">0:50–1:20</span><span class="ph-name">Work · round 2</span><span class="ph-do">Develop those two larger, with real content and actual words. No lorem squiggle. 15 minutes each.</span></div>
+        <div class="ph"><span class="ph-time">1:20–1:38</span><span class="ph-name">Swap</span><span class="ph-do">Pairs. Partner looks at each developed thumbnail for <b>five seconds</b>, then says what they saw first. Compare with intent. Enforce the five seconds — the point collapses if they study it.</span></div>
+        <div class="ph"><span class="ph-time">1:38–1:50</span><span class="ph-name">Fix</span><span class="ph-do">Annotate what the swap revealed, on the paper.</span></div>
+        <div class="ph"><span class="ph-time">1:50–2:00</span><span class="ph-name">Export</span><span class="ph-do">Laptops out. Photograph all ten sheets, upload, and <b>lock the theme</b>. The lock is a real state change — after this, changing theme is a studio conversation, not a click.</span></div>
+      </div>
+
+      <h3>How this feeds the assessment</h3>
+      <div class="feed">
+        <h4>Portfolio ← this session</h4>
+        <div class="feed-rows">
+          <div class="feed-row"><b>8 thumbnails + 2 developed</b><span class="feed-to">Part B · concept sketches</span><span class="feed-lo">LO1</span></div>
+          <div class="feed-row"><b>Theme locked</b><span class="feed-to">Part A §1 · final</span><span class="feed-lo">LO1</span></div>
+          <div class="feed-row"><b>Why these two, not the others</b><span class="feed-to">Part C rationale §2</span><span class="feed-lo">LO3</span></div>
+        </div>
+      </div>
+      <p style="font-size:0.85rem;color:var(--ink-2);margin-top:0.7rem">The concept sketches are a named requirement of the brief — this is the session that produces them. Tell the room that the six they discard are evidence too, and to photograph all eight.</p>
+
+      <h3>Checks</h3>
+      <div class="split">
+        <div class="box done"><h4>Done looks like</h4><ul>
+          <li><b>Eight</b> thumbnails, each leading with a different element</li>
+          <li><b>Two</b> developed, with real content in them</li>
+          <li>All ten photographed and uploaded — not left in a bag</li>
+          <li><b>Theme locked</b> in the spec sheet</li>
+        </ul></div>
+        <div class="box stuck"><h4>If they're stuck</h4><ul>
+          <li><b>Drawing too carefully.</b> Take the pen, give them a marker. Fidelity follows the tool.</li>
+          <li><b>"Out of ideas at four."</b> Constraints, not encouragement: one with no images; one with a single button; one for someone in a hurry; one that inverts what matters.</li>
+          <li><b>Won't lock the theme.</b> Usually fear of choosing wrong. A slightly dull theme executed well beats an exciting one abandoned in week 6.</li>
+        </ul></div>
+      </div>
+
+      <div class="missed"><h4>If they missed week 1</h4><p>They can do this cold. Give them a Basement room to work from instead of their own theme, and set the week 1 teardowns as catch-up before week 3 — teardowns are the one activity that genuinely doesn't work retrospectively once the module speeds up.</p></div>
+    </div>
+  </article>
+
+  <!-- ================= WEEK 3 ================= -->
+  <article class="sheet">
+    <div class="sheet-head">
+      <div class="sh-wk">Week<b>3</b></div>
+      <div class="sh-title"><h2>Define your grid</h2><p>Lecture: <em>The grid</em></p></div>
+      <div class="sh-meta"><b>2 hours</b><br>~33 students<br>Laptops required</div>
+    </div>
+    <div class="sheet-body">
+
+      <h3>Exhibits</h3>
+      <div class="exhibits">
+        <div class="ex">
+          <span class="ex-src">written<span>Floor 4 · Type Laboratory</span></span>
+          <span class="ex-rooms">The Machinery of Text <em>WI·MCH</em>
+          <span class="ex-use">The page was a grid four centuries before the screen was. Columns, measure and margin as solved typesetting problems — which reframes the grid as inherited engineering rather than a web convention.</span></span>
+        </div>
+        <div class="ex">
+          <span class="ex-src">interfaces<span>Collections</span></span>
+          <span class="ex-rooms">Line breaking
+          <span class="ex-use">Where the grid meets real text and stops being tidy. The bridge between the historical exhibit and the thing on their laptop.</span></span>
+        </div>
+      </div>
+
+      <h3>Kit</h3>
+      <div class="kit"><b>Instrument:</b> Grid &amp; Breakpoint Playground · <b>Data:</b> grids.json, sources.json<br><b>Room:</b> projector + laptops · <b>Bring:</b> week 2 thumbnails — remind them on Moodle the day before</div>
+
+      <h3>Set — read this aloud</h3>
+      <div class="script">
+        <p>"This morning's argument was that a grid is a decision you make once so you stop making it four hundred times. Today you make it.</p>
+        <p>You'll leave with a grid, a spacing scale and three breakpoints written into your spec sheet — and those numbers are now <em>yours</em>. Every screen from here obeys them, and in week 10 you write down why you chose them.</p>
+        <p>So choose for a reason. 'It looked right' is a reason, but it's a weak one, and you're the person who'll have to defend it."</p>
+      </div>
+
+      <h3>Phases</h3>
+      <div class="phases">
+        <div class="ph"><span class="ph-time">0:00–0:05</span><span class="ph-name">Set</span><span class="ph-do">Read the script. Thumbnails on the table — this session builds directly on them.</span></div>
+        <div class="ph"><span class="ph-time">0:05–0:18</span><span class="ph-name">Demo</span><span class="ph-do">Project the <b>Grid &amp; Breakpoint Playground</b>:
+          <ul>
+            <li>Load a specimen and show its decomposition — columns, gutter, margin, max width</li>
+            <li>Drag the viewport handle. <b>Name the breakpoint where the layout visibly breaks</b>, not from a list of device sizes. This is the whole idea of the session</li>
+            <li>Set a spacing scale from a base unit; show the same layout beside one with a broken scale</li>
+            <li>Export to the spec sheet</li>
+          </ul></span></div>
+        <div class="ph"><span class="ph-time">0:18–0:50</span><span class="ph-name">Work · grid</span><span class="ph-do">Build at the <b>widest</b> breakpoint first, then derive the narrower two. Columns, gutter, margin, max width.<br>Standing prompt while circulating: <em>"why that number and not the one next to it?"</em></span></div>
+        <div class="ph"><span class="ph-time">0:50–1:15</span><span class="ph-name">Work · test</span><span class="ph-do"><b>The real test.</b> Lay one developed thumbnail from week 2 onto the new grid. It won't fit — expected, and the point. Either the thumbnail changes or the grid does; both are legitimate, but it must be a decision rather than a drift.</span></div>
+        <div class="ph"><span class="ph-time">1:15–1:32</span><span class="ph-name">Work · spacing</span><span class="ph-do">Define base unit and steps, then apply to the test layout. Every gap must be a step on the scale — no exceptions, no eyeballed values.</span></div>
+        <div class="ph"><span class="ph-time">1:32–1:48</span><span class="ph-name">Swap</span><span class="ph-do">Pairs. Partner sees the laid-out screen only — <b>not the settings</b> — and guesses the column count. If they can't, the grid isn't structuring anything visible yet.</span></div>
+        <div class="ph"><span class="ph-time">1:48–2:00</span><span class="ph-name">Export</span><span class="ph-do">Export into <b>spec sheet §3</b>. First assessed section completed — say so. It makes the thing concrete for the room.</span></div>
+      </div>
+
+      <h3>How this feeds the assessment</h3>
+      <div class="feed">
+        <h4>Portfolio ← this session</h4>
+        <div class="feed-rows">
+          <div class="feed-row"><b>Layout spec</b><span class="feed-to">Part A §3 · complete</span><span class="feed-lo">LO1</span></div>
+          <div class="feed-row"><b>3 declared breakpoints</b><span class="feed-to">Part B · wk 9 variants</span><span class="feed-lo">LO1</span></div>
+          <div class="feed-row"><b>Spacing scale</b><span class="feed-to">Part A §3 · machine-checked</span><span class="feed-lo">LO1</span></div>
+        </div>
+      </div>
+      <p style="font-size:0.85rem;color:var(--ink-2);margin-top:0.7rem"><b>Worth saying plainly:</b> §3 is checked automatically in January — every gap in the submitted screens gets tested against the scale declared today. Not a threat, a promise that the number matters. Students who understand this in week 3 stop eyeballing spacing for the rest of the module.</p>
+
+      <h3>Checks</h3>
+      <div class="split">
+        <div class="box done"><h4>Done looks like</h4><ul>
+          <li><b>§3 complete</b>: columns, gutter, margin, max width, 3 breakpoints, spacing scale</li>
+          <li>Breakpoints chosen from where the layout <b>breaks</b>, not from a list of phones</li>
+          <li>One thumbnail laid onto the grid, mismatch resolved deliberately</li>
+          <li>Every gap is a step on the declared scale</li>
+        </ul></div>
+        <div class="box stuck"><h4>If they're stuck</h4><ul>
+          <li><b>12 columns because Bootstrap does.</b> Fine, if they can say why 12. Ask what 12 divides into that 10 doesn't — if they can answer, they've got it.</li>
+          <li><b>Breakpoints named after devices.</b> Very common. Drag the handle with them and stop where it breaks. That number is the breakpoint.</li>
+          <li><b>Thumbnail won't fit and they're distressed.</b> Happens to everyone. Ask which is more valuable, the layout or the system — either answer is right, as long as they choose.</li>
+        </ul></div>
+      </div>
+
+      <div class="missed"><h4>If they missed week 2</h4><p>They can build a grid without thumbnails, but the test phase won't work. Give them a referatory screen to lay onto their grid instead, and set the eight thumbnails as catch-up — those <em>do</em> work retrospectively, unlike the teardowns.</p></div>
+    </div>
+  </article>
+
+  <!-- ================= WEEKS 4–11 ================= -->
+  <section class="no-print">
+    <div class="sec-head"><span class="sec-num">03</span><h2>Weeks 4–11</h2></div>
+    <p>Exhibits and assessment feed mapped; run sheets to be written on the pattern above.</p>
+
+    <div class="scroller">
+      <table>
+        <thead><tr><th class="num">Wk</th><th>Session</th><th>Exhibits</th><th>Feeds</th><th class="num">LO</th></tr></thead>
+        <tbody>
+          <tr>
+            <td class="num"><b>4</b></td>
+            <td><b>Build your type scale</b><br><span style="color:var(--ink-3)">Typography</span></td>
+            <td><b>written</b> — the Atlas (36 script plaques) · Floor 1 Hall of Typologies · Biographies of Letters <em>WI·BIO</em> · The King's Alphabet <em>WI·INV·01</em><br><span style="color:var(--ink-3);font-size:0.82rem">And the building itself: set entirely in Noto. One family, six floors — restraint demonstrated rather than claimed, and the best argument against the twelve-font portfolio you'd otherwise receive.</span></td>
+            <td>Part A §4<br>Rationale §3</td>
+            <td class="num">LO2</td>
+          </tr>
+          <tr>
+            <td class="num"><b>5</b></td>
+            <td><b>Build your palette</b><br><span style="color:var(--ink-3)">Colour</span></td>
+            <td><b>symbolic</b> — Traffic colour · Hazard diamonds · The warning grammar<br><b>interfaces</b> — WCAG 2.2 collection<br><span style="color:var(--ink-3);font-size:0.82rem">Symbolic supplies what colour <em>means</em> and where that meaning stops holding; interfaces supplies the one part that's measurable. The pairing is the lecture.</span></td>
+            <td>Part A §5<br>Rationale §4</td>
+            <td class="num">LO2</td>
+          </tr>
+          <tr>
+            <td class="num"><b>6</b></td>
+            <td><b>Style tile</b><br><span style="color:var(--ink-3)">Tools &amp; working with AI</span></td>
+            <td><b>symbolic</b> — The 10,000-year problem · confidence markers<br><b>interfaces</b> — the Motion gallery (arrival, dismissal, origin, progress, rejection, reveal)<br><span style="color:var(--ink-3);font-size:0.82rem">The 10,000-year problem is designing marks for readers you cannot consult — an unforced parallel to prompting a system that cannot tell you what it assumed. <b>Note:</b> the Observatory (Agentic, Spatial, Voice) is <b>not written</b>; it cannot be used until it is.</span></td>
+            <td>Part B style tile<br>Part A §7 AI log</td>
+            <td class="num">LO2</td>
+          </tr>
+          <tr>
+            <td class="num"><b>7</b></td>
+            <td><b>Screen inventory &amp; flow</b><br><span style="color:var(--ink-3)">UX and interaction basics</span></td>
+            <td><b>interfaces</b> — the Stairwell, all ten (affordance, constraint, feedback, fitts, hick, jakob, miller, recognition, state, tesler) · pattern rooms: empty-states, modal, undo, wizard, skeleton · the Seven States collection<br><b>symbolic</b> — The hamburger<br><span style="color:var(--ink-3);font-size:0.82rem">Rebuilt away from Floor 4 Flows, which has nothing written. The Stairwell plus five pattern rooms covers it better anyway — and empty-states is the room that fixes the screens students forget to design.</span></td>
+            <td>Part A §2<br>Part B flow</td>
+            <td class="num">LO1</td>
+          </tr>
+          <tr>
+            <td class="num"><b>8</b></td>
+            <td><b>Wireframe the set</b><br><span style="color:var(--ink-3)">Wireframe to screen</span></td>
+            <td><b>interfaces</b> — Component census · Pattern register · Standardised nowhere · Forms · Autofill collections<br><span style="color:var(--ink-3);font-size:0.82rem">Floor 2 Components is unwritten, so the census collections carry this instead — arguably better, since "standardised nowhere" is a stronger lesson about convention than six component histories would be.</span></td>
+            <td>Part B wireframes</td>
+            <td class="num">LO1</td>
+          </tr>
+          <tr>
+            <td class="num"><b>9</b></td>
+            <td><b>Variants &amp; audit</b><br><span style="color:var(--ink-3)">Responsive and accessibility</span></td>
+            <td><b>interfaces</b> — WCAG 2.2 · What the law requires · Keyboard grammar · Role taxonomy · ARIA · Prefers collections · and <code>audits/TOUCH-AA.md</code> + <code>KEYBOARD-AA.md</code><br><span style="color:var(--ink-3);font-size:0.82rem">The audits are the exhibit that matters most: real WCAG 2.2 AA passes that state <b>what could not be verified</b>. That's the model for their own audit — honest limits beat a page of green ticks.</span></td>
+            <td>Part A §6<br>Part B variants</td>
+            <td class="num">LO2</td>
+          </tr>
+          <tr>
+            <td class="num"><b>10</b></td>
+            <td><b>Draft the rationale</b><br><span style="color:var(--ink-3)">Justifying a decision</span></td>
+            <td><b>symbolic</b> — the confidence markers: <em>documented</em> / <em>traditional</em> / <em>folk</em><br><b>interfaces</b> — the house rule that every collection states what it cannot tell you<br><span style="color:var(--ink-3);font-size:0.82rem">The single best teaching exhibit in the whole estate for this module. Both institutes force a writer to declare how well a claim is held — which is exactly the discipline that separates a justification from a description, and it's already published, sourced and defensible.</span></td>
+            <td>Part C · all six</td>
+            <td class="num">LO3</td>
+          </tr>
+          <tr>
+            <td class="num"><b>11</b></td>
+            <td><b>Submission surgery</b><br><span style="color:var(--ink-3)">Studio only, dead week</span></td>
+            <td colspan="2" style="color:var(--ink-3)"><em>No exhibits, no lecture, nothing missable. Drop-in for export problems, PDF assembly and last read-throughs.</em></td>
+            <td class="num">—</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="note">
+      <h4>Week 10 is the one to protect</h4>
+      <p>If any week gets squeezed, don't let it be this one. The confidence-marker exhibit does something no textbook page will: it shows a working researcher distinguishing <em>what I can source</em> from <em>what is widely repeated and unsupported</em> — in public, on a live site, with the build refusing to ship a <code>documented</code> claim that names no source. Students who take that into rationale §3 and §4 write the paragraphs that get firsts. Students who don't write description and wonder why it didn't land.</p>
+    </div>
+  </section>
+
+  <footer>
+    <span>Screen Design · workshop sheets and exhibits · weeks 1–11</span>
+    <span>Print for weeks 1–3, one page each</span>
+  </footer>
+
+</div>

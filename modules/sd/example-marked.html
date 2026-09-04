@@ -1,0 +1,346 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Example portfolio, marked — staff copy</title>
+<style>
+  :root{
+    --bg:#F5F4F2; --surface:#FFFFFF; --ink:#1A1618; --ink-2:#56504F; --ink-3:#8B8382;
+    --line:#DFDBD7; --line-2:#C9C3BE; --lec:#8C2437; --lec-soft:#F6E8EA;
+    --wsh:#1D5C7A; --warn:#8A5D05; --warn-soft:#F4EAD3; --ok:#2C5F3E; --ok-soft:#E3EFE7;
+    --mono:ui-monospace,"SF Mono",Menlo,Consolas,monospace;
+    --sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Inter,Roboto,sans-serif;
+    /* the pretend application's own palette, kept apart from the module's */
+    --w-chrome:#F3F2F1; --w-tab:#A8442A; --w-rule:#E1DFDD; --w-page:#FFFFFF; --w-desk:#7E7A78;
+    --z:1;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);line-height:1.5}
+  .wrap{max-width:1100px;margin:0 auto;padding:0 22px}
+  @media(max-width:420px){.wrap{padding:0 14px}}
+  @media(max-width:340px){.wrap{padding:0 10px}}
+  a{color:var(--lec)}
+
+  header{border-bottom:1px solid var(--line);background:var(--surface);position:sticky;top:0;z-index:40}
+  .bar{display:flex;align-items:center;gap:10px;padding:11px 0;flex-wrap:nowrap}
+  .brand{font-weight:680;font-size:1rem;letter-spacing:-0.015em;white-space:nowrap}
+  .sp{flex:1}
+  .navl{font-size:0.85rem;color:var(--ink-2);text-decoration:none;padding:6px 10px;border-radius:6px;white-space:nowrap}
+  .navl:hover{background:#EDEBE8;color:var(--ink)}
+  .navl.on{background:var(--lec);color:#fff}
+  @media(max-width:760px){ .navl.hideable{display:none} .bar{gap:6px} .navl{padding:6px 8px;font-size:0.82rem} }
+
+  h1{font-size:clamp(1.5rem,3.6vw,2.1rem);letter-spacing:-0.026em;margin:22px 0 4px;font-weight:700}
+  .sub{color:var(--ink-2);margin:0 0 14px;max-width:70ch}
+
+  .fakebar{display:flex;align-items:flex-start;gap:12px;background:var(--warn-soft);
+    border:1px solid var(--warn);border-radius:10px;padding:13px 16px;margin:0 0 18px}
+  /* The direct child only. `.fakebar b` also caught the inline emphasis inside
+     the paragraph and made it unbreakable — a bare descendant selector on a tag
+     that appears both as a heading and inside prose. */
+  .fakebar > b{color:var(--warn);font-family:var(--mono);font-size:0.66rem;letter-spacing:0.09em;
+    text-transform:uppercase;white-space:nowrap;padding-top:2px}
+  .fakebar p{margin:0;font-size:0.9rem;line-height:1.55;color:var(--ink-2)}
+  .fakebar p b{display:inline;font-family:inherit;font-size:inherit;letter-spacing:0;
+    text-transform:none;color:var(--ink);white-space:normal}
+
+  /* ── the pretend slide application ──────────────────────────────────────
+     Chrome only. Nothing here does anything and it is not anybody's product —
+     it is a generic presentation window, drawn so a student reads the content
+     as a submitted deck rather than as a web page. The hand-in is a deck now,
+     so the example has to be the shape of the thing it teaches. */
+  .app{border:1px solid var(--line-2);border-radius:9px;overflow:hidden;background:var(--w-chrome);
+    box-shadow:0 2px 14px rgba(0,0,0,.07);margin-bottom:22px}
+  .app-title{display:flex;align-items:center;gap:9px;background:var(--w-tab);color:#fff;
+    padding:7px 12px;font-size:0.8rem}
+  .app-title .dots{display:flex;gap:5px;margin-right:4px}
+  .app-title .dots i{width:9px;height:9px;border-radius:50%;background:rgba(255,255,255,.45);display:block}
+  .app-title .fn{font-weight:600}
+  .app-title .sv{opacity:.75;font-size:0.72rem;margin-left:auto}
+  .app-tabs{display:flex;gap:2px;padding:0 8px;background:var(--w-chrome);border-bottom:1px solid var(--w-rule);
+    overflow-x:auto}
+  .app-tabs span{font-size:0.76rem;color:#3B3A39;padding:8px 11px;white-space:nowrap;border-bottom:2px solid transparent}
+  .app-tabs span.on{border-bottom-color:var(--w-tab);color:var(--w-tab);font-weight:600}
+  .app-ribbon{display:flex;align-items:center;gap:14px;padding:9px 12px;background:var(--w-chrome);
+    border-bottom:1px solid var(--w-rule);overflow-x:auto}
+  .rgrp{display:flex;align-items:center;gap:7px;padding-right:14px;border-right:1px solid var(--w-rule);white-space:nowrap}
+  .rgrp:last-child{border-right:0}
+  .rbtn{font-size:0.74rem;color:#3B3A39;background:#fff;border:1px solid var(--w-rule);
+    border-radius:4px;padding:4px 9px}
+  .rbtn.sq{width:26px;text-align:center;padding:4px 0}
+
+  /* rail + desk. The thumbnail rail is what makes a slide editor legible as
+     one at a glance, and it doubles as the navigation. */
+  .app-body{display:flex;align-items:stretch;max-height:min(1180px,78vh);min-height:440px}
+  .rail{width:132px;flex:0 0 132px;background:#EAE8E6;border-right:1px solid var(--w-rule);
+    overflow-y:auto;padding:8px 6px;display:flex;flex-direction:column;gap:7px}
+  .th{display:flex;gap:5px;align-items:flex-start;background:none;border:0;padding:0;cursor:pointer;
+    font-family:var(--sans);text-align:left;width:100%}
+  .th i{font-style:normal;font-family:var(--mono);font-size:0.6rem;color:#8A8886;padding-top:5px;min-width:13px;text-align:right}
+  .th .tb{flex:1;aspect-ratio:16/9;background:#fff;border:1px solid #D2D0CE;border-radius:2px;
+    padding:5px 6px;overflow:hidden;display:flex;flex-direction:column;gap:3px}
+  .th.on .tb{border-color:var(--w-tab);box-shadow:0 0 0 1.5px var(--w-tab)}
+  .th .tt{font-size:0.42rem;font-weight:700;color:#3B3A39;line-height:1.25;
+    overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical}
+  .th .tl{height:2px;background:#DCDAD8;border-radius:1px}
+  .th .tl.w2{width:72%} .th .tl.w3{width:54%}
+  .th .tbox{flex:1;background:#EDEBE9;border-radius:1px;min-height:6px}
+  .th.div .tb{background:#F7F3F1;justify-content:center}
+  .th.div .tt{font-size:0.5rem;color:var(--w-tab)}
+  @media(max-width:760px){ .rail{display:none} }
+
+  .app-desk{background:var(--w-desk);padding:18px 0;overflow-y:auto;flex:1;min-width:0}
+  .app-status{display:flex;align-items:center;gap:14px;background:var(--w-tab);color:#fff;
+    padding:5px 12px;font-size:0.72rem}
+  .app-status .sp{flex:1}
+
+  .zoom{display:flex;align-items:center;gap:7px}
+  .zb{appearance:none;background:rgba(255,255,255,.16);border:1px solid rgba(255,255,255,.34);
+    color:#fff;width:21px;height:18px;border-radius:4px;font-size:0.82rem;line-height:1;padding:0;cursor:pointer}
+  .zb:hover:not(:disabled){background:rgba(255,255,255,.32)}
+  .zb:disabled{opacity:.3;cursor:default}
+  .zl{font-family:var(--mono);font-size:0.7rem;min-width:36px;text-align:center}
+  @media(max-width:560px){ .app-status .hidesm{display:none} }
+
+  /* ── a slide ────────────────────────────────────────────────────────────
+     16:9, fixed. Everything inside is em off the slide's own font-size, so the
+     one --z moves the whole deck. Content that will not fit is a content
+     problem, not a layout one — and this deck is meant to look like a student
+     who pasted things on and moved on. */
+  .swrap{width:min(calc(860px * var(--z)),94%);margin:0 auto 18px}
+  .slide{background:var(--w-page);aspect-ratio:16/9;box-shadow:0 1px 5px rgba(0,0,0,.3);
+    padding:calc(30px * var(--z)) calc(42px * var(--z));position:relative;
+    font-size:calc(0.78rem * var(--z));line-height:1.5;color:#201F1E;
+    display:flex;flex-direction:column;overflow:hidden}
+  .slide .pno{position:absolute;bottom:calc(10px * var(--z));right:calc(16px * var(--z));
+    font-size:0.72em;color:#A19F9D}
+  .slide h1{font-size:2.1em;margin:auto 0 0.1em;font-weight:700;letter-spacing:-0.02em;color:#201F1E}
+  .slide h2{font-size:1.75em;margin:auto 0;font-weight:700;color:var(--w-tab);letter-spacing:-0.015em}
+  .slide h3{font-size:1.12em;margin:0 0 0.5em;font-weight:700;
+    border-bottom:1px solid #E1DFDD;padding-bottom:0.3em}
+  .slide p{margin:0 0 0.55em}
+  .slide .meta{color:#605E5C;font-size:0.9em;margin:0 0 auto}
+  .slide dl{display:grid;grid-template-columns:minmax(110px,36%) 1fr;gap:0.15em 1em;margin:0}
+  .slide dt{color:#605E5C}
+  .slide dd{margin:0}
+  .slide dd:empty::after{content:"";display:inline-block;width:64px;border-bottom:1px solid #C8C6C4}
+  .slide pre{font-family:var(--mono);font-size:0.86em;background:#F8F8F8;padding:0.7em 0.9em;
+    border:1px solid #EDEBE9;margin:0 0 0.5em;white-space:pre-wrap}
+  .slide .cap{font-size:0.88em;color:#605E5C;font-style:italic;margin:0.4em 0 0}
+  .slide .ph{background:#F3F2F1;border:1px dashed #C8C6C4;display:grid;place-items:center;
+    text-align:center;color:#8A8886;font-size:0.88em;font-style:italic;padding:1em;flex:1;min-height:0}
+  /* the artwork letterboxes into whatever room the slide has left */
+  .slide .art{flex:1;min-height:0;margin:0;border:1px solid #E1DFDD;background:#fff;
+    display:flex;align-items:center;justify-content:center;overflow:hidden}
+  .slide .art svg{display:block;width:100%;height:100%}
+  .slide.title{align-items:flex-start;justify-content:center}
+  .slide.divider{align-items:center;justify-content:center;text-align:center;background:#FCFAF9}
+
+  /* the marking summary */
+  .marksum{margin-bottom:20px}
+  .ms-top{display:flex;align-items:center;gap:18px;background:var(--surface);border:1px solid var(--line);
+    border-left:5px solid var(--lec);border-radius:12px;padding:16px 20px;margin-bottom:12px;flex-wrap:wrap}
+  .ms-n{font-size:2.8rem;font-weight:740;letter-spacing:-0.04em;line-height:1;color:var(--lec)}
+  .ms-t b{display:block;font-size:1rem}
+  .ms-t span{font-size:0.88rem;color:var(--ink-2)}
+  .ms-grid{display:grid;gap:10px;grid-template-columns:repeat(auto-fit,minmax(min(250px,100%),1fr))}
+  .ms-c{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:13px 15px}
+  .ms-c .h{display:flex;align-items:baseline;gap:9px;margin-bottom:6px}
+  .ms-c .h i{font-style:normal;font-family:var(--mono);font-size:0.66rem;color:var(--ink-3)}
+  .ms-c .h b{font-size:0.92rem;flex:1}
+  .ms-c .h em{font-style:normal;font-family:var(--mono);font-size:0.9rem;font-weight:700;color:var(--lec)}
+  .ms-c .bd{font-family:var(--mono);font-size:0.62rem;letter-spacing:0.06em;text-transform:uppercase;
+    color:var(--ink-3);display:block;margin-bottom:5px}
+  .ms-c p{margin:0;font-size:0.85rem;line-height:1.55;color:var(--ink-2)}
+  .ms-note{margin-top:12px;padding:13px 16px;border-left:3px solid var(--warn);background:var(--warn-soft);
+    border-radius:0 9px 9px 0;font-size:0.88rem;line-height:1.55;color:var(--ink-2)}
+  .ms-note b{color:var(--warn);font-family:var(--mono);font-size:0.64rem;letter-spacing:0.08em;
+    text-transform:uppercase;display:block;margin-bottom:4px}
+
+  /* A comment sits BESIDE the slide, not inside it. A 16:9 slide has no room
+     for a marker's paragraph, and a comment pane is where a slide application
+     puts them anyway. */
+  .cmt{background:#FFF4CE;border:1px solid #E8C33F;border-left:3px solid #B58A00;border-radius:0 6px 6px 0;
+    padding:9px 12px;margin:7px 0 0;font-family:var(--sans);font-size:calc(0.78rem * var(--z));
+    line-height:1.5;color:#3B3A39}
+  .cmt .ch{display:flex;align-items:baseline;gap:8px;margin-bottom:4px;flex-wrap:wrap}
+  .cmt .ch b{font-family:var(--mono);font-size:0.76em;letter-spacing:0.07em;text-transform:uppercase;color:#8A6D00}
+  .cmt .ch em{font-style:normal;font-family:var(--mono);font-size:0.76em;color:#8A6D00;margin-left:auto}
+
+  footer{padding:26px 0 44px;color:var(--ink-3);font-size:0.8rem;border-top:1px solid var(--line);margin-top:22px}
+  .subject{margin:0 0 8px;padding:11px 14px;border-left:3px solid var(--warn);
+    background:var(--warn-soft);border-radius:0 8px 8px 0;font-size:0.86rem;line-height:1.55;color:var(--ink-2);max-width:78ch}
+  .subject b{color:var(--ink)}
+
+  @media(max-width:420px){
+    .ms-top{gap:12px} .ms-n{font-size:2.1rem}
+    .ms-c .h{flex-wrap:wrap}
+  }
+  @media(max-width:560px){
+    .fakebar{flex-direction:column;gap:6px}
+    .fakebar > b{white-space:normal}
+    .swrap{width:96%}
+    .slide{padding:calc(18px * var(--z)) calc(22px * var(--z));font-size:calc(0.6rem * var(--z))}
+    .app-desk{padding:10px 0}
+  }
+</style>
+</head>
+<body data-marked="1">
+
+<header>
+  <div class="wrap bar">
+    <span class="brand">Screen Design</span>
+    <span class="sp"></span>
+    <a class="navl" href="index.html">Weeks</a>
+    <a class="navl" href="weeks.html">Materials</a>
+    <a class="navl hideable" href="brief.html">The brief</a>
+    <a class="navl hideable" href="assessment.html">What to hand in</a>
+    <a class="navl hideable" href="example.html">Unmarked copy</a>
+  </div>
+</header>
+
+<div class="wrap">
+  <h1>The example, marked</h1>
+  <p class="sub">Staff copy. Sixteen margin comments, a mark against each of the four criteria,
+    and the question that has to be asked before any mark is released.</p>
+
+  <div class="fakebar">
+    <b>Staff copy · not real work</b>
+    <p>Written by the module team as a teaching example — <b>not a real submission</b>, and nothing
+      in it copied or adapted from one. <b>Do not show this version before the group discussion:</b>
+      the point of the exercise is that the room arrives at the marks itself. The unmarked copy is
+      <a href="example.html">here</a>.</p>
+  </div>
+
+  <div class="marksum" id="marksum"></div>
+
+  <div class="app" id="app"></div>
+
+  <footer>
+    <p class="subject"><b>The weekly content may change.</b> What is shown in class and how a workshop
+      runs can be adjusted during the term. <b>The assessment does not change.</b></p>
+    <p>Screen Design · Level 4 · 30 credits · 2026–27</p>
+  </footer>
+</div>
+
+<script src="example-photos.js"></script>
+<script src="example-art.js"></script>
+<script src="example-data.js"></script>
+<script>
+const esc = s => String(s).replace(/[<&]/g, c => c === '<' ? '&lt;' : '&amp;');
+const MARKED = document.body.dataset.marked === '1';
+const CRIT = ['','Visual Design & Communication','User-Centred Thinking','Technical Craft & Process','Critical Reflection'];
+function note(nt, n){
+  return `<div class="cmt"><div class="ch"><b>Slide ${n} · Criterion ${nt.c} · ${CRIT[nt.c]}</b>` +
+    `<em>${nt.band}</em></div>${esc(nt.s)}</div>`;
+}
+
+function block(b){
+  switch(b.t){
+    case 'h1':   return `<h1>${esc(b.x)}</h1>`;
+    case 'h2':   return `<h2>${esc(b.x)}</h2>`;
+    case 'h3':   return `<h3>${esc(b.x)}</h3>`;
+    case 'meta': return `<p class="meta">${esc(b.x)}</p>`;
+    case 'p':    return `<p>${esc(b.x)}</p>`;
+    case 'pre':  return `<pre>${esc(b.x)}</pre>`;
+    case 'cap':  return `<p class="cap">${esc(b.x)}</p>`;
+    case 'img':  return (b.a && window.ART && ART[b.a])
+                    ? `<figure class="art" aria-label="${esc(b.x)}">${ART[b.a]}</figure>`
+                    : `<div class="ph">[ ${esc(b.x)} ]</div>`;
+    case 'kv':   return `<dl>${b.x.map(([k,v]) =>
+                    `<dt>${esc(k)}</dt><dd>${esc(v)}</dd>`).join('')}</dl>`;
+    default:     return '';
+  }
+}
+
+/* A thumbnail is a hint, not a render — drawing 25 slides twice, artwork and
+   all, costs more than it tells anyone. */
+function thumb(s){
+  const head = s.blocks.find(b => b.t === 'h1' || b.t === 'h2' || b.t === 'h3');
+  const body = s.kind === 'divider' ? ''
+    : s.blocks.some(b => b.t === 'img') ? '<span class="tbox"></span>'
+    : '<span class="tl"></span><span class="tl w2"></span><span class="tl w3"></span>';
+  return `<button class="th ${s.kind === 'divider' ? 'div' : ''}" data-go="${s.n}">
+    <i>${s.n}</i><span class="tb"><span class="tt">${esc(head ? head.x : '')}</span>${body}</span></button>`;
+}
+
+document.getElementById('app').innerHTML = `
+  <div class="app-title"><span class="dots"><i></i><i></i><i></i></span>
+    <span class="fn">${EXAMPLE.meta.title}</span><span>— saved to OneDrive</span>
+    <span class="sv">Autosaved</span></div>
+  <div class="app-tabs">${['File','Home','Insert','Design','Transitions','Animations','Slide Show','Review','View']
+    .map(t => `<span class="${t === 'Home' ? 'on' : ''}">${t}</span>`).join('')}</div>
+  <div class="app-ribbon">
+    <span class="rgrp"><span class="rbtn">New Slide</span><span class="rbtn">Layout</span><span class="rbtn">Reset</span></span>
+    <span class="rgrp"><span class="rbtn sq">B</span><span class="rbtn sq"><i>I</i></span><span class="rbtn sq"><u>U</u></span></span>
+    <span class="rgrp"><span class="rbtn">Arrange</span><span class="rbtn">Shapes</span></span>
+    <span class="rgrp"><span class="rbtn">Comments</span><span class="rbtn">Share</span></span>
+  </div>
+  <div class="app-body">
+    <div class="rail" id="rail">${EXAMPLE.slides.map(thumb).join('')}</div>
+    <div class="app-desk" id="desk">
+      ${EXAMPLE.slides.map(s => `<div class="swrap" id="s${s.n}">
+        <div class="slide ${s.kind}">
+          ${s.blocks.map(block).join('')}
+          <span class="pno">${s.n}</span>
+        </div>
+        ${MARKED ? s.blocks.filter(b => b.note).map(b => note(b.note, s.n)).join('') : ''}
+      </div>`).join('')}
+    </div>
+  </div>
+  <div class="app-status"><span id="sn">Slide 1 of ${EXAMPLE.meta.slides}</span>
+    <span class="hidesm">${EXAMPLE.meta.words.toLocaleString()} words</span>
+    <span class="hidesm">English (UK)</span><span class="sp"></span>
+    <span class="zoom"><button class="zb" data-z="out" aria-label="Smaller">−</button>
+      <span class="zl" id="zlab">100%</span>
+      <button class="zb" data-z="in" aria-label="Bigger">+</button></span></div>`;
+
+/* Document zoom. The slide width, its padding and its base size all come off
+   --z, and every size inside a slide is em, so one number moves all of them. */
+const ZS = [0.6, 0.75, 0.9, 1, 1.15, 1.35, 1.6, 2];
+let zi = 3;
+try { const v = parseInt(localStorage.getItem('sd-zoom'), 10); if (ZS[v] !== undefined) zi = v; } catch (e) {}
+const desk = document.getElementById('desk'), zlab = document.getElementById('zlab');
+function paintZoom(){
+  desk.style.setProperty('--z', ZS[zi]);
+  zlab.textContent = Math.round(ZS[zi] * 100) + '%';
+  document.querySelectorAll('.zb').forEach(b =>
+    b.disabled = b.dataset.z === 'out' ? zi === 0 : zi === ZS.length - 1);
+  try { localStorage.setItem('sd-zoom', zi); } catch (e) {}
+}
+document.querySelectorAll('.zb').forEach(b => b.addEventListener('click', () => {
+  zi = Math.max(0, Math.min(ZS.length - 1, zi + (b.dataset.z === 'in' ? 1 : -1)));
+  paintZoom();
+}));
+paintZoom();
+
+/* the rail selects, and follows the desk as it scrolls */
+const rail = document.getElementById('rail');
+rail.addEventListener('click', e => {
+  const btn = e.target.closest('.th'); if (!btn) return;
+  document.getElementById('s' + btn.dataset.go)
+    .scrollIntoView({ block: 'start', behavior: 'smooth' });
+});
+function mark(n){
+  document.querySelectorAll('.th').forEach(t => t.classList.toggle('on', t.dataset.go === String(n)));
+  document.getElementById('sn').textContent = `Slide ${n} of ${EXAMPLE.meta.slides}`;
+}
+const io = new IntersectionObserver(es => {
+  const top = es.filter(e => e.isIntersecting).sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top)[0];
+  if (top) mark(+top.target.id.slice(1));
+}, { root: desk, rootMargin: '-10% 0px -70% 0px' });
+document.querySelectorAll('.swrap').forEach(s => io.observe(s));
+mark(1);
+
+const ms = document.getElementById('marksum');
+if (ms) ms.innerHTML = `
+  <div class="ms-top"><span class="ms-n">${EXAMPLE.mark.overall}</span>
+    <span class="ms-t"><b>${EXAMPLE.mark.band}</b><span>${esc(EXAMPLE.overall)}</span></span></div>
+  <div class="ms-grid">${EXAMPLE.criteria.map(c => `
+    <div class="ms-c"><div class="h"><i>${c.n}</i><b>${esc(c.name)}</b><em>${c.mark}</em></div>
+      <span class="bd">${esc(c.band)}</span><p>${esc(c.s)}</p></div>`).join('')}</div>
+  <p class="ms-note"><b>Before any mark is released</b>${esc(EXAMPLE.followup)}</p>`;
+</script>
+</body>
+</html>

@@ -1,0 +1,86 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "principles — the Level 4 subset, excluding the ten on the Stairwell",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "rows", "counts", "notes"],
+  "properties": {
+    "schema_version": { "const": "1.0" },
+    "rows": { "type": "array", "maxItems": 20, "items": { "$ref": "#/definitions/row" } },
+    "counts": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["rows_total", "by_confidence", "by_family"],
+      "properties": {
+        "rows_total": { "type": "integer" },
+        "by_confidence": { "type": "object", "additionalProperties": { "type": "integer" } },
+        "by_family": { "type": "object", "additionalProperties": { "type": "integer" } },
+        "documented_with_source": {
+          "type": "integer",
+          "description": "Must equal by_confidence.documented. A documented principle without a source_url is a contradiction."
+        }
+      }
+    },
+    "notes": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["known_gaps", "collected_on"],
+      "properties": {
+        "known_gaps": { "type": "array", "items": { "type": "string" }, "minItems": 1 },
+        "collected_on": { "type": "string", "format": "date" },
+        "dropped": {
+          "type": "array",
+          "description": "Candidates considered and not returned, with the reason. Returning sixteen honestly is a better outcome than twenty filled in.",
+          "items": {
+            "type": "object", "additionalProperties": false,
+            "required": ["name", "why"],
+            "properties": { "name": { "type": "string" }, "why": { "type": "string" } }
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "row": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "family", "name", "one_line", "plain_gloss",
+                   "origin", "confidence", "confidence_note", "common_misuse", "limits", "source_url"],
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^[a-z0-9-]+$",
+          "not": {
+            "enum": ["fitts","hick","miller","jakob","tesler","feedback","state",
+                     "constraint","recognition","affordance"]
+          },
+          "description": "The Stairwell's ten are derived at build time and must not appear here."
+        },
+        "family": { "enum": ["visual", "ucd", "accessibility"] },
+        "name": { "type": "string", "minLength": 3 },
+        "one_line": { "type": "string", "minLength": 20, "maxLength": 220 },
+        "plain_gloss": {
+          "type": "string", "minLength": 20, "maxLength": 260,
+          "description": "For a student with no design vocabulary. Must differ substantially from one_line — a restatement in the same register is the field not being done."
+        },
+        "origin": { "type": ["string", "null"] },
+        "confidence": { "enum": ["documented", "traditional", "folk"] },
+        "confidence_note": { "type": "string", "minLength": 15 },
+        "common_misuse": {
+          "type": "string", "minLength": 25,
+          "description": "The misreading about to appear in thirty portfolios. Specific to this principle; 'can be overused' applies to everything."
+        },
+        "limits": { "type": "string", "minLength": 20 },
+        "weeks": { "type": ["array", "null"], "items": { "type": "integer", "minimum": 1, "maximum": 11 } },
+        "source_url": { "type": ["string", "null"], "format": "uri" }
+      },
+      "allOf": [
+        {
+          "if": { "properties": { "confidence": { "const": "documented" } }, "required": ["confidence"] },
+          "then": { "properties": { "source_url": { "type": "string" } },
+                    "description": "documented requires a source that states THIS claim." }
+        }
+      ]
+    }
+  }
+}
