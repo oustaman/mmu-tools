@@ -24,9 +24,61 @@
     --ok:#7FBF97; --ok-soft:#1C2A22; --warn:#DCB469; --warn-soft:#2A2417;
   }
   *{box-sizing:border-box}
-  html,body{height:100%}
-  body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);
-    display:flex;flex-direction:column;overflow:hidden}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans)}
+
+  /* The header every page in the module carries (copied, not shared — these open
+     from a Moodle download as often as from a server). */
+  .wrap{max-width:1100px;margin:0 auto;padding-inline:22px}
+  header{border-bottom:1px solid var(--line);background:var(--surface);position:sticky;top:0;z-index:40}
+  .bar{display:flex;align-items:center;gap:10px;padding-block:11px;flex-wrap:nowrap}
+  .brand{font-weight:680;font-size:1rem;letter-spacing:-0.015em;white-space:nowrap;color:inherit;
+    text-decoration:none;padding:5px 8px;margin-left:-8px;border-radius:6px}
+  .brand:hover{background:var(--surface-2)}
+  .sp{flex:1}
+  .navl{font-size:0.85rem;color:var(--ink-2);text-decoration:none;padding:6px 10px;border-radius:6px;white-space:nowrap}
+  .navl:hover{background:var(--surface-2);color:var(--ink)}
+  .navl.on{background:var(--lec);color:#fff}
+  [data-theme="dark"] .navl.on{color:#151314}
+  .ctl button{font-family:var(--mono);font-size:0.7rem;background:none;color:var(--ink-3);
+    border:1px solid var(--line-2);border-radius:5px;padding:5px 8px;cursor:pointer;line-height:1}
+  .ctl button:hover{border-color:var(--lec);color:var(--lec)}
+  @media(max-width:760px){ header .bar{gap:6px} .navl{padding:6px 8px;font-size:0.82rem} }
+  @media(max-width:560px){
+    header .bar{flex-wrap:wrap;row-gap:6px}
+    header .brand{order:0} header .ctl{order:1;margin-left:auto}
+    header .bar > .sp{order:2;flex-basis:100%;height:0}
+    header .navl{order:3;padding:5px 7px;font-size:0.78rem}
+  }
+  @media(max-width:420px){.wrap{padding-inline:14px}}
+
+  .tools{background:var(--surface);border-bottom:1px solid var(--line);position:sticky;top:var(--hdr,55px);z-index:39}
+  .tbar{display:flex;align-items:center;gap:8px;padding-block:8px}
+  .tbar b{font-size:0.9rem;letter-spacing:-0.01em;white-space:nowrap}
+  .tbar select{font-family:var(--mono);font-size:0.72rem;color:var(--ink-2);background:var(--surface);
+    border:1px solid var(--line-2);border-radius:8px;padding:0 8px;min-height:36px;max-width:240px;min-width:0}
+  .viewsw{display:inline-flex;border:1px solid var(--line-2);border-radius:8px;overflow:hidden;flex:none}
+  .viewsw button,.tbtn{font-family:var(--mono);font-size:0.74rem;background:var(--surface);color:var(--ink-2);
+    border:0;padding:0 12px;min-height:36px;cursor:pointer}
+  .viewsw button + button{border-left:1px solid var(--line-2)}
+  .viewsw button[aria-pressed="true"]{background:var(--ink);color:var(--surface)}
+  .tbtn{border:1px solid var(--line-2);border-radius:8px;flex:none}
+  .tbtn:disabled{opacity:.35;cursor:default}
+  .tbtn:hover:not(:disabled),.viewsw button:hover:not([aria-pressed="true"]){color:var(--lec)}
+  @media(max-width:700px){
+    .tbar{flex-wrap:wrap;row-gap:6px}
+    .tbar b{width:100%}
+    .tbar .sp{display:none}
+    .tbar select{flex:1 1 90px;max-width:none;min-height:40px}
+    .viewsw button,.tbtn{min-height:40px}
+    .tnav{display:none}
+  }
+
+  /* Scroll is the default: each teardown is a section of one page, a full
+     screen tall on anything wider than a phone so a screenshot still gets the
+     room it gets on a projector. Slides (html.deck) is the lecture view. */
+  html.deck,html.deck body{height:100%}
+  html.deck body{display:flex;flex-direction:column;overflow:hidden}
+  html.deck .tools{position:static}
 
   .top{display:flex;align-items:center;gap:12px;padding:9px 20px;border-bottom:1px solid var(--line);
     background:var(--surface);flex:none}
@@ -40,11 +92,26 @@
     border:1px solid var(--line);border-radius:5px;padding:3px 6px;max-width:230px}
   .top a.on{color:var(--lec)}
 
-  .body{flex:1;display:flex;min-height:0}
-  .stage{flex:1;position:relative;min-width:0}
-  .slide{position:absolute;inset:0;display:none;flex-direction:column;justify-content:center;
-    padding:min(3.4vh,26px) min(3vw,34px);overflow:hidden}
-  .slide.active{display:flex}
+  .stage{min-width:0}
+  .slide{position:relative;display:flex;flex-direction:column;justify-content:center;
+    padding:min(3.4vh,26px) min(3vw,34px);border-bottom:1px solid var(--line);
+    height:calc(100vh - var(--hdr,55px) - var(--tls,53px));min-height:560px;
+    scroll-margin-top:calc(var(--hdr,55px) + var(--tls,53px))}
+  html.deck .body{flex:1;display:flex;min-height:0}
+  html.deck .stage{flex:1;position:relative}
+  html.deck .slide{position:absolute;inset:0;display:none;height:auto;min-height:0;border:0;overflow:hidden}
+  html.deck .slide.active{display:flex}
+  /* On a phone a landscape screenshot is small however tall the section is, so
+     sections size to their content and the picture takes the full width. */
+  @media(max-width:700px){
+    .slide{height:auto;min-height:0;padding:26px 16px}
+    .shot .pic{flex:none}
+    .shot .pic img{width:100%;max-height:none}
+    /* two columns of comment are two 170px columns on a phone */
+    .cols{grid-template-columns:1fr !important}
+    .cols.one .say{columns:auto !important}  /* the base rule sits later in the file */
+    html.deck .slide{overflow:auto}
+  }
   .slide h2{margin:0 0 14px;font-size:clamp(1.5rem,3.4vw,2.5rem);letter-spacing:-0.028em;
     line-height:1.12;font-weight:700;max-width:22ch}
   .slide .lead{margin:0;font-size:clamp(1rem,1.7vw,1.28rem);color:var(--ink-2);
@@ -120,21 +187,13 @@
   /* The top bar is six links and two buttons on one line; below ~600px that is
      wider than the phone. Let it wrap, and drop the section links — the TOC is
      hidden at this width anyway, so they navigate by arrow keys or swipe. */
-  @media(max-width:860px){
-    .top select{max-width:150px}
-    .top a:not(.on){display:none}
-  }
-  @media(max-width:600px){
-    .top{flex-wrap:wrap;row-gap:4px;padding:8px 12px}
-    .top b{width:100%}
-    .top select{max-width:none;flex:1}
-  }
+
 
   @media print{
     body{overflow:visible;height:auto;display:block}
-    .top,.toc,.pn{display:none}
+    header,.tools,.toc,.pn{display:none}
     .stage{position:static}
-    .slide{position:static;display:flex!important;height:100vh;page-break-after:always;border:0}
+    .slide,html.deck .slide{position:static;display:flex!important;height:100vh;page-break-after:always;border:0}
   }
 
   /* Two slides are redrawn rather than captured: the publishers of those pages
@@ -194,16 +253,27 @@
 </head>
 <body>
 
-<div class="top">
-  <b>Three teardowns</b>
-  <span class="sp"></span>
-  <a href="index.html">Weeks</a><a href="weeks.html">Materials</a><a href="brief.html">The brief</a>
-  <a href="teardowns.html" class="on">Teardowns</a>
-  <select id="jump" title="Jump to a slide"></select>
-  <button id="prev" title="Previous">‹</button>
-  <button id="next" title="Next">›</button>
-  <button id="theme">◐</button>
-  <button id="print">Print</button>
+<header>
+  <div class="wrap bar">
+    <a class="brand" href="index.html">Screen Design</a>
+    <span class="sp"></span>
+    <a class="navl" href="index.html">Weeks</a><a class="navl on" href="weeks.html">Materials</a><a class="navl" href="brief.html">The brief</a><a class="navl" href="assessment.html">What to hand in</a>
+    <span class="ctl"><button id="theme" aria-label="Dark mode">◐</button></span>
+  </div>
+</header>
+<div class="tools">
+  <div class="wrap tbar">
+    <b>Three teardowns</b>
+    <span class="sp"></span>
+    <select id="jump" title="Jump to a slide"></select>
+    <span class="viewsw" role="group" aria-label="How to show the deck">
+      <button type="button" data-view="scroll" aria-pressed="true">Scroll</button>
+      <button type="button" data-view="deck" aria-pressed="false">Slides</button>
+    </span>
+    <button type="button" class="tbtn tnav" id="prev" title="Previous">‹</button>
+    <button type="button" class="tbtn tnav" id="next" title="Next">›</button>
+    <button type="button" class="tbtn" id="print">Print</button>
+  </div>
 </div>
 
 <div class="body">
@@ -270,23 +340,71 @@ jump.innerHTML = TEARDOWNS.map((s, i) =>
    of a lecture theatre. Everything is measured off the image's REAL rendered
    box — object-fit:contain letterboxes it, so the box is not the container. */
 let cur = 0;
-function show(i){
+const root = document.documentElement;
+const slides = [...document.querySelectorAll('.slide')];
+const isDeck = () => root.classList.contains('deck');
+let settling = true;                           // see land()
+try { history.scrollRestoration = 'manual'; } catch(e){}
+
+function measure(){
+  root.style.setProperty('--hdr', document.querySelector('header').offsetHeight + 'px');
+  root.style.setProperty('--tls', document.querySelector('.tools').offsetHeight + 'px');
+}
+function mark(i){
   cur = Math.max(0, Math.min(TEARDOWNS.length - 1, i));
-  document.querySelectorAll('.slide').forEach((el, k) => el.classList.toggle('active', k === cur));
   jump.value = cur;
   document.getElementById('prev').disabled = cur === 0;
   document.getElementById('next').disabled = cur === TEARDOWNS.length - 1;
-  location.hash = 's' + (cur + 1);
+  /* replaceState, not location.hash: assigning the hash adds a history entry per
+     slide and makes the browser try to scroll to an element called s3. */
+  try { history.replaceState(null, '', location.pathname + location.search + '#s' + (cur + 1)); } catch(e){}
+}
+function show(i, smooth){
+  mark(i);
+  if (isDeck()) {
+    slides.forEach((el, k) => el.classList.toggle('active', k === cur));
+  } else {
+    quiet();
+    slides[cur].scrollIntoView({ behavior: smooth ? 'smooth' : 'auto', block: 'start' });
+  }
   fitRedraws();
 }
+
+/* A jump scrolls smoothly past every section in between, and the observer
+   would mark each one on the way — switching to slides mid-flight landed on
+   the wrong one. It is quiet until the scroll ends. */
+let quietTimer;
+function quiet(){
+  settling = true;
+  clearTimeout(quietTimer);
+  quietTimer = setTimeout(() => { settling = false; }, 1500);
+}
+addEventListener('scrollend', () => { clearTimeout(quietTimer); setTimeout(() => { settling = false; }, 60); });
+
+function setView(v){
+  root.classList.toggle('deck', v === 'deck');
+  document.querySelectorAll('.viewsw button').forEach(b =>
+    b.setAttribute('aria-pressed', String(b.dataset.view === v)));
+  const q = new URLSearchParams(location.search);
+  v === 'deck' ? q.set('view', 'slides') : q.delete('view');
+  const qs = q.toString();
+  try { history.replaceState(null, '', location.pathname + (qs ? '?' + qs : '') + '#s' + (cur + 1)); } catch(e){}
+  measure();
+  show(cur);
+}
+document.querySelector('.viewsw').onclick = e => {
+  const b = e.target.closest('button[data-view]'); if (b) setView(b.dataset.view);
+};
 
 /* A redrawn slide is a fixed layout, not a picture, so it cannot letterbox the
    way object-fit does for the captures. It is drawn at its natural size and
    then scaled down to whatever the room's projector actually gives us —
    measured, because tuning the numbers until it fitted one viewport is how you
-   get a slide that clips on the machine in the lecture theatre. */
+   get a slide that clips on the machine in the lecture theatre. In scroll view
+   every section is on the page at once, so every drawing is fitted. */
 function fitRedraws(){
-  document.querySelectorAll('.slide.active .redraw').forEach((r) => {
+  const sel = isDeck() ? '.slide.active .redraw' : '.slide .redraw';
+  document.querySelectorAll(sel).forEach((r) => {
     r.style.setProperty('--rd-scale', '1');
     r.style.marginBottom = '0px';
     const box = r.parentElement;
@@ -299,23 +417,49 @@ function fitRedraws(){
     r.style.marginBottom = k < 1 ? `${-Math.round(natural * (1 - k))}px` : '0px';
   });
 }
-addEventListener('resize', fitRedraws);
-jump.addEventListener('change', () => show(+jump.value));
-document.getElementById('prev').onclick = () => show(cur - 1);
-document.getElementById('next').onclick = () => show(cur + 1);
+
+const seen = new IntersectionObserver(entries => {
+  if (isDeck() || settling) return;
+  const top = entries.filter(e => e.isIntersecting)
+    .sort((x, y) => x.boundingClientRect.top - y.boundingClientRect.top)[0];
+  if (top) mark(slides.indexOf(top.target));
+}, { rootMargin: '-35% 0px -55% 0px' });
+slides.forEach(el => seen.observe(el));
+
+addEventListener('resize', () => { measure(); fitRedraws(); });
+jump.addEventListener('change', () => show(+jump.value, true));
+document.getElementById('prev').onclick = () => show(cur - 1, true);
+document.getElementById('next').onclick = () => show(cur + 1, true);
 addEventListener('keydown', e => {
-  if (e.target.tagName === 'SELECT') return;
+  if (!isDeck() || e.target.tagName === 'SELECT') return;
   if (['ArrowRight','PageDown',' '].includes(e.key)) { e.preventDefault(); show(cur + 1); }
   if (['ArrowLeft','PageUp'].includes(e.key))        { e.preventDefault(); show(cur - 1); }
   if (e.key === 'Home') show(0);
   if (e.key === 'End')  show(TEARDOWNS.length - 1);
 });
+addEventListener('hashchange', () => {
+  const n = parseInt(location.hash.replace('#s', ''), 10);
+  if (Number.isFinite(n) && n - 1 !== cur) show(n - 1);
+});
 document.getElementById('print').onclick = () => print();
+
+/* the same theme memory as every other page */
+try { const t = localStorage.getItem('sd-theme'); if (t) root.setAttribute('data-theme', t); } catch(e){}
+if (!root.getAttribute('data-theme') && matchMedia('(prefers-color-scheme: dark)').matches) root.setAttribute('data-theme', 'dark');
 document.getElementById('theme').onclick = () => {
-  const d = document.documentElement.getAttribute('data-theme') === 'dark';
-  document.documentElement.setAttribute('data-theme', d ? 'light' : 'dark');
+  const d = root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+  root.setAttribute('data-theme', d);
+  try { localStorage.setItem('sd-theme', d); } catch(e){}
 };
-show(Math.max(0, (parseInt(location.hash.replace('#s',''), 10) || 1) - 1));
+
+cur = Math.max(0, Math.min(TEARDOWNS.length - 1, (parseInt(location.hash.replace('#s', ''), 10) || 1) - 1));
+setView(new URLSearchParams(location.search).get('view') === 'slides' ? 'deck' : 'scroll');
+function land(){
+  measure();
+  show(cur);
+  setTimeout(() => { settling = false; }, 300);
+}
+document.readyState === 'complete' ? land() : addEventListener('load', land);
 </script>
 </body>
 </html>
