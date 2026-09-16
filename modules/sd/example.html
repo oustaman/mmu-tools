@@ -61,6 +61,7 @@
      it is a generic presentation window, drawn so a student reads the content
      as a submitted deck rather than as a web page. The hand-in is a deck now,
      so the example has to be the shape of the thing it teaches. */
+  .appwrap{padding:0 16px}
   .app{border:1px solid var(--line-2);border-radius:9px;overflow:hidden;background:var(--w-chrome);
     box-shadow:0 2px 14px rgba(0,0,0,.07);margin-bottom:22px}
   .app-title{display:flex;align-items:center;gap:9px;background:var(--w-tab);color:#fff;
@@ -187,8 +188,12 @@
       The window below is a drawing — nothing in it works.</p>
   </div>
 
-  <div class="app" id="app"></div>
+</div>
 
+<!-- Outside .wrap: the window takes the full width of the screen, less a gutter. -->
+<div class="appwrap"><div class="app" id="app"></div></div>
+
+<div class="wrap">
   <footer>
     <p class="subject"><b>The weekly content may change.</b> What is shown in class and how a workshop
       runs can be adjusted during the term. <b>The assessment does not change.</b></p>
@@ -266,9 +271,12 @@ document.getElementById('app').innerHTML = `
 /* Document zoom. The slide width, its padding and its base size all come off
    --z, and every size inside a slide is em, so one number moves all of them. */
 const ZS = [0.6, 0.75, 0.9, 1, 1.15, 1.35, 1.6, 2];
-let zi = 3;
-try { const v = parseInt(localStorage.getItem('sd-zoom'), 10); if (ZS[v] !== undefined) zi = v; } catch (e) {}
+let zi = 3, savedZoom = false;
+try { const v = parseInt(localStorage.getItem('sd-zoom'), 10); if (ZS[v] !== undefined) { zi = v; savedZoom = true; } } catch (e) {}
 const desk = document.getElementById('desk'), zlab = document.getElementById('zlab');
+/* The window is full width, so on a first visit the slides grow to use it
+   (never past 135%, never below 100%). */
+if (!savedZoom) ZS.forEach((z, i) => { if (i > zi && z <= 1.35 && 860 * z <= desk.clientWidth * 0.9) zi = i; });
 function paintZoom(){
   desk.style.setProperty('--z', ZS[zi]);
   zlab.textContent = Math.round(ZS[zi] * 100) + '%';
