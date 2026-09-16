@@ -84,7 +84,6 @@
     font-size:0.87rem;color:var(--ink-2);line-height:1.5}
   table.run tr:last-child td{border-bottom:0}
   table.run td.t{font-family:var(--mono);font-size:0.78rem;color:var(--ink);white-space:nowrap;width:1%}
-  table.run td.w{font-family:var(--mono);font-size:0.72rem;color:var(--ink-3);white-space:nowrap;width:1%}
   table.run td b{color:var(--ink)}
   .scroller{overflow-x:auto}
 
@@ -255,10 +254,10 @@ document.getElementById('faults').innerHTML =
 /* 04 — the run sheet, from the same week-1 data the workshop sheet uses */
 const w1 = WEEKS[0].workshop;
 document.getElementById('run').innerHTML =
-  '<tr><th>Time</th><th>For</th><th>What happens</th></tr>' +
-  w1.run.map(s => `<tr><td class="t">${s.t}</td><td class="w">${s.w}</td>
+  '<tr><th>Step</th><th>What happens</th></tr>' +
+  w1.run.map((s, i) => `<tr><td class="t">${i + 1}</td>
     <td><b>${esc(s.s)}</b><br>${s.d}</td></tr>`).join('') +
-  `<tr><td class="t">—</td><td class="w">leave</td><td><b>They leave with</b><br>${esc(w1.leave)}</td></tr>`;
+  `<tr><td class="t">→</td><td><b>They leave with</b><br>${esc(w1.leave)}</td></tr>`;
 
 /* 05 */
 document.getElementById('ai').innerHTML =

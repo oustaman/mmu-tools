@@ -56,6 +56,9 @@
   .tbar b{font-size:0.9rem;letter-spacing:-0.01em;white-space:nowrap}
   .tbar select{font-family:var(--mono);font-size:0.72rem;color:var(--ink-2);background:var(--surface);
     border:1px solid var(--line-2);border-radius:8px;padding:0 8px;min-height:36px;max-width:240px;min-width:0}
+  /* the view switch shows pictures, not words: a page to read, an easel to present */
+  .vico{display:block;margin:auto}
+  .viewsw button{min-width:46px}
   .viewsw{display:inline-flex;border:1px solid var(--line-2);border-radius:8px;overflow:hidden;flex:none}
   .viewsw button,.tbtn{font-family:var(--mono);font-size:0.74rem;background:var(--surface);color:var(--ink-2);
     border:0;padding:0 12px;min-height:36px;cursor:pointer}
@@ -267,8 +270,8 @@
     <span class="sp"></span>
     <select id="jump" title="Jump to a slide"></select>
     <span class="viewsw" role="group" aria-label="How to show the deck">
-      <button type="button" data-view="scroll" aria-pressed="true">Scroll</button>
-      <button type="button" data-view="deck" aria-pressed="false">Slides</button>
+      <button type="button" data-view="scroll" aria-pressed="true" aria-label="Read as a page" title="Read as a page"><svg class="vico" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5"/><path d="M9 9h2M9 13h6M9 17h6"/></svg></button>
+      <button type="button" data-view="deck" aria-pressed="false" aria-label="Show as slides" title="Show as slides"><svg class="vico" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2.5 3.5h19"/><rect x="4" y="3.5" width="16" height="11.5" rx="1"/><path d="M7.5 11.5l2.8-2.8 2.4 2 3.8-3.9"/><path d="M12 15v3.2M12 18.2 8 21.5M12 18.2l4 3.3"/></svg></button>
     </span>
     <button type="button" class="tbtn tnav" id="prev" title="Previous">‹</button>
     <button type="button" class="tbtn tnav" id="next" title="Next">›</button>
