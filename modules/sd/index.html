@@ -168,6 +168,31 @@
   @media(max-width:900px){.doc span,.doc{font-size:0.6rem}}
   tr.dead td{opacity:.6}
   tr.dead .wt{font-style:italic}
+  /* On a phone the table became a sideways scroller with its three buttons
+     parked at x=675 on a 390-pixel screen — so the way into every handout was
+     the one thing a student would not see. Below 640px each week is a card:
+     number and date, then the title, then what the workshop makes, then the
+     three sheets as full-width 44px buttons a thumb can hit. */
+  @media(max-width:640px){
+    .gridwrap{overflow:visible}
+    table.wk{min-width:0;display:block}
+    table.wk thead{display:none}
+    table.wk tbody{display:block}
+    table.wk tr{display:grid;grid-template-columns:auto 1fr;gap:2px 12px;padding:14px 14px 12px;
+      border-bottom:1px solid var(--line)}
+    table.wk tr:last-child{border-bottom:0}
+    table.wk td{display:block;padding:0;border:0;background:none !important;box-shadow:none !important}
+    table.wk td:nth-child(1){grid-column:1;font-size:.8rem}
+    table.wk td:nth-child(2){grid-column:2;font-size:.8rem}
+    table.wk td:nth-child(3){grid-column:1 / -1;font-size:1.02rem;margin-top:4px}
+    table.wk td:nth-child(4){grid-column:1 / -1;font-size:.88rem;line-height:1.4}
+    table.wk td.sheets{grid-column:1 / -1;margin-top:10px;white-space:normal}
+    table.wk tr.now{background:var(--wsh-soft);box-shadow:inset 3px 0 0 var(--wsh)}
+    .docs{display:grid;grid-template-columns:1fr 1fr 1.2fr;gap:6px}
+    .doc,.doc span{font-size:.78rem}
+    .doc{min-height:44px;justify-content:center;padding:0 8px}
+    .doc-h{font-weight:700}
+  }
 
   /* ================= generic ================= */
   section{padding:34px 0 8px}
@@ -230,60 +255,161 @@
   .subject b{color:var(--ink)}
   html[data-theme="dark"] .subject{background:#2A2417;border-left-color:#DCB469}
 
-  /* the handout, on screen and on paper */
-  #handout{border:0;padding:0;max-width:820px;width:calc(100% - 32px);max-height:88vh;
-    background:var(--surface);color:var(--ink);border-radius:6px;box-shadow:0 18px 60px rgba(0,0,0,.3)}
+  /* ── handouts: built for a phone first, a desk second, A4 third ─────────── */
+  #handout{border:0;padding:0;margin:auto;width:min(860px,calc(100% - 32px));max-height:90vh;
+    background:var(--surface);color:var(--ink);border-radius:10px;box-shadow:0 18px 60px rgba(0,0,0,.3);overflow:hidden}
+  #handout[open]{display:flex;flex-direction:column}
   #handout::backdrop{background:rgba(26,22,24,.55)}
-  .ho-bar{position:sticky;top:0;z-index:2;display:flex;align-items:center;justify-content:space-between;
-    gap:12px;padding:12px 18px;background:var(--surface-2);border-bottom:1px solid var(--line)}
-  .ho-kicker{font-family:var(--mono);font-size:.72rem;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-3)}
-  .ho-tools{display:flex;gap:8px}
-  .ho-btn{font:600 .76rem/1 inherit;padding:7px 12px;border:1px solid var(--line-2);border-radius:4px;
+  .ho-bar{flex:none;display:flex;align-items:center;justify-content:space-between;gap:10px;
+    padding:10px 14px 10px 18px;background:var(--surface-2);border-bottom:1px solid var(--line)}
+  .ho-kicker{font-family:var(--mono);font-size:.7rem;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-3);
+    min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .ho-tools{display:flex;gap:6px;flex:none}
+  .ho-btn{font:600 .8rem/1 inherit;min-height:40px;padding:0 14px;border:1px solid var(--line-2);border-radius:6px;
     background:var(--surface);color:var(--ink-2);cursor:pointer}
   .ho-btn:hover{border-color:var(--ink-3);color:var(--ink)}
   .ho-x{background:var(--ink);color:var(--surface);border-color:var(--ink)}
-  .ho-body{padding:22px 26px 30px;overflow:auto;max-height:calc(88vh - 52px)}
-  .ho-body h2{margin:0 0 6px;font-size:1.5rem;letter-spacing:-.02em;line-height:1.15}
-  .ho-idea{margin:0 0 20px;font-size:1rem;line-height:1.5;color:var(--ink-2);
-    border-left:3px solid var(--ink);padding-left:13px}
-  .ho-sec{margin:0 0 22px;padding:16px 18px;border:1px solid var(--line);border-radius:4px;background:var(--bg)}
-  /* the workshop is the flagship: it gets the accent, the top slot and the room */
+  .ho-body{flex:1;overflow:auto;padding:20px 24px 26px;-webkit-overflow-scrolling:touch;overscroll-behavior:contain}
+  .ho-body h2{margin:0 0 6px;font-size:1.55rem;letter-spacing:-.02em;line-height:1.12}
+  .ho-idea{margin:0 0 16px;font-size:.98rem;line-height:1.45;color:var(--ink-2);border-left:3px solid var(--ink);padding-left:12px}
+  .ho-block{margin:0 0 14px;padding:14px 16px;border:1px solid var(--line);border-radius:8px;background:var(--bg)}
   .ho-main{border-left:4px solid var(--wsh);background:var(--wsh-soft)}
-  .ho-quiet{background:var(--surface);opacity:.94}
-  .ho-sec h3{margin:0 0 10px;font-size:.78rem;letter-spacing:.07em;text-transform:uppercase;
-    display:flex;flex-wrap:wrap;align-items:baseline;gap:10px}
-  .ho-n{color:var(--ink)}
-  .ho-dur{font-family:var(--mono);font-size:.68rem;letter-spacing:.04em;text-transform:none;color:var(--ink-3)}
-  .ho-aim{margin:0 0 10px;font-size:1.02rem;font-weight:600;line-height:1.35}
-  .ho-bring,.ho-leave,.ho-miss,.ho-next{margin:10px 0 0;font-size:.86rem;line-height:1.55}
-  .ho-lab{display:block;font-size:.68rem;letter-spacing:.07em;
-    text-transform:uppercase;color:var(--ink-3);margin-bottom:2px;font-weight:600}
-  .ho-bring b,.ho-leave b,.ho-miss b,.ho-next b{font-weight:700;color:var(--ink)}
-  .ho-run{list-style:none;margin:12px 0 0;padding:0}
-  .ho-run li{display:grid;grid-template-columns:52px 1fr;gap:12px;padding:8px 0;border-top:1px solid var(--line)}
-  .ho-t{font-family:var(--mono);font-size:.74rem;color:var(--ink-3)}
-  .ho-run b{display:block;font-size:.9rem;margin-bottom:2px}
-  .ho-run span span,.ho-run li>span:last-child{font-size:.86rem;line-height:1.55}
-  .ho-tab{width:100%;border-collapse:collapse;font-size:.86rem}
-  .ho-tab th{text-align:left;font-size:.68rem;letter-spacing:.07em;text-transform:uppercase;
-    color:var(--ink-3);padding:0 0 6px;border-bottom:1px solid var(--line)}
-  .ho-tab td{padding:8px 10px 8px 0;border-bottom:1px solid var(--line);vertical-align:top;line-height:1.5}
-  .ho-tab td b{font-family:var(--mono);font-size:.78rem}
-  .ho-tab td span{display:block;font-size:.8rem;color:var(--ink-3)}
-  .ho-wd{display:inline-block !important;margin-left:8px;font-family:var(--mono);font-size:.72rem;
-    border:1px solid var(--line-2);border-radius:3px;padding:1px 5px;color:var(--ink-3) !important}
-  .ho-none{margin:0;font-size:.88rem;color:var(--ink-2)}
-  .ho-takes{margin:0;padding-left:20px;font-size:.86rem;line-height:1.6}
-  .ho-takes li{margin-bottom:6px}
-  .ho-foot{margin:0;font-size:.74rem;color:var(--ink-3);line-height:1.5}
-  .doc-h{color:var(--sup);cursor:pointer;font:inherit}
+  .ho-warn{border-left:4px solid var(--lec);background:var(--lec-soft)}
+  .ho-block h3{margin:0 0 10px;font-size:.74rem;letter-spacing:.08em;text-transform:uppercase;
+    display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 10px}
+  .ho-sub{font-family:var(--mono);font-size:.66rem;letter-spacing:.03em;text-transform:none;color:var(--ink-3);font-weight:400}
+  .ho-lab{display:block;font-size:.66rem;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-3);font-weight:600;margin-bottom:4px}
+
+  /* the session split: the workshop takes two thirds, because it is two thirds */
+  .ho-split{display:flex;margin:0 0 14px;border-radius:6px;overflow:hidden;font-size:.74rem;font-weight:600}
+  .ho-split span{padding:8px 10px;line-height:1.25}
+  .ho-split-c{flex:1;background:var(--surface-2);color:var(--ink-2)}
+  .ho-split-w{flex:2;background:var(--wsh);color:#fff}
+
+  .ho-aim{margin:0 0 10px;font-size:1rem;font-weight:650;line-height:1.35}
+  .ho-steps{list-style:none;margin:0;padding:0;counter-reset:s}
+  .ho-steps li{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(60px,1fr) 38px;align-items:center;
+    gap:10px;padding:6px 0;border-top:1px solid rgba(29,92,122,.18);counter-increment:s}
+  .ho-sn{font-size:.86rem;font-weight:600;line-height:1.3}
+  .ho-sn::before{content:counter(s) ". ";color:var(--ink-3);font-weight:400}
+  .ho-sb{height:10px;background:rgba(29,92,122,.14);border-radius:5px;overflow:hidden}
+  .ho-sb i{display:block;height:100%;background:var(--wsh);border-radius:5px}
+  .ho-sm{font-family:var(--mono);font-size:.74rem;color:var(--ink-2);text-align:right}
+  .ho-chips{margin:12px 0 0;display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+  .ho-chips .ho-lab{width:100%;margin:0}
+  .ho-chips span:not(.ho-lab){font-size:.8rem;padding:4px 9px;border-radius:999px;background:var(--surface);
+    border:1px solid var(--line-2)}
+
+  /* ticks: 44px rows, because this is used with a thumb */
+  .ho-tick{display:grid;grid-template-columns:24px 38px 1fr;gap:10px;align-items:start;min-height:44px;
+    padding:8px 0;border-top:1px solid var(--line);cursor:pointer}
+  .ho-tick input{width:22px;height:22px;margin:1px 0 0;accent-color:var(--wsh)}
+  .ho-code{font-family:var(--mono);font-size:.74rem;font-weight:700;text-align:center;padding:3px 0;border-radius:4px;color:#fff}
+  .ho-what b{display:block;font-size:.9rem;line-height:1.3}
+  .ho-what em{display:block;font-style:normal;font-size:.8rem;color:var(--ink-3);line-height:1.35}
+  .ho-tick:has(input:checked) .ho-what{opacity:.55;text-decoration:line-through}
+  .ho-empty{margin:0;font-size:.88rem;color:var(--ink-2)}
+  .ho-A{background:var(--wsh)} .ho-B{background:var(--lec)} .ho-C{background:var(--sup)}
+
+  .ho-prog{margin-top:12px}
+  .ho-prog-h{display:flex;justify-content:space-between;gap:8px;font-size:.78rem;margin-bottom:4px}
+  .ho-prog-h span{font-family:var(--mono);color:var(--ink-2)}
+  .ho-prog-t{height:12px;background:var(--surface-2);border-radius:6px;overflow:hidden}
+  .ho-prog-t i{display:block;height:100%;background:var(--ink);border-radius:6px}
+
+  .ho-two{display:grid;grid-template-columns:1.5fr 1fr;gap:14px}
+  .ho-two .ho-block{margin:0}
+  .ho-keep{margin:0;padding-left:18px;font-size:.9rem;line-height:1.45}
+  .ho-keep li{margin-bottom:6px}
+  .ho-warn p{margin:0;font-size:.9rem;line-height:1.45}
+  .ho-next{margin:14px 0 0;padding:12px 16px;border-radius:8px;background:var(--ink);color:var(--surface);
+    font-size:.95rem;font-weight:600;line-height:1.35}
+  .ho-next .ho-lab{color:inherit;opacity:.65}
+  .ho-foot{margin:12px 0 0;font-size:.76rem;color:var(--ink-3);line-height:1.5}
+  .ho-foot a,.ho-links a{color:var(--wsh);font-weight:600}
+
+  /* brief */
+  .ho-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:0 0 14px}
+  .ho-stats div{padding:10px 12px;border-radius:8px;background:var(--surface-2)}
+  .ho-stats b{display:block;font-size:1.6rem;letter-spacing:-.03em;line-height:1}
+  .ho-stats span{font-size:.74rem;color:var(--ink-3);line-height:1.3}
+  .ho-parts{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+  .ho-part{border-radius:8px;padding:10px 12px;background:var(--surface);border:1px solid var(--line);border-top:4px solid}
+  .ho-part.ho-A{border-top-color:var(--wsh)} .ho-part.ho-B{border-top-color:var(--lec)} .ho-part.ho-C{border-top-color:var(--sup)}
+  .ho-part{background-color:var(--surface) !important}
+  .ho-part-h{display:flex;gap:10px;align-items:center}
+  .ho-part-n{font-size:1.8rem;font-weight:750;letter-spacing:-.03em;line-height:1}
+  .ho-part-h b{display:block;font-size:.86rem}
+  .ho-part-h em{display:block;font-style:normal;font-size:.72rem;color:var(--ink-3)}
+  .ho-part-c{margin:8px 0 0;display:flex;flex-wrap:wrap;gap:4px}
+  .ho-part-c span{font-family:var(--mono);font-size:.68rem;padding:2px 5px;border-radius:3px;background:var(--surface-2)}
+  .ho-weeks{display:flex;flex-direction:column;gap:3px}
+  .ho-wk{display:grid;grid-template-columns:22px 150px minmax(60px,1fr) 24px;align-items:center;gap:8px;min-height:26px}
+  .ho-wk-n{font-family:var(--mono);font-size:.74rem;color:var(--ink-3);text-align:right}
+  .ho-wk-dots{display:flex;flex-wrap:wrap;gap:3px}
+  .ho-wk-dots i{font:700 .64rem/1 var(--mono);font-style:normal;color:#fff;padding:3px 4px;border-radius:3px}
+  .ho-wk-dots em{color:var(--ink-3);font-style:normal;font-size:.74rem}
+  .ho-wk-bar{height:8px;background:var(--surface-2);border-radius:4px;overflow:hidden}
+  .ho-wk-bar b{display:block;height:100%;background:var(--ink)}
+  .ho-wk-c{font-family:var(--mono);font-size:.7rem;color:var(--ink-2)}
+  .ho-legend{margin:8px 0 0;font-size:.72rem;color:var(--ink-3);display:flex;flex-wrap:wrap;align-items:center;gap:4px 8px}
+  .ho-legend i{display:inline-block;width:10px;height:10px;border-radius:2px;margin-right:-4px}
+  .ho-crit{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+  .ho-c{padding:10px 12px;border-radius:8px;background:var(--surface);border:1px solid var(--line)}
+  .ho-c-n{display:inline-grid;place-items:center;width:22px;height:22px;border-radius:50%;background:var(--ink);
+    color:var(--surface);font:700 .72rem/1 var(--mono);margin-right:6px;vertical-align:1px}
+  .ho-c b{font-size:.88rem}
+  .ho-c ul{margin:6px 0 0;padding-left:18px;font-size:.82rem;line-height:1.4}
+  .ho-musts{list-style:none;margin:0;padding:0;columns:2;column-gap:20px}
+  .ho-musts li{break-inside:avoid;display:flex;gap:8px;font-size:.88rem;line-height:1.35;padding:4px 0}
+  .ho-musts li span{flex:none;font-size:1rem;line-height:1.2}
+  .ho-links{margin:14px 0 0;display:flex;flex-wrap:wrap;gap:8px}
+  .ho-links a{display:inline-flex;align-items:center;min-height:44px;padding:0 14px;border-radius:8px;
+    border:1px solid var(--line-2);text-decoration:none;background:var(--surface);font-size:.86rem}
+
+  .doc-h{color:var(--sup);cursor:pointer;font-family:var(--mono)}
   .doc-h:hover{border-color:var(--sup);background:var(--sup-soft)}
-  @media(max-width:620px){ .ho-body{padding:16px 14px 22px} .ho-run li{grid-template-columns:44px 1fr;gap:8px} }
+  button.cta{border:0;font:inherit;text-align:left;cursor:pointer;width:100%}
+  .ho-prt{display:none}
+
+  /* the phone: the sheet becomes the screen */
+  @media (max-width:640px){
+    #handout{width:100%;max-width:100%;height:100dvh;max-height:100dvh;border-radius:0;margin:0}
+    .ho-body{padding:16px 16px calc(24px + env(safe-area-inset-bottom))}
+    .ho-body h2{font-size:1.35rem}
+    .ho-steps li{grid-template-columns:1fr 38px;row-gap:4px}
+    .ho-sb{grid-column:1 / -1;grid-row:2}
+    .ho-two,.ho-crit,.ho-parts{grid-template-columns:1fr}
+    .ho-stats{grid-template-columns:repeat(2,1fr)}
+    .ho-musts{columns:1}
+    .ho-split span{font-size:.7rem}
+    .ho-wk{grid-template-columns:20px minmax(0,1fr) 44px 20px}
+    .ho-links a{flex:1 1 100%;justify-content:center}
+  }
+
+  /* A4: one sheet, no chrome, backgrounds kept so the bars still read */
   @media print{
+    @page{size:A4;margin:10mm}
     body>*:not(#handout){display:none !important}
-    #handout{position:static;max-width:none;width:auto;max-height:none;box-shadow:none;border-radius:0}
-    .ho-bar{display:none} .ho-body{max-height:none;overflow:visible;padding:0}
-    .ho-sec{break-inside:avoid;background:#fff !important}
+    #handout{position:static;display:block !important;width:auto;max-width:none;height:auto;max-height:none;
+      box-shadow:none;border-radius:0;overflow:visible}
+    .ho-bar{display:none} .ho-body{overflow:visible;padding:0}
+    .ho-body,.ho-body *{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+    .ho-block,.ho-wk,.ho-c,.ho-part{break-inside:avoid}
+    .ho-body h2{font-size:1.3rem}
+    .ho-block{padding:8px 10px;margin-bottom:8px}
+    .ho-tick{min-height:0;padding:4px 0}
+    .ho-links{display:none}
+    html,body{background:#fff !important}
+    .ho-scr{display:none !important} .ho-prt{display:block}
+    .ho-idea,.ho-stats{margin-bottom:8px}
+    .ho-stats div{padding:6px 8px} .ho-stats b{font-size:1.25rem}
+    .ho-part{padding:6px 9px}
+    .ho-weeks{gap:0} .ho-wk{min-height:0;gap:6px;padding:1px 0}
+    .ho-wk-dots i{padding:2px 3px}
+    .ho-legend{margin-top:4px}
+    .ho-c{padding:6px 9px} .ho-crit{gap:6px} .ho-c ul{margin-top:3px;font-size:.76rem}
+    .ho-musts li{padding:1px 0;font-size:.82rem}
   }
 </style>
 </head>
@@ -349,15 +475,15 @@
   <section id="assess">
     <div class="sh"><h2>The hand-in</h2><em>100% OF THE MARK</em></div>
     <div class="three">
-      <div class="card"><span class="k">Part A</span><span class="big">7</span>
+      <div class="card"><span class="k">Part A</span><span class="big" data-part-count="A">7</span>
         <h3>Spec sheet</h3>
         <ul><li>Fill-in fields, not an essay</li><li>Made in the workshops</li><li>≈400 words equivalent</li></ul></div>
       <div class="card"><span class="k">Part B</span><span class="big">6–8</span>
         <h3>Screens + artefacts</h3>
         <ul><li>Prototype screens</li><li>2 shown at 3 sizes</li><li>Sketches, wireframes, style tile</li></ul></div>
-      <div class="card"><span class="k">Part C</span><span class="big">6</span>
+      <div class="card"><span class="k">Part C</span><span class="big" data-part-count="C">9</span>
         <h3>Short sections</h3>
-        <ul><li>500–700 words total</li><li>Each cites a number from Part A</li><li>Drafted in week 10</li></ul></div>
+        <ul><li>500–700 words total</li><li>Each cites a number from Part A</li><li>Drafted the week each decision is made</li></ul></div>
     </div>
     <div class="ctarow">
       <a class="cta" href="assessment.html">
@@ -368,6 +494,10 @@
         <span><b>The brief, explained</b><span>What it is and how it is marked.</span></span>
         <span class="go">Open →</span>
       </a>
+      <button type="button" class="cta cta3" data-brief-handout>
+        <span><b>The brief on one page</b><span>Everything you hand in, in a one-minute read.</span></span>
+        <span class="go">Open →</span>
+      </button>
     </div>
   </section>
 
@@ -585,95 +715,215 @@ document.querySelectorAll('.seccount').forEach(el => {
    against a brief that held 24, and "Sixteen slides" against a deck of 22 —
    because a number in prose does not move when the data does. */
 (function () {
+  document.querySelectorAll('[data-part-count]').forEach(function (n) {
+    if (typeof PARTS === 'undefined') return;
+    var g = PARTS.find(function (x) { return x.id === n.dataset.partCount; });
+    if (g) n.textContent = g.items.length;
+  });
   var el = document.querySelector('[data-sec-count]');
   if (el && typeof PARTS !== 'undefined')
     el.textContent = PARTS.reduce(function (n, g) { return n + g.items.length; }, 0);
 })();
 
-/* ── The handout ──────────────────────────────────────────────────────────────
-   One page a student can take away, built from the same data as everything
-   else so it cannot say something the week does not.
+/* ── The handouts ─────────────────────────────────────────────────────────────
+   Two one-minute reads in one dialog: a sheet per session, and the whole brief
+   on a page. Students skim, and most of them arrive in the last three weeks, so
+   both are built to be scanned: bars, ticks, chips and one-line bullets. Nothing
+   is a paragraph.
 
-   The workshop leads and gets the most room. That is deliberate: two of the
-   three hours are the workshop, everything handed in is made there, and a
-   handout that opened with the lecture would tell students the lecture is the
-   event. It is not — it is the hour that sets up the two that matter.
+   Everything that can be derived is derived — step names and minutes, sections
+   and what each must contain, dates, counts — so a handout cannot say something
+   the week does not. Only the three "keep in mind" lines and the next-week line
+   are written by hand, in WEEKS[].hand, because a distillation has to be.
 
-   "How this applies to your assessment" is not a summary. It names the sections
-   of the brief this session fills, quotes what each one has to contain, and
-   ends on the thing that is due before the next session. */
+   The workshop leads the weekly sheet and gets the widest graphic. Two of the
+   three hours are the workshop and every section handed in is made there.
+
+   Ticks are the same ticks as the interactive checklist (SD.read / SD.write),
+   so a student who ticks A5 here finds it ticked there. */
 (function () {
-  const dlg  = document.getElementById('handout');
-  if (!dlg || typeof WEEKS === 'undefined') return;
+  const dlg = document.getElementById('handout');
+  if (!dlg || typeof WEEKS === 'undefined' || typeof PARTS === 'undefined') return;
   const body = document.getElementById('ho-body');
   const kick = document.getElementById('ho-kicker');
-  const esc  = t => String(t).replace(/[<&]/g, c => c === '<' ? '&lt;' : '&amp;');
 
+  /* The official Word document. Left empty on purpose until the 2026-27 file
+     agrees with this site: it still lists a fourth learning outcome and asks
+     for Figma/XD links. Set a filename here and the link appears. */
+  const OFFICIAL_BRIEF = '';
+
+  const esc = t => String(t).replace(/[<&]/g, c => c === '<' ? '&lt;' : '&amp;');
+  const plain = t => String(t).replace(/<[^>]+>/g, '').replace(/\s+/g, ' ').trim();
+  const stepName = t => plain(t).split(/\s+[—–]\s+/)[0];
   const SEC = {};
-  if (typeof PARTS !== 'undefined')
-    PARTS.forEach(g => g.items.forEach(i => { SEC[i.sec] = { ...i, part: g.id, partName: g.name }; }));
+  SD.all.forEach(i => { SEC[i.sec] = i; });
+  const PART = { A: 'Spec sheet', B: 'The work', C: 'Rationale' };
+  const TOTAL = SD.all.length;
+  const madeIn = n => WEEKS.find(w => w.n === n).workshop.out.sec.filter(x => SEC[x]);
+  const doneBy = n => WEEKS.filter(w => w.n <= n).reduce((a, w) => a + madeIn(w.n).length, 0);
+  const days = () => Math.max(0, SD.daysToDeadline());
+  const due = () => `${SD.fmtFull(SD.dead)}`;
 
-  function build(n) {
-    const w = WEEKS.find(x => x.n === n);
-    if (!w) return;
-    const k = w.workshop;
-    const made = (k.out.sec || []).filter(x => SEC[x]);
+  const tick = (sec, extra = '') => {
+    const it = SEC[sec]; const on = !!SD.read()[it.key];
+    return `<label class="ho-tick"><input type="checkbox" data-key="${it.key}"${on ? ' checked' : ''}>
+      <span class="ho-code ho-${it.part}">${sec}</span>
+      <span class="ho-what"><b>${esc(it.t)}</b><em>${esc(it.d)}</em></span>${extra}</label>`;
+  };
+  const bar = (label, pct, note) =>
+    `<div class="ho-prog"><div class="ho-prog-h"><b>${label}</b><span>${note}</span></div>
+      <div class="ho-prog-t" role="img" aria-label="${label}: ${note}"><i style="width:${pct}%"></i></div></div>`;
 
-    kick.innerHTML = `Week ${w.n} · ${SD.fmt(SD.dateOf(w.n))}`;
+  /* ── one session ─────────────────────────────────────────────────────────── */
+  function week(n) {
+    const w = WEEKS.find(x => x.n === n); if (!w) return;
+    const k = w.workshop, made = madeIn(n);
+    const maxMin = Math.max(...k.run.map(r => parseInt(r.w)));
+    const bring = plain(k.bring).split('·').map(x => x.trim()).filter(Boolean);
+    const done = doneBy(n);
 
-    const step = k.run.map(r =>
-      `<li><span class="ho-t">${esc(r.w)}</span><span><b>${r.s}</b> ${r.d}</span></li>`).join('');
-
-    const takes = w.shown.filter(x => x.take).map(x =>
-      `<li>${x.take}</li>`).join('');
-
-    const apply = made.length
-      ? `<table class="ho-tab"><tr><th>Section</th><th>What it has to contain</th></tr>${
-          made.map(x => {
-            const it = SEC[x];
-            return `<tr><td><b>${x}</b><span>${esc(it.t)}</span></td><td>${esc(it.d)}${
-              it.wd ? `<span class="ho-wd">${esc(it.wd)}</span>` : ''}</td></tr>`;
-          }).join('')}</table>`
-      : `<p class="ho-none">Nothing is filled in this week. ${esc(k.out.what)}</p>`;
-
+    kick.textContent = `Week ${n} · ${SD.fmt(SD.dateOf(n))}`;
     body.innerHTML = `
       <h2 id="ho-title">${esc(w.title)}</h2>
       <p class="ho-idea">${esc(w.idea)}</p>
 
-      <div class="ho-sec ho-main">
-        <h3><span class="ho-n">The workshop</span> <span class="ho-dur">2 hours · the part that counts</span></h3>
+      <div class="ho-split" role="img" aria-label="One hour in class, two hours in the workshop">
+        <span class="ho-split-c">Class · 1h</span>
+        <span class="ho-split-w">Workshop · 2h — where your marks are made</span>
+      </div>
+
+      <section class="ho-block ho-main">
+        <h3>In the workshop</h3>
         <p class="ho-aim">${esc(k.aim)}</p>
-        <p class="ho-bring"><span class="ho-lab">Bring</span> ${k.bring}</p>
-        <ol class="ho-run">${step}</ol>
-        <p class="ho-leave"><span class="ho-lab">You leave with</span> ${k.leave}</p>
-        ${k.mistake ? `<p class="ho-miss"><span class="ho-lab">The mistake everyone makes</span> ${esc(k.mistake)}</p>` : ''}
+        <ol class="ho-steps">${k.run.map(r => `
+          <li><span class="ho-sn">${esc(stepName(r.s))}</span>
+            <span class="ho-sb"><i style="width:${Math.round(parseInt(r.w) / maxMin * 100)}%"></i></span>
+            <span class="ho-sm">${esc(r.w)}</span></li>`).join('')}
+        </ol>
+        <p class="ho-chips"><span class="ho-lab">Bring</span>${bring.map(b => `<span>${esc(b)}</span>`).join('')}</p>
+      </section>
+
+      <section class="ho-block">
+        <h3>Tick off today <span class="ho-sub">your assessment</span></h3>
+        ${made.length ? made.map(x => tick(x)).join('')
+          : `<p class="ho-empty">Nothing to hand in yet. Leave with ${esc(plain(k.leave)).replace(/^A /, 'a ')}</p>`}
+        ${bar('Your deck after today', Math.round(done / TOTAL * 100), `${done} of ${TOTAL} sections`)}
+      </section>
+
+      <div class="ho-two">
+        <section class="ho-block">
+          <h3>Keep in mind</h3>
+          <ul class="ho-keep">${w.hand.keep.map(x => `<li>${esc(x)}</li>`).join('')}</ul>
+        </section>
+        <section class="ho-block ho-warn">
+          <h3>Watch out</h3>
+          <p>${esc(plain(k.mistake))}</p>
+        </section>
       </div>
 
-      <div class="ho-sec">
-        <h3><span class="ho-n">How this applies to your assessment</span></h3>
-        ${apply}
-        ${k.between ? `<p class="ho-next"><span class="ho-lab">Before next week</span> ${k.between}</p>` : ''}
-      </div>
-
-      ${takes ? `<div class="ho-sec ho-quiet">
-        <h3><span class="ho-n">From the hour before</span> <span class="ho-dur">what to keep</span></h3>
-        <ul class="ho-takes">${takes}</ul>
-      </div>` : ''}
-
-      <p class="ho-foot">Screen Design · Level 4 · 30 credits · deadline ${SD.fmtFull(SD.dead)}.
-        Every section above is in the one deck you set up in week 1.</p>`;
+      <p class="ho-next"><span class="ho-lab">Before next week</span>${esc(w.hand.next)}</p>
+      <p class="ho-foot">Deadline ${due()}<span class="ho-scr"> · ${days()} days to go</span> ·
+        <a href="assessment.html">open your checklist →</a></p>`;
   }
 
+  /* ── the whole brief ─────────────────────────────────────────────────────── */
+  const GETS = {
+    1: ['Your own A3–A5 numbers visibly used on every screen', 'One clear first thing to read on each screen'],
+    2: ['A6 filled with real values, and every text pair passing', 'A small-screen version someone could actually use'],
+    3: ['Sketches → flow → wireframes → screens, all present', '6–8 screens and six links that land'],
+    4: ['A reason and a number in every paragraph', 'Ethics or sustainability, and your AI use, dealt with honestly'],
+  };
+  const MUSTS = [
+    'One PDF, exported from your one deck',
+    'Your name nowhere in it',
+    '6–8 finished screens, one per slide',
+    'Six links that land — clicked in the PDF, not the editor',
+    'Every C section quotes a number from Part A',
+    'Every AI use logged in A7 and discussed in C8',
+    'Everything you cite listed in C9 (Cite Them Right Harvard)',
+  ];
+
+  function brief() {
+    kick.textContent = 'The assessment · on one page';
+    const parts = PARTS.map(g => ({ id: g.id, n: g.items.length, items: g.items }));
+    body.innerHTML = `
+      <h2 id="ho-title">Screen Design portfolio</h2>
+      <p class="ho-idea">One deck, filled in a little every week. Nothing is written at the end.</p>
+
+      <div class="ho-stats">
+        <div><b>1</b><span>PDF, from one deck</span></div>
+        <div><b>${TOTAL}</b><span>sections to fill</span></div>
+        <div><b>100%</b><span>of the module mark</span></div>
+        <div><b class="ho-scr">${days()}</b><b class="ho-prt">${SD.fmtShort(SD.dead)}</b><span><span class="ho-scr">days to </span>${SD.fmt(SD.dead)}, 21:00</span></div>
+      </div>
+
+      <section class="ho-block">
+        <h3>What you hand in</h3>
+        <div class="ho-parts">${parts.map(g => `
+          <div class="ho-part ho-${g.id}">
+            <div class="ho-part-h"><span class="ho-part-n">${g.n}</span>
+              <span><b>Part ${g.id} · ${PART[g.id]}</b><em>${esc(PARTS.find(x => x.id === g.id).tag)}</em></span></div>
+            <p class="ho-part-c">${g.items.map(i => `<span title="${esc(i.t)}">${i.sec}</span>`).join('')}</p>
+          </div>`).join('')}
+        </div>
+      </section>
+
+      <section class="ho-block">
+        <h3>When each section is made <span class="ho-sub">week by week</span></h3>
+        <div class="ho-weeks" role="img" aria-label="Sections produced in each of the eleven weeks">${WEEKS.map(w => {
+          const m = madeIn(w.n), d = doneBy(w.n);
+          return `<div class="ho-wk">
+            <span class="ho-wk-n">${w.n}</span>
+            <span class="ho-wk-dots">${m.map(x => `<i class="ho-${SEC[x].part}" title="${x} ${esc(SEC[x].t)}">${x}</i>`).join('') || '<em>—</em>'}</span>
+            <span class="ho-wk-bar"><b style="width:${Math.round(d / TOTAL * 100)}%"></b></span>
+            <span class="ho-wk-c">${d}</span></div>`;
+        }).join('')}</div>
+        <p class="ho-legend"><i class="ho-A"></i>Spec sheet <i class="ho-B"></i>The work <i class="ho-C"></i>Rationale
+          <span>· bar = sections done by the end of that week</span></p>
+      </section>
+
+      <section class="ho-block">
+        <h3>How it is marked <span class="ho-sub">one overall mark, four criteria</span></h3>
+        <div class="ho-crit">${RUBRIC_LITE.map(c => `
+          <div class="ho-c"><span class="ho-c-n">${c.n}</span><b>${esc(c.name)}</b>
+            <ul>${GETS[c.n].map(x => `<li>${esc(x)}</li>`).join('')}</ul></div>`).join('')}
+        </div>
+      </section>
+
+      <section class="ho-block ho-main">
+        <h3>Before you submit</h3>
+        <ul class="ho-musts">${MUSTS.map(x => `<li><span aria-hidden="true">☐</span>${esc(x)}</li>`).join('')}</ul>
+      </section>
+
+      <p class="ho-links">
+        <a href="assessment.html">Interactive checklist →</a>
+        <a href="brief.html">The brief, explained →</a>
+        ${OFFICIAL_BRIEF ? `<a href="${OFFICIAL_BRIEF}" download>Official assessment brief (Word) ↓</a>` : ''}
+      </p>`;
+  }
+
+  /* The rubric's own criterion names, so the one-pager cannot rename them. */
+  const RUBRIC_LITE = (typeof RUBRIC !== 'undefined' ? RUBRIC : [
+    { n: 1, name: 'Visual Design & Communication' }, { n: 2, name: 'User-Centred Thinking' },
+    { n: 3, name: 'Technical Craft & Process' }, { n: 4, name: 'Critical Reflection' }]);
+
+  body.addEventListener('change', e => {
+    const c = e.target.closest('input[data-key]'); if (!c) return;
+    const st = SD.read(); st[c.dataset.key] = c.checked; SD.write(st);
+  });
   document.addEventListener('click', e => {
-    const b = e.target.closest('[data-handout]');
-    if (!b) return;
-    build(+b.dataset.handout);
+    const w = e.target.closest('[data-handout]');
+    const b = e.target.closest('[data-brief-handout]');
+    if (!w && !b) return;
+    w ? week(+w.dataset.handout) : brief();
+    dlg.dataset.kind = w ? 'week' : 'brief';
+    body.scrollTop = 0;
     dlg.showModal();
+    const words = body.innerText.split(/\s+/).filter(Boolean).length;
+    if (w && words > 250) console.warn(`handout week ${w.dataset.handout}: ${words} words — over the one-minute budget of 250`);
   });
   document.getElementById('ho-close').onclick = () => dlg.close();
   document.getElementById('ho-print').onclick = () => window.print();
-  /* click the backdrop to dismiss — the dialog itself is the only child that
-     receives the click when the content is hit */
   dlg.addEventListener('click', e => { if (e.target === dlg) dlg.close(); });
 })();
 </script>

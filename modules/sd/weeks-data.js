@@ -22,12 +22,12 @@ const RULES = [
  {k:"Share the folder", v:"Share <code>ScreenDesign</code> with your tutors in week 1 and leave it shared. That is how anyone helps you between classes, and how a tutor can look at your work before a check-in instead of during it."},
  {k:"Your name goes on nothing", v:"The deck is marked without your name on it. Call it <code>screen-design-portfolio</code> — no name in the filename, no name on the cover, no name in a header or footer. Your student ID only, if you want anything at all. <b>The OneDrive folder identifies you; the document does not.</b>"},
  {k:"One deck, all term", v:"You hand nothing in weekly. There is <b>one slide deck</b> — PowerPoint or Google Slides, whichever you already have — and you fill in a section of it each week. By week 10 it is finished, and in January you export it as a PDF."},
- {k:"One screen per slide", v:"When you build your screens in week 9, <b>put each one on its own slide.</b> In week 10 you link them together and that is your prototype \u2014 the assessment asks for a clickable multi-screen prototype, and if your screens are slides you get one by drawing six arrows. If they are pasted four to a page, you do not."},
+ {k:"One screen per slide", v:"When you build your screens — from week 8 — <b>put each one on its own slide.</b> In week 10 you link them together and that is your prototype \u2014 the assessment asks for a clickable multi-screen prototype, and if your screens are slides you get one by drawing six arrows. If they are pasted four to a page, you do not."},
  {k:"Bring every week", v:"Laptop or tablet, your OneDrive folder open, and your spec sheet. The spec sheet is the one thing you use in every single workshop."},
  {k:"Photograph paper work", v:"Weeks 2, 7 and 8 are on paper. Photograph everything before you leave the room and paste it straight into the deck that day. Paper gets lost; it always has."},
  {k:"Referencing", v:"<b>Cite Them Right Harvard.</b> If you quote or borrow anything — a principle, a statistic, an image — cite it in the text and list it at the end. <b>The reference list does not count toward your 500–700 words. In-text citations do.</b> <a href=\"https://libguides.mmu.ac.uk/refguide\" target=\"_blank\">libguides.mmu.ac.uk/refguide</a>"},
  {k:"How you submit", v:"In January, export your deck as a PDF and upload <b>that one file</b> to Moodle. Exporting from PowerPoint or Google Slides keeps your links working inside the PDF. Not a link, not a folder, not a zip. Sharing the OneDrive folder is not submitting."},
- {k:"Back up before you export", v:"Before you touch the final PDF in week 10, duplicate the folder. Exports go wrong and you do not want to rebuild."},
+ {k:"Back up before you export", v:"Before you touch the final PDF in week 11, duplicate the folder. Exports go wrong and you do not want to rebuild."},
  {k:"AI is allowed", v:"Any tool. Log every use in Part A §7 the same day: tool, what it made, what you changed, why. One line. Not logging it is the only thing that is a problem."},
  {k:"If you miss a week", v:"Read that week's two sheets — they are the same ones the tutor used. Then bring the gap to the support hours."}
 ];
@@ -37,6 +37,7 @@ const WEEKS = [
  n:1, title:"Why screens look the way they do",
  makes:["3 teardowns","3 theme ideas"],
  idea:"Every layout decision you will make was made before, for reasons, and the reasons still hold.",
+ hand:{keep:["Your whole assessment is one deck with 24 sections — filled in all term.", "Marks follow evidence: every claim needs something a marker can see.", "Present is not the same as evidenced. Thin work looks finished."], next:"Choose three possible themes."},
  shown:[
   {s:"The assessment brief", d:"Walk the eleven slides end to end. This is the first thing they see, and the only deck we give them — everything after this is workshops.", u:"brief.html", take:"The whole assessment is one document, and every section of it is listed on the hand-in page. Everything you are told this term is already in that brief."},
   {s:"The hand-in, in one page", d:"Every section of the hand-in, and the structure they copy in the workshop today.", u:"assessment.html", take:"You copy this structure in the workshop today. From then on you are filling it in, not starting it."},
@@ -73,6 +74,7 @@ const WEEKS = [
  n:2, title:"Composition and visual hierarchy",
  makes:["8 thumbnails","Theme locked","C1 drafted"],
  idea:"You get one focal point. Everything else is arranged around what you chose.",
+ hand:{keep:["One focal point per screen. Everything else supports it.", "Hierarchy comes from scale, weight, colour, space and position.", "Choose layouts by clarity, not by how pretty they are."], next:"Nothing. Rest — your theme is now locked."},
  shown:[
   {s:"Scale, weight, space — live", u:"https://interfaces.institute/stairwell/hierarchy/", d:"Resize one element on a real page and watch the reading order change. Then add space only, change nothing else. <b>Five switches on one screen</b> — turn each device off in turn and the primary action stops being primary without moving, changing its words, or leaving the page.", take:"Changing one thing — size, weight, spacing — changes what gets read first. That is the whole of hierarchy."},
   {s:"Two focal points", d:"A real screen with two. Everyone takes a moment to find the first thing, and that moment is the cost.", u:"https://interfaces.institute/collections/bank-interfaces/", take:"You get one focal point per screen. Two costs the reader a moment, and that moment is what you write about in C2."},
@@ -105,6 +107,7 @@ const WEEKS = [
  n:3, title:"The grid",
  makes:["Layout spec → Part A §3","C2 drafted"],
  idea:"A grid is a decision you make once so you do not remake it four hundred times.",
+ hand:{keep:["A grid is seven numbers you decide once.", "If your sketch does not fit the grid, change the grid.", "Use a spacing scale, not eleven different gaps."], next:"Redraw one thumbnail on your grid if it did not fit."},
  shown:[
   {s:"A layout with eleven different gaps", u:"https://interfaces.institute/collections/grids/#eleven", d:"Count them out loud on the projector — every gap is drawn with its measurement beside it. Then press <b>Snap to an 8px scale</b> and the eleven become five, with nothing else on the card changing.", take:"Every gap should come from a list you decided once. Eleven different gaps is eleven decisions you did not make."},
   {s:"Sixty-seven published grids", d:"Each plate drawn to that publisher's own numbers. Filter by who published it — a CSS framework beside a government manual beside a 1962 standard.", u:"https://interfaces.institute/collections/grids/", take:"Forty-nine of the sixty-seven wrote their grid down. Eighteen did not, and that is a finding rather than a gap. Yours goes in A3 today."},
@@ -137,6 +140,7 @@ const WEEKS = [
  n:4, title:"Typography",
  makes:["Type spec → Part A §4","1 specimen screen","C3 drafted"],
  idea:"Most bad screen type is a line-length problem wearing a font problem's clothes.",
+ hand:{keep:["Two typefaces at most, each with a job.", "Most bad type is lines too long: aim for 45–75 characters.", "Name each size and what it is for."], next:"Set a second screen in your type scale."},
  shown:[
   {s:"What a published scale actually does", u:"https://interfaces.institute/collections/type-scales/", d:"Five design systems, their type scales read out of the files they ship, and the ratio between every pair of steps computed.", take:"<b>None of the five is geometric.</b> Across 62 steps the ratio wanders in every one \u2014 Tailwind 1.111 to 1.333, Material 1.0 to 1.375. Bootstrap\u2019s top four headings have no fixed size at all. \u201cI used a 1.25 scale\u201d is a claim the systems you copied from would not survive: name your sizes, name what each is for, name the measure."},
   {s:"Two paragraphs", u:"https://written.institute/laboratory/#measure", d:"Same font, same size. One at 45 characters, one poured into the full width. Leave both up for ten seconds and say nothing. The slider underneath sets any measure from 20 to 140, and both labels <b>count the characters live</b> rather than claiming a number.", take:"Line length is the problem more often than the font is. If your text is hard to read, the column is too wide."},
@@ -171,6 +175,7 @@ const WEEKS = [
  n:5, title:"Colour",
  makes:["Colour spec → Part A §5","Contrast table","C4 drafted"],
  idea:"Contrast is the one part of colour that is measurable, and therefore the one part nobody can argue with you about.",
+ hand:{keep:["Body text needs 4.5:1 contrast with its background.", "Give colours roles first: background, surface, text, quiet text, accent.", "Colour must never be the only way something is shown."], next:"Recolour your second screen."},
  shown:[
   {s:"Traffic colour", d:"How the meaning got fixed, and by whom.", u:"https://symbolic.institute/visual-grammar/traffic-colour/", take:"Colour means different things in different places. Pick one such difference and write it into C7 today — the brief asks for it by name."},
   {s:"The same hue, different meanings", d:"Colour associations by place. Walk a few.", u:"https://symbolic.institute/collections/colour-associations/", take:"Same hue, different meaning depending on where you are. That is your cross-cultural consideration, and it is markable."},
@@ -206,6 +211,7 @@ const WEEKS = [
  n:6, title:"Contemporary tools, and working with AI",
  makes:["Style tile","Mood board","AI log → Part A §7"],
  idea:"A generator can make a competent screen in a minute. It cannot make your decisions, and the decisions are what is marked.",
+ hand:{keep:["A generator makes a competent screen fast. The decisions are still yours.", "Log every AI use the same day: tool, output, what you changed.", "Check anything generated against your own numbers."], next:"Finish your style tile."},
  shown:[
   {s:"Generate one, live", u:"https://interfaces.institute/collections/generated/", d:"Prompt for a screen. Show the output and say honestly: that is competent. <b>Generate it in the room, on the day</b> \u2014 the linked page says why this one is not pre-baked, and holds the schema the samples get measured with.", take:"A generator makes something competent in a minute. It cannot decide anything, and the deciding is what is marked."},
   {s:"Now check it against a spec", u:"https://interfaces.institute/collections/design-tools/#pairs", d:"Take your own type scale and contrast table from weeks 4 and 5 and check the generated screen against them. It will not comply. That gap is the whole hour. <b>The pair table computes all six ratios</b> from your five hexes, and opens on the example portfolio's palette — where every pair fails.", take:"Generated work still has to obey the numbers you declared in A3–A5. Check it against them."},
@@ -237,6 +243,7 @@ const WEEKS = [
  n:7, title:"UX basics and screen states",
  makes:["Inventory 6–8 → Part A §2","Flow diagram","C6 drafted"],
  idea:"The screens you forget to design are the ones people meet on their worst day.",
+ hand:{keep:["Every screen has an empty, a loading and an error state.", "Give each screen a job in under ten words.", "Two screens with the same job are one screen."], next:"Nothing — you are ready to wireframe."},
  shown:[
   {s:"Empty, and not an error", u:"https://interfaces.institute/patterns/empty-states/", d:"The pattern written up: what an empty state owes the person looking at it, and why it is not an apology.", take:"An empty state is a working system with nothing in it yet. It says what goes here and offers the action that puts something there. Several of your six to eight screens have one."},
   {s:"The five states", d:"Run the bad pane: loading, empty, error and offline all look identical. Step through them on the projector.", u:"https://interfaces.institute/stairwell/state/", take:"Four of the five states look identical when nobody designs them. Empty, loading, error and offline are screens, and they belong in A2."},
@@ -270,6 +277,7 @@ const WEEKS = [
  n:8, title:"Wireframe to screen",
  makes:["Wireframe set 6–8","First 2 screens finished"],
  idea:"A wireframe is an argument about priority, not a grey drawing of a finished thing.",
+ hand:{keep:["A wireframe decides priority, not decoration.", "Wireframe with real words, never lorem ipsum.", "Finished screens use only your own A3–A5 numbers."], next:"Finish all 6–8 screens — about 6–8 hours. Due at the start of week 9."},
  shown:[
   {s:"One control, drawn eight times", d:"The button across three decades, each specimen drawn from the properties that define it. Nothing copied from a screenshot.", u:"https://interfaces.institute/components/button/", take:"A wireframe is an argument about priority. Boxes and labels only — if you are choosing a font, stop."},
   {s:"What sixty-three systems ship", d:"Measured primary buttons. Twenty have no corner radius at all. Read it off the page.", u:"https://interfaces.institute/components/button/", take:"Twenty of sixty-three measured design systems use no corner radius at all. Whatever you choose, choose it rather than default to it."},
@@ -302,6 +310,7 @@ const WEEKS = [
  n:9, title:"Adaptation and access",
  makes:["2 screens × 3 sizes","Access audit → Part A §6","C5 drafted"],
  idea:"The conditions you designed in are not the conditions it will be used in.",
+ hand:{keep:["Responsive means deciding what to remove, not shrinking everything.", "Touch targets at least 44px. Focus always visible.", "Log every failure — a logged failure still scores."], next:"Fix what the audit found, and log each fix."},
  shown:[
   {s:"Every size a screen has been", u:"https://interfaces.institute/collections/screen-sizes/", d:"Run the instrument in front of them. Same page, same words, every screen from a 1981 CGA to a 4K panel.", take:"A phone gained <b>twenty times the pixels</b> between 2007 and 2023 and <b>1.23 times the room</b> \u2014 320 CSS pixels to 393. The commonest screen in the world is 360 wide, a third of a 1990 desktop. Device pixels are sharpness; CSS pixels are room, and only one of them is what you design in."},
   {s:"What a breakpoint is for", u:"https://interfaces.institute/collections/grids/#breakpoints", d:"Nine published grids, and what each one actually does when the screen changes.", take:"Of 67 grids in the register, only <b>nine</b> write down how they behave across sizes. Five change the column count \u2014 Material 4\u21928\u219212, Carbon 4\u21928\u219216. Four keep twelve columns and change only the container width. Both are decisions; only one is adaptation."},
@@ -335,6 +344,7 @@ const WEEKS = [
  n:10, title:"Justifying a decision",
  makes:["Click-through → Part B §8","Part C rewritten"],
  idea:"Describing a design and defending one are different activities, and only one of them is marked.",
+ hand:{keep:["Describing is not defending. Say why, with a number.", "Every C section quotes a value from Part A.", "Name one thing you rejected and one thing still wrong."], next:"Read all eight sections aloud once more."},
  shown:[
   {s:"Two paragraphs, same design", u:"example-sheet.html#defended", d:"One described, one defended. Read both aloud. Do not explain the difference yet. Both are C4 of the example portfolio they already have, and <b>the design in them is identical</b> \u2014 same five colours, same faults. Staff sheet \u00a707.", take:"Describing a design and defending one are different activities. Only one of them is marked."},
   {s:"Name the difference", d:"The second cites a number the student produced. That is all of it.", u:"assessment.html", take:"The difference is a number you produced yourself. Every C section quotes one."},
@@ -366,6 +376,7 @@ const WEEKS = [
  n:11, title:"Submission", dead:true,
  makes:["References → Part C §9","Submit"],
  idea:"Nothing is taught this week and nothing is missable.",
+ hand:{keep:["Export to PDF, then click all six links in the PDF itself.", "Every source you quote appears in C9.", "Do not leave the upload to the last hour."], next:"Submit."},
  shown:[],
  workshop:{
   aim:"References written, PDF assembled, everyone submits.",
