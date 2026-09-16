@@ -23,13 +23,21 @@
   a{color:var(--lec)}
 
   header{border-bottom:1px solid var(--line);background:var(--surface);position:sticky;top:0;z-index:40}
-  .bar{display:flex;align-items:center;gap:10px;padding:11px 0;flex-wrap:nowrap}
+  .bar{display:flex;align-items:center;gap:10px;padding-block:11px;flex-wrap:nowrap}
   .brand{font-weight:680;font-size:1rem;letter-spacing:-0.015em;white-space:nowrap}
   .sp{flex:1}
   .navl{font-size:0.85rem;color:var(--ink-2);text-decoration:none;padding:6px 10px;border-radius:6px;white-space:nowrap}
   .navl:hover{background:#EDEBE8;color:var(--ink)}
   .navl.on{background:var(--lec);color:#fff}
-  @media(max-width:760px){ .navl.hideable{display:none} .bar{gap:6px} .navl{padding:6px 8px;font-size:0.82rem} }
+  /* Links used to be hidden on phones, which left a student on a phone with no
+     way to reach the brief. They wrap to a second row instead. */
+  @media(max-width:760px){ header .bar{gap:6px} .navl{padding:6px 8px;font-size:0.82rem} }
+  @media(max-width:560px){
+    header .bar{flex-wrap:wrap;row-gap:6px}
+    header .brand{order:0} header .ctl{order:1;margin-left:auto}
+    header .bar > .sp{order:2;flex-basis:100%;height:0}
+    header .navl{order:3;padding:5px 7px;font-size:0.78rem}
+  }
 
   h1{font-size:clamp(1.5rem,3.6vw,2.1rem);letter-spacing:-0.026em;margin:22px 0 4px;font-weight:700}
   .sub{color:var(--ink-2);margin:0 0 14px;max-width:70ch}

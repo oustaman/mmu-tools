@@ -34,7 +34,7 @@
      file rather than shared, because these open from a Moodle download as
      often as from a server and a missing stylesheet must not cost the nav. */
   header{border-bottom:1px solid var(--line);background:var(--surface);position:sticky;top:0;z-index:40}
-  .bar{display:flex;align-items:center;gap:10px;padding:11px 0;flex-wrap:nowrap}
+  .bar{display:flex;align-items:center;gap:10px;padding-block:11px;flex-wrap:nowrap}
   .brand{font-weight:680;font-size:1rem;letter-spacing:-0.015em;white-space:nowrap}
   .sp{flex:1}
   .navl{font-size:0.85rem;color:var(--ink-2);text-decoration:none;padding:6px 10px;border-radius:6px;white-space:nowrap}
@@ -44,7 +44,15 @@
   .ctl button{font-family:var(--mono);font-size:0.7rem;background:none;color:var(--ink-3);
     border:1px solid var(--line-2);border-radius:5px;padding:5px 8px;cursor:pointer;line-height:1}
   .ctl button:hover{border-color:var(--lec);color:var(--lec)}
-  @media(max-width:760px){ .navl.hideable{display:none} .bar{gap:6px} .navl{padding:6px 8px;font-size:0.82rem} }
+  /* Links used to be hidden on phones, which left a student on a phone with no
+     way to reach the brief. They wrap to a second row instead. */
+  @media(max-width:760px){ header .bar{gap:6px} .navl{padding:6px 8px;font-size:0.82rem} }
+  @media(max-width:560px){
+    header .bar{flex-wrap:wrap;row-gap:6px}
+    header .brand{order:0} header .ctl{order:1;margin-left:auto}
+    header .bar > .sp{order:2;flex-basis:100%;height:0}
+    header .navl{order:3;padding:5px 7px;font-size:0.78rem}
+  }
   @media(max-width:430px){ .brand{font-size:0.9rem} .navl{padding:5px 6px;font-size:0.76rem} }
   .picker{display:flex;gap:5px;flex-wrap:wrap;padding:12px 0 4px}
   .wbtn{font-family:var(--mono);font-size:0.82rem;min-width:38px;padding:7px 9px;border-radius:7px;

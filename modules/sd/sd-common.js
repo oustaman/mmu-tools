@@ -17,6 +17,14 @@ const TERM = {
   DAY: 'Tuesday'
 };
 
+/* The official assessment brief. It is the university's document and is linked
+   exactly as issued — never edited here, even where the site words things
+   differently. One constant so the deck and the handout cannot disagree about
+   which file it is. */
+const OFFICIAL_BRIEF = { file: 'Screen_Design_Assessment_Brief_CAF_2026-27.docx',
+                         label: 'Official assessment brief', kind: 'Word', size: '20 KB' };
+
+
 /* The day itself. One hour, two hours, a two-hour gap, then two hours. */
 const SESSIONS = [
   { k:'lecture',  n:'Lecture',  from:'09:00', to:'10:00', hrs:1,

@@ -38,7 +38,7 @@
      file rather than shared, because these open from a Moodle download as
      often as from a server and a missing stylesheet must not cost the nav. */
   header{border-bottom:1px solid var(--line);background:var(--surface);position:sticky;top:0;z-index:40}
-  .bar{display:flex;align-items:center;gap:10px;padding:11px 0;flex-wrap:nowrap}
+  .bar{display:flex;align-items:center;gap:10px;padding-block:11px;flex-wrap:nowrap}
   .brand{font-weight:680;font-size:1rem;letter-spacing:-0.015em;white-space:nowrap}
   .sp{flex:1}
   .navl{font-size:0.85rem;color:var(--ink-2);text-decoration:none;padding:6px 10px;border-radius:6px;white-space:nowrap}
@@ -48,7 +48,15 @@
   .ctl button{font-family:var(--mono);font-size:0.7rem;background:none;color:var(--ink-3);
     border:1px solid var(--line-2);border-radius:5px;padding:5px 8px;cursor:pointer;line-height:1}
   .ctl button:hover{border-color:var(--lec);color:var(--lec)}
-  @media(max-width:760px){ .navl.hideable{display:none} .bar{gap:6px} .navl{padding:6px 8px;font-size:0.82rem} }
+  /* Links used to be hidden on phones, which left a student on a phone with no
+     way to reach the brief. They wrap to a second row instead. */
+  @media(max-width:760px){ header .bar{gap:6px} .navl{padding:6px 8px;font-size:0.82rem} }
+  @media(max-width:560px){
+    header .bar{flex-wrap:wrap;row-gap:6px}
+    header .brand{order:0} header .ctl{order:1;margin-left:auto}
+    header .bar > .sp{order:2;flex-basis:100%;height:0}
+    header .navl{order:3;padding:5px 7px;font-size:0.78rem}
+  }
   @media(max-width:430px){ .brand{font-size:0.9rem} .navl{padding:5px 6px;font-size:0.76rem} }
   h1{font-size:clamp(1.6rem,4.4vw,2.4rem);line-height:1.08;letter-spacing:-0.028em;
      margin:26px 0 6px;font-weight:700}
@@ -327,6 +335,7 @@
   .ho-next .ho-lab{color:inherit;opacity:.65}
   .ho-foot{margin:12px 0 0;font-size:.76rem;color:var(--ink-3);line-height:1.5}
   .ho-foot a,.ho-links a{color:var(--wsh);font-weight:600}
+  .ho-dlk{font-family:var(--mono);font-size:.7rem;font-weight:400;color:var(--ink-3);margin-left:6px}
 
   /* brief */
   .ho-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:0 0 14px}
@@ -372,6 +381,32 @@
   button.cta{border:0;font:inherit;text-align:left;cursor:pointer;width:100%}
   .ho-prt{display:none}
 
+  /* handout view switch, and the slide nav that only slide mode shows */
+  .ho-view{display:inline-flex;border:1px solid var(--line-2);border-radius:6px;overflow:hidden}
+  .ho-view button{font:600 .76rem/1 var(--mono);min-height:40px;padding:0 12px;border:0;background:var(--surface);
+    color:var(--ink-2);cursor:pointer}
+  .ho-view button + button{border-left:1px solid var(--line-2)}
+  .ho-view button[aria-pressed="true"]{background:var(--ink);color:var(--surface)}
+  .ho-dnav{display:none}
+  .ho-slide + .ho-slide{margin-top:0}
+
+  /* Slides: the handout fills the screen and shows one group at a time. On a
+     projector the content is scaled up rather than restyled, so it is the same
+     sheet students have in their pocket, just readable from the back row. */
+  #handout.deck{width:100vw;max-width:100vw;height:100dvh;max-height:100dvh;border-radius:0;margin:0}
+  #handout.deck .ho-body{display:flex;flex-direction:column;justify-content:center;overflow:hidden;padding:24px 32px}
+  #handout.deck .ho-slide{display:none;width:100%;max-width:880px;margin:0 auto;max-height:100%;overflow:auto}
+  #handout.deck .ho-slide.on{display:block}
+  #handout.deck .ho-slide > .ho-block,#handout.deck .ho-slide > .ho-two{margin-bottom:0}
+  #handout.deck .ho-dnav{flex:none;display:flex;align-items:center;gap:10px;padding:10px 18px;
+    border-top:1px solid var(--line);background:var(--surface-2)}
+  .ho-count{font-family:var(--mono);font-size:.78rem;color:var(--ink-3);min-width:48px;text-align:center}
+  .ho-dprog{flex:1;height:4px;border-radius:2px;background:var(--line);overflow:hidden}
+  .ho-dprog i{display:block;height:100%;background:var(--wsh);transition:width .18s}
+  #handout .ho-btn:disabled{opacity:.35;cursor:default}
+  @media (min-width:1000px) and (min-height:640px){ #handout.deck .ho-slide{zoom:1.35} }
+  @media (min-width:1500px) and (min-height:860px){ #handout.deck .ho-slide{zoom:1.6} }
+
   /* the phone: the sheet becomes the screen */
   @media (max-width:640px){
     #handout{width:100%;max-width:100%;height:100dvh;max-height:100dvh;border-radius:0;margin:0}
@@ -385,6 +420,10 @@
     .ho-split span{font-size:.7rem}
     .ho-wk{grid-template-columns:20px minmax(0,1fr) 44px 20px}
     .ho-links a{flex:1 1 100%;justify-content:center}
+    .ho-kicker{display:none}
+    .ho-tools{width:100%;justify-content:space-between}
+    #handout.deck .ho-body{padding:16px}
+    #handout.deck .ho-dnav{padding:8px 10px calc(8px + env(safe-area-inset-bottom))}
   }
 
   /* A4: one sheet, no chrome, backgrounds kept so the bars still read */
@@ -394,6 +433,9 @@
     #handout{position:static;display:block !important;width:auto;max-width:none;height:auto;max-height:none;
       box-shadow:none;border-radius:0;overflow:visible}
     .ho-bar{display:none} .ho-body{overflow:visible;padding:0}
+    .ho-dnav{display:none !important}
+    #handout.deck .ho-body{display:block}
+    #handout.deck .ho-slide{display:block !important;zoom:1;max-width:none}
     .ho-body,.ho-body *{-webkit-print-color-adjust:exact;print-color-adjust:exact}
     .ho-block,.ho-wk,.ho-c,.ho-part{break-inside:avoid}
     .ho-body h2{font-size:1.3rem}
@@ -538,11 +580,21 @@
   <div class="ho-bar">
     <span class="ho-kicker" id="ho-kicker"></span>
     <span class="ho-tools">
+      <span class="ho-view" role="group" aria-label="How to show the handout">
+        <button type="button" data-hview="scroll" aria-pressed="true">Scroll</button>
+        <button type="button" data-hview="deck" aria-pressed="false">Slides</button>
+      </span>
       <button type="button" class="ho-btn" id="ho-print">Print</button>
       <button type="button" class="ho-btn ho-x" id="ho-close">Close</button>
     </span>
   </div>
   <div class="ho-body" id="ho-body"></div>
+  <div class="ho-dnav">
+    <button type="button" class="ho-btn" id="ho-prev">← Back</button>
+    <span class="ho-count" id="ho-count"></span>
+    <button type="button" class="ho-btn" id="ho-next">Next →</button>
+    <span class="ho-dprog"><i id="ho-dprog"></i></span>
+  </div>
 </dialog>
 
 <script src="sd-common.js"></script>
@@ -747,10 +799,6 @@ document.querySelectorAll('.seccount').forEach(el => {
   const body = document.getElementById('ho-body');
   const kick = document.getElementById('ho-kicker');
 
-  /* The official Word document. Left empty on purpose until the 2026-27 file
-     agrees with this site: it still lists a fourth learning outcome and asks
-     for Figma/XD links. Set a filename here and the link appears. */
-  const OFFICIAL_BRIEF = '';
 
   const esc = t => String(t).replace(/[<&]/g, c => c === '<' ? '&lt;' : '&amp;');
   const plain = t => String(t).replace(/<[^>]+>/g, '').replace(/\s+/g, ' ').trim();
@@ -792,7 +840,7 @@ document.querySelectorAll('.seccount').forEach(el => {
         <span class="ho-split-w">Workshop · 2h — where your marks are made</span>
       </div>
 
-      <section class="ho-block ho-main">
+      <section class="ho-block ho-main" data-slide>
         <h3>In the workshop</h3>
         <p class="ho-aim">${esc(k.aim)}</p>
         <ol class="ho-steps">${k.run.map(r => `
@@ -803,14 +851,14 @@ document.querySelectorAll('.seccount').forEach(el => {
         <p class="ho-chips"><span class="ho-lab">Bring</span>${bring.map(b => `<span>${esc(b)}</span>`).join('')}</p>
       </section>
 
-      <section class="ho-block">
+      <section class="ho-block" data-slide>
         <h3>Tick off today <span class="ho-sub">your assessment</span></h3>
         ${made.length ? made.map(x => tick(x)).join('')
           : `<p class="ho-empty">Nothing to hand in yet. Leave with ${esc(plain(k.leave)).replace(/^A /, 'a ')}</p>`}
         ${bar('Your deck after today', Math.round(done / TOTAL * 100), `${done} of ${TOTAL} sections`)}
       </section>
 
-      <div class="ho-two">
+      <div class="ho-two" data-slide>
         <section class="ho-block">
           <h3>Keep in mind</h3>
           <ul class="ho-keep">${w.hand.keep.map(x => `<li>${esc(x)}</li>`).join('')}</ul>
@@ -821,7 +869,7 @@ document.querySelectorAll('.seccount').forEach(el => {
         </section>
       </div>
 
-      <p class="ho-next"><span class="ho-lab">Before next week</span>${esc(w.hand.next)}</p>
+      <p class="ho-next" data-slide><span class="ho-lab">Before next week</span>${esc(w.hand.next)}</p>
       <p class="ho-foot">Deadline ${due()}<span class="ho-scr"> · ${days()} days to go</span> ·
         <a href="assessment.html">open your checklist →</a></p>`;
   }
@@ -857,7 +905,7 @@ document.querySelectorAll('.seccount').forEach(el => {
         <div><b class="ho-scr">${days()}</b><b class="ho-prt">${SD.fmtShort(SD.dead)}</b><span><span class="ho-scr">days to </span>${SD.fmt(SD.dead)}, 21:00</span></div>
       </div>
 
-      <section class="ho-block">
+      <section class="ho-block" data-slide>
         <h3>What you hand in</h3>
         <div class="ho-parts">${parts.map(g => `
           <div class="ho-part ho-${g.id}">
@@ -868,7 +916,7 @@ document.querySelectorAll('.seccount').forEach(el => {
         </div>
       </section>
 
-      <section class="ho-block">
+      <section class="ho-block" data-slide>
         <h3>When each section is made <span class="ho-sub">week by week</span></h3>
         <div class="ho-weeks" role="img" aria-label="Sections produced in each of the eleven weeks">${WEEKS.map(w => {
           const m = madeIn(w.n), d = doneBy(w.n);
@@ -882,7 +930,7 @@ document.querySelectorAll('.seccount').forEach(el => {
           <span>· bar = sections done by the end of that week</span></p>
       </section>
 
-      <section class="ho-block">
+      <section class="ho-block" data-slide>
         <h3>How it is marked <span class="ho-sub">one overall mark, four criteria</span></h3>
         <div class="ho-crit">${RUBRIC_LITE.map(c => `
           <div class="ho-c"><span class="ho-c-n">${c.n}</span><b>${esc(c.name)}</b>
@@ -890,7 +938,7 @@ document.querySelectorAll('.seccount').forEach(el => {
         </div>
       </section>
 
-      <section class="ho-block ho-main">
+      <section class="ho-block ho-main" data-slide>
         <h3>Before you submit</h3>
         <ul class="ho-musts">${MUSTS.map(x => `<li><span aria-hidden="true">☐</span>${esc(x)}</li>`).join('')}</ul>
       </section>
@@ -898,7 +946,7 @@ document.querySelectorAll('.seccount').forEach(el => {
       <p class="ho-links">
         <a href="assessment.html">Interactive checklist →</a>
         <a href="brief.html">The brief, explained →</a>
-        ${OFFICIAL_BRIEF ? `<a href="${OFFICIAL_BRIEF}" download>Official assessment brief (Word) ↓</a>` : ''}
+        ${typeof OFFICIAL_BRIEF !== 'undefined' ? `<a href="${OFFICIAL_BRIEF.file}" download>↓ ${OFFICIAL_BRIEF.label} <span class="ho-dlk">${OFFICIAL_BRIEF.kind} · ${OFFICIAL_BRIEF.size}</span></a>` : ''}
       </p>`;
   }
 
@@ -906,6 +954,54 @@ document.querySelectorAll('.seccount').forEach(el => {
   const RUBRIC_LITE = (typeof RUBRIC !== 'undefined' ? RUBRIC : [
     { n: 1, name: 'Visual Design & Communication' }, { n: 2, name: 'User-Centred Thinking' },
     { n: 3, name: 'Technical Craft & Process' }, { n: 4, name: 'Critical Reflection' }]);
+
+  /* Scroll by default — a student reads a handout. Slides is for the room: the
+     same content, one group at a time, full screen, arrow keys. The choice holds
+     while the page is open, so a lecturer switches once and every handout they
+     open after that comes up as slides. */
+  let hview = 'scroll', hcur = 0;
+  const hslides = () => [...body.querySelectorAll(':scope > .ho-slide')];
+
+  function slideify() {
+    const kids = [...body.children];
+    const groups = [];
+    kids.forEach(k => {
+      if (!groups.length || k.hasAttribute('data-slide')) groups.push([]);
+      groups[groups.length - 1].push(k);
+    });
+    body.innerHTML = '';
+    groups.forEach(g => { const d = document.createElement('div'); d.className = 'ho-slide';
+      g.forEach(k => d.appendChild(k)); body.appendChild(d); });
+  }
+  function hshow(n) {
+    const sl = hslides();
+    hcur = Math.max(0, Math.min(sl.length - 1, n));
+    sl.forEach((d, i) => d.classList.toggle('on', i === hcur));
+    document.getElementById('ho-count').textContent = `${hcur + 1} / ${sl.length}`;
+    document.getElementById('ho-prev').disabled = hcur === 0;
+    document.getElementById('ho-next').disabled = hcur === sl.length - 1;
+    document.getElementById('ho-dprog').style.width = ((hcur + 1) / sl.length * 100) + '%';
+    if (sl[hcur]) sl[hcur].scrollTop = 0;
+  }
+  function hsetView(v) {
+    hview = v;
+    dlg.classList.toggle('deck', v === 'deck');
+    dlg.querySelectorAll('[data-hview]').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.hview === v)));
+    body.scrollTop = 0;
+    hshow(hcur);
+  }
+  dlg.querySelector('.ho-view').onclick = e => {
+    const b = e.target.closest('[data-hview]'); if (b) hsetView(b.dataset.hview);
+  };
+  document.getElementById('ho-prev').onclick = () => hshow(hcur - 1);
+  document.getElementById('ho-next').onclick = () => hshow(hcur + 1);
+  dlg.addEventListener('keydown', e => {
+    if (hview !== 'deck' || e.target.closest('input')) return;
+    if (['ArrowRight','PageDown',' '].includes(e.key)) { e.preventDefault(); hshow(hcur + 1); }
+    if (['ArrowLeft','PageUp'].includes(e.key))        { e.preventDefault(); hshow(hcur - 1); }
+    if (e.key === 'Home') hshow(0);
+    if (e.key === 'End')  hshow(hslides().length - 1);
+  });
 
   body.addEventListener('change', e => {
     const c = e.target.closest('input[data-key]'); if (!c) return;
@@ -916,8 +1012,10 @@ document.querySelectorAll('.seccount').forEach(el => {
     const b = e.target.closest('[data-brief-handout]');
     if (!w && !b) return;
     w ? week(+w.dataset.handout) : brief();
+    slideify();
     dlg.dataset.kind = w ? 'week' : 'brief';
-    body.scrollTop = 0;
+    hcur = 0;
+    hsetView(hview);
     dlg.showModal();
     const words = body.innerText.split(/\s+/).filter(Boolean).length;
     if (w && words > 250) console.warn(`handout week ${w.dataset.handout}: ${words} words — over the one-minute budget of 250`);

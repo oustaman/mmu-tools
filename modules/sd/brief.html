@@ -24,9 +24,52 @@
     --ok:#7FBF97; --ok-soft:#1C2A22; --warn:#DCB469; --warn-soft:#2A2417;
   }
   *{box-sizing:border-box}
-  html,body{height:100%}
-  body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);
-    line-height:1.4;overflow:hidden;display:flex;flex-direction:column}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);line-height:1.4}
+
+  /* The header every page in the module carries, copied rather than shared for
+     the same reason the others copy it: these files open from a Moodle download
+     as often as from a server. */
+  .wrap{max-width:1100px;margin:0 auto;padding-inline:22px}
+  header{border-bottom:1px solid var(--line);background:var(--surface);position:sticky;top:0;z-index:40}
+  .bar{display:flex;align-items:center;gap:10px;padding-block:11px;flex-wrap:nowrap}
+  .brand{font-weight:680;font-size:1rem;letter-spacing:-0.015em;white-space:nowrap}
+  .sp{flex:1}
+  .navl{font-size:0.85rem;color:var(--ink-2);text-decoration:none;padding:6px 10px;border-radius:6px;white-space:nowrap}
+  .navl:hover{background:var(--surface-2);color:var(--ink)}
+  .navl.on{background:var(--lec);color:#fff}
+  html[data-theme="dark"] .navl.on{color:#151314}
+  .ctl button{font-family:var(--mono);font-size:0.7rem;background:none;color:var(--ink-3);
+    border:1px solid var(--line-2);border-radius:5px;padding:5px 8px;cursor:pointer;line-height:1}
+  .ctl button:hover{border-color:var(--lec);color:var(--lec)}
+  @media(max-width:560px){
+    .bar{flex-wrap:wrap;row-gap:6px;gap:6px}
+    .brand{order:0} .ctl{order:1;margin-left:auto}
+    .bar > .sp{order:2;flex-basis:100%;height:0}
+    .navl{order:3;padding:5px 7px;font-size:0.78rem}
+  }
+  @media(max-width:420px){.wrap{padding-inline:14px}}
+  @media(max-width:340px){.wrap{padding-inline:10px}}
+
+  .tools{background:var(--surface);border-bottom:1px solid var(--line);position:sticky;top:var(--hdr,51px);z-index:39}
+  .tbar{display:flex;align-items:center;gap:10px;padding:8px 0}
+  .tbar b{font-size:0.9rem;letter-spacing:-0.01em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0}
+  .viewsw{display:inline-flex;border:1px solid var(--line-2);border-radius:8px;overflow:hidden;flex:none}
+  .viewsw button,.tbtn{font-family:var(--mono);font-size:0.74rem;background:var(--surface);color:var(--ink-2);
+    border:0;padding:0 14px;min-height:36px;cursor:pointer}
+  .viewsw button + button{border-left:1px solid var(--line-2)}
+  .viewsw button[aria-pressed="true"]{background:var(--ink);color:var(--surface)}
+  .tbtn{border:1px solid var(--line-2);border-radius:8px;flex:none}
+  .tbtn:hover,.viewsw button:hover:not([aria-pressed="true"]){color:var(--lec)}
+
+  /* Scroll is the default: a student reads this on a phone, top to bottom.
+     Slides is for the room — html.deck — and puts one slide on the screen at a
+     time with the arrow keys. The slides are the same elements either way. */
+  .body{display:flex;align-items:flex-start;max-width:1100px;margin:0 auto}
+  html.deck, html.deck body{height:100%}
+  html.deck body{overflow:hidden;display:flex;flex-direction:column}
+  html.deck .toc{position:static;max-height:none}
+  html.deck .body{flex:1;min-height:0;max-width:none;margin:0;align-items:stretch;width:100%}
+  html.deck .tools{position:static}
 
   .top{display:flex;align-items:center;gap:12px;padding:9px 20px;border-bottom:1px solid var(--line);
     background:var(--surface);flex:none}
@@ -42,6 +85,7 @@
   /* Contents, always visible. One or two words per slide — a reader glancing at
      it should know where they are without reading it. */
   .toc{flex:none;width:172px;border-right:1px solid var(--line);background:var(--surface);
+    position:sticky;top:calc(var(--hdr,51px) + var(--tls,53px));max-height:calc(100vh - var(--hdr,51px) - var(--tls,53px));overflow:auto;
     padding:18px 0;overflow-y:auto}
   .toc ol{list-style:none;margin:0;padding:0}
   .toc li{position:relative}
@@ -55,10 +99,14 @@
   .toc li.past button{color:var(--ink-2)}
   @media(max-width:820px){.toc{display:none}}
 
-  .stage{flex:1;position:relative;overflow:hidden;min-width:0}
-  .slide{position:absolute;inset:0;display:none;flex-direction:column;justify-content:center;
-    padding:min(6vh,54px) min(6vw,72px);overflow-y:auto}
-  .slide.active{display:flex}
+  .stage{flex:1;min-width:0}
+  .slide{display:flex;flex-direction:column;justify-content:center;
+    padding:min(7vh,64px) min(6vw,72px);border-bottom:1px solid var(--line);
+    scroll-margin-top:calc(var(--hdr,51px) + var(--tls,53px))}
+  html.deck .stage{position:relative;overflow:hidden}
+  html.deck .slide{position:absolute;inset:0;display:none;border:0;overflow-y:auto;
+    padding:min(6vh,54px) min(6vw,72px)}
+  html.deck .slide.active{display:flex}
   .slide.center{align-items:center;text-align:center}
 
   .eyebrow{font-family:var(--mono);font-size:0.72rem;letter-spacing:0.14em;text-transform:uppercase;
@@ -168,15 +216,22 @@
   .ex-why{margin:0;font-size:clamp(0.85rem,1.25vw,0.98rem);line-height:1.55;color:var(--ink-2)}
   .ex-why b{color:var(--ink)}
 
+  .dlrow{margin:26px 0 0;display:flex;justify-content:center;flex-wrap:wrap;gap:10px}
+  .dl{display:inline-flex;align-items:center;gap:10px;min-height:48px;padding:0 20px;border-radius:10px;
+    background:var(--lec);color:#fff;text-decoration:none;font-weight:650;font-size:1rem}
+  html[data-theme="dark"] .dl{color:#151314}
+  .dl span{font-family:var(--mono);font-size:0.72rem;font-weight:400;opacity:.85}
+  .dl:hover{filter:brightness(1.08)}
   .fixnote{margin-top:20px;padding:11px 15px;border-left:3px solid var(--ok);background:var(--ok-soft);
     border-radius:0 8px 8px 0;font-size:clamp(0.82rem,1.2vw,0.95rem);line-height:1.55;color:var(--ink-2);max-width:64ch}
   .fixnote b{color:var(--ink)}
-  .bar{flex:none;display:flex;align-items:center;gap:12px;padding:9px 20px;border-top:1px solid var(--line);
+  .dbar{flex:none;display:none;align-items:center;gap:12px;padding:9px 20px;border-top:1px solid var(--line);
     background:var(--surface)}
-  .bar button{font-family:var(--mono);font-size:0.78rem;background:var(--surface);color:var(--ink);
+  html.deck .dbar{display:flex}
+  .dbar button{font-family:var(--mono);font-size:0.78rem;background:var(--surface);color:var(--ink);
     border:1px solid var(--line-2);border-radius:7px;padding:7px 14px;cursor:pointer}
-  .bar button:hover:not(:disabled){border-color:var(--lec);color:var(--lec)}
-  .bar button:disabled{opacity:.35;cursor:default}
+  .dbar button:hover:not(:disabled){border-color:var(--lec);color:var(--lec)}
+  .dbar button:disabled{opacity:.35;cursor:default}
   .count{font-family:var(--mono);font-size:0.76rem;color:var(--ink-3);min-width:62px;text-align:center}
   .prog{flex:1;height:4px;background:var(--surface-2);border-radius:99px;overflow:hidden}
   .prog i{display:block;height:100%;background:var(--lec);transition:width .18s}
@@ -189,9 +244,9 @@
   @media(max-width:420px){
     /* Title, two links, two buttons. At 320 the bar is the widest thing on the
        page, so the title goes — the tab already says what this is. */
-    .top{padding:8px 10px;gap:5px} .top a,.top button{padding:4px 6px;font-size:0.6rem}
-    .top b{display:none}
-    .slide{padding:22px 14px} .bar{padding:8px 12px;gap:8px}
+    .tbar{padding:6px 0;gap:6px} .tbar b{display:none}
+    .viewsw button,.tbtn{padding:0 11px;min-height:40px}
+    .slide,html.deck .slide{padding:26px 16px} .dbar{padding:8px 12px;gap:8px}
     .quote{font-size:0.66rem;max-width:100%;padding:10px 12px}
     .slide{max-width:100vw;overflow-x:hidden}
     .secs span{font-size:0.66rem}
@@ -199,7 +254,7 @@
   }
 
   @media print{
-    body{overflow:visible;height:auto} .top,.bar{display:none}
+    body{overflow:visible;height:auto} header,.tools,.dbar{display:none}
     .toc{display:none} .body{display:block}
     .stage{overflow:visible} .slide{position:static;display:flex !important;
       page-break-after:always;min-height:88vh;border-bottom:1px solid #ccc}
@@ -208,12 +263,24 @@
 </head>
 <body>
 
-<div class="top">
-  <b>The assessment, explained</b>
-  <span class="sp"></span>
-  <a href="index.html">Weeks</a><a href="weeks.html">Materials</a><a href="brief.html" class='on'>The brief</a><a href="assessment.html">What to hand in</a>
-  <button id="theme">◐</button>
-  <button id="print">Print</button>
+<header>
+  <div class="wrap bar">
+    <span class="brand">Screen Design</span>
+    <span class="sp"></span>
+    <a class="navl" href="index.html">Weeks</a><a class="navl" href="weeks.html">Materials</a><a class="navl on" href="brief.html">The brief</a><a class="navl" href="assessment.html">What to hand in</a>
+    <span class="ctl"><button id="theme" aria-label="Dark mode">◐</button></span>
+  </div>
+</header>
+<div class="tools">
+  <div class="wrap tbar">
+    <b>The assessment, explained</b>
+    <span class="sp"></span>
+    <span class="viewsw" role="group" aria-label="How to show the deck">
+      <button type="button" data-view="scroll" aria-pressed="true">Scroll</button>
+      <button type="button" data-view="deck" aria-pressed="false">Slides</button>
+    </span>
+    <button type="button" class="tbtn" id="print">Print</button>
+  </div>
 </div>
 
 <div class="body">
@@ -221,7 +288,7 @@
   <div class="stage" id="stage"></div>
 </div>
 
-<div class="bar">
+<div class="dbar">
   <button id="prev">← Back</button>
   <span class="count" id="count"></span>
   <button id="next">Next →</button>
@@ -258,9 +325,11 @@ const ICON = {
 const SLIDES = [
 {nav:"Start", html:`<div class="slide center active">
   <div class="eyebrow">Screen Design · Level 4 · 30 credits · 2026–27</div>
-  <h1>The assessment,<br>in ten slides</h1>
+  <h1>The assessment,<br>explained</h1>
   <p class="lead">One slide deck. You fill in a section of it every week.
     Nothing is handed in until January.</p>
+  <p class="dlrow"><a class="dl" href="${OFFICIAL_BRIEF.file}" download>↓ ${OFFICIAL_BRIEF.label}
+    <span>${OFFICIAL_BRIEF.kind} · ${OFFICIAL_BRIEF.size}</span></a></p>
 </div>`},
 
 {nav:"The work", html:`<div class="slide">
@@ -270,7 +339,7 @@ const SLIDES = [
     <li><i>01</i><span>Pick a topic in week 2 and keep it.</span></li>
     <li><i>02</i><span>Draw the screens rough on paper first — that is what weeks 2 and 8 are for.</span></li>
     <li><i>03</i><span>Write down every choice as you make it.</span></li>
-    <li><i>04</i><span>In week 10, explain six of those choices.</span></li>
+    <li><i>04</i><span>Explain each choice the week you make it — a short paragraph, not an essay at the end.</span></li>
   </ul>
   <p class="lead" style="margin-top:18px"><b>100% of the mark.</b> No exam, no presentation, no group work.</p>
 </div>`},
@@ -334,8 +403,8 @@ const SLIDES = [
       <p>Sketches, mood board, style tile, flow diagram, wireframes and the finished screens.
         About 100 words under each one.</p></div>
     <div class="card c"><span class="ic">${ICON.speak}</span><span class="k">Part C · ${C.items.length} sections</span>
-      <h3>Six short answers</h3>
-      <p>500–700 words in total, written in one workshop in week 10. The longest is about 120 words.</p></div>
+      <h3>Short answers, and your references</h3>
+      <p>500–700 words in total, a paragraph at a time, each written the week you make the decision. The longest is about 120 words.</p></div>
   </div>
 </div>`},
 
@@ -405,7 +474,7 @@ const SLIDES = [
     <li><i>04</i><span>Copy the ${SD.total}-section structure from the brief and paste it in</span></li>
     <li><i>05</i><span>Put your name nowhere in it — it is marked without your name</span></li>
   </ul>
-  <p class="lead" style="margin-top:18px">Turn up, fill in one section, repeat ten times.
+  <p class="lead" style="margin-top:18px">Turn up, fill in a section or two, repeat every week.
     That is the whole assessment.</p>
   <p class="fixnote"><b>What you have just seen does not change.</b> The sections, the four marking
     criteria and the deadline are fixed. Weekly content can be adjusted during the term; the
@@ -417,17 +486,26 @@ const stage = document.getElementById('stage');
 stage.innerHTML = SLIDES.map(s => s.html).join('');
 document.getElementById('toc').innerHTML = SLIDES.map((s, i) =>
   `<li data-i="${i}"><button type="button"><i>${String(i + 1).padStart(2,'0')}</i>${s.nav}</button></li>`).join('');
-document.getElementById('toc').onclick = e => {
-  const li = e.target.closest('li'); if (li) show(+li.dataset.i);
-};
 const slides = [...document.querySelectorAll('.slide')];
+slides.forEach((el, i) => { el.id = 's' + (i + 1); });
+const root = document.documentElement;
 let cur = 0;
+const isDeck = () => root.classList.contains('deck');
+/* The browser restores its own scroll position once the page has loaded, which
+   undid the jump to #7 and let the rail observer record slide 1 as current. The
+   observer stays quiet until the first jump has landed. */
+let settling = true;
+try { history.scrollRestoration = 'manual'; } catch(e){}
 
-function show(n){
-  slides[cur].classList.remove('active');
+/* The two sticky bars are measured, not guessed: the header wraps to two rows
+   on a phone, and a hard-coded offset would park section headings under it. */
+function measure(){
+  root.style.setProperty('--hdr', document.querySelector('header').offsetHeight + 'px');
+  root.style.setProperty('--tls', document.querySelector('.tools').offsetHeight + 'px');
+}
+
+function mark(n){
   cur = Math.max(0, Math.min(slides.length - 1, n));
-  slides[cur].classList.add('active');
-  slides[cur].scrollTop = 0;
   document.getElementById('count').textContent = `${cur + 1} / ${slides.length}`;
   document.querySelectorAll('#toc li').forEach((li, i) => {
     li.classList.toggle('on', i === cur);
@@ -436,12 +514,54 @@ function show(n){
   document.getElementById('prog').style.width = ((cur + 1) / slides.length * 100) + '%';
   document.getElementById('prev').disabled = cur === 0;
   document.getElementById('next').disabled = cur === slides.length - 1;
-  try { history.replaceState(null, '', '#' + (cur + 1)); } catch(e){}
+  try { history.replaceState(null, '', location.pathname + location.search + '#' + (cur + 1)); } catch(e){}
 }
+
+function show(n, smooth){
+  mark(n);
+  if (isDeck()) {
+    slides.forEach((el, i) => el.classList.toggle('active', i === cur));
+    slides[cur].scrollTop = 0;
+  } else {
+    slides[cur].scrollIntoView({ behavior: smooth ? 'smooth' : 'auto', block: 'start' });
+  }
+}
+
+/* Scroll is the default, so a student on a phone gets a page. ?view=slides is
+   the room: the URL can be bookmarked on the lecture machine. */
+function setView(v){
+  root.classList.toggle('deck', v === 'deck');
+  document.querySelectorAll('.viewsw button').forEach(b =>
+    b.setAttribute('aria-pressed', String(b.dataset.view === v)));
+  const q = new URLSearchParams(location.search);
+  v === 'deck' ? q.set('view', 'slides') : q.delete('view');
+  const qs = q.toString();
+  try { history.replaceState(null, '', location.pathname + (qs ? '?' + qs : '') + '#' + (cur + 1)); } catch(e){}
+  measure();
+  show(cur);
+}
+document.querySelector('.viewsw').onclick = e => {
+  const b = e.target.closest('button[data-view]'); if (b) setView(b.dataset.view);
+};
+
+document.getElementById('toc').onclick = e => {
+  const li = e.target.closest('li'); if (li) show(+li.dataset.i, true);
+};
 document.getElementById('prev').onclick = () => show(cur - 1);
 document.getElementById('next').onclick = () => show(cur + 1);
 document.getElementById('print').onclick = () => window.print();
+
+/* While scrolling, the contents rail follows the reader. */
+const seen = new IntersectionObserver(entries => {
+  if (isDeck() || settling) return;
+  const top = entries.filter(e => e.isIntersecting)
+    .sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top)[0];
+  if (top) mark(slides.indexOf(top.target));
+}, { rootMargin: '-35% 0px -55% 0px' });
+slides.forEach(el => seen.observe(el));
+
 addEventListener('keydown', e => {
+  if (!isDeck()) return;                       // on a page, the keys scroll the page
   if (['ArrowRight','PageDown',' '].includes(e.key)) { e.preventDefault(); show(cur + 1); }
   if (['ArrowLeft','PageUp'].includes(e.key))        { e.preventDefault(); show(cur - 1); }
   if (e.key === 'Home') show(0);
@@ -450,10 +570,23 @@ addEventListener('keydown', e => {
     document.fullscreenElement ? document.exitFullscreen() : document.documentElement.requestFullscreen();
   }
 });
-const start = parseInt(location.hash.slice(1), 10);
-show(Number.isFinite(start) && start > 0 ? start - 1 : 0);
+addEventListener('resize', measure);
+/* A number typed into the address bar is a hash change, not a page load. */
+addEventListener('hashchange', () => {
+  const n = parseInt(location.hash.slice(1), 10);
+  if (Number.isFinite(n) && n - 1 !== cur) show(n - 1);
+});
 
-const root = document.documentElement;
+const start = parseInt(location.hash.slice(1), 10);
+cur = Number.isFinite(start) && start > 0 ? Math.min(start - 1, slides.length - 1) : 0;
+setView(new URLSearchParams(location.search).get('view') === 'slides' ? 'deck' : 'scroll');
+function land(){
+  measure();
+  if (!isDeck()) show(cur);
+  setTimeout(() => { settling = false; }, 300);
+}
+document.readyState === 'complete' ? land() : addEventListener('load', land);
+
 try { const t = localStorage.getItem('sd-theme'); if (t) root.dataset.theme = t; } catch(e){}
 if (!root.dataset.theme && matchMedia('(prefers-color-scheme: dark)').matches) root.dataset.theme = 'dark';
 document.getElementById('theme').onclick = () => {
