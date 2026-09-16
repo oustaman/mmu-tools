@@ -1,5 +1,7 @@
 /* The marking rubric, transcribed verbatim from
- * Screen_Design_Assessment_Brief_CAF.docx (DRAFT · CAF Phase 2 · 2025–26).
+ * Screen_Design_Assessment_Brief_CAF.docx (DRAFT · CAF Phase 2 · 2025–26), and
+ * checked word for word against Screen_Design_Assessment_Brief_CAF_2026-27.docx
+ * on 16 Sep 2026: every name, description and band cell matches.
  *
  * Nothing here is paraphrased. Where the wording is awkward it is the
  * document's wording. This file is the only place the rubric exists in these

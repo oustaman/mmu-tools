@@ -1,0 +1,309 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Marking rubric — Screen Design</title>
+<style>
+  :root{
+    --bg:#F5F4F2; --surface:#FFFFFF; --surface-2:#EDEBE8;
+    --ink:#1A1618; --ink-2:#56504F; --ink-3:#8B8382;
+    --line:#DFDBD7; --line-2:#C9C3BE;
+    --lec:#8C2437; --lec-soft:#F6E8EA;
+    --wsh:#1D5C7A; --wsh-soft:#E4EEF3;
+    --ok:#2C5F3E; --ok-soft:#E3EFE7;
+    --warn:#8A5D05; --warn-soft:#F4EAD3;
+    --mono:ui-monospace,"SF Mono",Menlo,Consolas,monospace;
+    --sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Inter,Roboto,sans-serif;
+  }
+  html[data-theme="dark"]{
+    --bg:#151314; --surface:#1E1B1C; --surface-2:#262223;
+    --ink:#EDE9E7; --ink-2:#B5AEAB; --ink-3:#847C79;
+    --line:#332E2F; --line-2:#463F40;
+    --lec:#E08A9B; --lec-soft:#332226;
+    --wsh:#7FBEDC; --wsh-soft:#16262E;
+    --ok:#7FBF97; --ok-soft:#1C2A22;
+    --warn:#DCB469; --warn-soft:#2A2417;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);line-height:1.5}
+  .wrap{max-width:1100px;margin:0 auto;padding:0 22px}
+  @media(max-width:420px){.wrap{padding:0 14px}}
+  @media(max-width:340px){.wrap{padding:0 10px}}
+  a{color:var(--lec)}
+
+  /* The bar, identical on every page (see assessment.html). */
+  header{border-bottom:1px solid var(--line);background:var(--surface);position:sticky;top:0;z-index:40}
+  .bar{display:flex;align-items:center;gap:10px;padding-block:11px;flex-wrap:nowrap}
+  .brand{font-weight:680;font-size:1rem;letter-spacing:-0.015em;white-space:nowrap;color:inherit;
+    text-decoration:none;padding:5px 8px;margin-left:-8px;border-radius:6px}
+  .brand:hover{background:var(--surface-2)}
+  .brand:focus-visible{outline:2px solid var(--lec);outline-offset:1px}
+  .sp{flex:1}
+  .navl{font-size:0.85rem;color:var(--ink-2);text-decoration:none;padding:6px 10px;border-radius:6px;white-space:nowrap}
+  .navl:hover{background:var(--surface-2);color:var(--ink)}
+  .ctl button{font-family:var(--mono);font-size:0.7rem;background:none;color:var(--ink-3);
+    border:1px solid var(--line-2);border-radius:5px;padding:5px 8px;cursor:pointer;line-height:1}
+  .ctl button:hover{border-color:var(--lec);color:var(--lec)}
+  @media(max-width:760px){ header .bar{gap:6px} .navl{padding:6px 8px;font-size:0.82rem} }
+  @media(max-width:560px){
+    header .bar{flex-wrap:wrap;row-gap:6px}
+    header .brand{order:0} header .ctl{order:1;margin-left:auto}
+    header .bar > .sp{order:2;flex-basis:100%;height:0}
+    header .navl{order:3;padding:5px 7px;font-size:0.78rem}
+  }
+  @media(max-width:430px){ .brand{font-size:0.9rem} .navl{padding:5px 6px;font-size:0.76rem} }
+
+  h1{font-size:clamp(1.6rem,4.4vw,2.3rem);line-height:1.1;letter-spacing:-0.028em;margin:24px 0 4px;font-weight:700}
+  .sub{color:var(--ink-2);margin:0 0 16px;max-width:72ch}
+  .src{display:block;margin-top:4px;font-family:var(--mono);font-size:0.64rem;letter-spacing:0.06em;text-transform:uppercase;color:var(--ink-3)}
+
+  .one{display:flex;gap:14px;align-items:flex-start;background:var(--surface);border:1px solid var(--line);
+    border-left:4px solid var(--lec);border-radius:11px;padding:14px 18px;margin:0 0 16px}
+  .one .n{font-size:1.9rem;font-weight:730;color:var(--lec);line-height:1;letter-spacing:-0.03em}
+  .one p{margin:0;font-size:0.92rem;color:var(--ink-2)}
+  .one b{color:var(--ink)}
+  .one q{font-style:italic}
+
+  .tools{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin:0 0 14px}
+  .tools label{display:flex;align-items:center;gap:8px;flex:1 1 280px;font-size:0.86rem;color:var(--ink-2)}
+  .tools input{flex:1;min-width:0}
+  .btn{min-height:40px;padding:0 14px;border-radius:8px;border:1px solid var(--line-2);background:var(--surface);
+    color:var(--ink);font:600 0.84rem var(--sans);cursor:pointer}
+  .btn:hover{border-color:var(--lec);color:var(--lec)}
+  .btn.pri{background:var(--lec);border-color:var(--lec);color:#fff}
+  html[data-theme="dark"] .btn.pri{color:#151314}
+  .count{font-family:var(--mono);font-size:0.74rem;color:var(--ink-2);background:var(--surface-2);
+    padding:5px 10px;border-radius:99px}
+
+  input[type=text],input[type=number],textarea{font-family:var(--sans);font-size:0.9rem;letter-spacing:0;text-transform:none;color:var(--ink);
+    background:var(--bg);border:1px solid var(--line-2);border-radius:7px;padding:8px 10px}
+  input:focus-visible,textarea:focus-visible{outline:2px solid var(--wsh);outline-offset:1px}
+  textarea{width:100%;resize:vertical;min-height:62px;line-height:1.45}
+
+  /* ── one criterion ───────────────────────────────────────────────────── */
+  .crit{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:16px 18px;margin:0 0 14px}
+  .crit-h{display:flex;gap:12px;align-items:baseline;margin-bottom:10px}
+  .crit-n{font-family:var(--mono);font-weight:700;font-size:0.8rem;background:var(--ink);color:var(--surface);
+    border-radius:6px;padding:2px 8px;flex:none}
+  .crit-h h2{margin:0;font-size:1.08rem;font-weight:690;letter-spacing:-0.015em}
+  .crit-h p{margin:2px 0 0;font-size:0.86rem;color:var(--ink-2)}
+
+  .bands{display:grid;grid-template-columns:repeat(5,1fr);gap:6px;margin:0 0 12px;border:0;padding:0}
+  .bands legend{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+  .band{position:relative;cursor:pointer;display:block}
+  .band input{position:absolute;opacity:0;pointer-events:none}
+  .cell{display:block;height:100%;border:1px solid var(--line);border-radius:8px;padding:8px 10px;
+    font-size:0.78rem;line-height:1.42;color:var(--ink-2);background:var(--bg)}
+  .cell b{display:flex;justify-content:space-between;gap:6px;font-family:var(--mono);font-size:0.66rem;
+    letter-spacing:0.05em;text-transform:uppercase;color:var(--ink);margin-bottom:4px}
+  .cell b span{color:var(--ink-3);letter-spacing:0}
+  .band:hover .cell{border-color:var(--line-2)}
+  .band input:focus-visible + .cell{outline:2px solid var(--wsh);outline-offset:1px}
+  .band input:checked + .cell{border:2px solid var(--wsh);background:var(--wsh-soft);color:var(--ink);padding:7px 9px}
+  .band input:checked + .cell b::after{content:"✓";color:var(--wsh)}
+
+  .fill{display:grid;grid-template-columns:150px 1fr;gap:12px;align-items:start}
+  .fill label{display:flex;flex-direction:column;gap:4px;font-size:0.72rem;font-family:var(--mono);
+    letter-spacing:0.05em;text-transform:uppercase;color:var(--ink-3)}
+  .mk{display:flex;align-items:center;gap:6px;font-family:var(--sans);font-size:0.9rem;
+    letter-spacing:0;text-transform:none;color:var(--ink-2)}
+  .mk{white-space:nowrap}
+  .mk input{width:78px}
+
+  .crit.overall{border-left:4px solid var(--lec)}
+  .overall .crit-n{background:var(--lec)}
+  html[data-theme="dark"] .overall .crit-n{color:#151314}
+  .overall .hint{margin:0 0 12px;font-size:0.86rem;color:var(--ink-2);max-width:74ch}
+
+  .more{margin:18px 0 0;font-size:0.9rem;color:var(--ink-2)}
+  footer{padding:24px 0 44px;color:var(--ink-3);font-size:0.8rem;border-top:1px solid var(--line);margin-top:22px}
+
+  @media(max-width:760px){
+    .bands{grid-template-columns:1fr}
+    .cell{display:grid;grid-template-columns:78px 1fr;gap:10px}
+    .cell b{flex-direction:column;justify-content:flex-start;margin:0}
+    .band input:checked + .cell b::after{margin-top:2px}
+    .fill{grid-template-columns:1fr}
+    .one{flex-direction:column;gap:6px}
+  }
+
+  @media print{
+    @page{size:A4 landscape;margin:9mm 11mm}
+    header,.tools .btn,.count,.more,footer,.nop{display:none !important}
+    body{background:#fff;font-size:10pt}
+    html[data-theme="dark"]{--bg:#fff;--surface:#fff;--surface-2:#eee;--ink:#000;--ink-2:#333;--ink-3:#666;
+      --line:#bbb;--line-2:#999;--lec:#8C2437;--wsh:#1D5C7A;--wsh-soft:#E4EEF3}
+    .wrap{max-width:none;padding:0}
+    h1{margin:0 0 2px;font-size:16pt}
+    .sub{margin:0 0 6px;font-size:9pt}
+    .one{padding:6px 10px;margin:0 0 8px;break-inside:avoid}
+    .one .n{font-size:14pt}
+    .one p{font-size:8.5pt}
+    .crit{padding:6px 9px;margin:0 0 5px;break-inside:avoid;border-radius:6px}
+    .crit-h{align-items:center}
+    .crit-h{margin-bottom:5px}
+    .crit-h h2{font-size:10.5pt}
+    .crit-h p{font-size:8pt}
+    .bands{grid-template-columns:repeat(5,1fr) !important;gap:4px;margin-bottom:6px}
+    .cell{display:block !important;font-size:6.9pt;padding:4px 5px;line-height:1.3}
+    .cell b{display:flex !important;flex-direction:row !important;font-size:6.5pt;margin-bottom:2px !important}
+    .band input:checked + .cell{padding:3px 4px}
+    .fill{grid-template-columns:96px 1fr !important;gap:8px}
+    .fill label{font-size:6.5pt;gap:2px}
+    .mk{font-size:8.5pt}
+    .mk input{width:48px}
+    input[type=text],input[type=number],textarea{padding:3px 6px;font-size:8.5pt;border-radius:4px}
+    textarea{min-height:0;height:44px;resize:none;overflow:hidden}
+    /* mark and evidence become a sixth column beside the bands, so the sheet
+       fits one landscape page */
+    .crit:not(.overall){display:grid;grid-template-columns:1fr 150px;column-gap:8px;align-items:stretch}
+    .crit:not(.overall) .crit-h{grid-column:1 / -1}
+    .crit:not(.overall) .bands{margin:0}
+    .crit:not(.overall) .fill{grid-template-columns:1fr !important;gap:4px;align-content:start}
+    .crit-h > div{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}
+    .crit-h p{margin:0}
+    .crit:not(.overall){grid-template-columns:1fr 176px}
+    .fill label:first-child{flex-direction:row;align-items:center}
+    .crit:not(.overall) textarea{height:34px}
+    .overall .fill{grid-template-columns:150px 1fr !important;align-items:center}
+    .overall .fill label{flex-direction:row;align-items:center}
+    .overall textarea{height:22px}
+    .overall{display:flex;align-items:center;gap:12px}
+    .overall .crit-h{margin:0;flex:none}
+    .overall .hint{margin:0;flex:0 1 250px;font-size:7pt;line-height:1.3}
+    .overall .fill{flex:1}
+    .overall .fill label{white-space:nowrap}
+    .crit-h{margin-bottom:4px}
+    .tools{margin:0 0 6px}
+    .tools label{font-size:8.5pt}
+    .overall .hint{margin:0 0 5px;font-size:8pt}
+    .src{font-size:6.5pt}
+    .sub{display:none}
+    input[type=text],input[type=number],textarea{background:#fff}
+    *{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap bar">
+    <a class="brand" href="index.html">Screen Design</a>
+    <span class="sp"></span>
+    <a class="navl" href="index.html">Weeks</a><a class="navl" href="weeks.html">Materials</a><a class="navl" href="brief.html">The brief</a><a class="navl" href="assessment.html">What to hand in</a>
+    <span class="ctl"><button id="theme" aria-label="Dark mode">◐</button></span>
+  </div>
+</header>
+
+<div class="wrap">
+  <h1>The marking rubric, blank</h1>
+  <p class="sub">The four criteria and their five bands, word for word from the official assessment
+    brief. Use it to mark the example portfolio in week 1, and to mark your own deck before you
+    submit. <span class="src">Source · Screen Design assessment brief 2026–27 · CAF Phase 2</span></p>
+
+  <div class="one">
+    <span class="n">1</span>
+    <p><b>One overall mark for the portfolio as a whole.</b> The criteria are not weighted separately.
+      In the brief's words: <q>Grades reflect overall performance across all criteria, not a mechanical
+      average.</q> Place the work in a band for each criterion, then decide the one mark.</p>
+  </div>
+
+  <div class="tools">
+    <label>Marking <input type="text" id="who" placeholder="e.g. the example portfolio" autocomplete="off"></label>
+    <span class="count" id="count" role="status"></span>
+    <button type="button" class="btn pri" id="print">Print</button>
+    <button type="button" class="btn" id="clear">Clear</button>
+  </div>
+
+  <form id="sheet" autocomplete="off" onsubmit="return false"></form>
+
+  <p class="more">What each part of the deck needs is on <a href="assessment.html">What to hand in</a>.
+    The example is <a href="example.html">here</a>.</p>
+
+  <footer>
+    <p>Screen Design · Level 4 · 30 credits · 2026–27 · What you type here stays in this browser only.</p>
+  </footer>
+</div>
+
+<script src="rubric-data.js"></script>
+<script>
+(function () {
+  const KEY = 'sd-rubric';
+  const esc = t => String(t).replace(/[<&"]/g, c => ({ '<': '&lt;', '&': '&amp;', '"': '&quot;' }[c]));
+  const form = document.getElementById('sheet');
+
+  form.innerHTML = RUBRIC.map(r => `
+    <section class="crit" aria-labelledby="c${r.n}">
+      <div class="crit-h"><span class="crit-n">${r.n}</span>
+        <div><h2 id="c${r.n}">${esc(r.name)}</h2><p>${esc(r.what)}</p></div></div>
+      <fieldset class="bands"><legend>Band for ${esc(r.name)}</legend>
+        ${r.b.map((cell, i) => `<label class="band">
+          <input type="radio" name="b${r.n}" value="${BANDS[i].k}">
+          <span class="cell"><b>${BANDS[i].label}<span>${BANDS[i].range}</span></b>${esc(cell)}</span>
+        </label>`).join('')}
+      </fieldset>
+      <div class="fill">
+        <label>Mark<span class="mk"><input type="number" name="m${r.n}" min="0" max="100" inputmode="numeric"> / 100</span></label>
+        <label>Evidence — where in the deck is it?<textarea name="e${r.n}" rows="2"></textarea></label>
+      </div>
+    </section>`).join('') + `
+    <section class="crit overall" aria-labelledby="c0">
+      <div class="crit-h"><span class="crit-n">=</span>
+        <div><h2 id="c0">Overall mark</h2></div></div>
+      <p class="hint">One number for the whole portfolio. If it sits outside the bands you chose above,
+        say why in a sentence.</p>
+      <div class="fill">
+        <label>Mark<span class="mk"><input type="number" name="overall" min="0" max="100" inputmode="numeric"> / 100</span></label>
+        <label>Why this mark<textarea name="why" rows="2"></textarea></label>
+      </div>
+    </section>`;
+
+  const who = document.getElementById('who');
+  const load = () => { try { return JSON.parse(localStorage.getItem(KEY)) || {}; } catch (e) { return {}; } };
+  const save = st => { try { localStorage.setItem(KEY, JSON.stringify(st)); } catch (e) {} };
+
+  function count() {
+    const done = RUBRIC.filter(r => form.elements['b' + r.n].value).length;
+    document.getElementById('count').textContent = `${done} of ${RUBRIC.length} criteria placed`;
+  }
+  function collect() {
+    const st = { who: who.value };
+    for (const el of form.elements) {
+      if (!el.name) continue;
+      if (el.type === 'radio') { if (el.checked) st[el.name] = el.value; }
+      else if (el.value) st[el.name] = el.value;
+    }
+    return st;
+  }
+  function restore(st) {
+    who.value = st.who || '';
+    for (const el of form.elements) {
+      if (!el.name) continue;
+      if (el.type === 'radio') el.checked = st[el.name] === el.value;
+      else el.value = st[el.name] || '';
+    }
+    count();
+  }
+
+  restore(load());
+  form.addEventListener('input', () => { save(collect()); count(); });
+  form.addEventListener('change', () => { save(collect()); count(); });
+  who.addEventListener('input', () => save(collect()));
+  document.getElementById('print').onclick = () => window.print();
+  document.getElementById('clear').onclick = () => {
+    if (!confirm('Clear everything on this sheet?')) return;
+    save({}); restore({});
+  };
+})();
+
+const root = document.documentElement;
+try { const t = localStorage.getItem('sd-theme'); if (t) root.dataset.theme = t; } catch (e) {}
+if (!root.dataset.theme && matchMedia('(prefers-color-scheme: dark)').matches) root.dataset.theme = 'dark';
+document.getElementById('theme').onclick = () => {
+  root.dataset.theme = root.dataset.theme === 'dark' ? 'light' : 'dark';
+  try { localStorage.setItem('sd-theme', root.dataset.theme); } catch (e) {}
+};
+</script>
+</body>
+</html>

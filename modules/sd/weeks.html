@@ -301,7 +301,7 @@
     <small id="printhint"></small>
   </div>
 
-  <p class="subject"><b>The weekly content may change.</b> What is shown in class and how a workshop runs can be adjusted during the term — check the week before you rely on it. <b>The assessment does not change.</b> The <span class="seccount">24</span> sections, the four marking criteria and the deadline are fixed, and anything that did change would be announced, not quietly <a class="qlink" href="example-sheet.html" tabindex="-1">edited</a>.</p>
+  <p class="subject"><b>The weekly content may change.</b> What is shown in class and how a workshop runs can be adjusted during the term — check the week before you rely on it. <b>The assessment does not change.</b> The <span class="seccount">24</span> sections, the four marking criteria and the deadline are fixed, and anything that did change would be announced, not quietly <span id="qword">edited</span>.</p>
 
 </div>
 
@@ -421,6 +421,10 @@ function render(){
       w.workshop.stuck.map(([q,a]) => `<dt>${esc(q)}</dt><dd>${rich(a)}</dd>`).join('')}</dl>`;
   }
   $('#panel').innerHTML = h;
+  /* Week 1 only: the last word opens the staff sheet for week 1's sample
+     assessment. Unstyled and out of the tab order, so it reads as plain text. */
+  $('#qword').innerHTML = cur === 1
+    ? '<a class="qlink" href="example-sheet.html" tabindex="-1">edited</a>' : 'edited';
   try { history.replaceState(null,'',`?w=${cur}&p=${tab}`); } catch(e){}
 }
 
