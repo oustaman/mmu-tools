@@ -115,6 +115,14 @@
   .overall .crit-n{background:var(--lec)}
   html[data-theme="dark"] .overall .crit-n{color:#151314}
   .overall .hint{margin:0 0 12px;font-size:0.86rem;color:var(--ink-2);max-width:74ch}
+  .avg{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin:0 0 12px;font-size:0.88rem;color:var(--ink-2)}
+  .avg b{font-family:var(--mono);font-size:1.05rem;color:var(--ink)}
+  .avg .tag{font-family:var(--mono);font-size:0.66rem;letter-spacing:0.05em;text-transform:uppercase;
+    padding:3px 8px;border-radius:99px;background:var(--surface-2);color:var(--ink-3)}
+  .avg .tag.own{background:var(--lec-soft);color:var(--lec)}
+  .linkbtn{background:none;border:0;padding:4px 2px;font:600 0.84rem var(--sans);color:var(--lec);
+    cursor:pointer;text-decoration:underline;text-underline-offset:2px}
+  .linkbtn[hidden]{display:none}
 
   .more{margin:18px 0 0;font-size:0.9rem;color:var(--ink-2)}
   footer{padding:24px 0 44px;color:var(--ink-3);font-size:0.8rem;border-top:1px solid var(--line);margin-top:22px}
@@ -173,6 +181,9 @@
     .overall .crit-h{margin:0;flex:none}
     .overall .hint{margin:0;flex:0 1 250px;font-size:7pt;line-height:1.3}
     .overall .fill{flex:1}
+    .avg{margin:0;flex:none;font-size:8pt}
+    .overall .hint{display:none !important}
+    .avg .tag,.linkbtn{display:none !important}
     .overall .fill label{white-space:nowrap}
     .crit-h{margin-bottom:4px}
     .tools{margin:0 0 6px}
@@ -251,8 +262,11 @@
     <section class="crit overall" aria-labelledby="c0">
       <div class="crit-h"><span class="crit-n">=</span>
         <div><h2 id="c0">Overall mark</h2></div></div>
-      <p class="hint">One number for the whole portfolio. If it sits outside the bands you chose above,
-        say why in a sentence.</p>
+      <p class="hint">It starts as the average of your four marks. That is a starting point, not the
+        rule: if the whole deserves a different number, type it and say why.</p>
+      <p class="avg"><span>Average of your marks: <b id="avgn">—</b></span>
+        <span class="tag" id="avgtag"></span>
+        <button type="button" class="linkbtn" id="useavg" hidden>Use the average</button></p>
       <div class="fill">
         <label>Mark<span class="mk"><input type="number" name="overall" min="0" max="100" inputmode="numeric"> / 100</span></label>
         <label>Why this mark<textarea name="why" rows="2"></textarea></label>
@@ -260,6 +274,26 @@
     </section>`;
 
   const who = document.getElementById('who');
+  const overall = form.elements.overall;
+  const avgn = document.getElementById('avgn'), avgtag = document.getElementById('avgtag');
+  const useavg = document.getElementById('useavg');
+  /* The overall follows the average until someone types their own number;
+     clearing the box, or "Use the average", hands it back. */
+  let own = false;
+  function average() {
+    const m = RUBRIC.map(r => form.elements['m' + r.n].value).filter(v => v !== '').map(Number)
+      .filter(n => Number.isFinite(n));
+    return m.length ? { v: Math.round(m.reduce((a, b) => a + b, 0) / m.length), n: m.length } : null;
+  }
+  function syncOverall() {
+    const a = average();
+    avgn.textContent = a ? a.v : '—';
+    if (!own) overall.value = a ? a.v : '';
+    avgtag.className = 'tag' + (own ? ' own' : '');
+    avgtag.textContent = !a ? '' : own ? 'your own mark'
+      : a.n < RUBRIC.length ? `of ${a.n} of ${RUBRIC.length} marks so far` : 'overall follows it';
+    useavg.hidden = !(own && a && String(a.v) !== overall.value);
+  }
   const load = () => { try { return JSON.parse(localStorage.getItem(KEY)) || {}; } catch (e) { return {}; } };
   const save = st => { try { localStorage.setItem(KEY, JSON.stringify(st)); } catch (e) {} };
 
@@ -268,7 +302,7 @@
     document.getElementById('count').textContent = `${done} of ${RUBRIC.length} criteria placed`;
   }
   function collect() {
-    const st = { who: who.value };
+    const st = { who: who.value, own: own ? 1 : 0 };
     for (const el of form.elements) {
       if (!el.name) continue;
       if (el.type === 'radio') { if (el.checked) st[el.name] = el.value; }
@@ -278,17 +312,23 @@
   }
   function restore(st) {
     who.value = st.who || '';
+    own = !!st.own;
     for (const el of form.elements) {
       if (!el.name) continue;
       if (el.type === 'radio') el.checked = st[el.name] === el.value;
       else el.value = st[el.name] || '';
     }
     count();
+    syncOverall();
   }
 
   restore(load());
-  form.addEventListener('input', () => { save(collect()); count(); });
-  form.addEventListener('change', () => { save(collect()); count(); });
+  form.addEventListener('input', e => {
+    if (e.target === overall) own = overall.value !== '';
+    syncOverall(); save(collect()); count();
+  });
+  useavg.onclick = () => { own = false; syncOverall(); save(collect()); };
+  form.addEventListener('change', () => { syncOverall(); save(collect()); count(); });
   who.addEventListener('input', () => save(collect()));
   document.getElementById('print').onclick = () => window.print();
   document.getElementById('clear').onclick = () => {
