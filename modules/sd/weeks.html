@@ -113,8 +113,18 @@
     background:var(--hnd-soft);border-radius:0 7px 7px 0;font-size:0.88rem;line-height:1.5;color:var(--ink-2)}
   .take b{display:block;font-family:var(--mono);font-size:0.62rem;letter-spacing:0.08em;
     text-transform:uppercase;color:var(--hnd);margin-bottom:3px}
-  .rw{font-family:var(--mono);font-size:0.66rem;color:var(--wsh);border:1px solid var(--wsh);
-    border-radius:4px;padding:1px 6px;margin-left:7px;white-space:nowrap}
+  /* the workshop as a sequence: numbered nodes on one line, no clock */
+  .seqhint{margin:4px 0 12px;font-family:var(--mono);font-size:0.72rem;color:var(--ink-3)}
+  .seq{list-style:none;margin:0;padding:0}
+  .seq-i{position:relative;display:grid;grid-template-columns:34px 1fr;gap:14px;padding:0 0 20px}
+  .seq-i::before{content:"";position:absolute;left:16px;top:34px;bottom:2px;width:2px;
+    background:var(--wsh);opacity:.3;border-radius:1px}
+  .seq-i:last-child{padding-bottom:6px}
+  .seq-i:last-child::before{display:none}
+  .seq-n{width:34px;height:34px;border-radius:50%;background:var(--wsh);color:#fff;
+    display:grid;place-items:center;font:700 0.85rem/1 var(--mono)}
+  html[data-theme="dark"] .seq-n{color:#151314}
+  .seq-i .rs{padding-top:6px}
 
   .kit{display:flex;flex-wrap:wrap;gap:6px;margin:0 0 18px;padding:12px 14px;
     background:var(--surface-2);border-radius:9px}
@@ -176,7 +186,7 @@
     body{background:#fff;color:#000;font-size:10.5pt}
     .wrap{max-width:none;padding:0}
     .panel{border:0;padding:0;background:#fff;border-radius:0}
-    .rrow{break-inside:avoid} .doneline,.missline,.kit{break-inside:avoid}
+    .rrow,.seq-i{break-inside:avoid} .doneline,.missline,.kit{break-inside:avoid}
     a{color:#000;text-decoration:none}
     .rshow::after{content:" — " attr(href);font-size:8pt;color:#555}
     h1{margin-top:0}
@@ -251,7 +261,10 @@
   .btwnline>b{font:600 11px/1.4 var(--mono);letter-spacing:.09em;text-transform:uppercase;color:var(--wsh)}
   .btwnline>span{font-size:14px;line-height:1.55}
   @media(max-width:640px){.btwnline{grid-template-columns:1fr;gap:4px}}
-  </style>
+    /* The way in to the week 1 staff sheet. It is meant to be invisible: it looks
+     and behaves like the word around it, and it is out of the tab order. */
+  .qlink{color:inherit;text-decoration:none;cursor:text}
+</style>
 </head>
 <body>
 
@@ -288,19 +301,8 @@
     <small id="printhint"></small>
   </div>
 
-  <p class="subject"><b>The weekly content may change.</b> What is shown in class and how a workshop runs can be adjusted during the term — check the week before you rely on it. <b>The assessment does not change.</b> The <span class="seccount">24</span> sections, the four marking criteria and the deadline are fixed, and anything that did change would be announced, not quietly edited.</p>
+  <p class="subject"><b>The weekly content may change.</b> What is shown in class and how a workshop runs can be adjusted during the term — check the week before you rely on it. <b>The assessment does not change.</b> The <span class="seccount">24</span> sections, the four marking criteria and the deadline are fixed, and anything that did change would be announced, not quietly <a class="qlink" href="example-sheet.html" tabindex="-1">edited</a>.</p>
 
-  <footer>
-    <p><b>Nothing is handed in weekly.</b> There is one deck, set up in week 1 from the
-      structure on the hand-in page, shared with tutors, and filled in a section at a time. The
-      "sections you fill in" box on each sheet is the part of that deck the workshop produces.</p>
-    <p id="allos"></p>
-    <p><b>Pair work, not group work.</b> Every workshop has one swap in it. It is a checking step, never a
-      shared deliverable — the portfolio is individual, and the swap exists to test whether the work reads
-      without its author standing next to it. Nothing a student makes depends on a partner turning up.</p>
-    <p>Exhibit links verified 1 Sep 2026. If one fails live, say what it held and move on — never stand
-      there reloading. Full delivery rationale: <code>screen-design-plan.html</code>.</p>
-  </footer>
 </div>
 
 <script src="sd-common.js"></script>
@@ -310,9 +312,6 @@ const $ = s => document.querySelector(s);
 const NOW = SD.week();
 let cur = (NOW >= 1 && NOW <= SD.WEEKS) ? NOW : 1, tab = 'shown';
 
-document.getElementById('allos').innerHTML =
-  '<b>The three approved module outcomes,</b> reproduced verbatim from the specification and not reworded: ' +
-  Object.entries(LOS).map(([k,v]) => `<b>${k}</b> ${v}`).join(' ');
 
 document.getElementById('rulecount').textContent = RULES.length;
 $('#rulelist').innerHTML = RULES.map((r, i) =>
@@ -401,10 +400,12 @@ function render(){
       h += `<div class="lorow">${w.workshop.los.map(k =>
         `<span class="lo" title="${esc(LOS[k])}"><b>${k}</b> ${esc(LOS[k])}</span>`).join('')}</div>`;
     }
-    h += `<div class="run">${w.workshop.run.map(r => `<div class="rrow">
-        <span class="rt">${esc(r.t)}</span>
-        <span><span class="rs">${rich(r.s)}<span class="rw">${esc(r.w)}</span></span>
-        <span class="rd">${rich(r.d)}</span></span></div>`).join('')}</div>`;
+    /* A sequence, not a timetable. Nobody controls how long a room takes over a
+       step, so the sheet says what comes next and leaves the pace to the room. */
+    h += `<p class="seqhint">In this order — each step takes as long as the room needs.</p>
+      <ol class="seq">${w.workshop.run.map((r, i) => `<li class="seq-i">
+        <span class="seq-n">${i + 1}</span>
+        <span><span class="rs">${rich(r.s)}</span><span class="rd">${rich(r.d)}</span></span></li>`).join('')}</ol>`;
     h += `<div class="doneline"><b>You leave with</b><span>${rich(w.workshop.leave)}</span></div>`;
     h += `<div class="doneline" style="background:var(--surface-2);border-color:var(--line-2)">
             <b style="color:var(--ink-3)">Done when</b><span>${rich(w.workshop.done)}</span></div>`;

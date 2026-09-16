@@ -194,6 +194,19 @@ const SD = (() => {
 
   /** The document, as plain text, ready to paste into PowerPoint or Google Slides.
    *  Generated from PARTS so it can never drift from the tick-list. */
+  /** One slide's worth of text: the students build the deck a slide at a time,
+   *  so each section is copied on its own. Same PARTS source as everything else. */
+  function slideText(sec){
+    if (sec === 'cover') return ['SCREEN DESIGN — PORTFOLIO', 'Student ID:',
+      '(do not put your name anywhere in this deck)'].join('\n');
+    const p = PARTS.find(g => g.items.some(i => i.sec === sec));
+    const it = p.items.find(i => i.sec === sec);
+    const L = [`${it.sec} · ${it.t}`, `Part ${p.id} — ${p.name}`];
+    L.push('');
+    it.f.forEach(line => L.push(line));
+    return L.join('\n').replace(/\n+$/, '');
+  }
+
   function skeleton(){
     const L = [];
     L.push('SCREEN DESIGN — PORTFOLIO');
@@ -222,6 +235,6 @@ const SD = (() => {
   const fmtShort = d => d.toLocaleDateString('en-GB', {day:'numeric', month:'short'});
 
   return { start, dead, all, total: all.length, week, dateOf, mondayOf, daysToDeadline,
-           SESSIONS, DAY: TERM.DAY, PARTS, skeleton,
+           SESSIONS, DAY: TERM.DAY, PARTS, skeleton, slideText,
            expectedBy, dueIn, partDeadlines, read, write, doneCount, isDone, fmt, fmtFull, fmtShort, WEEKS: TERM.WEEKS };
 })();

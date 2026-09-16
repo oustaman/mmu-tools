@@ -298,14 +298,17 @@
   .ho-split-w{flex:2;background:var(--wsh);color:#fff}
 
   .ho-aim{margin:0 0 10px;font-size:1rem;font-weight:650;line-height:1.35}
-  .ho-steps{list-style:none;margin:0;padding:0;counter-reset:s}
-  .ho-steps li{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(60px,1fr) 38px;align-items:center;
-    gap:10px;padding:6px 0;border-top:1px solid rgba(29,92,122,.18);counter-increment:s}
-  .ho-sn{font-size:.86rem;font-weight:600;line-height:1.3}
-  .ho-sn::before{content:counter(s) ". ";color:var(--ink-3);font-weight:400}
-  .ho-sb{height:10px;background:rgba(29,92,122,.14);border-radius:5px;overflow:hidden}
-  .ho-sb i{display:block;height:100%;background:var(--wsh);border-radius:5px}
-  .ho-sm{font-family:var(--mono);font-size:.74rem;color:var(--ink-2);text-align:right}
+  /* the workshop as a sequence: numbered nodes joined by a line, left to right,
+     and top to bottom on a phone. There is no clock on purpose. */
+  .ho-seq{list-style:none;margin:4px 0 0;padding:0;display:flex;gap:0}
+  .ho-seq li{flex:1 1 0;min-width:0;position:relative;display:flex;flex-direction:column;
+    align-items:center;text-align:center;gap:8px;padding:0 4px}
+  .ho-seq li::before{content:"";position:absolute;top:15px;left:-50%;width:100%;height:2px;
+    background:var(--wsh);opacity:.35}
+  .ho-seq li:first-child::before{display:none}
+  .ho-sq{position:relative;z-index:1;width:32px;height:32px;border-radius:50%;background:var(--wsh);
+    color:#fff;display:grid;place-items:center;font:700 .82rem/1 var(--mono);flex:none}
+  .ho-sl{font-size:.8rem;font-weight:600;line-height:1.3;overflow-wrap:anywhere}
   .ho-chips{margin:12px 0 0;display:flex;flex-wrap:wrap;gap:6px;align-items:center}
   .ho-chips .ho-lab{width:100%;margin:0}
   .ho-chips span:not(.ho-lab){font-size:.8rem;padding:4px 9px;border-radius:999px;background:var(--surface);
@@ -385,6 +388,9 @@
   .ho-prt{display:none}
 
   /* handout view switch, and the slide nav that only slide mode shows */
+  /* the view switch shows pictures, not words: a page to read, an easel to present */
+  .vico{display:block;margin:auto}
+  .ho-view button{min-width:46px}
   .ho-view{display:inline-flex;border:1px solid var(--line-2);border-radius:6px;overflow:hidden}
   .ho-view button{font:600 .76rem/1 var(--mono);min-height:40px;padding:0 12px;border:0;background:var(--surface);
     color:var(--ink-2);cursor:pointer}
@@ -415,8 +421,10 @@
     #handout{width:100%;max-width:100%;height:100dvh;max-height:100dvh;border-radius:0;margin:0}
     .ho-body{padding:16px 16px calc(24px + env(safe-area-inset-bottom))}
     .ho-body h2{font-size:1.35rem}
-    .ho-steps li{grid-template-columns:1fr 38px;row-gap:4px}
-    .ho-sb{grid-column:1 / -1;grid-row:2}
+    .ho-seq{flex-direction:column;gap:14px}
+    .ho-seq li{flex-direction:row;text-align:left;align-items:center;gap:12px;padding:0}
+    .ho-seq li::before{top:-14px;left:15px;width:2px;height:14px}
+    .ho-sl{font-size:.9rem}
     .ho-two,.ho-crit,.ho-parts{grid-template-columns:1fr}
     .ho-stats{grid-template-columns:repeat(2,1fr)}
     .ho-musts{columns:1}
@@ -584,8 +592,8 @@
     <span class="ho-kicker" id="ho-kicker"></span>
     <span class="ho-tools">
       <span class="ho-view" role="group" aria-label="How to show the handout">
-        <button type="button" data-hview="scroll" aria-pressed="true">Scroll</button>
-        <button type="button" data-hview="deck" aria-pressed="false">Slides</button>
+        <button type="button" data-hview="scroll" aria-pressed="true" aria-label="Read as a page" title="Read as a page"><svg class="vico" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5"/><path d="M9 9h2M9 13h6M9 17h6"/></svg></button>
+        <button type="button" data-hview="deck" aria-pressed="false" aria-label="Show as slides" title="Show as slides"><svg class="vico" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2.5 3.5h19"/><rect x="4" y="3.5" width="16" height="11.5" rx="1"/><path d="M7.5 11.5l2.8-2.8 2.4 2 3.8-3.9"/><path d="M12 15v3.2M12 18.2 8 21.5M12 18.2l4 3.3"/></svg></button>
       </span>
       <button type="button" class="ho-btn" id="ho-print">Print</button>
       <button type="button" class="ho-btn ho-x" id="ho-close">Close</button>
@@ -829,7 +837,6 @@ document.querySelectorAll('.seccount').forEach(el => {
   function week(n) {
     const w = WEEKS.find(x => x.n === n); if (!w) return;
     const k = w.workshop, made = madeIn(n);
-    const maxMin = Math.max(...k.run.map(r => parseInt(r.w)));
     const bring = plain(k.bring).split('·').map(x => x.trim()).filter(Boolean);
     const done = doneBy(n);
 
@@ -840,16 +847,14 @@ document.querySelectorAll('.seccount').forEach(el => {
 
       <div class="ho-split" role="img" aria-label="One hour in class, two hours in the workshop">
         <span class="ho-split-c">Class · 1h</span>
-        <span class="ho-split-w">Workshop · 2h — where your marks are made</span>
+        <span class="ho-split-w">Workshop · 2h</span>
       </div>
 
       <section class="ho-block ho-main" data-slide>
         <h3>In the workshop</h3>
         <p class="ho-aim">${esc(k.aim)}</p>
-        <ol class="ho-steps">${k.run.map(r => `
-          <li><span class="ho-sn">${esc(stepName(r.s))}</span>
-            <span class="ho-sb"><i style="width:${Math.round(parseInt(r.w) / maxMin * 100)}%"></i></span>
-            <span class="ho-sm">${esc(r.w)}</span></li>`).join('')}
+        <ol class="ho-seq">${k.run.map((r, i) => `
+          <li><span class="ho-sq">${i + 1}</span><span class="ho-sl">${esc(stepName(r.s))}</span></li>`).join('')}
         </ol>
         <p class="ho-chips"><span class="ho-lab">Bring</span>${bring.map(b => `<span>${esc(b)}</span>`).join('')}</p>
       </section>
