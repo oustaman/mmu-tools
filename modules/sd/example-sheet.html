@@ -315,33 +315,34 @@ document.getElementById('qa').innerHTML =
 }
 
 /* 08 — how four criteria become one mark.
-   The example carried four criterion marks and an overall that did not follow
-   from them: 50, 40, 44 and 38 average to 43, the recorded overall was 42, and
-   no weighting is stated anywhere in the module. A worked example that cannot
-   explain its own total is the one thing a consistency sheet must not ship, so
-   the arithmetic is computed here and shown. If the 42 is a deliberate holistic
-   judgement it needs recording as one, with its reason. */
+   CORRECTED. An earlier version of this section said the criteria were equally
+   weighted and told markers to use the average (43) over the recorded 42. That
+   was wrong: the 2026-27 brief says components are not individually weighted
+   and one overall mark is awarded for the portfolio as a whole, per CAF
+   portfolio policy. The overall is a judgement the criteria inform, not a sum
+   they produce, and 42 is a legitimate one. */
 (function () {
   var m = EXAMPLE.criteria.map(function (c) { return c.mark; });
-  var sum = m.reduce(function (a, b) { return a + b; }, 0);
-  var mean = sum / m.length, shown = Math.round(mean);
+  var lo = Math.min.apply(null, m), hi = Math.max.apply(null, m);
+  var mean = m.reduce(function (a, b) { return a + b; }, 0) / m.length;
   document.getElementById('combine-lede').innerHTML =
-    'Four criteria, <b>equally weighted</b> \u2014 no other weighting is stated anywhere in the module, ' +
-    'so this is the only defensible reading. Mark each criterion against its own descriptors first and ' +
-    'let the total follow. Deciding the overall first and reverse-engineering four numbers to reach it ' +
-    'is what makes two groups diverge.';
+    '<b>One overall mark for the whole portfolio.</b> The brief is explicit: components are not ' +
+    'individually weighted, and the mark is awarded for the portfolio as a whole, as CAF portfolio ' +
+    'policy requires. So the four criteria are how you <i>reach</i> the mark, not a sum that produces it. ' +
+    'Read each criterion against its own descriptors, note where the work sits, then decide one number ' +
+    'for the whole and write down why. The consistency comes from every marker using the same evidence ' +
+    'tests below, not from arithmetic.';
   document.getElementById('combine').innerHTML =
     '<tr><th>Criterion</th><th>Example</th><th>What decided it</th></tr>' +
     EXAMPLE.criteria.map(function (c) {
       return '<tr><td><b>' + c.n + '. ' + esc(c.name) + '</b></td><td class="num">' + c.mark +
              '</td><td>' + esc(String(c.s).replace(/<[^>]+>/g, '').split('. ')[0]) + '.</td></tr>';
     }).join('') +
-    '<tr class="tot"><td><b>Overall</b></td><td class="num"><b>' + shown + '</b></td><td>' +
-    m.join(' + ') + ' = ' + sum + ', \u00f7 ' + m.length + ' = ' + mean.toFixed(2) +
-    (shown !== EXAMPLE.mark.overall
-      ? '. <b>The stored overall is ' + EXAMPLE.mark.overall + '</b>, which does not follow from the four ' +
-        'criteria. Use ' + shown + ' until that is resolved.'
-      : '.') + '</td></tr>';
+    '<tr class="tot"><td><b>Overall</b></td><td class="num"><b>' + EXAMPLE.mark.overall + '</b></td><td>' +
+    'A holistic mark. The criteria sit between ' + lo + ' and ' + hi + ', and ' + EXAMPLE.mark.overall +
+    ' sits inside that range, weighted by judgement towards the two criteria where the work is thinnest. ' +
+    'Their average is ' + mean.toFixed(0) + ' — a sanity check, not the rule. <b>An overall outside the ' +
+    'range of its own criteria needs a sentence explaining why.</b></td></tr>';
 
   var LOOK = {
     1: ['A3 has all seven numbers, and B6 is visibly built on them',
