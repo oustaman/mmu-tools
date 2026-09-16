@@ -72,7 +72,14 @@
      lines wider than a phone — made the whole page scroll sideways. */
   .skel{background:var(--surface);border:1px solid var(--line);border-radius:11px;
     padding:16px 18px;margin:0 0 18px;min-width:0}
-  .sk-head{display:flex;align-items:flex-start;gap:14px;flex-wrap:wrap;margin-bottom:12px}
+  .sk-head{display:flex;align-items:flex-start;gap:14px;flex-wrap:wrap;cursor:pointer;list-style:none}
+  .sk-head::-webkit-details-marker{display:none}
+  .sk-head > div{flex:1 1 240px}
+  .skel[open] > .sk-head{margin-bottom:12px}
+  .sk-chev{flex:none;width:10px;height:10px;margin-top:6px;border-right:2px solid var(--ink-2);
+    border-bottom:2px solid var(--ink-2);transform:rotate(-45deg);transition:transform .15s}
+  .skel[open] .sk-chev{transform:rotate(45deg)}
+  .sk-head:focus-visible{outline:2px solid var(--ink);outline-offset:4px;border-radius:4px}
   .sk-head b{display:block;font-size:1rem}
   .sk-head span{font-size:0.88rem;color:var(--ink-2)}
   .sk-count{margin-left:auto;font-family:var(--mono);font-size:0.76rem;color:var(--ink-2);
@@ -250,19 +257,22 @@
         you export it as a PDF and upload that.</span></span>
   </div>
 
-  <section class="skel">
-    <div class="sk-head">
+  <!-- Closed by default: students set the deck up once, in week 1, and should not
+       land on 25 cards every time they come back for the checklist. -->
+  <details class="skel">
+    <summary class="sk-head">
+      <span class="sk-chev" aria-hidden="true"></span>
       <div><b>Your deck, one slide at a time</b>
         <span>A cover, then a slide for each of the <span class="seccount">24</span> sections. Copy a card,
           paste it onto its own slide.</span></div>
       <span class="sk-count" id="sk-count" role="status"></span>
-    </div>
+    </summary>
     <p class="sk-note"><b>First:</b> start a new <b>PowerPoint slide deck</b> in your
       <code>ScreenDesign</code> OneDrive folder, call it <code>screen-design-portfolio</code>, share it
       with your tutors, and put your name nowhere in it. Google Slides is fine if that is what you use.</p>
     <div id="sk-cards"></div>
     <p class="sk-foot"><button type="button" id="sk-reset" class="sk-reset">Clear the “copied” marks</button></p>
-  </section>
+  </details>
 
   <div class="dbox" id="dbox"></div>
 
