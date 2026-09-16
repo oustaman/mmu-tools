@@ -18,8 +18,8 @@ const LOS = {
 };
 
 const RULES = [
- {k:"Where your work lives", v:"Your <b>university OneDrive</b>, in one folder called <code>ScreenDesign</code>. Not your desktop, not a USB stick, not the studio machine — those get wiped. You set this up in week 1."},
- {k:"Share the folder", v:"Share <code>ScreenDesign</code> with your tutors in week 1 and leave it shared. That is how anyone helps you between classes, and how a tutor can look at your work before a check-in instead of during it."},
+ {k:"Where your work lives", v:"Your <b>university OneDrive</b>, in one folder called <code>Screen Design</code>. Everything you make goes in there, every week: the deck, photos of paper work, anything you want a tutor to see. Not your desktop, not a USB stick, not the studio machine — those get wiped. You set this up in week 1."},
+ {k:"Share the folder", v:"Share <code>Screen Design</code> with your tutors and the teaching staff in week 1, and leave it shared. <b>Nobody looks in it unless you ask.</b> When you want feedback or help, tell us and we open your folder — so keep your latest work in there."},
  {k:"Your name goes on nothing", v:"The deck is marked without your name on it. Call it <code>screen-design-portfolio</code> — no name in the filename, no name on the cover, no name in a header or footer. Your student ID only, if you want anything at all. <b>The OneDrive folder identifies you; the document does not.</b>"},
  {k:"One deck, all term", v:"You hand nothing in weekly. There is <b>one slide deck</b> — PowerPoint or Google Slides, whichever you already have — and you fill in a section of it each week. By week 10 it is finished, and in January you export it as a PDF."},
  {k:"One screen per slide", v:"When you build your screens — from week 8 — <b>put each one on its own slide.</b> In week 10 you link them together and that is your prototype \u2014 the assessment asks for a clickable multi-screen prototype, and if your screens are slides you get one by drawing six arrows. If they are pasted four to a page, you do not."},
@@ -48,24 +48,26 @@ const WEEKS = [
  ],
  workshop:{
   aim:"Set up your deck, then mark somebody else's.",
-  goals:["Set up the one deck you will fill in for eleven weeks, and share it.",
+  goals:["Make your shared Screen Design folder, and the one deck inside it you will fill in for eleven weeks.",
          "Read the brief closely enough to argue about it.",
          "Judge a finished portfolio against the four marking criteria, and defend the number you give it."],
   los: ["A1","B1"],
   out:{"sec": ["\u2014"], "what": "Set the deck up. Nothing is filled in yet."},
   bring:"Laptop \u00b7 the brief open \u00b7 nothing else",
   run:[
-   {s:"Set up the one deck \u2014 everybody, before anything else", d:"Open OneDrive. New folder, called exactly <code>ScreenDesign</code>, shared with your tutors. Inside it, a new <b>PowerPoint</b> called <code>screen-design-portfolio</code> \u2014 or a Google Slides deck, if that is what you use. Then open the hand-in page and give each section its own slide \u2014 every section has its own <b>Copy</b> button, so it is one click and one paste per slide. That is your whole assessment, empty. <b>Put your name nowhere in it.</b> Nobody leaves without a shared deck with a slide for every section \u2014 check as you circulate."},
+   {s:"Make your Screen Design folder and share it \u2014 everybody, before anything else", d:"Open your university OneDrive. New folder, called exactly <code>Screen Design</code>. Share it with your tutors and the teaching staff, and leave it shared. This is where your work lives all term: each week, whatever you make goes in here as your assessment fills out \u2014 the deck, photos of paper work, anything you want a tutor to see. <b>Staff do not look in it unless you ask.</b> When you want feedback or help, say so, and that folder is where we look. Check as you circulate: the folder exists, it is named right, and it is shared."},
+   {s:"Set up the one deck", d:"Inside <code>Screen Design</code>, a new <b>PowerPoint</b> called <code>screen-design-portfolio</code> \u2014 or a Google Slides deck, if that is what you use. Then open the hand-in page and give each section its own slide \u2014 every section has its own <b>Copy</b> button, so it is one click and one paste per slide. That is your whole assessment, empty. <b>Put your name nowhere in it.</b> Nobody leaves without a shared folder and a deck with a slide for every section \u2014 check as you circulate."},
    {s:"Read the brief \u2014 in fours", d:"Groups of four, counted off round the room so nobody sits with their friends. Each group opens <a href=\"rubric.html\">the blank marking rubric</a> and writes, in their own words, one sentence per criterion: what would a marker have to SEE to give this a good mark? Do not help \u2014 they will get it roughly right, and that is the point."},
    {s:"Mark the example portfolio", d:"Open <a href=\"example.html\">the example portfolio</a> \u2014 a complete, finished-looking submission we wrote. Same groups. On <a href=\"rubric.html\">the blank rubric</a>: a band and a mark out of 100 for each of the four criteria, and <b>one sentence of evidence for every number</b>. No mark without a reason. Circulate and ask one question only: where in the document is that?"},
    {s:"Collect the marks on the board", d:"Every group calls out four numbers. Write them all up. The spread is the lesson \u2014 groups usually land between the high thirties and the high fifties, and the argument about why is worth more than the average. Then reveal the marks and read two of the margin comments aloud. Not all of them."},
    {s:"The one thing to take away", d:"Ask the room what separates that portfolio from a good one. Steer to the answer: <b>everything the brief asked for is present, and almost none of it is evidenced.</b> That is the whole module in one sentence."}
   ],
-  leave:"A shared deck with every section in it, and a mark you had to defend.",
-  done:"Your tutor can open your deck and see a slide for every section.",
+  leave:"A shared Screen Design folder with your deck in it, a slide for every section, and a mark you had to defend.",
+  done:"Your Screen Design folder is shared with the teaching staff, and the deck inside it has a slide for every section.",
   between:"Choose three possible themes. Nothing else \u2014 week 2 locks one of them, and it cannot change after that.",
   mistake:"Marking on how it looks. Two groups in three give the visual criterion the highest number and cannot say why.",
   stuck:[["I can't find OneDrive","office.com, sign in with your uni account, OneDrive in the launcher. Do not use a personal Microsoft account."],
+         ["Will you check my folder every week?","No. We look when you ask \u2014 for feedback or for help. Keep your latest work in there so it is ready when you do."],
          ["Why no name on the deck?","It is marked without your name on it. The folder says whose work it is."],
          ["Is this a real student?","No. We wrote it. Nothing in it comes from anybody's submission."],
          ["What mark would you give it?","Tell them after their groups have committed to a number, not before."]]

@@ -24,7 +24,8 @@
  *    · C6 and C7 are missing entirely — both are required by the brief
  *    · C8 contradicts the evidence in B4
  *    · C9 has no references, and nothing in C is cited
- *  Any two of those cap Criterion 4. All of them together is a Third.
+ *  Any two of those cap Criterion 4. All of them together put it at the top of
+ *  Fail (38), and the overall still lands in the Third (42).
  *
  *  `slides` replaced `pages` when the hand-in became a deck. A slide is
  *  {n, kind, sec, blocks}: kind is title | divider | section, and a note on a
@@ -688,7 +689,7 @@ const EXAMPLE = {
   {
    "n": 4,
    "name": "Critical Reflection",
-   "band": "Third · 40–49%",
+   "band": "Fail · 0–39%",
    "mark": 38,
    "s": "Descriptive throughout, with no reference to design principles, no citation of the student's own recorded values, and no reference list. Two required elements — the ethical or sustainability dimension and the cross-cultural consideration — are absent entirely. The AI declaration is contradicted by B4. This is the weakest criterion and the one that pulls the overall mark down."
   }
