@@ -18,13 +18,6 @@
     --sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Inter,Roboto,sans-serif;
     --fs:1; color-scheme:light;
   }
-  @media (prefers-color-scheme: dark){
-    :root:not([data-theme="light"]){
-      --bg:#151314; --surface:#1E1B1C; --surface-2:#262223; --ink:#EDE9E7; --ink-2:#B9B2AF; --ink-3:#B3ADAC;
-      --line:#332E2F; --line-2:#7A7372; --lec:#E69FAD; --lec-soft:#332226; --wsh:#7FBEDC; --wsh-soft:#16262E;
-      --hnd:#83C19A; --hnd-soft:#1C2A22; --warn:#F0B26B; --warn-soft:#33260F; color-scheme:dark;
-    }
-  }
   :root[data-theme="dark"]{
     --bg:#151314; --surface:#1E1B1C; --surface-2:#262223; --ink:#EDE9E7; --ink-2:#B9B2AF; --ink-3:#B3ADAC;
     --line:#332E2F; --line-2:#7A7372; --lec:#E69FAD; --lec-soft:#332226; --wsh:#7FBEDC; --wsh-soft:#16262E;
@@ -487,7 +480,7 @@
   setFs(fs); $('fsUp').onclick = () => setFs(fs + 0.1); $('fsDown').onclick = () => setFs(fs - 0.1);
   const th = store.get('theme'); if (th) document.documentElement.dataset.theme = th;
   $('themeBtn').onclick = () => {
-    const dark = document.documentElement.dataset.theme ? document.documentElement.dataset.theme === 'dark' : matchMedia('(prefers-color-scheme: dark)').matches;
+    const dark = document.documentElement.dataset.theme === 'dark';   // light by default; dark only when chosen
     document.documentElement.dataset.theme = dark ? 'light' : 'dark'; store.set('theme', document.documentElement.dataset.theme);
   };
 
