@@ -538,6 +538,25 @@
     </div>
   </section>
 
+  <!-- Appendix B · my practice -->
+  <section class="slide" data-n="7" aria-roledescription="slide">
+    <div class="inner">
+      <p class="eyebrow" data-t="s7_eyebrow"></p>
+      <h2 data-t="s7_title" style="max-width:none"></h2>
+      <table class="ai"><colgroup><col style="width:24%"><col style="width:56%"><col style="width:20%"></colgroup>
+        <thead><tr><th data-t="s7_h1"></th><th data-t="s7_h2"></th><th data-t="s7_h3"></th></tr></thead>
+        <tbody>
+          <tr><td data-t="s7_p1"></td><td data-t="s7_p1a"></td><td data-t="s7_p1b"></td></tr>
+          <tr><td data-t="s7_p2"></td><td data-t="s7_p2a"></td><td data-t="s7_p2b"></td></tr>
+          <tr><td data-t="s7_p3"></td><td data-t="s7_p3a"></td><td data-t="s7_p3b"></td></tr>
+          <tr><td data-t="s7_p4"></td><td data-t="s7_p4a"></td><td data-t="s7_p4b"></td></tr>
+          <tr><td data-t="s7_p5"></td><td data-t="s7_p5a"></td><td data-t="s7_p5b"></td></tr>
+          <tr><td data-t="s7_p6"></td><td data-t="s7_p6a"></td><td data-t="s7_p6b"></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
   <div class="player"><div class="cap" id="cap" aria-live="polite"></div></div>
 </main>
 
@@ -640,9 +659,9 @@
   }
 
   /* ---------- slides ---------- */
-  // Five slides and an appendix: the counter never says "6 of 6".
-  const MAIN = slides.length - 1;
-  const label = i => i < MAIN ? `${i + 1} ${ui('counter_of')} ${MAIN}` : ui('appendix');
+  // Five slides, then appendices: the counter never says "6 of 7".
+  const MAIN = 5;
+  const label = i => i < MAIN ? `${i + 1} ${ui('counter_of')} ${MAIN}` : ui('appendix_' + 'ab'[i - MAIN]);
   function count() { $('count').textContent = label(cur); }
   function go(n, keepPlaying) {
     n = Math.max(0, Math.min(slides.length - 1, n));
@@ -655,7 +674,7 @@
     if (keepPlaying && track() && track().audio) play(); else if (!keepPlaying) stop();
   }
   slides.forEach((_, i) => {
-    const b = document.createElement('button'); b.setAttribute('aria-label', i < slides.length - 1 ? String(i + 1) : 'Appendix'); b.onclick = () => go(i);
+    const b = document.createElement('button'); b.setAttribute('aria-label', i < 5 ? String(i + 1) : 'Appendix ' + 'AB'[i - 5]); b.onclick = () => go(i);
     $('dots').appendChild(b);
   });
   $('prev').onclick = () => go(cur - 1, playing);

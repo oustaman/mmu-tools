@@ -4,7 +4,7 @@ Two short web decks. Each is one self-contained HTML file, so it works from GitH
 
 | Deck | For | Link |
 |---|---|---|
-| `ai-lead/` | Faculty Lead for AI in Education, expression of interest. Five narrated slides and a statement on AI use, in English, Spanish and Mandarin. | https://oustaman.github.io/mmu-tools/portfolio/ai-lead/ |
+| `ai-lead/` | Faculty Lead for AI in Education, expression of interest. Five narrated slides and two appendices (A: statement on AI use; B: my practice), in English, Spanish and Mandarin. | https://oustaman.github.io/mmu-tools/portfolio/ai-lead/ |
 | `room-finder/` | The MMU Room Finder prototype, seven slides: the data we hold, the question it answers, what it does, what it found, how impact would be measured, where it could go, what it needs next. | https://oustaman.github.io/mmu-tools/portfolio/room-finder/ |
 
 The Room Finder itself is not published here. It stays internal; these decks show a few screenshots of one building (Geoffrey Manton) and nothing else.

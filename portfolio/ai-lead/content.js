@@ -87,7 +87,7 @@ window.DECK = {
     "s5_ph2b": "Monthly clinics built around real tasks. Three to five programme pilots, each with a baseline measured before it starts, and an AI-use log that students and staff keep the same way.",
     "s5_ph3": "Months 16–24 · Evaluate and scale",
     "s5_ph3b": "Compare against the baselines, report to Faculty and University committees, and hand the practices that worked to the network, with their evidence, through the shared repository.",
-    "s6_eyebrow": "Appendix · Statement on AI use",
+    "s6_eyebrow": "Appendix A · Statement on AI use",
     "s6_title": "How AI made this, and how I checked it",
     "s6_h_tool": "Tool",
     "s6_h_use": "How I used it",
@@ -143,7 +143,31 @@ window.DECK = {
     "trans_star": "* Spanish and Mandarin versions are machine translations, not checked by native speakers.",
     "aaa": "Designed to WCAG 2.2 AAA",
     "aaa_detail": "Tested in light and dark themes: text at 7:1 contrast or more, every control at least 44 pixels, captions and a full transcript for the narration.",
-    "appendix": "Appendix"
+    "appendix_a": "Appendix A",
+    "appendix_b": "Appendix B",
+    "s7_eyebrow": "Appendix B · My practice",
+    "s7_title": "Principles, and where they show",
+    "s7_h1": "Principle",
+    "s7_h2": "In my practice",
+    "s7_h3": "Where to see it",
+    "s7_p1": "Ethical and responsible use",
+    "s7_p1a": "AI is treated like any other source: used openly, and credited. Nothing is published without being checked against its source.",
+    "s7_p1b": "Slides 2 and 3",
+    "s7_p2": "Inclusion and accessibility",
+    "s7_p2a": "Designed to WCAG 2.2 AAA, with captions, a full transcript and three languages.",
+    "s7_p2b": "Slide 1",
+    "s7_p3": "Academic integrity",
+    "s7_p3a": "What is marked is the student's decisions. Generated work is tested against the numbers they declared.",
+    "s7_p3b": "Slide 2",
+    "s7_p4": "Data protection",
+    "s7_p4a": "Local models where possible, so nothing leaves the machine. Impact measured without tracking anyone.",
+    "s7_p4b": "Slide 4, Appendix A",
+    "s7_p5": "Intellectual property",
+    "s7_p5a": "Only my own work is shown; other people's documents are left out. Reuse licences are checked first (for PassReady, across 13 jurisdictions).",
+    "s7_p5b": "Slides 2 and 4",
+    "s7_p6": "Limitations and risks",
+    "s7_p6a": "Named, not hidden: invented findings, a synthetic voice, translations not yet checked by native speakers.",
+    "s7_p6b": "Appendix A"
    },
    "slides": [
     {
@@ -307,7 +331,7 @@ window.DECK = {
     },
     {
      "audio": "audio/en/s5.mp3",
-     "dur": 23.48,
+     "dur": 22.99,
      "cues": [
       {
        "t0": 0.0,
@@ -326,8 +350,8 @@ window.DECK = {
       },
       {
        "t0": 18.05,
-       "t1": 23.48,
-       "text": "Thank you. The appendix shows which AI tools made this, and how I checked them."
+       "t1": 22.99,
+       "text": "Thank you. The appendices set out the tools I used, and my practice."
       }
      ]
     }
@@ -417,7 +441,7 @@ window.DECK = {
     "s5_ph2b": "Talleres mensuales en torno a tareas reales. De tres a cinco pilotos en titulaciones, cada uno con una línea de base medida antes de empezar, y un registro de uso de IA que estudiantes y profesorado llevan de la misma manera.",
     "s5_ph3": "Meses 16–24 · Evaluar y extender",
     "s5_ph3b": "Comparar con las líneas de base, informar a las comisiones de la Facultad y de la universidad, y pasar a la red las prácticas que funcionaron, con sus pruebas, a través del repositorio compartido.",
-    "s6_eyebrow": "Apéndice · Declaración sobre el uso de IA",
+    "s6_eyebrow": "Apéndice A · Declaración sobre el uso de IA",
     "s6_title": "Cómo la IA hizo esto, y cómo lo comprobé",
     "s6_h_tool": "Herramienta",
     "s6_h_use": "Cómo la usé",
@@ -473,7 +497,31 @@ window.DECK = {
     "trans_star": "* Las versiones en español y mandarín son traducciones automáticas, sin revisar por hablantes nativos.",
     "aaa": "Diseñada según WCAG 2.2 AAA",
     "aaa_detail": "Probada en tema claro y oscuro: texto con contraste de 7:1 o más, todos los controles de al menos 44 píxeles, subtítulos y transcripción completa de la narración.",
-    "appendix": "Apéndice"
+    "appendix_a": "Apéndice A",
+    "appendix_b": "Apéndice B",
+    "s7_eyebrow": "Apéndice B · Mi práctica",
+    "s7_title": "Principios, y dónde se ven",
+    "s7_h1": "Principio",
+    "s7_h2": "En mi práctica",
+    "s7_h3": "Dónde verlo",
+    "s7_p1": "Uso ético y responsable",
+    "s7_p1a": "La IA se trata como cualquier otra fuente: se usa abiertamente y se cita. Nada se publica sin comprobarlo con su fuente.",
+    "s7_p1b": "Diapositivas 2 y 3",
+    "s7_p2": "Inclusión y accesibilidad",
+    "s7_p2a": "Diseñada según WCAG 2.2 AAA, con subtítulos, transcripción completa y tres idiomas.",
+    "s7_p2b": "Diapositiva 1",
+    "s7_p3": "Integridad académica",
+    "s7_p3a": "Lo que se evalúa son las decisiones del estudiante. El trabajo generado se comprueba con las cifras que declaró.",
+    "s7_p3b": "Diapositiva 2",
+    "s7_p4": "Protección de datos",
+    "s7_p4a": "Modelos locales siempre que es posible, para que nada salga del equipo. El impacto se mide sin rastrear a nadie.",
+    "s7_p4b": "Diapositiva 4, Apéndice A",
+    "s7_p5": "Propiedad intelectual",
+    "s7_p5a": "Solo se muestra mi propio trabajo; los documentos de otros quedan fuera. Las licencias de reutilización se comprueban antes (en PassReady, en 13 jurisdicciones).",
+    "s7_p5b": "Diapositivas 2 y 4",
+    "s7_p6": "Limitaciones y riesgos",
+    "s7_p6a": "Nombrados, no ocultos: hallazgos inventados, una voz sintética y traducciones aún sin revisar por hablantes nativos.",
+    "s7_p6b": "Apéndice A"
    },
    "slides": [
     {
@@ -637,7 +685,7 @@ window.DECK = {
     },
     {
      "audio": "audio/es/s5.mp3",
-     "dur": 30.86,
+     "dur": 29.47,
      "cues": [
       {
        "t0": 0.0,
@@ -656,8 +704,8 @@ window.DECK = {
       },
       {
        "t0": 24.11,
-       "t1": 30.86,
-       "text": "Gracias. El apéndice explica qué herramientas de IA hicieron esto, y cómo las comprobé."
+       "t1": 29.47,
+       "text": "Gracias. Los apéndices detallan las herramientas que usé y mi práctica."
       }
      ]
     }
@@ -749,7 +797,7 @@ window.DECK = {
     "s5_ph2b": "每月围绕真实任务举办工作坊。在三到五个专业开展试点，每个试点开始前先测量基线，学生和教师用同样的方式记录人工智能的使用。",
     "s5_ph3": "第 16–24 个月 · 评估与推广",
     "s5_ph3b": "与基线对比，向学院和学校委员会汇报，并通过共享资料库，把有效的做法连同证据一起交给整个网络。",
-    "s6_eyebrow": "附录 · 人工智能使用说明",
+    "s6_eyebrow": "附录 A · 人工智能使用说明",
     "s6_title": "人工智能如何制作了这份演示，以及我如何核查",
     "s6_h_tool": "工具",
     "s6_h_use": "用途",
@@ -803,7 +851,31 @@ window.DECK = {
     "trans_star": "* 西班牙语和普通话版本为机器翻译，未经母语者审核。",
     "aaa": "按 WCAG 2.2 AAA 标准设计",
     "aaa_detail": "已在浅色和深色主题下测试：文字对比度不低于 7:1，所有控件至少 44 像素，旁白配有字幕和完整文字稿。",
-    "appendix": "附录"
+    "appendix_a": "附录 A",
+    "appendix_b": "附录 B",
+    "s7_eyebrow": "附录 B · 我的实践",
+    "s7_title": "原则，以及它们体现在哪里",
+    "s7_h1": "原则",
+    "s7_h2": "在我的实践中",
+    "s7_h3": "在哪里可以看到",
+    "s7_p1": "合乎伦理、负责任地使用",
+    "s7_p1a": "人工智能和其他资料来源一样对待：公开使用，并注明出处。任何内容未经与来源核对都不发布。",
+    "s7_p1b": "第 2、3 页",
+    "s7_p2": "包容与无障碍",
+    "s7_p2a": "按 WCAG 2.2 AAA 标准设计，配有字幕、完整文字稿和三种语言。",
+    "s7_p2b": "第 1 页",
+    "s7_p3": "学术诚信",
+    "s7_p3a": "评分的对象是学生的决策。生成的作品要用学生事先声明的数值来检验。",
+    "s7_p3b": "第 2 页",
+    "s7_p4": "数据保护",
+    "s7_p4a": "尽可能使用本地模型，数据不离开电脑。衡量影响时不追踪任何人。",
+    "s7_p4b": "第 4 页、附录 A",
+    "s7_p5": "知识产权",
+    "s7_p5a": "只展示我自己的作品，不使用他人的文件。复用内容前先核查许可（PassReady 覆盖 13 个司法管辖区）。",
+    "s7_p5b": "第 2、4 页",
+    "s7_p6": "局限与风险",
+    "s7_p6a": "说出来，而不是隐藏：编造的发现、合成声音，以及尚未经母语者审核的翻译。",
+    "s7_p6b": "附录 A"
    },
    "slides": [
     {
@@ -967,7 +1039,7 @@ window.DECK = {
     },
     {
      "audio": "audio/zh/s5.mp3",
-     "dur": 30.36,
+     "dur": 27.28,
      "cues": [
       {
        "t0": 0.0,
@@ -986,8 +1058,8 @@ window.DECK = {
       },
       {
        "t0": 21.76,
-       "t1": 30.36,
-       "text": "谢谢。附录说明了制作这份演示用到了哪些人工智能工具，以及我是如何核查它们的。"
+       "t1": 27.28,
+       "text": "谢谢。附录列出了我使用的工具，以及我的实践。"
       }
      ]
     }
