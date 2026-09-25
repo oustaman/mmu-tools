@@ -24,7 +24,7 @@ import hashlib, json, os, subprocess, sys
 HERE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))    # portfolio/ai-lead
 CACHE = os.path.expanduser('~/.cache/ai-lead-tts')
 AUDIO = os.path.join(HERE, 'audio')
-GAP = 0.30            # seconds of silence between sentences
+GAP = 0.28            # seconds of silence between sentences
 SPEED = 1.05
 COSY_PY = '/opt/homebrew/Caskroom/miniforge/base/envs/cosyvoice/bin/python'
 SUPERTONIC_LANG = {'en': 'en', 'es': 'es'}

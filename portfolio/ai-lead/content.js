@@ -35,7 +35,7 @@ window.DECK = {
     "s2_sd_head": "Any tool; a module that updates dynamically each day towards submission",
     "s2_sd_a": "Generates a competent screen in a minute, live in the room, in week 6.",
     "s2_sd_b": "The type scale, contrast and spacing the student declared in advance. The generated screen is checked against them, and never passes. The decisions are what is marked.",
-    "s2_sd_q": "“Is using AI cheating? No. Not logging it is.”",
+    "s2_sd_q": "“Treat AI like any other source: use it openly, and say how.”",
     "s2_ux_tag": "User Experience module · 2025–26",
     "s2_ux_head": "Assessment designed for AI-assisted feedback",
     "s2_ux_a": "A local model, running on university hardware, checks that the report is complete: every section, every word target.",
@@ -87,7 +87,7 @@ window.DECK = {
     "s5_ph2b": "Monthly clinics built around real tasks. Three to five programme pilots, each with a baseline measured before it starts, and an AI-use log that students and staff keep the same way.",
     "s5_ph3": "Months 16–24 · Evaluate and scale",
     "s5_ph3b": "Compare against the baselines, report to Faculty and University committees, and hand the practices that worked to the network, with their evidence, through the shared repository.",
-    "s6_eyebrow": "Statement on AI use",
+    "s6_eyebrow": "Appendix · Statement on AI use",
     "s6_title": "How AI made this, and how I checked it",
     "s6_h_tool": "Tool",
     "s6_h_use": "How I used it",
@@ -142,12 +142,13 @@ window.DECK = {
     "s6_part2": "For interfaces.institute",
     "trans_star": "* Spanish and Mandarin versions are machine translations, not checked by native speakers.",
     "aaa": "Designed to WCAG 2.2 AAA",
-    "aaa_detail": "Tested in light and dark themes: text at 7:1 contrast or more, every control at least 44 pixels, captions and a full transcript for the narration."
+    "aaa_detail": "Tested in light and dark themes: text at 7:1 contrast or more, every control at least 44 pixels, captions and a full transcript for the narration.",
+    "appendix": "Appendix"
    },
    "slides": [
     {
      "audio": "audio/en/s1.mp3",
-     "dur": 36.23,
+     "dur": 36.09,
      "cues": [
       {
        "t0": 0.0,
@@ -155,45 +156,45 @@ window.DECK = {
        "text": "I'm Mike Oustamanolakis, and I lecture in design and systems strategy."
       },
       {
-       "t0": 5.18,
-       "t1": 12.28,
+       "t0": 5.16,
+       "t1": 12.26,
        "text": "I've taken the invitation to use AI literally, so this is a narrated web presentation rather than a PowerPoint."
       },
       {
-       "t0": 12.58,
-       "t1": 14.67,
+       "t0": 12.54,
+       "t1": 14.63,
        "text": "Five slides, three minutes."
       },
       {
-       "t0": 14.97,
-       "t1": 20.06,
+       "t0": 14.91,
+       "t1": 20.0,
        "text": "It runs in any browser, adapts to your phone, and has a full transcript."
       },
       {
-       "t0": 20.36,
-       "t1": 23.0,
+       "t0": 20.28,
+       "t1": 22.92,
        "text": "Its git history shows how it was made."
       },
       {
-       "t0": 23.3,
-       "t1": 27.97,
+       "t0": 23.2,
+       "t1": 27.87,
        "text": "And you can watch it in Spanish or Mandarin, neither of which I speak."
       },
       {
-       "t0": 28.27,
-       "t1": 32.03,
+       "t0": 28.15,
+       "t1": 31.91,
        "text": "My vision for the Faculty is simple: AI in the open."
       },
       {
-       "t0": 32.33,
-       "t1": 36.23,
+       "t0": 32.19,
+       "t1": 36.09,
        "text": "Not banned, and not hidden: logged, checked and taught."
       }
      ]
     },
     {
      "audio": "audio/en/s2.mp3",
-     "dur": 41.23,
+     "dur": 42.01,
      "cues": [
       {
        "t0": 0.0,
@@ -201,40 +202,40 @@ window.DECK = {
        "text": "The opportunities are already in our modules."
       },
       {
-       "t0": 3.5,
-       "t1": 11.45,
+       "t0": 3.48,
+       "t1": 11.43,
        "text": "In the Screen Design module, students may use any tool, and the module updates dynamically each day towards submission."
       },
       {
-       "t0": 11.75,
-       "t1": 15.58,
-       "text": "Is using AI cheating? No. Not logging it is."
+       "t0": 11.71,
+       "t1": 16.44,
+       "text": "AI is treated like any other source: used openly, and credited."
       },
       {
-       "t0": 15.88,
-       "t1": 21.38,
+       "t0": 16.72,
+       "t1": 22.23,
        "text": "In week six, we generate a screen live, and test it against the students' own numbers."
       },
       {
-       "t0": 21.68,
-       "t1": 25.37,
+       "t0": 22.51,
+       "t1": 26.2,
        "text": "It never passes. The decisions are what we mark."
       },
       {
-       "t0": 25.67,
-       "t1": 32.92,
+       "t0": 26.48,
+       "t1": 33.72,
        "text": "In the User Experience module, a local model checks the report is complete, so staff time goes on judging quality."
       },
       {
-       "t0": 33.22,
-       "t1": 41.23,
+       "t0": 34.0,
+       "t1": 42.01,
        "text": "And PassReady, a naturalisation study app I'm building to show my students, says too early to call, rather than pretend."
       }
      ]
     },
     {
      "audio": "audio/en/s3.mp3",
-     "dur": 39.33,
+     "dur": 38.88,
      "cues": [
       {
        "t0": 0.0,
@@ -242,35 +243,35 @@ window.DECK = {
        "text": "Capability comes from working examples, not policy documents."
       },
       {
-       "t0": 4.62,
-       "t1": 14.23,
+       "t0": 4.6,
+       "t1": 14.21,
        "text": "I've built open tools for marking and moderation, and interfaces dot institute, an industry-first institute I built to use directly in my classes."
       },
       {
-       "t0": 14.53,
-       "t1": 16.48,
-       "text": "Here's a small example."
+       "t0": 14.49,
+       "t1": 16.09,
+       "text": "A small example."
       },
       {
-       "t0": 16.78,
-       "t1": 27.09,
+       "t0": 16.37,
+       "t1": 26.68,
        "text": "When I needed to turn our stepped marks into Singapore grades, I built a converter with AI. Choose a mark, and it gives the Singapore grade and the GPA."
       },
       {
-       "t0": 27.39,
-       "t1": 30.67,
+       "t0": 26.96,
+       "t1": 30.24,
        "text": "Small, useful, and every row can be checked."
       },
       {
-       "t0": 30.97,
-       "t1": 39.33,
+       "t0": 30.52,
+       "t1": 38.88,
        "text": "I'd run clinics for colleagues, where they bring a real task like this, and leave with a working tool, and a record of how they made it."
       }
      ]
     },
     {
      "audio": "audio/en/s4.mp3",
-     "dur": 39.12,
+     "dur": 39.02,
      "cues": [
       {
        "t0": 0.0,
@@ -278,35 +279,35 @@ window.DECK = {
        "text": "To evaluate and scale practice, start small, and measure honestly."
       },
       {
-       "t0": 5.11,
-       "t1": 12.56,
+       "t0": 5.09,
+       "t1": 12.54,
        "text": "This is a work in progress: a room finder for the whole estate, built with AI from the University's own records."
       },
       {
-       "t0": 12.86,
-       "t1": 18.01,
+       "t0": 12.82,
+       "t1": 17.97,
        "text": "Forty-two buildings, fifteen thousand rooms, and floor plans you can click."
       },
       {
-       "t0": 18.31,
-       "t1": 25.49,
+       "t0": 18.25,
+       "t1": 25.43,
        "text": "It listed two hundred and twenty-three rooms where records disagree on capacity, like room one-oh-four, here."
       },
       {
-       "t0": 25.79,
-       "t1": 31.01,
+       "t0": 25.71,
+       "t1": 30.93,
        "text": "I'm sharing it with my line manager through a separate deck, linked on this slide."
       },
       {
-       "t0": 31.31,
-       "t1": 39.12,
+       "t0": 31.21,
+       "t1": 39.02,
        "text": "Its impact will be measured without tracking anyone: time saved, fewer emails to Estates, and records corrected."
       }
      ]
     },
     {
      "audio": "audio/en/s5.mp3",
-     "dur": 23.68,
+     "dur": 23.48,
      "cues": [
       {
        "t0": 0.0,
@@ -314,19 +315,19 @@ window.DECK = {
        "text": "None of this should stay in one Faculty."
       },
       {
-       "t0": 3.16,
-       "t1": 12.49,
+       "t0": 3.14,
+       "t1": 12.47,
        "text": "I'd work with LEED, the DELTA lead and fellow Faculty Leads, in one shared, open repository, so good ideas travel with their evidence."
       },
       {
-       "t0": 12.79,
-       "t1": 17.81,
+       "t0": 12.75,
+       "t1": 17.77,
        "text": "Over two years: map, then pilot, then evaluate, and scale what works."
       },
       {
-       "t0": 18.11,
-       "t1": 23.68,
-       "text": "Thank you. The last slide sets out which AI tools made this, and how I checked them."
+       "t0": 18.05,
+       "t1": 23.48,
+       "text": "Thank you. The appendix shows which AI tools made this, and how I checked them."
       }
      ]
     }
@@ -364,7 +365,7 @@ window.DECK = {
     "s2_sd_head": "Cualquier herramienta; una asignatura que se actualiza cada día hasta la entrega",
     "s2_sd_a": "Genera una pantalla competente en un minuto, en directo en el aula, en la semana 6.",
     "s2_sd_b": "La escala tipográfica, el contraste y el espaciado que el estudiante declaró de antemano. La pantalla generada se comprueba con ellos y nunca los cumple. Lo que se evalúa son las decisiones.",
-    "s2_sd_q": "«¿Usar IA es hacer trampa? No. No registrarlo, sí».",
+    "s2_sd_q": "«Trata la IA como cualquier otra fuente: úsala abiertamente y explica cómo».",
     "s2_ux_tag": "Asignatura de Experiencia de Usuario · 2025–26",
     "s2_ux_head": "Una evaluación pensada para la retroalimentación asistida por IA",
     "s2_ux_a": "Un modelo local, en equipos de la universidad, comprueba que el informe está completo: cada sección, cada objetivo de palabras.",
@@ -416,7 +417,7 @@ window.DECK = {
     "s5_ph2b": "Talleres mensuales en torno a tareas reales. De tres a cinco pilotos en titulaciones, cada uno con una línea de base medida antes de empezar, y un registro de uso de IA que estudiantes y profesorado llevan de la misma manera.",
     "s5_ph3": "Meses 16–24 · Evaluar y extender",
     "s5_ph3b": "Comparar con las líneas de base, informar a las comisiones de la Facultad y de la universidad, y pasar a la red las prácticas que funcionaron, con sus pruebas, a través del repositorio compartido.",
-    "s6_eyebrow": "Declaración sobre el uso de IA",
+    "s6_eyebrow": "Apéndice · Declaración sobre el uso de IA",
     "s6_title": "Cómo la IA hizo esto, y cómo lo comprobé",
     "s6_h_tool": "Herramienta",
     "s6_h_use": "Cómo la usé",
@@ -471,12 +472,13 @@ window.DECK = {
     "s6_part2": "Para interfaces.institute",
     "trans_star": "* Las versiones en español y mandarín son traducciones automáticas, sin revisar por hablantes nativos.",
     "aaa": "Diseñada según WCAG 2.2 AAA",
-    "aaa_detail": "Probada en tema claro y oscuro: texto con contraste de 7:1 o más, todos los controles de al menos 44 píxeles, subtítulos y transcripción completa de la narración."
+    "aaa_detail": "Probada en tema claro y oscuro: texto con contraste de 7:1 o más, todos los controles de al menos 44 píxeles, subtítulos y transcripción completa de la narración.",
+    "appendix": "Apéndice"
    },
    "slides": [
     {
      "audio": "audio/es/s1.mp3",
-     "dur": 44.66,
+     "dur": 44.52,
      "cues": [
       {
        "t0": 0.0,
@@ -484,45 +486,45 @@ window.DECK = {
        "text": "Soy Mike Oustamanolakis, y enseño asignaturas de diseño y estrategia de sistemas."
       },
       {
-       "t0": 6.43,
-       "t1": 15.35,
+       "t0": 6.41,
+       "t1": 15.33,
        "text": "Me he tomado al pie de la letra la invitación a usar la IA, así que esto es una presentación web narrada, y no un PowerPoint."
       },
       {
-       "t0": 15.65,
-       "t1": 18.29,
+       "t0": 15.61,
+       "t1": 18.25,
        "text": "Cinco diapositivas, tres minutos."
       },
       {
-       "t0": 18.59,
-       "t1": 24.79,
+       "t0": 18.53,
+       "t1": 24.73,
        "text": "Funciona en cualquier navegador, se adapta a tu móvil y tiene una transcripción completa."
       },
       {
-       "t0": 25.09,
-       "t1": 29.13,
+       "t0": 25.01,
+       "t1": 29.05,
        "text": "Su historial de git muestra exactamente cómo se hizo."
       },
       {
-       "t0": 29.43,
-       "t1": 34.1,
+       "t0": 29.33,
+       "t1": 34.0,
        "text": "Y puedes verla en español o en mandarín, dos idiomas que yo no hablo."
       },
       {
-       "t0": 34.4,
-       "t1": 39.28,
+       "t0": 34.28,
+       "t1": 39.16,
        "text": "Mi visión para la Facultad es sencilla: la IA a la vista."
       },
       {
-       "t0": 39.58,
-       "t1": 44.66,
+       "t0": 39.44,
+       "t1": 44.52,
        "text": "Ni prohibida ni escondida: registrada, comprobada y enseñada."
       }
      ]
     },
     {
      "audio": "audio/es/s2.mp3",
-     "dur": 54.46,
+     "dur": 55.46,
      "cues": [
       {
        "t0": 0.0,
@@ -530,40 +532,40 @@ window.DECK = {
        "text": "Las oportunidades ya están en nuestras asignaturas."
       },
       {
-       "t0": 4.27,
-       "t1": 15.21,
+       "t0": 4.25,
+       "t1": 15.19,
        "text": "En la asignatura de Diseño de Pantallas, los estudiantes pueden usar cualquier herramienta, y la asignatura se actualiza dinámicamente cada día hasta la entrega."
       },
       {
-       "t0": 15.51,
-       "t1": 20.04,
-       "text": "¿Usar la IA es hacer trampa? No. No registrarlo, sí."
+       "t0": 15.47,
+       "t1": 21.11,
+       "text": "La IA se trata como cualquier otra fuente: se usa abiertamente y se cita."
       },
       {
-       "t0": 20.34,
-       "t1": 28.07,
+       "t0": 21.39,
+       "t1": 29.12,
        "text": "En la semana seis, generamos una pantalla en directo y la comprobamos con las cifras de los propios estudiantes."
       },
       {
-       "t0": 28.37,
-       "t1": 32.48,
+       "t0": 29.4,
+       "t1": 33.51,
        "text": "Nunca las cumple. Lo que evaluamos son las decisiones."
       },
       {
-       "t0": 32.78,
-       "t1": 43.3,
+       "t0": 33.79,
+       "t1": 44.31,
        "text": "En la asignatura de Experiencia de Usuario, un modelo local comprueba que el informe está completo, y el profesorado dedica su tiempo a juzgar la calidad."
       },
       {
-       "t0": 43.6,
-       "t1": 54.46,
+       "t0": 44.59,
+       "t1": 55.46,
        "text": "Y PassReady, una aplicación de estudio para la nacionalidad que estoy construyendo para mis estudiantes, dice aún es pronto para saberlo, en lugar de fingir."
       }
      ]
     },
     {
      "audio": "audio/es/s3.mp3",
-     "dur": 46.92,
+     "dur": 46.82,
      "cues": [
       {
        "t0": 0.0,
@@ -571,35 +573,35 @@ window.DECK = {
        "text": "La capacidad nace de ejemplos que funcionan, no de documentos de normativa."
       },
       {
-       "t0": 5.52,
-       "t1": 17.23,
+       "t0": 5.5,
+       "t1": 17.21,
        "text": "He creado herramientas abiertas para corregir y moderar, e interfaces punto institute, un instituto pionero en el sector que construí para usarlo directamente en mis clases."
       },
       {
-       "t0": 17.53,
-       "t1": 19.27,
+       "t0": 17.49,
+       "t1": 19.23,
        "text": "Un ejemplo pequeño."
       },
       {
-       "t0": 19.57,
-       "t1": 32.39,
+       "t0": 19.51,
+       "t1": 32.33,
        "text": "Cuando necesité convertir nuestras notas escalonadas en calificaciones de Singapur, construí un conversor con IA. Elige una nota, y te da la calificación de Singapur y el GPA."
       },
       {
-       "t0": 32.69,
-       "t1": 36.1,
+       "t0": 32.61,
+       "t1": 36.02,
        "text": "Pequeño, útil, y cada fila se puede comprobar."
       },
       {
-       "t0": 36.4,
-       "t1": 46.92,
+       "t0": 36.3,
+       "t1": 46.82,
        "text": "Organizaría talleres para compañeros, en los que traen una tarea real como esta, y se van con una herramienta que funciona y un registro de cómo la hicieron."
       }
      ]
     },
     {
      "audio": "audio/es/s4.mp3",
-     "dur": 47.48,
+     "dur": 47.38,
      "cues": [
       {
        "t0": 0.0,
@@ -607,35 +609,35 @@ window.DECK = {
        "text": "Para evaluar y extender las buenas prácticas, hay que empezar en pequeño y medir con honestidad."
       },
       {
-       "t0": 6.71,
-       "t1": 16.74,
+       "t0": 6.69,
+       "t1": 16.72,
        "text": "Esto es un trabajo en curso: un buscador de aulas para todo el campus, hecho con IA a partir de los registros de la propia universidad."
       },
       {
-       "t0": 17.04,
-       "t1": 22.47,
+       "t0": 17.0,
+       "t1": 22.43,
        "text": "Cuarenta y dos edificios, quince mil salas y planos en los que se puede hacer clic."
       },
       {
-       "t0": 22.77,
-       "t1": 31.83,
+       "t0": 22.71,
+       "t1": 31.77,
        "text": "Por el camino, encontró doscientas veintitrés salas en las que los registros no coinciden en el aforo, como el aula ciento cuatro, aquí."
       },
       {
-       "t0": 32.13,
-       "t1": 39.16,
+       "t0": 32.05,
+       "t1": 39.08,
        "text": "Lo estoy compartiendo con mi responsable mediante otra presentación, enlazada en esta diapositiva."
       },
       {
-       "t0": 39.46,
-       "t1": 47.48,
+       "t0": 39.36,
+       "t1": 47.38,
        "text": "Su impacto se medirá sin rastrear a nadie: tiempo ahorrado, menos correos a Estates y registros corregidos."
       }
      ]
     },
     {
      "audio": "audio/es/s5.mp3",
-     "dur": 31.62,
+     "dur": 30.86,
      "cues": [
       {
        "t0": 0.0,
@@ -643,19 +645,19 @@ window.DECK = {
        "text": "Nada de esto debería quedarse en una sola Facultad."
       },
       {
-       "t0": 4.13,
-       "t1": 17.3,
+       "t0": 4.11,
+       "t1": 17.28,
        "text": "Trabajaría con LEED, con el responsable de DELTA y con los demás Responsables de Facultad, en un único repositorio compartido y abierto, para que las buenas ideas viajen con sus pruebas."
       },
       {
-       "t0": 17.6,
-       "t1": 23.87,
+       "t0": 17.56,
+       "t1": 23.83,
        "text": "En dos años: mapear, después pilotar, y después evaluar y extender lo que funciona."
       },
       {
-       "t0": 24.17,
-       "t1": 31.62,
-       "text": "Gracias. La última diapositiva explica qué herramientas de IA hicieron esto, y cómo las comprobé."
+       "t0": 24.11,
+       "t1": 30.86,
+       "text": "Gracias. El apéndice explica qué herramientas de IA hicieron esto, y cómo las comprobé."
       }
      ]
     }
@@ -695,7 +697,7 @@ window.DECK = {
     "s2_sd_head": "任何工具都可以用；课程每天动态更新，直到提交",
     "s2_sd_a": "第 6 周在课堂上现场生成一个屏幕，一分钟就能做出一个像样的设计。",
     "s2_sd_b": "学生事先声明的字号层级、对比度和间距。生成的屏幕要用这些标准来检验，而它从来不合格。评分的对象是决策。",
-    "s2_sd_q": "“使用人工智能算作弊吗？不算。不记录才算。”",
+    "s2_sd_q": "“像对待其他任何资料来源一样对待人工智能：公开使用，并说明如何使用。”",
     "s2_ux_tag": "用户体验课程 · 2025–26",
     "s2_ux_head": "为人工智能辅助反馈而设计的评估",
     "s2_ux_a": "一个在学校设备上本地运行的模型，检查报告是否完整：每个部分、每个字数目标。",
@@ -747,7 +749,7 @@ window.DECK = {
     "s5_ph2b": "每月围绕真实任务举办工作坊。在三到五个专业开展试点，每个试点开始前先测量基线，学生和教师用同样的方式记录人工智能的使用。",
     "s5_ph3": "第 16–24 个月 · 评估与推广",
     "s5_ph3b": "与基线对比，向学院和学校委员会汇报，并通过共享资料库，把有效的做法连同证据一起交给整个网络。",
-    "s6_eyebrow": "人工智能使用说明",
+    "s6_eyebrow": "附录 · 人工智能使用说明",
     "s6_title": "人工智能如何制作了这份演示，以及我如何核查",
     "s6_h_tool": "工具",
     "s6_h_use": "用途",
@@ -800,12 +802,13 @@ window.DECK = {
     "s6_part2": "interfaces.institute",
     "trans_star": "* 西班牙语和普通话版本为机器翻译，未经母语者审核。",
     "aaa": "按 WCAG 2.2 AAA 标准设计",
-    "aaa_detail": "已在浅色和深色主题下测试：文字对比度不低于 7:1，所有控件至少 44 像素，旁白配有字幕和完整文字稿。"
+    "aaa_detail": "已在浅色和深色主题下测试：文字对比度不低于 7:1，所有控件至少 44 像素，旁白配有字幕和完整文字稿。",
+    "appendix": "附录"
    },
    "slides": [
     {
      "audio": "audio/zh/s1.mp3",
-     "dur": 44.1,
+     "dur": 43.96,
      "cues": [
       {
        "t0": 0.0,
@@ -813,45 +816,45 @@ window.DECK = {
        "text": "我是 Mike Oustamanolakis，教授设计与系统战略方面的课程。"
       },
       {
-       "t0": 6.26,
-       "t1": 13.02,
+       "t0": 6.24,
+       "t1": 13.0,
        "text": "我把“使用人工智能”的邀请当真了，所以这是一份带旁白的网页演示，而不是 PowerPoint。"
       },
       {
-       "t0": 13.32,
-       "t1": 15.12,
+       "t0": 13.28,
+       "t1": 15.08,
        "text": "五张幻灯片，三分钟。"
       },
       {
-       "t0": 15.42,
-       "t1": 22.34,
+       "t0": 15.36,
+       "t1": 22.28,
        "text": "它能在任何浏览器中运行，自动适配手机，并附有完整的文字稿。"
       },
       {
-       "t0": 22.64,
-       "t1": 27.56,
+       "t0": 22.56,
+       "t1": 27.48,
        "text": "它的 git 历史记录清楚地展示了它是怎么做出来的。"
       },
       {
-       "t0": 27.86,
-       "t1": 34.9,
+       "t0": 27.76,
+       "t1": 34.8,
        "text": "你还可以用西班牙语或普通话观看，而这两种语言我都不会说。"
       },
       {
-       "t0": 35.2,
-       "t1": 39.56,
+       "t0": 35.08,
+       "t1": 39.44,
        "text": "我对学院的愿景很简单：开放地使用人工智能。"
       },
       {
-       "t0": 39.86,
-       "t1": 44.1,
+       "t0": 39.72,
+       "t1": 43.96,
        "text": "不禁止，也不隐藏：记录、核查、教授。"
       }
      ]
     },
     {
      "audio": "audio/zh/s2.mp3",
-     "dur": 49.4,
+     "dur": 50.28,
      "cues": [
       {
        "t0": 0.0,
@@ -859,40 +862,40 @@ window.DECK = {
        "text": "机遇已经存在于我们的课程之中。"
       },
       {
-       "t0": 2.98,
-       "t1": 11.7,
+       "t0": 2.96,
+       "t1": 11.68,
        "text": "在屏幕设计课程中，学生可以使用任何工具，课程内容每天动态更新，直到提交作业。"
       },
       {
-       "t0": 12.0,
-       "t1": 17.08,
-       "text": "使用人工智能算作弊吗？不算。不记录才算。"
+       "t0": 11.96,
+       "t1": 18.04,
+       "text": "人工智能和其他资料来源一样对待：公开使用，并注明出处。"
       },
       {
-       "t0": 17.38,
-       "t1": 24.58,
+       "t0": 18.32,
+       "t1": 25.52,
        "text": "第六周，我们现场生成一个屏幕，再用学生自己设定的数值来检验它。"
       },
       {
-       "t0": 24.88,
-       "t1": 28.44,
+       "t0": 25.8,
+       "t1": 29.36,
        "text": "它从来不合格。我们评分的是决策。"
       },
       {
-       "t0": 28.74,
-       "t1": 37.1,
+       "t0": 29.64,
+       "t1": 38.0,
        "text": "在用户体验课程中，由本地模型检查报告是否完整，教师把时间留给判断质量。"
       },
       {
-       "t0": 37.4,
-       "t1": 49.4,
+       "t0": 38.28,
+       "t1": 50.28,
        "text": "还有 PassReady，我正在开发、将展示给学生的一款入籍考试学习应用，它会说“现在判断还为时过早”，而不是假装知道。"
       }
      ]
     },
     {
      "audio": "audio/zh/s3.mp3",
-     "dur": 46.82,
+     "dur": 46.72,
      "cues": [
       {
        "t0": 0.0,
@@ -900,35 +903,35 @@ window.DECK = {
        "text": "能力来自能用的实例，而不是政策文件。"
       },
       {
-       "t0": 5.3,
-       "t1": 16.86,
+       "t0": 5.28,
+       "t1": 16.84,
        "text": "我开发了用于评分和审核的开放工具，还有 interfaces.institute，一个我创建的、业内首创的研究机构，直接用于我的课堂教学。"
       },
       {
-       "t0": 17.16,
-       "t1": 18.4,
+       "t0": 17.12,
+       "t1": 18.36,
        "text": "举一个小例子。"
       },
       {
-       "t0": 18.7,
-       "t1": 31.5,
+       "t0": 18.64,
+       "t1": 31.44,
        "text": "当我需要把我们的分级分数换算成新加坡的成绩时，我用人工智能做了一个换算工具。选择一个分数，它就会给出新加坡的等级和绩点。"
       },
       {
-       "t0": 31.8,
-       "t1": 36.24,
+       "t0": 31.72,
+       "t1": 36.16,
        "text": "小巧、实用，而且每一行都可以核查。"
       },
       {
-       "t0": 36.54,
-       "t1": 46.82,
+       "t0": 36.44,
+       "t1": 46.72,
        "text": "我会为同事们举办工作坊，大家带来一项像这样的真实任务，离开时带走一个能用的工具，以及制作过程的记录。"
       }
      ]
     },
     {
      "audio": "audio/zh/s4.mp3",
-     "dur": 47.54,
+     "dur": 47.44,
      "cues": [
       {
        "t0": 0.0,
@@ -936,35 +939,35 @@ window.DECK = {
        "text": "要评估和推广有效做法，就要从小处开始，诚实地衡量。"
       },
       {
-       "t0": 6.3,
-       "t1": 15.26,
+       "t0": 6.28,
+       "t1": 15.24,
        "text": "这是一个进行中的项目：一个覆盖全校的教室查找工具，用人工智能基于学校自己的记录建成。"
       },
       {
-       "t0": 15.56,
-       "t1": 23.88,
+       "t0": 15.52,
+       "t1": 23.84,
        "text": "四十二栋楼，一万五千个房间，还有可以点击的楼层平面图。"
       },
       {
-       "t0": 24.18,
-       "t1": 32.46,
+       "t0": 24.12,
+       "t1": 32.4,
        "text": "在这个过程中，它列出了两百二十三个容量记录不一致的房间，比如这里的一零四室。"
       },
       {
-       "t0": 32.76,
-       "t1": 38.88,
+       "t0": 32.68,
+       "t1": 38.8,
        "text": "我正通过另一份演示与我的直属主管分享它，链接就在这一页上。"
       },
       {
-       "t0": 39.18,
-       "t1": 47.54,
+       "t0": 39.08,
+       "t1": 47.44,
        "text": "它的影响将在不追踪任何人的情况下衡量：节省的时间、发给后勤部门的邮件减少，以及更正的记录。"
       }
      ]
     },
     {
      "audio": "audio/zh/s5.mp3",
-     "dur": 31.46,
+     "dur": 30.36,
      "cues": [
       {
        "t0": 0.0,
@@ -972,19 +975,19 @@ window.DECK = {
        "text": "这一切都不应该只停留在一个学院。"
       },
       {
-       "t0": 3.06,
-       "t1": 13.54,
+       "t0": 3.04,
+       "t1": 13.52,
        "text": "我会与 LEED、DELTA 负责人和其他学院负责人合作，使用一个共享的开放资料库，让好的想法带着证据一起传播。"
       },
       {
-       "t0": 13.84,
-       "t1": 21.52,
+       "t0": 13.8,
+       "t1": 21.48,
        "text": "两年的计划是：先摸清现状，再开展试点，最后评估并推广有效的做法。"
       },
       {
-       "t0": 21.82,
-       "t1": 31.46,
-       "text": "谢谢。最后一页说明了制作这份演示用到了哪些人工智能工具，以及我是如何核查它们的。"
+       "t0": 21.76,
+       "t1": 30.36,
+       "text": "谢谢。附录说明了制作这份演示用到了哪些人工智能工具，以及我是如何核查它们的。"
       }
      ]
     }

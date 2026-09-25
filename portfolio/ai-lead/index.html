@@ -616,7 +616,7 @@
     setPlayUI();
     $('prev').setAttribute('aria-label', ui('prev')); $('next').setAttribute('aria-label', ui('next'));
     renderRooms(); renderPhase(curPhase); renderTranscript(); count();
-    slides.forEach((s, i) => s.setAttribute('aria-label', `${i + 1} ${ui('counter_of')} ${slides.length}`));
+    slides.forEach((s, i) => s.setAttribute('aria-label', label(i)));
   }
   Object.entries(D.langs).forEach(([k, L]) => {
     const b = document.createElement('button'); b.dataset.l = k; b.textContent = L.name + (k === 'en' ? '' : ' *');
@@ -640,7 +640,10 @@
   }
 
   /* ---------- slides ---------- */
-  function count() { $('count').textContent = `${cur + 1} ${ui('counter_of')} ${slides.length}`; }
+  // Five slides and an appendix: the counter never says "6 of 6".
+  const MAIN = slides.length - 1;
+  const label = i => i < MAIN ? `${i + 1} ${ui('counter_of')} ${MAIN}` : ui('appendix');
+  function count() { $('count').textContent = label(cur); }
   function go(n, keepPlaying) {
     n = Math.max(0, Math.min(slides.length - 1, n));
     slides[cur].classList.remove('on'); cur = n; slides[cur].classList.add('on');
@@ -652,7 +655,7 @@
     if (keepPlaying && track() && track().audio) play(); else if (!keepPlaying) stop();
   }
   slides.forEach((_, i) => {
-    const b = document.createElement('button'); b.setAttribute('aria-label', String(i + 1)); b.onclick = () => go(i);
+    const b = document.createElement('button'); b.setAttribute('aria-label', i < slides.length - 1 ? String(i + 1) : 'Appendix'); b.onclick = () => go(i);
     $('dots').appendChild(b);
   });
   $('prev').onclick = () => go(cur - 1, playing);
@@ -685,7 +688,7 @@
   audio.addEventListener('timeupdate', () => {
     const t = track(); if (!t) return;
     $('progBar').style.width = (100 * audio.currentTime / (t.dur || 1)) + '%';
-    const i = t.cues.findIndex(c => audio.currentTime >= c.t0 && audio.currentTime < c.t1 + 0.29);
+    const i = t.cues.findIndex(c => audio.currentTime >= c.t0 && audio.currentTime < c.t1 + 0.27);
     if (i !== cueIdx) { cueIdx = i; onCue(cur, i); }
   });
   audio.addEventListener('ended', () => {
