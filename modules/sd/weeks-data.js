@@ -28,7 +28,7 @@ const RULES = [
  {k:"Referencing", v:"<b>Cite Them Right Harvard.</b> If you quote or borrow anything — a principle, a statistic, an image — cite it in the text and list it at the end. <b>The reference list does not count toward your 500–700 words. In-text citations do.</b> <a href=\"https://libguides.mmu.ac.uk/refguide\" target=\"_blank\">libguides.mmu.ac.uk/refguide</a>"},
  {k:"How you submit", v:"In January, export your deck as a PDF and upload <b>that one file</b> to Moodle. Exporting from PowerPoint or Google Slides keeps your links working inside the PDF. Not a link, not a folder, not a zip. Sharing the OneDrive folder is not submitting."},
  {k:"Back up before you export", v:"Before you touch the final PDF in week 11, duplicate the folder. Exports go wrong and you do not want to rebuild."},
- {k:"AI is allowed", v:"Any tool. Log every use in Part A §7 the same day: tool, what it made, what you changed, why. One line. Not logging it is the only thing that is a problem."},
+ {k:"AI is allowed", v:"Any tool. Treat it like any other source: note it in Part A §7 as you go (tool, what it made, what you changed, why). One line is enough."},
  {k:"If you miss a week", v:"Read that week's two sheets — they are the same ones the tutor used. Then bring the gap to the support hours."}
 ];
 
@@ -236,7 +236,7 @@ const WEEKS = [
   done:"Every number on your tile appears in Part A §3–5. Every AI use has a line.",
   between:"Nothing new. If the style tile is unfinished, finish it \u2014 everything built in week 8 comes out of it.",
   mistake:"Leaving the log until January.",
-  stuck:[["Is using AI cheating?","No. Not logging it is."],
+  stuck:[["Can I use AI?","Yes. Treat it like any other source: use it openly, and say how in Part A §7. What\u2019s marked is your decisions."],
          ["What goes on a style tile?","Type scale, colours with roles, spacing, three components. One page."],
          ["The AI made something better than mine","Good. Log it, then make it obey your numbers."]]
  }
