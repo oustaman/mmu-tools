@@ -580,7 +580,14 @@ const seen = new IntersectionObserver(entries => {
 slides.forEach(el => seen.observe(el));
 
 addEventListener('keydown', e => {
-  if (!isDeck()) return;                       // on a page, the keys scroll the page
+  if (/SELECT|INPUT|TEXTAREA/.test(e.target.tagName) || e.altKey) return;   // a focused control keeps its own keys
+  /* Left and right always move between slides. On a page, the other keys still
+     scroll the page; in slides view they step through the deck as well. */
+  if (!isDeck()) {
+    if (e.key === 'ArrowRight') { e.preventDefault(); show(cur + 1, true); }
+    if (e.key === 'ArrowLeft')  { e.preventDefault(); show(cur - 1, true); }
+    return;
+  }
   if (['ArrowRight','PageDown',' '].includes(e.key)) { e.preventDefault(); show(cur + 1); }
   if (['ArrowLeft','PageUp'].includes(e.key))        { e.preventDefault(); show(cur - 1); }
   if (e.key === 'Home') show(0);
