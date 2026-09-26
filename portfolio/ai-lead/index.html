@@ -291,7 +291,9 @@
   .tour[hidden]{display:none}
   .tour-card{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:min(460px,calc(100% - 32px));
     background:var(--surface);color:var(--ink);border-radius:14px;padding:20px 22px;box-shadow:0 20px 50px rgba(0,0,0,.35)}
-  .tour-card h2{margin:0 0 12px;font-size:1.25rem;letter-spacing:-.01em}
+  .tour-card{padding:26px 28px 24px;width:min(520px,calc(100% - 32px))}
+  .tour-card h2{margin:0 0 6px;font-size:clamp(1.4rem,3vw,1.8rem);letter-spacing:-.02em;line-height:1.15}
+  .tour-lede{margin:0 0 18px;color:var(--ink-2);font-size:1rem}
   .tour-card ol{margin:0 0 16px;padding:0;list-style:none;display:grid;gap:10px}
   .tour-card li{display:grid;grid-template-columns:28px 1fr;gap:10px;align-items:start;font-size:.95rem;color:var(--ink-2)}
   .tour-card li b{color:var(--ink)}
@@ -300,7 +302,7 @@
   .tour-ring{position:fixed;border:3px solid #fff;border-radius:10px;box-shadow:0 0 0 3px var(--lec),0 0 0 9999px transparent;pointer-events:none}
   .tour-ring .tour-n{position:absolute;top:-14px;left:-14px;box-shadow:0 0 0 2px #fff}
   .tour-ring.low .tour-n{top:auto;bottom:-14px}   /* at the top edge the badge hangs below the ring */
-  .tour-card .cta{align-self:flex-start}
+  .tour-card .cta{min-width:120px;justify-content:center}
 
   /* phone preview: the "adapts to your phone" chip squeezes the deck to 390px */
   body.phone main{max-width:390px;margin:0 auto;border-left:1px solid var(--line-2);border-right:1px solid var(--line-2);width:100%}
@@ -645,6 +647,7 @@
   <div class="tour-rings" id="tourRings" aria-hidden="true"></div>
   <div class="tour-card">
     <h2 id="tourTitle"></h2>
+    <p class="tour-lede" id="tourLede"></p>
     <ol id="tourList"></ol>
     <button class="cta" id="tourOk"></button>
   </div>
@@ -981,10 +984,11 @@
   window.addEventListener('hashchange', () => { const n = parseInt(location.hash.slice(1), 10); if (n && n - 1 !== cur) go(n - 1); });
   /* ---------- first-visit tour ---------- */
   // Four things, each ringed where it lives. Shown once; the ? button brings it back.
-  const TOUR = [['tour_1', () => [$('dots').offsetWidth ? $('dots') : $('count'), $('prev'), $('next')]],
+  // Numbered in reading order (a Z): the top bar left to right, then the bottom bar left to right.
+  const TOUR = [['tour_3', () => [$('langs')]],
+                ['tour_4', () => [$('fsDown'), $('fsUp'), $('themeBtn')]],
                 ['tour_2', () => [$('play')]],
-                ['tour_3', () => [$('langs')]],
-                ['tour_4', () => [$('fsDown'), $('fsUp'), $('themeBtn')]]];
+                ['tour_1', () => [$('dots').offsetWidth ? $('dots') : $('count'), $('prev'), $('next')]]];
   let tourFrom = null;
   function ringAround(els){
     const r = els.filter(e => e && e.offsetWidth).map(e => e.getBoundingClientRect());
@@ -996,6 +1000,7 @@
   function drawTour(){
     if ($('tour').hidden) return;
     $('tourTitle').textContent = ui('tour_title');
+    $('tourLede').textContent = ui('tour_lede');
     $('tourList').innerHTML = TOUR.map((t, i) => `<li><span class="tour-n">${i + 1}</span><span>${ui(t[0])}</span></li>`).join('');
     $('tourOk').textContent = ui('tour_ok');
     $('tourRings').innerHTML = '';
