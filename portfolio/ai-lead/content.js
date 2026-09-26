@@ -188,7 +188,14 @@ window.DECK = {
     "cta_pr_teach": "See it in my teaching",
     "appendices": "Appendices",
     "go_a": "Appendix A: How this was made",
-    "go_b": "Appendix B: Built with AI"
+    "go_b": "Appendix B: Built with AI",
+    "tour_title": "Getting around",
+    "tour_1": "<b>Navigate:</b> the bottom bar, or ← → on your keyboard.",
+    "tour_2": "<b>Hear the deck:</b> press Play. Captions and 1.25× or 1.5× speed sit beside it.",
+    "tour_3": "<b>Swap language:</b> English, Español or 中文, here.",
+    "tour_4": "<b>Accessibility and dark mode:</b> text size and theme, here. The transcript is beside them.",
+    "tour_ok": "Got it",
+    "tour_help": "How to use this deck"
    },
    "slides": [
     {
@@ -563,7 +570,14 @@ window.DECK = {
     "cta_pr_teach": "Verlo en mi docencia",
     "appendices": "Apéndices",
     "go_a": "Apéndice A: cómo se hizo",
-    "go_b": "Apéndice B: hecho con IA"
+    "go_b": "Apéndice B: hecho con IA",
+    "tour_title": "Cómo moverse",
+    "tour_1": "<b>Navegar:</b> la barra inferior, o ← → en el teclado.",
+    "tour_2": "<b>Escuchar la presentación:</b> pulsa Reproducir. Los subtítulos y las velocidades 1,25× y 1,5× están al lado.",
+    "tour_3": "<b>Cambiar de idioma:</b> English, Español o 中文, aquí.",
+    "tour_4": "<b>Accesibilidad y modo oscuro:</b> tamaño del texto y tema, aquí. La transcripción está al lado.",
+    "tour_ok": "Entendido",
+    "tour_help": "Cómo usar esta presentación"
    },
    "slides": [
     {
@@ -938,7 +952,14 @@ window.DECK = {
     "cta_pr_teach": "看它如何用于教学",
     "appendices": "附录",
     "go_a": "附录 A：制作过程",
-    "go_b": "附录 B：借助人工智能构建"
+    "go_b": "附录 B：借助人工智能构建",
+    "tour_title": "使用说明",
+    "tour_1": "<b>翻页：</b>使用底部栏，或键盘上的 ← →。",
+    "tour_2": "<b>收听演示：</b>点击播放。旁边可开启字幕，并选择 1.25× 或 1.5× 语速。",
+    "tour_3": "<b>切换语言：</b>English、Español 或中文，在这里。",
+    "tour_4": "<b>无障碍与深色模式：</b>文字大小和主题在这里，文字稿就在旁边。",
+    "tour_ok": "知道了",
+    "tour_help": "如何使用本演示"
    },
    "slides": [
     {

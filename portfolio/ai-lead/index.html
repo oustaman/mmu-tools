@@ -264,6 +264,7 @@
   .foot > *{flex:none} .foot > .prog{flex:1 1 auto}
   @media (max-width:1180px){ #playLab{display:none} .play{min-width:44px} .prog{display:none} .foot{justify-content:space-between} }
   @media (max-width:900px){ .dots{display:none} }
+  @media (min-width:901px){ .count{display:none} }
   .dots .aplab{font-family:var(--mono);font-size:.7rem;color:var(--ink-3);margin:0 2px 0 12px;padding-left:12px;border-left:1px solid var(--line-2);align-self:stretch;display:flex;align-items:center}
   .speed button{font-family:var(--mono);font-size:.78rem}
   .capShort{display:none}
@@ -285,6 +286,22 @@
   .log code{font-family:var(--mono);font-size:.76rem;color:var(--ink-3)}
   .pipe{font-family:var(--mono);font-size:.78rem;background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:10px 12px;overflow-x:auto;white-space:pre;color:var(--ink-2)}
 
+  /* ---------- first-visit tour: the deck stays visible behind it ---------- */
+  .tour{position:fixed;inset:0;z-index:60;background:rgba(20,17,18,.55)}
+  .tour[hidden]{display:none}
+  .tour-card{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:min(460px,calc(100% - 32px));
+    background:var(--surface);color:var(--ink);border-radius:14px;padding:20px 22px;box-shadow:0 20px 50px rgba(0,0,0,.35)}
+  .tour-card h2{margin:0 0 12px;font-size:1.25rem;letter-spacing:-.01em}
+  .tour-card ol{margin:0 0 16px;padding:0;list-style:none;display:grid;gap:10px}
+  .tour-card li{display:grid;grid-template-columns:28px 1fr;gap:10px;align-items:start;font-size:.95rem;color:var(--ink-2)}
+  .tour-card li b{color:var(--ink)}
+  .tour-n{width:28px;height:28px;border-radius:50%;background:var(--lec);color:#fff;display:grid;place-items:center;font:700 .85rem var(--mono)}
+  :root[data-theme="dark"] .tour-n{color:#151314}
+  .tour-ring{position:fixed;border:3px solid #fff;border-radius:10px;box-shadow:0 0 0 3px var(--lec),0 0 0 9999px transparent;pointer-events:none}
+  .tour-ring .tour-n{position:absolute;top:-14px;left:-14px;box-shadow:0 0 0 2px #fff}
+  .tour-ring.low .tour-n{top:auto;bottom:-14px}   /* at the top edge the badge hangs below the ring */
+  .tour-card .cta{align-self:flex-start}
+
   /* phone preview: the "adapts to your phone" chip squeezes the deck to 390px */
   body.phone main{max-width:390px;margin:0 auto;border-left:1px solid var(--line-2);border-right:1px solid var(--line-2);width:100%}
   body.phone .hero,body.phone .groups,body.phone .grp .cards,body.phone .two,body.phone .out,body.phone .dash,body.phone .measure{grid-template-columns:1fr}
@@ -302,7 +319,8 @@
     .inner{justify-content:flex-start}
     .foot{padding:6px 10px;gap:6px;flex-wrap:wrap}
     .prog{order:-1;flex-basis:100%} .play{min-width:44px} #playLab{display:none}
-    .dots,.keys,.count{display:none}
+    .dots,.keys{display:none}
+    .count{min-width:24px}
     .capLong{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)} .capShort{display:inline}
     .speed button{padding:0 6px}
     .tool{grid-template-columns:1fr} .tool img,.tool .ph{width:100%}
@@ -337,6 +355,7 @@
       <button class="btn" id="fsDown" aria-label="Smaller text">A−</button>
       <button class="btn" id="fsUp" aria-label="Larger text">A+</button>
       <button class="btn" id="themeBtn" aria-label="Toggle dark mode">◐</button>
+      <button class="btn" id="tourBtn" aria-haspopup="dialog" data-tl="tour_help">?</button>
     </div>
   </div>
 </header>
@@ -622,6 +641,15 @@
   <div class="keys" data-t="keys"></div>
 </footer>
 
+<div class="tour" id="tour" role="dialog" aria-modal="true" aria-labelledby="tourTitle" hidden>
+  <div class="tour-rings" id="tourRings" aria-hidden="true"></div>
+  <div class="tour-card">
+    <h2 id="tourTitle"></h2>
+    <ol id="tourList"></ol>
+    <button class="cta" id="tourOk"></button>
+  </div>
+</div>
+
 <dialog id="tsDlg" aria-labelledby="tsTitle">
   <div class="dh"><h2 id="tsTitle" data-t="transcript"></h2><button class="btn" data-close data-t="close"></button></div>
   <div class="db ts" id="tsBody"></div>
@@ -663,6 +691,8 @@
     document.documentElement.lang = HTMLLANG[lang] || lang;
     document.title = ui('doc_title');
     document.querySelectorAll('[data-t]').forEach(el => { el.textContent = ui(el.dataset.t); });
+    document.querySelectorAll('[data-tl]').forEach(el => { el.setAttribute('aria-label', ui(el.dataset.tl)); el.title = ui(el.dataset.tl); });
+    if (typeof drawTour === 'function') drawTour();
     // links that leave the deck say so to screen readers
     document.querySelectorAll('a[target="_blank"]').forEach(a => {
       let s = a.querySelector('.nt'); if (!s) { s = document.createElement('span'); s.className = 'sr nt'; a.appendChild(s); }
@@ -706,8 +736,9 @@
   /* ---------- slides ---------- */
   // Five slides, then appendices A to C: the counter never says "6 of 8".
   const MAIN = 5;
-  const label = i => i < MAIN ? `${i + 1} ${ui('counter_of')} ${MAIN}` : ui('appendix_' + 'abc'[i - MAIN]);
-  function count() { $('count').textContent = label(cur); }
+  const label = i => i < MAIN ? `${i + 1} ${ui('counter_of')} ${MAIN}` : ui('appendix_' + 'abc'[i - MAIN]);   // for screen readers
+  const short = i => i < MAIN ? String(i + 1) : 'ABC'[i - MAIN];                                                 // what the eye reads
+  function count() { $('count').textContent = short(cur); $('count').setAttribute('aria-label', label(cur)); }
   function go(n, keepPlaying) {
     n = Math.max(0, Math.min(slides.length - 1, n));
     slides[cur].classList.remove('on'); cur = n; slides[cur].classList.add('on');
@@ -948,9 +979,49 @@
   });
 
   window.addEventListener('hashchange', () => { const n = parseInt(location.hash.slice(1), 10); if (n && n - 1 !== cur) go(n - 1); });
+  /* ---------- first-visit tour ---------- */
+  // Four things, each ringed where it lives. Shown once; the ? button brings it back.
+  const TOUR = [['tour_1', () => [$('dots').offsetWidth ? $('dots') : $('count'), $('prev'), $('next')]],
+                ['tour_2', () => [$('play')]],
+                ['tour_3', () => [$('langs')]],
+                ['tour_4', () => [$('fsDown'), $('fsUp'), $('themeBtn')]]];
+  let tourFrom = null;
+  function ringAround(els){
+    const r = els.filter(e => e && e.offsetWidth).map(e => e.getBoundingClientRect());
+    if (!r.length) return null;
+    const x0 = Math.min(...r.map(a => a.left)), y0 = Math.min(...r.map(a => a.top)), x1 = Math.max(...r.map(a => a.right)), y1 = Math.max(...r.map(a => a.bottom));
+    if (x1 < 0 || y1 < 0 || x0 > innerWidth || y0 > innerHeight) return null;
+    return { left: x0 - 6, top: y0 - 6, width: x1 - x0 + 12, height: y1 - y0 + 12 };
+  }
+  function drawTour(){
+    if ($('tour').hidden) return;
+    $('tourTitle').textContent = ui('tour_title');
+    $('tourList').innerHTML = TOUR.map((t, i) => `<li><span class="tour-n">${i + 1}</span><span>${ui(t[0])}</span></li>`).join('');
+    $('tourOk').textContent = ui('tour_ok');
+    $('tourRings').innerHTML = '';
+    TOUR.forEach((t, i) => {
+      const box = ringAround(t[1]()); if (!box) return;
+      const d = document.createElement('div'); d.className = 'tour-ring' + (box.top < 20 ? ' low' : '');
+      Object.assign(d.style, { left: box.left + 'px', top: box.top + 'px', width: box.width + 'px', height: box.height + 'px' });
+      d.innerHTML = `<span class="tour-n">${i + 1}</span>`; $('tourRings').appendChild(d);
+    });
+  }
+  function openTour(){ tourFrom = document.activeElement; $('tour').hidden = false; drawTour(); $('tourOk').focus(); }
+  function closeTour(){ $('tour').hidden = true; store.set('toured', '1'); if (tourFrom && tourFrom.focus) tourFrom.focus(); }
+  $('tourOk').onclick = closeTour;
+  $('tour').addEventListener('click', e => { if (e.target === $('tour') || e.target === $('tourRings')) closeTour(); });
+  $('tour').addEventListener('keydown', e => {
+    if (e.key === 'Escape') { e.preventDefault(); closeTour(); }
+    if (e.key === 'Tab') { e.preventDefault(); $('tourOk').focus(); }      // one control inside: focus stays on it
+    e.stopPropagation();
+  });
+  $('tourBtn').onclick = openTour;
+  addEventListener('resize', drawTour);
+
   applyLang();
   const start = Math.max(0, Math.min(slides.length - 1, (parseInt(location.hash.slice(1), 10) || 1) - 1));
   slides[start].classList.add('on'); cur = start; go(start);
+  if (store.get('toured') !== '1') setTimeout(openTour, 400);
 })();
 </script>
 </body>
