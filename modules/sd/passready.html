@@ -338,11 +338,21 @@ jump.addEventListener('change', () => show(+jump.value, true));
 $('prev').onclick = () => show(cur - 1, true);
 $('next').onclick = () => show(cur + 1, true);
 addEventListener('keydown', e => {
-  if (!isDeck() || /SELECT|INPUT/.test(e.target.tagName)) return;
+  if (/SELECT|INPUT|TEXTAREA/.test(e.target.tagName) || e.altKey) return;   // a focused control keeps its own keys
+  /* Left and right always move between slides. On a page, the other keys still
+     scroll the page; in slides view they step through the deck as well. */
+  if (!isDeck()) {
+    if (e.key === 'ArrowRight') { e.preventDefault(); show(cur + 1, true); }
+    if (e.key === 'ArrowLeft')  { e.preventDefault(); show(cur - 1, true); }
+    return;
+  }
   if (['ArrowRight','PageDown',' '].includes(e.key)) { e.preventDefault(); show(cur + 1); }
   if (['ArrowLeft','PageUp'].includes(e.key))        { e.preventDefault(); show(cur - 1); }
   if (e.key === 'Home') show(0);
   if (e.key === 'End')  show(N - 1);
+  if (e.key.toLowerCase() === 'f' && !e.metaKey && !e.ctrlKey) {
+    document.fullscreenElement ? document.exitFullscreen() : document.documentElement.requestFullscreen();
+  }
 });
 addEventListener('hashchange', () => { const n = parseInt(location.hash.replace('#s', ''), 10); if (Number.isFinite(n) && n - 1 !== cur) show(n - 1); });
 $('print').onclick = () => print();
