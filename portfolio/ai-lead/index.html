@@ -48,6 +48,8 @@
   header{border-bottom:1px solid var(--line);background:var(--surface);flex:none;position:relative;z-index:20}
   .bar{max-width:1240px;margin:0 auto;padding:6px 20px;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
   .brand{font-weight:680;letter-spacing:-.015em;white-space:nowrap;margin-right:auto}
+  .brand .home{color:inherit;text-decoration:none;display:inline-flex;align-items:center;min-height:44px;border-radius:6px}
+  .brand .home:hover{text-decoration:underline;text-underline-offset:3px}
   .brand small{font-family:var(--mono);font-size:.72rem;font-weight:400;color:var(--ink-3);margin-left:8px;letter-spacing:.02em}
   .ctl{display:flex;gap:6px;align-items:center;flex-wrap:wrap}
   /* every control is at least 44 × 44 px: WCAG 2.5.5, target size (AAA) */
@@ -204,7 +206,7 @@
   .with{font-family:var(--mono);font-size:.76rem;text-transform:uppercase;letter-spacing:.06em;color:var(--ink-3);margin:0 0 8px}
   .repo{max-width:78ch;margin:0 0 20px;padding:12px 14px;border-left:3px solid var(--wsh);background:var(--wsh-soft);border-radius:0 8px 8px 0;color:var(--ink)}
   .ruler{position:relative;height:1.3em;font-family:var(--mono);font-size:.72rem;color:var(--ink-3);margin:0 0 4px}
-  .ruler span{position:absolute;top:0;white-space:nowrap}
+  .ruler > span{position:absolute;top:0;white-space:nowrap}
   .phases{display:flex;gap:4px}
   .phases button{border:1px solid var(--line-2);background:var(--surface);padding:12px 14px;min-height:64px;text-align:left;cursor:pointer;font-weight:640;font-size:.94rem;border-radius:10px;position:relative;overflow:hidden}
   .phases button::before{content:"";position:absolute;left:0;right:0;top:0;height:6px;background:var(--wsh)}
@@ -220,7 +222,7 @@
   .art p{margin:0 0 10px;font-size:.88rem;color:var(--ink-2)}
   .art .ctas{display:flex;flex-wrap:wrap;gap:8px}
   .art .cta{font-size:.84rem;padding:0 14px}
-  .seeb{margin:14px 0 0}
+  .seeb{margin:14px 0 0;display:flex;flex-wrap:wrap;gap:10px}
   .seeb .cta{font-size:.86rem}
   @media (max-width:980px){ .arts{grid-template-columns:1fr} }
   @media (max-width:640px){ .art{grid-template-columns:1fr} .art img{width:100%} }
@@ -251,10 +253,18 @@
   .prog i{display:block;height:100%;width:0;background:var(--lec)}
   .count{font-family:var(--mono);font-size:.8rem;color:var(--ink-2);min-width:52px;text-align:center}
   .keys{font-family:var(--mono);font-size:.72rem;color:var(--ink-3);max-width:1240px;margin:0 auto;padding:0 20px 6px}
-  .dots{display:flex}
-  .dots button{width:44px;height:44px;border:0;background:none;cursor:pointer;display:grid;place-items:center;padding:0}
-  .dots button::after{content:"";width:9px;height:9px;border-radius:50%;background:var(--line-2)}
-  .dots button[aria-current="true"]::after{background:var(--lec);width:12px;height:12px}
+  /* Five numbered slides, then the appendices set apart: the deck is five
+     slides, and the navigation says so before anyone counts. */
+  .dots{display:flex;align-items:center;gap:2px}
+  .dots button{width:44px;height:44px;border:1px solid transparent;background:none;cursor:pointer;display:grid;place-items:center;
+    padding:0;border-radius:8px;font-family:var(--mono);font-size:.84rem;font-weight:600;color:var(--ink-2)}
+  .dots button:hover{border-color:var(--line-2);color:var(--ink)}
+  .dots button[aria-current="true"]{background:var(--ink);color:var(--bg)}
+  .dots .ap{font-weight:400;font-size:.76rem}
+  .foot > *{flex:none} .foot > .prog{flex:1 1 auto}
+  @media (max-width:1180px){ #playLab{display:none} .play{min-width:44px} .prog{display:none} .foot{justify-content:space-between} }
+  @media (max-width:900px){ .dots{display:none} }
+  .dots .aplab{font-family:var(--mono);font-size:.7rem;color:var(--ink-3);margin:0 2px 0 12px;padding-left:12px;border-left:1px solid var(--line-2);align-self:stretch;display:flex;align-items:center}
   .speed button{font-family:var(--mono);font-size:.78rem}
   .capShort{display:none}
 
@@ -318,7 +328,7 @@
 </svg>
 <header>
   <div class="bar">
-    <div class="brand"><span data-t="s1_title">AI in the open</span><small>Michail Oustamanolakis · MMU</small></div>
+    <div class="brand"><a class="home" href="#1" id="home"><span data-t="s1_title">AI in the open</span></a><small>Michail Oustamanolakis · MMU</small></div>
     <div class="ctl">
       <span class="sr" id="langLab" data-t="lang">Language</span>
       <div class="seg" role="group" aria-labelledby="langLab" id="langs"></div>
@@ -519,6 +529,8 @@
         </div>
         <p class="phase-body" id="phaseBody" role="tabpanel"></p>
       </div>
+      <p class="seeb"><button class="cta alt" data-go="5"><span data-t="go_a"></span><svg><use href="#i-go"/></svg></button>
+        <button class="cta alt" data-go="6"><span data-t="go_b"></span><svg><use href="#i-go"/></svg></button></p>
     </div>
   </section>
 
@@ -707,9 +719,13 @@
     if (keepPlaying && track() && track().audio) play(); else if (!keepPlaying) stop();
   }
   slides.forEach((_, i) => {
-    const b = document.createElement('button'); b.setAttribute('aria-label', i < 5 ? String(i + 1) : 'Appendix ' + 'ABC'[i - 5]); b.onclick = () => go(i);
+    if (i === 5) { const l = document.createElement('span'); l.className = 'aplab'; l.dataset.t = 'appendices'; $('dots').appendChild(l); }
+    const b = document.createElement('button'); b.onclick = () => go(i);
+    if (i < 5) { b.textContent = String(i + 1); b.setAttribute('aria-label', `Slide ${i + 1} of 5`); }
+    else { b.textContent = 'ABC'[i - 5]; b.className = 'ap'; b.setAttribute('aria-label', 'Appendix ' + 'ABC'[i - 5]); }
     $('dots').appendChild(b);
   });
+  $('home').onclick = e => { e.preventDefault(); go(0); };
   $('prev').onclick = () => go(cur - 1, playing);
   $('next').onclick = () => go(cur + 1, playing);
   document.querySelectorAll('[data-go]').forEach(b => b.onclick = () => go(+b.dataset.go));

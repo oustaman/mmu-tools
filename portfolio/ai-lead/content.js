@@ -185,7 +185,10 @@ window.DECK = {
     "ax_4b": "The Room Finder interface over an invented university, used in week 7 to teach information architecture and empty states.",
     "ax_4c": "Open the teaching finder",
     "see_b": "Examples shown in Appendix B",
-    "cta_pr_teach": "See it in my teaching"
+    "cta_pr_teach": "See it in my teaching",
+    "appendices": "Appendices",
+    "go_a": "Appendix A: How this was made",
+    "go_b": "Appendix B: Built with AI"
    },
    "slides": [
     {
@@ -557,7 +560,10 @@ window.DECK = {
     "ax_4b": "La interfaz del buscador sobre una universidad inventada, usada en la semana 7 para enseñar arquitectura de la información y estados vacíos.",
     "ax_4c": "Abrir el buscador de clase",
     "see_b": "Ejemplos en el apéndice B",
-    "cta_pr_teach": "Verlo en mi docencia"
+    "cta_pr_teach": "Verlo en mi docencia",
+    "appendices": "Apéndices",
+    "go_a": "Apéndice A: cómo se hizo",
+    "go_b": "Apéndice B: hecho con IA"
    },
    "slides": [
     {
@@ -929,7 +935,10 @@ window.DECK = {
     "ax_4b": "教室查找工具的界面，配上一所虚构的大学，在第 7 周用于讲授信息架构和空状态。",
     "ax_4c": "打开教学版查找工具",
     "see_b": "示例见附录 B",
-    "cta_pr_teach": "看它如何用于教学"
+    "cta_pr_teach": "看它如何用于教学",
+    "appendices": "附录",
+    "go_a": "附录 A：制作过程",
+    "go_b": "附录 B：借助人工智能构建"
    },
    "slides": [
     {
