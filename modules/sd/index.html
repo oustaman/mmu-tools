@@ -176,6 +176,10 @@
   .doc svg{display:block;width:13px;height:16px;flex:none}
   .doc-c{color:var(--lec)} .doc-c:hover{border-color:var(--lec);background:var(--lec-soft)}
   .doc-w{color:var(--wsh)} .doc-w:hover{border-color:var(--wsh);background:var(--wsh-soft)}
+  /* A deck used in the lecture hour: drawn as an easel, the same glyph the decks
+     themselves use for "show as slides". */
+  .doc-s{color:var(--ink)} .doc-s:hover{border-color:var(--ink);background:var(--surface-2)}
+  .docs{flex-wrap:wrap}
   @media(max-width:900px){.doc span,.doc{font-size:0.6rem}}
   tr.dead td{opacity:.6}
   tr.dead .wt{font-style:italic}
@@ -203,6 +207,7 @@
     .doc,.doc span{font-size:.78rem}
     .doc{min-height:44px;justify-content:center;padding:0 8px}
     .doc-h{font-weight:700}
+    .doc-s{grid-column:1 / -1}
   }
 
   /* ================= generic ================= */
@@ -621,7 +626,8 @@
    version held its own copy of the eleven weeks and the two drifted the moment
    a workshop was reworded. */
 const ROWS = WEEKS.map(w => ({
-  n: w.n, dead: !!w.dead, l: w.title, w: w.workshop.aim, m: w.makes
+  n: w.n, dead: !!w.dead, l: w.title, w: w.workshop.aim, m: w.makes,
+  decks: w.shown.filter(x => x.slides).map(x => ({ l: x.slides, u: x.u }))
 }));
 
 /* Public, live, and none of it expires with the module. Each one is something a
@@ -649,6 +655,10 @@ const TOOLS = [
   w:"Week 5", u:"https://symbolic.institute/collections/colour-associations/"},
  {n:"Visual grammar", d:"Twelve marks and how each one got its meaning — traffic colour, the hamburger, the arrow.",
   w:"Weeks 5, 7", u:"https://symbolic.institute/visual-grammar/"},
+ {n:"PassReady: the worst-day screens", d:"Five slides and a live model from an app built for a test people get one go at: not knowing, not being sure yet, and what to do next.",
+  w:"Week 7", u:"passready.html"},
+ {n:"A room finder for a made-up university", d:"A real prototype over an invented university. Browse it, search it, then open a building with nothing in it.",
+  w:"Week 7", u:"room-finder/index.html"},
  {n:"WebAIM contrast checker", d:"The one third-party tool on this list. Week 5 needs it and it is the standard.",
   w:"Week 5", u:"https://webaim.org/resources/contrastchecker/"}
 ];
@@ -661,6 +671,8 @@ const PAGE = `<svg viewBox="0 0 13 16" fill="none" stroke="currentColor" stroke-
   <path d="M7.3.5v4.7h4.7"/>
   <path d="M3.2 8.4h6.1M3.2 10.6h6.1M3.2 12.8h3.6" stroke-linecap="round" opacity=".7"/>
 </svg>`;
+/* An easel: a slide deck shown in the lecture hour. */
+const EASEL = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2.5 3.5h19"/><rect x="4" y="3.5" width="16" height="11.5" rx="1"/><path d="M12 15v3.2M12 18.2 8 21.5M12 18.2l4 3.3"/></svg>`;
 /* A hand, not a page: the handout is what students take away, and it should not
    read as a third staff sheet beside the two that are. */
 const HAND = `<svg viewBox="0 0 14 18" width="11" height="14" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.3">
@@ -677,6 +689,7 @@ document.getElementById('wkbody').innerHTML = ROWS.map(w => `
       <a class="doc doc-c" href="weeks.html?w=${w.n}&p=shown" title="What is shown in class">${PAGE}Class</a>
       <a class="doc doc-w" href="weeks.html?w=${w.n}&p=workshop" title="The workshop sheet">${PAGE}Workshop</a>
         <button type="button" class="doc doc-h" data-handout="${w.n}" title="The handout for this session">${HAND}Handout</button>
+      ${w.decks.map(d => `<a class="doc doc-s" href="${d.u}" title="Slides shown in class: ${d.l}">${EASEL}${d.l}</a>`).join('')}
     </span></td>
   </tr>`).join('');
 
