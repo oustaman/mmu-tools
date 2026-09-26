@@ -212,6 +212,19 @@
   .phases button[aria-selected="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
   .phase-body{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:14px 16px;margin:8px 0 0;color:var(--ink-2)}
 
+  /* appendix B: artefacts */
+  .arts{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+  .art{display:grid;grid-template-columns:150px minmax(0,1fr);gap:14px;align-items:start;background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:12px}
+  .art img{width:150px;aspect-ratio:16/10;object-fit:cover;object-position:top;border-radius:8px;border:1px solid var(--line);background:#fff}
+  .art h3{margin:0 0 4px;font-size:1rem;line-height:1.25}
+  .art p{margin:0 0 10px;font-size:.88rem;color:var(--ink-2)}
+  .art .ctas{display:flex;flex-wrap:wrap;gap:8px}
+  .art .cta{font-size:.84rem;padding:0 14px}
+  .seeb{margin:14px 0 0}
+  .seeb .cta{font-size:.86rem}
+  @media (max-width:980px){ .arts{grid-template-columns:1fr} }
+  @media (max-width:640px){ .art{grid-template-columns:1fr} .art img{width:100%} }
+
   /* slide 6 */
   table.ai{width:100%;table-layout:fixed;border-collapse:collapse;background:var(--surface);border:1px solid var(--line);border-radius:12px;overflow:hidden;font-size:.88rem}
   table.ai th,table.ai td{text-align:left;vertical-align:top;padding:9px 12px;border-bottom:1px solid var(--line)}
@@ -395,11 +408,12 @@
             <span class="tag" data-t="s2_pr_tag"></span>
             <h3 data-t="s2_pr_head"></h3>
             <p class="side"><span class="va" data-t="s2_pr_a"></span><span class="vb" data-t="s2_pr_b"></span></p>
-            <a class="cta" href="https://128.systems/passready/" target="_blank" rel="noopener"><span data-t="cta_pr"></span><svg><use href="#i-ext"/></svg></a>
+            <a class="cta" href="https://oustaman.github.io/mmu-tools/modules/sd/passready.html" target="_blank" rel="noopener"><span data-t="cta_pr_teach"></span><svg><use href="#i-ext"/></svg></a>
           </div>
         </article>
       </div></section>
       </div>
+      <p class="seeb"><button class="cta alt" data-go="6"><span data-t="see_b"></span><svg><use href="#i-go"/></svg></button></p>
     </div>
   </section>
 
@@ -441,6 +455,7 @@
           <div class="tool" data-at="2-5"><div class="ph" aria-hidden="true">🛠</div><div><b data-t="s3_t3_head"></b><span class="desc" data-t="s3_t3_body"></span></div></div>
         </div>
       </div>
+      <p class="seeb"><button class="cta alt" data-go="6"><span data-t="see_b"></span><svg><use href="#i-go"/></svg></button></p>
     </div>
   </section>
 
@@ -538,8 +553,26 @@
     </div>
   </section>
 
-  <!-- Appendix B · my practice -->
+  <!-- Appendix B · artefacts used in my teaching -->
   <section class="slide" data-n="7" aria-roledescription="slide">
+    <div class="inner">
+      <p class="eyebrow" data-t="ax_eyebrow"></p>
+      <h2 data-t="ax_title" style="max-width:none"></h2>
+      <div class="arts">
+        <article class="art"><img src="../assets/ii-home.webp" alt="" loading="lazy"><div><h3 data-t="ax_1h"></h3><p data-t="ax_1b"></p>
+          <div class="ctas"><a class="cta" href="https://interfaces.institute/" target="_blank" rel="noopener"><span data-t="ax_1c"></span><svg><use href="#i-ext"/></svg></a></div></div></article>
+        <article class="art"><img src="../assets/sd-week6.webp" alt="" loading="lazy"><div><h3 data-t="ax_2h"></h3><p data-t="ax_2b"></p>
+          <div class="ctas"><a class="cta" href="https://oustaman.github.io/mmu-tools/modules/sd/" target="_blank" rel="noopener"><span data-t="ax_2c"></span><svg><use href="#i-ext"/></svg></a><a class="cta alt" href="https://github.com/oustaman/mmu-tools/tree/main/modules/sd" target="_blank" rel="noopener"><span data-t="ax_2s"></span><svg><use href="#i-ext"/></svg></a></div></div></article>
+        <article class="art"><img src="../assets/passready-teaching.webp" alt="" loading="lazy"><div><h3 data-t="ax_3h"></h3><p data-t="ax_3b"></p>
+          <div class="ctas"><a class="cta" href="https://oustaman.github.io/mmu-tools/modules/sd/passready.html" target="_blank" rel="noopener"><span data-t="ax_3c"></span><svg><use href="#i-ext"/></svg></a></div></div></article>
+        <article class="art"><img src="../assets/castlegate-finder.webp" alt="" loading="lazy"><div><h3 data-t="ax_4h"></h3><p data-t="ax_4b"></p>
+          <div class="ctas"><a class="cta" href="https://oustaman.github.io/mmu-tools/modules/sd/room-finder/" target="_blank" rel="noopener"><span data-t="ax_4c"></span><svg><use href="#i-ext"/></svg></a></div></div></article>
+      </div>
+    </div>
+  </section>
+
+  <!-- Appendix C · my practice -->
+  <section class="slide" data-n="8" aria-roledescription="slide">
     <div class="inner">
       <p class="eyebrow" data-t="s7_eyebrow"></p>
       <h2 data-t="s7_title" style="max-width:none"></h2>
@@ -659,9 +692,9 @@
   }
 
   /* ---------- slides ---------- */
-  // Five slides, then appendices: the counter never says "6 of 7".
+  // Five slides, then appendices A to C: the counter never says "6 of 8".
   const MAIN = 5;
-  const label = i => i < MAIN ? `${i + 1} ${ui('counter_of')} ${MAIN}` : ui('appendix_' + 'ab'[i - MAIN]);
+  const label = i => i < MAIN ? `${i + 1} ${ui('counter_of')} ${MAIN}` : ui('appendix_' + 'abc'[i - MAIN]);
   function count() { $('count').textContent = label(cur); }
   function go(n, keepPlaying) {
     n = Math.max(0, Math.min(slides.length - 1, n));
@@ -674,7 +707,7 @@
     if (keepPlaying && track() && track().audio) play(); else if (!keepPlaying) stop();
   }
   slides.forEach((_, i) => {
-    const b = document.createElement('button'); b.setAttribute('aria-label', i < 5 ? String(i + 1) : 'Appendix ' + 'AB'[i - 5]); b.onclick = () => go(i);
+    const b = document.createElement('button'); b.setAttribute('aria-label', i < 5 ? String(i + 1) : 'Appendix ' + 'ABC'[i - 5]); b.onclick = () => go(i);
     $('dots').appendChild(b);
   });
   $('prev').onclick = () => go(cur - 1, playing);
