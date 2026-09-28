@@ -7,24 +7,24 @@
 <style>
   :root{
     --bg:#F5F4F2; --surface:#FFFFFF; --surface-2:#EDEBE8;
-    --ink:#1A1618; --ink-2:#56504F; --ink-3:#8B8382;
-    --line:#DFDBD7; --line-2:#C9C3BE;
+    --ink:#1A1618; --ink-2:#514B4A; --ink-3:#4D4847;
+    --line:#DFDBD7; --line-2:#8E8685;
     --lec:#8C2437; --lec-soft:#F6E8EA;
-    --wsh:#1D5C7A; --wsh-soft:#E4EEF3;
+    --wsh:#1A526D; --wsh-soft:#E4EEF3;
     --sup:#5B5350; --sup-soft:#ECE9E7;
-    --ok:#2C5F3E; --ok-soft:#E3EFE7;
+    --ok:#285638; --ok-soft:#E3EFE7;
     --mono:ui-monospace,"SF Mono",Menlo,Consolas,monospace;
     --sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Inter,Roboto,sans-serif;
     --fs:1rem;
   }
   html[data-theme="dark"]{
     --bg:#151314; --surface:#1E1B1C; --surface-2:#262223;
-    --ink:#EDE9E7; --ink-2:#B5AEAB; --ink-3:#847C79;
-    --line:#332E2F; --line-2:#463F40;
-    --lec:#E08A9B; --lec-soft:#332226;
+    --ink:#EDE9E7; --ink-2:#B9B2AF; --ink-3:#B7B2B0;
+    --line:#332E2F; --line-2:#7A7372;
+    --lec:#E69FAD; --lec-soft:#332226;
     --wsh:#7FBEDC; --wsh-soft:#16262E;
-    --sup:#A49B98; --sup-soft:#262223;
-    --ok:#7FBF97; --ok-soft:#1C2A22;
+    --sup:#B4ADAB; --sup-soft:#262223;
+    --ok:#83C19A; --ok-soft:#1C2A22;
   }
   *{box-sizing:border-box}
   body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);
@@ -224,6 +224,7 @@
            color:var(--ink-3);display:block;margin-bottom:9px}
   .card ul{margin:0;padding-left:1.05rem;font-size:0.88rem;color:var(--ink-2)}
   .card li{margin-bottom:4px}
+  .card li a{display:inline-block;padding-block:4px}   /* 2.5.8: 17px-high links become 25px */
   .big{font-size:1.9rem;font-weight:720;letter-spacing:-0.03em;line-height:1}
 
   .ctarow{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(min(290px,100%),1fr));margin:16px 0 4px}
@@ -468,6 +469,14 @@
     .ho-legend{margin-top:4px}
     .ho-c{padding:6px 9px} .ho-crit{gap:6px} .ho-c ul{margin-top:3px;font-size:.76rem}
     .ho-musts li{padding:1px 0;font-size:.82rem}
+  }
+
+  /* Accessibility (WCAG 2.2 audit, September 2026) */
+  .ctl button{min-width:44px;min-height:44px;font-size:.8rem}         /* 2.5.5: the theme button was 25 × 23 */
+  summary{min-height:44px;padding-block:11px}                           /* 2.5.8: a 23px-high row */
+  input[type=checkbox],input[type=radio]{width:24px;height:24px}         /* 2.5.8: 19px boxes */
+  @media (prefers-reduced-motion: reduce){                               /* 2.3.3 */
+    *,*::before,*::after{transition:none!important;animation:none!important;scroll-behavior:auto!important}
   }
 </style>
 </head>

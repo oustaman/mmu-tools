@@ -7,22 +7,22 @@
 <style>
   :root{
     --bg:#F5F4F2; --surface:#FFFFFF; --surface-2:#EDEBE8;
-    --ink:#1A1618; --ink-2:#56504F; --ink-3:#8B8382;
-    --line:#DFDBD7; --line-2:#C9C3BE;
+    --ink:#1A1618; --ink-2:#514B4A; --ink-3:#4D4847;
+    --line:#DFDBD7; --line-2:#8E8685;
     --lec:#8C2437; --lec-soft:#F6E8EA;
-    --wsh:#1D5C7A; --wsh-soft:#E4EEF3;
-    --ok:#2C5F3E; --ok-soft:#E3EFE7;
-    --warn:#8A5D05; --warn-soft:#F4EAD3;
+    --wsh:#1A526D; --wsh-soft:#E4EEF3;
+    --ok:#285638; --ok-soft:#E3EFE7;
+    --warn:#684604; --warn-soft:#F4EAD3;
     --mono:ui-monospace,"SF Mono",Menlo,Consolas,monospace;
     --sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Inter,Roboto,sans-serif;
   }
   html[data-theme="dark"]{
     --bg:#151314; --surface:#1E1B1C; --surface-2:#262223;
-    --ink:#EDE9E7; --ink-2:#B5AEAB; --ink-3:#847C79;
-    --line:#332E2F; --line-2:#463F40;
-    --lec:#E08A9B; --lec-soft:#332226;
+    --ink:#EDE9E7; --ink-2:#B9B2AF; --ink-3:#B7B2B0;
+    --line:#332E2F; --line-2:#7A7372;
+    --lec:#E69FAD; --lec-soft:#332226;
     --wsh:#7FBEDC; --wsh-soft:#16262E;
-    --ok:#7FBF97; --ok-soft:#1C2A22;
+    --ok:#83C19A; --ok-soft:#1C2A22;
     --warn:#DCB469; --warn-soft:#2A2417;
   }
   *{box-sizing:border-box}
@@ -141,7 +141,7 @@
     header,.tools .btn,.count,.more,footer,.nop{display:none !important}
     body{background:#fff;font-size:10pt}
     html[data-theme="dark"]{--bg:#fff;--surface:#fff;--surface-2:#eee;--ink:#000;--ink-2:#333;--ink-3:#666;
-      --line:#bbb;--line-2:#999;--lec:#8C2437;--wsh:#1D5C7A;--wsh-soft:#E4EEF3}
+      --line:#bbb;--line-2:#999;--lec:#8C2437;--wsh:#1A526D;--wsh-soft:#E4EEF3}
     .wrap{max-width:none;padding:0}
     h1{margin:0 0 2px;font-size:16pt}
     .sub{margin:0 0 6px;font-size:9pt}
@@ -193,6 +193,14 @@
     .sub{display:none}
     input[type=text],input[type=number],textarea{background:#fff}
     *{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  }
+
+  /* Accessibility (WCAG 2.2 audit, September 2026) */
+  .ctl button{min-width:44px;min-height:44px;font-size:.8rem}         /* 2.5.5: the theme button was 25 × 23 */
+  summary{min-height:44px;padding-block:11px}                           /* 2.5.8: a 23px-high row */
+  input[type=checkbox],input[type=radio]{width:24px;height:24px}         /* 2.5.8: 19px boxes */
+  @media (prefers-reduced-motion: reduce){                               /* 2.3.3 */
+    *,*::before,*::after{transition:none!important;animation:none!important;scroll-behavior:auto!important}
   }
 </style>
 </head>
