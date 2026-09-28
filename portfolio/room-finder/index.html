@@ -48,7 +48,8 @@
   .inner{max-width:1180px;margin:0 auto;min-height:100%;display:flex;flex-direction:column;justify-content:center}
   .eyebrow{font-family:var(--mono);font-size:.72rem;letter-spacing:.07em;text-transform:uppercase;color:var(--lec);margin:0 0 10px}
   h1,h2{letter-spacing:-.028em;line-height:1.08;margin:0 0 14px;font-weight:720}
-  h1{font-size:clamp(2.2rem,6vw,4.4rem);max-width:18ch}
+  h1,.h1{font-size:clamp(2.2rem,6vw,4.4rem);max-width:18ch}
+  .brand-h{display:inline;margin:0;font:inherit;letter-spacing:inherit;max-width:none}
   h2{font-size:clamp(1.6rem,3.4vw,2.5rem);max-width:26ch}
   .lede{font-size:clamp(1.05rem,1.8vw,1.35rem);color:var(--ink-2);max-width:52ch;margin:0 0 22px;line-height:1.45}
   .panel{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:16px 18px}
@@ -178,6 +179,7 @@
     .tabs{flex-direction:row;overflow-x:auto} .tabs button{flex:none}
   }
   @media (max-width:640px){
+    .dots{display:none}   /* 1.4.10: seven 44px dots do not fit a 320px screen; the counter and arrows stay */
     .bar{padding:8px 12px} .brand small{display:none}
     .slide{padding:20px 14px 30px} .inner{justify-content:flex-start}
     .sources{grid-template-columns:1fr}
@@ -195,7 +197,7 @@
 <body>
 <header>
   <div class="bar">
-    <div class="brand">MMU Room Finder <small>by Michail Oustamanolakis · <a href="mailto:m.oustamanolakis@mmu.ac.uk">m.oustamanolakis@mmu.ac.uk</a></small></div>
+    <div class="brand"><h1 class="brand-h">MMU Room Finder</h1> <small>by Michail Oustamanolakis · <a href="mailto:m.oustamanolakis@mmu.ac.uk">m.oustamanolakis@mmu.ac.uk</a></small></div>
     <span class="wip">Work in progress · the tool itself stays internal</span>
     <button class="btn" id="fsDown" aria-label="Smaller text">A−</button>
     <button class="btn" id="fsUp" aria-label="Larger text">A+</button>
@@ -208,7 +210,7 @@
   <section class="slide" aria-roledescription="slide" aria-label="1 of 5">
     <div class="inner">
       <p class="eyebrow">1 · The problem</p>
-      <h1>Data we have on record</h1>
+      <h2 class="h1">Data we have on record</h2>
       <p class="lede">Every answer about our rooms exists. None of it is in one place.</p>
       <div class="sources">
         <div class="src"><b>15,113</b><span>rooms in the Master Roomdata spreadsheet</span><code>Master Roomdata.xlsx</code></div>

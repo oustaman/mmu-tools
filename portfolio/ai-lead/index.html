@@ -85,7 +85,8 @@
   .inner{max-width:1180px;margin:0 auto;min-height:100%;display:flex;flex-direction:column;justify-content:center}
   .eyebrow{font-family:var(--mono);font-size:.76rem;letter-spacing:.07em;text-transform:uppercase;color:var(--lec);margin:0 0 10px}
   h1,h2{letter-spacing:-.028em;line-height:1.08;margin:0 0 14px;font-weight:720}
-  h1{font-size:clamp(2.6rem,7vw,5.4rem)}
+  h1,.h1{font-size:clamp(2.6rem,7vw,5.4rem)}
+  .brand-h{display:inline;margin:0;font:inherit;letter-spacing:inherit}   /* the page's h1, set as the header title */
   h2{font-size:clamp(1.6rem,3.6vw,2.6rem);max-width:24ch}
   .lede{font-size:clamp(1.1rem,2vw,1.45rem);color:var(--ink-2);max-width:36ch;margin:0 0 18px;line-height:1.4}
   .who{font-family:var(--mono);font-size:.8rem;color:var(--ink-3);margin:0 0 24px}
@@ -282,7 +283,8 @@
   .ts button:hover{background:var(--lec-soft)}
   .ts button.now{background:var(--lec-soft);color:var(--ink);box-shadow:inset 0 -2px 0 var(--lec)}
   .log{list-style:none;margin:10px 0 0;padding:0;font-size:.9rem}
-  .log li{padding:8px 0;border-top:1px solid var(--line);display:grid;grid-template-columns:96px 1fr;gap:10px}
+  .log li{padding:8px 0;border-top:1px solid var(--line);display:grid;grid-template-columns:96px 1fr;gap:10px;align-items:center}
+  .log a{display:inline-flex;align-items:center;min-height:44px}   /* 2.5.5 */
   .log code{font-family:var(--mono);font-size:.76rem;color:var(--ink-3)}
   .pipe{font-family:var(--mono);font-size:.78rem;background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:10px 12px;overflow-x:auto;white-space:pre;color:var(--ink-2)}
 
@@ -348,7 +350,7 @@
 </svg>
 <header>
   <div class="bar">
-    <div class="brand"><a class="home" href="#1" id="home"><span data-t="s1_title">AI in the open</span></a><small>Michail Oustamanolakis · MMU</small></div>
+    <div class="brand"><h1 class="brand-h"><a class="home" href="#1" id="home"><span data-t="s1_title">AI in the open</span></a></h1><small>Michail Oustamanolakis · MMU</small></div>
     <div class="ctl">
       <span class="sr" id="langLab" data-t="lang">Language</span>
       <div class="seg" role="group" aria-labelledby="langLab" id="langs"></div>
@@ -369,7 +371,7 @@
       <div class="hero">
         <div>
           <p class="eyebrow" data-t="s1_eyebrow"></p>
-          <h1 data-t="s1_title"></h1>
+          <h2 class="h1" data-t="s1_title"></h2>
           <p class="lede" data-t="s1_lede" data-at="0-7"></p>
           <p class="who" data-t="s1_who"></p>
           <p class="aaa"><b><span aria-hidden="true">✓</span><span data-t="aaa"></span></b><span data-t="aaa_detail"></span></p>
