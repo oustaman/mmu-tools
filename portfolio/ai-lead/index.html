@@ -138,7 +138,7 @@
   .side .vb{display:none} body[data-view="b"] .side .va{display:none} body[data-view="b"] .side .vb{display:inline}
   .quote{font-weight:650;font-size:.98rem;margin:0}
   .card .cta{margin-top:auto}
-  .groups{display:grid;grid-template-columns:minmax(0,2fr) minmax(0,1fr);gap:16px}
+  .groups{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
   .grp > h3{margin:0 0 8px;font-family:var(--mono);font-size:.76rem;font-weight:500;text-transform:uppercase;letter-spacing:.07em;color:var(--ink-3);
     display:flex;align-items:center;gap:10px}
   .grp > h3::after{content:"";flex:1;height:1px;background:var(--line-2)}
@@ -224,6 +224,15 @@
   .art .ctas{display:flex;flex-wrap:wrap;gap:8px}
   .art .cta{font-size:.84rem;padding:0 14px}
   .seeb{margin:14px 0 0;display:flex;flex-wrap:wrap;gap:10px}
+  /* appendix D: the learning science */
+  .ld-head{display:grid;grid-template-columns:260px minmax(0,1fr);gap:18px;align-items:center;margin:0 0 16px}
+  .ld-head img{width:100%;aspect-ratio:16/10;object-fit:cover;object-position:top;border-radius:10px;border:1px solid var(--line);background:#fff}
+  .ld-head .lede{margin:0 0 12px;font-size:1rem;max-width:62ch}
+  table.ld .ref{display:block;color:var(--ink-2);font-size:.8rem;line-height:1.35}
+  a.cite{display:inline-flex;align-items:center;min-height:44px;color:var(--lec);font-weight:600}   /* 2.5.5 */
+  table.ld a.cite{margin:-11px 0 -8px}   /* a 44px target, with its text on the row's first line */
+  .card .cta + .cta{margin-top:0}
+  @media (max-width:640px){ .ld-head{grid-template-columns:1fr} }
   .seeb .cta{font-size:.86rem}
   @media (max-width:980px){ .arts{grid-template-columns:1fr} }
   @media (max-width:640px){ .art{grid-template-columns:1fr} .art img{width:100%} }
@@ -392,8 +401,8 @@
           <h3 data-t="s1_work"></h3>
           <div class="grid">
             <button data-go="1"><img src="../assets/sd-week6.webp" alt=""><span data-t="s2_sd_tag"></span></button>
-            <button data-go="1"><img src="../assets/uxci.webp" alt=""><span data-t="s2_ux_tag"></span></button>
             <button data-go="1"><img src="../assets/passready.webp" alt=""><span data-t="s2_pr_tag"></span></button>
+            <button data-go="8"><img src="../assets/passready-science.webp" alt=""><span data-t="s1_science"></span></button>
             <button data-go="3"><img src="../assets/rf-index.webp" alt=""><span>MMU Room Finder</span></button>
           </div>
         </div>
@@ -411,7 +420,7 @@
         <button data-v="b" aria-pressed="false" data-t="s2_tog_b"></button>
       </div>
       <div class="groups">
-      <section class="grp"><h3 data-t="s2_g_teach"></h3>
+      <section class="grp one"><h3 data-t="s2_g_teach"></h3>
       <div class="cards">
         <article class="card" data-at="1-1">
           <img src="../assets/sd-week6.webp" alt="Screen Design, week 6 materials: Contemporary tools, and working with AI" loading="lazy">
@@ -423,25 +432,17 @@
             <a class="cta" href="https://oustaman.github.io/mmu-tools/modules/sd/weeks.html?w=6" target="_blank" rel="noopener"><span data-t="cta_week6"></span><svg><use href="#i-ext"/></svg></a>
           </div>
         </article>
-        <article class="card" data-at="1-5">
-          <img src="../assets/uxci.webp" alt="User Experience for Creative Industries module site" loading="lazy">
-          <div class="b">
-            <span class="tag" data-t="s2_ux_tag"></span>
-            <h3 data-t="s2_ux_head"></h3>
-            <p class="side"><span class="va" data-t="s2_ux_a"></span><span class="vb" data-t="s2_ux_b"></span></p>
-            <a class="cta" href="https://oustaman.github.io/mmu-tools/modules/uxci/" target="_blank" rel="noopener"><span data-t="cta_uxci"></span><svg><use href="#i-ext"/></svg></a>
-          </div>
-        </article>
       </div></section>
       <section class="grp one"><h3 data-t="s2_g_built"></h3>
       <div class="cards">
-        <article class="card" data-at="1-6">
+        <article class="card" data-at="1-5">
           <img src="../assets/passready.webp" alt="PassReady listing page: know if you'd pass, before you book" loading="lazy">
           <div class="b">
             <span class="tag" data-t="s2_pr_tag"></span>
             <h3 data-t="s2_pr_head"></h3>
             <p class="side"><span class="va" data-t="s2_pr_a"></span><span class="vb" data-t="s2_pr_b"></span></p>
             <a class="cta" href="https://oustaman.github.io/mmu-tools/modules/sd/passready.html" target="_blank" rel="noopener"><span data-t="cta_pr_teach"></span><svg><use href="#i-ext"/></svg></a>
+            <button class="cta alt" data-go="8"><span data-t="go_d"></span><svg><use href="#i-go"/></svg></button>
           </div>
         </article>
       </div></section>
@@ -625,6 +626,34 @@
     </div>
   </section>
 
+  <!-- Appendix D · the learning science in PassReady -->
+  <section class="slide" data-n="9" aria-roledescription="slide">
+    <div class="inner">
+      <p class="eyebrow" data-t="ld_eyebrow"></p>
+      <h2 data-t="ld_title" style="max-width:none;font-size:clamp(1.5rem,3vw,2.2rem)"></h2>
+      <div class="ld-head">
+        <img src="../assets/passready-science.webp" alt="PassReady on 128.systems: nine learning-science techniques, each with its source" loading="lazy">
+        <div><p class="lede" data-t="ld_lede"></p>
+          <a class="cta" href="https://128.systems/passready/" target="_blank" rel="noopener"><span data-t="ld_cta"></span><svg><use href="#i-ext"/></svg></a></div>
+      </div>
+      <table class="ai ld"><colgroup><col style="width:22%"><col style="width:38%"><col style="width:40%"></colgroup>
+        <thead><tr><th data-t="ld_h1"></th><th data-t="ld_h2"></th><th data-t="ld_h3"></th></tr></thead>
+        <tbody>
+          <tr><td data-t="ld_1"></td><td data-t="ld_1a"></td><td><a class="cite" href="https://doi.org/10.1111/j.1467-9280.2006.01693.x" target="_blank" rel="noopener" lang="en">Roediger &amp; Karpicke, 2006</a><span class="ref" lang="en">Test-enhanced learning. <i>Psychological Science</i></span></td></tr>
+          <tr><td data-t="ld_2"></td><td data-t="ld_2a"></td><td><a class="cite" href="https://doi.org/10.1037/0033-2909.132.3.354" target="_blank" rel="noopener" lang="en">Cepeda et al., 2006</a><span class="ref" lang="en">Distributed practice in verbal recall tasks. <i>Psychological Bulletin</i></span></td></tr>
+          <tr><td data-t="ld_3"></td><td data-t="ld_3a"></td><td><a class="cite" href="https://psychclassics.yorku.ca/Ebbinghaus/index.htm" target="_blank" rel="noopener" lang="en">Ebbinghaus, 1885</a><span class="ref" lang="en"><i>Memory: A Contribution to Experimental Psychology</i></span></td></tr>
+          <tr><td data-t="ld_4"></td><td data-t="ld_4a"></td><td><a class="cite" href="https://doi.org/10.4324/9780429506857-13" target="_blank" rel="noopener" lang="en">After Gardner-Medwin, 2019</a><span class="ref" lang="en">Certainty-based marking. <i>Innovative Assessment in Higher Education</i></span></td></tr>
+          <tr><td data-t="ld_5"></td><td data-t="ld_5a"></td><td><a class="cite" href="https://doi.org/10.1037/0022-0663.92.1.160" target="_blank" rel="noopener" lang="en">Hacker et al., 2000</a><span class="ref" lang="en">Test prediction and performance in a classroom context. <i>Journal of Educational Psychology</i></span></td></tr>
+          <tr><td data-t="ld_6"></td><td data-t="ld_6a"></td><td><a class="cite" href="https://doi.org/10.3102/0034654317726529" target="_blank" rel="noopener" lang="en">Gierl et al., 2017</a><span class="ref" lang="en">Developing, analyzing, and using distractors. <i>Review of Educational Research</i></span></td></tr>
+          <tr><td data-t="ld_7"></td><td data-t="ld_7a"></td><td><a class="cite" href="https://eric.ed.gov/?id=ED053419" target="_blank" rel="noopener" lang="en">Bloom, 1968</a><span class="ref" lang="en"><i>Learning for Mastery</i></span></td></tr>
+          <tr><td data-t="ld_8"></td><td data-t="ld_8a"></td><td><a class="cite" href="https://doi.org/10.1037/edu0000001" target="_blank" rel="noopener" lang="en">Rohrer et al., 2015</a><span class="ref" lang="en">Interleaved practice improves mathematics learning. <i>Journal of Educational Psychology</i></span></td></tr>
+          <tr><td data-t="ld_9"></td><td data-t="ld_9a"></td><td><a class="cite" href="https://doi.org/10.3102/00346543049002222" target="_blank" rel="noopener" lang="en">Cummins, 1979</a><span class="ref" lang="en">Linguistic interdependence and the educational development of bilingual children. <i>Review of Educational Research</i></span></td></tr>
+        </tbody>
+      </table>
+      <p class="fine"><span data-t="ld_measure"></span> <a class="cite" href="https://doi.org/10.1037/10244-014" target="_blank" rel="noopener" lang="en">Hetter &amp; Sympson, 1997</a></p>
+    </div>
+  </section>
+
   <div class="player"><div class="cap" id="cap" aria-live="polite"></div></div>
 </main>
 
@@ -739,10 +768,10 @@
   }
 
   /* ---------- slides ---------- */
-  // Five slides, then appendices A to C: the counter never says "6 of 8".
+  // Five slides, then appendices A to D: the counter never says "6 of 8".
   const MAIN = 5;
-  const label = i => i < MAIN ? `${i + 1} ${ui('counter_of')} ${MAIN}` : ui('appendix_' + 'abc'[i - MAIN]);   // for screen readers
-  const short = i => i < MAIN ? String(i + 1) : 'ABC'[i - MAIN];                                                 // what the eye reads
+  const label = i => i < MAIN ? `${i + 1} ${ui('counter_of')} ${MAIN}` : ui('appendix_' + 'abcd'[i - MAIN]);   // for screen readers
+  const short = i => i < MAIN ? String(i + 1) : 'ABCD'[i - MAIN];                                                 // what the eye reads
   function count() { $('count').textContent = short(cur); $('count').setAttribute('aria-label', label(cur)); }
   function go(n, keepPlaying) {
     n = Math.max(0, Math.min(slides.length - 1, n));
@@ -758,7 +787,7 @@
     if (i === 5) { const l = document.createElement('span'); l.className = 'aplab'; l.dataset.t = 'appendices'; $('dots').appendChild(l); }
     const b = document.createElement('button'); b.onclick = () => go(i);
     if (i < 5) { b.textContent = String(i + 1); b.setAttribute('aria-label', `Slide ${i + 1} of 5`); }
-    else { b.textContent = 'ABC'[i - 5]; b.className = 'ap'; b.setAttribute('aria-label', 'Appendix ' + 'ABC'[i - 5]); }
+    else { b.textContent = 'ABCD'[i - 5]; b.className = 'ap'; b.setAttribute('aria-label', 'Appendix ' + 'ABCD'[i - 5]); }
     $('dots').appendChild(b);
   });
   $('home').onclick = e => { e.preventDefault(); go(0); };

@@ -36,10 +36,6 @@ window.DECK = {
     "s2_sd_a": "Generates a competent screen in a minute, live in the room, in week 6.",
     "s2_sd_b": "The type scale, contrast and spacing the student declared in advance. The generated screen is checked against them, and never passes. The decisions are what is marked.",
     "s2_sd_q": "“Treat AI like any other source: use it openly, and say how.”",
-    "s2_ux_tag": "User Experience module · 2025–26",
-    "s2_ux_head": "Assessment designed for AI-assisted feedback",
-    "s2_ux_a": "A local model, running on university hardware, checks that the report is complete: every section, every word target.",
-    "s2_ux_b": "Staff judge quality and give the mark. The machine's time goes on completeness; people's time goes on judgement.",
     "s2_pr_tag": "PassReady app",
     "s2_pr_head": "A naturalisation study app I'm building, and will be showing to my students",
     "s2_pr_a": "Retrieval, spacing, confidence marking and a 95% range on every readiness estimate. 8,820 audio files spoken by the same on-device voice narrating this deck.",
@@ -116,7 +112,6 @@ window.DECK = {
     "speed": "Speed",
     "s1_work": "Examples of my work",
     "cta_week6": "Open week 6",
-    "cta_uxci": "Open the module",
     "cta_pr": "Open PassReady",
     "s4_shot": "The Room Finder's dashboard: every building, A to Z",
     "s4_table": "Geoffrey Manton · first floor",
@@ -128,7 +123,7 @@ window.DECK = {
     "s6_coding": "A candid note: my own coding is poor. I understand the logic from years of working closely with developers; now AI writes the code, and I direct and check it.",
     "newtab": "opens in a new tab",
     "cta_git": "Read the full history on GitHub",
-    "s2_g_teach": "Modules I teach",
+    "s2_g_teach": "A module I teach",
     "s2_g_built": "An app I've built",
     "s3_conv_label": "Stepped mark → Singapore grade",
     "s3_conv_mark": "MMU stepped mark",
@@ -196,7 +191,36 @@ window.DECK = {
     "tour_4": "<b>Accessibility and dark mode:</b> text size and theme, here. The transcript is beside them.",
     "tour_ok": "Start",
     "tour_help": "How to use this deck",
-    "tour_lede": "Take a few seconds to get started. Everything you need is in two bars, read from the top left."
+    "tour_lede": "Take a few seconds to get started. Everything you need is in two bars, read from the top left.",
+    "appendix_d": "Appendix D",
+    "go_d": "Appendix D: the learning science",
+    "ld_eyebrow": "Appendix D · The learning science in PassReady",
+    "ld_title": "Built on how memory works. Each technique named, and cited.",
+    "ld_lede": "AI helped build the app. What it asks of a learner comes from established learning science, each technique named for what it is.",
+    "ld_h1": "Technique",
+    "ld_h2": "In the app",
+    "ld_h3": "Source",
+    "ld_1": "Retrieval practice",
+    "ld_1a": "You recall answers instead of rereading them.",
+    "ld_2": "Spaced repetition",
+    "ld_2a": "Misses return within minutes, known answers later each time.",
+    "ld_3": "Forgetting curve",
+    "ld_3a": "Evidence fades with time, so readiness describes today.",
+    "ld_4": "Confidence-based marking",
+    "ld_4a": "Say “Knew it” or “Guessed”. A guess counts half.",
+    "ld_5": "Calibration",
+    "ld_5a": "Its predictions are checked against your mocks and your real result.",
+    "ld_6": "Error analysis",
+    "ld_6a": "It records which wrong answer you chose and names the mix-up.",
+    "ld_7": "Mastery learning",
+    "ld_7a": "A chapter counts as solid only at the test's own pass mark.",
+    "ld_8": "Interleaving",
+    "ld_8a": "Themes cut across chapters, and sittings mix topics.",
+    "ld_9": "First-language support",
+    "ld_9a": "A second language under each question, clearly labelled.",
+    "ld_measure": "Two measurement ideas sit underneath: a confidence interval around readiness, and item-exposure control, which lowers the estimate's confidence once most of a fixed question bank has been seen.",
+    "ld_cta": "Read it on 128.systems",
+    "s1_science": "PassReady's learning science"
    },
    "slides": [
     {
@@ -247,7 +271,7 @@ window.DECK = {
     },
     {
      "audio": "audio/en/s2.mp3",
-     "dur": 42.01,
+     "dur": 34.49,
      "cues": [
       {
        "t0": 0.0,
@@ -276,12 +300,7 @@ window.DECK = {
       },
       {
        "t0": 26.48,
-       "t1": 33.72,
-       "text": "In the User Experience module, a local model checks the report is complete, so staff time goes on judging quality."
-      },
-      {
-       "t0": 34.0,
-       "t1": 42.01,
+       "t1": 34.49,
        "text": "And PassReady, a naturalisation study app I'm building to show my students, says too early to call, rather than pretend."
       }
      ]
@@ -419,10 +438,6 @@ window.DECK = {
     "s2_sd_a": "Genera una pantalla competente en un minuto, en directo en el aula, en la semana 6.",
     "s2_sd_b": "La escala tipográfica, el contraste y el espaciado que el estudiante declaró de antemano. La pantalla generada se comprueba con ellos y nunca los cumple. Lo que se evalúa son las decisiones.",
     "s2_sd_q": "«Trata la IA como cualquier otra fuente: úsala abiertamente y explica cómo».",
-    "s2_ux_tag": "Asignatura de Experiencia de Usuario · 2025–26",
-    "s2_ux_head": "Una evaluación pensada para la retroalimentación asistida por IA",
-    "s2_ux_a": "Un modelo local, en equipos de la universidad, comprueba que el informe está completo: cada sección, cada objetivo de palabras.",
-    "s2_ux_b": "El profesorado juzga la calidad y pone la nota. El tiempo de la máquina va a la exhaustividad; el de las personas, al criterio.",
     "s2_pr_tag": "Aplicación PassReady",
     "s2_pr_head": "Una aplicación de estudio para la nacionalidad que estoy construyendo, y que enseñaré a mis estudiantes",
     "s2_pr_a": "Recuperación, repaso espaciado, calificación por confianza y un intervalo del 95 % en cada estimación. 8.820 audios con la misma voz local que narra esta presentación.",
@@ -499,7 +514,6 @@ window.DECK = {
     "speed": "Velocidad",
     "s1_work": "Ejemplos de mi trabajo",
     "cta_week6": "Abrir la semana 6",
-    "cta_uxci": "Abrir la asignatura",
     "cta_pr": "Abrir PassReady",
     "s4_shot": "El panel del buscador: todos los edificios, de la A a la Z",
     "s4_table": "Geoffrey Manton · primera planta",
@@ -511,7 +525,7 @@ window.DECK = {
     "s6_coding": "Una nota sincera: programo mal. Entiendo la lógica tras años trabajando de cerca con desarrolladores; ahora la IA escribe el código, y yo lo dirijo y lo compruebo.",
     "newtab": "se abre en una pestaña nueva",
     "cta_git": "Ver el historial completo en GitHub",
-    "s2_g_teach": "Asignaturas que imparto",
+    "s2_g_teach": "Una asignatura que imparto",
     "s2_g_built": "Una aplicación que he creado",
     "s3_conv_label": "Nota escalonada → calificación de Singapur",
     "s3_conv_mark": "Nota escalonada de MMU",
@@ -579,7 +593,36 @@ window.DECK = {
     "tour_4": "<b>Accesibilidad y modo oscuro:</b> tamaño del texto y tema, aquí. La transcripción está al lado.",
     "tour_ok": "Empezar",
     "tour_help": "Cómo usar esta presentación",
-    "tour_lede": "Tómate unos segundos para empezar. Todo lo que necesitas está en dos barras, leídas desde arriba a la izquierda."
+    "tour_lede": "Tómate unos segundos para empezar. Todo lo que necesitas está en dos barras, leídas desde arriba a la izquierda.",
+    "appendix_d": "Apéndice D",
+    "go_d": "Apéndice D: la ciencia del aprendizaje",
+    "ld_eyebrow": "Apéndice D · La ciencia del aprendizaje en PassReady",
+    "ld_title": "Construida sobre cómo funciona la memoria. Cada técnica, nombrada y citada.",
+    "ld_lede": "La IA ayudó a construir la aplicación. Lo que pide a quien estudia procede de la ciencia del aprendizaje consolidada, y cada técnica se nombra por lo que es.",
+    "ld_h1": "Técnica",
+    "ld_h2": "En la aplicación",
+    "ld_h3": "Fuente",
+    "ld_1": "Práctica de recuperación",
+    "ld_1a": "Recuerdas las respuestas en lugar de releerlas.",
+    "ld_2": "Repetición espaciada",
+    "ld_2a": "Los fallos vuelven en minutos; las respuestas sabidas, cada vez más tarde.",
+    "ld_3": "Curva del olvido",
+    "ld_3a": "La evidencia se desvanece con el tiempo, así que la preparación describe el día de hoy.",
+    "ld_4": "Evaluación con grado de confianza",
+    "ld_4a": "Di «Lo sabía» o «Adiviné». Una respuesta adivinada cuenta la mitad.",
+    "ld_5": "Calibración",
+    "ld_5a": "Sus predicciones se contrastan con tus simulacros y con tu resultado real.",
+    "ld_6": "Análisis de errores",
+    "ld_6a": "Registra qué respuesta incorrecta elegiste y nombra la confusión.",
+    "ld_7": "Aprendizaje para el dominio",
+    "ld_7a": "Un capítulo solo cuenta como sólido al nivel del aprobado del propio examen.",
+    "ld_8": "Práctica intercalada",
+    "ld_8a": "Los temas atraviesan los capítulos, y cada sesión mezcla contenidos.",
+    "ld_9": "Apoyo en la primera lengua",
+    "ld_9a": "Una segunda lengua bajo cada pregunta, claramente señalada.",
+    "ld_measure": "Debajo hay dos ideas de medición: un intervalo de confianza alrededor de la preparación y el control de exposición de ítems, que reduce la confianza de la estimación cuando ya se ha visto la mayor parte de un banco fijo de preguntas.",
+    "ld_cta": "Leerlo en 128.systems",
+    "s1_science": "La ciencia del aprendizaje de PassReady"
    },
    "slides": [
     {
@@ -630,7 +673,7 @@ window.DECK = {
     },
     {
      "audio": "audio/es/s2.mp3",
-     "dur": 55.46,
+     "dur": 44.66,
      "cues": [
       {
        "t0": 0.0,
@@ -659,12 +702,7 @@ window.DECK = {
       },
       {
        "t0": 33.79,
-       "t1": 44.31,
-       "text": "En la asignatura de Experiencia de Usuario, un modelo local comprueba que el informe está completo, y el profesorado dedica su tiempo a juzgar la calidad."
-      },
-      {
-       "t0": 44.59,
-       "t1": 55.46,
+       "t1": 44.66,
        "text": "Y PassReady, una aplicación de estudio para la nacionalidad que estoy construyendo para mis estudiantes, dice aún es pronto para saberlo, en lugar de fingir."
       }
      ]
@@ -804,10 +842,6 @@ window.DECK = {
     "s2_sd_a": "第 6 周在课堂上现场生成一个屏幕，一分钟就能做出一个像样的设计。",
     "s2_sd_b": "学生事先声明的字号层级、对比度和间距。生成的屏幕要用这些标准来检验，而它从来不合格。评分的对象是决策。",
     "s2_sd_q": "“像对待其他任何资料来源一样对待人工智能：公开使用，并说明如何使用。”",
-    "s2_ux_tag": "用户体验课程 · 2025–26",
-    "s2_ux_head": "为人工智能辅助反馈而设计的评估",
-    "s2_ux_a": "一个在学校设备上本地运行的模型，检查报告是否完整：每个部分、每个字数目标。",
-    "s2_ux_b": "由教师判断质量并给出分数。机器的时间用于检查完整性，人的时间用于专业判断。",
     "s2_pr_tag": "PassReady 应用",
     "s2_pr_head": "我正在开发的入籍考试学习应用，也会展示给我的学生",
     "s2_pr_a": "提取练习、间隔重复、信心评分，每个备考估计都附带 95% 区间。8,820 个音频文件，与本演示的旁白出自同一个本地语音模型。",
@@ -882,7 +916,6 @@ window.DECK = {
     "speed": "语速",
     "s1_work": "我的作品示例",
     "cta_week6": "打开第 6 周",
-    "cta_uxci": "打开课程",
     "cta_pr": "打开 PassReady",
     "s4_shot": "教室查找工具主页：所有楼宇，按字母排列",
     "s4_table": "Geoffrey Manton · 一楼",
@@ -894,7 +927,7 @@ window.DECK = {
     "s6_coding": "坦白说：我自己的编程水平很差。多年与开发人员密切合作，让我理解其中的逻辑；现在由人工智能写代码，我负责指导和核查。",
     "newtab": "在新标签页中打开",
     "cta_git": "在 GitHub 上查看完整历史",
-    "s2_g_teach": "我教授的课程",
+    "s2_g_teach": "我教授的一门课程",
     "s2_g_built": "我开发的应用",
     "s3_conv_label": "分级分数 → 新加坡成绩",
     "s3_conv_mark": "MMU 分级分数",
@@ -962,7 +995,36 @@ window.DECK = {
     "tour_4": "<b>无障碍与深色模式：</b>文字大小和主题在这里，文字稿就在旁边。",
     "tour_ok": "开始",
     "tour_help": "如何使用本演示",
-    "tour_lede": "花几秒钟熟悉一下。所需的一切都在两条栏中，从左上角开始看。"
+    "tour_lede": "花几秒钟熟悉一下。所需的一切都在两条栏中，从左上角开始看。",
+    "appendix_d": "附录 D",
+    "go_d": "附录 D：学习科学",
+    "ld_eyebrow": "附录 D · PassReady 中的学习科学",
+    "ld_title": "建立在记忆的规律之上。每种方法都有名称，并注明出处。",
+    "ld_lede": "人工智能帮助我开发了这款应用。它对学习者的要求来自成熟的学习科学，每种方法都按其本来的名称标明。",
+    "ld_h1": "方法",
+    "ld_h2": "在应用中",
+    "ld_h3": "出处",
+    "ld_1": "提取练习",
+    "ld_1a": "通过回忆答案来学习，而不是反复重读。",
+    "ld_2": "间隔重复",
+    "ld_2a": "答错的题几分钟内再次出现，已掌握的题每次间隔更久。",
+    "ld_3": "遗忘曲线",
+    "ld_3a": "证据会随时间淡化，所以准备度描述的是今天的状态。",
+    "ld_4": "基于信心的评分",
+    "ld_4a": "选择“我会”或“我猜的”。猜对只算一半。",
+    "ld_5": "校准",
+    "ld_5a": "它的预测会与你的模拟考试和真实成绩进行对照。",
+    "ld_6": "错误分析",
+    "ld_6a": "记录你选了哪个错误答案，并指出混淆之处。",
+    "ld_7": "掌握学习",
+    "ld_7a": "只有达到该考试自身的及格线，一个章节才算扎实掌握。",
+    "ld_8": "交错练习",
+    "ld_8a": "主题贯穿各章节，每次练习混合不同内容。",
+    "ld_9": "母语支持",
+    "ld_9a": "每道题下方附第二种语言，并清楚标注。",
+    "ld_measure": "底层还有两个测量思路：准备度周围的置信区间，以及题目曝光控制——当固定题库的大部分题目都已见过时，降低估计的置信度。",
+    "ld_cta": "在 128.systems 上阅读",
+    "s1_science": "PassReady 的学习科学"
    },
    "slides": [
     {
@@ -1013,7 +1075,7 @@ window.DECK = {
     },
     {
      "audio": "audio/zh/s2.mp3",
-     "dur": 50.28,
+     "dur": 41.64,
      "cues": [
       {
        "t0": 0.0,
@@ -1042,12 +1104,7 @@ window.DECK = {
       },
       {
        "t0": 29.64,
-       "t1": 38.0,
-       "text": "在用户体验课程中，由本地模型检查报告是否完整，教师把时间留给判断质量。"
-      },
-      {
-       "t0": 38.28,
-       "t1": 50.28,
+       "t1": 41.64,
        "text": "还有 PassReady，我正在开发、将展示给学生的一款入籍考试学习应用，它会说“现在判断还为时过早”，而不是假装知道。"
       }
      ]
