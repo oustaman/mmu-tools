@@ -1,3 +1,8 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>The Screen Corpus</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -6,12 +11,12 @@
 <style>
   :root {
     --bg:#F5F4F2; --surface:#FFFFFF; --surface-2:#EDEBE8;
-    --ink:#1A1618; --ink-2:#56504F; --ink-3:#8B8382;
+    --ink:#1A1618; --ink-2:#514B4A; --ink-3:#4D4847;
     --rule:#DEDAD7; --rule-2:#C9C3BF;
     --accent:#8C2437; --accent-2:#6E1B2B; --accent-soft:#F2E3E5;
-    --good:#2F6B4F; --good-soft:#E2EDE7;
-    --warn:#8A5D05; --warn-soft:#F4EAD3;
-    --build:#3B4C8A; --build-soft:#E3E6F1;
+    --good:#25553E; --good-soft:#E2EDE7;
+    --warn:#684604; --warn-soft:#F4EAD3;
+    --build:#36467F; --build-soft:#E3E6F1;
     --serif:"Instrument Serif","Iowan Old Style",Georgia,serif;
     --sans:"IBM Plex Sans",-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif;
     --mono:"IBM Plex Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
@@ -20,17 +25,17 @@
   @media (prefers-color-scheme: dark) {
     :root:not([data-theme="light"]) {
       --bg:#161315; --surface:#1E1A1C; --surface-2:#262123;
-      --ink:#F2EEEC; --ink-2:#B9B0AE; --ink-3:#877E7C;
+      --ink:#F2EEEC; --ink-2:#B9B2AF; --ink-3:#B7B2B0;
       --rule:#332C2F; --rule-2:#443A3E;
-      --accent:#E4899A; --accent-2:#F0A8B5; --accent-soft:#3A2126;
-      --good:#7BC5A0; --good-soft:#1E2E27;
+      --accent:#E9A1AE; --accent-2:#F0A8B5; --accent-soft:#3A2126;
+      --good:#7EC6A2; --good-soft:#1E2E27;
       --warn:#DCAE49; --warn-soft:#302713;
-      --build:#9AAAE4; --build-soft:#22263A;
+      --build:#A3B2E6; --build-soft:#22263A;
     }
   }
   :root[data-theme="dark"] {
     --bg:#161315; --surface:#1E1A1C; --surface-2:#262123;
-    --ink:#F2EEEC; --ink-2:#B9B0AE; --ink-3:#877E7C;
+    --ink:#F2EEEC; --ink-2:#B9B2AF; --ink-3:#B7B2B0;
     --rule:#332C2F; --rule-2:#443A3E;
     --accent:#E4899A; --accent-2:#F0A8B5; --accent-soft:#3A2126;
     --good:#7BC5A0; --good-soft:#1E2E27;
@@ -59,7 +64,7 @@
   .sec-num { font-family:var(--mono); font-size:0.8rem; font-weight:500; color:var(--accent); font-variant-numeric:tabular-nums; }
   h2 { font-family:var(--serif); font-weight:400; font-size:clamp(1.8rem,4vw,2.5rem); line-height:1.1; margin:0; letter-spacing:-0.01em; text-wrap:balance; }
   h3 { font-size:1.02rem; font-weight:600; margin:2.25rem 0 0.7rem; letter-spacing:-0.005em; }
-  h4 { font-family:var(--mono); font-size:0.7rem; font-weight:600; letter-spacing:0.12em; text-transform:uppercase; color:var(--ink-3); margin:0 0 0.6rem; }
+  h4, h3.h4 { font-family:var(--mono); font-size:0.7rem; font-weight:600; letter-spacing:0.12em; text-transform:uppercase; color:var(--ink-3); margin:0 0 0.6rem; }
   p,li { max-width:var(--measure); }
   p { margin:0 0 1rem; }
   ul,ol { padding-left:1.15rem; margin:0 0 1rem; }
@@ -84,8 +89,9 @@
 
   .note { border-left:3px solid var(--accent); background:var(--surface); padding:1rem 1.25rem; margin:1.5rem 0; }
   .note.warn { border-left-color:var(--warn); }
-  .note h4 { color:var(--accent); }
-  .note.warn h4 { color:var(--warn); }
+  .note h4, .note h3.h4 { color:var(--accent); }
+  .note.warn h4, .note.warn h3.h4 { color:var(--warn); }
+  code { overflow-wrap:anywhere; }
   .note p:last-child { margin-bottom:0; }
 
   /* dataset cards */
@@ -120,6 +126,14 @@
   footer { border-top:2px solid var(--ink); margin-top:4rem; padding-top:1.25rem; font-family:var(--mono); font-size:0.72rem; color:var(--ink-3); display:flex; flex-wrap:wrap; gap:0.5rem 1.5rem; justify-content:space-between; }
 
   @media (prefers-reduced-motion: reduce) { * { animation:none!important; transition:none!important; } }
+
+  /* Accessibility (WCAG 2.2 audit, September 2026) */
+  .ctl button{min-width:44px;min-height:44px;font-size:.8rem}         /* 2.5.5: the theme button was 25 × 23 */
+  summary{min-height:44px;padding-block:11px}                           /* 2.5.8: a 23px-high row */
+  input[type=checkbox],input[type=radio]{width:24px;height:24px}         /* 2.5.8: 19px boxes */
+  @media (prefers-reduced-motion: reduce){                               /* 2.3.3 */
+    *,*::before,*::after{transition:none!important;animation:none!important;scroll-behavior:auto!important}
+  }
 </style>
 
 <div class="wrap">
@@ -146,7 +160,7 @@
     <p>It also means the annotation effort concentrates in one place, which matters when the realistic budget is one summer.</p>
 
     <div class="note">
-      <h4>File conventions</h4>
+      <h3 class="h4">File conventions</h3>
       <p>JSON with a metadata envelope, matching <code>facilities/campus_rooms_data.json</code> — <code>dataset_name</code>, <code>extraction_date</code>, <code>source_citation</code> per record. The provenance fields aren't bureaucracy here: for the screen corpus they're the copyright position, and for the rationale bank they're the moderation trail.</p>
     </div>
   </section>
@@ -266,13 +280,13 @@
     <div class="sec-head"><span class="sec-num">04</span><h2>Two things to settle before capturing</h2></div>
 
     <div class="note warn">
-      <h4>Copyright, and where the corpus lives</h4>
+      <h3 class="h4">Copyright, and where the corpus lives</h3>
       <p>Screenshots of commercial interfaces for classroom teaching sit under fair dealing for illustration for instruction — but that depends on the audience being your students, not the open web. Your module instruments have historically been served from a public webroot, and a public gallery of 140 annotated commercial screenshots is a materially different thing from a teaching exhibit.</p>
       <p><strong>Put the corpus behind Moodle authentication</strong>, or keep the images there and let the public instrument reference them by id. Record <code>source</code>, <code>captured_date</code> and <code>licence_note</code> on every record from the first capture — retrofitting provenance across 140 records is miserable, and you'd be doing it under pressure.</p>
     </div>
 
     <div class="note">
-      <h4>Screens go stale, so decide the refresh now</h4>
+      <h3 class="h4">Screens go stale, so decide the refresh now</h3>
       <p>A meaningful slice of a 140-screen corpus will be wrong within eighteen months — apps redesign, and a teardown of a layout that no longer exists undercuts you in the room. The <code>captured_date</code> field makes this manageable if the instrument surfaces it: show the capture date on every exhibit, and let a student see they're looking at something from two years ago. That's honest, it's a small build, and it turns staleness from an embarrassment into a discussion about how fast the field moves.</p>
     </div>
   </section>

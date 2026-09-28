@@ -7,21 +7,21 @@
 <style>
   :root{
     --bg:#F5F4F2; --surface:#FFFFFF; --surface-2:#EDEBE8;
-    --ink:#1A1618; --ink-2:#56504F; --ink-3:#8B8382;
-    --line:#DFDBD7; --line-2:#C9C3BE;
+    --ink:#1A1618; --ink-2:#514B4A; --ink-3:#4D4847;
+    --line:#DFDBD7; --line-2:#8E8685;
     --lec:#8C2437; --lec-soft:#F6E8EA;
-    --wsh:#1D5C7A; --wsh-soft:#E4EEF3;
-    --hnd:#2C5F3E; --hnd-soft:#E3EFE7;
+    --wsh:#1A526D; --wsh-soft:#E4EEF3;
+    --hnd:#285638; --hnd-soft:#E3EFE7;
     --mono:ui-monospace,"SF Mono",Menlo,Consolas,monospace;
     --sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Inter,Roboto,sans-serif;
   }
   html[data-theme="dark"]{
     --bg:#151314; --surface:#1E1B1C; --surface-2:#262223;
-    --ink:#EDE9E7; --ink-2:#B5AEAB; --ink-3:#847C79;
-    --line:#332E2F; --line-2:#463F40;
-    --lec:#E08A9B; --lec-soft:#332226;
+    --ink:#EDE9E7; --ink-2:#B9B2AF; --ink-3:#B7B2B0;
+    --line:#332E2F; --line-2:#7A7372;
+    --lec:#E69FAD; --lec-soft:#332226;
     --wsh:#7FBEDC; --wsh-soft:#16262E;
-    --hnd:#7FBF97; --hnd-soft:#1C2A22;
+    --hnd:#83C19A; --hnd-soft:#1C2A22;
   }
   *{box-sizing:border-box}
   body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);line-height:1.5}
@@ -264,6 +264,14 @@
     /* The way in to the week 1 staff sheet. It is meant to be invisible: it looks
      and behaves like the word around it, and it is out of the tab order. */
   .qlink{color:inherit;text-decoration:none;cursor:text}
+
+  /* Accessibility (WCAG 2.2 audit, September 2026) */
+  .ctl button{min-width:44px;min-height:44px;font-size:.8rem}         /* 2.5.5: the theme button was 25 × 23 */
+  summary{min-height:44px;padding-block:11px}                           /* 2.5.8: a 23px-high row */
+  input[type=checkbox],input[type=radio]{width:24px;height:24px}         /* 2.5.8: 19px boxes */
+  @media (prefers-reduced-motion: reduce){                               /* 2.3.3 */
+    *,*::before,*::after{transition:none!important;animation:none!important;scroll-behavior:auto!important}
+  }
 </style>
 </head>
 <body>

@@ -451,14 +451,14 @@
         '<feDisplacementMap in="SourceGraphic" in2="n" scale="2.2"/></filter>' +
       '<filter id="pn2"><feTurbulence type="fractalNoise" baseFrequency="0.055" numOctaves="3" seed="11" result="n"/>' +
         '<feDisplacementMap in="SourceGraphic" in2="n" scale="2.2"/></filter>' +
-      '<linearGradient id="desk" x1="0" y1="0" x2="1" y2="1">' +
+      '<linearGradient id="art-desk" x1="0" y1="0" x2="1" y2="1">' +
         '<stop offset="0" stop-color="#7E7269"/><stop offset="1" stop-color="#5E554E"/></linearGradient>' +
       '<radialGradient id="vig" cx="50%" cy="45%" r="72%">' +
         '<stop offset="55%" stop-color="#000" stop-opacity="0"/><stop offset="100%" stop-color="#000" stop-opacity=".34"/></radialGradient>' +
       '<filter id="sh" x="-20%" y="-20%" width="150%" height="150%">' +
         '<feDropShadow dx="3" dy="5" stdDeviation="5" flood-opacity=".35"/></filter>' +
     '</defs>' +
-    '<rect width="600" height="300" fill="url(#desk)"/>' +
+    '<rect width="600" height="300" fill="url(#art-desk)"/>' +
     '<g transform="rotate(-5 190 150)"><rect x="52" y="18" width="252" height="268" fill="#FBFAF7" filter="url(#sh)"/>' +
       sheetA(96, 54) + '</g>' +
     '<g transform="rotate(6.5 500 150)"><rect x="374" y="10" width="256" height="272" fill="#F7F5F1" filter="url(#sh)"/>' +
@@ -475,7 +475,8 @@
       '<rect width="600" height="430" fill="#FFFFFF"/>' +
       '<g transform="translate(56,16) scale(1.05)">' + s + '</g>' +
       t(148, 418, 'Desktop', { s: 9.5, a: 'middle' }) +
-      '<g transform="translate(390,164) scale(0.62)">' + s + '</g>' +
+      /* the second copy gets its own clip ids: the same id twice in one page is invalid */
+      '<g transform="translate(390,164) scale(0.62)">' + s.replace(/\bic(\d+)\b/g, 'ic$1m') + '</g>' +
       t(445, 418, 'Mobile', { s: 9.5, a: 'middle' }));
   })();
 
