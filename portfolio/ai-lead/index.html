@@ -505,11 +505,25 @@
   .ld-t{margin:0 0 14px;font-size:1.25rem;font-weight:700;letter-spacing:-.015em}
   @media (max-width:980px){ .canvas{grid-template-columns:1fr 1fr} .cv-pr{grid-column:1 / -1} .cv-made{grid-column:1 / -1} .cv-pr ul{grid-template-columns:1fr 1fr} }
   @media (max-width:640px){ .canvas{grid-template-columns:1fr} .cv-vision{flex-direction:column!important;align-items:flex-start} .cv-pr ul{grid-template-columns:1fr} .cv-time ol{flex-direction:column} }
+
+  /* the learning science is a panel, and says so */
+  .sci{display:flex;align-items:center;gap:8px;margin:0;font-size:.9rem;font-weight:600;color:var(--ink)}
+  .sci svg,.panel-tag svg{width:16px;height:16px;flex:none;stroke:var(--lec);fill:none;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
+  .work .grid button.has-panel{position:relative}
+  .panel-tag{position:absolute;top:18px;right:18px;display:inline-flex;align-items:center;gap:6px;padding:4px 9px;border-radius:999px;
+    background:#FFFFFF;border:1px solid rgba(40,30,0,.2);font-style:normal;font-size:.76rem;font-weight:650;color:#1A1618}
+  .panel-tag i{font-style:normal}
+  .ld-cap{position:sticky;bottom:0;order:9;margin:0;padding:0 16px 10px;text-align:center;pointer-events:none}
+  .ld-cap:empty,.nocaps .ld-cap{display:none}
+  .ld-cap span{display:inline;background:rgba(20,17,18,.92);color:#fff;padding:5px 10px;border-radius:6px;font-size:1.05rem;line-height:1.7}
+  #ldDlg[open]{display:flex;flex-direction:column}
+  body.ld-auto .player .cap{visibility:hidden}   /* the panel carries the caption meanwhile */
 </style>
 </head>
 <body data-view="a">
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
   <symbol id="i-ext" viewBox="0 0 16 16"><path d="M6 3h7v7M13 3 3.5 12.5"/></symbol>
+  <symbol id="i-panel" viewBox="0 0 16 16"><path d="M2.5 3h11v10h-11zM2.5 6h11M5 8.5h6M5 10.5h4"/></symbol>
   <symbol id="i-go" viewBox="0 0 16 16"><path d="M2.5 8h11M9 3.5 13.5 8 9 12.5"/></symbol>
 </svg>
 <header>
@@ -564,7 +578,7 @@
           <div class="grid">
             <button data-go="1"><img src="../assets/sd-week6.webp" alt=""><span data-t="s2_sd_tag"></span></button>
             <button data-go="1"><img src="../assets/passready.webp" alt=""><span data-t="s2_pr_tag"></span></button>
-            <button data-ld><img src="../assets/passready-science.webp" alt=""><span data-t="s1_science"></span></button>
+            <button data-ld aria-haspopup="dialog" class="has-panel"><img src="../assets/passready-science.webp" alt=""><span data-t="s1_science"></span><em class="panel-tag"><svg aria-hidden="true"><use href="#i-panel"/></svg><i data-t="opens_panel"></i></em></button>
             <button data-go="3"><img src="../assets/rf-index.webp" alt=""><span>MMU Room Finder</span></button>
           </div>
         </div>
@@ -604,7 +618,8 @@
             <h3 data-t="s2_pr_head"></h3>
             <p class="side"><span class="va" data-t="s2_pr_a"></span><span class="vb" data-t="s2_pr_b"></span></p>
             <a class="cta" href="https://oustaman.github.io/mmu-tools/modules/sd/passready.html" target="_blank" rel="noopener"><span data-t="cta_pr_teach"></span><svg><use href="#i-ext"/></svg></a>
-            <button class="cta alt" data-ld><span data-t="go_d"></span><svg><use href="#i-go"/></svg></button>
+            <p class="sci" data-at="1-6"><svg aria-hidden="true"><use href="#i-panel"/></svg><span data-t="pr_sci"></span></p>
+            <button class="cta alt" data-ld aria-haspopup="dialog"><span data-t="go_d"></span><svg><use href="#i-panel"/></svg></button>
           </div>
         </article>
       </div></section>
@@ -791,7 +806,7 @@
         <article class="art"><img src="../assets/sd-week6.webp" alt="" loading="lazy"><div><h3 data-t="ax_2h"></h3><p data-t="ax_2b"></p>
           <div class="ctas"><a class="cta" href="https://oustaman.github.io/mmu-tools/modules/sd/" target="_blank" rel="noopener"><span data-t="ax_2c"></span><svg><use href="#i-ext"/></svg></a><a class="cta alt" href="https://github.com/oustaman/mmu-tools/tree/main/modules/sd" target="_blank" rel="noopener"><span data-t="ax_2s"></span><svg><use href="#i-ext"/></svg></a></div></div></article>
         <article class="art"><img src="../assets/passready-teaching.webp" alt="" loading="lazy"><div><h3 data-t="ax_3h"></h3><p data-t="ax_3b"></p>
-          <div class="ctas"><a class="cta" href="https://oustaman.github.io/mmu-tools/modules/sd/passready.html" target="_blank" rel="noopener"><span data-t="ax_3c"></span><svg><use href="#i-ext"/></svg></a><button class="cta alt" data-ld><span data-t="go_d"></span><svg><use href="#i-go"/></svg></button></div></div></article>
+          <div class="ctas"><a class="cta" href="https://oustaman.github.io/mmu-tools/modules/sd/passready.html" target="_blank" rel="noopener"><span data-t="ax_3c"></span><svg><use href="#i-ext"/></svg></a><button class="cta alt" data-ld aria-haspopup="dialog"><span data-t="go_d"></span><svg><use href="#i-panel"/></svg></button></div></div></article>
         <article class="art"><img src="../assets/castlegate-finder.webp" alt="" loading="lazy"><div><h3 data-t="ax_4h"></h3><p data-t="ax_4b"></p>
           <div class="ctas"><a class="cta" href="https://oustaman.github.io/mmu-tools/modules/sd/room-finder/" target="_blank" rel="noopener"><span data-t="ax_4c"></span><svg><use href="#i-ext"/></svg></a></div></div></article>
       </div>
@@ -834,6 +849,7 @@
 
 <dialog id="ldDlg" aria-labelledby="ldTitle">
   <div class="dh"><h2 id="ldTitle" data-t="ld_dlg"></h2><button class="btn" data-close data-t="close"></button></div>
+  <p class="ld-cap" id="ldCap" aria-hidden="true"></p>
   <div class="db">
     <p class="ld-t" data-t="ld_title"></p>
       <div class="ld-wrap">
@@ -975,6 +991,7 @@
   function count() { $('count').textContent = short(cur); $('count').setAttribute('aria-label', label(cur)); }
   function go(n, keepPlaying) {
     n = Math.max(0, Math.min(slides.length - 1, n));
+    if (ldAuto) closeLd();
     slides[cur].classList.remove('on'); cur = n; slides[cur].classList.add('on');
     slides[cur].scrollTop = 0;
     $('dots').querySelectorAll('button').forEach((b, i) => b.setAttribute('aria-current', i === cur));
@@ -994,7 +1011,16 @@
   $('prev').onclick = () => go(cur - 1, playing);
   $('next').onclick = () => go(cur + 1, playing);
   document.querySelectorAll('[data-go]').forEach(b => b.onclick = () => go(+b.dataset.go));
-  document.querySelectorAll('[data-ld]').forEach(b => b.onclick = () => $('ldDlg').showModal());   // the learning science panel
+  // The learning science panel: opened by its buttons, or by the narration for one line
+  let ldAuto = false, ldFrom = null;
+  function openLd(auto) {
+    if (document.querySelector('dialog[open]')) return;
+    ldAuto = !!auto; ldFrom = document.activeElement; $('ldDlg').showModal();
+    if (ldAuto) { $('ldCap').innerHTML = $('cap').innerHTML; document.body.classList.add('ld-auto'); }
+  }
+  function closeLd() { if ($('ldDlg').open) $('ldDlg').close(); }
+  $('ldDlg').addEventListener('close', () => { $('ldCap').innerHTML = ''; document.body.classList.remove('ld-auto'); if (ldAuto && ldFrom && ldFrom.focus) ldFrom.focus(); ldAuto = false; });
+  document.querySelectorAll('[data-ld]').forEach(b => b.onclick = () => openLd(false));
 
   /* ---------- narration ---------- */
   function track() { return D.langs[lang].slides[cur]; }
@@ -1042,7 +1068,8 @@
 
   // What the narration does to the page, sentence by sentence.
   const ACTIONS = {
-    '1-4': () => setView('b'),       // "We mark the students' decisions, not the machine's output."
+    '1-4': () => setView('b'),
+    '1-6': () => openLd(true),     // "...learning science, which you can view later, here."       // "We mark the students' decisions, not the machine's output."
     '2-3': () => setMark(68),        // "Choose a mark, and it gives the Singapore grade..."
     '3-3': () => pickRoom('104'),    // "...like room one-oh-four, here."
     '4-2': () => cyclePhases()       // "map, then pilot, then evaluate"
@@ -1050,10 +1077,12 @@
   function clearLit() { document.querySelectorAll('.lit').forEach(e => e.classList.remove('lit')); }
   function onCue(s, i) {
     clearLit();
+    if (ldAuto && `${s}-${i}` !== '1-6') closeLd();   // the narrated panel closes when its line ends
     const t = track();
     $('cap').innerHTML = '';
     if (i < 0 || !t) { markTranscript(-1, -1); return; }
     const sp = document.createElement('span'); sp.textContent = t.cues[i].text; $('cap').appendChild(sp);
+    $('ldCap').innerHTML = ldAuto ? $('cap').innerHTML : '';   // captions stay visible while the narration holds the panel open
     slides[s].querySelectorAll(`[data-at="${s}-${i}"]`).forEach(e => e.classList.add('lit'));
     const a = ACTIONS[`${s}-${i}`]; if (a) a();
     markTranscript(s, i);

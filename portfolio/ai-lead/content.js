@@ -180,7 +180,7 @@ window.DECK = {
     "tour_ok": "Start",
     "tour_help": "How to use this deck",
     "tour_lede": "Five slides answer the brief's five questions, in order, and Appendix A puts them on one page. Everything you need is in two bars, read from the top left.",
-    "go_d": "The learning science",
+    "go_d": "See the learning science",
     "ld_title": "Built on how memory works. Each technique named, and cited.",
     "ld_lede": "AI helped build the app. What it asks of a learner comes from established learning science, each technique named for what it is.",
     "ld_h1": "Technique",
@@ -239,7 +239,9 @@ window.DECK = {
     "cv_time": "Over two years",
     "cv_made_h": "Made with AI, as the brief asks",
     "cv_made": "Every tool, check and risk is logged, and the git history is public.",
-    "cv_pr_h": "Principles, and where they show"
+    "cv_pr_h": "Principles, and where they show",
+    "pr_sci": "Built on nine learning-science techniques, each cited",
+    "opens_panel": "Opens a panel"
    },
    "slides": [
     {
@@ -290,7 +292,7 @@ window.DECK = {
     },
     {
      "audio": "audio/en/s2.mp3",
-     "dur": 34.21,
+     "dur": 38.39,
      "cues": [
       {
        "t0": 0.0,
@@ -319,8 +321,13 @@ window.DECK = {
       },
       {
        "t0": 26.2,
-       "t1": 34.21,
-       "text": "And PassReady, a naturalisation study app I'm building to show my students, says too early to call, rather than pretend."
+       "t1": 33.65,
+       "text": "And PassReady, a learning app I'm building to showcase to my students, says too early to call, rather than pretend."
+      },
+      {
+       "t0": 33.93,
+       "t1": 38.39,
+       "text": "It's built on plenty of learning science, which you can view later, here."
       }
      ]
     },
@@ -606,7 +613,7 @@ window.DECK = {
     "tour_ok": "Empezar",
     "tour_help": "Cómo usar esta presentación",
     "tour_lede": "Cinco diapositivas responden, en orden, a las cinco preguntas de la convocatoria, y el apéndice A las reúne en una página. Todo lo que necesitas está en dos barras, leídas desde arriba a la izquierda.",
-    "go_d": "La ciencia del aprendizaje",
+    "go_d": "Ver la ciencia del aprendizaje",
     "ld_title": "Construida sobre cómo funciona la memoria. Cada técnica, nombrada y citada.",
     "ld_lede": "La IA ayudó a construir la aplicación. Lo que pide a quien estudia procede de la ciencia del aprendizaje consolidada, y cada técnica se nombra por lo que es.",
     "ld_h1": "Técnica",
@@ -665,7 +672,9 @@ window.DECK = {
     "cv_time": "En dos años",
     "cv_made_h": "Hecho con IA, como pide la convocatoria",
     "cv_made": "Cada herramienta, comprobación y riesgo queda registrado, y el historial de git es público.",
-    "cv_pr_h": "Principios, y dónde se ven"
+    "cv_pr_h": "Principios, y dónde se ven",
+    "pr_sci": "Basada en nueve técnicas de la ciencia del aprendizaje, todas citadas",
+    "opens_panel": "Abre un panel"
    },
    "slides": [
     {
@@ -716,7 +725,7 @@ window.DECK = {
     },
     {
      "audio": "audio/es/s2.mp3",
-     "dur": 45.15,
+     "dur": 49.95,
      "cues": [
       {
        "t0": 0.0,
@@ -745,8 +754,13 @@ window.DECK = {
       },
       {
        "t0": 34.28,
-       "t1": 45.15,
-       "text": "Y PassReady, una aplicación de estudio para la nacionalidad que estoy construyendo para mis estudiantes, dice aún es pronto para saberlo, en lugar de fingir."
+       "t1": 44.59,
+       "text": "Y PassReady, una aplicación de aprendizaje que estoy construyendo para mostrar a mis estudiantes, dice aún es pronto para saberlo, en lugar de fingir."
+      },
+      {
+       "t0": 44.87,
+       "t1": 49.95,
+       "text": "Se basa en mucha ciencia del aprendizaje, que puedes ver más tarde, aquí."
       }
      ]
     },
@@ -1032,7 +1046,7 @@ window.DECK = {
     "tour_ok": "开始",
     "tour_help": "如何使用本演示",
     "tour_lede": "五张幻灯片按顺序回答申请要求中的五个问题，附录 A 把它们汇总在一页上。你需要的一切都在两条工具栏里，从左上角开始看。",
-    "go_d": "学习科学",
+    "go_d": "查看学习科学",
     "ld_title": "建立在记忆的规律之上。每种方法都有名称，并注明出处。",
     "ld_lede": "人工智能帮助我开发了这款应用。它对学习者的要求来自成熟的学习科学，每种方法都按其本来的名称标明。",
     "ld_h1": "方法",
@@ -1091,7 +1105,9 @@ window.DECK = {
     "cv_time": "两年计划",
     "cv_made_h": "按申请要求，借助人工智能制作",
     "cv_made": "每个工具、每次核查和每个风险都有记录，git 历史公开可查。",
-    "cv_pr_h": "原则，以及体现在哪里"
+    "cv_pr_h": "原则，以及体现在哪里",
+    "pr_sci": "基于九种学习科学方法，每种都注明出处",
+    "opens_panel": "打开面板"
    },
    "slides": [
     {
@@ -1142,7 +1158,7 @@ window.DECK = {
     },
     {
      "audio": "audio/zh/s2.mp3",
-     "dur": 42.88,
+     "dur": 47.68,
      "cues": [
       {
        "t0": 0.0,
@@ -1171,8 +1187,13 @@ window.DECK = {
       },
       {
        "t0": 30.88,
-       "t1": 42.88,
-       "text": "还有 PassReady，我正在开发、将展示给学生的一款入籍考试学习应用，它会说“现在判断还为时过早”，而不是假装知道。"
+       "t1": 42.96,
+       "text": "还有 PassReady，我正在开发、将展示给学生的一款学习应用，它会说“现在判断还为时过早”，而不是假装知道。"
+      },
+      {
+       "t0": 43.24,
+       "t1": 47.68,
+       "text": "它运用了大量学习科学，你可以稍后在这里查看。"
       }
      ]
     },
