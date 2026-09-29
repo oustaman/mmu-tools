@@ -518,12 +518,16 @@
   .ld-cap span{display:inline;background:rgba(20,17,18,.92);color:#fff;padding:5px 10px;border-radius:6px;font-size:1.05rem;line-height:1.7}
   #ldDlg[open]{display:flex;flex-direction:column}
   body.ld-auto .player .cap{visibility:hidden}   /* the panel carries the caption meanwhile */
+  #restart .ico{width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+  #restart:disabled{opacity:.45;cursor:default}
+  @media (max-width:360px){ .foot{gap:4px;padding:6px 8px} #speedCycle{min-width:44px} }
 </style>
 </head>
 <body data-view="a">
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
   <symbol id="i-ext" viewBox="0 0 16 16"><path d="M6 3h7v7M13 3 3.5 12.5"/></symbol>
   <symbol id="i-panel" viewBox="0 0 16 16"><path d="M2.5 3h11v10h-11zM2.5 6h11M5 8.5h6M5 10.5h4"/></symbol>
+  <symbol id="i-restart" viewBox="0 0 16 16"><path d="M3 8a5 5 0 1 0 1.6-3.7M3 2.5v3h3"/></symbol>
   <symbol id="i-go" viewBox="0 0 16 16"><path d="M2.5 8h11M9 3.5 13.5 8 9 12.5"/></symbol>
 </svg>
 <header>
@@ -822,6 +826,7 @@
   <div class="foot">
     <div class="pgroup">
     <button class="btn play" id="play"><span id="playIco" aria-hidden="true">▶</span> <span id="playLab" data-t="play"></span></button>
+    <button class="btn" id="restart" data-tl="restart"><svg class="ico" aria-hidden="true"><use href="#i-restart"/></svg></button>
     <button class="btn" id="capBtn" aria-pressed="true"><span data-t="captions" class="capLong"></span><span class="capShort" aria-hidden="true">CC</span></button>
     <span class="sr" id="speedLab" data-t="speed">Speed</span>
     <div class="seg speed" role="group" aria-labelledby="speedLab" id="speed">
@@ -999,6 +1004,14 @@
     history.replaceState(null, '', location.search + `#${cur + 1}`);
     loadAudio();
     if (keepPlaying && track() && track().audio) play(); else if (!keepPlaying) stop();
+    $('restart').disabled = !(track() && track().audio);   // appendices have no narration
+  }
+  // Restart: this slide's narration from its first word
+  function restart() {
+    const t = track(); if (!t || !t.audio) return;
+    if (ldAuto) closeLd();
+    audio.currentTime = 0; cueIdx = -1; onCue(cur, -1); $('progBar').style.width = '0';
+    play();
   }
   slides.forEach((_, i) => {
     if (i === 5) { const l = document.createElement('span'); l.className = 'aplab'; l.dataset.t = 'appendices'; $('dots').appendChild(l); }
@@ -1039,6 +1052,7 @@
   }
   function stop() { playing = false; audio.pause(); setPlayUI(); }
   function setPlayUI() { $('playIco').textContent = playing ? '❚❚' : '▶'; $('playLab').textContent = playing ? ui('pause') : ui('play'); $('play').setAttribute('aria-label', playing ? ui('pause') : ui('play')); }
+  $('restart').onclick = restart;
   $('play').onclick = () => {
     if (playing) { stop(); return; }
     if (!track() || !track().audio) go(0);
@@ -1242,6 +1256,7 @@
     else if (e.key === ' ' && e.target.tagName !== 'BUTTON' && e.target.tagName !== 'A') { e.preventDefault(); $('play').click(); }
     else if (e.key.toLowerCase() === 't') openTs();
     else if (e.key.toLowerCase() === 'c') $('capBtn').click();
+    else if (e.key.toLowerCase() === 'r') restart();
   });
   let sx = null;
   $('stage').addEventListener('touchstart', e => { sx = e.touches[0].clientX; }, { passive: true });

@@ -16,7 +16,7 @@ window.DECK = {
     "next": "Next",
     "close": "Close",
     "counter_of": "of",
-    "keys": "← → to move · Space to play · T transcript · C captions",
+    "keys": "← → to move · Space to play · T transcript · C captions · R restart",
     "s1_eyebrow": "1 · Vision for AI within the Faculty",
     "s1_title": "AI in the open",
     "s1_lede": "Not banned. Not hidden. Logged, checked and taught, the way we already treat any other source.",
@@ -241,7 +241,8 @@ window.DECK = {
     "cv_made": "Every tool, check and risk is logged, and the git history is public.",
     "cv_pr_h": "Principles, and where they show",
     "pr_sci": "Built on nine learning-science techniques, each cited",
-    "opens_panel": "Opens a panel"
+    "opens_panel": "Opens a panel",
+    "restart": "Restart this slide's narration"
    },
    "slides": [
     {
@@ -449,7 +450,7 @@ window.DECK = {
     "next": "Siguiente",
     "close": "Cerrar",
     "counter_of": "de",
-    "keys": "← → para moverse · Espacio para reproducir · T transcripción · C subtítulos",
+    "keys": "← → para moverse · Espacio para reproducir · T transcripción · C subtítulos · R reiniciar",
     "s1_eyebrow": "1 · Visión de la IA en la Facultad",
     "s1_title": "La IA a la vista",
     "s1_lede": "Ni prohibida ni escondida. Registrada, comprobada y enseñada, como ya tratamos cualquier otra fuente.",
@@ -674,7 +675,8 @@ window.DECK = {
     "cv_made": "Cada herramienta, comprobación y riesgo queda registrado, y el historial de git es público.",
     "cv_pr_h": "Principios, y dónde se ven",
     "pr_sci": "Basada en nueve técnicas de la ciencia del aprendizaje, todas citadas",
-    "opens_panel": "Abre un panel"
+    "opens_panel": "Abre un panel",
+    "restart": "Reiniciar la narración de esta diapositiva"
    },
    "slides": [
     {
@@ -883,7 +885,7 @@ window.DECK = {
     "close": "关闭",
     "counter_of": "/",
     "lang": "语言",
-    "keys": "← → 翻页 · 空格键播放 · T 文字稿 · C 字幕",
+    "keys": "← → 翻页 · 空格键播放 · T 文字稿 · C 字幕 · R 从头播放",
     "trans_note": "注意：机器翻译，未经母语者审核。",
     "s1_eyebrow": "1 · 学院人工智能愿景",
     "s1_title": "开放地使用人工智能",
@@ -1107,7 +1109,8 @@ window.DECK = {
     "cv_made": "每个工具、每次核查和每个风险都有记录，git 历史公开可查。",
     "cv_pr_h": "原则，以及体现在哪里",
     "pr_sci": "基于九种学习科学方法，每种都注明出处",
-    "opens_panel": "打开面板"
+    "opens_panel": "打开面板",
+    "restart": "从头播放本页旁白"
    },
    "slides": [
     {
