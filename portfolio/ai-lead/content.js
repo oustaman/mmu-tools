@@ -219,13 +219,15 @@ window.DECK = {
     "ld_9": "First-language support",
     "ld_9a": "A second language under each question, clearly labelled.",
     "ld_measure": "Two measurement ideas sit underneath: a confidence interval around readiness, and item-exposure control, which lowers the estimate's confidence once most of a fixed question bank has been seen.",
-    "ld_cta": "Read it on 128.systems",
     "s1_science": "PassReady's learning science",
     "s5_close": "Not banned. Not hidden. Logged, checked and taught, across the Faculty.",
     "display": "Display",
     "textsize": "Text size",
     "darkmode": "Dark mode",
-    "go_c": "Appendix C: My practice"
+    "go_c": "Appendix C: My practice",
+    "brand_who": "Michail Oustamanolakis · MMU",
+    "me": "Michail Oustamanolakis",
+    "ld_cap": "In the app, after a right answer: Knew it, Guessed, or Ask me again."
    },
    "slides": [
     {
@@ -631,13 +633,15 @@ window.DECK = {
     "ld_9": "Apoyo en la primera lengua",
     "ld_9a": "Una segunda lengua bajo cada pregunta, claramente señalada.",
     "ld_measure": "Debajo hay dos ideas de medición: un intervalo de confianza alrededor de la preparación y el control de exposición de ítems, que reduce la confianza de la estimación cuando ya se ha visto la mayor parte de un banco fijo de preguntas.",
-    "ld_cta": "Leerlo en 128.systems",
     "s1_science": "La ciencia del aprendizaje de PassReady",
     "s5_close": "Ni prohibida ni escondida. Registrada, comprobada y enseñada, en toda la Facultad.",
     "display": "Visualización",
     "textsize": "Tamaño del texto",
     "darkmode": "Modo oscuro",
-    "go_c": "Apéndice C: mi práctica"
+    "go_c": "Apéndice C: mi práctica",
+    "brand_who": "Michail Oustamanolakis · MMU",
+    "me": "Michail Oustamanolakis",
+    "ld_cap": "En la aplicación, tras una respuesta correcta: Lo sabía, Adiviné o Pregúntame otra vez."
    },
    "slides": [
     {
@@ -846,7 +850,7 @@ window.DECK = {
     "s1_eyebrow": "学院人工智能教育负责人 · 意向申请",
     "s1_title": "开放地使用人工智能",
     "s1_lede": "不禁止，也不隐藏。像对待任何其他资料来源一样：记录、核查、教授。",
-    "s1_who": "Michail Oustamanolakis · 设计与系统战略讲师",
+    "s1_who": "歐龍藝 · 设计与系统战略讲师",
     "s1_why": "为什么这不是 PowerPoint",
     "s1_c1": "任何浏览器都能打开",
     "s1_c2": "自动适配手机",
@@ -1043,57 +1047,59 @@ window.DECK = {
     "ld_9": "母语支持",
     "ld_9a": "每道题下方附第二种语言，并清楚标注。",
     "ld_measure": "底层还有两个测量思路：准备度周围的置信区间，以及题目曝光控制——当固定题库的大部分题目都已见过时，降低估计的置信度。",
-    "ld_cta": "在 128.systems 上阅读",
     "s1_science": "PassReady 的学习科学",
     "s5_close": "不禁止，也不隐藏。在整个学院范围内：记录、核查、教授。",
     "display": "显示",
     "textsize": "文字大小",
     "darkmode": "深色模式",
-    "go_c": "附录 C：我的实践"
+    "go_c": "附录 C：我的实践",
+    "brand_who": "歐龍藝 · MMU",
+    "me": "歐龍藝",
+    "ld_cap": "在应用中，答对之后：我会、我猜的，或再问我一次。"
    },
    "slides": [
     {
      "audio": "audio/zh/s1.mp3",
-     "dur": 43.96,
+     "dur": 45.64,
      "cues": [
       {
        "t0": 0.0,
-       "t1": 5.96,
-       "text": "我是 Mike Oustamanolakis，教授设计与系统战略方面的课程。"
+       "t1": 7.64,
+       "text": "我叫 Mike Oustamanolakis，中文名叫欧龙艺，教授设计与系统战略方面的课程。"
       },
       {
-       "t0": 6.24,
-       "t1": 13.0,
+       "t0": 7.92,
+       "t1": 14.68,
        "text": "我把“使用人工智能”的邀请当真了，所以这是一份带旁白的网页演示，而不是 PowerPoint。"
       },
       {
-       "t0": 13.28,
-       "t1": 15.08,
+       "t0": 14.96,
+       "t1": 16.76,
        "text": "五张幻灯片，三分钟。"
       },
       {
-       "t0": 15.36,
-       "t1": 22.28,
+       "t0": 17.04,
+       "t1": 23.96,
        "text": "它能在任何浏览器中运行，自动适配手机，并附有完整的文字稿。"
       },
       {
-       "t0": 22.56,
-       "t1": 27.48,
+       "t0": 24.24,
+       "t1": 29.16,
        "text": "它的 git 历史记录清楚地展示了它是怎么做出来的。"
       },
       {
-       "t0": 27.76,
-       "t1": 34.8,
+       "t0": 29.44,
+       "t1": 36.48,
        "text": "你还可以用西班牙语或普通话观看，而这两种语言我都不会说。"
       },
       {
-       "t0": 35.08,
-       "t1": 39.44,
+       "t0": 36.76,
+       "t1": 41.12,
        "text": "我对学院的愿景很简单：开放地使用人工智能。"
       },
       {
-       "t0": 39.72,
-       "t1": 43.96,
+       "t0": 41.4,
+       "t1": 45.64,
        "text": "不禁止，也不隐藏：记录、核查、教授。"
       }
      ]
