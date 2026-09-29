@@ -34,7 +34,7 @@ window.DECK = {
     "s2_sd_tag": "Screen Design module · 2026–27",
     "s2_sd_head": "Any tool; a module that updates dynamically each day towards submission",
     "s2_sd_a": "Generates a competent screen in a minute, live in the room, in week 6.",
-    "s2_sd_b": "The type scale, contrast and spacing the student declared in advance. The generated screen is checked against them, and never passes. The decisions are what is marked.",
+    "s2_sd_b": "The type scale, contrast and spacing the student declared in advance, used to check the generated screen. What is marked is the student's decisions, not the machine's output.",
     "s2_sd_q": "“Treat AI like any other source: use it openly, and say how.”",
     "s2_pr_tag": "PassReady app",
     "s2_pr_head": "A naturalisation study app I'm building, and will be showing to my students",
@@ -271,7 +271,7 @@ window.DECK = {
     },
     {
      "audio": "audio/en/s2.mp3",
-     "dur": 34.42,
+     "dur": 34.21,
      "cues": [
       {
        "t0": 0.0,
@@ -295,12 +295,12 @@ window.DECK = {
       },
       {
        "t0": 22.44,
-       "t1": 26.13,
-       "text": "It never passes. The decisions are what we mark."
+       "t1": 25.92,
+       "text": "We mark the students' decisions, not the machine's output."
       },
       {
-       "t0": 26.41,
-       "t1": 34.42,
+       "t0": 26.2,
+       "t1": 34.21,
        "text": "And PassReady, a naturalisation study app I'm building to show my students, says too early to call, rather than pretend."
       }
      ]
@@ -441,7 +441,7 @@ window.DECK = {
     "s2_sd_tag": "Asignatura de Diseño de Pantallas · 2026–27",
     "s2_sd_head": "Cualquier herramienta; una asignatura que se actualiza cada día hasta la entrega",
     "s2_sd_a": "Genera una pantalla competente en un minuto, en directo en el aula, en la semana 6.",
-    "s2_sd_b": "La escala tipográfica, el contraste y el espaciado que el estudiante declaró de antemano. La pantalla generada se comprueba con ellos y nunca los cumple. Lo que se evalúa son las decisiones.",
+    "s2_sd_b": "La escala tipográfica, el contraste y el espaciado que el estudiante declaró de antemano sirven para comprobar la pantalla generada. Lo que se evalúa son las decisiones del estudiante, no el resultado de la máquina.",
     "s2_sd_q": "«Trata la IA como cualquier otra fuente: úsala abiertamente y explica cómo».",
     "s2_pr_tag": "Aplicación PassReady",
     "s2_pr_head": "Una aplicación de estudio para la nacionalidad que estoy construyendo, y que enseñaré a mis estudiantes",
@@ -678,7 +678,7 @@ window.DECK = {
     },
     {
      "audio": "audio/es/s2.mp3",
-     "dur": 43.89,
+     "dur": 45.15,
      "cues": [
       {
        "t0": 0.0,
@@ -702,12 +702,12 @@ window.DECK = {
       },
       {
        "t0": 28.64,
-       "t1": 32.75,
-       "text": "Nunca las cumple. Lo que evaluamos son las decisiones."
+       "t1": 34.0,
+       "text": "Evaluamos las decisiones de los estudiantes, no el resultado de la máquina."
       },
       {
-       "t0": 33.03,
-       "t1": 43.89,
+       "t0": 34.28,
+       "t1": 45.15,
        "text": "Y PassReady, una aplicación de estudio para la nacionalidad que estoy construyendo para mis estudiantes, dice aún es pronto para saberlo, en lugar de fingir."
       }
      ]
@@ -850,7 +850,7 @@ window.DECK = {
     "s2_sd_tag": "屏幕设计课程 · 2026–27",
     "s2_sd_head": "任何工具都可以用；课程每天动态更新，直到提交",
     "s2_sd_a": "第 6 周在课堂上现场生成一个屏幕，一分钟就能做出一个像样的设计。",
-    "s2_sd_b": "学生事先声明的字号层级、对比度和间距。生成的屏幕要用这些标准来检验，而它从来不合格。评分的对象是决策。",
+    "s2_sd_b": "学生事先声明的字号层级、对比度和间距，用来检验生成的屏幕。评分的对象是学生的决策，而不是机器的产出。",
     "s2_sd_q": "“像对待其他任何资料来源一样对待人工智能：公开使用，并说明如何使用。”",
     "s2_pr_tag": "PassReady 应用",
     "s2_pr_head": "我正在开发的入籍考试学习应用，也会展示给我的学生",
@@ -1085,7 +1085,7 @@ window.DECK = {
     },
     {
      "audio": "audio/zh/s2.mp3",
-     "dur": 41.28,
+     "dur": 42.88,
      "cues": [
       {
        "t0": 0.0,
@@ -1109,12 +1109,12 @@ window.DECK = {
       },
       {
        "t0": 25.44,
-       "t1": 29.0,
-       "text": "它从来不合格。我们评分的是决策。"
+       "t1": 30.6,
+       "text": "我们评分的是学生的决策，不是机器生成的结果。"
       },
       {
-       "t0": 29.28,
-       "t1": 41.28,
+       "t0": 30.88,
+       "t1": 42.88,
        "text": "还有 PassReady，我正在开发、将展示给学生的一款入籍考试学习应用，它会说“现在判断还为时过早”，而不是假装知道。"
       }
      ]
