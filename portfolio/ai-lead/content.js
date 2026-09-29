@@ -206,7 +206,7 @@ window.DECK = {
     "ld_9a": "A second language under each question, clearly labelled.",
     "ld_measure": "Two measurement ideas sit underneath: a confidence interval around readiness, and item-exposure control, which lowers the estimate's confidence once most of a fixed question bank has been seen.",
     "s1_science": "PassReady's learning science",
-    "s5_close": "Not banned. Not hidden. Logged, checked and taught, across the Faculty.",
+    "s5_close": "Not banned. Not hidden. Instead, AI is logged, checked and taught, across the Faculty.",
     "display": "Display",
     "textsize": "Text size",
     "darkmode": "Dark mode",
@@ -405,7 +405,7 @@ window.DECK = {
     },
     {
      "audio": "audio/en/s5.mp3",
-     "dur": 26.13,
+     "dur": 29.21,
      "cues": [
       {
        "t0": 0.0,
@@ -424,12 +424,12 @@ window.DECK = {
       },
       {
        "t0": 15.33,
-       "t1": 20.55,
-       "text": "Not banned. Not hidden. Logged, checked and taught, across the Faculty."
+       "t1": 23.63,
+       "text": "Not banned. Not hidden. Instead, AI is logged, checked and taught, across the Faculty."
       },
       {
-       "t0": 20.83,
-       "t1": 26.13,
+       "t0": 23.91,
+       "t1": 29.21,
        "text": "Thank you. The appendices put the brief on one page, and show how this was made."
       }
      ]
@@ -639,7 +639,7 @@ window.DECK = {
     "ld_9a": "Una segunda lengua bajo cada pregunta, claramente señalada.",
     "ld_measure": "Debajo hay dos ideas de medición: un intervalo de confianza alrededor de la preparación y el control de exposición de ítems, que reduce la confianza de la estimación cuando ya se ha visto la mayor parte de un banco fijo de preguntas.",
     "s1_science": "La ciencia del aprendizaje de PassReady",
-    "s5_close": "Ni prohibida ni escondida. Registrada, comprobada y enseñada, en toda la Facultad.",
+    "s5_close": "Ni prohibida. Ni escondida. En su lugar, la IA se registra, se comprueba y se enseña, en toda la Facultad.",
     "display": "Visualización",
     "textsize": "Tamaño del texto",
     "darkmode": "Modo oscuro",
@@ -838,7 +838,7 @@ window.DECK = {
     },
     {
      "audio": "audio/es/s5.mp3",
-     "dur": 32.33,
+     "dur": 36.11,
      "cues": [
       {
        "t0": 0.0,
@@ -857,12 +857,12 @@ window.DECK = {
       },
       {
        "t0": 19.23,
-       "t1": 25.71,
-       "text": "Ni prohibida ni escondida. Registrada, comprobada y enseñada, en toda la Facultad."
+       "t1": 29.49,
+       "text": "Ni prohibida. Ni escondida. En su lugar, la IA se registra, se comprueba y se enseña, en toda la Facultad."
       },
       {
-       "t0": 25.99,
-       "t1": 32.33,
+       "t0": 29.77,
+       "t1": 36.11,
        "text": "Gracias. Los apéndices reúnen la convocatoria en una página y muestran cómo se hizo."
       }
      ]
@@ -1072,7 +1072,7 @@ window.DECK = {
     "ld_9a": "每道题下方附第二种语言，并清楚标注。",
     "ld_measure": "底层还有两个测量思路：准备度周围的置信区间，以及题目曝光控制——当固定题库的大部分题目都已见过时，降低估计的置信度。",
     "s1_science": "PassReady 的学习科学",
-    "s5_close": "不禁止，也不隐藏。在整个学院范围内：记录、核查、教授。",
+    "s5_close": "不禁止，也不隐藏。而是在整个学院范围内，对人工智能进行记录、核查和教授。",
     "display": "显示",
     "textsize": "文字大小",
     "darkmode": "深色模式",
@@ -1271,7 +1271,7 @@ window.DECK = {
     },
     {
      "audio": "audio/zh/s5.mp3",
-     "dur": 31.28,
+     "dur": 34.88,
      "cues": [
       {
        "t0": 0.0,
@@ -1290,12 +1290,12 @@ window.DECK = {
       },
       {
        "t0": 18.96,
-       "t1": 24.6,
-       "text": "不禁止，也不隐藏。在整个学院范围内：记录、核查、教授。"
+       "t1": 28.2,
+       "text": "不禁止，也不隐藏。而是在整个学院范围内，对人工智能进行记录、核查和教授。"
       },
       {
-       "t0": 24.88,
-       "t1": 31.28,
+       "t0": 28.48,
+       "t1": 34.88,
        "text": "谢谢。附录把申请要求汇总在一页上，并说明这份演示是怎么做出来的。"
       }
      ]

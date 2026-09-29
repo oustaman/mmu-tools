@@ -19,12 +19,13 @@ Run:
 
 Then check what was said with tools/verify.py.
 """
-import hashlib, json, os, subprocess, sys
+import hashlib, json, os, re, subprocess, sys
 
 HERE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))    # portfolio/ai-lead
 CACHE = os.path.expanduser('~/.cache/ai-lead-tts')
 AUDIO = os.path.join(HERE, 'audio')
 GAP = 0.28            # seconds of silence between sentences
+PAUSE = 0.6           # a ' | ' inside a sentence: spoken as separate clips, with a longer breath between
 SPEED = 1.05
 COSY_PY = '/opt/homebrew/Caskroom/miniforge/base/envs/cosyvoice/bin/python'
 SUPERTONIC_LANG = {'en': 'en', 'es': 'es'}
@@ -70,29 +71,39 @@ def speak_cosyvoice(todo):
     subprocess.run([COSY_PY, os.path.join(HERE, 'tools', 'cosyvoice_zh.py'), ref16, jobs], check=True, env=env)
 
 
+def parts(sentence):
+    """'Not banned. | Not hidden.' is one caption, spoken as two clips with a pause between."""
+    return [p.strip() for p in sentence.split('|')]
+
+
+def shown(sentence):
+    return re.sub(r'(?<=[。，！？：；])\s+', '', ' '.join(parts(sentence)))   # no spaces after Chinese punctuation
+
+
 def build_slide(lang, n, sentences):
-    """Concatenate the sentence clips with gaps, encode one mp3, return caption cues."""
-    parts, cues, t = [], [], 0.0
+    """Concatenate the clips with gaps and pauses, encode one mp3, return caption cues."""
+    seq, cues, t = [], [], 0.0                 # seq: ('clip', path) or ('gap', seconds)
     for i, text in enumerate(sentences):
-        p = key(lang, text)
-        d = dur(p)
-        cues.append({'t0': round(t, 2), 't1': round(t + d, 2), 'text': text})
-        parts.append(p)
-        t += d + (GAP if i < len(sentences) - 1 else 0)
+        t0 = t
+        for k, part in enumerate(parts(text)):
+            p = key(lang, part); d = dur(p)
+            if k: seq.append(('gap', PAUSE)); t += PAUSE
+            seq.append(('clip', p)); t += d
+        cues.append({'t0': round(t0, 2), 't1': round(t, 2), 'text': shown(text)})
+        if i < len(sentences) - 1:
+            seq.append(('gap', GAP)); t += GAP
     os.makedirs(os.path.join(AUDIO, lang), exist_ok=True)
     out = os.path.join(AUDIO, lang, f's{n}.mp3')
     # concat filter with generated silence between clips; resample all to 24 kHz mono
-    inputs, chain = [], ''
-    for i, p in enumerate(parts):
-        inputs += ['-i', p]
-    filt = ''
-    for i in range(len(parts)):
-        filt += f'[{i}:a]aresample=24000,aformat=channel_layouts=mono[a{i}];'
-        if i < len(parts) - 1:
-            filt += f'aevalsrc=0:d={GAP}:s=24000[g{i}];'
-    seq = ''.join(f'[a{i}]' + (f'[g{i}]' if i < len(parts) - 1 else '') for i in range(len(parts)))
-    n_in = len(parts) * 2 - 1
-    filt += f'{seq}concat=n={n_in}:v=0:a=1,loudnorm=I=-16:TP=-1.5:LRA=11[out]'   # -16 LUFS, the usual level for web speech
+    inputs, filt, labels, c = [], '', '', 0
+    for j, (kind, v) in enumerate(seq):
+        if kind == 'clip':
+            inputs += ['-i', v]
+            filt += f'[{c}:a]aresample=24000,aformat=channel_layouts=mono[s{j}];'; c += 1
+        else:
+            filt += f'aevalsrc=0:d={v}:s=24000[s{j}];'
+        labels += f'[s{j}]'
+    filt += f'{labels}concat=n={len(seq)}:v=0:a=1,loudnorm=I=-16:TP=-1.5:LRA=11[out]'   # -16 LUFS, the usual level for web speech
     subprocess.run(['ffmpeg', '-y', '-loglevel', 'error', *inputs, '-filter_complex', filt, '-map', '[out]',
                     '-ac', '1', '-ar', '24000', '-b:a', '56k', out], check=True)
     return {'audio': f'audio/{lang}/s{n}.mp3', 'dur': round(t, 2), 'cues': cues}
@@ -101,8 +112,8 @@ def build_slide(lang, n, sentences):
 if not js_only:
     for lang in langs:
         os.makedirs(os.path.join(CACHE, lang), exist_ok=True)
-        todo = [(s, key(lang, s)) for slide in content['langs'][lang]['slides'] for s in slide
-                if not os.path.exists(key(lang, s))]
+        todo = [(p, key(lang, p)) for slide in content['langs'][lang]['slides'] for s in slide for p in parts(s)
+                if not os.path.exists(key(lang, p))]
         print(f'{lang}: {len(todo)} sentence(s) to speak', flush=True)
         if not todo:
             continue
@@ -115,10 +126,10 @@ deck = {'voice': content['voice'], 'pipeline': content.get('pipeline', ''), 'lan
 for lang, L in content['langs'].items():
     slides = []
     for n, sentences in enumerate(L['slides'], 1):
-        if all(os.path.exists(key(lang, s)) for s in sentences):
+        if all(os.path.exists(key(lang, p)) for s in sentences for p in parts(s)):
             slides.append(build_slide(lang, n, sentences))
         else:
-            slides.append({'audio': None, 'dur': 0, 'cues': [{'t0': 0, 't1': 0, 'text': s} for s in sentences]})
+            slides.append({'audio': None, 'dur': 0, 'cues': [{'t0': 0, 't1': 0, 'text': shown(s)} for s in sentences]})
     total = sum(s['dur'] for s in slides)
     print(f'{lang}: {total:.1f}s narrated across {len(slides)} slides', flush=True)
     deck['langs'][lang] = {'name': L['name'], 'ui': L['ui'], 'slides': slides}

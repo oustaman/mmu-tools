@@ -56,7 +56,7 @@ for lang in langs:
     prompt = '以下是普通话的句子，使用简体中文。' if lang == 'zh' else None
     for n, sentences in enumerate(content['langs'][lang]['slides'], 1):
         rows = []
-        for text in sentences:
+        for text in (part.strip() for s in sentences for part in s.split('|')):   # each spoken clip on its own
             wav = key(lang, text)
             if not os.path.exists(wav):
                 rows.append({'said': text, 'missing': True}); continue
