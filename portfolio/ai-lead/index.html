@@ -434,11 +434,12 @@
   .work .grid{gap:22px 18px;isolation:isolate}
   .work .grid button{--note:#FFF1A6;position:relative;border:0;border-radius:2px;padding:10px 10px 0;overflow:visible;
     background:var(--note);   /* flat paper: the only shading is the shadow underneath */
+    transition:box-shadow .15s;
     box-shadow:0 6px 10px -8px rgba(40,30,0,.45);transition:transform .15s,box-shadow .15s}
   .work .grid button:nth-child(2){--note:#FFD8DF} .work .grid button:nth-child(3){--note:#D6ECFA} .work .grid button:nth-child(4){--note:#D9F0D5}
   .work .grid button::after{content:"";position:absolute;z-index:-1;right:8px;bottom:10px;width:50%;height:18px;
     box-shadow:0 12px 12px rgba(40,30,0,.28);transform:rotate(3deg)}   /* the lifted corner */
-  .work .grid button:hover{transform:translateY(-2px);box-shadow:0 12px 16px -10px rgba(40,30,0,.5)}
+  .work .grid button:hover{box-shadow:0 14px 18px -10px rgba(40,30,0,.55)}   /* no transform: it would make a stacking context and paint the corner shadow on the note */
   .work .grid img{border:0;border-radius:1px;margin-top:0}
   .work .grid button span{border:0;padding:9px 2px 12px;color:#1A1618;font-weight:650;font-size:.86rem}
   :root[data-theme="dark"] .work .grid button{--note:#EADB93}
@@ -461,6 +462,22 @@
   .ld-wrap .fine{margin-top:12px} .ld-wrap .fine a.cite{margin:-11px 0}   /* 44px target, without stretching the line */
   @media (max-width:1100px){ .ped{grid-template-columns:repeat(2,minmax(0,1fr))} }
   @media (max-width:760px){ .ld-wrap{grid-template-columns:1fr} .ld-phone{max-width:230px} .ped{grid-template-columns:1fr} }
+
+  /* slide 5, lighter: one accent, no boxes, the close and the appendices as quiet type */
+  .partners span{border-left:0;padding:0;color:var(--ink)}
+  .partners span::before{content:"";display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--line-2);margin:0 10px 2px 0;vertical-align:middle}
+  .repo{background:none;border:0;padding:0;border-radius:0;color:var(--ink-2);font-size:1.02rem;margin:0 0 20px}
+  .phases{gap:0;border-bottom:1px solid var(--line)}
+  .phases button{border:0;border-radius:0;background:none;min-height:48px;padding:10px 14px 10px 0;font-weight:600;color:var(--ink-2)}
+  .phases button::before{top:auto;bottom:-1px;height:3px;background:var(--line)!important;right:8px}
+  .phases button[aria-selected="true"]{background:none;color:var(--ink);border:0}
+  .phases button[aria-selected="true"]::before{background:var(--lec)!important}
+  .phase-body{background:none;border:0;padding:12px 0 0;margin:0;max-width:92ch}
+  .close{border-top:1px solid var(--line);margin-top:22px;padding-top:18px}
+  .apx{display:flex;flex-wrap:wrap;align-items:center;gap:0 22px;margin:8px 0 0;font-size:.92rem}
+  .apx > span{color:var(--ink-2);margin-right:-4px}
+  .apx button{border:0;background:none;padding:0;min-height:44px;cursor:pointer;color:var(--lec);font-weight:600;text-decoration:underline;text-underline-offset:3px;text-decoration-thickness:1px}
+  .apx button:hover{text-decoration-thickness:2px}
 </style>
 </head>
 <body data-view="a">
@@ -672,10 +689,9 @@
         <p class="close-line" data-t="s5_close"></p>
         <p class="close-who"><span data-t="me">Michail Oustamanolakis</span> · <a href="mailto:m.oustamanolakis@mmu.ac.uk">m.oustamanolakis@mmu.ac.uk</a></p>
       </div>
-      <p class="seeb"><button class="cta alt" data-go="5"><span data-t="go_a"></span><svg><use href="#i-go"/></svg></button>
-        <button class="cta alt" data-go="6"><span data-t="go_b"></span><svg><use href="#i-go"/></svg></button>
-        <button class="cta alt" data-go="7"><span data-t="go_c"></span><svg><use href="#i-go"/></svg></button>
-        <button class="cta alt" data-go="8"><span data-t="go_d"></span><svg><use href="#i-go"/></svg></button></p>
+      <nav class="apx" aria-labelledby="apxLab"><span id="apxLab" data-t="appendices"></span>
+        <button data-go="5"><span data-t="go_a"></span></button><button data-go="6"><span data-t="go_b"></span></button>
+        <button data-go="7"><span data-t="go_c"></span></button><button data-go="8"><span data-t="go_d"></span></button></nav>
     </div>
   </section>
 
