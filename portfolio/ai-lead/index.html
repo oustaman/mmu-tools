@@ -479,6 +479,32 @@
   .apx > span{color:var(--ink-2);margin-right:-4px}
   .apx button{border:0;background:none;padding:0;min-height:44px;cursor:pointer;color:var(--lec);font-weight:600;text-decoration:underline;text-underline-offset:3px;text-decoration-thickness:1px}
   .apx button:hover{text-decoration-thickness:2px}
+
+  /* Appendix A: the brief as a canvas. Vision across the top, the four questions as boxes,
+     the two years underneath, then how it was made and the principles. */
+  .canvas{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:1px;background:var(--line);border:1px solid var(--line);border-radius:14px;overflow:hidden}
+  .canvas > section{background:var(--surface);padding:12px 16px 4px;display:flex;flex-direction:column}
+  .canvas h3{margin:0 0 6px;font-size:.95rem;line-height:1.3;display:flex;gap:8px;align-items:baseline}
+  .cv-n{font-family:var(--mono);font-size:.8rem;color:var(--lec);font-weight:700}
+  .canvas ul{margin:0;padding:0 0 0 16px;font-size:.88rem;color:var(--ink-2);display:grid;gap:4px}
+  .canvas p{margin:0;font-size:.95rem;color:var(--ink-2)}
+  .cv-vision{grid-column:1 / -1;flex-direction:row!important;align-items:center;gap:18px}
+  .cv-vision h3{margin:0;flex:none} .cv-vision p{flex:1;font-size:1.02rem;color:var(--ink)}
+  .cv-go{margin-top:auto;align-self:flex-start;border:0;background:none;padding:0;min-height:44px;cursor:pointer;color:var(--lec);font-weight:600;font-size:.86rem;text-decoration:underline;text-underline-offset:3px}
+  .cv-vision .cv-go{margin:0}
+  .cv-time{grid-column:1 / -1;padding-bottom:12px!important}
+  .cv-time ol{list-style:none;margin:0;padding:0;display:flex;gap:4px}
+  .cv-time li{font-size:.86rem;font-weight:600;padding:8px 10px;border-top:3px solid var(--line-2);background:var(--bg)}
+  .cv-made{grid-column:span 1}
+  .cv-pr{grid-column:span 3}
+  .cv-pr ul{list-style:none;padding:0;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px 18px;padding-bottom:10px}
+  .cv-pr li b{display:block;color:var(--ink);font-size:.88rem}
+  .cv-pr li span{font-size:.82rem}
+  .cv-made p{font-size:.88rem}
+  #ldDlg{width:min(1180px,calc(100% - 24px))}
+  .ld-t{margin:0 0 14px;font-size:1.25rem;font-weight:700;letter-spacing:-.015em}
+  @media (max-width:980px){ .canvas{grid-template-columns:1fr 1fr} .cv-pr{grid-column:1 / -1} .cv-made{grid-column:1 / -1} .cv-pr ul{grid-template-columns:1fr 1fr} }
+  @media (max-width:640px){ .canvas{grid-template-columns:1fr} .cv-vision{flex-direction:column!important;align-items:flex-start} .cv-pr ul{grid-template-columns:1fr} .cv-time ol{flex-direction:column} }
 </style>
 </head>
 <body data-view="a">
@@ -538,7 +564,7 @@
           <div class="grid">
             <button data-go="1"><img src="../assets/sd-week6.webp" alt=""><span data-t="s2_sd_tag"></span></button>
             <button data-go="1"><img src="../assets/passready.webp" alt=""><span data-t="s2_pr_tag"></span></button>
-            <button data-go="8"><img src="../assets/passready-science.webp" alt=""><span data-t="s1_science"></span></button>
+            <button data-ld><img src="../assets/passready-science.webp" alt=""><span data-t="s1_science"></span></button>
             <button data-go="3"><img src="../assets/rf-index.webp" alt=""><span>MMU Room Finder</span></button>
           </div>
         </div>
@@ -578,12 +604,12 @@
             <h3 data-t="s2_pr_head"></h3>
             <p class="side"><span class="va" data-t="s2_pr_a"></span><span class="vb" data-t="s2_pr_b"></span></p>
             <a class="cta" href="https://oustaman.github.io/mmu-tools/modules/sd/passready.html" target="_blank" rel="noopener"><span data-t="cta_pr_teach"></span><svg><use href="#i-ext"/></svg></a>
-            <button class="cta alt" data-go="8"><span data-t="go_d"></span><svg><use href="#i-go"/></svg></button>
+            <button class="cta alt" data-ld><span data-t="go_d"></span><svg><use href="#i-go"/></svg></button>
           </div>
         </article>
       </div></section>
       </div>
-      <p class="seeb"><button class="cta alt" data-go="6"><span data-t="see_b"></span><svg><use href="#i-go"/></svg></button></p>
+      <p class="seeb"><button class="cta alt" data-go="7"><span data-t="see_b"></span><svg><use href="#i-go"/></svg></button></p>
     </div>
   </section>
 
@@ -625,7 +651,7 @@
           <div class="tool" data-at="2-5"><div class="ph" aria-hidden="true">🛠</div><div><b data-t="s3_t3_head"></b><span class="desc" data-t="s3_t3_body"></span></div></div>
         </div>
       </div>
-      <p class="seeb"><button class="cta alt" data-go="6"><span data-t="see_b"></span><svg><use href="#i-go"/></svg></button></p>
+      <p class="seeb"><button class="cta alt" data-go="7"><span data-t="see_b"></span><svg><use href="#i-go"/></svg></button></p>
     </div>
   </section>
 
@@ -687,12 +713,44 @@
       </div>
       <nav class="apx" aria-labelledby="apxLab"><span id="apxLab" data-t="appendices"></span>
         <button data-go="5"><span data-t="go_a"></span></button><button data-go="6"><span data-t="go_b"></span></button>
-        <button data-go="7"><span data-t="go_c"></span></button><button data-go="8"><span data-t="go_d"></span></button></nav>
+        <button data-go="7"><span data-t="go_c"></span></button></nav>
     </div>
   </section>
 
-  <!-- 6 · statement on AI use -->
+  <!-- Appendix A · the brief on one page -->
   <section class="slide" data-n="6" aria-roledescription="slide">
+    <div class="inner">
+      <p class="eyebrow" data-t="cv_eyebrow"></p>
+      <h2 data-t="cv_title" style="max-width:none"></h2>
+      <div class="canvas">
+        <section class="cv-vision"><h3><span class="cv-n">1</span><span data-t="cv_h1"></span></h3><p data-t="cv_1"></p>
+          <button class="cv-go" data-go="0"><span data-t="cv_slide"></span> 1 →</button></section>
+        <section class="cv-box"><h3><span class="cv-n">2</span><span data-t="cv_h2"></span></h3><ul><li data-t="cv_2a"></li><li data-t="cv_2b"></li><li data-t="cv_2c"></li></ul>
+          <button class="cv-go" data-go="1"><span data-t="cv_slide"></span> 2 →</button></section>
+        <section class="cv-box"><h3><span class="cv-n">3</span><span data-t="cv_h3"></span></h3><ul><li data-t="cv_3a"></li><li data-t="cv_3b"></li><li data-t="cv_3c"></li></ul>
+          <button class="cv-go" data-go="2"><span data-t="cv_slide"></span> 3 →</button></section>
+        <section class="cv-box"><h3><span class="cv-n">4</span><span data-t="cv_h4"></span></h3><ul><li data-t="cv_4a"></li><li data-t="cv_4b"></li><li data-t="cv_4c"></li></ul>
+          <button class="cv-go" data-go="3"><span data-t="cv_slide"></span> 4 →</button></section>
+        <section class="cv-box"><h3><span class="cv-n">5</span><span data-t="cv_h5"></span></h3><ul><li data-t="cv_5a"></li><li data-t="cv_5b"></li><li data-t="cv_5c"></li></ul>
+          <button class="cv-go" data-go="4"><span data-t="cv_slide"></span> 5 →</button></section>
+        <section class="cv-time"><h3 data-t="cv_time"></h3>
+          <ol><li style="flex:6" data-t="s5_ph1"></li><li style="flex:9" data-t="s5_ph2"></li><li style="flex:9" data-t="s5_ph3"></li></ol></section>
+        <section class="cv-made"><h3 data-t="cv_made_h"></h3><p data-t="cv_made"></p>
+          <button class="cv-go" data-go="6"><span data-t="appendix_b"></span> →</button></section>
+        <section class="cv-pr"><h3 data-t="cv_pr_h"></h3><ul>
+          <li><b data-t="s7_p1"></b><span data-t="s7_p1b"></span></li>
+          <li><b data-t="s7_p2"></b><span data-t="s7_p2b"></span></li>
+          <li><b data-t="s7_p3"></b><span data-t="s7_p3b"></span></li>
+          <li><b data-t="s7_p4"></b><span data-t="s7_p4b"></span></li>
+          <li><b data-t="s7_p5"></b><span data-t="s7_p5b"></span></li>
+          <li><b data-t="s7_p6"></b><span data-t="s7_p6b"></span></li>
+        </ul></section>
+      </div>
+    </div>
+  </section>
+
+  <!-- Appendix B · statement on AI use -->
+  <section class="slide" data-n="7" aria-roledescription="slide">
     <div class="inner">
       <p class="eyebrow" data-t="s6_eyebrow"></p>
       <h2 data-t="s6_title" style="max-width:none;font-size:clamp(1.5rem,3vw,2.2rem)"></h2>
@@ -722,8 +780,8 @@
     </div>
   </section>
 
-  <!-- Appendix B · artefacts used in my teaching -->
-  <section class="slide" data-n="7" aria-roledescription="slide">
+  <!-- Appendix C · artefacts used in my teaching -->
+  <section class="slide" data-n="8" aria-roledescription="slide">
     <div class="inner">
       <p class="eyebrow" data-t="ax_eyebrow"></p>
       <h2 data-t="ax_title" style="max-width:none"></h2>
@@ -733,66 +791,14 @@
         <article class="art"><img src="../assets/sd-week6.webp" alt="" loading="lazy"><div><h3 data-t="ax_2h"></h3><p data-t="ax_2b"></p>
           <div class="ctas"><a class="cta" href="https://oustaman.github.io/mmu-tools/modules/sd/" target="_blank" rel="noopener"><span data-t="ax_2c"></span><svg><use href="#i-ext"/></svg></a><a class="cta alt" href="https://github.com/oustaman/mmu-tools/tree/main/modules/sd" target="_blank" rel="noopener"><span data-t="ax_2s"></span><svg><use href="#i-ext"/></svg></a></div></div></article>
         <article class="art"><img src="../assets/passready-teaching.webp" alt="" loading="lazy"><div><h3 data-t="ax_3h"></h3><p data-t="ax_3b"></p>
-          <div class="ctas"><a class="cta" href="https://oustaman.github.io/mmu-tools/modules/sd/passready.html" target="_blank" rel="noopener"><span data-t="ax_3c"></span><svg><use href="#i-ext"/></svg></a></div></div></article>
+          <div class="ctas"><a class="cta" href="https://oustaman.github.io/mmu-tools/modules/sd/passready.html" target="_blank" rel="noopener"><span data-t="ax_3c"></span><svg><use href="#i-ext"/></svg></a><button class="cta alt" data-ld><span data-t="go_d"></span><svg><use href="#i-go"/></svg></button></div></div></article>
         <article class="art"><img src="../assets/castlegate-finder.webp" alt="" loading="lazy"><div><h3 data-t="ax_4h"></h3><p data-t="ax_4b"></p>
           <div class="ctas"><a class="cta" href="https://oustaman.github.io/mmu-tools/modules/sd/room-finder/" target="_blank" rel="noopener"><span data-t="ax_4c"></span><svg><use href="#i-ext"/></svg></a></div></div></article>
       </div>
     </div>
   </section>
 
-  <!-- Appendix C · my practice -->
-  <section class="slide" data-n="8" aria-roledescription="slide">
-    <div class="inner">
-      <p class="eyebrow" data-t="s7_eyebrow"></p>
-      <h2 data-t="s7_title" style="max-width:none"></h2>
-      <table class="ai"><colgroup><col style="width:24%"><col style="width:56%"><col style="width:20%"></colgroup>
-        <thead><tr><th data-t="s7_h1"></th><th data-t="s7_h2"></th><th data-t="s7_h3"></th></tr></thead>
-        <tbody>
-          <tr><td data-t="s7_p1"></td><td data-t="s7_p1a"></td><td data-t="s7_p1b"></td></tr>
-          <tr><td data-t="s7_p2"></td><td data-t="s7_p2a"></td><td data-t="s7_p2b"></td></tr>
-          <tr><td data-t="s7_p3"></td><td data-t="s7_p3a"></td><td data-t="s7_p3b"></td></tr>
-          <tr><td data-t="s7_p4"></td><td data-t="s7_p4a"></td><td data-t="s7_p4b"></td></tr>
-          <tr><td data-t="s7_p5"></td><td data-t="s7_p5a"></td><td data-t="s7_p5b"></td></tr>
-          <tr><td data-t="s7_p6"></td><td data-t="s7_p6a"></td><td data-t="s7_p6b"></td></tr>
-        </tbody>
-      </table>
-    </div>
-  </section>
 
-  <!-- Appendix D · the learning science in PassReady -->
-  <section class="slide" data-n="9" aria-roledescription="slide">
-    <div class="inner">
-      <p class="eyebrow" data-t="ld_eyebrow"></p>
-      <h2 data-t="ld_title" style="max-width:none;font-size:clamp(1.5rem,3vw,2.2rem)"></h2>
-      <div class="ld-wrap">
-        <figure class="ld-phone"><img src="../assets/passready-answered.webp" alt="PassReady after a right answer: the answer marked correct, with Knew it, Guessed and Ask me again beneath it" loading="lazy"><figcaption data-t="ld_cap"></figcaption></figure>
-        <div>
-          <p class="lede" data-t="ld_lede"></p>
-          <div class="ped">
-          <article><svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M8 6h16v20H8z"/><path d="M12 12h8M12 17h5"/><path d="M18 21l2 2 4-4" stroke-linecap="round"/></svg>
-            <h3 data-t="ld_1"></h3><p data-t="ld_1a"></p><cite><a class="cite" href="https://doi.org/10.1111/j.1467-9280.2006.01693.x" target="_blank" rel="noopener" lang="en">Roediger &amp; Karpicke, 2006<span class="sr"> (Test-enhanced learning. Psychological Science)</span></a></cite></article>
-          <article><svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M4 26h24"/><path d="M7 26V14M13 26V10M19 26V18M25 26V6"/></svg>
-            <h3 data-t="ld_2"></h3><p data-t="ld_2a"></p><cite><a class="cite" href="https://doi.org/10.1037/0033-2909.132.3.354" target="_blank" rel="noopener" lang="en">Cepeda et al., 2006<span class="sr"> (Distributed practice in verbal recall tasks. Psychological Bulletin)</span></a></cite></article>
-          <article><svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M4 6c4 14 10 18 24 20"/><path d="M4 26h24M4 6v20"/></svg>
-            <h3 data-t="ld_3"></h3><p data-t="ld_3a"></p><cite><a class="cite" href="https://psychclassics.yorku.ca/Ebbinghaus/index.htm" target="_blank" rel="noopener" lang="en">Ebbinghaus, 1885<span class="sr"> (Memory: A Contribution to Experimental Psychology)</span></a></cite></article>
-          <article><svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="16" cy="16" r="11"/><path d="M16 16V5a11 11 0 0 1 0 22z" fill="currentColor"/></svg>
-            <h3 data-t="ld_4"></h3><p data-t="ld_4a"></p><cite><a class="cite" href="https://doi.org/10.4324/9780429506857-13" target="_blank" rel="noopener" lang="en">After Gardner-Medwin, 2019<span class="sr"> (Certainty-based marking. Innovative Assessment in Higher Education)</span></a></cite></article>
-          <article><svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 27L27 5" stroke-dasharray="3 3"/><circle cx="11" cy="20" r="2.5" fill="currentColor"/><circle cx="17" cy="15" r="2.5" fill="currentColor"/><circle cx="23" cy="10" r="2.5" fill="currentColor"/></svg>
-            <h3 data-t="ld_5"></h3><p data-t="ld_5a"></p><cite><a class="cite" href="https://doi.org/10.1037/0022-0663.92.1.160" target="_blank" rel="noopener" lang="en">Hacker et al., 2000<span class="sr"> (Test prediction and performance in a classroom context. Journal of Educational Psychology)</span></a></cite></article>
-          <article><svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M6 10h8M18 10h8M6 22h8M18 22h8"/><path d="M14 10l4 12" stroke-linecap="round"/></svg>
-            <h3 data-t="ld_6"></h3><p data-t="ld_6a"></p><cite><a class="cite" href="https://doi.org/10.3102/0034654317726529" target="_blank" rel="noopener" lang="en">Gierl et al., 2017<span class="sr"> (Developing, analyzing, and using distractors. Review of Educational Research)</span></a></cite></article>
-          <article><svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="5" y="5" width="9" height="9"/><rect x="18" y="5" width="9" height="9" fill="currentColor"/><rect x="5" y="18" width="9" height="9" fill="currentColor"/><rect x="18" y="18" width="9" height="9"/></svg>
-            <h3 data-t="ld_7"></h3><p data-t="ld_7a"></p><cite><a class="cite" href="https://eric.ed.gov/?id=ED053419" target="_blank" rel="noopener" lang="en">Bloom, 1968<span class="sr"> (Learning for Mastery)</span></a></cite></article>
-          <article><svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 9h6l10 14h6M5 23h6l10-14h6"/></svg>
-            <h3 data-t="ld_8"></h3><p data-t="ld_8a"></p><cite><a class="cite" href="https://doi.org/10.1037/edu0000001" target="_blank" rel="noopener" lang="en">Rohrer et al., 2015<span class="sr"> (Interleaved practice improves mathematics learning. Journal of Educational Psychology)</span></a></cite></article>
-          <article><svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M6 9h20M6 15h14"/><path d="M6 21h20M6 27h12" stroke-opacity=".5"/></svg>
-            <h3 data-t="ld_9"></h3><p data-t="ld_9a"></p><cite><a class="cite" href="https://doi.org/10.3102/00346543049002222" target="_blank" rel="noopener" lang="en">Cummins, 1979<span class="sr"> (Linguistic interdependence and the educational development of bilingual children. Review of Educational Research)</span></a></cite></article>
-          </div>
-    <p class="fine"><span data-t="ld_measure"></span> <a class="cite" href="https://doi.org/10.1037/10244-014" target="_blank" rel="noopener" lang="en">Hetter &amp; Sympson, 1997</a></p>
-        </div>
-      </div>
-    </div>
-  </section>
 
   <div class="player"><div class="cap" id="cap" aria-live="polite"></div></div>
 </main>
@@ -825,6 +831,40 @@
     <button class="cta" id="tourOk"></button>
   </div>
 </div>
+
+<dialog id="ldDlg" aria-labelledby="ldTitle">
+  <div class="dh"><h2 id="ldTitle" data-t="ld_dlg"></h2><button class="btn" data-close data-t="close"></button></div>
+  <div class="db">
+    <p class="ld-t" data-t="ld_title"></p>
+      <div class="ld-wrap">
+        <figure class="ld-phone"><img src="../assets/passready-answered.webp" alt="PassReady after a right answer: the answer marked correct, with Knew it, Guessed and Ask me again beneath it" loading="lazy"><figcaption data-t="ld_cap"></figcaption></figure>
+        <div>
+          <p class="lede" data-t="ld_lede"></p>
+          <div class="ped">
+          <article><svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M8 6h16v20H8z"/><path d="M12 12h8M12 17h5"/><path d="M18 21l2 2 4-4" stroke-linecap="round"/></svg>
+            <h3 data-t="ld_1"></h3><p data-t="ld_1a"></p><cite><a class="cite" href="https://doi.org/10.1111/j.1467-9280.2006.01693.x" target="_blank" rel="noopener" lang="en">Roediger &amp; Karpicke, 2006<span class="sr"> (Test-enhanced learning. Psychological Science)</span></a></cite></article>
+          <article><svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M4 26h24"/><path d="M7 26V14M13 26V10M19 26V18M25 26V6"/></svg>
+            <h3 data-t="ld_2"></h3><p data-t="ld_2a"></p><cite><a class="cite" href="https://doi.org/10.1037/0033-2909.132.3.354" target="_blank" rel="noopener" lang="en">Cepeda et al., 2006<span class="sr"> (Distributed practice in verbal recall tasks. Psychological Bulletin)</span></a></cite></article>
+          <article><svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M4 6c4 14 10 18 24 20"/><path d="M4 26h24M4 6v20"/></svg>
+            <h3 data-t="ld_3"></h3><p data-t="ld_3a"></p><cite><a class="cite" href="https://psychclassics.yorku.ca/Ebbinghaus/index.htm" target="_blank" rel="noopener" lang="en">Ebbinghaus, 1885<span class="sr"> (Memory: A Contribution to Experimental Psychology)</span></a></cite></article>
+          <article><svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="16" cy="16" r="11"/><path d="M16 16V5a11 11 0 0 1 0 22z" fill="currentColor"/></svg>
+            <h3 data-t="ld_4"></h3><p data-t="ld_4a"></p><cite><a class="cite" href="https://doi.org/10.4324/9780429506857-13" target="_blank" rel="noopener" lang="en">After Gardner-Medwin, 2019<span class="sr"> (Certainty-based marking. Innovative Assessment in Higher Education)</span></a></cite></article>
+          <article><svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 27L27 5" stroke-dasharray="3 3"/><circle cx="11" cy="20" r="2.5" fill="currentColor"/><circle cx="17" cy="15" r="2.5" fill="currentColor"/><circle cx="23" cy="10" r="2.5" fill="currentColor"/></svg>
+            <h3 data-t="ld_5"></h3><p data-t="ld_5a"></p><cite><a class="cite" href="https://doi.org/10.1037/0022-0663.92.1.160" target="_blank" rel="noopener" lang="en">Hacker et al., 2000<span class="sr"> (Test prediction and performance in a classroom context. Journal of Educational Psychology)</span></a></cite></article>
+          <article><svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M6 10h8M18 10h8M6 22h8M18 22h8"/><path d="M14 10l4 12" stroke-linecap="round"/></svg>
+            <h3 data-t="ld_6"></h3><p data-t="ld_6a"></p><cite><a class="cite" href="https://doi.org/10.3102/0034654317726529" target="_blank" rel="noopener" lang="en">Gierl et al., 2017<span class="sr"> (Developing, analyzing, and using distractors. Review of Educational Research)</span></a></cite></article>
+          <article><svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="5" y="5" width="9" height="9"/><rect x="18" y="5" width="9" height="9" fill="currentColor"/><rect x="5" y="18" width="9" height="9" fill="currentColor"/><rect x="18" y="18" width="9" height="9"/></svg>
+            <h3 data-t="ld_7"></h3><p data-t="ld_7a"></p><cite><a class="cite" href="https://eric.ed.gov/?id=ED053419" target="_blank" rel="noopener" lang="en">Bloom, 1968<span class="sr"> (Learning for Mastery)</span></a></cite></article>
+          <article><svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 9h6l10 14h6M5 23h6l10-14h6"/></svg>
+            <h3 data-t="ld_8"></h3><p data-t="ld_8a"></p><cite><a class="cite" href="https://doi.org/10.1037/edu0000001" target="_blank" rel="noopener" lang="en">Rohrer et al., 2015<span class="sr"> (Interleaved practice improves mathematics learning. Journal of Educational Psychology)</span></a></cite></article>
+          <article><svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M6 9h20M6 15h14"/><path d="M6 21h20M6 27h12" stroke-opacity=".5"/></svg>
+            <h3 data-t="ld_9"></h3><p data-t="ld_9a"></p><cite><a class="cite" href="https://doi.org/10.3102/00346543049002222" target="_blank" rel="noopener" lang="en">Cummins, 1979<span class="sr"> (Linguistic interdependence and the educational development of bilingual children. Review of Educational Research)</span></a></cite></article>
+          </div>
+    <p class="fine"><span data-t="ld_measure"></span> <a class="cite" href="https://doi.org/10.1037/10244-014" target="_blank" rel="noopener" lang="en">Hetter &amp; Sympson, 1997</a></p>
+        </div>
+      </div>
+  </div>
+</dialog>
 
 <dialog id="tsDlg" aria-labelledby="tsTitle">
   <div class="dh"><h2 id="tsTitle" data-t="transcript"></h2><button class="btn" data-close data-t="close"></button></div>
@@ -928,10 +968,10 @@
   }
 
   /* ---------- slides ---------- */
-  // Five slides, then appendices A to D: the counter never says "6 of 8".
+  // Five slides, then appendices A to C: the counter never says "6 of 8".
   const MAIN = 5;
-  const label = i => i < MAIN ? `${i + 1} ${ui('counter_of')} ${MAIN}` : ui('appendix_' + 'abcd'[i - MAIN]);   // for screen readers
-  const short = i => i < MAIN ? String(i + 1) : 'ABCD'[i - MAIN];                                                 // what the eye reads
+  const label = i => i < MAIN ? `${i + 1} ${ui('counter_of')} ${MAIN}` : ui('appendix_' + 'abc'[i - MAIN]);   // for screen readers
+  const short = i => i < MAIN ? String(i + 1) : 'ABC'[i - MAIN];                                                 // what the eye reads
   function count() { $('count').textContent = short(cur); $('count').setAttribute('aria-label', label(cur)); }
   function go(n, keepPlaying) {
     n = Math.max(0, Math.min(slides.length - 1, n));
@@ -947,13 +987,14 @@
     if (i === 5) { const l = document.createElement('span'); l.className = 'aplab'; l.dataset.t = 'appendices'; $('dots').appendChild(l); }
     const b = document.createElement('button'); b.onclick = () => go(i);
     if (i < 5) { b.textContent = String(i + 1); b.setAttribute('aria-label', `Slide ${i + 1} of 5`); }
-    else { b.textContent = 'ABCD'[i - 5]; b.className = 'ap'; b.setAttribute('aria-label', 'Appendix ' + 'ABCD'[i - 5]); }
+    else { b.textContent = 'ABC'[i - 5]; b.className = 'ap'; b.setAttribute('aria-label', 'Appendix ' + 'ABC'[i - 5]); }
     $('dots').appendChild(b);
   });
   $('home').onclick = e => { e.preventDefault(); go(0); };
   $('prev').onclick = () => go(cur - 1, playing);
   $('next').onclick = () => go(cur + 1, playing);
   document.querySelectorAll('[data-go]').forEach(b => b.onclick = () => go(+b.dataset.go));
+  document.querySelectorAll('[data-ld]').forEach(b => b.onclick = () => $('ldDlg').showModal());   // the learning science panel
 
   /* ---------- narration ---------- */
   function track() { return D.langs[lang].slides[cur]; }
