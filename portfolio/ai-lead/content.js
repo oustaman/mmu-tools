@@ -379,7 +379,7 @@ window.DECK = {
     },
     {
      "audio": "audio/en/s5.mp3",
-     "dur": 28.5,
+     "dur": 25.78,
      "cues": [
       {
        "t0": 0.0,
@@ -388,22 +388,22 @@ window.DECK = {
       },
       {
        "t0": 3.14,
-       "t1": 12.47,
-       "text": "I'd work with LEED, the DELTA lead and fellow Faculty Leads, in one shared, open repository, so good ideas travel with their evidence."
+       "t1": 9.75,
+       "text": "I'd work with leadership, management, colleagues and students, so good ideas travel with their evidence."
       },
       {
-       "t0": 12.75,
-       "t1": 17.77,
+       "t0": 10.03,
+       "t1": 15.05,
        "text": "Over two years: map, then pilot, then evaluate, and scale what works."
       },
       {
-       "t0": 18.05,
-       "t1": 23.27,
+       "t0": 15.33,
+       "t1": 20.55,
        "text": "Not banned. Not hidden. Logged, checked and taught, across the Faculty."
       },
       {
-       "t0": 23.55,
-       "t1": 28.5,
+       "t0": 20.83,
+       "t1": 25.78,
        "text": "Thank you. The appendices set out the tools I used, and my practice."
       }
      ]
@@ -786,7 +786,7 @@ window.DECK = {
     },
     {
      "audio": "audio/es/s5.mp3",
-     "dur": 36.23,
+     "dur": 31.35,
      "cues": [
       {
        "t0": 0.0,
@@ -795,22 +795,22 @@ window.DECK = {
       },
       {
        "t0": 4.11,
-       "t1": 17.28,
-       "text": "Trabajaría con LEED, con el responsable de DELTA y con los demás Responsables de Facultad, en un único repositorio compartido y abierto, para que las buenas ideas viajen con sus pruebas."
+       "t1": 12.4,
+       "text": "Trabajaría con la dirección, la gestión, los colegas y los estudiantes, para que las buenas ideas viajen con sus pruebas."
       },
       {
-       "t0": 17.56,
-       "t1": 23.83,
+       "t0": 12.68,
+       "t1": 18.95,
        "text": "En dos años: mapear, después pilotar, y después evaluar y extender lo que funciona."
       },
       {
-       "t0": 24.11,
-       "t1": 30.58,
+       "t0": 19.23,
+       "t1": 25.71,
        "text": "Ni prohibida ni escondida. Registrada, comprobada y enseñada, en toda la Facultad."
       },
       {
-       "t0": 30.86,
-       "t1": 36.23,
+       "t0": 25.99,
+       "t1": 31.35,
        "text": "Gracias. Los apéndices detallan las herramientas que usé y mi práctica."
       }
      ]
@@ -1193,7 +1193,7 @@ window.DECK = {
     },
     {
      "audio": "audio/zh/s5.mp3",
-     "dur": 33.2,
+     "dur": 30.4,
      "cues": [
       {
        "t0": 0.0,
@@ -1202,22 +1202,22 @@ window.DECK = {
       },
       {
        "t0": 3.04,
-       "t1": 13.52,
-       "text": "我会与 LEED、DELTA 负责人和其他学院负责人合作，使用一个共享的开放资料库，让好的想法带着证据一起传播。"
+       "t1": 10.72,
+       "text": "我会与领导层、管理层、同事和学生合作，让好的想法带着证据一起传播。"
       },
       {
-       "t0": 13.8,
-       "t1": 21.48,
+       "t0": 11.0,
+       "t1": 18.68,
        "text": "两年的计划是：先摸清现状，再开展试点，最后评估并推广有效的做法。"
       },
       {
-       "t0": 21.76,
-       "t1": 27.4,
+       "t0": 18.96,
+       "t1": 24.6,
        "text": "不禁止，也不隐藏。在整个学院范围内：记录、核查、教授。"
       },
       {
-       "t0": 27.68,
-       "t1": 33.2,
+       "t0": 24.88,
+       "t1": 30.4,
        "text": "谢谢。附录列出了我使用的工具，以及我的实践。"
       }
      ]
