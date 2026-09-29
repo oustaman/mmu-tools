@@ -28,7 +28,7 @@ window.DECK = {
     "s1_c4": "Its git history shows how it was made",
     "s1_hint": "Each of these is a working control. Try them.",
     "s2_eyebrow": "2 · Opportunities in learning, teaching and assessment",
-    "s2_title": "The opportunities are already in our modules",
+    "s2_title": "The opportunities are already in my teaching",
     "s2_tog_a": "What the machine does",
     "s2_tog_b": "What people decide",
     "s2_sd_tag": "Screen Design module · 2026–27",
@@ -271,36 +271,36 @@ window.DECK = {
     },
     {
      "audio": "audio/en/s2.mp3",
-     "dur": 34.49,
+     "dur": 34.42,
      "cues": [
       {
        "t0": 0.0,
-       "t1": 3.2,
-       "text": "The opportunities are already in our modules."
+       "t1": 3.13,
+       "text": "The opportunities are already in my teaching."
       },
       {
-       "t0": 3.48,
-       "t1": 11.43,
+       "t0": 3.41,
+       "t1": 11.36,
        "text": "In the Screen Design module, students may use any tool, and the module updates dynamically each day towards submission."
       },
       {
-       "t0": 11.71,
-       "t1": 16.44,
+       "t0": 11.64,
+       "t1": 16.37,
        "text": "AI is treated like any other source: used openly, and credited."
       },
       {
-       "t0": 16.72,
-       "t1": 22.23,
+       "t0": 16.65,
+       "t1": 22.16,
        "text": "In week six, we generate a screen live, and test it against the students' own numbers."
       },
       {
-       "t0": 22.51,
-       "t1": 26.2,
+       "t0": 22.44,
+       "t1": 26.13,
        "text": "It never passes. The decisions are what we mark."
       },
       {
-       "t0": 26.48,
-       "t1": 34.49,
+       "t0": 26.41,
+       "t1": 34.42,
        "text": "And PassReady, a naturalisation study app I'm building to show my students, says too early to call, rather than pretend."
       }
      ]
@@ -430,7 +430,7 @@ window.DECK = {
     "s1_c4": "Su historial de git muestra cómo se hizo",
     "s1_hint": "Cada uno de estos es un control que funciona. Pruébalos.",
     "s2_eyebrow": "2 · Oportunidades en el aprendizaje, la docencia y la evaluación",
-    "s2_title": "Las oportunidades ya están en nuestras asignaturas",
+    "s2_title": "Las oportunidades ya están en mi docencia",
     "s2_tog_a": "Lo que hace la máquina",
     "s2_tog_b": "Lo que deciden las personas",
     "s2_sd_tag": "Asignatura de Diseño de Pantallas · 2026–27",
@@ -673,36 +673,36 @@ window.DECK = {
     },
     {
      "audio": "audio/es/s2.mp3",
-     "dur": 44.66,
+     "dur": 43.89,
      "cues": [
       {
        "t0": 0.0,
-       "t1": 3.97,
-       "text": "Las oportunidades ya están en nuestras asignaturas."
+       "t1": 3.2,
+       "text": "Las oportunidades ya están en mi docencia."
       },
       {
-       "t0": 4.25,
-       "t1": 15.19,
+       "t0": 3.48,
+       "t1": 14.42,
        "text": "En la asignatura de Diseño de Pantallas, los estudiantes pueden usar cualquier herramienta, y la asignatura se actualiza dinámicamente cada día hasta la entrega."
       },
       {
-       "t0": 15.47,
-       "t1": 21.11,
+       "t0": 14.7,
+       "t1": 20.34,
        "text": "La IA se trata como cualquier otra fuente: se usa abiertamente y se cita."
       },
       {
-       "t0": 21.39,
-       "t1": 29.12,
+       "t0": 20.62,
+       "t1": 28.36,
        "text": "En la semana seis, generamos una pantalla en directo y la comprobamos con las cifras de los propios estudiantes."
       },
       {
-       "t0": 29.4,
-       "t1": 33.51,
+       "t0": 28.64,
+       "t1": 32.75,
        "text": "Nunca las cumple. Lo que evaluamos son las decisiones."
       },
       {
-       "t0": 33.79,
-       "t1": 44.66,
+       "t0": 33.03,
+       "t1": 43.89,
        "text": "Y PassReady, una aplicación de estudio para la nacionalidad que estoy construyendo para mis estudiantes, dice aún es pronto para saberlo, en lugar de fingir."
       }
      ]
@@ -834,7 +834,7 @@ window.DECK = {
     "s1_c4": "git 历史记录展示制作过程",
     "s1_hint": "以上每一项都是可以使用的控件，请试一试。",
     "s2_eyebrow": "2 · 学习、教学与评估中的机遇",
-    "s2_title": "机遇已经存在于我们的课程之中",
+    "s2_title": "机遇已经存在于我的教学之中",
     "s2_tog_a": "机器做什么",
     "s2_tog_b": "人来决定什么",
     "s2_sd_tag": "屏幕设计课程 · 2026–27",
@@ -1075,36 +1075,36 @@ window.DECK = {
     },
     {
      "audio": "audio/zh/s2.mp3",
-     "dur": 41.64,
+     "dur": 41.28,
      "cues": [
       {
        "t0": 0.0,
-       "t1": 2.68,
-       "text": "机遇已经存在于我们的课程之中。"
+       "t1": 2.32,
+       "text": "机遇已经存在于我的教学之中。"
       },
       {
-       "t0": 2.96,
-       "t1": 11.68,
+       "t0": 2.6,
+       "t1": 11.32,
        "text": "在屏幕设计课程中，学生可以使用任何工具，课程内容每天动态更新，直到提交作业。"
       },
       {
-       "t0": 11.96,
-       "t1": 18.04,
+       "t0": 11.6,
+       "t1": 17.68,
        "text": "人工智能和其他资料来源一样对待：公开使用，并注明出处。"
       },
       {
-       "t0": 18.32,
-       "t1": 25.52,
+       "t0": 17.96,
+       "t1": 25.16,
        "text": "第六周，我们现场生成一个屏幕，再用学生自己设定的数值来检验它。"
       },
       {
-       "t0": 25.8,
-       "t1": 29.36,
+       "t0": 25.44,
+       "t1": 29.0,
        "text": "它从来不合格。我们评分的是决策。"
       },
       {
-       "t0": 29.64,
-       "t1": 41.64,
+       "t0": 29.28,
+       "t1": 41.28,
        "text": "还有 PassReady，我正在开发、将展示给学生的一款入籍考试学习应用，它会说“现在判断还为时过早”，而不是假装知道。"
       }
      ]
