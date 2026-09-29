@@ -326,13 +326,14 @@
   }
   @media (max-width:640px){
     .bar{padding:6px 12px} .brand small{display:none} .brand{width:100%}
-    .ctl{flex-wrap:nowrap;overflow-x:auto;width:100%;padding-bottom:2px;scrollbar-width:none}
+    .ctl{width:100%;flex-wrap:nowrap}
     .ctl .btn,.ctl .seg{flex:none}
+    .lcLong{display:none} .lcShort{display:inline}
     .slide{padding:18px 14px 120px}
     .inner{justify-content:flex-start}
     .foot{padding:6px 10px;gap:6px;flex-wrap:wrap}
     .prog{order:-1;flex-basis:100%} .play{min-width:44px} #playLab{display:none}
-    .dots,.keys{display:none}
+    .dots{display:none}
     .count{min-width:24px}
     .capLong{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)} .capShort{display:inline}
     .speed button{padding:0 6px}
@@ -350,6 +351,76 @@
     header,footer,.player{display:none} main{overflow:visible}
     .slide{position:static;opacity:1;visibility:visible;overflow:visible;page-break-after:always;padding:24px}
   }
+
+  /* ---------- decluttered (September 2026) ----------
+     Proximity: controls that do one job sit in one group. Similarity: one type family,
+     two button styles (filled leaves the deck, outline moves within it), one callout.
+     Monospace is kept for the eyebrows above slide titles and for code. */
+  .menu{position:relative}
+  .caret{font-size:.7rem;color:var(--ink-3)}
+  .lcShort{display:none}
+  .pop{position:absolute;top:calc(100% + 6px);left:0;z-index:40;min-width:200px;max-width:calc(100vw - 24px);background:var(--surface);
+    border:1px solid var(--line-2);border-radius:12px;padding:10px;box-shadow:0 14px 34px -18px rgba(20,17,18,.5);display:flex;flex-direction:column;gap:4px}
+  .pop[hidden]{display:none}
+  .pop.right{left:auto;right:0;min-width:250px}
+  .pop-h{margin:0 4px 4px;font-size:.8rem;font-weight:650;color:var(--ink-2)}
+  #langs button{border:0;background:none;text-align:left;min-height:44px;padding:0 10px;border-radius:8px;cursor:pointer;font-size:.95rem;color:var(--ink)}
+  #langs button:hover{background:var(--surface-2)}
+  #langs button[aria-pressed="true"]{background:var(--ink);color:var(--bg)}
+  .pop-row{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:2px 4px;font-size:.92rem}
+  .sw{width:56px;height:44px;border:0;background:none;padding:0;cursor:pointer;position:relative;flex:none}
+  .sw::before{content:"";position:absolute;left:4px;right:4px;top:12px;height:20px;border-radius:999px;background:var(--surface-2);border:1.5px solid var(--line-2)}
+  .sw::after{content:"";position:absolute;left:8px;top:16px;width:15px;height:15px;border-radius:50%;background:var(--ink-2);transition:transform .15s}
+  .sw[aria-checked="true"]::before{background:var(--ink);border-color:var(--ink)}
+  .sw[aria-checked="true"]::after{transform:translateX(18px);background:var(--bg)}
+  .pop-keys{margin:6px 4px 0;padding-top:8px;border-top:1px solid var(--line);font-size:.8rem;color:var(--ink-2)}
+  .pgroup{display:inline-flex;align-items:stretch;border:1px solid var(--line-2);border-radius:8px;overflow:hidden;background:var(--surface)}
+  .pgroup .btn{border:0;border-radius:0}
+  .pgroup > * + *{border-left:1px solid var(--line-2)!important}
+  .pgroup .seg{border:0;border-radius:0}
+
+  .brand small,.btn,.who,.why h3,.work h3,.tag,.grp > h3,.conv .lab,.snap,.out small,.rooms h3,.rt th,.with,.ruler,.count,
+  .dots button,.dots .aplab,.speed button,table.ai th,.ts h3,.frame .chrome span{font-family:var(--sans)}
+  .why h3,.work h3,.grp > h3,.conv .lab,.rooms h3,.with{text-transform:none;letter-spacing:-.005em;font-size:.95rem;font-weight:650;color:var(--ink)}
+  .tag,.out small,.rt th,table.ai th,.ts h3{text-transform:none;letter-spacing:0;font-weight:650}
+  .tag{font-size:.82rem} .out small{font-size:.8rem} .rt th,table.ai th{font-size:.8rem;color:var(--ink-2)} .ts h3{font-size:.85rem}
+  .btn{font-size:.86rem} .speed button{font-size:.84rem} .brand small{font-size:.8rem} .who{font-size:.9rem}
+
+  .repo,.candid{background:var(--surface);border:1px solid var(--line);border-left:3px solid var(--lec);border-radius:0 10px 10px 0;color:var(--ink)}
+
+  .partners{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px 24px;margin:0 0 18px}
+  .partners span{border:0;border-left:2px solid var(--line-2);background:none;border-radius:0;padding:2px 0 2px 12px;font-size:.95rem}
+
+  .nums{margin:0 0 18px;gap:40px}
+  .nums div b{font-size:clamp(2rem,3.4vw,2.8rem)}
+  .nums div span{font-size:.92rem}
+  .nums .hot b{color:var(--lec)}
+  #dashImg{max-height:300px}
+  .mline{margin:18px 0 0;padding-top:12px;border-top:1px solid var(--line);font-size:.9rem;color:var(--ink-2)}
+  .mline h3{display:inline;font-size:.9rem;margin:0 8px 0 0;color:var(--ink)}
+  .mline ul{display:inline;list-style:none;margin:0;padding:0}
+  .mline li{display:inline}
+  .mline li + li::before{content:" · "}
+  .mline p{display:inline;margin:0 0 0 8px;color:var(--ink-3)}
+
+  .close{margin:22px 0 0;padding-top:18px;border-top:2px solid var(--ink)}
+  .close-line{font-size:clamp(1.3rem,2.4vw,1.8rem);font-weight:720;letter-spacing:-.02em;line-height:1.2;margin:0 0 4px;max-width:40ch}
+  .close-who{margin:0;color:var(--ink-2)}
+  .close-who a{display:inline-flex;align-items:center;min-height:44px}
+  @media (max-width:980px){ .partners{grid-template-columns:1fr 1fr} }
+  .nums{align-items:flex-end}
+  .nums .cta{margin-left:auto;align-self:center}
+  #dashImg{max-height:280px}
+  #speedCycle{display:none}
+  .partners{margin:0 0 12px} .repo{margin:0 0 14px} .phases button{min-height:54px} .phase-body{padding:10px 14px}
+  .close{margin-top:16px;padding-top:14px}
+  @media (max-width:640px){
+    .partners{grid-template-columns:1fr} .nums{gap:20px} .nums .cta{margin-left:0;white-space:normal;line-height:1.3;padding:8px 18px}
+    .lcLong{display:none} .lcShort{display:inline}
+    .pop,.pop.right{position:fixed;left:12px;right:12px;top:auto;min-width:0;max-width:none}   /* full width under the bar */
+    .pgroup .speed{display:none} #speedCycle{display:inline-flex;min-width:56px}
+    .aaa{flex-wrap:wrap}
+  }
 </style>
 </head>
 <body data-view="a">
@@ -361,13 +432,20 @@
   <div class="bar">
     <div class="brand"><h1 class="brand-h"><a class="home" href="#1" id="home"><span data-t="s1_title">AI in the open</span></a></h1><small>Michail Oustamanolakis · MMU</small></div>
     <div class="ctl">
-      <span class="sr" id="langLab" data-t="lang">Language</span>
-      <div class="seg" role="group" aria-labelledby="langLab" id="langs"></div>
+      <div class="menu">
+        <button class="btn" id="langBtn" aria-expanded="false" aria-controls="langs"><span id="langCur"></span><span class="caret" aria-hidden="true">▾</span></button>
+        <div class="pop" id="langs" role="group" aria-labelledby="langLab" hidden><p class="pop-h" id="langLab" data-t="lang">Language</p></div>
+      </div>
       <button class="btn" id="tsBtn" aria-haspopup="dialog" data-t="transcript">Transcript</button>
-      <button class="btn" id="madeBtn" aria-haspopup="dialog" data-t="made">How this was made</button>
-      <button class="btn" id="fsDown" aria-label="Smaller text">A−</button>
-      <button class="btn" id="fsUp" aria-label="Larger text">A+</button>
-      <button class="btn" id="themeBtn" aria-label="Toggle dark mode">◐</button>
+      <div class="menu">
+        <button class="btn" id="aaBtn" aria-expanded="false" aria-controls="aaPop" data-tl="display"><span aria-hidden="true">Aa</span></button>
+        <div class="pop right" id="aaPop" hidden>
+          <p class="pop-h" data-t="display"></p>
+          <div class="pop-row"><span id="fsLab" data-t="textsize"></span><span class="seg" role="group" aria-labelledby="fsLab"><button id="fsDown" aria-label="Smaller text">A−</button><button id="fsUp" aria-label="Larger text">A+</button></span></div>
+          <div class="pop-row"><span id="dmLab" data-t="darkmode"></span><button class="sw" id="themeBtn" role="switch" aria-checked="false" aria-labelledby="dmLab"></button></div>
+          <p class="pop-keys" data-t="keys"></p>
+        </div>
+      </div>
       <button class="btn" id="tourBtn" aria-haspopup="dialog" data-tl="tour_help">?</button>
     </div>
   </div>
@@ -479,12 +557,12 @@
           <div class="tool" data-at="2-1">
             <img src="../assets/mmu-tools.webp" alt="The mmu-tools staff dashboard" loading="lazy">
             <div><b data-t="s3_t1_head"></b><span class="desc" data-t="s3_t1_body"></span>
-              <a class="cta alt" href="https://oustaman.github.io/mmu-tools/" target="_blank" rel="noopener"><span data-t="cta_mmutools"></span><svg><use href="#i-ext"/></svg></a></div>
+              <a class="cta" href="https://oustaman.github.io/mmu-tools/" target="_blank" rel="noopener"><span data-t="cta_mmutools"></span><svg><use href="#i-ext"/></svg></a></div>
           </div>
           <div class="tool" data-at="2-1">
             <img src="../assets/ii-home.webp" alt="interfaces.institute home page" loading="lazy">
             <div><b data-t="s3_t2_head"></b><span class="desc" data-t="s3_t2_body"></span>
-              <a class="cta alt" href="https://interfaces.institute/" target="_blank" rel="noopener"><span data-t="cta_ii"></span><svg><use href="#i-ext"/></svg></a></div>
+              <a class="cta" href="https://interfaces.institute/" target="_blank" rel="noopener"><span data-t="cta_ii"></span><svg><use href="#i-ext"/></svg></a></div>
           </div>
           <div class="tool" data-at="2-5"><div class="ph" aria-hidden="true">🛠</div><div><b data-t="s3_t3_head"></b><span class="desc" data-t="s3_t3_body"></span></div></div>
         </div>
@@ -499,17 +577,18 @@
       <p class="eyebrow" data-t="s4_eyebrow"></p>
       <h2 data-t="s4_title"></h2>
       <p class="sub" data-t="s4_sub" data-at="3-1"></p>
+      <div class="nums" data-at="3-2">
+        <div><b>42</b><span data-t="s4_n1"></span></div>
+        <div><b>15,113</b><span data-t="s4_n2"></span></div>
+        <div class="hot" data-at="3-3"><b>223</b><span data-t="s4_n3"></span></div>
+        <a class="cta" href="../room-finder/" target="_blank" rel="noopener" data-at="3-4"><span data-t="s4_link"></span><svg><use href="#i-ext"/></svg></a>
+      </div>
       <div class="dash">
         <div>
           <figure class="frame" style="margin:0" data-at="3-2">
             <div class="chrome"><i></i><i></i><i></i><span>MMU Room Finder</span></div>
             <img src="../assets/rf-index.webp" alt="" id="dashImg">
           </figure>
-          <div class="nums" data-at="3-2">
-            <div><b>42</b><span data-t="s4_n1"></span></div>
-            <div><b>15,113</b><span data-t="s4_n2"></span></div>
-            <div data-at="3-3"><b>223</b><span data-t="s4_n3"></span></div>
-          </div>
         </div>
         <div>
           <div class="rooms" data-at="3-3">
@@ -521,15 +600,11 @@
             </table>
             <p class="verdict" id="verdict" aria-live="polite"></p>
           </div>
-          <div style="margin-top:16px"><a class="cta big" href="../room-finder/" target="_blank" rel="noopener" data-at="3-4"><span data-t="s4_link"></span><svg><use href="#i-ext"/></svg></a></div>
         </div>
       </div>
-      <div class="mhead" data-at="3-5"><h3 data-t="s4_measure_head"></h3><p data-t="s4_m4"></p></div>
-      <div class="measure" data-at="3-5">
-        <div><b>01</b><span data-t="s4_m1"></span></div>
-        <div><b>02</b><span data-t="s4_m2"></span></div>
-        <div><b>03</b><span data-t="s4_m3"></span></div>
-      </div>
+      <div class="mline" data-at="3-5"><h3 data-t="s4_measure_head"></h3>
+        <ul><li data-t="s4_m1"></li><li data-t="s4_m2"></li><li data-t="s4_m3"></li></ul>
+        <p data-t="s4_m4"></p></div>
     </div>
   </section>
 
@@ -553,8 +628,14 @@
         </div>
         <p class="phase-body" id="phaseBody" role="tabpanel"></p>
       </div>
+      <div class="close" data-at="4-3">
+        <p class="close-line" data-t="s5_close"></p>
+        <p class="close-who">Michail Oustamanolakis · <a href="mailto:m.oustamanolakis@mmu.ac.uk">m.oustamanolakis@mmu.ac.uk</a></p>
+      </div>
       <p class="seeb"><button class="cta alt" data-go="5"><span data-t="go_a"></span><svg><use href="#i-go"/></svg></button>
-        <button class="cta alt" data-go="6"><span data-t="go_b"></span><svg><use href="#i-go"/></svg></button></p>
+        <button class="cta alt" data-go="6"><span data-t="go_b"></span><svg><use href="#i-go"/></svg></button>
+        <button class="cta alt" data-go="7"><span data-t="go_c"></span><svg><use href="#i-go"/></svg></button>
+        <button class="cta alt" data-go="8"><span data-t="go_d"></span><svg><use href="#i-go"/></svg></button></p>
     </div>
   </section>
 
@@ -659,11 +740,14 @@
 
 <footer>
   <div class="foot">
+    <div class="pgroup">
     <button class="btn play" id="play"><span id="playIco" aria-hidden="true">▶</span> <span id="playLab" data-t="play"></span></button>
     <button class="btn" id="capBtn" aria-pressed="true"><span data-t="captions" class="capLong"></span><span class="capShort" aria-hidden="true">CC</span></button>
     <span class="sr" id="speedLab" data-t="speed">Speed</span>
     <div class="seg speed" role="group" aria-labelledby="speedLab" id="speed">
       <button data-r="1" aria-pressed="true">1×</button><button data-r="1.25" aria-pressed="false">1.25×</button><button data-r="1.5" aria-pressed="false">1.5×</button>
+    </div>
+    <button class="btn" id="speedCycle" data-tl="speed">1×</button>
     </div>
     <div class="prog" aria-hidden="true"><i id="progBar"></i></div>
     <div class="dots" id="dots"></div>
@@ -671,7 +755,6 @@
     <span class="count" id="count" aria-live="polite"></span>
     <button class="btn" id="next" aria-label="Next">→</button>
   </div>
-  <div class="keys" data-t="keys"></div>
 </footer>
 
 <div class="tour" id="tour" role="dialog" aria-modal="true" aria-labelledby="tourTitle" hidden>
@@ -740,6 +823,10 @@
       n.textContent = ui('trans_note');
     });
     $('langs').querySelectorAll('button').forEach(b => b.setAttribute('aria-pressed', b.dataset.l === lang));
+    const star = lang === 'en' ? '' : ' *';
+    $('langCur').innerHTML = '<span class="lcLong"></span><span class="lcShort"></span>';
+    $('langCur').firstChild.textContent = D.langs[lang].name + star; $('langCur').lastChild.textContent = (lang === 'zh' ? '中文' : lang.toUpperCase()) + star;
+    $('langBtn').setAttribute('aria-label', ui('lang') + ': ' + D.langs[lang].name);
     renderLangChips();
     setPlayUI();
     $('prev').setAttribute('aria-label', ui('prev')); $('next').setAttribute('aria-label', ui('next'));
@@ -748,8 +835,22 @@
   }
   Object.entries(D.langs).forEach(([k, L]) => {
     const b = document.createElement('button'); b.dataset.l = k; b.textContent = L.name + (k === 'en' ? '' : ' *');
-    b.lang = HTMLLANG[k]; b.onclick = () => setLang(k); $('langs').appendChild(b);
+    b.lang = HTMLLANG[k]; b.onclick = () => { setLang(k); closeMenus(true); }; $('langs').appendChild(b);
   });
+  // Two small menus in the top bar: language, and display. Escape or a click elsewhere closes them.
+  const MENUS = [['langBtn', 'langs'], ['aaBtn', 'aaPop']];
+  function closeMenus(refocus) {
+    MENUS.forEach(([b, m]) => { if (!$(m).hidden) { $(m).hidden = true; $(b).setAttribute('aria-expanded', 'false'); if (refocus) $(b).focus(); } });
+  }
+  MENUS.forEach(([b, m]) => {
+    $(b).onclick = e => {
+      e.stopPropagation(); const open = $(m).hidden; closeMenus();
+      if (open) { $(m).hidden = false; $(b).setAttribute('aria-expanded', 'true'); const f = $(m).querySelector('button[aria-pressed="true"],button'); if (f) f.focus(); }
+    };
+    $(m).addEventListener('click', e => e.stopPropagation());
+    $(m).addEventListener('keydown', e => { if (e.key === 'Escape') { e.preventDefault(); e.stopPropagation(); closeMenus(true); } });
+  });
+  document.addEventListener('click', () => closeMenus());
   function setLang(k) {
     const wasPlaying = playing; const t = audio.currentTime; stop();
     lang = k; store.set('lang', k); applyLang(); loadAudio();
@@ -907,7 +1008,7 @@
       $('logNote').textContent = 'The live log could not be read here (offline, or opened from a download). The full history is on GitHub:';
     }
   }
-  $('madeBtn').onclick = openMade; $('cGit').onclick = openMade;
+  $('cGit').onclick = openMade;
   document.querySelectorAll('[data-close]').forEach(b => b.onclick = () => b.closest('dialog').close());
 
   /* ---------- slide 1 chips ---------- */
@@ -993,12 +1094,20 @@
   setFs(fs);
   $('fsUp').onclick = () => setFs(fs + 0.1); $('fsDown').onclick = () => setFs(fs - 0.1);
   const th = store.get('theme'); if (th) document.documentElement.dataset.theme = th;
+  const syncTheme = () => $('themeBtn').setAttribute('aria-checked', document.documentElement.dataset.theme === 'dark');
   $('themeBtn').onclick = () => {
     const dark = document.documentElement.dataset.theme === 'dark';   // light by default; dark only when chosen
-    document.documentElement.dataset.theme = dark ? 'light' : 'dark'; store.set('theme', document.documentElement.dataset.theme);
+    document.documentElement.dataset.theme = dark ? 'light' : 'dark'; store.set('theme', document.documentElement.dataset.theme); syncTheme();
   };
+  syncTheme();
+  // Phones: one speed button that steps 1× → 1.25× → 1.5×, pressing the same buttons the wider bar shows
+  const speedBtns = [...$('speed').querySelectorAll('button')];
+  const syncSpeed = () => { const on = speedBtns.find(b => b.getAttribute('aria-pressed') === 'true'); $('speedCycle').textContent = on ? on.textContent : '1×'; };
+  $('speedCycle').onclick = () => { const i = speedBtns.findIndex(b => b.getAttribute('aria-pressed') === 'true'); speedBtns[(i + 1) % speedBtns.length].click(); syncSpeed(); };
+  speedBtns.forEach(b => b.addEventListener('click', syncSpeed)); syncSpeed();
   document.addEventListener('keydown', e => {
     if (document.querySelector('dialog[open]') || /INPUT|TEXTAREA/.test(e.target.tagName)) return;
+    if (e.target.closest && e.target.closest('.pop')) return;
     if (e.key === 'ArrowRight' || e.key === 'PageDown') { e.preventDefault(); go(cur + 1, playing); }
     else if (e.key === 'ArrowLeft' || e.key === 'PageUp') { e.preventDefault(); go(cur - 1, playing); }
     else if (e.key === ' ' && e.target.tagName !== 'BUTTON' && e.target.tagName !== 'A') { e.preventDefault(); $('play').click(); }
@@ -1016,9 +1125,9 @@
   /* ---------- first-visit tour ---------- */
   // Four things, each ringed where it lives. Shown once; the ? button brings it back.
   // Numbered in reading order (a Z): the top bar left to right, then the bottom bar left to right.
-  const TOUR = [['tour_3', () => [$('langs')]],
-                ['tour_4', () => [$('fsDown'), $('fsUp'), $('themeBtn')]],
-                ['tour_2', () => [$('play')]],
+  const TOUR = [['tour_3', () => [$('langBtn')]],
+                ['tour_4', () => [$('aaBtn')]],
+                ['tour_2', () => [document.querySelector('.pgroup')]],
                 ['tour_1', () => [$('dots').offsetWidth ? $('dots') : $('count'), $('prev'), $('next')]]];
   let tourFrom = null;
   function ringAround(els){

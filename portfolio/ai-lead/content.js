@@ -220,7 +220,12 @@ window.DECK = {
     "ld_9a": "A second language under each question, clearly labelled.",
     "ld_measure": "Two measurement ideas sit underneath: a confidence interval around readiness, and item-exposure control, which lowers the estimate's confidence once most of a fixed question bank has been seen.",
     "ld_cta": "Read it on 128.systems",
-    "s1_science": "PassReady's learning science"
+    "s1_science": "PassReady's learning science",
+    "s5_close": "Not banned. Not hidden. Logged, checked and taught, across the Faculty.",
+    "display": "Display",
+    "textsize": "Text size",
+    "darkmode": "Dark mode",
+    "go_c": "Appendix C: My practice"
    },
    "slides": [
     {
@@ -379,7 +384,7 @@ window.DECK = {
     },
     {
      "audio": "audio/en/s5.mp3",
-     "dur": 22.99,
+     "dur": 28.5,
      "cues": [
       {
        "t0": 0.0,
@@ -398,7 +403,12 @@ window.DECK = {
       },
       {
        "t0": 18.05,
-       "t1": 22.99,
+       "t1": 23.27,
+       "text": "Not banned. Not hidden. Logged, checked and taught, across the Faculty."
+      },
+      {
+       "t0": 23.55,
+       "t1": 28.5,
        "text": "Thank you. The appendices set out the tools I used, and my practice."
       }
      ]
@@ -622,7 +632,12 @@ window.DECK = {
     "ld_9a": "Una segunda lengua bajo cada pregunta, claramente señalada.",
     "ld_measure": "Debajo hay dos ideas de medición: un intervalo de confianza alrededor de la preparación y el control de exposición de ítems, que reduce la confianza de la estimación cuando ya se ha visto la mayor parte de un banco fijo de preguntas.",
     "ld_cta": "Leerlo en 128.systems",
-    "s1_science": "La ciencia del aprendizaje de PassReady"
+    "s1_science": "La ciencia del aprendizaje de PassReady",
+    "s5_close": "Ni prohibida ni escondida. Registrada, comprobada y enseñada, en toda la Facultad.",
+    "display": "Visualización",
+    "textsize": "Tamaño del texto",
+    "darkmode": "Modo oscuro",
+    "go_c": "Apéndice C: mi práctica"
    },
    "slides": [
     {
@@ -781,7 +796,7 @@ window.DECK = {
     },
     {
      "audio": "audio/es/s5.mp3",
-     "dur": 29.47,
+     "dur": 36.23,
      "cues": [
       {
        "t0": 0.0,
@@ -800,7 +815,12 @@ window.DECK = {
       },
       {
        "t0": 24.11,
-       "t1": 29.47,
+       "t1": 30.58,
+       "text": "Ni prohibida ni escondida. Registrada, comprobada y enseñada, en toda la Facultad."
+      },
+      {
+       "t0": 30.86,
+       "t1": 36.23,
        "text": "Gracias. Los apéndices detallan las herramientas que usé y mi práctica."
       }
      ]
@@ -1024,7 +1044,12 @@ window.DECK = {
     "ld_9a": "每道题下方附第二种语言，并清楚标注。",
     "ld_measure": "底层还有两个测量思路：准备度周围的置信区间，以及题目曝光控制——当固定题库的大部分题目都已见过时，降低估计的置信度。",
     "ld_cta": "在 128.systems 上阅读",
-    "s1_science": "PassReady 的学习科学"
+    "s1_science": "PassReady 的学习科学",
+    "s5_close": "不禁止，也不隐藏。在整个学院范围内：记录、核查、教授。",
+    "display": "显示",
+    "textsize": "文字大小",
+    "darkmode": "深色模式",
+    "go_c": "附录 C：我的实践"
    },
    "slides": [
     {
@@ -1183,7 +1208,7 @@ window.DECK = {
     },
     {
      "audio": "audio/zh/s5.mp3",
-     "dur": 27.28,
+     "dur": 33.2,
      "cues": [
       {
        "t0": 0.0,
@@ -1202,7 +1227,12 @@ window.DECK = {
       },
       {
        "t0": 21.76,
-       "t1": 27.28,
+       "t1": 27.4,
+       "text": "不禁止，也不隐藏。在整个学院范围内：记录、核查、教授。"
+      },
+      {
+       "t0": 27.68,
+       "t1": 33.2,
        "text": "谢谢。附录列出了我使用的工具，以及我的实践。"
       }
      ]
