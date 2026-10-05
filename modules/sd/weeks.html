@@ -316,6 +316,7 @@
   <h1 id="wtitle"></h1>
   <p class="wdate" id="wdate"></p>
   <div class="wmeta" id="wmeta"></div>
+  <div id="three"></div>
 
   <div class="tabs" id="tabs">
     <button class="tab on" data-p="shown">Shown in class<span class="who">1h · lecture theatre</span></button>
@@ -371,8 +372,21 @@ const show = url => {
         : `<span class="rshow plain">Show → ${esc(url)}</span>`);
 };
 
+/* Three things to leave with, and on every week but the last one of them is
+   open — it is what week N+1 opens on. Above the tabs, not inside the workshop
+   panel: students land on the lecture tab, and this is the part they need. */
+function paintThree(w){
+  $('#three').innerHTML = `<div class="three"><p class="three-h">Leave with three things</p>
+    <ol class="three-l">${w.three.map((x, i) => `<li class="${x.open ? 'open' : ''}">
+      <span class="tn">${i + 1}</span>
+      <span class="tt"><b>${rich(x.t)}</b><span>${rich(x.d)}</span>
+        ${x.open ? `<em class="topen">Open \u2014 ${w.n < SD.WEEKS ? `carries into week ${w.n + 1}` : 'before the deadline'}</em>` : ''}
+      </span></li>`).join('')}</ol></div>`;
+}
+
 function render(){
   const w = WEEKS.find(x => x.n === cur);
+  paintThree(w);
   document.querySelectorAll('.wbtn').forEach(b => b.classList.toggle('on', +b.dataset.w === cur));
   document.querySelectorAll('.tab').forEach(b => b.classList.toggle('on', b.dataset.p === tab));
   $('#wtitle').textContent = `Week ${w.n} — ${w.title}`;
@@ -407,15 +421,7 @@ function render(){
     h += `<p class="pnote">10:00–12:00 · ~33 IN YOUR GROUP · THREE ROOMS RUN THE SAME SESSION</p>`;
     h += `<div class="kit"><b>Bring</b><span>${esc(w.workshop.bring)}</span></div>`;
 
-    /* Three things to leave with, and on every week but the last one of them
-       is open — it is what week N+1 opens on. Students read this; so does a
-       colleague who wants the session's point in ten seconds. */
-    h += `<div class="three"><p class="three-h">Leave with three things</p>
-      <ol class="three-l">${w.three.map((x, i) => `<li class="${x.open ? 'open' : ''}">
-        <span class="tn">${i + 1}</span>
-        <span class="tt"><b>${rich(x.t)}</b><span>${rich(x.d)}</span>
-          ${x.open ? `<em class="topen">Open \u2014 ${w.n < SD.WEEKS ? `carries into week ${w.n + 1}` : 'before the deadline'}</em>` : ''}
-        </span></li>`).join('')}</ol></div>`;
+
 
     /* Goals and the outcome they serve, above the run order. A colleague
        running this cold needs to know what the two hours are FOR before they
