@@ -46,6 +46,11 @@ const WEEKS = [
   {slides:"Teardowns", s:"Three live teardowns", u:"teardowns.html", d:"A news front page, a checkout, and one that is genuinely unclear. What do you read first, and which of five devices did it. <b>The deck is built</b> \u2014 every screen is a real capture, dated, walked step by step.", take:"Learn to say what you read first and which of five devices did it: scale, weight, colour, space, position. That vocabulary is what C2 is written in."},
   {s:"Six documented failures", d:"The Basement. Screens that went wrong in public, with the reasoning kept.", u:"https://interfaces.institute/basement/", take:"A screen fails when nobody can tell what to do next. Yours is marked on whether someone can."}
  ],
+ three:[
+  {t:"Your shared folder and deck", d:"On OneDrive, shared with us, a slide for every section."},
+  {t:"A mark you had to defend", d:"You marked the fake submission, and heard how we mark it."},
+  {t:"Three possible themes", d:"Bring them to week 2 \u2014 one gets locked for good.", open:true},
+ ],
  workshop:{
   aim:"Set up your deck, then mark somebody else's.",
   goals:["Make your shared Screen Design folder, and the one deck inside it you will fill in for eleven weeks.",
@@ -83,6 +88,11 @@ const WEEKS = [
   {s:"Recognition over recall", d:"Run both panes. Same task, two builds — one asks you to remember a command, one shows you a button.", u:"https://interfaces.institute/stairwell/recognition/", take:"Recognising beats remembering. Show the option rather than expecting someone to recall it."},
   {s:"Affordance", d:"Six pieces of text, two of them are buttons and nothing says which. Run the bad pane and count the wrong clicks.", u:"https://interfaces.institute/stairwell/affordance/", take:"If nothing says which parts are clickable, people click the wrong things. Criterion 2 is where that is marked."}
  ],
+ three:[
+  {t:"Eight thumbnails", d:"One screen, eight rough layouts, photographed into the deck."},
+  {t:"Your theme, locked", d:"Part A §1 filled in, and C1 drafted — the paragraph that defends it."},
+  {t:"The one you would build", d:"Pick it before week 3. Five minutes, not an evening.", open:true},
+ ],
  workshop:{
   aim:"Eight rough layouts for one screen. Theme locked.",
   goals:["Generate eight alternatives for one screen under time pressure.", "Judge a layout on clarity rather than finish.", "Commit to one theme."],
@@ -115,6 +125,11 @@ const WEEKS = [
   {s:"Sixty-seven published grids", d:"Each plate drawn to that publisher's own numbers. Filter by who published it — a CSS framework beside a government manual beside a 1962 standard.", u:"https://interfaces.institute/collections/grids/", take:"Forty-nine of the sixty-seven wrote their grid down. Eighteen did not, and that is a finding rather than a gap. Yours goes in A3 today."},
   {s:"How many name no breakpoint", d:"Read the count off the page live. Do not memorise it.", u:"https://interfaces.institute/collections/grids/", take:"Plenty of published grids name no breakpoint at all. Yours names three, because the brief requires responsive design."},
   {s:"A spacing scale, built live", u:"https://interfaces.institute/collections/grids/#spacing", d:"4, 8, 12, 16, 24, 32. Then a layout snapping to it. <b>Read the counts off the page live</b> \u2014 41 of 68 publish no spacing scale at all, and the filter will show you which.", take:"A spacing scale is six numbers you reuse everywhere. Pick them now and stop guessing."}
+ ],
+ three:[
+  {t:"Seven layout numbers", d:"Part A §3 filled in. Nothing says “about” or “roughly”."},
+  {t:"C2 drafted", d:"The layout paragraph, written while the decision is fresh."},
+  {t:"One thumbnail redrawn", d:"If it did not fit your grid, redraw it on the grid before week 4.", open:true},
  ],
  workshop:{
   aim:"Seven numbers, written into Part A §3.",
@@ -151,6 +166,11 @@ const WEEKS = [
   {s:"What systems actually ship", d:"Measured body face and size across 122 design systems. Read the common values live.", u:"https://interfaces.institute/collections/design-systems/", take:"Design systems publish their real type sizes. Yours goes in A4 with a role for every size."},
   {s:"Where text breaks", d:"Forty-nine line-breaking classes, each with a specimen. One of them is the one every design assumes.", u:"https://interfaces.institute/collections/line-breaking/", take:"Not every language breaks lines the way English does. If your topic touches another language, this is material for C7."}
  ],
+ three:[
+  {t:"A type scale with roles", d:"Part A §4 filled in, and C3 drafted."},
+  {t:"One specimen screen", d:"Set only in sizes from your own scale. It becomes part of B6."},
+  {t:"A second screen in the scale", d:"Half the time of the first, and the test of whether the scale works.", open:true},
+ ],
  workshop:{
   aim:"A type scale, one screen set in it, and the paragraph that defends both.",
   goals:["Build a type scale with a role for every size.", "Set a real screen using only sizes from that scale.", "Recognise a line-length problem when you see one."],
@@ -186,6 +206,11 @@ const WEEKS = [
   {s:"What fifty banks actually use", d:"Measured off their live pages. Sort by hue and watch the blues stack up.", u:"https://interfaces.institute/collections/bank-interfaces/", take:"Measure your colours, do not describe them. Every text pair gets a contrast figure in A5."},
   {s:"Contrast, live", d:"Put a real pair up, get the ratio, darken it until it passes. Do the arithmetic in front of them.", u:"https://interfaces.institute/collections/design-tools/#pairs", take:"Anything under 4.5:1 gets changed in the room. That number is the one thing nobody can argue with you about."}
  ],
+ three:[
+  {t:"Five colours with roles", d:"Part A §5, a ratio on every text pair, nothing under 4.5:1."},
+  {t:"C4 and C7 drafted", d:"The colour paragraph, and the cross-cultural one."},
+  {t:"The second screen recoloured", d:"Two screens then carry your grid, your scale and your palette.", open:true},
+ ],
  workshop:{
   aim:"Five colours with roles, and a ratio for every text pair.",
   goals:["Assign colour roles before choosing any colour.", "Measure the contrast of every text pair and record the number.", "Change a failing pair rather than argue with it."],
@@ -219,6 +244,11 @@ const WEEKS = [
   {s:"Now check it against a spec", u:"https://interfaces.institute/collections/design-tools/#pairs", d:"Take your own type scale and contrast table from weeks 4 and 5 and check the generated screen against them. It will not comply. That gap is the whole hour. <b>The pair table computes all six ratios</b> from your five hexes, and opens on the example portfolio's palette — where every pair fails.", take:"Generated work still has to obey the numbers you declared in A3–A5. Check it against them."},
   {s:"Three variants, one prompt", u:"https://interfaces.institute/collections/generated/", d:"Critique all three against the same declared numbers, out loud. Run the same prompt three times in front of them \u2014 what varies when nothing in the request did is the point.", take:"Three variants from one prompt is a useful exercise. Judging all three against your own spec is the assessable part."},
   {s:"What the log looks like", d:"Part A §7 with a real line in it: tool, what it made, what you changed, why.", u:"assessment.html", take:"A7 is the record of what you used. C8 is what you make of it — was it any good, whose work is it, what did you change."}
+ ],
+ three:[
+  {t:"Mood board and style tile", d:"B2 and B3, built only from numbers you already declared."},
+  {t:"Your AI log open", d:"A7 started and C8 drafted — one line per use, from today on."},
+  {t:"The style tile finished", d:"Everything you build in week 8 comes out of it.", open:true},
  ],
  workshop:{
   aim:"A style tile that obeys your own numbers, and your AI log opened.",
@@ -255,6 +285,11 @@ const WEEKS = [
   {s:"A flow, drawn crudely", u:"https://interfaces.institute/collections/flow-census/", d:"Six boxes, arrows, one decision. Deliberately rough. Draw one on the board from the census \u2014 <b>four real services walked, 43 screenshots, 24 screens</b>, and 20 of the 24 with a door the walk did not take.", take:"Six to eight screens, each with a job in under ten words. If two share a job, you have seven screens, not eight."},
   {slides:"Room finder", s:"A finder, taken apart", d:"The Castlegate Room Finder: a real prototype over a made-up university. Browse it (buildings, then floors, then rooms), then search it. Then open Alder Hall, which has nothing in it.", u:"room-finder/index.html", take:"Information architecture is the order people find things in: a hierarchy to browse and a search to jump. Both need an answer for \u201cnothing here\u201d."},
  ],
+ three:[
+  {t:"Six to eight screens named", d:"Part A §2 — each with a job someone else can read in ten words."},
+  {t:"A flow, and C6", d:"The flow diagram photographed into B4, and the ethics paragraph drafted."},
+  {t:"The two you build first", d:"Decide before week 8, when every screen gets wireframed.", open:true},
+ ],
  workshop:{
   aim:"Six to eight named screens, and the flow between them.",
   goals:["Name six to eight screens and give each a job in under ten words.", "Find the screens you forgot — empty, loading, error.", "Draw a flow somebody else can follow."],
@@ -287,6 +322,11 @@ const WEEKS = [
   {s:"What sixty-three systems ship", d:"Measured primary buttons. Twenty have no corner radius at all. Read it off the page.", u:"https://interfaces.institute/components/button/", take:"Twenty of sixty-three measured design systems use no corner radius at all. Whatever you choose, choose it rather than default to it."},
   {s:"Nobody agrees what to call anything", d:"391 component names across eight systems; three appear in all eight.", u:"https://interfaces.institute/collections/component-census/", take:"Eight influential systems cannot agree what to call a component. Name yours consistently and say so in A2."},
   {s:"Lorem ipsum versus real content", u:"https://interfaces.institute/collections/flow-census/#placeholder", d:"Wireframe the same screen twice. Real content changes the layout, which is why it is a constraint and not a detail. <b>Do not say it is because Latin words are the wrong length</b> \u2014 the specimen measures that and it is false (5.31 characters against 5.38). The vice is one placeholder in every slot: nothing wraps, so the layout is never asked the question.", take:"Real content changes the layout. Wireframe with the words you will actually use."}
+ ],
+ three:[
+  {t:"A wireframe for every screen", d:"B5 — drawn against your own grid, one per screen in Part A §2."},
+  {t:"Two finished screens", d:"The first two of B6, built for real in the room."},
+  {t:"The remaining four to six screens", d:"The biggest piece of work in the module — six to eight hours, due at the start of week 9.", open:true},
  ],
  workshop:{
   aim:"Every screen wireframed, and the first two built for real.",
@@ -323,6 +363,11 @@ const WEEKS = [
   {s:"Colour is not a cue on its own", d:"A status that differs only by hue, then the same with a shape or a word added.", u:"https://interfaces.institute/collections/wcag/", take:"Colour on its own is not a cue. Add a shape or a word, and say why in C5."},
   {s:"Tab through a real page", u:"https://interfaces.institute/collections/keyboard-grammar/#tabstops", d:"Then tab through one where the focus ring was removed. Say nothing during the second one. The specimen has a button that takes the ring away and puts it back \u2014 tab it blind, then restore it and it shows the path they took. <b>10 controls, 8 tab stops</b>, both counted live.", take:"Tab through your own screens. If you cannot see where you are, neither can anyone using a keyboard."}
  ],
+ three:[
+  {t:"Two screens at three sizes", d:"Six images in B7 — adapted, not shrunk."},
+  {t:"An honest audit", d:"Part A §6 filled in, C5 drafted, every failure written down."},
+  {t:"The fixes, and the log", d:"Fix what the audit found and log each fix. The log is what is marked.", open:true},
+ ],
  workshop:{
   aim:"Six images and an honest audit — on screens that arrived finished.",
   goals:["Adapt a layout rather than shrink it.", "Run an accessibility check across a whole set.", "Log a failure you have not fixed."],
@@ -355,6 +400,11 @@ const WEEKS = [
   {s:"All nine sections", d:"Word count and the Part A field each one must cite. Eight are drafted; C9 closes in week 11.", u:"assessment.html", take:"Nothing is drafted today. All eight were written in the week that made the decision — the work is turning them from description into defence."},
   {s:"A building correcting itself", d:"A published claim that was wrong, the correction, and the reasoning kept. Section 6 asks you to do this about your own work.", u:"https://interfaces.institute/updates/", take:"Admitting a limit with evidence is the top band, not a weakness. That is what Criterion 4 rewards."}
  ],
+ three:[
+  {t:"A click-through that works", d:"B8 — six links that land, clicked in the PDF."},
+  {t:"Eight sections that defend", d:"Each one quotes a number from Part A and names something you rejected."},
+  {t:"One read-aloud pass", d:"Before week 11: a sentence with no number in it is costing you marks.", open:true},
+ ],
  workshop:{
   aim:"Eight drafted sections turned from description into defence, and a click-through that works.",
   goals:["Cite a value you declared, in every section you write.", "Distinguish describing a design from defending one.", "Assemble and export one file that opens."],
@@ -382,6 +432,11 @@ const WEEKS = [
  idea:"Nothing is taught this week and nothing is missable.",
  hand:{keep:["Export to PDF, then click all six links in the PDF itself.", "Every source you quote appears in C9.", "Do not leave the upload to the last hour."], next:"Submit."},
  shown:[],
+ three:[
+  {t:"C9, your references", d:"Everything you cited, listed — Cite Them Right Harvard."},
+  {t:"The PDF uploaded", d:"Exported from your deck, with the confirmation saved."},
+  {t:"Nothing carried forward", d:"The quiet week. Submit by Friday 8 January, 21:00, and you are done."},
+ ],
  workshop:{
   aim:"References written, PDF assembled, everyone submits.",
   goals:["Submit."],
