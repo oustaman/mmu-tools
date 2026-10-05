@@ -308,6 +308,15 @@
   .ho-aim{margin:0 0 10px;font-size:1rem;font-weight:650;line-height:1.35}
   /* the workshop as a sequence: numbered nodes joined by a line, left to right,
      and top to bottom on a phone. There is no clock on purpose. */
+  /* The three, on the week table: titles only — the line each one expands to
+     is on the week page and the handout. */
+  .tl3{list-style:none;margin:6px 0 0;padding:0;display:flex;flex-wrap:wrap;gap:4px;counter-reset:n}
+  .tl3 li{counter-increment:n;font-size:0.72rem;line-height:1.3;color:var(--ink-2);
+    background:var(--surface-2);border-radius:99px;padding:3px 9px 3px 7px}
+  .tl3 li::before{content:counter(n);font-family:var(--mono);font-size:0.62rem;font-weight:700;
+    color:var(--ink-3);margin-right:5px}
+  .tl3 li.open{background:var(--warn-soft);color:var(--warn);font-weight:600}
+  .tl3 li.open::before{content:"→";color:var(--warn)}
   .ho-tl{list-style:none;margin:0;padding:0;display:grid;gap:7px;
     grid-template-columns:repeat(3,1fr);counter-reset:t}
   .ho-tl li{counter-increment:t;position:relative;border:1px solid var(--line);border-radius:9px;
@@ -651,7 +660,7 @@
    version held its own copy of the eleven weeks and the two drifted the moment
    a workshop was reworded. */
 const ROWS = WEEKS.map(w => ({
-  n: w.n, dead: !!w.dead, l: w.title, w: w.workshop.aim, m: w.makes,
+  n: w.n, dead: !!w.dead, l: w.title, w: w.workshop.aim, m: w.makes, three: w.three,
   decks: w.shown.filter(x => x.slides).map(x => ({ l: x.slides, u: x.u }))
 }));
 
@@ -709,7 +718,8 @@ document.getElementById('wkbody').innerHTML = ROWS.map(w => `
     <td class="wn">${w.n === NOW ? '▶ ' : ''}${String(w.n).padStart(2,'0')}</td>
     <td class="wn">${SD.fmtShort(SD.dateOf(w.n))}</td>
     <td class="wt">${w.l}</td>
-    <td>${w.w}</td>
+    <td>${w.w}
+      <ol class="tl3">${w.three.map(x => `<li class="${x.open ? 'open' : ''}">${x.t}</li>`).join('')}</ol></td>
     <td class="sheets"><span class="docs">
       <a class="doc doc-c" href="weeks.html?w=${w.n}&p=shown" title="What is shown in class">${PAGE}Class</a>
       <a class="doc doc-w" href="weeks.html?w=${w.n}&p=workshop" title="The workshop sheet">${PAGE}Workshop</a>
