@@ -52,10 +52,9 @@ const RUBRIC = [
      "Sophisticated, theoretically grounded reflection. Demonstrates genuine critical autonomy; integrates design theory, ethics, and broader concerns with insight."]}
 ];
 
-/* Four outcomes, verbatim. The CAF brief numbers them LO1–LO4 and also carries
- * the older A1/B1/B2/B3 codes in brackets; both are reproduced. */
-/* The three approved module outcomes, verbatim from the module record
-   (Screen Design 2026-27 v1.0, Approved, module code 1L4Z0045).
+/* The three approved module outcomes, verbatim from the Worktribe module record
+   (Screen Design 2026-27 v1.0, Approved 29 July 2025, module code 1L4Z0045,
+   record 4545378). Checked against the record itself on 5 October 2026.
 
    The references are the university's own — A for Knowledge and Critical
    Understanding, B for Skills and Attributes. Do not renumber them as LO1-3:
@@ -64,10 +63,14 @@ const RUBRIC = [
    one on the workshop sheet. The official reference is unambiguous, so it is
    the only label used anywhere in this module.
 
-   There is no B3. An earlier draft carried a fourth outcome — "Reflect on and
-   justify design decisions…" — which is not on the approved module. The four
-   RUBRIC criteria below are marking criteria, not outcomes, and do not map
-   one-to-one onto the three. */
+   There is no B3. The assessment brief carried a fourth outcome — "Reflect on
+   and justify design decisions…" — and reworded two others. The university
+   raised that on 5 October 2026 (Caroline via Evie: the brief did not match the
+   approved outcomes on CAMS), and the brief was corrected to these three. This
+   file was already right; it is the brief that moved.
+
+   The four RUBRIC criteria below are marking criteria, not outcomes, and do not
+   map one-to-one onto the three. */
 const OUTCOMES = [
  {id:"A1", group:"Knowledge and Critical Understanding",
   t:"Describe and explain key principles of visual design and their application in screen-based media."},

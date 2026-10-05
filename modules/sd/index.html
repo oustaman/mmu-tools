@@ -13,6 +13,7 @@
     --wsh:#1A526D; --wsh-soft:#E4EEF3;
     --sup:#5B5350; --sup-soft:#ECE9E7;
     --ok:#285638; --ok-soft:#E3EFE7;
+    --warn:#7A5204; --warn-soft:#F4EAD3;
     --mono:ui-monospace,"SF Mono",Menlo,Consolas,monospace;
     --sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Inter,Roboto,sans-serif;
     --fs:1rem;
@@ -25,6 +26,7 @@
     --wsh:#7FBEDC; --wsh-soft:#16262E;
     --sup:#B4ADAB; --sup-soft:#262223;
     --ok:#83C19A; --ok-soft:#1C2A22;
+    --warn:#E0BC78; --warn-soft:#2A2417;
   }
   *{box-sizing:border-box}
   body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);
@@ -306,6 +308,20 @@
   .ho-aim{margin:0 0 10px;font-size:1rem;font-weight:650;line-height:1.35}
   /* the workshop as a sequence: numbered nodes joined by a line, left to right,
      and top to bottom on a phone. There is no clock on purpose. */
+  .ho-tl{list-style:none;margin:0;padding:0;display:grid;gap:7px;
+    grid-template-columns:repeat(3,1fr);counter-reset:t}
+  .ho-tl li{counter-increment:t;position:relative;border:1px solid var(--line);border-radius:9px;
+    padding:9px 11px 9px 30px;background:var(--bg)}
+  .ho-tl li::before{content:counter(t);position:absolute;left:9px;top:9px;width:16px;height:16px;
+    border-radius:50%;background:var(--wsh);color:#fff;font:700 0.6rem/16px var(--mono);text-align:center}
+  .ho-tl li.open{border-color:var(--warn);background:var(--warn-soft)}
+  .ho-tl li.open::before{background:var(--warn)}
+  html[data-theme="dark"] .ho-tl li.open::before{color:#151314}
+  .ho-tl b{display:block;font-size:0.78rem;line-height:1.3}
+  .ho-tl span{display:block;font-size:0.72rem;color:var(--ink-2);line-height:1.4;margin-top:2px}
+  .ho-tl em{display:block;margin-top:4px;font-style:normal;font-family:var(--mono);font-size:0.58rem;
+    letter-spacing:0.06em;text-transform:uppercase;color:var(--warn)}
+  @media(max-width:620px){ .ho-tl{grid-template-columns:1fr} }
   .ho-seq{list-style:none;margin:4px 0 0;padding:0;display:flex;gap:0}
   .ho-seq li{flex:1 1 0;min-width:0;position:relative;display:flex;flex-direction:column;
     align-items:center;text-align:center;gap:8px;padding:0 4px}
@@ -601,7 +617,7 @@
 
   <footer>
     <p><b>Screen Design</b> · Level 4 · 30 credits · Semester 1 · <code>1L4Z0045</code> · School of English,
-      Faculty of Arts and Humanities. Approved, v1.0. Module coordinator Alex Hughes.</p>
+      Faculty of Arts and Humanities. Approved v1.0, 29 July 2025. Module coordinator Michail Oustamanolakis.</p>
     <p>Staff: every week's two sheets are on <a href="weeks.html">the materials page</a>, and the
       week 1 marking exercise has its own staff sheet, which is deliberately not linked from anywhere — open <code>example-sheet.html</code> directly.</p>
   </footer>
@@ -887,10 +903,18 @@ document.querySelectorAll('.seccount').forEach(el => {
         <p class="ho-chips"><span class="ho-lab">Bring</span>${bring.map(b => `<span>${esc(b)}</span>`).join('')}</p>
       </section>
 
+      <section class="ho-block ho-three" data-slide>
+        <h3>Leave with three things</h3>
+        <ol class="ho-tl">${w.three.map(x => `<li class="${x.open ? 'open' : ''}">
+          <b>${esc(x.t)}</b><span>${esc(plain(x.d))}</span>
+          ${x.open ? `<em>Open \u2014 ${n < WEEKS.length ? `week ${n + 1}` : 'the deadline'}</em>` : ''}</li>`).join('')}
+        </ol>
+      </section>
+
       <section class="ho-block" data-slide>
         <h3>Tick off today <span class="ho-sub">your assessment</span></h3>
         ${made.length ? made.map(x => tick(x)).join('')
-          : `<p class="ho-empty">Nothing to hand in yet. Leave with ${esc(plain(k.leave)).replace(/^A /, 'a ')}</p>`}
+          : `<p class="ho-empty">Nothing to hand in yet \u2014 see the three above.</p>`}
         ${bar('Your deck after today', Math.round(done / TOTAL * 100), `${done} of ${TOTAL} sections`)}
       </section>
 

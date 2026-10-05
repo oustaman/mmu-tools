@@ -150,6 +150,7 @@
   .steps .end .sn{background:var(--ok)}
   .steps .st{display:block;font-size:1rem;margin:6px 0 6px}
   .steps .pts > li::before{background:var(--wsh)}
+  .pts .opn{color:var(--warn)}
 
   .crows{list-style:none;margin:0;padding:0;display:grid;gap:8px}
   .crows li{display:grid;grid-template-columns:56px minmax(180px,260px) 1fr;gap:14px;align-items:start;
@@ -260,6 +261,7 @@
 <script src="weeks-data.js"></script>
 <script>
 const esc = s => String(s).replace(/[<&]/g, c => c === '<' ? '&lt;' : '&amp;');
+const plain = s => String(s).replace(/<[^>]+>/g, '');
 const CRIT = ['', 'Visual Design & Communication', 'User-Centred Thinking',
               'Technical Craft & Process', 'Critical Reflection'];
 
@@ -345,8 +347,9 @@ document.getElementById('run').innerHTML = w1.run.map((r, i) => `<li>
   <span class="sn">${i + 1}</span>
   <div><b class="st">${esc(String(r.s).split(/\s+[—–]\s+/)[0])}</b>
     <ul class="pts">${(RUN[i] || []).map(x => pt(esc(x[0]), esc(x[1]))).join('')}</ul></div></li>`).join('') +
-  `<li class="end"><span class="sn">→</span><div><b class="st">They leave with</b>
-    <ul class="pts">${pt(esc(w1.leave), 'Check before they go.')}</ul></div></li>`;
+  `<li class="end"><span class="sn">→</span><div><b class="st">They leave with three things</b>
+    <ul class="pts">${WEEKS[0].three.map(x => pt(esc(x.t),
+      esc(plain(x.d)) + (x.open ? ' <b class="opn">Open — week 2 opens on it.</b>' : ''))).join('')}</ul></div></li>`;
 
 /* 03 — what goes wrong, and what they ask */
 document.getElementById('qa').innerHTML = [
