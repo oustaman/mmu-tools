@@ -147,6 +147,23 @@
 
   /* ---- parts ---- */
   .part{margin-bottom:26px}
+  .part.hide,.it.hide{display:none}
+  .wkf{display:flex;flex-wrap:wrap;gap:6px;margin:4px 0 8px}
+  .wb{appearance:none;font:inherit;font-size:0.84rem;min-height:40px;padding:0 12px;border-radius:99px;cursor:pointer;
+    border:1px solid var(--line-2);background:var(--surface);color:var(--ink-2);display:inline-flex;align-items:center;gap:6px}
+  .wb i{font-style:normal;font-family:var(--mono);font-size:0.7rem;color:var(--ink-3);
+    background:var(--surface-2);border-radius:99px;padding:1px 7px}
+  .wb:hover{border-color:var(--ok);color:var(--ink)}
+  .wb.now{border-color:var(--ok);box-shadow:inset 0 -3px 0 var(--ok)}
+  .wb.on{background:var(--ink);color:var(--surface);border-color:var(--ink)}
+  .wb.on i{background:rgba(255,255,255,.18);color:inherit}
+  html[data-theme="dark"] .wb.on i{background:rgba(0,0,0,.2)}
+  .wb:focus-visible{outline:2px solid var(--ok);outline-offset:2px}
+  .wkf-note{margin:0 0 14px;font-size:0.9rem;color:var(--ink-2);min-height:1px}
+  .wkf-note:empty{margin:0}
+  .wkclear{appearance:none;background:none;border:0;padding:0;font:inherit;font-weight:640;color:var(--lec);
+    text-decoration:underline;text-underline-offset:2px;cursor:pointer}
+  @media print{ .wkf,.wkclear{display:none} }   /* print what is on screen: a week, or the lot */
   .ph{display:flex;align-items:baseline;gap:10px;margin-bottom:3px;flex-wrap:wrap}
   .ph h2{margin:0;font-size:1.18rem;font-weight:690;letter-spacing:-0.02em}
   .ph .tag{font-family:var(--mono);font-size:0.66rem;letter-spacing:0.06em;color:var(--ink-3);
@@ -304,6 +321,11 @@
     <div class="track"><span class="fill" id="fill"></span></div>
   </div>
 
+  <!-- Show the sections of one week, or several. Students who arrive late, or
+       who want only this week's work, can see just that. Nothing is hidden from
+       the progress bar, which always counts the whole deck. -->
+  <div class="wkf" id="wkf" role="group" aria-label="Show sections by week"></div>
+  <p class="wkf-note" id="wkfnote" role="status"></p>
   <div id="parts"></div>
 
   <section class="rub" id="rubric">
@@ -344,22 +366,25 @@
 </div>
 
 <script src="sd-common.js"></script>
+<script src="weeks-data.js"></script>
 <script src="rubric-data.js"></script>
 <script>
 /* The list lives in sd-common.js so the hub can read it too — one source, so
    the progress bar there and the ticks here can never disagree. */
 const el = document.getElementById('parts');
+/* the week each section is made in, from the workshops themselves */
+const MADE = {}; WEEKS.forEach(w => w.workshop.out.sec.forEach(s => { MADE[s] = w.n; }));
 const NOW = SD.week();
 let total = 0;
 el.innerHTML = PARTS.map(p => {
   const rows = p.items.map((x,i) => {
     const key = `sd-${p.id}-${i}`; total++;
     const late = NOW > x.dw && !SD.isDone(key);
-    return `<label class="it ${late ? 'late' : ''}" data-k="${key}">
+    return `<label class="it ${late ? 'late' : ''}" data-k="${key}" data-week="${MADE[x.sec]}">
       <input type="checkbox">
       <span class="it-b"><b><span class="secno">${x.sec}</span>${x.t}</b><span class="how">${x.h}</span>
         <span class="it-meta">
-          <span class="m wk">Week ${x.dw}</span>
+          <span class="m wk">Week ${MADE[x.sec]}${x.dw > MADE[x.sec] ? ` \u00b7 final by week ${x.dw}` : ''}</span>
           <span class="m dn">Done when: ${x.d}</span>
           ${x.wd ? `<span class="m wd">${x.wd}</span>` : ''}
         </span></span></label>`;
@@ -398,6 +423,44 @@ boxes.forEach(b => b.querySelector('input').addEventListener('change', e => {
 }));
 document.getElementById('reset').onclick = () => { write({}); paint(); };
 paint();
+
+/* ── the week filter ─────────────────────────────────────────────────────
+   Toggle any number of weeks; none selected shows everything. The choice is a
+   per-browser convenience, so it lives in localStorage and survives a reload. */
+(function weekFilter(){
+  const bar = document.getElementById('wkf'), note = document.getElementById('wkfnote');
+  const KEY = 'sd-checklist-weeks';
+  let sel = new Set();
+  try { (JSON.parse(localStorage.getItem(KEY)) || []).forEach(n => sel.add(+n)); } catch (e) {}
+  const count = n => boxes.filter(b => +b.dataset.week === n).length;
+  bar.innerHTML = `<button type="button" class="wb all" data-w="all">All weeks</button>` +
+    WEEKS.map(w => `<button type="button" class="wb${w.n === NOW ? ' now' : ''}" data-w="${w.n}"
+      title="${w.title}${w.n === NOW ? ' \u2014 this week' : ''}">Week ${w.n}<i>${count(w.n) || '\u2013'}</i></button>`).join('');
+  function apply(){
+    bar.querySelectorAll('.wb').forEach(b => {
+      const on = b.dataset.w === 'all' ? sel.size === 0 : sel.has(+b.dataset.w);
+      b.classList.toggle('on', on); b.setAttribute('aria-pressed', on ? 'true' : 'false');
+    });
+    boxes.forEach(b => b.classList.toggle('hide', sel.size > 0 && !sel.has(+b.dataset.week)));
+    document.querySelectorAll('#parts .part').forEach(p =>
+      p.classList.toggle('hide', !p.querySelector('.it:not(.hide)')));
+    const shown = boxes.filter(b => !b.classList.contains('hide')).length;
+    const weeks = [...sel].sort((a, b) => a - b);
+    note.innerHTML = !sel.size ? ''
+      : shown === 0 ? `Week 1 sets the deck up, so it has nothing to tick: make your <code>Screen Design</code> folder, then a slide for every section with the copy cards above.`
+      : `Showing ${shown} of ${boxes.length} sections \u2014 made in week${weeks.length > 1 ? 's' : ''} ${weeks.join(', ')}. ` +
+        `<button type="button" class="wkclear">Show all</button>`;
+    try { localStorage.setItem(KEY, JSON.stringify(weeks)); } catch (e) {}
+  }
+  bar.addEventListener('click', e => {
+    const b = e.target.closest('.wb'); if (!b) return;
+    if (b.dataset.w === 'all') sel.clear();
+    else { const n = +b.dataset.w; sel.has(n) ? sel.delete(n) : sel.add(n); }
+    apply();
+  });
+  note.addEventListener('click', e => { if (e.target.closest('.wkclear')) { sel.clear(); apply(); } });
+  apply();
+})();
 
 (function rubric(){
   const t = document.getElementById('rubt');
