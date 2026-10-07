@@ -168,7 +168,7 @@
   /* Sheets, drawn as sheets. A page with a folded corner and three ruled lines,
      in the colour of the session it belongs to — red for the lecture hour, blue
      for the workshop, matching the day diagram above. */
-  .doc{display:inline-flex;align-items:center;gap:6px;text-decoration:none;
+  .doc{white-space:nowrap;display:inline-flex;align-items:center;gap:6px;text-decoration:none;
     font-family:var(--mono);font-size:0.63rem;letter-spacing:0.03em;color:var(--ink-2);
     border:1px solid var(--line-2);border-radius:6px;padding:4px 8px 4px 6px;background:var(--surface)}
   /* Drawn as an SVG, not a stack of CSS gradients. The previous version painted
@@ -300,10 +300,6 @@
   .ho-lab{display:block;font-size:.66rem;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-3);font-weight:600;margin-bottom:4px}
 
   /* the session split: the workshop takes two thirds, because it is two thirds */
-  .ho-split{display:flex;margin:0 0 14px;border-radius:6px;overflow:hidden;font-size:.74rem;font-weight:600}
-  .ho-split span{padding:8px 10px;line-height:1.25}
-  .ho-split-c{flex:1;background:var(--surface-2);color:var(--ink-2)}
-  .ho-split-w{flex:2;background:var(--wsh);color:#fff}
 
   .ho-aim{margin:0 0 10px;font-size:1rem;font-weight:650;line-height:1.35}
   /* the workshop as a sequence: numbered nodes joined by a line, left to right,
@@ -317,50 +313,18 @@
     color:var(--ink-3);margin-right:5px}
   .tl3 li.open{background:var(--warn-soft);color:var(--warn);font-weight:600}
   .tl3 li.open::before{content:"→";color:var(--warn)}
-  .ho-tl{list-style:none;margin:0;padding:0;display:grid;gap:7px;
-    grid-template-columns:repeat(3,1fr);counter-reset:t}
-  .ho-tl li{counter-increment:t;position:relative;border:1px solid var(--line);border-radius:9px;
-    padding:9px 11px 9px 30px;background:var(--bg)}
-  .ho-tl li::before{content:counter(t);position:absolute;left:9px;top:9px;width:16px;height:16px;
-    border-radius:50%;background:var(--wsh);color:#fff;font:700 0.6rem/16px var(--mono);text-align:center}
-  .ho-tl li.open{border-color:var(--warn);background:var(--warn-soft)}
-  .ho-tl li.open::before{background:var(--warn)}
-  html[data-theme="dark"] .ho-tl li.open::before{color:#151314}
-  .ho-tl b{display:block;font-size:0.78rem;line-height:1.3}
-  .ho-tl span{display:block;font-size:0.72rem;color:var(--ink-2);line-height:1.4;margin-top:2px}
-  .ho-tl em{display:block;margin-top:4px;font-style:normal;font-family:var(--mono);font-size:0.58rem;
-    letter-spacing:0.06em;text-transform:uppercase;color:var(--warn)}
-  @media(max-width:620px){ .ho-tl{grid-template-columns:1fr} }
-  .ho-seq{list-style:none;margin:4px 0 0;padding:0;display:flex;gap:0}
-  .ho-seq li{flex:1 1 0;min-width:0;position:relative;display:flex;flex-direction:column;
-    align-items:center;text-align:center;gap:8px;padding:0 4px}
-  .ho-seq li::before{content:"";position:absolute;top:15px;left:-50%;width:100%;height:2px;
-    background:var(--wsh);opacity:.35}
-  .ho-seq li:first-child::before{display:none}
-  .ho-sq{position:relative;z-index:1;width:32px;height:32px;border-radius:50%;background:var(--wsh);
-    color:#fff;display:grid;place-items:center;font:700 .82rem/1 var(--mono);flex:none}
-  .ho-sl{font-size:.8rem;font-weight:600;line-height:1.3;overflow-wrap:anywhere}
   .ho-chips{margin:12px 0 0;display:flex;flex-wrap:wrap;gap:6px;align-items:center}
   .ho-chips .ho-lab{width:100%;margin:0}
   .ho-chips span:not(.ho-lab){font-size:.8rem;padding:4px 9px;border-radius:999px;background:var(--surface);
     border:1px solid var(--line-2)}
 
   /* ticks: 44px rows, because this is used with a thumb */
-  .ho-tick{display:grid;grid-template-columns:24px 38px 1fr;gap:10px;align-items:start;min-height:44px;
-    padding:8px 0;border-top:1px solid var(--line);cursor:pointer}
-  .ho-tick input{width:22px;height:22px;margin:1px 0 0;accent-color:var(--wsh)}
   .ho-code{font-family:var(--mono);font-size:.74rem;font-weight:700;text-align:center;padding:3px 0;border-radius:4px;color:#fff}
   .ho-what b{display:block;font-size:.9rem;line-height:1.3}
   .ho-what em{display:block;font-style:normal;font-size:.8rem;color:var(--ink-3);line-height:1.35}
-  .ho-tick:has(input:checked) .ho-what{opacity:.55;text-decoration:line-through}
   .ho-empty{margin:0;font-size:.88rem;color:var(--ink-2)}
   .ho-A{background:var(--wsh)} .ho-B{background:var(--lec)} .ho-C{background:var(--sup)}
 
-  .ho-prog{margin-top:12px}
-  .ho-prog-h{display:flex;justify-content:space-between;gap:8px;font-size:.78rem;margin-bottom:4px}
-  .ho-prog-h span{font-family:var(--mono);color:var(--ink-2)}
-  .ho-prog-t{height:12px;background:var(--surface-2);border-radius:6px;overflow:hidden}
-  .ho-prog-t i{display:block;height:100%;background:var(--ink);border-radius:6px}
 
   .ho-two{display:grid;grid-template-columns:1.5fr 1fr;gap:14px}
   .ho-two .ho-block{margin:0}
@@ -428,7 +392,6 @@
   .ho-view button + button{border-left:1px solid var(--line-2)}
   .ho-view button[aria-pressed="true"]{background:var(--ink);color:var(--surface)}
   .ho-dnav{display:none}
-  .ho-slide + .ho-slide{margin-top:0}
 
   /* Slides: the handout fills the screen and shows one group at a time. On a
      projector the content is scaled up rather than restyled, so it is the same
@@ -452,14 +415,9 @@
     #handout{width:100%;max-width:100%;height:100dvh;max-height:100dvh;border-radius:0;margin:0}
     .ho-body{padding:16px 16px calc(24px + env(safe-area-inset-bottom))}
     .ho-body h2{font-size:1.35rem}
-    .ho-seq{flex-direction:column;gap:14px}
-    .ho-seq li{flex-direction:row;text-align:left;align-items:center;gap:12px;padding:0}
-    .ho-seq li::before{top:-14px;left:15px;width:2px;height:14px}
-    .ho-sl{font-size:.9rem}
     .ho-two,.ho-crit,.ho-parts{grid-template-columns:1fr}
     .ho-stats{grid-template-columns:repeat(2,1fr)}
     .ho-musts{columns:1}
-    .ho-split span{font-size:.7rem}
     .ho-wk{grid-template-columns:20px minmax(0,1fr) 44px 20px}
     .ho-links a{flex:1 1 100%;justify-content:center}
     .ho-kicker{display:none}
@@ -482,7 +440,6 @@
     .ho-block,.ho-wk,.ho-c,.ho-part{break-inside:avoid}
     .ho-body h2{font-size:1.3rem}
     .ho-block{padding:8px 10px;margin-bottom:8px}
-    .ho-tick{min-height:0;padding:4px 0}
     .ho-links{display:none}
     html,body{background:#fff !important}
     .ho-scr{display:none !important} .ho-prt{display:block}
@@ -557,7 +514,7 @@
       <table class="wk">
         <thead><tr><th style="width:52px">Wk</th><th style="width:62px">Date</th><th style="width:22%">Shown in class · 1h</th>
           <th style="width:34%">Workshop · 2h</th>
-          <th style="width:172px">Sheets</th></tr></thead>
+          <th style="width:172px">This week</th></tr></thead>
         <tbody id="wkbody"></tbody>
       </table>
     </div>
@@ -707,11 +664,6 @@ const PAGE = `<svg viewBox="0 0 13 16" fill="none" stroke="currentColor" stroke-
 </svg>`;
 /* An easel: a slide deck shown in the lecture hour. */
 const EASEL = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2.5 3.5h19"/><rect x="4" y="3.5" width="16" height="11.5" rx="1"/><path d="M12 15v3.2M12 18.2 8 21.5M12 18.2l4 3.3"/></svg>`;
-/* A hand, not a page: the handout is what students take away, and it should not
-   read as a third staff sheet beside the two that are. */
-const HAND = `<svg viewBox="0 0 14 18" width="11" height="14" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.3">
-  <path d="M2 9.6V4.3a1.1 1.1 0 0 1 2.2 0v4M4.2 8.3V2.6a1.1 1.1 0 0 1 2.2 0v5.7M6.4 8.3V3.4a1.1 1.1 0 0 1 2.2 0v4.9M8.6 8.6V5.6a1.1 1.1 0 0 1 2.2 0v6.2c0 2.9-1.7 4.6-4 4.6-1.7 0-2.8-.7-3.6-2L1.4 11c-.4-.7-.1-1.4.5-1.7.6-.3 1.2-.1 1.6.5l.7 1" stroke-linecap="round" stroke-linejoin="round"/>
-</svg>`;
 
 document.getElementById('wkbody').innerHTML = ROWS.map(w => `
   <tr class="${w.dead ? 'dead' : ''} ${w.n === NOW ? 'now' : ''} ${NOW && w.n < NOW ? 'past' : ''}">
@@ -721,9 +673,7 @@ document.getElementById('wkbody').innerHTML = ROWS.map(w => `
     <td>${w.w}
       <ol class="tl3">${w.three.map(x => `<li class="${x.open ? 'open' : ''}">${x.t}</li>`).join('')}</ol></td>
     <td class="sheets"><span class="docs">
-      <a class="doc doc-c" href="weeks.html?w=${w.n}&p=shown" title="What is shown in class">${PAGE}Class</a>
-      <a class="doc doc-w" href="weeks.html?w=${w.n}&p=workshop" title="The workshop sheet">${PAGE}Workshop</a>
-        <button type="button" class="doc doc-h" data-handout="${w.n}" title="The handout for this session">${HAND}Handout</button>
+      <a class="doc doc-w" href="weeks.html?w=${w.n}" title="Week ${w.n}: class, workshop and what comes next, on one page">${PAGE}Open week</a>
       ${w.decks.map(d => `<a class="doc doc-s" href="${d.u}" title="Slides shown in class: ${d.l}">${EASEL}${d.l}</a>`).join('')}
     </span></td>
   </tr>`).join('');
@@ -866,8 +816,6 @@ document.querySelectorAll('.seccount').forEach(el => {
 
 
   const esc = t => String(t).replace(/[<&]/g, c => c === '<' ? '&lt;' : '&amp;');
-  const plain = t => String(t).replace(/<[^>]+>/g, '').replace(/\s+/g, ' ').trim();
-  const stepName = t => plain(t).split(/\s+[—–]\s+/)[0];
   const SEC = {};
   SD.all.forEach(i => { SEC[i.sec] = i; });
   const PART = { A: 'Spec sheet', B: 'The work', C: 'Rationale' };
@@ -875,74 +823,10 @@ document.querySelectorAll('.seccount').forEach(el => {
   const madeIn = n => WEEKS.find(w => w.n === n).workshop.out.sec.filter(x => SEC[x]);
   const doneBy = n => WEEKS.filter(w => w.n <= n).reduce((a, w) => a + madeIn(w.n).length, 0);
   const days = () => Math.max(0, SD.daysToDeadline());
-  const due = () => `${SD.fmtFull(SD.dead)}`;
 
-  const tick = (sec, extra = '') => {
-    const it = SEC[sec]; const on = !!SD.read()[it.key];
-    return `<label class="ho-tick"><input type="checkbox" data-key="${it.key}"${on ? ' checked' : ''}>
-      <span class="ho-code ho-${it.part}">${sec}</span>
-      <span class="ho-what"><b>${esc(it.t)}</b><em>${esc(it.d)}</em></span>${extra}</label>`;
-  };
-  const bar = (label, pct, note) =>
-    `<div class="ho-prog"><div class="ho-prog-h"><b>${label}</b><span>${note}</span></div>
-      <div class="ho-prog-t" role="img" aria-label="${label}: ${note}"><i style="width:${pct}%"></i></div></div>`;
-
-  /* ── one session ─────────────────────────────────────────────────────────── */
-  function week(n) {
-    const w = WEEKS.find(x => x.n === n); if (!w) return;
-    const k = w.workshop, made = madeIn(n);
-    const bring = plain(k.bring).split('·').map(x => x.trim()).filter(Boolean);
-    const done = doneBy(n);
-
-    kick.textContent = `Week ${n} · ${SD.fmt(SD.dateOf(n))}`;
-    body.innerHTML = `
-      <h2 id="ho-title">${esc(w.title)}</h2>
-      <p class="ho-idea">${esc(w.idea)}</p>
-
-      <div class="ho-split" role="img" aria-label="One hour in class, two hours in the workshop">
-        <span class="ho-split-c">Class · 1h</span>
-        <span class="ho-split-w">Workshop · 2h</span>
-      </div>
-
-      <section class="ho-block ho-main" data-slide>
-        <h3>In the workshop</h3>
-        <p class="ho-aim">${esc(k.aim)}</p>
-        <ol class="ho-seq">${k.run.map((r, i) => `
-          <li><span class="ho-sq">${i + 1}</span><span class="ho-sl">${esc(stepName(r.s))}</span></li>`).join('')}
-        </ol>
-        <p class="ho-chips"><span class="ho-lab">Bring</span>${bring.map(b => `<span>${esc(b)}</span>`).join('')}</p>
-      </section>
-
-      <section class="ho-block ho-three" data-slide>
-        <h3>Leave with three things</h3>
-        <ol class="ho-tl">${w.three.map(x => `<li class="${x.open ? 'open' : ''}">
-          <b>${esc(x.t)}</b><span>${esc(plain(x.d))}</span>
-          ${x.open ? `<em>Open \u2014 ${n < WEEKS.length ? `week ${n + 1}` : 'the deadline'}</em>` : ''}</li>`).join('')}
-        </ol>
-      </section>
-
-      <section class="ho-block" data-slide>
-        <h3>Tick off today <span class="ho-sub">your assessment</span></h3>
-        ${made.length ? made.map(x => tick(x)).join('')
-          : `<p class="ho-empty">Nothing to hand in yet \u2014 see the three above.</p>`}
-        ${bar('Your deck after today', Math.round(done / TOTAL * 100), `${done} of ${TOTAL} sections`)}
-      </section>
-
-      <div class="ho-two" data-slide>
-        <section class="ho-block">
-          <h3>Keep in mind</h3>
-          <ul class="ho-keep">${w.hand.keep.map(x => `<li>${esc(x)}</li>`).join('')}</ul>
-        </section>
-        <section class="ho-block ho-warn">
-          <h3>Watch out</h3>
-          <p>${esc(plain(k.mistake))}</p>
-        </section>
-      </div>
-
-      <p class="ho-next" data-slide><span class="ho-lab">Before next week</span>${esc(w.hand.next)}</p>
-      <p class="ho-foot">Deadline ${due()}<span class="ho-scr"> · ${days()} days to go</span> ·
-        <a href="assessment.html">open your checklist →</a></p>`;
-  }
+  /* The weekly handout lived here as a modal. It became the week page itself
+     (weeks.html?w=N), which prints as the one-page version; only the brief's
+     one-pager is still a modal. */
 
   /* ── the whole brief ─────────────────────────────────────────────────────── */
   const GETS = {
@@ -1079,17 +963,14 @@ document.querySelectorAll('.seccount').forEach(el => {
     const st = SD.read(); st[c.dataset.key] = c.checked; SD.write(st);
   });
   document.addEventListener('click', e => {
-    const w = e.target.closest('[data-handout]');
     const b = e.target.closest('[data-brief-handout]');
-    if (!w && !b) return;
-    w ? week(+w.dataset.handout) : brief();
+    if (!b) return;
+    brief();
     slideify();
-    dlg.dataset.kind = w ? 'week' : 'brief';
+    dlg.dataset.kind = 'brief';
     hcur = 0;
     hsetView(hview);
     dlg.showModal();
-    const words = body.innerText.split(/\s+/).filter(Boolean).length;
-    if (w && words > 250) console.warn(`handout week ${w.dataset.handout}: ${words} words — over the one-minute budget of 250`);
   });
   document.getElementById('ho-close').onclick = () => dlg.close();
   document.getElementById('ho-print').onclick = () => window.print();
