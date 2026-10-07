@@ -341,6 +341,14 @@ let cur = 1;
 function mark(n){
   cur = n;
   document.querySelectorAll('.th').forEach(t => t.classList.toggle('on', t.dataset.go === String(n)));
+  /* the rail follows: keep the current thumbnail in the middle of it. Rects,
+     not offsetTop, because the rail is sticky on the page and static in full
+     screen, and its offset parent is different in each. */
+  const th = rail.querySelector('.th.on');
+  if (th && rail.scrollHeight > rail.clientHeight) {
+    const rr = rail.getBoundingClientRect(), tr = th.getBoundingClientRect();
+    rail.scrollBy({ top: tr.top - rr.top - (rail.clientHeight - tr.height) / 2, behavior: 'smooth' });
+  }
   document.getElementById('sn').textContent = `Slide ${n} of ${EXAMPLE.meta.slides}`;
 }
 const io = new IntersectionObserver(es => {

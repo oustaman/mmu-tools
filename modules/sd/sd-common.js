@@ -146,7 +146,7 @@ const PARTS = [
     h:"Which tools, for what, and how you evaluated or changed the output. Or why you did not use any. REQUIRED BY THE BRIEF.",
     f:["(~80 words)","","Not the same as the A7 log. A7 is the record; this is what you make of it —",
        "was the output any good, whose work is it, what did you change and why."]},
-   {sec:"C9", t:"References", dw:10, d:"Everything you cited, listed",
+   {sec:"C9", t:"References", dw:11, d:"Everything you cited, listed",
     h:"Cite Them Right Harvard. The list does not count toward your 500–700 words — in-text citations do.",
     f:["Cite Them Right Harvard · libguides.mmu.ac.uk/refguide","",
        "Author, A. (Year) Title. Place: Publisher.","",
