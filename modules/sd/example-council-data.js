@@ -16,8 +16,11 @@
  *
  *  It is strong, and it is not a First. What holds it at 65, so a tutor can
  *  steer to it and a student can see the distance:
- *    · nobody but the designer tried either version — every claim about
- *      students rests on one person's experience (holds Criterion 2)
+ *    · the improvement is asserted, not measured: seven steps to four is
+ *      counted, but fields, clicks and words to read are not (holds
+ *      Criterion 2). The fix is measuring both versions, which needs nobody
+ *      but the student — testing with other people would need the
+ *      university's ethics approval, so the module never asks for it.
  *    · D2 removes the check-your-answers step "because it felt like
  *      repetition" — a reason about the designer, not the user (Criterion 3)
  *    · "Save and come back later" is drawn on every screen and links nowhere
@@ -267,15 +270,15 @@ const EXAMPLE = {
   { n: 1, name: "Visual Design & Communication", band: "First · 70%+", mark: 72,
     s: "The strongest part of the portfolio, and First-level on its own. One question per screen, held by a hierarchy that is obvious and argued for (C2): the question at 35, the logo the smallest thing in the header. Type, colour and spacing all come from declared values and every screen obeys them. The reflow in B7 is real — the people table becomes cards. The one flaw is the mobile summary on screen 4, which keeps two columns it has no room for." },
   { n: 2, name: "User-Centred Thinking", band: "2:1 · 60–69%", mark: 65,
-    s: "Accessibility is designed in rather than asserted: every pair passes, the focus state is solved properly, errors are never colour alone. The journey is genuinely shorter, and the two steps students could not complete are gone. What holds it in the 2:1 is evidence: every claim about students rests on one student's experience. Nobody else tried either version, so 'faster' and 'clearer' are judgements, not findings." },
+    s: "Accessibility is designed in rather than asserted: every pair passes, the focus state is solved properly, errors are never colour alone. The journey is genuinely shorter, and the two steps students could not complete are gone. What holds it in the 2:1 is evidence: 'faster' and 'clearer' are asserted, not measured. Seven steps to four is counted; the fields to fill, the clicks and the words to read on each version are not, so the argument stops at the screen count." },
   { n: 3, name: "Technical Craft & Process", band: "2:1 · 60–69%", mark: 65,
     s: "A credible, iterative process from eight sketches to four finished screens, with the before captured and every step accounted for. Two things hold it back. D2 removes the check-your-answers step 'because it felt like repetition', a reason about the designer rather than the user, on the one form where a mistake costs money. And 'Save and come back later' is drawn on every screen but links nowhere in the click-through." },
   { n: 4, name: "Critical Reflection", band: "2:1 · 60–69%", mark: 62,
     s: "Every C section quotes the student's own numbers and most defend a decision rather than describe it — C4 and C8 are the best examples. The ethics paragraph finds the right question, consent to the university check, and then answers it in one sentence. C7 is generic: 'simple English for international students' could be written about any form, and names nothing specific to this one." }
  ],
- overall: "65 · 2:1. A complete, well-made portfolio that does what the brief asks and argues for most of it. It is not a First because its strongest claims are untested and its hardest question is answered too quickly: a First would have two housemates try both versions and report what happened, and would weigh the consent question rather than settle it.",
+ overall: "65 · 2:1. A complete, well-made portfolio that does what the brief asks and argues for most of it. It is not a First because its strongest claim is asserted rather than measured, and its hardest question is answered too quickly: a First would count what a person does on both versions — fields, clicks, words to read — and would weigh the consent question rather than settle it.",
  gaps: [
-  ["Test it with someone", "Two housemates through the before and the after: steps, time, where they hesitated. One paragraph of what happened turns 'clearer' from a judgement into a finding."],
+  ["Measure both versions", "Count what a person has to do on each: fields to fill, clicks, words to read, and every point where the old site asks for something a student does not have. A before-and-after table turns 'clearer' from a judgement into a finding, and it needs nobody but you."],
   ["Weigh the consent question", "C6 names it. A First would say who sees what, why unticked is the right default, and what happens to a student who says no."],
   ["Defend or restore 'check your answers'", "It was removed for the designer's comfort. Either a reason about the user, or put it back."],
   ["Link 'save and come back'", "It is on every screen and goes nowhere. One more slide and one more link."],
@@ -299,7 +302,7 @@ const NOTES = [
  { sec:"B7", b:2, c:1, band:"2:1", s:"A real reflow at tablet, and on mobile the table becomes cards. Then screen 4 on mobile keeps its two columns, and the caption says 'I think it still reads.' At 375 the values wrap into a sliver. One sentence of doubt is not a check." },
  { sec:"B8", b:1, c:3, band:"2:1", s:"Every step links forward and back — that is the clickable prototype the brief asks for. But 'Save and come back later' is drawn on every screen and appears nowhere in this list: a way out the reader cannot take." },
  { sec:"C2", b:1, c:4, band:"First", s:"Defends rather than describes: why 8 columns, what 12 would have cost, and a number from A3 inside the argument." },
- { sec:"C5", b:1, c:2, band:"2:1", s:"'Seven steps became four' is the strongest sentence in the deck — and the only evidence that four is better is the designer's own walk-through. Two housemates trying both versions would turn a judgement into a finding." },
+ { sec:"C5", b:1, c:2, band:"2:1", s:"'Seven steps became four' is the strongest sentence in the deck — and the only number behind it. Count fields, clicks and words to read on both versions, and 'clearer' becomes a finding instead of a judgement." },
  { sec:"C6", b:1, c:4, band:"2:1", s:"Finds exactly the right question — consent to the university sharing data — then answers it in one sentence. Who sees what? What happens to a student who says no? Why is unticked the right default? That paragraph is the First, and it is left unwritten." },
  { sec:"C7", b:1, c:4, band:"2:2", s:"Generic. 'Simple English' and 'no culture-specific icons' could be written about any form. This one has something specific to say: names in a different order on the people screen, course dates that follow other academic calendars." },
  { sec:"C8", b:1, c:4, band:"First", s:"The best paragraph in the deck. The AI made a promise the form cannot keep, and the student caught it by reading the source. That is evaluating the output, not just logging it." },

@@ -343,7 +343,7 @@ const WEEKS = [
    {s:"Photograph the set", d:"<code>B5</code> complete, and the first two rows of <code>B6</code> in the deck."}
   ],
   leave:"One wireframe per screen, photographed — and two of them already finished screens in B6.",
-  done:"A stranger can name each screen's job with the labels covered.",
+  done:"A classmate who has not seen it can name each screen's job with the labels covered.",
   between:"<b>Finish B6.</b> Two screens were built in the workshop; build the rest of the journey. This is the largest single piece of independent work in the module, and it is due <b>at the start of week 9</b>, not at the deadline. Everything in week 9 operates on these screens: you cannot show a screen at three sizes, or audit it, if it does not exist.",
   mistake:"Decorating. A wireframe that took an hour is a mockup and is worth less here.",
   stuck:[["How detailed?","Boxes and labels. If you are choosing a font, stop."],
