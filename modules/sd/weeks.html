@@ -201,7 +201,33 @@
   code{font-family:var(--mono);font-size:0.88em;overflow-wrap:anywhere}
 
   @media print{
-    header,.picker,.tabs,.prow,footer,.ctl,.rules{display:none !important}
+    header,.picker,.prow,footer,.ctl,.rules,.jump,.fold,.thisweek,.subject,.items .go,.it > summary::after,.deck small{display:none !important}
+    .it > summary{padding:2px 0 !important;grid-template-columns:20px 1fr !important;gap:7px !important}
+    .items > li{border:0 !important;background:none !important;border-radius:0 !important}
+    .it .n{width:16px !important;height:16px !important;font-size:0.56rem !important}
+    .items{gap:0 2px !important;grid-template-columns:1fr 1fr !important}
+    .it .take{display:none !important}
+    .three-l{grid-template-columns:repeat(3,1fr) !important}
+    .today{grid-template-columns:1fr 1.4fr !important}
+    .blk{margin-top:8px}
+    .bh{margin-bottom:4px}
+    .td,.three-l li{border-color:#999}
+    *{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+    .seqhint,.deck,.lab + .keep{display:none !important}
+    #after .lab{display:none !important}
+    .widea{font-size:10pt;margin-bottom:2px}
+    h1{font-size:16pt}
+    .three{margin:6px 0 0}
+    .three-l li{padding:6px 9px}
+    .three-l .tt > span{font-size:8.5pt}
+    .today{margin:6px 0 0;gap:6px}
+    .td{padding:6px 9px}
+    .tk{min-height:0}
+    .bh h2{font-size:12pt}
+    .it .s b{font-size:9.5pt}
+    .it .take{font-size:8.5pt}
+    .missline,.btwnline{padding:6px 9px !important;font-size:9pt}
+    .claim{font-size:10pt;margin-bottom:2px}
     body{background:#fff;color:#000;font-size:10.5pt}
     .wrap{max-width:none;padding:0}
     .panel{border:0;padding:0;background:#fff;border-radius:0}
@@ -211,6 +237,79 @@
     h1{margin-top:0}
     .printhead{display:block !important}
   }
+
+  /* ── the layered week page ─────────────────────────────────────────────── */
+  .widea{font-size:1.08rem;line-height:1.45;color:var(--ink-2);margin:0 0 4px;max-width:62ch}
+  .lab{display:block;font-family:var(--mono);font-size:0.64rem;letter-spacing:0.08em;text-transform:uppercase;
+    color:var(--ink-3);font-weight:500;margin:0 0 6px}
+  .today{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.4fr);gap:12px;margin:12px 0 6px}
+  .td{background:var(--surface);border:1px solid var(--line);border-radius:11px;padding:12px 14px}
+  .bring{display:flex;flex-wrap:wrap;gap:6px}
+  .bring span{font-size:0.84rem;border:1px solid var(--line-2);border-radius:99px;padding:3px 11px;background:var(--bg)}
+  .ticks{display:grid;gap:6px}
+  .tk{display:flex;align-items:center;gap:9px;font-size:0.9rem;cursor:pointer;min-height:32px}
+  .tk input{width:18px;height:18px;accent-color:var(--wsh);flex:none}
+  .tk i{font-style:normal;font-family:var(--mono);font-size:0.72rem;font-weight:700;background:var(--surface-2);
+    border-radius:4px;padding:1px 6px}
+  .tk input:checked ~ span{color:var(--ink-3);text-decoration:line-through}
+  .deck{display:block;margin-top:10px}
+  .deck-t{display:block;height:6px;border-radius:99px;background:var(--surface-2);overflow:hidden}
+  .deck-t i{display:block;height:100%;background:var(--wsh)}
+  .deck small{display:block;margin-top:4px;font-family:var(--mono);font-size:0.68rem;color:var(--ink-3)}
+  .none{font-size:0.88rem;color:var(--ink-3)}
+  @media(max-width:700px){ .today{grid-template-columns:1fr} }
+
+  .jump{display:flex;flex-wrap:wrap;gap:4px;margin:16px 0 6px;padding:6px 0;border-block:1px solid var(--line)}
+  .jump a{font-size:0.84rem;color:var(--ink-2);text-decoration:none;padding:6px 10px;border-radius:6px}
+  .jump a:hover{background:var(--surface-2);color:var(--ink)}
+
+  .blk,.fold{scroll-margin-top:84px}
+  .blk{margin:22px 0 0}
+  .bh{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;margin:0 0 10px;
+    padding-bottom:6px;border-bottom:2px solid var(--ink)}
+  .bh h2{margin:0;font-size:1.2rem;font-weight:700;letter-spacing:-0.015em}
+  .bh .when{font-family:var(--mono);font-size:0.68rem;letter-spacing:0.04em;color:var(--ink-3)}
+  #class .bh{border-color:var(--lec)} #workshop .bh{border-color:var(--wsh)}
+
+  .items{list-style:none;margin:0;padding:0;display:grid;gap:6px}
+  .items > li{background:var(--surface);border:1px solid var(--line);border-radius:10px}
+  .it > summary{display:grid;grid-template-columns:28px 1fr 16px;gap:11px;align-items:start;
+    padding:11px 14px;cursor:pointer;list-style:none}
+  .it > summary::-webkit-details-marker{display:none}
+  .it > summary::after{content:"+";font-family:var(--mono);color:var(--ink-3);font-size:1rem;line-height:1.3}
+  .it[open] > summary::after{content:"\2212"}
+  .it > summary:focus-visible{outline:2px solid var(--wsh);outline-offset:-2px;border-radius:10px}
+  .it .n{width:26px;height:26px;border-radius:50%;display:grid;place-items:center;font:700 0.76rem var(--mono);
+    background:var(--lec);color:#fff}
+  .steps .it .n{background:var(--wsh)}
+  html[data-theme="dark"] .it .n{color:#151314}
+  .it .s b{display:block;font-size:0.96rem;font-weight:640;line-height:1.35}
+  .it .take{display:block;font-size:0.86rem;color:var(--ink-2);margin-top:3px;line-height:1.45}
+  .it .more{padding:0 14px 12px 53px;font-size:0.9rem;color:var(--ink-2);line-height:1.55}
+  .it .more p{margin:0}
+  .items .go{padding:0 14px 11px 53px;margin-top:-4px}
+  .items .go .rshow{margin-top:0}
+  .keep{margin:0;padding-left:18px;font-size:0.92rem;color:var(--ink-2);display:grid;gap:4px}
+
+  .fold{background:var(--surface);border:1px solid var(--line);border-radius:11px;margin:12px 0 0}
+  .fold > summary{cursor:pointer;list-style:none;padding:13px 16px;display:flex;gap:10px;align-items:baseline;flex-wrap:wrap}
+  .fold > summary::-webkit-details-marker{display:none}
+  .fold > summary::before{content:"\25B8";color:var(--ink-3)}
+  .fold[open] > summary::before{content:"\25BE"}
+  .fold > summary em{font-style:normal;font-size:0.84rem;color:var(--ink-3)}
+  .fold > :not(summary){margin:0 16px 14px}
+  .fold.tutors > summary b{color:var(--ink-2)}
+  .tgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(260px,100%),1fr));gap:14px;font-size:0.9rem}
+  .tgrid ol{margin:0;padding-left:18px;color:var(--ink-2)}
+  .tgrid p{margin:4px 0 10px;color:var(--ink-2)}
+  .doneline.dn{background:var(--surface-2);border-color:var(--line-2)}
+  .doneline.dn b{color:var(--ink-3)}
+  /* older rules for the two-tab layout share these class names */
+  .it .take{margin:3px 0 0;padding:0;border-left:0;background:none}
+  ol.items.steps{padding-left:0;font-size:inherit}
+  ol.items.steps > li{margin-bottom:0}
+  #after .btwnline{display:block;margin:0 0 12px}
+  .today{align-items:start}
   .printhead{display:none;font-family:var(--mono);font-size:0.7rem;color:var(--ink-3);
     border-bottom:1px solid var(--line);padding-bottom:6px;margin-bottom:12px}
 
@@ -315,17 +414,22 @@
   <div class="printhead" id="printhead"></div>
   <h1 id="wtitle"></h1>
   <p class="wdate" id="wdate"></p>
-  <div class="wmeta" id="wmeta"></div>
+  <p class="widea" id="widea"></p>
   <div id="three"></div>
+  <div class="today" id="today"></div>
 
-  <div class="tabs" id="tabs">
-    <button class="tab on" data-p="shown">Shown in class<span class="who">1h · lecture theatre</span></button>
-    <button class="tab" data-p="workshop">Workshop<span class="who">2h · your group</span></button>
-  </div>
-  <div class="panel" id="panel"></div>
+  <nav class="jump" aria-label="On this page">
+    <a href="#class">In class</a><a href="#workshop">Workshop</a><a href="#after">After</a><a href="#stuck">Stuck?</a><a href="#tutors">For tutors</a>
+  </nav>
+
+  <section class="blk" id="class"></section>
+  <section class="blk" id="workshop"></section>
+  <section class="blk" id="after"></section>
+  <details class="fold" id="stuck"></details>
+  <details class="fold tutors" id="tutors"></details>
 
   <div class="prow">
-    <button id="print">Print this sheet</button>
+    <button id="print">Print this week</button>
     <small id="printhint"></small>
   </div>
 
@@ -338,7 +442,7 @@
 <script>
 const $ = s => document.querySelector(s);
 const NOW = SD.week();
-let cur = (NOW >= 1 && NOW <= SD.WEEKS) ? NOW : 1, tab = 'shown';
+let cur = (NOW >= 1 && NOW <= SD.WEEKS) ? NOW : 1;
 
 
 document.getElementById('rulecount').textContent = RULES.length;
@@ -384,101 +488,114 @@ function paintThree(w){
       </span></li>`).join('')}</ol></div>`;
 }
 
+/* One page per week, in layers (first-week feedback, October 2026: the sheets
+   were "too dense"). Nothing was removed; it was re-ordered by who needs it when.
+     first screen — the idea, the three things, what to bring, what to fill in
+     three blocks — class, workshop, after: titles and takeaways visible, each
+                    step's full paragraph one tap away
+     folded       — the questions people ask, and the tutors' notes
+   The workshop handout used to be a modal that repeated most of this; the page
+   is the handout now, and printing it gives the one-page version. */
+const SEC = {}; SD.all.forEach(i => { SEC[i.sec] = i; });
+const madeIn = w => w.workshop.out.sec.filter(x => SEC[x]);
+const doneBy = n => WEEKS.filter(w => w.n <= n).reduce((a, w) => a + madeIn(w).length, 0);
+const plain = t => String(t).replace(/<[^>]+>/g, '');
+
 function render(){
-  const w = WEEKS.find(x => x.n === cur);
-  paintThree(w);
+  const w = WEEKS.find(x => x.n === cur), k = w.workshop;
   document.querySelectorAll('.wbtn').forEach(b => b.classList.toggle('on', +b.dataset.w === cur));
-  document.querySelectorAll('.tab').forEach(b => b.classList.toggle('on', b.dataset.p === tab));
   $('#wtitle').textContent = `Week ${w.n} — ${w.title}`;
   $('#wdate').textContent = `${SD.DAY} ${SD.fmt(SD.dateOf(w.n))}`;
-  $('#wmeta').innerHTML = w.makes.map(m => `<span class="chip">${esc(m)}</span>`).join('');
   const tw = $('#thisweek');
   tw.textContent = NOW === 0 ? `Teaching starts ${SD.fmt(SD.mondayOf(1))}`
     : NOW > SD.WEEKS ? `Teaching finished · ${SD.daysToDeadline()} days to hand in`
     : (w.n === NOW ? '▶ This is the current week'
        : `You are looking at week ${w.n} · this week is week ${NOW}`);
-  $('#printhead').textContent =
-    `SCREEN DESIGN · WEEK ${String(w.n).padStart(2,'0')} · ${tab === 'shown' ? 'SHOWN IN CLASS' : 'WORKSHOP'}`;
-  $('#printhint').textContent = tab === 'workshop'
-    ? 'One sheet. Tutors run from it, students follow it.'
-    : 'What goes on the screen, with the links.';
+  $('#printhead').textContent = `SCREEN DESIGN · WEEK ${String(w.n).padStart(2,'0')} · ${SD.fmt(SD.dateOf(w.n))}`;
+  $('#printhint').textContent = 'Prints as the one-page handout: the first screen, the step titles, and what comes next.';
+  $('#widea').textContent = w.idea;
+  paintThree(w);
 
-  let h = '';
-  if (tab === 'shown') {
-    h += `<p class="claim">${esc(w.idea)}</p>`;
-    h += `<p class="pnote">09:00–10:00 · GM LT7, GEOFFREY MANTON · EVERYONE</p>`;
-    h += `<p class="missnote">Every item carries the one thing to take from it into your assessment.</p>`;
-    h += w.shown.length
-      ? `<div class="run">${w.shown.map((r,i) => `<div class="rrow">
-          <span class="rt">${String(i+1).padStart(2,'0')}</span>
-          <span class="rmain"><span class="rs">${rich(r.s)}</span><span class="rd">${rich(r.d)}</span>${show(r.u)}</span>
-          ${r.take ? `<span class="take"><b>Key takeaway</b>${rich(r.take)}</span>` : '<span></span>'}
-        </div>`).join('')}</div>`
-      : `<p class="rd">No lecture this week.</p>`;
-  }
-  if (tab === 'workshop') {
-    h += `<p class="claim">${esc(w.workshop.aim)}</p>`;
-    h += `<p class="pnote">10:00–12:00 · ~33 IN YOUR GROUP · THREE ROOMS RUN THE SAME SESSION</p>`;
-    h += `<div class="kit"><b>Bring</b><span>${esc(w.workshop.bring)}</span></div>`;
+  /* what to bring, and the sections today fills in — ticked here, ticked on
+     the checklist, because it is the same store */
+  const bring = plain(k.bring).split('·').map(x => x.trim()).filter(Boolean);
+  const made = madeIn(w), st = SD.read(), done = doneBy(w.n);
+  $('#today').innerHTML = `
+    <div class="td"><b class="lab">Bring</b>
+      <span class="bring">${bring.map(x => `<span>${esc(x)}</span>`).join('')}</span></div>
+    <div class="td"><b class="lab">Fill in today</b>
+      ${made.length ? `<span class="ticks">${made.map(x => { const it = SEC[x]; return `
+        <label class="tk"><input type="checkbox" data-key="${it.key}"${st[it.key] ? ' checked' : ''}>
+          <i>${x}</i><span>${esc(it.t)}</span></label>`; }).join('')}</span>`
+        : `<span class="none">Nothing yet — today sets your deck up.</span>`}
+      <span class="deck"><span class="deck-t"><i style="width:${Math.round(done / SD.total * 100)}%"></i></span>
+        <small>${done} of ${SD.total} sections done after today</small></span></div>`;
 
+  $('#class').innerHTML = `
+    <div class="bh"><h2>In class</h2><span class="when">1h · 09:00–10:00 · GM LT7, Geoffrey Manton · everyone</span></div>
+    ${w.shown.length ? `<ol class="items">${w.shown.map((r, i) => `<li>
+      <details class="it"><summary><span class="n">${i + 1}</span>
+        <span class="s"><b>${rich(r.s)}</b>${r.take ? `<span class="take">${rich(r.take)}</span>` : ''}</span></summary>
+        <div class="more"><p>${rich(r.d)}</p></div></details>
+      ${r.u ? `<div class="go">${show(r.u)}</div>` : ''}</li>`).join('')}</ol>`
+      : `<p class="none">No lecture this week.</p>`}`;
 
+  $('#workshop').innerHTML = `
+    <div class="bh"><h2>Workshop</h2><span class="when">2h · 10:00–12:00 · your group · three rooms run the same session</span></div>
+    <p class="claim">${esc(k.aim)}</p>
+    <ol class="items steps">${k.run.map((r, i) => `<li>
+      <details class="it"><summary><span class="n">${i + 1}</span><span class="s"><b>${rich(r.s)}</b></span></summary>
+        <div class="more"><p>${rich(r.d)}</p></div></details></li>`).join('')}</ol>
+    <p class="seqhint">In this order — each step takes as long as the room needs. Tap a step for the detail.</p>
+    <div class="missline"><b>Watch out</b><span>${esc(k.mistake)}</span></div>`;
 
-    /* Goals and the outcome they serve, above the run order. A colleague
-       running this cold needs to know what the two hours are FOR before they
-       read what happens in them. */
-    h += `<div class="goals">
-      <div class="gcol">
-        <b>By the end of this session you can</b>
-        <ol>${w.workshop.goals.map(g => `<li>${rich(g)}</li>`).join('')}</ol>
-      </div>
-      <div class="gcol gout">
-        <b>Sections you fill in</b>
-        <span class="osecs">${w.workshop.out.sec.filter(x => x !== '—').map(x =>
-          `<i>${esc(x)}</i>`).join('') || '<span class="none">Nothing — this session sets the deck up</span>'}</span>
-        <span class="owhat">${esc(w.workshop.out.what)}</span>
-        <span class="ointo">of your one deck — nothing is handed in this week</span>
-      </div>
-    </div>`;
-    if (w.workshop.los.length) {
-      h += `<div class="lorow">${w.workshop.los.map(k =>
-        `<span class="lo" title="${esc(LOS[k])}"><b>${k}</b> ${esc(LOS[k])}</span>`).join('')}</div>`;
-    }
-    /* A sequence, not a timetable. Nobody controls how long a room takes over a
-       step, so the sheet says what comes next and leaves the pace to the room. */
-    h += `<p class="seqhint">In this order — each step takes as long as the room needs.</p>
-      <ol class="seq">${w.workshop.run.map((r, i) => `<li class="seq-i">
-        <span class="seq-n">${i + 1}</span>
-        <span><span class="rs">${rich(r.s)}</span><span class="rd">${rich(r.d)}</span></span></li>`).join('')}</ol>`;
-    h += `<div class="doneline"><b>You leave with</b><span>${rich(w.workshop.leave)}</span></div>`;
-    h += `<div class="doneline" style="background:var(--surface-2);border-color:var(--line-2)">
-            <b style="color:var(--ink-3)">Done when</b><span>${rich(w.workshop.done)}</span></div>`;
-    h += `<div class="missline"><b>Common mistake</b><span>${esc(w.workshop.mistake)}</span></div>`;
-    /* 30 credits is 300 notional hours and the eleven sessions are 22 of them.
-       The other 278 went unmentioned anywhere in this module, which is how the
-       six-to-eight finished screens came to be assumed rather than asked for.
-       Every week now says what happens before the next one, including the
-       weeks where the honest answer is nothing. */
-    if (w.workshop.between)
-      h += `<div class="btwnline"><b>Before next week</b><span>${rich(w.workshop.between)}</span></div>`;
-    h += `<div class="sh2">Questions that come up</div><dl class="qa">${
-      w.workshop.stuck.map(([q,a]) => `<dt>${esc(q)}</dt><dd>${rich(a)}</dd>`).join('')}</dl>`;
-  }
-  $('#panel').innerHTML = h;
+  $('#after').innerHTML = `
+    <div class="bh"><h2>${w.n < SD.WEEKS ? 'Before next week' : 'Before the deadline'}</h2></div>
+    ${k.between ? `<div class="btwnline"><span>${rich(k.between)}</span></div>` : ''}
+    <b class="lab">Keep in mind</b>
+    <ul class="keep">${w.hand.keep.map(x => `<li>${esc(x)}</li>`).join('')}</ul>`;
+
+  $('#stuck').innerHTML = `<summary><b>Stuck?</b><em>${k.stuck.length} questions that come up, with answers</em></summary>
+    <dl class="qa">${k.stuck.map(([q, a]) => `<dt>${esc(q)}</dt><dd>${rich(a)}</dd>`).join('')}</dl>`;
+
+  $('#tutors').innerHTML = `<summary><b>For tutors</b><em>goals, outcomes, what done looks like</em></summary>
+    <div class="tgrid">
+      <div><b class="lab">By the end, students can</b>
+        <ol>${k.goals.map(g => `<li>${rich(g)}</li>`).join('')}</ol></div>
+      <div><b class="lab">Sections filled in</b>
+        <span class="osecs">${k.out.sec.filter(x => x !== '—').map(x => `<i>${esc(x)}</i>`).join('')
+          || '<span class="none">None — this session sets the deck up</span>'}</span>
+        <p>${esc(k.out.what)}</p>
+        <b class="lab">Produces</b><p>${w.makes.map(esc).join(' · ')}</p></div>
+    </div>
+    ${k.los.length ? `<div class="lorow">${k.los.map(x =>
+      `<span class="lo" title="${esc(LOS[x])}"><b>${x}</b> ${esc(LOS[x])}</span>`).join('')}</div>` : ''}
+    <div class="doneline"><b>They leave with</b><span>${rich(k.leave)}</span></div>
+    <div class="doneline dn"><b>Done when</b><span>${rich(k.done)}</span></div>
+    <p class="pnote">~33 per room · three rooms run the same session · the studio hours after are unscheduled</p>`;
+
   /* Week 1 only: the last word opens the staff sheet for week 1's sample
      assessment. Unstyled and out of the tab order, so it reads as plain text. */
   $('#qword').innerHTML = cur === 1
     ? '<a class="qlink" href="example-sheet.html" tabindex="-1">edited</a>' : 'edited';
-  try { history.replaceState(null,'',`?w=${cur}&p=${tab}`); } catch(e){}
+  try { history.replaceState(null, '', `?w=${cur}${location.hash || ''}`); } catch(e){}
 }
 
-$('#picker').onclick = e => { const b = e.target.closest('.wbtn'); if(!b) return; cur = +b.dataset.w; render(); };
-$('#tabs').onclick   = e => { const b = e.target.closest('.tab');  if(!b) return; tab = b.dataset.p; render(); };
+$('#today').addEventListener('change', e => {
+  const c = e.target.closest('input[data-key]'); if (!c) return;
+  const st = SD.read(); st[c.dataset.key] = c.checked; SD.write(st);
+});
+
+$('#picker').onclick = e => { const b = e.target.closest('.wbtn'); if(!b) return; cur = +b.dataset.w;
+  history.replaceState(null, '', `?w=${cur}`); render(); window.scrollTo({ top: 0 }); };
 $('#print').onclick  = () => window.print();
 
 const q = new URLSearchParams(location.search);
 if (q.get('w') && WEEKS.some(w => w.n === +q.get('w'))) cur = +q.get('w');
-if (['shown','workshop'].includes(q.get('p'))) tab = q.get('p');
 render();
+/* Old links still land: ?p=shown and ?p=workshop were the two tabs. */
+const jumpTo = { shown: 'class', workshop: 'workshop' }[q.get('p')];
+if (jumpTo) requestAnimationFrame(() => document.getElementById(jumpTo).scrollIntoView());
 
 const root=document.documentElement;
 try{ const t=localStorage.getItem('sd-theme'); if(t) root.dataset.theme=t; }catch(e){}
