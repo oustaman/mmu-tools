@@ -100,7 +100,7 @@ const OUTCOMES = [
  {id:"B2", group:"Skills and Attributes",
   t:"Create user-centered design solutions, incorporating effective typography and colour theory.",
   plain:"Design for the people who will use it \u2014 type they can read, colour that works for everyone.",
-  secs:["A1","A2","A4","A5","A6","B4","B8","C1"],
+  secs:["A1","A2","A4","A5","A6","B4","B8","C1","D1","D2","D3"],
   ask:"Could your user find their way, read every word, and tell your colours apart?"}
 ];
 
@@ -112,6 +112,6 @@ const MUSTS = [
  {k:"International", t:"At least one cross-cultural communication consideration — colour symbolism, reading direction, icon universality, or cultural specificity of imagery."},
  {k:"AI", t:"State which AI tools you used, for what, and how you evaluated or changed the output. Or say why you chose not to."},
  {k:"Accessibility", t:"How your design choices serve user needs and promote accessibility."},
- {k:"Clickable", t:"Your screens are slides, and in week 10 you link them \u2014 six links, from one screen slide to another. Exported to PDF from PowerPoint or Google Slides, those links still work, and that is your multi-screen prototype. They are checked for existence and destination, not elegance."},
+ {k:"Clickable", t:"Your screens are slides, and in week 10 you link them \u2014 every step of the journey to the next, with a way back and a way out. Exported to PDF from PowerPoint or Google Slides, those links still work, and that is your multi-screen prototype. They are checked for existence and destination, not elegance."},
  {k:"Referencing", t:"Cite Them Right Harvard. Reference lists do not count toward the word budget; in-text citations do."}
 ];

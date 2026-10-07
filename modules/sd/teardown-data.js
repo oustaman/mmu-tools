@@ -102,7 +102,7 @@ const TEARDOWNS = [
 
  {k:'close', n:'Your turn',
   h:'Now do it to your own.',
-  lead:'In week 9 you build six to eight screens, and in week 10 you link them into a click-through. A marker walks it exactly like we walked these two.',
+  lead:'In weeks 8 and 9 you build the screens of your journey, and in week 10 you link them into a click-through. A marker walks it exactly like we walked these two.',
   bullets:[
     'What do they read first on each screen, and which of the five devices did it?',
     'Where is your exception path — the screen for the person who cannot do the normal thing?',

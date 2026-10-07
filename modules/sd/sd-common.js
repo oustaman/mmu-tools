@@ -66,9 +66,9 @@ const PARTS = [
    {sec:"A1", t:"Theme & audience", dw:2, d:"Two lines written",
     h:"One sentence each. Who is it for, what do they need.",
     f:["Theme:","Audience:"]},
-   {sec:"A2", t:"Screen inventory", dw:7, d:"6–8 rows, each with a job",
-    h:"Your 6–8 screens. Each gets a job in under ten words.",
-    f:["1.  screen  —  job","2.","3.","4.","5.","6.","7.  (optional)","8.  (optional)"]},
+   {sec:"A2", t:"The journey, before and after", dw:7, d:"A goal, and both lists counted",
+    h:"One goal a person has. How people reach it now — even if that is a WhatsApp group — and the screens of your version. Count both.",
+    f:["Goal (one sentence):","","BEFORE — how people do it now","1.  step  —  tool or screen","2.","3.","4.","5.","6.","Steps before:","","AFTER — your screens","1.  screen  —  job","2.","3.","4.","Screens after:"]},
    {sec:"A3", t:"Layout", dw:3, d:"Every field has a number",
     h:"Columns, gutter, margin, max width, 3 breakpoints, spacing scale.",
     f:["Columns:","Gutter:","Margin:","Max width:","Breakpoint 1:","Breakpoint 2:","Breakpoint 3:","Spacing scale:"]},
@@ -99,16 +99,16 @@ const PARTS = [
    {sec:"B4", t:"Flow diagram", dw:7, d:"Photo in the deck",
     h:"Your screens and the arrows between them.", f:["[ paste flow diagram ]","Caption (~100 words):"]},
    {sec:"B5", t:"Wireframe set", dw:8, d:"One per screen in A2",
-    h:"All 6–8 screens wireframed. Paper is fine.", f:["[ paste wireframes ]","Caption (~100 words):"]},
-   {sec:"B6", t:"6–8 finished screens", dw:9, d:"6 minimum, 8 maximum",
-    h:"Your prototype screens.", f:["[ paste screens ]","Caption (~100 words):"]},
+    h:"Every screen of your journey wireframed. Paper is fine.", f:["[ paste wireframes ]","Caption (~100 words):"]},
+   {sec:"B6", t:"The finished screens", dw:9, d:"Every screen of the journey",
+    h:"Your journey, one screen per slide — as many as it needs, usually fewer than before.", f:["[ paste screens ]","Caption (~100 words):"]},
    {sec:"B7", t:"2 screens × 3 sizes", dw:9, d:"6 images total",
     h:"Two key screens at all three breakpoints from A3.", f:["[ paste 6 images ]","Caption (~100 words):"]},
-   {sec:"B8", t:"Click-through", dw:10, d:"6 links, each one lands",
-    h:"Your screens are already slides. Link them so a marker can walk the flow — that is your prototype. Built in the week 10 workshop.",
+   {sec:"B8", t:"Click-through", dw:10, d:"The journey, start to finish",
+    h:"Your screens are already slides. Link them so a marker can walk the journey from start to finish, with a way back and a way out — that is your prototype. Built in the week 10 workshop.",
     f:["From slide  →  to slide  —  what the reader clicked",
        "1.","2.","3.","4.","5.","6.","",
-       "Links are checked for existence and destination, not elegance."]}
+       "Every step links to the next, with a way back and a way out. Links are checked for existence and destination, not elegance."]}
   ]},
  {id:"C", name:"Rationale", tag:"500–700 words total",
   desc:"The written part. Nine short answers, each drafted in the week that made the decision it defends — C1 in week 2, C2 in week 3, C3 in week 4, C4 and C7 in week 5, C8 in week 6, C6 in week 7, C5 in week 9, C9 in week 11. None of it is written at the end. Every one quotes a number from Part A.",
@@ -146,6 +146,23 @@ const PARTS = [
     f:["Cite Them Right Harvard · libguides.mmu.ac.uk/refguide","",
        "Author, A. (Year) Title. Place: Publisher.","",
        "1.","2.","3."]}
+  ]},
+ /* Appendices. Added in week 1 of the 2026-27 run (October 2026), after
+    students asked how to show an improvement. The brief allows it: one PDF,
+    assessed holistically, and only the rationale has a strict word limit. They
+    go at the end of the deck so nothing students built in week 1 renumbers. */
+ {id:"D", name:"Appendices", tag:"before and after \u2014 no word count",
+  desc:"The evidence that your version is better: the process as it is now, what happened to each step, and two screens side by side.",
+  items:[
+   {sec:"D1", t:"The process before", dw:7, d:"Every step, captured and numbered",
+    h:"How people reach the goal now \u2014 screenshots, a photo of the paper form, the WhatsApp chat. One image per step, numbered to match A2. It is evidence, not design: nobody marks how it looks.",
+    f:["[ one image per step, numbered to match A2 ]","1.","2.","3.","4.","","Steps before (from A2):"]},
+   {sec:"D2", t:"Before \u2192 after, mapped", dw:10, d:"What happened to every step",
+    h:"Each step before, and what happened to it: kept, merged, moved or removed \u2014 with a reason. A step the law or a policy requires can move or merge, never disappear.",
+    f:["BEFORE STEP  \u2192  AFTER  \u2014  what happened, and why","1.","2.","3.","4.","5.","6.","","Steps before:        Screens after:"]},
+   {sec:"D3", t:"Side by side", dw:10, d:"Two key screens, before and after",
+    h:"The two places your change matters most: before on the left, after on the right, and one line under each pair saying what changed.",
+    f:["[ before ]   [ after ]","What changed:","","[ before ]   [ after ]","What changed:"]}
   ]}
 ];
 
@@ -217,6 +234,7 @@ const SD = (() => {
       L.push('='.repeat(58));
       L.push(`PART ${p.id} — ${p.name.toUpperCase()}`);
       if (p.id === 'C') L.push('500–700 words in total. Every section quotes a number from Part A.');
+      if (p.id === 'D') L.push('Appendices do not count toward the word budget.');
       L.push('='.repeat(58));
       L.push('');
       p.items.forEach(it => {

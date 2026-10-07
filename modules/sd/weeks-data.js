@@ -22,7 +22,7 @@ const RULES = [
  {k:"Share the folder", v:"Share <code>Screen Design</code> with your tutors and the teaching staff in week 1, and leave it shared. <b>Nobody looks in it unless you ask.</b> When you want feedback or help, tell us and we open your folder — so keep your latest work in there."},
  {k:"Your name goes on nothing", v:"The deck is marked without your name on it. Call it <code>screen-design-portfolio</code> — no name in the filename, no name on the cover, no name in a header or footer. Your student ID only, if you want anything at all. <b>The OneDrive folder identifies you; the document does not.</b>"},
  {k:"One deck, all term", v:"You hand nothing in weekly. There is <b>one slide deck</b> — PowerPoint or Google Slides, whichever you already have — and you fill in a section of it each week. By week 10 it is finished, and in January you export it as a PDF."},
- {k:"One screen per slide", v:"When you build your screens — from week 8 — <b>put each one on its own slide.</b> In week 10 you link them together and that is your prototype \u2014 the assessment asks for a clickable multi-screen prototype, and if your screens are slides you get one by drawing six arrows. If they are pasted four to a page, you do not."},
+ {k:"One screen per slide", v:"When you build your screens — from week 8 — <b>put each one on its own slide.</b> In week 10 you link them together and that is your prototype \u2014 the assessment asks for a clickable multi-screen prototype, and if your screens are slides you get one by linking them. If they are pasted four to a page, you do not."},
  {k:"Bring every week", v:"Laptop or tablet, your OneDrive folder open, and your spec sheet. The spec sheet is the one thing you use in every single workshop."},
  {k:"Photograph paper work", v:"Weeks 2, 7 and 8 are on paper. Photograph everything before you leave the room and paste it straight into the deck that day. Paper gets lost; it always has."},
  {k:"Referencing", v:"<b>Cite Them Right Harvard.</b> If you quote or borrow anything — a principle, a statistic, an image — cite it in the text and list it at the end. <b>The reference list does not count toward your 500–700 words. In-text citations do.</b> <a href=\"https://libguides.mmu.ac.uk/refguide\" target=\"_blank\">libguides.mmu.ac.uk/refguide</a>"},
@@ -37,7 +37,7 @@ const WEEKS = [
  n:1, title:"Why screens look the way they do",
  makes:["3 teardowns","3 theme ideas"],
  idea:"Every layout decision you will make was made before, for reasons, and the reasons still hold.",
- hand:{keep:["Your whole assessment is one deck with 24 sections — filled in all term.", "Marks follow evidence: every claim needs something a marker can see.", "Present is not the same as evidenced. Thin work looks finished."], next:"Choose three possible themes."},
+ hand:{keep:["Your whole assessment is one deck, a slide per section \u2014 filled in all term.", "Marks follow evidence: every claim needs something a marker can see.", "Present is not the same as evidenced. Thin work looks finished."], next:"Choose three possible themes."},
  shown:[
   {s:"The assessment brief", d:"Walk the eleven slides end to end. This is the first thing they see, and the only deck we give them — everything after this is workshops.", u:"brief.html", take:"The whole assessment is one document, and every section of it is listed on the hand-in page. Everything you are told this term is already in that brief."},
   {s:"The hand-in, in one page", d:"Every section of the hand-in, each with its own copy button, used to build the deck in the workshop today.", u:"assessment.html", take:"You copy this structure in the workshop today. From then on you are filling it in, not starting it."},
@@ -273,38 +273,39 @@ const WEEKS = [
 },
 {
  n:7, title:"UX basics and screen states",
- makes:["Inventory 6–8 → Part A §2","Flow diagram","C6 drafted"],
+ makes:["Journey before/after → Part A §2","Flow diagram","C6 drafted"],
  idea:"The screens you forget to design are the ones people meet on their worst day.",
  hand:{keep:["Every screen has an empty, a loading and an error state.", "Give each screen a job in under ten words.", "Two screens with the same job are one screen."], next:"Nothing — you are ready to wireframe."},
  shown:[
-  {s:"Empty, and not an error", u:"https://interfaces.institute/patterns/empty-states/", d:"The pattern written up: what an empty state owes the person looking at it, and why it is not an apology.", take:"An empty state is a working system with nothing in it yet. It says what goes here and offers the action that puts something there. Several of your six to eight screens have one."},
+  {s:"Empty, and not an error", u:"https://interfaces.institute/patterns/empty-states/", d:"The pattern written up: what an empty state owes the person looking at it, and why it is not an apology.", take:"An empty state is a working system with nothing in it yet. It says what goes here and offers the action that puts something there. Some of your screens will have one."},
   {s:"The five states", d:"Run the bad pane: loading, empty, error and offline all look identical. Step through them on the projector.", u:"https://interfaces.institute/stairwell/state/", take:"Four of the five states look identical when nobody designs them. Empty, loading, error and offline are screens, and they belong in A2."},
   {s:"Now the good pane", d:"Same five, each saying what happened and what to do. The empty state is not an error and should not apologise.", u:"https://interfaces.institute/stairwell/state/", take:"An empty state is not an error and should not apologise. It should offer the action that fills it."},
   {slides:"PassReady", s:"PassReady: the worst-day screens", d:"Five slides and one live model, from an app built for a test people get one go at: not knowing, not being sure yet, and what to do next.", u:"passready.html", take:"Not knowing and not being sure are states too. Each needs its own words and a next step, or the screen pretends to a certainty it has not earned."},
   {s:"Feedback", d:"Two buttons, both take 2.5 seconds. One says nothing. Press it as often as you like and count the jugs you bought.", u:"https://interfaces.institute/stairwell/feedback/", take:"A button that says nothing while it works gets pressed twice. That is a real cost, not a style point."},
-  {s:"A flow, drawn crudely", u:"https://interfaces.institute/collections/flow-census/", d:"Six boxes, arrows, one decision. Deliberately rough. Draw one on the board from the census \u2014 <b>four real services walked, 43 screenshots, 24 screens</b>, and 20 of the 24 with a door the walk did not take.", take:"Six to eight screens, each with a job in under ten words. If two share a job, you have seven screens, not eight."},
+  {s:"A flow, drawn crudely", u:"https://interfaces.institute/collections/flow-census/", d:"Six boxes, arrows, one decision. Deliberately rough. Draw one on the board from the census \u2014 <b>four real services walked, 43 screenshots, 24 screens</b>, and 20 of the 24 with a door the walk did not take.", take:"Each of your screens gets a job in under ten words. If two share a job, they are one screen \u2014 merge them."},
   {slides:"Room finder", s:"A finder, taken apart", d:"The Castlegate Room Finder: a real prototype over a made-up university. Browse it (buildings, then floors, then rooms), then search it. Then open Alder Hall, which has nothing in it.", u:"room-finder/index.html", take:"Information architecture is the order people find things in: a hierarchy to browse and a search to jump. Both need an answer for \u201cnothing here\u201d."},
  ],
  three:[
-  {t:"Six to eight screens named", d:"Part A §2 — each with a job someone else can read in ten words."},
+  {t:"The journey, both ways", d:"Part A §2 \u2014 the goal, the steps people take now, and your screens, counted."},
   {t:"A flow, and C6", d:"The flow diagram photographed into B4, and the ethics paragraph drafted."},
   {t:"The two you build first", d:"Decide before week 8, when every screen gets wireframed.", open:true},
  ],
  workshop:{
-  aim:"Six to eight named screens, and the flow between them.",
-  goals:["Name six to eight screens and give each a job in under ten words.", "Find the screens you forgot — empty, loading, error.", "Draw a flow somebody else can follow."],
+  aim:"One goal, the steps people take to reach it now, and the screens of your version.",
+  goals:["Name the goal, list how people reach it now, and give each of your screens a job in under ten words.", "Find the screens you forgot — empty, loading, error.", "Draw a flow somebody else can follow."],
   los: ["A1","B2"],
-  out:{"sec": ["A2", "B4", "C6"], "what": "Screen inventory, flow diagram, and the ethics paragraph"},
+  out:{"sec": ["A2", "B4", "C6", "D1"], "what": "The journey before and after, the before captured in an appendix, the flow diagram, and the ethics paragraph"},
   bring:"Large paper · markers · your theme",
   run:[
-   {s:"List every screen", d:"Give each a job in under ten words, starting with a verb. Then cross out any two that share a job. Most people start at eleven and land at seven."},
+   {s:"Write the goal, then the before", d:"One sentence: what the person is trying to get done. Then every step people take now to get there \u2014 the website, the form, the email, the WhatsApp group. If nothing like your idea exists yet, the before is how people manage without it. Count the steps, and screenshot or photograph each one into <code>D1</code>."},
+   {s:"List your screens", d:"Give each of yours a job in under ten words, starting with a verb. Cross out any two that share a job. Do not add features: your count should come in under the before, and the difference is a number you will quote in C5."},
    {s:"The states check", d:"For each screen ask: what does this look like empty? Loading? When it fails? This usually adds one or two screens, and that is the point."},
    {s:"Draw the flow", d:"Boxes and arrows on big paper. Where does someone enter? Where can they get stuck?"},
    {s:"Swap flows", d:"Can your partner get from entry to the main task without asking you? If not, an arrow is missing."},
    {s:"Write C6 — ethics or sustainability", d:"Ninety words, one dimension named, required by the brief. You have just worked through empty, loading and error states — the screens people meet on their worst day. <b>That is an ethics answer</b>, and it is the one in front of you. Sustainability is the other route if you prefer it."}
   ],
-  leave:"Part A §2 with 6–8 rows. Flow photographed, and C6 drafted.",
-  done:"Six to eight screens, each with a job someone else can read.",
+  leave:"Part A §2 with both lists counted. Flow photographed, and C6 drafted.",
+  done:"Both lists are counted, and each of your screens has a job someone else can read.",
   between:"Nothing. Week 8 needs your inventory and your grid, and you have both.",
   mistake:"Forgetting empty and error screens. They are half of week 9.",
   stuck:[["I only have four screens","Add the states. Empty, error and success are screens."],
@@ -314,9 +315,9 @@ const WEEKS = [
 },
 {
  n:8, title:"Wireframe to screen",
- makes:["Wireframe set 6–8","First 2 screens finished"],
+ makes:["A wireframe for every screen","First 2 screens finished"],
  idea:"A wireframe is an argument about priority, not a grey drawing of a finished thing.",
- hand:{keep:["A wireframe decides priority, not decoration.", "Wireframe with real words, never lorem ipsum.", "Finished screens use only your own A3–A5 numbers."], next:"Finish all 6–8 screens — about 6–8 hours. Due at the start of week 9."},
+ hand:{keep:["A wireframe decides priority, not decoration.", "Wireframe with real words, never lorem ipsum.", "Finished screens use only your own A3–A5 numbers."], next:"Finish every screen of your journey. Due at the start of week 9."},
  shown:[
   {s:"One control, drawn eight times", d:"The button across three decades, each specimen drawn from the properties that define it. Nothing copied from a screenshot.", u:"https://interfaces.institute/components/button/", take:"A wireframe is an argument about priority. Boxes and labels only — if you are choosing a font, stop."},
   {s:"What sixty-three systems ship", d:"Measured primary buttons. Twenty have no corner radius at all. Read it off the page.", u:"https://interfaces.institute/components/button/", take:"Twenty of sixty-three measured design systems use no corner radius at all. Whatever you choose, choose it rather than default to it."},
@@ -326,7 +327,7 @@ const WEEKS = [
  three:[
   {t:"A wireframe for every screen", d:"B5 — drawn against your own grid, one per screen in Part A §2."},
   {t:"Two finished screens", d:"The first two of B6, built for real in the room."},
-  {t:"The remaining four to six screens", d:"The biggest piece of work in the module — six to eight hours, due at the start of week 9.", open:true},
+  {t:"The rest of your screens", d:"Every remaining screen of the journey, finished \u2014 the biggest piece of work in the module, due at the start of week 9.", open:true},
  ],
  workshop:{
   aim:"Every screen wireframed, and the first two built for real.",
@@ -336,14 +337,14 @@ const WEEKS = [
   bring:"Paper printed with your grid · markers · your §2 inventory · <b>laptop for the last half hour</b>",
   run:[
    {s:"Frame it and demo one", d:"Boxes and labels. No colour, no fonts, no icons. One screen on the projector, drawn quickly, saying what is being decided while drawing: this before that, this bigger than that."},
-   {s:"Wireframe the set", d:"All six to eight, on your own grid, quick rather than polished. Start with the boring screen, not the pretty one."},
+   {s:"Wireframe the set", d:"Every screen of your journey, on your own grid, quick rather than polished. Start with the boring screen, not the pretty one."},
    {s:"The blind test", d:"Cover your labels. Hand the set to a partner. Can they name each screen's job? Every failure is a screen you redraw now."},
    {s:"Build the first two, for real", d:"Pick your two most important wireframes and make them finished screens — your grid from <code>A3</code>, your scale from <code>A4</code>, your palette from <code>A5</code>, your style tile from <code>B3</code>. <b>Nothing new is invented here.</b> Every decision was made in weeks 3 to 6; this is the first time they are all applied at once, and doing two in the room is what makes the other four possible on your own. These are the first two rows of <code>B6</code>."},
    {s:"Photograph the set", d:"<code>B5</code> complete, and the first two rows of <code>B6</code> in the deck."}
   ],
   leave:"One wireframe per screen, photographed — and two of them already finished screens in B6.",
   done:"A stranger can name each screen's job with the labels covered.",
-  between:"<b>Finish B6.</b> Two screens were built in the workshop; build the remaining four to six. This is the largest single piece of independent work in the module \u2014 budget six to eight hours \u2014 and it is due <b>at the start of week 9</b>, not at the deadline. Everything in week 9 operates on these screens: you cannot show a screen at three sizes, or audit it, if it does not exist.",
+  between:"<b>Finish B6.</b> Two screens were built in the workshop; build the rest of the journey. This is the largest single piece of independent work in the module, and it is due <b>at the start of week 9</b>, not at the deadline. Everything in week 9 operates on these screens: you cannot show a screen at three sizes, or audit it, if it does not exist.",
   mistake:"Decorating. A wireframe that took an hour is a mockup and is worth less here.",
   stuck:[["How detailed?","Boxes and labels. If you are choosing a font, stop."],
          ["My grid doesn't fit","Then week 3 was wrong. Fix it and update Part A §3 — that is allowed and honest."],
@@ -373,9 +374,9 @@ const WEEKS = [
   goals:["Adapt a layout rather than shrink it.", "Run an accessibility check across a whole set.", "Log a failure you have not fixed."],
   los: ["B1","B2"],
   out:{"sec": ["A6", "B7", "C5"], "what": "Three sizes of two screens, accessibility values and the accessibility paragraph"},
-  bring:"Laptop · spec sheet · your contrast table · <b>your 6–8 finished screens</b>",
+  bring:"Laptop · spec sheet · your contrast table · <b>every finished screen of your journey</b>",
   run:[
-   {s:"Screens on the table, first thing", d:"Before anything else: <b>six to eight finished screens, on the wall, now.</b> This is <code>B6</code>, and it was due today — two built in the week 8 workshop, the rest between then and now. Anyone short says so at the start rather than at the end. <b>Nothing in today’s session works without them:</b> you cannot show a screen at three sizes that does not exist, and you cannot audit it either."},
+   {s:"Screens on the table, first thing", d:"Before anything else: <b>every screen of your journey, finished, on the wall, now.</b> This is <code>B6</code>, and it was due today — two built in the week 8 workshop, the rest between then and now. Anyone short says so at the start rather than at the end. <b>Nothing in today’s session works without them:</b> you cannot show a screen at three sizes that does not exist, and you cannot audit it either."},
    {s:"Two screens at three sizes", d:"Your two most important screens, at the three breakpoints in your §3. At the small size, decide what to REMOVE — not what to shrink. If nothing can go, the big version has nothing on it."},
    {s:"Run the checklist over everything", d:"Contrast, target size, focus, non-colour cues. Over the whole set, not just the two. Write down every failure — a logged failure you did not fix still scores; an unlogged one does not."},
    {s:"Fill in §6", d:"Minimum touch target, focus state, non-colour cues. Three real values from your own work."}
@@ -401,7 +402,7 @@ const WEEKS = [
   {s:"A building correcting itself", d:"A published claim that was wrong, the correction, and the reasoning kept. Section 6 asks you to do this about your own work.", u:"https://interfaces.institute/updates/", take:"Admitting a limit with evidence is the top band, not a weakness. That is what Criterion 4 rewards."}
  ],
  three:[
-  {t:"A click-through that works", d:"B8 — six links that land, clicked in the PDF."},
+  {t:"A click-through that works", d:"B8 \u2014 the journey clicks through, start to finish, checked in the PDF."},
   {t:"Eight sections that defend", d:"Each one quotes a number from Part A and names something you rejected."},
   {t:"One read-aloud pass", d:"Before week 11: a sentence with no number in it is costing you marks.", open:true},
  ],
@@ -409,15 +410,16 @@ const WEEKS = [
   aim:"Eight drafted sections turned from description into defence, and a click-through that works.",
   goals:["Cite a value you declared, in every section you write.", "Distinguish describing a design from defending one.", "Assemble and export one file that opens."],
   los: ["A1"],
-  out:{"sec": ["B8"], "what": "The click-through, and eight drafted sections turned from description into defence"},
+  out:{"sec": ["B8", "D2", "D3"], "what": "The click-through, and eight drafted sections turned from description into defence"},
   bring:"Laptop · complete spec sheet · everything from Part B",
   run:[
    {s:"Read two of your own, aloud, to one other person", d:"Not mine \u2014 <b>yours</b>. Pick any two of the eight sections you have already drafted and read them to a partner. Their only job is to say, for each one, whether it <i>describes</i> or <i>defends</i>. They will be right, and it takes a glance per paragraph."},
    {s:"Turn description into defence \u2014 all eight", d:"Work through <code>C1</code> to <code>C8</code> with the five moves on the board. <b>You are not writing more, you are writing different.</b> Most of these are under their word limit: the example portfolio spent 40 of its 90 words on colour and scored 38 for Critical Reflection. Every section ends up quoting a number from Part A, naming what you rejected, and saying what is still wrong."},
-   {s:"Link your screens \u2014 this is your prototype", d:"Six links, each one quick. In PowerPoint: click the thing on the slide that should be pressable, <b>Insert \u203a Link \u203a Place in This Document</b>, pick the slide it goes to. In Google Slides: select it, <b>Insert \u203a Link</b>, then <b>Slides in this presentation</b>. Do six \u2014 the ones a reader would actually press. Then write them into <b>B8</b> as a from\u2192to list. <b>Check every one before you leave the room.</b> A link that lands on the wrong slide is fixed here in moments; it cannot be fixed in January.", sk:"They are checked for existence and destination, not elegance. Nobody is marking how the arrow looks."},
+   {s:"Link your screens \u2014 this is your prototype", d:"Link the journey: every step to the next, plus a way back and a way out. In PowerPoint: click the thing on the slide that should be pressable, <b>Insert \u203a Link \u203a Place in This Document</b>, pick the slide it goes to. In Google Slides: select it, <b>Insert \u203a Link</b>, then <b>Slides in this presentation</b>. Link the ones a reader would actually press. Then write them into <b>B8</b> as a from\u2192to list. <b>Check every one before you leave the room.</b> A link that lands on the wrong slide is fixed here in moments; it cannot be fixed in January.", sk:"They are checked for existence and destination, not elegance. Nobody is marking how the arrow looks."},
+   {s:"Before and after, in the appendices", d:"Fill <code>D2</code>: every step from your before, and what happened to it \u2014 kept, merged, moved or removed, with a reason. Then <code>D3</code>: the two screens where your change matters most, before beside after. This is the evidence <code>C5</code> points at when it says the journey got shorter."},
    {s:"The count that decides it", d:"Go through your eight and count: <b>how many contain a number?</b> Anything without one is the bottom band and is a quick fix. Do it now rather than in January."}
   ],
-  leave:"Eight sections that defend rather than describe, and six links that land.",
+  leave:"Eight sections that defend rather than describe, and a journey that clicks through, start to finish.",
   done:"Every one of the eight sections quotes a number from Part A and names something you rejected.",
   between:"Read your eight sections aloud once more. A sentence with no number in it, naming nothing you rejected, is costing you marks in the criterion that scored lowest in the example.",
   mistake:"Writing about how it feels. Feelings have no number attached.",
@@ -430,7 +432,7 @@ const WEEKS = [
  n:11, title:"Submission", dead:true,
  makes:["References → Part C §9","Submit"],
  idea:"Nothing is taught this week and nothing is missable.",
- hand:{keep:["Export to PDF, then click all six links in the PDF itself.", "Every source you quote appears in C9.", "Do not leave the upload to the last hour."], next:"Submit."},
+ hand:{keep:["Export to PDF, then click every link in the PDF itself.", "Every source you quote appears in C9.", "Do not leave the upload to the last hour."], next:"Submit."},
  shown:[],
  three:[
   {t:"C9, your references", d:"Everything you cited, listed — Cite Them Right Harvard."},
@@ -445,7 +447,7 @@ const WEEKS = [
   bring:"Laptop · everything cited since week 2 · your PDF",
   run:[
    {s:"C9 \u2014 the reference list", d:"Everything you cited, listed, in one place. You have been citing since week 2 \u2014 the grid register, the WCAG clause, the tool you measured with, the building's own pages. <b>This is the last section of Part C and the easiest marks in it</b>, and it is the one most often missing altogether."},
-   {s:"Assemble the PDF", d:"Export the deck, open the PDF, and click all six links in the export. <b>A link that works in the editor and not in the PDF is the commonest way to lose <code>B8</code></b>, and it stays invisible until somebody opens the file you actually submitted."},
+   {s:"Assemble the PDF", d:"Export the deck, open the PDF, and click every link in the export. <b>A link that works in the editor and not in the PDF is the commonest way to lose <code>B8</code></b>, and it stays invisible until somebody opens the file you actually submitted."},
    {s:"Drop in if you need to", d:"No teaching. Export problems, Moodle mechanics, last read-throughs. If your work is done, submit and go."}
   ],
   leave:"C9 written, a submitted PDF and a confirmation email.",

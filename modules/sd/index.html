@@ -323,7 +323,7 @@
   .ho-what b{display:block;font-size:.9rem;line-height:1.3}
   .ho-what em{display:block;font-style:normal;font-size:.8rem;color:var(--ink-3);line-height:1.35}
   .ho-empty{margin:0;font-size:.88rem;color:var(--ink-2)}
-  .ho-A{background:var(--wsh)} .ho-B{background:var(--lec)} .ho-C{background:var(--sup)}
+  .ho-A{background:var(--wsh)} .ho-B{background:var(--lec)} .ho-C{background:var(--sup)} .ho-D{background:var(--ink-3)}
 
 
   .ho-two{display:grid;grid-template-columns:1.5fr 1fr;gap:14px}
@@ -345,7 +345,7 @@
   .ho-stats span{font-size:.74rem;color:var(--ink-3);line-height:1.3}
   .ho-parts{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
   .ho-part{border-radius:8px;padding:10px 12px;background:var(--surface);border:1px solid var(--line);border-top:4px solid}
-  .ho-part.ho-A{border-top-color:var(--wsh)} .ho-part.ho-B{border-top-color:var(--lec)} .ho-part.ho-C{border-top-color:var(--sup)}
+  .ho-part.ho-A{border-top-color:var(--wsh)} .ho-part.ho-B{border-top-color:var(--lec)} .ho-part.ho-C{border-top-color:var(--sup)} .ho-part.ho-D{border-top-color:var(--ink-3)}
   .ho-part{background-color:var(--surface) !important}
   .ho-part-h{display:flex;gap:10px;align-items:center}
   .ho-part-n{font-size:1.8rem;font-weight:750;letter-spacing:-.03em;line-height:1}
@@ -468,7 +468,7 @@
   <div class="wrap bar">
     <a class="brand" href="index.html" aria-current="page">Screen Design</a>
     <span class="sp"></span>
-    <a class="navl on" href="index.html">Weeks</a><a class="navl" href="weeks.html">Materials</a><a class="navl hideable" href="brief.html">The brief</a><a class="navl hideable" href="assessment.html">What to hand in</a>
+    <a class="navl on" href="index.html">Weeks</a><a class="navl" href="weeks.html">Materials</a><a class="navl hideable" href="brief.html">The brief</a><a class="navl hideable" href="assessment.html">Checklist</a>
     <span class="ctl"><button id="theme" aria-label="Dark mode">◐</button></span>
   </div>
 </header>
@@ -527,12 +527,15 @@
       <div class="card"><span class="k">Part A</span><span class="big" data-part-count="A">7</span>
         <h3>Spec sheet</h3>
         <ul><li>Fill-in fields, not an essay</li><li>Made in the workshops</li><li>≈400 words equivalent</li></ul></div>
-      <div class="card"><span class="k">Part B</span><span class="big">6–8</span>
+      <div class="card"><span class="k">Part B</span><span class="big" data-part-count="B">8</span>
         <h3>Screens + artefacts</h3>
-        <ul><li>Prototype screens</li><li>2 shown at 3 sizes</li><li>Sketches, wireframes, style tile</li></ul></div>
+        <ul><li>One journey, as many screens as it needs</li><li>2 shown at 3 sizes</li><li>Sketches, wireframes, style tile</li></ul></div>
       <div class="card"><span class="k">Part C</span><span class="big" data-part-count="C">9</span>
         <h3>Short sections</h3>
         <ul><li>500–700 words total</li><li>Each cites a number from Part A</li><li>Drafted the week each decision is made</li></ul></div>
+      <div class="card"><span class="k">Part D</span><span class="big" data-part-count="D">3</span>
+        <h3>Appendices</h3>
+        <ul><li>The process before</li><li>What happened to each step</li><li>No word count</li></ul></div>
     </div>
     <div class="ctarow">
       <a class="cta" href="assessment.html">
@@ -818,7 +821,7 @@ document.querySelectorAll('.seccount').forEach(el => {
   const esc = t => String(t).replace(/[<&]/g, c => c === '<' ? '&lt;' : '&amp;');
   const SEC = {};
   SD.all.forEach(i => { SEC[i.sec] = i; });
-  const PART = { A: 'Spec sheet', B: 'The work', C: 'Rationale' };
+  const PART = { A: 'Spec sheet', B: 'The work', C: 'Rationale', D: 'Appendices' };
   const TOTAL = SD.all.length;
   const madeIn = n => WEEKS.find(w => w.n === n).workshop.out.sec.filter(x => SEC[x]);
   const doneBy = n => WEEKS.filter(w => w.n <= n).reduce((a, w) => a + madeIn(w.n).length, 0);
@@ -832,14 +835,15 @@ document.querySelectorAll('.seccount').forEach(el => {
   const GETS = {
     1: ['Your own A3–A5 numbers visibly used on every screen', 'One clear first thing to read on each screen'],
     2: ['A6 filled with real values, and every text pair passing', 'A small-screen version someone could actually use'],
-    3: ['Sketches → flow → wireframes → screens, all present', '6–8 screens and six links that land'],
+    3: ['Sketches → flow → wireframes → screens, all present', 'A journey shorter than its before, clickable start to finish'],
     4: ['A reason and a number in every paragraph', 'Ethics or sustainability, and your AI use, dealt with honestly'],
   };
   const MUSTS = [
     'One PDF, exported from your one deck',
     'Your name nowhere in it',
-    '6–8 finished screens, one per slide',
-    'Six links that land — clicked in the PDF, not the editor',
+    'A2 counts the steps before and the screens after',
+    'Every screen of your journey, one per slide',
+    'The journey clicks through, start to finish — checked in the PDF, not the editor',
     'Every C section quotes a number from Part A',
     'Every AI use logged in A7 and discussed in C8',
     'Everything you cite listed in C9 (Cite Them Right Harvard)',
@@ -880,7 +884,7 @@ document.querySelectorAll('.seccount').forEach(el => {
             <span class="ho-wk-bar"><b style="width:${Math.round(d / TOTAL * 100)}%"></b></span>
             <span class="ho-wk-c">${d}</span></div>`;
         }).join('')}</div>
-        <p class="ho-legend"><i class="ho-A"></i>Spec sheet <i class="ho-B"></i>The work <i class="ho-C"></i>Rationale
+        <p class="ho-legend"><i class="ho-A"></i>Spec sheet <i class="ho-B"></i>The work <i class="ho-C"></i>Rationale <i class="ho-D"></i>Appendices
           <span>· bar = sections done by the end of that week</span></p>
       </section>
 
