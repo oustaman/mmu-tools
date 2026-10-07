@@ -222,10 +222,23 @@
   table.rubt td.crit span{font-size:0.78rem;color:var(--ink-2)}
   table.rubt td.fail{background:var(--lec-soft)}
   table.rubt td.first{background:var(--ok-soft)}
-  .los{margin-top:16px;display:grid;gap:7px}
-  .lo{display:grid;grid-template-columns:52px 1fr;gap:11px;font-size:0.86rem;color:var(--ink-2);
-    line-height:1.5;align-items:baseline}
-  .lo i{font-style:normal;font-family:var(--mono);font-size:0.7rem;color:var(--lec)}
+  .los{margin-top:22px}
+  .lo-h{margin:0 0 10px;font-size:1rem;font-weight:680}
+  .lo-grid{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(min(260px,100%),1fr))}
+  .lo-c{display:flex;flex-direction:column;gap:7px;background:var(--surface);border:1px solid var(--line);
+    border-radius:11px;padding:14px 16px}
+  .lo-id{display:flex;align-items:baseline;gap:8px;font-family:var(--mono);font-size:0.62rem;
+    letter-spacing:0.07em;text-transform:uppercase;color:var(--ink-3)}
+  .lo-id b{font-size:0.76rem;letter-spacing:0;background:var(--ink);color:var(--surface);border-radius:5px;padding:2px 7px}
+  .lo-p{margin:0;font-size:1rem;font-weight:640;line-height:1.35;color:var(--ink)}
+  .lo-off{margin:0;font-size:0.8rem;color:var(--ink-3);line-height:1.45}
+  .lo-off span,.lo-ask span{display:block;font-family:var(--mono);font-size:0.6rem;letter-spacing:0.07em;
+    text-transform:uppercase;color:var(--ink-3)}
+  .lo-secs{display:flex;flex-wrap:wrap;gap:4px}
+  .lo-secs i{font-style:normal;font-family:var(--mono);font-size:0.7rem;font-weight:700;
+    background:var(--surface-2);border:1px solid var(--line);border-radius:5px;padding:1px 6px;color:var(--ink)}
+  .lo-ask{margin:auto 0 0;padding-top:8px;border-top:1px solid var(--line);font-size:0.86rem;color:var(--ink)}
+  .lo-rest{margin:12px 0 0;display:flex;flex-wrap:wrap;gap:8px;align-items:baseline;font-size:0.86rem;color:var(--ink-2)}
 
   .subject{margin:0 0 8px;padding:11px 14px;border-left:3px solid var(--warn,#8A5D05);
     background:var(--warn-soft,#F4EAD3);border-radius:0 8px 8px 0;
@@ -395,9 +408,26 @@ paint();
       <td class="crit"><b>${r.n}. ${r.name}</b><span>${r.what}</span></td>
       ${r.b.map((cell, i) => `<td class="${BANDS[i].k === 'fail' ? 'fail' : BANDS[i].k === 'first' ? 'first' : ''}">${cell}</td>`).join('')}
     </tr>`).join('')}</tbody>`;
+  /* Each outcome in plain words, where the deck shows it, and a question to
+     put to your own work. The official wording stays, verbatim, under each. */
+  const known = new Set(PARTS.flatMap(p => p.items.map(i => i.sec)));
+  [...OUTCOMES.flatMap(o => o.secs), ...OUTCOME_REST.secs].forEach(x => {
+    if (!known.has(x)) console.warn(`assessment: outcome section ${x} is not in PARTS`);
+  });
+  const chips = a => a.map(x => `<i>${x}</i>`).join('');
   document.getElementById('los').innerHTML =
-    `<p class="rub-note" style="margin:6px 0 4px"><b>The three approved module outcomes,</b> verbatim from the module record:</p>` +
-    OUTCOMES.map(o => `<span class="lo"><i>${o.id}</i><span>${o.t}</span></span>`).join('');
+    `<h3 class="lo-h">What the three module outcomes mean for your deck</h3>
+     <div class="lo-grid">${OUTCOMES.map(o => `
+       <div class="lo-c">
+         <span class="lo-id"><b>${o.id}</b>${o.group}</span>
+         <p class="lo-p">${o.plain}</p>
+         <p class="lo-off"><span>Official wording</span>${o.t}</p>
+         <span class="lo-secs">${chips(o.secs)}</span>
+         <p class="lo-ask"><span>Ask your own work</span>${o.ask}</p>
+       </div>`).join('')}</div>
+     <p class="lo-rest"><span class="lo-secs">${chips(OUTCOME_REST.secs)}</span>${OUTCOME_REST.why}</p>
+     <p class="rub-note" style="margin:6px 0 0">Where each outcome shows is our guide, not a weighting —
+       the portfolio gets one overall mark. Outcomes verbatim from the approved module record.</p>`;
 })();
 
 (function structure(){
