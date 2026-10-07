@@ -24,6 +24,11 @@ const TERM = {
 const OFFICIAL_BRIEF = { file: 'Screen_Design_Assessment_Brief_CAF_2026-27.docx',
                          label: 'Official assessment brief', kind: 'Word', size: '20 KB' };
 
+/* The Google Form students use to send their marks for an example. Empty until
+   the form exists; the materials page says "posted in class" until then. Paste
+   the form's share link here and nothing else needs to change. */
+const MARKING_FORM = { council: '' };
+
 
 /* The day itself. One hour, two hours, a two-hour gap, then two hours. */
 const SESSIONS = [

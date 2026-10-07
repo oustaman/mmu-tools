@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Example portfolio — Screen Design</title>
+<title>Example 2, marked — Screen Design</title>
 <style>
   :root{
     --bg:#F5F4F2; --surface:#FFFFFF; --ink:#1A1618; --ink-2:#514B4A; --ink-3:#4D4847;
@@ -45,11 +45,6 @@
   h1{font-size:clamp(1.5rem,3.6vw,2.1rem);letter-spacing:-0.026em;margin:22px 0 4px;font-weight:700}
   .sub{color:var(--ink-2);margin:0 0 14px;max-width:70ch}
 
-  .exsw{display:flex;flex-wrap:wrap;gap:6px;margin:0 0 14px}
-  .exsw a{font-size:0.86rem;text-decoration:none;color:var(--ink-2);border:1px solid var(--line-2);
-    border-radius:99px;padding:6px 13px;background:var(--surface)}
-  .exsw a.on{background:var(--ink);color:var(--surface);border-color:var(--ink)}
-  .exsw a b{font-family:var(--mono);font-size:0.72rem;margin-right:4px}
   .fakebar{display:flex;align-items:flex-start;gap:12px;background:var(--warn-soft);
     border:1px solid var(--warn);border-radius:10px;padding:13px 16px;margin:0 0 18px}
   /* The direct child only. `.fakebar b` also caught the inline emphasis inside
@@ -154,11 +149,51 @@
   .slide.title{align-items:flex-start;justify-content:center}
   .slide.divider{align-items:center;justify-content:center;text-align:center;background:#FCFAF9}
 
+  /* the marking summary */
+  .marksum{margin-bottom:20px}
+  .ms-top{display:flex;align-items:center;gap:18px;background:var(--surface);border:1px solid var(--line);
+    border-left:5px solid var(--lec);border-radius:12px;padding:16px 20px;margin-bottom:12px;flex-wrap:wrap}
+  .ms-n{font-size:2.8rem;font-weight:740;letter-spacing:-0.04em;line-height:1;color:var(--lec)}
+  .ms-t b{display:block;font-size:1rem}
+  .ms-t span{font-size:0.88rem;color:var(--ink-2)}
+  .ms-grid{display:grid;gap:10px;grid-template-columns:repeat(auto-fit,minmax(min(250px,100%),1fr))}
+  .ms-c{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:13px 15px}
+  .ms-c .h{display:flex;align-items:baseline;gap:9px;margin-bottom:6px}
+  .ms-c .h i{font-style:normal;font-family:var(--mono);font-size:0.66rem;color:var(--ink-3)}
+  .ms-c .h b{font-size:0.92rem;flex:1}
+  .ms-c .h em{font-style:normal;font-family:var(--mono);font-size:0.9rem;font-weight:700;color:var(--lec)}
+  .ms-c .bd{font-family:var(--mono);font-size:0.62rem;letter-spacing:0.06em;text-transform:uppercase;
+    color:var(--ink-3);display:block;margin-bottom:5px}
+  .ms-c p{margin:0;font-size:0.85rem;line-height:1.55;color:var(--ink-2)}
+  .ms-gaps{margin-top:12px;padding:14px 18px;border-left:3px solid var(--ok);background:var(--ok-soft);border-radius:0 9px 9px 0}
+  .ms-gaps > b{display:block;color:var(--ok);font-family:var(--mono);font-size:0.64rem;letter-spacing:0.08em;text-transform:uppercase;margin-bottom:6px}
+  .ms-gaps ol{margin:0;padding-left:20px;display:grid;gap:6px}
+  .ms-gaps li b{display:block;font-size:0.92rem}
+  .ms-gaps li span{font-size:0.86rem;color:var(--ink-2)}
+  .ms-note{margin-top:12px;padding:13px 16px;border-left:3px solid var(--warn);background:var(--warn-soft);
+    border-radius:0 9px 9px 0;font-size:0.88rem;line-height:1.55;color:var(--ink-2)}
+  .ms-note b{color:var(--warn);font-family:var(--mono);font-size:0.64rem;letter-spacing:0.08em;
+    text-transform:uppercase;display:block;margin-bottom:4px}
+
+  /* A comment sits BESIDE the slide, not inside it. A 16:9 slide has no room
+     for a marker's paragraph, and a comment pane is where a slide application
+     puts them anyway. */
+  .cmt{background:#FFF4CE;border:1px solid #E8C33F;border-left:3px solid #B58A00;border-radius:0 6px 6px 0;
+    padding:9px 12px;margin:7px 0 0;font-family:var(--sans);font-size:calc(0.78rem * var(--z));
+    line-height:1.5;color:#3B3A39}
+  .cmt .ch{display:flex;align-items:baseline;gap:8px;margin-bottom:4px;flex-wrap:wrap}
+  .cmt .ch b{font-family:var(--mono);font-size:0.76em;letter-spacing:0.07em;text-transform:uppercase;color:#5E4B00}
+  .cmt .ch em{font-style:normal;font-family:var(--mono);font-size:0.76em;color:#5E4B00;margin-left:auto}
+
   footer{padding:26px 0 44px;color:var(--ink-3);font-size:0.8rem;border-top:1px solid var(--line);margin-top:22px}
   .subject{margin:0 0 8px;padding:11px 14px;border-left:3px solid var(--warn);
     background:var(--warn-soft);border-radius:0 8px 8px 0;font-size:0.86rem;line-height:1.55;color:var(--ink-2);max-width:78ch}
   .subject b{color:var(--ink)}
 
+  @media(max-width:420px){
+    .ms-top{gap:12px} .ms-n{font-size:2.1rem}
+    .ms-c .h{flex-wrap:wrap}
+  }
   @media(max-width:560px){
     .fakebar{flex-direction:column;gap:6px}
     .fakebar > b{white-space:normal}
@@ -174,10 +209,10 @@
   @media (prefers-reduced-motion: reduce){                               /* 2.3.3 */
     *,*::before,*::after{transition:none!important;animation:none!important;scroll-behavior:auto!important}
   }
-  .zb{min-width:28px;min-height:28px}                                      /* 2.5.8: 21 × 18 zoom buttons */
+  .zb{min-width:28px;min-height:28px}
 </style>
 </head>
-<body>
+<body data-marked="1">
 
 <header>
   <div class="wrap bar">
@@ -186,26 +221,26 @@
     <a class="navl" href="index.html">Weeks</a>
     <a class="navl" href="weeks.html">Materials</a>
     <a class="navl hideable" href="brief.html">The brief</a>
-    <a class="navl hideable" href="assessment.html">Checklist</a><a class="navl hideable" href="assessment-materials.html">Assessment materials</a>
+    <a class="navl hideable" href="assessment.html">Checklist</a>
+    <a class="navl hideable" href="assessment-materials.html">Assessment materials</a>
   </div>
 </header>
 
 <div class="wrap">
-  <nav class="exsw" aria-label="Examples">
-    <a href="example.html" class="on" aria-current="page"><b>1</b>Thin — the week 1 exercise</a>
-    <a href="example-council.html"><b>2</b>Complete — council tax</a>
-  </nav>
-  <h1>An example portfolio</h1>
-  <p class="sub">Read it the way a marker would. What is present, what is missing, and what would
-    you give it? Mark it on <a href="rubric.html">the blank rubric</a>, then
-    <a href="example-marked.html">see how we marked it</a>.</p>
+  <!-- Not linked from any page until after the week 2 marking exercise:
+       students mark the unmarked copy first, through the form. -->
+  <h1>Example 2, marked</h1>
+  <p class="sub">The council tax portfolio, with our marks and every margin comment — what earns
+    the marks, and what stops it being a First. <a href="example-council.html">Unmarked copy</a> ·
+    <a href="assessment-materials.html">all assessment materials</a>.</p>
 
   <div class="fakebar">
     <b>Not real work</b>
-    <p>This portfolio was <b>written by the module team as a teaching example</b>. It is not a real
-      student's submission, and nothing in it has been copied, adapted or paraphrased from one.
-      The window below is a drawing — nothing in it works.</p>
+    <p>Written by the module team as a teaching example — <b>not a real submission</b>. Castlegate is a
+      made-up city; its council and every screen of its "before" were drawn by us.</p>
   </div>
+
+  <div class="marksum" id="marksum"></div>
 
 </div>
 
@@ -220,12 +255,16 @@
   </footer>
 </div>
 
-<script src="example-photos.js"></script>
-<script src="example-art.js"></script>
-<script src="example-data.js"></script>
+<script src="example-council-art.js"></script>
+<script src="example-council-data.js"></script>
 <script>
 const esc = s => String(s).replace(/[<&]/g, c => c === '<' ? '&lt;' : '&amp;');
 const MARKED = document.body.dataset.marked === '1';
+const CRIT = ['','Visual Design & Communication','User-Centred Thinking','Technical Craft & Process','Critical Reflection'];
+function note(nt, n){
+  return `<div class="cmt"><div class="ch"><b>Slide ${n} · Criterion ${nt.c} · ${CRIT[nt.c]}</b>` +
+    `<em>${nt.band}</em></div>${esc(nt.s)}</div>`;
+}
 
 function block(b){
   switch(b.t){
@@ -326,6 +365,17 @@ const io = new IntersectionObserver(es => {
 }, { root: desk, rootMargin: '-10% 0px -70% 0px' });
 document.querySelectorAll('.swrap').forEach(s => io.observe(s));
 mark(1);
+
+const ms = document.getElementById('marksum');
+if (ms) ms.innerHTML = `
+  <div class="ms-top"><span class="ms-n">${EXAMPLE.mark.overall}</span>
+    <span class="ms-t"><b>${EXAMPLE.mark.band}</b><span>${esc(EXAMPLE.overall)}</span></span></div>
+  <div class="ms-grid">${EXAMPLE.criteria.map(c => `
+    <div class="ms-c"><div class="h"><i>${c.n}</i><b>${esc(c.name)}</b><em>${c.mark}</em></div>
+      <span class="bd">${esc(c.band)}</span><p>${esc(c.s)}</p></div>`).join('')}</div>
+  ${EXAMPLE.followup ? `<p class="ms-note"><b>The AI declaration</b>${esc(EXAMPLE.followup)}</p>` : ''}
+  ${EXAMPLE.gaps ? `<div class="ms-gaps"><b>What would make it a First</b><ol>${EXAMPLE.gaps.map(g =>
+    `<li><b>${esc(g[0])}</b><span>${esc(g[1])}</span></li>`).join('')}</ol></div>` : ''}`;
 </script>
 </body>
 </html>

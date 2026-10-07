@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Example portfolio, marked — staff copy</title>
+<title>Example 1, marked — Screen Design</title>
 <style>
   :root{
     --bg:#F5F4F2; --surface:#FFFFFF; --ink:#1A1618; --ink-2:#514B4A; --ink-3:#4D4847;
@@ -165,6 +165,11 @@
   .ms-c .bd{font-family:var(--mono);font-size:0.62rem;letter-spacing:0.06em;text-transform:uppercase;
     color:var(--ink-3);display:block;margin-bottom:5px}
   .ms-c p{margin:0;font-size:0.85rem;line-height:1.55;color:var(--ink-2)}
+  .ms-gaps{margin-top:12px;padding:14px 18px;border-left:3px solid var(--ok);background:var(--ok-soft);border-radius:0 9px 9px 0}
+  .ms-gaps > b{display:block;color:var(--ok);font-family:var(--mono);font-size:0.64rem;letter-spacing:0.08em;text-transform:uppercase;margin-bottom:6px}
+  .ms-gaps ol{margin:0;padding-left:20px;display:grid;gap:6px}
+  .ms-gaps li b{display:block;font-size:0.92rem}
+  .ms-gaps li span{font-size:0.86rem;color:var(--ink-2)}
   .ms-note{margin-top:12px;padding:13px 16px;border-left:3px solid var(--warn);background:var(--warn-soft);
     border-radius:0 9px 9px 0;font-size:0.88rem;line-height:1.55;color:var(--ink-2)}
   .ms-note b{color:var(--warn);font-family:var(--mono);font-size:0.64rem;letter-spacing:0.08em;
@@ -217,21 +222,20 @@
     <a class="navl" href="weeks.html">Materials</a>
     <a class="navl hideable" href="brief.html">The brief</a>
     <a class="navl hideable" href="assessment.html">Checklist</a>
-    <a class="navl hideable" href="example.html">Unmarked copy</a>
+    <a class="navl hideable" href="assessment-materials.html">Assessment materials</a>
   </div>
 </header>
 
 <div class="wrap">
-  <h1>The example, marked</h1>
-  <p class="sub">Staff copy. Sixteen margin comments, a mark against each of the four criteria,
-    and the question that has to be asked before any mark is released.</p>
+  <h1>Example 1, marked</h1>
+  <p class="sub">The portfolio you marked in week 1, with our marks and every margin comment. Compare
+    them with yours: where did you give more, and why? <a href="example.html">Unmarked copy</a> ·
+    <a href="assessment-materials.html">all assessment materials</a>.</p>
 
   <div class="fakebar">
-    <b>Staff copy · not real work</b>
+    <b>Not real work</b>
     <p>Written by the module team as a teaching example — <b>not a real submission</b>, and nothing
-      in it copied or adapted from one. <b>Do not show this version before the group discussion:</b>
-      the point of the exercise is that the room arrives at the marks itself. The unmarked copy is
-      <a href="example.html">here</a>.</p>
+      in it copied or adapted from one. The window below is a drawing — nothing in it works.</p>
   </div>
 
   <div class="marksum" id="marksum"></div>
@@ -368,7 +372,9 @@ if (ms) ms.innerHTML = `
   <div class="ms-grid">${EXAMPLE.criteria.map(c => `
     <div class="ms-c"><div class="h"><i>${c.n}</i><b>${esc(c.name)}</b><em>${c.mark}</em></div>
       <span class="bd">${esc(c.band)}</span><p>${esc(c.s)}</p></div>`).join('')}</div>
-  <p class="ms-note"><b>Before any mark is released</b>${esc(EXAMPLE.followup)}</p>`;
+  ${EXAMPLE.followup ? `<p class="ms-note"><b>The AI declaration</b>${esc(EXAMPLE.followup)}</p>` : ''}
+  ${EXAMPLE.gaps ? `<div class="ms-gaps"><b>What would make it a First</b><ol>${EXAMPLE.gaps.map(g =>
+    `<li><b>${esc(g[0])}</b><span>${esc(g[1])}</span></li>`).join('')}</ol></div>` : ''}`;
 </script>
 </body>
 </html>

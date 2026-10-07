@@ -1,0 +1,195 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Assessment materials — Screen Design</title>
+<style>
+  :root{
+    --bg:#F5F4F2; --surface:#FFFFFF; --surface-2:#EDEBE8;
+    --ink:#1A1618; --ink-2:#514B4A; --ink-3:#4D4847;
+    --line:#DFDBD7; --line-2:#8E8685;
+    --lec:#8C2437; --lec-soft:#F6E8EA;
+    --wsh:#1A526D; --wsh-soft:#E4EEF3;
+    --ok:#285638; --ok-soft:#E3EFE7;
+    --warn:#684604; --warn-soft:#F4EAD3;
+    --mono:ui-monospace,"SF Mono",Menlo,Consolas,monospace;
+    --sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Inter,Roboto,sans-serif;
+  }
+  html[data-theme="dark"]{
+    --bg:#151314; --surface:#1E1B1C; --surface-2:#262223;
+    --ink:#EDE9E7; --ink-2:#B9B2AF; --ink-3:#B7B2B0;
+    --line:#332E2F; --line-2:#7A7372;
+    --lec:#E69FAD; --lec-soft:#332226;
+    --wsh:#7FBEDC; --wsh-soft:#16262E;
+    --ok:#83C19A; --ok-soft:#1C2A22;
+    --warn:#DCB469; --warn-soft:#2A2417;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);line-height:1.5}
+  .wrap{max-width:1100px;margin:0 auto;padding:0 22px}
+  @media(max-width:420px){.wrap{padding:0 14px}}
+  @media(max-width:340px){.wrap{padding:0 10px}}
+  a{color:var(--lec)}
+
+  /* The bar, identical on every page (see assessment.html). */
+  header{border-bottom:1px solid var(--line);background:var(--surface);position:sticky;top:0;z-index:40}
+  .bar{display:flex;align-items:center;gap:10px;padding-block:11px;flex-wrap:nowrap}
+  .brand{font-weight:680;font-size:1rem;letter-spacing:-0.015em;white-space:nowrap;color:inherit;
+    text-decoration:none;padding:5px 8px;margin-left:-8px;border-radius:6px}
+  .brand:hover{background:var(--surface-2)}
+  .brand:focus-visible{outline:2px solid var(--lec);outline-offset:1px}
+  .sp{flex:1}
+  .navl{font-size:0.85rem;color:var(--ink-2);text-decoration:none;padding:6px 10px;border-radius:6px;white-space:nowrap}
+  .navl:hover{background:var(--surface-2);color:var(--ink)}
+  .ctl button{font-family:var(--mono);font-size:0.7rem;background:none;color:var(--ink-3);
+    border:1px solid var(--line-2);border-radius:5px;padding:5px 8px;cursor:pointer;line-height:1}
+  .ctl button:hover{border-color:var(--lec);color:var(--lec)}
+  @media(max-width:760px){ header .bar{gap:6px} .navl{padding:6px 8px;font-size:0.82rem} }
+  @media(max-width:560px){
+    header .bar{flex-wrap:wrap;row-gap:6px}
+    header .brand{order:0} header .ctl{order:1;margin-left:auto}
+    header .bar > .sp{order:2;flex-basis:100%;height:0}
+    header .navl{order:3;padding:5px 7px;font-size:0.78rem}
+  }
+  @media(max-width:430px){ .brand{font-size:0.9rem} .navl{padding:5px 6px;font-size:0.76rem} }
+
+  .navl.on{background:var(--lec);color:#fff}
+  html[data-theme="dark"] .navl.on{color:#151314}
+  h1{font-size:clamp(1.6rem,4.4vw,2.3rem);line-height:1.1;letter-spacing:-0.028em;margin:24px 0 4px;font-weight:700}
+  h2{font-size:1.2rem;font-weight:690;letter-spacing:-0.015em;margin:34px 0 6px}
+  .sub{color:var(--ink-2);margin:0 0 18px;max-width:70ch}
+  .lede{color:var(--ink-2);margin:0 0 14px;max-width:72ch;font-size:0.95rem}
+
+  .tiles{display:grid;gap:10px;grid-template-columns:repeat(auto-fit,minmax(min(220px,100%),1fr))}
+  .tile{display:block;background:var(--surface);border:1px solid var(--line);border-radius:11px;padding:14px 16px;
+    text-decoration:none;color:inherit}
+  .tile:hover{border-color:var(--lec)}
+  .tile b{display:block;font-size:0.98rem;margin-bottom:3px}
+  .tile span{font-size:0.86rem;color:var(--ink-2)}
+  .tile i{font-style:normal;font-family:var(--mono);font-size:0.68rem;color:var(--ink-3);display:block;margin-top:6px}
+
+  table.steps{width:100%;border-collapse:collapse;background:var(--surface);border:1px solid var(--line);
+    border-radius:11px;overflow:hidden;font-size:0.9rem}
+  .steps th{text-align:left;font-family:var(--mono);font-size:0.62rem;letter-spacing:0.08em;text-transform:uppercase;
+    color:var(--ink-3);padding:9px 12px;background:var(--surface-2);font-weight:500}
+  .steps td{padding:8px 12px;border-top:1px solid var(--line);vertical-align:middle}
+  .steps td.cls{font-weight:640}
+  .steps td.rg{font-family:var(--mono);font-size:0.8rem;color:var(--ink-2);white-space:nowrap}
+  .steps .m{display:inline-block;font-family:var(--mono);font-size:0.82rem;font-weight:700;min-width:34px;
+    text-align:center;padding:2px 6px;margin:2px 3px 2px 0;border-radius:5px;background:var(--bg);border:1px solid var(--line)}
+  .steps tr.first td.cls{color:var(--ok)}
+  .steps tr.fail td.cls{color:var(--lec)}
+
+  .ex{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(min(320px,100%),1fr))}
+  .excard{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:16px 18px;
+    display:flex;flex-direction:column;gap:10px}
+  .exk{font-family:var(--mono);font-size:0.64rem;letter-spacing:0.08em;text-transform:uppercase;color:var(--ink-3)}
+  .excard h3{margin:0;font-size:1.08rem}
+  .excard p{margin:0;font-size:0.9rem;color:var(--ink-2)}
+  .exmark{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap}
+  .exmark .n{font-size:2.2rem;font-weight:740;letter-spacing:-0.03em;color:var(--lec);line-height:1}
+  .exmark .crit{font-family:var(--mono);font-size:0.78rem;color:var(--ink-2)}
+  .exhid{font-size:0.9rem;color:var(--ink-2);background:var(--bg);border:1px dashed var(--line-2);border-radius:8px;padding:10px 12px}
+  .exacts{display:flex;flex-wrap:wrap;gap:8px;margin-top:auto}
+  .btn{display:inline-flex;align-items:center;min-height:42px;padding:0 15px;border-radius:8px;text-decoration:none;
+    font-weight:640;font-size:0.9rem;border:1px solid var(--line-2);color:var(--ink);background:var(--bg)}
+  .btn:hover{border-color:var(--lec);color:var(--lec)}
+  .btn.pri{background:var(--lec);border-color:var(--lec);color:#fff}
+  html[data-theme="dark"] .btn.pri{color:#151314}
+  .btn.off{color:var(--ink-3);border-style:dashed;cursor:default}
+  .note{font-size:0.82rem;color:var(--ink-3);margin:12px 0 0}
+  footer{padding:24px 0 44px;color:var(--ink-3);font-size:0.8rem;border-top:1px solid var(--line);margin-top:30px}
+  @media(max-width:520px){ .steps td{padding:7px 8px} .steps td.rg{white-space:normal} }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap bar">
+    <a class="brand" href="index.html">Screen Design</a>
+    <span class="sp"></span>
+    <a class="navl" href="index.html">Weeks</a><a class="navl" href="weeks.html">Materials</a><a class="navl" href="brief.html">The brief</a><a class="navl" href="assessment.html">Checklist</a><a class="navl on" href="assessment-materials.html">Assessment materials</a>
+    <span class="ctl"><button id="theme" aria-label="Dark mode">◐</button></span>
+  </div>
+</header>
+
+<div class="wrap">
+  <h1>Assessment materials</h1>
+  <p class="sub">How the portfolio is marked, in one place: the brief, the rubric, the marks we can
+    give, and two example portfolios — one thin, one complete.</p>
+
+  <div class="tiles" id="tiles"></div>
+
+  <h2 id="steps">The marks we can give</h2>
+  <p class="lede">Every mark — each criterion, and the overall — is one of these steps. There is no 66:
+    a portfolio between the two is a 65 or a 68. The four criteria inform <b>one overall mark</b>; they
+    are not added up.</p>
+  <table class="steps" id="steptable"></table>
+
+  <h2>Two example portfolios</h2>
+  <p class="lede">Both were written by the module team as teaching examples. Neither is a real student's
+    work. Read them the way a marker would.</p>
+  <div class="ex" id="examples"></div>
+
+  <footer><p>Screen Design · Level 4 · 30 credits · 2026–27</p></footer>
+</div>
+
+<script src="sd-common.js"></script>
+<script src="rubric-data.js"></script>
+<script src="example-data.js"></script>
+<script>
+(function () {
+  const esc = s => String(s).replace(/[<&]/g, c => c === '<' ? '&lt;' : '&amp;');
+  document.getElementById('tiles').innerHTML = [
+    [OFFICIAL_BRIEF.file, 'Official assessment brief', `The university\u2019s document \u00b7 ${OFFICIAL_BRIEF.kind}, ${OFFICIAL_BRIEF.size}`, 'download'],
+    ['brief.html', 'The brief, explained', 'What it asks for, slide by slide'],
+    ['assessment.html', 'Checklist', `All ${SD.total} sections, ticked off as you go`],
+    ['rubric.html', 'The blank rubric', 'Mark an example, or your own deck']
+  ].map(t => `<a class="tile" href="${t[0]}"${t[3] ? ' download' : ''}><b>${t[1]}</b><span>${t[2]}</span>${t[3] ? '<i>\u2193 download</i>' : ''}</a>`).join('');
+
+  document.getElementById('steptable').innerHTML =
+    '<tr><th>Classification</th><th>Bracket</th><th>Marks</th></tr>' +
+    MARK_STEPS.map(b => `<tr class="${b.cls === 'First' ? 'first' : /fail/i.test(b.cls) ? 'fail' : ''}">
+      <td class="cls">${b.cls}</td><td class="rg">${b.range}</td>
+      <td>${b.marks.map(m => `<span class="m">${m}</span>`).join('')}</td></tr>`).join('');
+
+  /* Example 1 was marked in week 1, so its marks are public now. Example 2 is
+     the week 2 exercise: students mark it first, through the form, and its
+     marks stay off this page until after. */
+  const crit = EXAMPLE.criteria.map(c => `${c.n} \u00b7 ${c.mark}`).join('   ');
+  const form = MARKING_FORM.council;
+  document.getElementById('examples').innerHTML = `
+    <div class="excard">
+      <span class="exk">Example 1 \u00b7 marked in week 1</span>
+      <h3>Thin: present, and almost nothing evidenced</h3>
+      <div class="exmark"><span class="n">${EXAMPLE.mark.overall}</span>
+        <span><b>${esc(EXAMPLE.mark.band)}</b><br><span class="crit">criteria ${crit}</span></span></div>
+      <p>Everything the brief asks for is there, and almost none of it is shown. The marked copy has every
+        margin comment.</p>
+      <div class="exacts"><a class="btn" href="example.html">Read it</a>
+        <a class="btn pri" href="example-marked.html">See how we marked it</a></div>
+    </div>
+    <div class="excard">
+      <span class="exk">Example 2 \u00b7 the week 2 exercise</span>
+      <h3>Complete: council tax for a student house</h3>
+      <p>One journey made shorter, seven steps to four, with the before in the appendices. Mark it
+        on the blank rubric, then send your marks.</p>
+      <p class="exhid">Our marks appear here after week 2, beside the class average.</p>
+      <div class="exacts"><a class="btn" href="example-council.html">Read it</a>
+        ${form ? `<a class="btn pri" href="${form}" target="_blank" rel="noopener">Send your marks</a>`
+               : '<span class="btn off" title="The link is posted in class">Form: posted in class</span>'}
+        <a class="btn" href="rubric.html">Blank rubric</a></div>
+    </div>`;
+})();
+
+const root = document.documentElement;
+try { const t = localStorage.getItem('sd-theme'); if (t) root.dataset.theme = t; } catch (e) {}
+if (!root.dataset.theme && matchMedia('(prefers-color-scheme: dark)').matches) root.dataset.theme = 'dark';
+document.getElementById('theme').onclick = () => {
+  root.dataset.theme = root.dataset.theme === 'dark' ? 'light' : 'dark';
+  try { localStorage.setItem('sd-theme', root.dataset.theme); } catch (e) {}
+};
+</script>
+</body>
+</html>
