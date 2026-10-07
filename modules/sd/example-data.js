@@ -669,21 +669,21 @@ const EXAMPLE = {
    "n": 1,
    "name": "Visual Design & Communication",
    "band": "2:2 · 50–59%",
-   "mark": 50,
+   "mark": 52,
    "s": "The strongest part. There is a consistent visual language across five screens and a style tile that holds it together — the layouts are functional and considered. It is held at the bottom of the band by an incomplete grid specification, a type scale with no ratio or measure, and a responsive variant that is a scaled copy rather than a reflow."
   },
   {
    "n": 2,
    "name": "User-Centred Thinking",
    "band": "Third · 40–49%",
-   "mark": 40,
+   "mark": 42,
    "s": "Basic acknowledgement of user needs and nothing more. Accessibility is asserted in C5 and evidenced nowhere: A6 is blank, and the contrast figures the student recorded themselves show body text at 3.45:1 and the accent at 1.75:1, both left uncorrected. The rubric's third band is \"some accessibility consideration but inconsistently applied\" — this is at the floor of it."
   },
   {
    "n": 3,
    "name": "Technical Craft & Process",
    "band": "Third · 40–49%",
-   "mark": 44,
+   "mark": 45,
    "s": "Process artefacts are present but underdeveloped, which is the third band almost word for word. Two sketches, unlabelled wireframes, five screens with no before to measure them against, and a click-through that stops halfway — three links, one of them starting from a control that is not on the screen. The deck is legible and reads as a whole, which keeps it in the band rather than below it."
   },
   {
@@ -695,7 +695,7 @@ const EXAMPLE = {
   }
  ],
  "overall": "42 · Third. Everything the brief asks for is nominally present and almost none of it is evidenced — which is what makes this hard for a student to recognise in their own work. The portfolio is not empty; it is thin. The single most consequential fault is that the student measured their contrast, wrote the failing figures into A5, and changed nothing: the evidence of the problem and the failure to act on it are in the same deck.",
- "followup": "Before releasing a mark, the AI declaration must be raised with the student. A7 and C8 both say none; B4 does not look like none. That is a conversation, not an assumption — and it is a question about academic conduct rather than about the quality of the design."
+ "followup": "A7 and C8 both say no AI was used; B4 does not look like that. A marker would ask the student rather than assume — and a portfolio that credits its AI use honestly has nothing to answer for. Log it in A7 as you go, and this question never comes up."
 };
 
 /* ---------------------------------------------------------------------------
@@ -737,7 +737,7 @@ EXAMPLE.defended = {
     "Not one colour changed. The design in the defended paragraph is the same design, on the " +
     "same screens, with the same faults. Only the account of it changed.",
   reveal:
-    "Critical Reflection is the lowest of the four criteria in this portfolio — 38, against 50 " +
+    "Critical Reflection is the lowest of the four criteria in this portfolio — 38, against 52 " +
     "for the visual work — and the marker's reason is a single word: descriptive. The student " +
     "did not lose those marks by designing badly. They lost them by writing the first paragraph " +
     "when the second one was available for the same effort and the same design.",

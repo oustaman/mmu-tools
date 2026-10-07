@@ -195,7 +195,7 @@
     <a class="navl" href="index.html">Weeks</a>
     <a class="navl" href="weeks.html">Materials</a>
     <a class="navl hideable" href="brief.html">The brief</a>
-    <a class="navl hideable" href="assessment.html">Checklist</a>
+    <a class="navl hideable" href="assessment.html">Checklist</a><a class="navl hideable" href="assessment-materials.html">Assessment materials</a>
     <a class="navl hideable" href="example.html">The example</a>
   </div>
 </header>
@@ -356,7 +356,7 @@ document.getElementById('qa').innerHTML = [
   ['They mark on looks.', esc(w1.mistake.replace(/^Marking on how it looks\.\s*/, '')) + ' Ask for the evidence.'],
   ['"Why is criterion 1 the highest when the colours fail?"',
    'Colour contrast is marked under criterion 2. Don\'t mark one fault twice.'],
-  ['"Why 42 and not the average, 43?"',
+  ['"Why 42, when the step nearest the average is 45?"',
    'One overall judgement, not a sum. Two required sections, C6 and C7, are missing entirely.'],
   ...w1.stuck.map(q => [esc('"' + q[0] + '"'), esc(q[1])]),
 ].map(c => pt(c[0], c[1])).join('');
@@ -426,7 +426,7 @@ document.getElementById('qa').innerHTML = [
     '<tr class="tot"><td><b>Overall</b></td><td class="num"><b>' + EXAMPLE.mark.overall + '</b></td><td>' +
     'A holistic mark. The criteria sit between ' + lo + ' and ' + hi + ', and ' + EXAMPLE.mark.overall +
     ' sits inside that range, weighted by judgement towards the two criteria where the work is thinnest. ' +
-    'Their average is ' + mean.toFixed(0) + ' — a sanity check, not the rule. <b>An overall outside the ' +
+    'Their average is ' + mean.toFixed(0) + ', and the nearest step to it is ' + nearestStep(mean) + ' — a sanity check, not the rule. <b>An overall outside the ' +
     'range of its own criteria needs a sentence explaining why.</b></td></tr>';
 
   var LOOK = {

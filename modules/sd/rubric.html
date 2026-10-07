@@ -109,7 +109,8 @@
   .mk{display:flex;align-items:center;gap:6px;font-family:var(--sans);font-size:0.9rem;
     letter-spacing:0;text-transform:none;color:var(--ink-2)}
   .mk{white-space:nowrap}
-  .mk input{width:78px}
+  .mk input,.mk select{width:96px}
+  .mk select{font:inherit;font-size:0.92rem;color:var(--ink);background:var(--bg);border:1px solid var(--line-2);border-radius:7px;padding:7px 8px}
 
   .crit.overall{border-left:4px solid var(--lec)}
   .overall .crit-n{background:var(--lec)}
@@ -160,7 +161,7 @@
     .fill{grid-template-columns:96px 1fr !important;gap:8px}
     .fill label{font-size:6.5pt;gap:2px}
     .mk{font-size:8.5pt}
-    .mk input{width:48px}
+    .mk input,.mk select{width:56px;padding:2px 4px}
     input[type=text],input[type=number],textarea{padding:3px 6px;font-size:8.5pt;border-radius:4px}
     textarea{min-height:0;height:44px;resize:none;overflow:hidden}
     /* mark and evidence become a sixth column beside the bands, so the sheet
@@ -210,7 +211,7 @@
   <div class="wrap bar">
     <a class="brand" href="index.html">Screen Design</a>
     <span class="sp"></span>
-    <a class="navl" href="index.html">Weeks</a><a class="navl" href="weeks.html">Materials</a><a class="navl" href="brief.html">The brief</a><a class="navl" href="assessment.html">Checklist</a>
+    <a class="navl" href="index.html">Weeks</a><a class="navl" href="weeks.html">Materials</a><a class="navl" href="brief.html">The brief</a><a class="navl" href="assessment.html">Checklist</a><a class="navl" href="assessment-materials.html">Assessment materials</a>
     <span class="ctl"><button id="theme" aria-label="Dark mode">◐</button></span>
   </div>
 </header>
@@ -225,7 +226,8 @@
     <span class="n">1</span>
     <p><b>One overall mark for the portfolio as a whole.</b> The criteria are not weighted separately.
       In the brief's words: <q>Grades reflect overall performance across all criteria, not a mechanical
-      average.</q> Place the work in a band for each criterion, then decide the one mark.</p>
+      average.</q> Place the work in a band for each criterion, then decide the one mark. Marks come in
+      <a href="assessment-materials.html#steps">steps</a> — a 66 is not a mark; it is a 65 or a 68.</p>
   </div>
 
   <div class="tools">
@@ -252,6 +254,10 @@
   const esc = t => String(t).replace(/[<&"]/g, c => ({ '<': '&lt;', '&': '&amp;', '"': '&quot;' }[c]));
   const form = document.getElementById('sheet');
 
+  /* Marks are the university's steps only (MARK_STEPS in rubric-data.js),
+     grouped by classification, so nobody can pick a mark that cannot be given. */
+  const stepSelect = name => `<select name="${name}"><option value="">\u2014</option>${MARK_STEPS.map(b =>
+    `<optgroup label="${b.cls} \u00b7 ${b.range}">${b.marks.map(m => `<option value="${m}">${m}</option>`).join('')}</optgroup>`).join('')}</select>`;
   form.innerHTML = RUBRIC.map(r => `
     <section class="crit" aria-labelledby="c${r.n}">
       <div class="crit-h"><span class="crit-n">${r.n}</span>
@@ -263,20 +269,20 @@
         </label>`).join('')}
       </fieldset>
       <div class="fill">
-        <label>Mark<span class="mk"><input type="number" name="m${r.n}" min="0" max="100" inputmode="numeric"> / 100</span></label>
+        <label>Mark<span class="mk">${stepSelect('m' + r.n)}</span></label>
         <label>Evidence — where in the deck is it?<textarea name="e${r.n}" rows="2"></textarea></label>
       </div>
     </section>`).join('') + `
     <section class="crit overall" aria-labelledby="c0">
       <div class="crit-h"><span class="crit-n">=</span>
         <div><h2 id="c0">Overall mark</h2></div></div>
-      <p class="hint">It starts as the average of your four marks. That is a starting point, not the
-        rule: if the whole deserves a different number, type it and say why.</p>
+      <p class="hint">It starts at the step nearest the average of your four marks. That is a starting
+        point, not the rule: if the whole deserves a different mark, pick it and say why.</p>
       <p class="avg"><span>Average of your marks: <b id="avgn">—</b></span>
         <span class="tag" id="avgtag"></span>
-        <button type="button" class="linkbtn" id="useavg" hidden>Use the average</button></p>
+        <button type="button" class="linkbtn" id="useavg" hidden>Use the nearest step</button></p>
       <div class="fill">
-        <label>Mark<span class="mk"><input type="number" name="overall" min="0" max="100" inputmode="numeric"> / 100</span></label>
+        <label>Mark<span class="mk">${stepSelect('overall')}</span></label>
         <label>Why this mark<textarea name="why" rows="2"></textarea></label>
       </div>
     </section>`;
@@ -291,12 +297,14 @@
   function average() {
     const m = RUBRIC.map(r => form.elements['m' + r.n].value).filter(v => v !== '').map(Number)
       .filter(n => Number.isFinite(n));
-    return m.length ? { v: Math.round(m.reduce((a, b) => a + b, 0) / m.length), n: m.length } : null;
+    if (!m.length) return null;
+    const raw = m.reduce((a, b) => a + b, 0) / m.length;
+    return { raw: Math.round(raw * 10) / 10, v: nearestStep(raw), n: m.length };
   }
   function syncOverall() {
     const a = average();
-    avgn.textContent = a ? a.v : '—';
-    if (!own) overall.value = a ? a.v : '';
+    avgn.textContent = a ? (a.raw === a.v ? a.v : `${a.raw} \u2192 ${a.v}`) : '\u2014';
+    if (!own) overall.value = a ? String(a.v) : '';
     avgtag.className = 'tag' + (own ? ' own' : '');
     avgtag.textContent = !a ? '' : own ? 'your own mark'
       : a.n < RUBRIC.length ? `of ${a.n} of ${RUBRIC.length} marks so far` : 'overall follows it';

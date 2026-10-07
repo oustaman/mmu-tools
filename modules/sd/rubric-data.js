@@ -21,6 +21,26 @@ const BANDS = [
   {k:"first", label:"First", range:"70%+"}
 ];
 
+/* The marks the university lets us give: a stepped scale, three or four steps
+   per ten-point bracket (MMU, October 2026). A criterion, and the overall, is
+   always one of these — a 66 is not a mark; it is a 65 or a 68. */
+const MARK_STEPS = [
+ {cls:"First", range:"90–100", marks:[100, 98, 95, 92]},
+ {cls:"First", range:"80–89", marks:[88, 85, 82]},
+ {cls:"First", range:"70–79", marks:[78, 75, 72]},
+ {cls:"2:1", range:"60–69", marks:[68, 65, 62]},
+ {cls:"2:2", range:"50–59", marks:[58, 55, 52]},
+ {cls:"Third", range:"40–49", marks:[48, 45, 42]},
+ {cls:"Condonable fail", range:"30–39", marks:[38, 35, 32]},
+ {cls:"Fail", range:"20–29", marks:[28, 25, 22]},
+ {cls:"Fail", range:"10–19", marks:[18, 15, 12]},
+ {cls:"Fail", range:"0–9", marks:[8, 5, 2, 0]}
+];
+const STEPS = MARK_STEPS.flatMap(b => b.marks);
+/* the step nearest a number; on a tie, the lower one */
+const nearestStep = x => STEPS.reduce((best, m) =>
+  Math.abs(m - x) < Math.abs(best - x) || (Math.abs(m - x) === Math.abs(best - x) && m < best) ? m : best, STEPS[0]);
+
 const RUBRIC = [
  {n:1, name:"Visual Design & Communication",
   what:"Applies design principles (layout, typography, colour, hierarchy) to create clear, purposeful screen-based communication.",
