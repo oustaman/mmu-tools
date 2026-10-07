@@ -695,6 +695,28 @@ const EXAMPLE = {
   }
  ],
  "overall": "42 · Third. Everything the brief asks for is nominally present and almost none of it is evidenced — which is what makes this hard for a student to recognise in their own work. The portfolio is not empty; it is thin. The single most consequential fault is that the student measured their contrast, wrote the failing figures into A5, and changed nothing: the evidence of the problem and the failure to act on it are in the same deck.",
+ "feedback": {
+  "id": "22461173",
+  "date": "6 October 2026",
+  "well": [
+   "The deck is complete and in order. Every section the brief names has a slide, and it reads as one portfolio rather than a pile of files.",
+   "B6's five screens share one visual language, and the style tile in B3 holds it together. That consistency is why Visual Design is your strongest criterion.",
+   "You measured your contrast in A5. Most portfolios never do; the instinct to record a number is the right one."
+  ],
+  "improve": [
+   "Act on your own numbers. A5 records body text at 3.45:1 and the accent at 1.75:1, and nothing changed. Fixing those two pairs would have lifted User-Centred Thinking a band on its own.",
+   "Write C6 and C7. The brief asks for both by name, and their absence is why the overall sits below your criteria.",
+   "Make Part C defend, not describe. Each section should quote a number from Part A and name something you rejected; none of yours does.",
+   "Show the before. A2 lists five screens but not how people do this now, so nothing shows that your version is better.",
+   "Finish the click-through. B8 stops after three links, and one starts from a control that is not on the screen.",
+   "Credit your AI use. A7 says none, and B4 looks generated. If a tool helped, say so in A7: it costs you nothing and answers the question before anyone asks it."
+  ],
+  "next": [
+   "Keep: getting the whole structure in place early. You had every section from the start.",
+   "Build: the habit of evidence. Before you write a sentence about your design, find the number or the screen it points at."
+  ],
+  "overall": "42, below 45 — the step nearest your criteria — because C6 and C7 are missing entirely. A required section left out is not the same as one done badly."
+ },
  "followup": "A7 and C8 both say no AI was used; B4 does not look like that. A marker would ask the student rather than assume — and a portfolio that credits its AI use honestly has nothing to answer for. Log it in A7 as you go, and this question never comes up."
 };
 

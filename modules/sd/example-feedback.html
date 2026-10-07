@@ -1,0 +1,208 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Example 1, feedback sheet — Screen Design</title>
+<style>
+  :root{
+    --bg:#F5F4F2; --surface:#FFFFFF; --surface-2:#EDEBE8;
+    --ink:#1A1618; --ink-2:#514B4A; --ink-3:#4D4847;
+    --line:#DFDBD7; --line-2:#8E8685;
+    --lec:#8C2437; --lec-soft:#F6E8EA;
+    --wsh:#1A526D; --wsh-soft:#E4EEF3;
+    --ok:#285638; --ok-soft:#E3EFE7;
+    --warn:#684604; --warn-soft:#F4EAD3;
+    --mono:ui-monospace,"SF Mono",Menlo,Consolas,monospace;
+    --sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Inter,Roboto,sans-serif;
+  }
+  html[data-theme="dark"]{
+    --bg:#151314; --surface:#1E1B1C; --surface-2:#262223;
+    --ink:#EDE9E7; --ink-2:#B9B2AF; --ink-3:#B7B2B0;
+    --line:#332E2F; --line-2:#7A7372;
+    --lec:#E69FAD; --lec-soft:#332226;
+    --wsh:#7FBEDC; --wsh-soft:#16262E;
+    --ok:#83C19A; --ok-soft:#1C2A22;
+    --warn:#DCB469; --warn-soft:#2A2417;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);line-height:1.5}
+  .wrap{max-width:1100px;margin:0 auto;padding:0 22px}
+  @media(max-width:420px){.wrap{padding:0 14px}}
+  @media(max-width:340px){.wrap{padding:0 10px}}
+  a{color:var(--lec)}
+
+  /* The bar, identical on every page (see assessment.html). */
+  header{border-bottom:1px solid var(--line);background:var(--surface);position:sticky;top:0;z-index:40}
+  .bar{display:flex;align-items:center;gap:10px;padding-block:11px;flex-wrap:nowrap}
+  .brand{font-weight:680;font-size:1rem;letter-spacing:-0.015em;white-space:nowrap;color:inherit;
+    text-decoration:none;padding:5px 8px;margin-left:-8px;border-radius:6px}
+  .brand:hover{background:var(--surface-2)}
+  .brand:focus-visible{outline:2px solid var(--lec);outline-offset:1px}
+  .sp{flex:1}
+  .navl{font-size:0.85rem;color:var(--ink-2);text-decoration:none;padding:6px 10px;border-radius:6px;white-space:nowrap}
+  .navl:hover{background:var(--surface-2);color:var(--ink)}
+  .ctl button{font-family:var(--mono);font-size:0.7rem;background:none;color:var(--ink-3);
+    border:1px solid var(--line-2);border-radius:5px;padding:5px 8px;cursor:pointer;line-height:1}
+  .ctl button:hover{border-color:var(--lec);color:var(--lec)}
+  @media(max-width:760px){ header .bar{gap:6px} .navl{padding:6px 8px;font-size:0.82rem} }
+  @media(max-width:560px){
+    header .bar{flex-wrap:wrap;row-gap:6px}
+    header .brand{order:0} header .ctl{order:1;margin-left:auto}
+    header .bar > .sp{order:2;flex-basis:100%;height:0}
+    header .navl{order:3;padding:5px 7px;font-size:0.78rem}
+  }
+  @media(max-width:430px){ .brand{font-size:0.9rem} .navl{padding:5px 6px;font-size:0.76rem} }
+
+  .navl.on{background:var(--lec);color:#fff}
+  html[data-theme="dark"] .navl.on{color:#151314}
+  h1{font-size:clamp(1.5rem,4vw,2.1rem);line-height:1.1;letter-spacing:-0.026em;margin:24px 0 4px;font-weight:700}
+  .sub{color:var(--ink-2);margin:0 0 16px;max-width:72ch}
+  .fakebar{display:flex;gap:12px;align-items:flex-start;background:var(--warn-soft);border:1px solid var(--warn);
+    border-radius:10px;padding:11px 15px;margin:0 0 18px;font-size:0.88rem;color:var(--ink-2)}
+  .fakebar b.k{color:var(--warn);font-family:var(--mono);font-size:0.64rem;letter-spacing:0.09em;text-transform:uppercase;white-space:nowrap;padding-top:2px}
+
+  /* ── the sheet: the Word document, filled in ─────────────────────────── */
+  .sheet{background:var(--surface);border:1px solid var(--line-2);border-radius:6px;padding:22px 24px;
+    box-shadow:0 2px 14px rgba(0,0,0,.06);margin:0 0 22px}
+  .sheet h2{margin:0 0 4px;font-size:1.25rem;font-weight:700}
+  .intro{margin:0 0 12px;font-size:0.84rem;color:var(--ink-2)}
+  .intro b{color:var(--ink)}
+  .wide{overflow-x:auto}
+  table.f{width:100%;border-collapse:collapse;font-size:0.84rem;margin:0 0 12px}
+  .f td{border:1px solid var(--line-2);padding:6px 9px}
+  .f td b{margin-right:6px}
+  .f .hand{font-family:"Bradley Hand","Segoe Print","Comic Sans MS",cursive;font-size:1.02rem;color:#1A4F9C}
+  html[data-theme="dark"] .f .hand{color:#8CB8F5}
+  table.g{width:100%;min-width:900px;border-collapse:collapse;font-size:0.78rem;line-height:1.4}
+  .g th{text-align:left;background:var(--surface-2);border:1px solid var(--line-2);padding:6px 8px;font-size:0.8rem}
+  .g th span{display:block;font-weight:400;color:var(--ink-3);font-size:0.72rem}
+  .g td{border:1px solid var(--line-2);padding:7px 8px;vertical-align:top;color:var(--ink-2)}
+  .g td.c b{display:block;color:var(--ink);font-size:0.86rem}
+  .g td.c span{display:block;color:var(--ink-3);font-size:0.74rem;margin-top:2px}
+  .g td.hl{background:#FFE27A;color:#1F2933;box-shadow:inset 0 0 0 2px #E0A800}
+  html[data-theme="dark"] .g td.hl{background:#5A4800;color:#FFF3C4;box-shadow:inset 0 0 0 2px #C99A00}
+  .g td.mk{text-align:center;vertical-align:middle;width:70px}
+  .g td.mk .hand{font-size:1.5rem}
+  .scale{margin:10px 0 0;font-size:0.76rem;color:var(--ink-3)}
+  .scale b{color:var(--ink-2)}
+  .scale .s{font-family:var(--mono);margin-right:3px;padding:0 2px}
+  .scale .s.on{background:#FFE27A;color:#1F2933;border-radius:3px;font-weight:700}
+  .fbox{border:1px solid var(--line-2);margin:0 0 12px}
+  .fbox > b{display:block;background:var(--surface-2);padding:7px 11px;font-size:0.92rem;border-bottom:1px solid var(--line-2)}
+  .fbox > b span{font-weight:400;color:var(--ink-3);font-size:0.76rem;margin-left:8px}
+  .fbox ul{margin:0;padding:10px 12px 10px 30px;display:grid;gap:6px}
+  .fbox li,.fbox p{font-family:"Bradley Hand","Segoe Print","Comic Sans MS",cursive;font-size:1.02rem;line-height:1.45;color:#1A4F9C}
+  html[data-theme="dark"] .fbox li,html[data-theme="dark"] .fbox p{color:#8CB8F5}
+  .fbox p{margin:0;padding:10px 12px}
+  .more{font-size:0.9rem;color:var(--ink-2)}
+  footer{padding:24px 0 44px;color:var(--ink-3);font-size:0.8rem;border-top:1px solid var(--line);margin-top:26px}
+  @media print{
+    header,.sub,.fakebar,.more,footer,.ctl{display:none !important}
+    body{background:#fff}
+    .wrap{max-width:none;padding:0}
+    h1{display:none}
+    .sheet{box-shadow:none;border:0;padding:0;background:#fff}
+    @page{size:A4 landscape;margin:6mm 8mm}
+    .g{min-width:0 !important;font-size:6.6pt;line-height:1.22}
+    .g td{padding:3px 5px}
+    .g td.c b{font-size:8pt} .g td.c span{font-size:6.6pt}
+    .g td.mk .hand{font-size:13pt}
+    .f{font-size:8pt;margin-bottom:6px} .f td{padding:3px 7px} .f .hand{font-size:9.5pt}
+    .sheet h2{font-size:12pt;margin-bottom:2px} .intro{font-size:7.4pt;margin-bottom:4px}
+    .scale{font-size:6.6pt;margin-top:3px}
+    .sheet:first-of-type{break-inside:avoid}
+    .page2{break-before:page}
+    .fbox{margin-bottom:7px} .fbox > b{padding:4px 9px;font-size:9pt} .fbox > b span{font-size:7pt}
+    .fbox ul{padding:5px 10px 6px 24px;gap:2px} .fbox p{padding:6px 10px}
+    .fbox li,.fbox p{font-size:9.6pt;line-height:1.35}
+    *{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap bar">
+    <a class="brand" href="index.html">Screen Design</a>
+    <span class="sp"></span>
+    <a class="navl" href="index.html">Weeks</a><a class="navl" href="weeks.html">Materials</a><a class="navl" href="brief.html">The brief</a><a class="navl" href="assessment.html">Checklist</a><a class="navl" href="assessment-materials.html">Assessment materials</a>
+    <span class="ctl"><button id="theme" aria-label="Dark mode">◐</button></span>
+  </div>
+</header>
+
+<div class="wrap">
+  <h1>Example 1, the feedback sheet</h1>
+  <p class="sub">The sheet a marker fills in, completed for the portfolio you marked in week 1. The
+    highlighted cell in each row is the descriptor that fits; the written feedback is on the second
+    page. <a href="example-marked.html">The marked portfolio</a> ·
+    <a href="Screen_Design_Feedback_Sheet_2026-27.docx" download>the blank sheet (Word)</a>.</p>
+  <div class="fakebar"><b class="k">Not real work</b><span>A teaching example written by the module team.
+    No real student, and no real student's feedback.</span></div>
+
+  <div class="sheet">
+    <h2>Screen Design — marking and feedback sheet</h2>
+    <p class="intro">Mark against the four criteria from the assessment brief. Highlight the descriptor that
+      fits best in each row, and give each criterion a mark from the scale below. <b>One overall mark is
+      awarded for the portfolio as a whole; the criteria are not weighted separately.</b></p>
+    <div class="wide"><table class="f" id="fields"></table></div>
+    <div class="wide"><table class="g" id="grid"></table></div>
+    <p class="scale" id="scale"></p>
+  </div>
+
+  <div class="sheet page2">
+    <h2>Feedback</h2>
+    <div id="fb"></div>
+  </div>
+
+  <p class="more"><a href="assessment-materials.html">← All assessment materials</a></p>
+  <footer><p>Screen Design · Level 4 · 30 credits · 2026–27</p></footer>
+</div>
+
+<script src="sd-common.js"></script>
+<script src="rubric-data.js"></script>
+<script src="example-data.js"></script>
+<script>
+(function () {
+  const esc = s => String(s).replace(/[<&]/g, c => c === '<' ? '&lt;' : '&amp;');
+  const F = EXAMPLE.feedback;
+  /* the band a mark falls in, as the rubric's columns: Fail, Third, 2:2, 2:1, First */
+  const band = m => m < 40 ? 0 : m < 50 ? 1 : m < 60 ? 2 : m < 70 ? 3 : 4;
+  const hand = s => `<span class="hand">${esc(s)}</span>`;
+
+  document.getElementById('fields').innerHTML = `
+    <tr><td><b>Module</b>Screen Design · 1L4Z0045 · Level 4 · 30 credits</td><td><b>Assessment</b>Portfolio · 100%</td>
+        <td><b>Year</b>2026–27</td><td><b>Overall mark</b>${hand(EXAMPLE.mark.overall + ' · ' + EXAMPLE.mark.band.split(' · ')[0])}</td></tr>
+    <tr><td><b>Student ID</b>${hand(F.id)}</td><td><b>First marker</b>${hand('Module team')}</td>
+        <td><b>Second marker</b>\u2014</td><td><b>Date</b>${hand(F.date)}</td></tr>`;
+
+  const marks = {}; EXAMPLE.criteria.forEach(c => { marks[c.n] = c.mark; });
+  document.getElementById('grid').innerHTML =
+    `<tr><th style="width:21%">Criterion</th>${BANDS.map(b => `<th>${b.label}<span>${b.range}</span></th>`).join('')}<th>Mark</th></tr>` +
+    RUBRIC.map(r => `<tr><td class="c"><b>${r.n}. ${esc(r.name)}</b><span>${esc(r.what)}</span></td>
+      ${r.b.map((d, i) => `<td class="${i === band(marks[r.n]) ? 'hl' : ''}">${esc(d)}</td>`).join('')}
+      <td class="mk">${hand(marks[r.n])}</td></tr>`).join('');
+
+  const used = new Set([...Object.values(marks), EXAMPLE.mark.overall]);
+  document.getElementById('scale').innerHTML = `<b>Marks are given on the university\u2019s stepped scale only:</b> ` +
+    MARK_STEPS.map(b => b.marks.map(m => `<span class="s${used.has(m) ? ' on' : ''}">${m}</span>`).join('')).join(' \u00b7 ');
+
+  const box = (title, hint, body) => `<div class="fbox"><b>${title}<span>${hint}</span></b>${body}</div>`;
+  const list = a => `<ul>${a.map(x => `<li>${esc(x)}</li>`).join('')}</ul>`;
+  document.getElementById('fb').innerHTML =
+    box('What was done well', 'two or three specific strengths, each pointing at a section or a screen', list(F.well)) +
+    box('What would have raised the mark', 'the changes that would have moved this portfolio into the next band', list(F.improve)) +
+    box('For your next module', 'one habit to keep and one to build', list(F.next)) +
+    box('The overall mark', 'required only if it sits outside the range of the criteria marks', `<p>${esc(F.overall)}</p>`);
+})();
+
+const root = document.documentElement;
+try { const t = localStorage.getItem('sd-theme'); if (t) root.dataset.theme = t; } catch (e) {}
+if (!root.dataset.theme && matchMedia('(prefers-color-scheme: dark)').matches) root.dataset.theme = 'dark';
+document.getElementById('theme').onclick = () => {
+  root.dataset.theme = root.dataset.theme === 'dark' ? 'light' : 'dark';
+  try { localStorage.setItem('sd-theme', root.dataset.theme); } catch (e) {}
+};
+</script>
+</body>
+</html>
