@@ -300,7 +300,7 @@
   <div class="wrap bar">
     <a class="brand" href="index.html">Screen Design</a>
     <span class="sp"></span>
-    <a class="navl" href="index.html">Weeks</a><a class="navl" href="weeks.html">Materials</a><a class="navl on" href="brief.html">The brief</a><a class="navl" href="assessment.html">What to hand in</a>
+    <a class="navl" href="index.html">Weeks</a><a class="navl" href="weeks.html">Materials</a><a class="navl on" href="brief.html">The brief</a><a class="navl" href="assessment.html">Checklist</a>
     <span class="ctl"><button id="theme" aria-label="Dark mode">◐</button></span>
   </div>
 </header>
@@ -367,12 +367,12 @@ const SLIDES = [
 
 {nav:"The work", html:`<div class="slide">
   <div class="eyebrow">What you are making</div>
-  <h2>Six to eight screens, and a record of why they look like that.</h2>
+  <h2>One journey, made better — and a record of why it looks like that.</h2>
   <ul class="pts">
-    <li><i>01</i><span>Pick a topic in week 2 and keep it.</span></li>
-    <li><i>02</i><span>Draw the screens rough on paper first — that is what weeks 2 and 8 are for.</span></li>
-    <li><i>03</i><span>Write down every choice as you make it.</span></li>
-    <li><i>04</i><span>Explain each choice the week you make it — a short paragraph, not an essay at the end.</span></li>
+    <li><i>01</i><span>Pick a topic in week 2, and one goal inside it — something a person is trying to get done.</span></li>
+    <li><i>02</i><span>Find the before: how people reach that goal now, even if it is a WhatsApp group. Count the steps.</span></li>
+    <li><i>03</i><span>Draw your version rough on paper first, then make it real. Fewer steps is usually better.</span></li>
+    <li><i>04</i><span>Write down every choice as you make it, and explain it the week you make it.</span></li>
   </ul>
   <p class="lead" style="margin-top:18px"><b>100% of the mark.</b> No exam, no presentation, no group work.</p>
 </div>`},
@@ -405,8 +405,8 @@ const SLIDES = [
       <b class="t-good">What works</b>
       <ul class="pts sm">
         <li><i>✓</i><span>Something you already understand — a hobby, a job you have had, a problem where you live</span></li>
-        <li><i>✓</i><span>One task, not a whole company. "Book a badminton court", not "a sports app"</span></li>
-        <li><i>✓</i><span>Six to eight screens' worth. If you cannot list six, it is too small; if you cannot stop at eight, too big</span></li>
+        <li><i>✓</i><span>One goal, not a whole product. Improve ordering a pizza, not the pizza website</span></li>
+        <li><i>✓</i><span>The painful part. Most services are 70–80% smooth; cancelling, complaining or reaching a human is where the work is</span></li>
         <li><i>✓</i><span>Something with an empty state and an error — a form, a booking, a report</span></li>
       </ul>
     </div>
@@ -414,7 +414,8 @@ const SLIDES = [
       <b class="t-bad">What causes trouble</b>
       <ul class="pts sm">
         <li><i>✕</i><span>Redesigning Spotify or Instagram. You end up critiquing them instead of designing, and there is nothing of yours to mark</span></li>
-        <li><i>✕</i><span>Anything needing research you have not done — medical, legal, financial</span></li>
+        <li><i>✕</i><span>Anything regulated — medical, legal, financial. A bank has extra steps because the law requires them, not because nobody designed them</span></li>
+        <li><i>✕</i><span>Adding features. Your job is a shorter, clearer journey, not a longer one</span></li>
         <li><i>✕</i><span>A topic you picked because it looks impressive. Eleven weeks is a long time with something you do not care about</span></li>
       </ul>
     </div>
@@ -423,9 +424,9 @@ const SLIDES = [
     is the single most common way this goes wrong.</p>
 </div>`},
 
-{nav:"Three parts", html:`<div class="slide">
+{nav:"The parts", html:`<div class="slide">
   <div class="eyebrow">One deck, ${SD.total} sections</div>
-  <h2>Three parts, and only one of them is writing.</h2>
+  <h2>Three parts and the appendices — and only one of them is writing.</h2>
   <div class="cols">
     <div class="card a"><span class="ic">${ICON.doc}</span><span class="k">Part A · ${A.items.length} sections</span>
       <h3>Your choices, written down</h3>
@@ -439,6 +440,9 @@ const SLIDES = [
       <h3>Short answers, and your references</h3>
       <p>500–700 words in total, a paragraph at a time, each written the week you make the decision. The longest is about 120 words.</p></div>
   </div>
+  <p class="lead" style="margin-top:16px"><b>Then ${PARTS[3].items.length} appendix slides</b> — the process
+    before, what happened to each step, and two screens side by side. They prove your version is better,
+    and they do not count toward any word limit.</p>
 </div>`},
 
 {nav:"Outcomes", html:`<div class="slide dense">

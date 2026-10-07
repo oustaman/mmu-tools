@@ -15,12 +15,12 @@
  *
  *  The deliberate faults, so a tutor running the exercise knows what to steer
  *  the room toward:
- *    · A2 lists five screens where the brief asks for six to eight
+ *    · A2 lists five screens and no before — nothing to measure the journey against
  *    · A3 and A4 carry "about" where a number belongs
  *    · A5's contrast table has two rows for five colours, and one of them fails
  *    · A6 is nearly empty
  *    · A7 says none, while B4 is visibly generated
- *    · B8 has three links of six, and one starts from a control that is not drawn
+ *    · B8 stops halfway — three links, and one starts from a control that is not drawn
  *    · C6 and C7 are missing entirely — both are required by the brief
  *    · C8 contradicts the evidence in B4
  *    · C9 has no references, and nothing in C is cited
@@ -102,7 +102,7 @@ const EXAMPLE = {
    "blocks": [
     {
      "t": "h3",
-     "x": "A2.  SCREEN INVENTORY"
+     "x": "A2.  THE JOURNEY, BEFORE AND AFTER"
     },
     {
      "t": "kv",
@@ -131,7 +131,7 @@ const EXAMPLE = {
      "note": {
       "c": 1,
       "band": "Third",
-      "s": "Five screens where the brief asks for six to eight — and the jobs are nouns, not jobs. No empty state, no error, no confirmation. Week 7 asks specifically for these and they are missing, which also removes the material C5 needs."
+      "s": "Five screens and no before — nothing says how people do this now, so nothing can show the journey got better. And the jobs are nouns, not jobs. No empty state, no error, no confirmation. Week 7 asks specifically for these and they are missing, which also removes the material C5 needs."
      }
     }
    ],
@@ -482,7 +482,7 @@ const EXAMPLE = {
    "blocks": [
     {
      "t": "h3",
-     "x": "B6.  6–8 FINISHED SCREENS"
+     "x": "B6.  THE FINISHED SCREENS"
     },
     {
      "t": "img",
@@ -496,7 +496,7 @@ const EXAMPLE = {
      "note": {
       "c": 1,
       "band": "Third",
-      "s": "Five again, so B6 cannot satisfy a brief asking for six to eight. Visually coherent — which earns something — but coherent in a scheme that fails contrast on every screen."
+      "s": "Five screens, and no way to tell whether that is better than before, because A2 never says what before was. Visually coherent — which earns something — but coherent in a scheme that fails contrast on every screen."
      }
     }
    ],
@@ -684,7 +684,7 @@ const EXAMPLE = {
    "name": "Technical Craft & Process",
    "band": "Third · 40–49%",
    "mark": 44,
-   "s": "Process artefacts are present but underdeveloped, which is the third band almost word for word. Two sketches, unlabelled wireframes, five screens where six to eight were asked for, and a click-through with three links instead of six — one of them starting from a control that is not on the screen. The deck is legible and reads as a whole, which keeps it in the band rather than below it."
+   "s": "Process artefacts are present but underdeveloped, which is the third band almost word for word. Two sketches, unlabelled wireframes, five screens with no before to measure them against, and a click-through that stops halfway — three links, one of them starting from a control that is not on the screen. The deck is legible and reads as a whole, which keeps it in the band rather than below it."
   },
   {
    "n": 4,
