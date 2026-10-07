@@ -71,13 +71,37 @@ const RUBRIC = [
 
    The four RUBRIC criteria below are marking criteria, not outcomes, and do not
    map one-to-one onto the three. */
+/* `t` is the official wording and is never edited. The other three fields are
+   ours, written because students could read the outcomes but not connect them
+   to their own deck (first-week feedback, October 2026):
+     plain — the outcome in everyday words
+     secs  — the deck sections where it is most visibly shown
+     ask   — one question a student can put to their own work
+   `secs` is our reading, not the university's, and it is not a weighting: the
+   portfolio gets one overall mark. Every code must exist in PARTS; the pages
+   that render this warn if one does not. */
+/* Sections no outcome owns. The brief asks for each by name, and the Critical
+   Reflection criterion marks them, so they are stated rather than left to look
+   optional. */
+const OUTCOME_REST = { secs:["A7","C6","C7","C8","C9"],
+  why:"Asked for by name in the brief, and marked under Critical Reflection. No single outcome owns them, and they still count." };
+
 const OUTCOMES = [
  {id:"A1", group:"Knowledge and Critical Understanding",
-  t:"Describe and explain key principles of visual design and their application in screen-based media."},
+  t:"Describe and explain key principles of visual design and their application in screen-based media.",
+  plain:"Know the principles, and say how they work on a screen.",
+  secs:["C2","C3","C4","C5"],
+  ask:"Can you name the principle you used, and point to the place on your screen where it does its job?"},
  {id:"B1", group:"Skills and Attributes",
-  t:"Apply fundamental design principles to produce visually engaging layouts."},
+  t:"Apply fundamental design principles to produce visually engaging layouts.",
+  plain:"Use those principles to make screens that hold together.",
+  secs:["A3","B1","B2","B3","B5","B6","B7"],
+  ask:"Does every screen visibly follow your own grid, and is it obvious what to look at first?"},
  {id:"B2", group:"Skills and Attributes",
-  t:"Create user-centered design solutions, incorporating effective typography and colour theory."}
+  t:"Create user-centered design solutions, incorporating effective typography and colour theory.",
+  plain:"Design for the people who will use it \u2014 type they can read, colour that works for everyone.",
+  secs:["A1","A2","A4","A5","A6","B4","B8","C1"],
+  ask:"Could your user find their way, read every word, and tell your colours apart?"}
 ];
 
 /* Requirements the brief states that are easy to miss, because they are not in
