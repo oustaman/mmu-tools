@@ -79,9 +79,9 @@ const WEEKS = [
  }},
 {
  n:2, title:"Composition and visual hierarchy",
- makes:["8 thumbnails","Theme locked","C1 drafted"],
+ makes:["Example 2 marked","Theme locked","8 thumbnails"],
  idea:"You get one focal point. Everything else is arranged around what you chose.",
- hand:{keep:["One focal point per screen. Everything else supports it.", "Hierarchy comes from scale, weight, colour, space and position.", "Choose layouts by clarity, not by how pretty they are."], next:"Nothing. Rest — your theme is now locked."},
+ hand:{keep:["A complete portfolio shows its evidence; a thin one only asserts it.", "Lock your theme by week 3 at the latest. After that it cannot change.", "Rough is fine. A first sketch on the right slide beats a perfect one nowhere."], next:"Lock your theme if you have not, and pick the thumbnail you would build."},
  shown:[
   {s:"Scale, weight, space — live", u:"https://interfaces.institute/stairwell/hierarchy/", d:"Resize one element on a real page and watch the reading order change. Then add space only, change nothing else. <b>Five switches on one screen</b> — turn each device off in turn and the primary action stops being primary without moving, changing its words, or leaving the page.", take:"Changing one thing — size, weight, spacing — changes what gets read first. That is the whole of hierarchy."},
   {s:"Two focal points", d:"A real screen with two. Everyone takes a moment to find the first thing, and that moment is the cost.", u:"https://interfaces.institute/collections/bank-interfaces/", take:"You get one focal point per screen. Two costs the reader a moment, and that moment is what you write about in C2."},
@@ -89,29 +89,32 @@ const WEEKS = [
   {s:"Affordance", d:"Six pieces of text, two of them are buttons and nothing says which. Run the bad pane and count the wrong clicks.", u:"https://interfaces.institute/stairwell/affordance/", take:"If nothing says which parts are clickable, people click the wrong things. Criterion 2 is where that is marked."}
  ],
  three:[
-  {t:"Eight thumbnails", d:"One screen, eight rough layouts, photographed into the deck."},
-  {t:"Your theme, locked", d:"Part A §1 filled in, and C1 drafted — the paragraph that defends it."},
-  {t:"The one you would build", d:"Pick it before week 3. Five minutes, not an evening.", open:true},
+  {t:"Example 2, marked", d:"A band, a mark and a line of evidence for each criterion \u2014 sent through the form."},
+  {t:"Your theme, locked", d:"Part A \u00a71 filled in: theme, audience and your goal. Need longer? Week 3 at the latest."},
+  {t:"A first piece of work in your deck", d:"Eight rough thumbnails of one screen, photographed onto B1\u2019s slide. Pick the one you would build before week 3.", open:true},
  ],
  workshop:{
-  aim:"Eight rough layouts for one screen. Theme locked.",
-  goals:["Generate eight alternatives for one screen under time pressure.", "Judge a layout on clarity rather than finish.", "Commit to one theme."],
+  aim:"Mark the complete example, lock your theme, and put a first piece of work in your deck.",
+  goals:["Judge a complete portfolio against the four criteria, and say what stops it being a First.", "Commit to one theme, one audience and one goal.", "Start the work: rough layouts of one screen, on the right slide."],
   los: ["A1","B1"],
-  out:{"sec": ["A1", "C1"], "what": "Theme & audience locked, and the paragraph that defends it"},
-  bring:"A4 paper ×8 · thick markers · your three themes",
+  out:{"sec": ["A1", "C1"], "what": "Theme, audience and goal locked \u2014 and C1 drafted, once the theme is"},
+  bring:"Laptop \u00b7 A4 paper and a thick marker \u00b7 your three possible themes",
   run:[
-   {s:"Lock the theme, then frame it", d:"Pick one of your three and write it at the top of eight sheets. No changing after today. Markers only — if you can write body text you are too detailed."},
-   {s:"Eight quick rounds", d:"Pick your most important screen. Draw it eight different ways. Keep every round short and stop when the room is called \u2014 speed is the point, not finish. Rounds five to eight are the point — when you run out of ideas, move one thing and redraw."},
-   {s:"Lay them all out", d:"Groups of four, all 32 sheets on a table. Put a dot on the three clearest — not the prettiest. Then talk about where the dots landed."},
-   {s:"Photograph everything", d:"All eight sheets, exactly as they are. Keep them — they go into <code>B1</code> next week, once your theme has survived seven days. Fill in <code>A1</code> before you leave."},
-   {s:"Write C1 — who it is for", d:"Seventy words, in the deck, before you leave. Quote the two lines you just wrote into <code>A1</code>. Write it while the decision is fresh: it is quick now, and slow and worse weeks later."}
+   {s:"Mark example 2 \u2014 alone first", d:"Open <a href=\"example-council.html\">the complete example</a> and <a href=\"rubric.html\">the blank rubric</a>. Read it the way a marker would: a band and a mark for each criterion, one sentence of evidence for each, then one overall mark. Marks come in steps \u2014 a 65 or a 68, never a 66. Alone and in silence: this is your judgement, not your table\u2019s."},
+   {s:"Send your marks", d:"Through the form on <a href=\"assessment-materials.html\">Assessment materials</a>. The class average goes up beside our marks after the workshop, and nobody sees whose mark is whose."},
+   {s:"Compare in fours", d:"Groups of four, counted off round the room. Read your four marks aloud. Wherever you are more than a band apart, find the slide that settles it. The only question a tutor asks: where in the deck is that?"},
+   {s:"What makes it complete \u2014 and what stops it being a First", d:"Whole room. First: what does this have that the week 1 portfolio did not? Then: why is it not a First? Let the room find it before anyone says it."},
+   {s:"Lock your theme", d:"Fill in <code>A1</code>: your theme and your audience, one sentence each, and your goal \u2014 the one thing a person is trying to get done. <b>Need longer?</b> You have until week 3, and not a day after: everything from week 3 is built on it. If it is locked, write <code>C1</code> now, seventy words, while the decision is fresh."},
+   {s:"Start your deck \u2014 eight thumbnails", d:"Pick the one screen your goal needs most and draw it eight ways, quickly, markers only. Photograph all eight and put them on <code>B1</code>\u2019s slide today, as they are \u2014 week 3 builds on them. Rough is the point: a first piece of work on the right slide beats a perfect one nowhere."}
   ],
-  leave:"8 thumbnails, photographed. Theme locked into A1, and C1 drafted.",
-  done:"Eight sheets exist and your theme is on all of them.",
-  between:"Nothing. Week 2 is the heaviest drawing session of the term and your deck is set up. Rest.",
-  mistake:"Making them neat, or redrawing them later. A tidy thumbnail is worth less.",
-  stuck:[["Out of ideas at four","Correct. Move one thing and redraw."],
-         ["Mine look bad","They are supposed to."],
+  leave:"Example 2 marked and sent. Your theme locked (or by week 3), and eight thumbnails on B1\u2019s slide.",
+  done:"Your marks are in, A1 is filled in, and B1\u2019s slide has eight photographed thumbnails.",
+  between:"If your theme is not locked, lock it \u2014 week 3 is the last day. Then pick the thumbnail you would build.",
+  mistake:"Marking on looks. This one is well designed: the marks turn on what it evidences, and on where it stops.",
+  stuck:[["It looks finished \u2014 isn\u2019t it a First?","Look at C5 and C6. Strong design; its claims asserted, not measured; its hardest question answered in a sentence."],
+         ["Can I have more time for my theme?","Yes, until week 3. Not after \u2014 everything from week 3 is built on it."],
+         ["My mark is far from the others","Good \u2014 that is the exercise. Find the slide that would change your mind, or theirs."],
+         ["Out of ideas at four thumbnails","Correct. Move one thing and redraw."],
          ["Can I use Figma?","No. The same time on paper gets four layouts; in Figma it gets one."]]
  }
 },

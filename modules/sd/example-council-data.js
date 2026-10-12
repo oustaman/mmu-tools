@@ -277,6 +277,28 @@ const EXAMPLE = {
     s: "Every C section quotes the student's own numbers and most defend a decision rather than describe it — C4 and C8 are the best examples. The ethics paragraph finds the right question, consent to the university check, and then answers it in one sentence. C7 is generic: 'simple English for international students' could be written about any form, and names nothing specific to this one." }
  ],
  overall: "65 · 2:1. A complete, well-made portfolio that does what the brief asks and argues for most of it. It is not a First because its strongest claim is asserted rather than measured, and its hardest question is answered too quickly: a First would count what a person does on both versions — fields, clicks, words to read — and would weigh the consent question rather than settle it.",
+ feedback: {
+  id: "23017745",
+  date: "13 October 2026",
+  well: [
+   "Every value on every screen comes from your own spec: eight columns, the 1.25 scale, five colours with every pair measured. A3 to A6 are visible in B6, which is rare at this level.",
+   "The before is evidence, not decoration: seven steps captured in D1, and every one accounted for in D2. 'Seven steps became four' is a claim you have earned.",
+   "C8 is the best paragraph in the deck. You caught the AI promising something the form cannot, because you read the source. That is evaluating the output, not just logging it."
+  ],
+  improve: [
+   "Measure both versions. Seven steps to four is counted; the fields, clicks and words to read are not. A before-and-after table would turn 'clearer' from a judgement into a finding.",
+   "Weigh the consent question in C6. You found it — the university sharing student data — and then settled it in a sentence: who sees what, why unticked is right, what happens to a student who says no.",
+   "Defend or restore 'check your answers'. 'It felt like repetition' is a reason about you. On a form where a mistake costs money, it is the user's safety net.",
+   "Link 'Save and come back later'. It is drawn on every screen and goes nowhere in B8.",
+   "Make C7 about this form: name order on the people screen, course dates that follow other academic calendars.",
+   "Check the mobile summary at 375 px. 'I think it still reads' is not a check; the values wrap into a sliver."
+  ],
+  next: [
+   "Keep: building every screen from your own numbers. It is why these screens hold together.",
+   "Build: measuring what you claim. When a sentence says 'faster' or 'clearer', count something."
+  ],
+  overall: "65 — the step nearest your criteria (72, 65, 65, 62). Visual design is First-level on its own; the overall stays in the 2:1 because the strongest claims are asserted rather than measured."
+ },
  gaps: [
   ["Measure both versions", "Count what a person has to do on each: fields to fill, clicks, words to read, and every point where the old site asks for something a student does not have. A before-and-after table turns 'clearer' from a judgement into a finding, and it needs nobody but you."],
   ["Weigh the consent question", "C6 names it. A First would say who sees what, why unticked is the right default, and what happens to a student who says no."],
