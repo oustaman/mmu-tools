@@ -380,11 +380,11 @@ el.innerHTML = PARTS.map(p => {
   const rows = p.items.map((x,i) => {
     const key = `sd-${p.id}-${i}`; total++;
     const late = NOW > x.dw && !SD.isDone(key);
-    return `<label class="it ${late ? 'late' : ''}" data-k="${key}" data-week="${MADE[x.sec]}">
+    return `<label class="it ${late ? 'late' : ''}" data-k="${key}" data-week="${MADE[x.sec] || 'any'}">
       <input type="checkbox">
       <span class="it-b"><b><span class="secno">${x.sec}</span>${x.t}</b><span class="how">${x.h}</span>
         <span class="it-meta">
-          <span class="m wk">Week ${MADE[x.sec]}${x.dw > MADE[x.sec] ? ` \u00b7 final by week ${x.dw}` : ''}</span>
+          <span class="m wk">${MADE[x.sec] ? `Week ${MADE[x.sec]}${x.dw > MADE[x.sec] ? ` \u00b7 final by week ${x.dw}` : ''}` : 'Any week'}</span>
           <span class="m dn">Done when: ${x.d}</span>
           ${x.wd ? `<span class="m wd">${x.wd}</span>` : ''}
         </span></span></label>`;
@@ -441,14 +441,16 @@ paint();
       const on = b.dataset.w === 'all' ? sel.size === 0 : sel.has(+b.dataset.w);
       b.classList.toggle('on', on); b.setAttribute('aria-pressed', on ? 'true' : 'false');
     });
-    boxes.forEach(b => b.classList.toggle('hide', sel.size > 0 && !sel.has(+b.dataset.week)));
+    /* sections no week owns (the appendices) stay in view whatever is chosen */
+    boxes.forEach(b => b.classList.toggle('hide', sel.size > 0 && b.dataset.week !== 'any' && !sel.has(+b.dataset.week)));
     document.querySelectorAll('#parts .part').forEach(p =>
       p.classList.toggle('hide', !p.querySelector('.it:not(.hide)')));
     const shown = boxes.filter(b => !b.classList.contains('hide')).length;
+    const weekly = boxes.filter(b => !b.classList.contains('hide') && b.dataset.week !== 'any').length;
     const weeks = [...sel].sort((a, b) => a - b);
     note.innerHTML = !sel.size ? ''
-      : shown === 0 ? `Week 1 sets the deck up, so it has nothing to tick: make your <code>Screen Design</code> folder, then a slide for every section with the copy cards above.`
-      : `Showing ${shown} of ${boxes.length} sections \u2014 made in week${weeks.length > 1 ? 's' : ''} ${weeks.join(', ')}. ` +
+      : weekly === 0 ? `Week 1 sets the deck up, so it has nothing of its own to tick (the appendices below fit any week): make your <code>Screen Design</code> folder, then a slide for every section with the copy cards above.`
+      : `Showing ${shown} of ${boxes.length} sections \u2014 made in week${weeks.length > 1 ? 's' : ''} ${weeks.join(', ')}, plus the appendices, which fit any week. ` +
         `<button type="button" class="wkclear">Show all</button>`;
     try { localStorage.setItem(KEY, JSON.stringify(weeks)); } catch (e) {}
   }

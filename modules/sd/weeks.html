@@ -252,6 +252,8 @@
   .tk i{font-style:normal;font-family:var(--mono);font-size:0.72rem;font-weight:700;background:var(--surface-2);
     border-radius:4px;padding:1px 6px}
   .tk input:checked ~ span{color:var(--ink-3);text-decoration:line-through}
+  .tk .ifcan{font-style:normal;font-family:var(--mono);font-size:0.64rem;letter-spacing:0.04em;color:var(--ink-3);
+    border:1px dashed var(--line-2);border-radius:99px;padding:1px 7px;margin-left:auto;white-space:nowrap}
   .deck{display:block;margin-top:10px}
   .deck-t{display:block;height:6px;border-radius:99px;background:var(--surface-2);overflow:hidden}
   .deck-t i{display:block;height:100%;background:var(--wsh)}
@@ -498,7 +500,10 @@ function paintThree(w){
    is the handout now, and printing it gives the one-page version. */
 const SEC = {}; SD.all.forEach(i => { SEC[i.sec] = i; });
 const madeIn = w => w.workshop.out.sec.filter(x => SEC[x]);
-const doneBy = n => WEEKS.filter(w => w.n <= n).reduce((a, w) => a + madeIn(w).length, 0);
+/* the appendices belong to no week: count them in at the end, so the deck
+   still adds up to every section by the last week */
+const ANYTIME = SD.all.filter(i => !WEEKS.some(w => w.workshop.out.sec.includes(i.sec))).map(i => i.sec);
+const doneBy = n => WEEKS.filter(w => w.n <= n).reduce((a, w) => a + madeIn(w).length, 0) + (n >= SD.WEEKS ? ANYTIME.length : 0);
 const plain = t => String(t).replace(/<[^>]+>/g, '');
 
 function render(){
@@ -519,14 +524,15 @@ function render(){
   /* what to bring, and the sections today fills in — ticked here, ticked on
      the checklist, because it is the same store */
   const bring = plain(k.bring).split('·').map(x => x.trim()).filter(Boolean);
-  const made = madeIn(w), st = SD.read(), done = doneBy(w.n);
+  const made = madeIn(w), maybe = (k.maybe || []).filter(x => SEC[x]), st = SD.read(), done = doneBy(w.n);
+  const tk = (x, opt) => { const it = SEC[x]; return `
+        <label class="tk"><input type="checkbox" data-key="${it.key}"${st[it.key] ? ' checked' : ''}>
+          <i>${x}</i><span>${esc(it.t)}</span>${opt ? '<em class="ifcan">if you can</em>' : ''}</label>`; };
   $('#today').innerHTML = `
     <div class="td"><b class="lab">Bring</b>
       <span class="bring">${bring.map(x => `<span>${esc(x)}</span>`).join('')}</span></div>
     <div class="td"><b class="lab">Fill in today</b>
-      ${made.length ? `<span class="ticks">${made.map(x => { const it = SEC[x]; return `
-        <label class="tk"><input type="checkbox" data-key="${it.key}"${st[it.key] ? ' checked' : ''}>
-          <i>${x}</i><span>${esc(it.t)}</span></label>`; }).join('')}</span>`
+      ${made.length || maybe.length ? `<span class="ticks">${made.map(x => tk(x)).join('')}${maybe.map(x => tk(x, true)).join('')}</span>`
         : `<span class="none">Nothing yet — today sets your deck up.</span>`}
       <span class="deck"><span class="deck-t"><i style="width:${Math.round(done / SD.total * 100)}%"></i></span>
         <small>${done} of ${SD.total} sections done after today</small></span></div>`;
