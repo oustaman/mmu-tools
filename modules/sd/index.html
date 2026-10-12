@@ -85,6 +85,19 @@
     border-radius:4px;padding:1px 5px;margin-right:6px;font-weight:400}
   .nb-list li.ok .sec{color:var(--ink-3);border-color:var(--line-2)}
   .nb-list li.ok i{color:var(--hnd,#2C5F3E)} .nb-list li.ok span{color:var(--ink-3);text-decoration:line-through}
+  .nb-lab{margin:12px 0 6px;font-family:var(--mono);font-size:0.64rem;letter-spacing:0.08em;text-transform:uppercase;color:var(--ink-3)}
+  .nb-three{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:6px;counter-reset:n}
+  .nb-three li{counter-increment:n;font-size:0.88rem;background:var(--surface-2);border-radius:99px;padding:5px 12px 5px 9px}
+  .nb-three li::before{content:counter(n);font-family:var(--mono);font-size:0.7rem;font-weight:700;color:var(--ink-3);margin-right:6px}
+  .nb-three li b{font-weight:600}
+  .nb-three li.open{background:var(--warn-soft);color:var(--warn)}
+  .nb-three li.open::before{content:"\2192";color:var(--warn)}
+  .nb-list .ifcan{font-style:normal;font-family:var(--mono);font-size:0.66rem;color:var(--ink-3);
+    border:1px dashed var(--line-2);border-radius:99px;padding:1px 7px;margin-left:4px}
+  .nb-week{display:inline-flex;align-items:center;min-height:44px;padding:0 18px;border-radius:9px;margin:4px 0 2px;
+    background:var(--wsh);color:#fff;font-weight:650;text-decoration:none}
+  .nb-week:hover{filter:brightness(1.08)}
+  html[data-theme="dark"] .nb-week{color:#151314}
   .nb-bar{margin-top:12px;padding-top:13px;border-top:1px solid var(--line)}
   .nb-bl{display:flex;align-items:baseline;gap:8px;font-size:0.82rem;color:var(--ink-2);margin-bottom:7px;flex-wrap:wrap}
   .nb-bl b{color:var(--ink);font-size:1.05rem}
@@ -151,6 +164,9 @@
   table.wk tr:hover td{background:var(--surface-2)}
   table.wk tr.now td{background:var(--wsh-soft);box-shadow:inset 0 0 0 1px var(--wsh)}
   table.wk tr.now .wt{color:var(--wsh)}
+  .nowtag{display:block;margin-top:5px;font-family:var(--mono);font-size:0.6rem;letter-spacing:0.06em;text-transform:uppercase;
+    color:#fff;background:var(--wsh);border-radius:4px;padding:2px 6px;width:max-content}
+  html[data-theme="dark"] .nowtag{color:#151314}
   table.wk tr.past td{opacity:.62}
   .wn{font-family:var(--mono);font-size:0.72rem;color:var(--ink-3);white-space:nowrap}
   .wt{color:var(--ink);font-weight:620}
@@ -671,7 +687,7 @@ const EASEL = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke
 document.getElementById('wkbody').innerHTML = ROWS.map(w => `
   <tr class="${w.dead ? 'dead' : ''} ${w.n === NOW ? 'now' : ''} ${NOW && w.n < NOW ? 'past' : ''}">
     <td class="wn">${w.n === NOW ? '▶ ' : ''}${String(w.n).padStart(2,'0')}</td>
-    <td class="wn">${SD.fmtShort(SD.dateOf(w.n))}</td>
+    <td class="wn">${SD.fmtShort(SD.dateOf(w.n))}${w.n === NOW ? '<span class="nowtag">This week</span>' : ''}</td>
     <td class="wt">${w.l}</td>
     <td>${w.w}
       <ol class="tl3">${w.three.map(x => `<li class="${x.open ? 'open' : ''}">${x.t}</li>`).join('')}</ol></td>
@@ -710,7 +726,7 @@ document.getElementById('rulen').textContent = RULES.length;
   const w = SD.week(), days = SD.daysToDeadline(), done = SD.doneCount(), total = SD.total;
   const wk = ROWS.find(x => x.n === w);
 
-  let cls = '', wkLine = '', title = '', list = '';
+  let cls = '', wkLine = '', title = '', list = '', three = null, weekLink = '';
   if (w === 0) {
     cls = 'pre';
     wkLine = `First class ${SD.DAY} ${SD.fmt(SD.dateOf(1))}, 09:00 · GM LT7`;
@@ -721,19 +737,24 @@ document.getElementById('rulen').textContent = RULES.length;
     title = days > 0 ? 'Finish and submit.' : 'The deadline has passed.';
   } else {
     wkLine = `Week ${w} of ${SD.WEEKS} · ${SD.DAY} ${SD.fmtShort(SD.dateOf(w))} · 09:00 GM LT7`;
-    const due = SD.dueIn(w);
-    title = due.length
-      ? `This week, fill in ${due.length === 1 ? 'this section' : 'these ' + due.length + ' sections'} of your deck:`
-      : (wk && wk.dead ? 'Submission week. Nothing new — finish it and hand it in.'
-           : wk ? `This week: ${wk.l}. Nothing new is due — catch up.` : 'Nothing new is due — catch up.');
-    list = due.map(i => {
+    /* What this week's workshop makes, and what it invites "if you can" — the
+       same list the week page ticks, not the sections that happen to fall due. */
+    const W = WEEKS.find(x => x.n === w), bySec = s => SD.all.find(i => i.sec === s);
+    const made = W.workshop.out.sec.map(bySec).filter(Boolean), maybe = (W.workshop.maybe || []).map(bySec).filter(Boolean);
+    title = W.dead ? 'Submission week. Nothing new — finish it and hand it in.' : `This week: ${W.title}`;
+    three = W.three;
+    list = [...made.map(i => [i, false]), ...maybe.map(i => [i, true])].map(([i, opt]) => {
       const ok = SD.isDone(i.key);
-      return `<li class="${ok ? 'ok' : ''}"><i>${ok ? '✓' : '○'}</i><span><b class="sec">${i.sec}</b> ${i.t}</span></li>`;
+      return `<li class="${ok ? 'ok' : ''}"><i>${ok ? '✓' : '○'}</i><span><b class="sec">${i.sec}</b> ${i.t}${opt ? ' <em class="ifcan">if you can</em>' : ''}</span></li>`;
     }).join('');
+    weekLink = `weeks.html?w=${w}`;
   }
 
   const should = w === 0 ? 0 : SD.expectedBy(Math.min(w, SD.WEEKS));
-  const behind = done < should;
+  /* Behind means behind on the weeks already taught. Comparing with the end of
+     this week marked everyone behind on the Monday before its class. */
+  const owed = w <= 1 ? 0 : SD.expectedBy(Math.min(w - 1, SD.WEEKS));
+  const behind = done < owed;
   const pc = n => Math.round(n / total * 100);
 
   el.className = 'nowbox ' + cls;
@@ -742,11 +763,14 @@ document.getElementById('rulen').textContent = RULES.length;
       <span class="nb-days">${days > 0 ? `<b>${days}</b> days to hand in` :
         days === 0 ? '<b>Due today</b>' : '<b>Deadline passed</b>'}</span></div>
     <p class="nb-do">${title}</p>
-    ${list ? `<ul class="nb-list">${list}</ul>` : ''}
+    ${three ? `<p class="nb-lab">Leave with three things</p><ol class="nb-three">${three.map(x =>
+      `<li class="${x.open ? 'open' : ''}"><b>${x.t}</b></li>`).join('')}</ol>` : ''}
+    ${list ? `<p class="nb-lab">Sections to fill in</p><ul class="nb-list">${list}</ul>` : ''}
+    ${weekLink ? `<a class="nb-week" href="${weekLink}">Open week ${w} \u2192</a>` : ''}
     <div class="nb-bar">
       <div class="nb-bl"><b>${done} of ${total}</b><span>items finished</span>
         ${w === 0 ? '' : `<span class="beh ${behind ? 'off' : 'on'}">${
-          behind ? `${should - done} behind` : 'on track'}</span>`}</div>
+          behind ? `${owed - done} behind` : 'on track'}</span>`}</div>
       <div class="nb-track">
         <span class="nb-you" style="width:${pc(done)}%"></span>
         ${should ? `<span class="nb-should" style="left:${pc(should)}%"></span>` : ''}
@@ -824,7 +848,9 @@ document.querySelectorAll('.seccount').forEach(el => {
   const PART = { A: 'Spec sheet', B: 'The work', C: 'Rationale', D: 'Appendices' };
   const TOTAL = SD.all.length;
   const madeIn = n => WEEKS.find(w => w.n === n).workshop.out.sec.filter(x => SEC[x]);
-  const doneBy = n => WEEKS.filter(w => w.n <= n).reduce((a, w) => a + madeIn(w.n).length, 0);
+  /* the appendices belong to no week; they count in at the last one */
+  const ANYTIME = SD.all.filter(i => !WEEKS.some(w => w.workshop.out.sec.includes(i.sec))).length;
+  const doneBy = n => WEEKS.filter(w => w.n <= n).reduce((a, w) => a + madeIn(w.n).length, 0) + (n >= WEEKS.length ? ANYTIME : 0);
   const days = () => Math.max(0, SD.daysToDeadline());
 
   /* The weekly handout lived here as a modal. It became the week page itself
@@ -885,7 +911,7 @@ document.querySelectorAll('.seccount').forEach(el => {
             <span class="ho-wk-c">${d}</span></div>`;
         }).join('')}</div>
         <p class="ho-legend"><i class="ho-A"></i>Spec sheet <i class="ho-B"></i>The work <i class="ho-C"></i>Rationale <i class="ho-D"></i>Appendices
-          <span>· bar = sections done by the end of that week</span></p>
+          <span>· bar = sections done by the end of that week · the appendices fit any week</span></p>
       </section>
 
       <section class="ho-block" data-slide>

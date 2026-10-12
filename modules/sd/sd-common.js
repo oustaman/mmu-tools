@@ -155,17 +155,20 @@ const PARTS = [
  /* Appendices. Added in week 1 of the 2026-27 run (October 2026), after
     students asked how to show an improvement. The brief allows it: one PDF,
     assessed holistically, and only the rationale has a strict word limit. They
-    go at the end of the deck so nothing students built in week 1 renumbers. */
+    go at the end of the deck so nothing students built in week 1 renumbers.
+    They belong to no week (October 2026): a student can capture the before as
+    soon as the goal is set, and finishes all three by the deadline, so dw is
+    the last week and no workshop lists them in out.sec. Week 2 invites D1. */
  {id:"D", name:"Appendices", tag:"before and after \u2014 no word count",
   desc:"The evidence that your version is better: the process as it is now, what happened to each step, and two screens side by side.",
   items:[
-   {sec:"D1", t:"The process before", dw:7, d:"Every step, captured and numbered",
+   {sec:"D1", t:"The process before", dw:11, d:"Every step, captured and numbered",
     h:"How people reach the goal now \u2014 screenshots, a photo of the paper form, the WhatsApp chat. One image per step, numbered to match A2. It is evidence, not design: nobody marks how it looks.",
     f:["[ one image per step, numbered to match A2 ]","1.","2.","3.","4.","","Steps before (from A2):"]},
-   {sec:"D2", t:"Before \u2192 after, mapped", dw:10, d:"What happened to every step",
+   {sec:"D2", t:"Before \u2192 after, mapped", dw:11, d:"What happened to every step",
     h:"Each step before, and what happened to it: kept, merged, moved or removed \u2014 with a reason. A step the law or a policy requires can move or merge, never disappear.",
     f:["BEFORE STEP  \u2192  AFTER  \u2014  what happened, and why","1.","2.","3.","4.","5.","6.","","Steps before:        Screens after:"]},
-   {sec:"D3", t:"Side by side", dw:10, d:"Two key screens, before and after",
+   {sec:"D3", t:"Side by side", dw:11, d:"Two key screens, before and after",
     h:"The two places your change matters most: before on the left, after on the right, and one line under each pair saying what changed.",
     f:["[ before ]   [ after ]","What changed:","","[ before ]   [ after ]","What changed:"]}
   ]}
@@ -181,10 +184,16 @@ const SD = (() => {
   const all = PARTS.flatMap((p, pi) => p.items.map((it, i) => ({...it, key:`sd-${p.id}-${i}`, part:p.id})));
 
   /** Teaching week number, or 0 before term, or WEEKS+1 after it. */
+  /* A teaching week runs Monday to Sunday. The term starts on session day (a
+     Tuesday), and counting weeks from there left every Monday showing last
+     week — the homepage said week 1 on the day before week 2's class. Weeks
+     are counted from the Monday of the first week; session dates are still
+     the Tuesday (dateOf). */
+  const weekStart = new Date(start); weekStart.setDate(weekStart.getDate() - ((weekStart.getDay() + 6) % 7));
   function week(now = new Date()){
     /* Rounded, not floored, for the same DST reason: a whole number of days
        apart can measure 23 or 25 hours across a clock change. */
-    const days = Math.round((midnight(now) - midnight(start)) / DAY);
+    const days = Math.round((midnight(now) - midnight(weekStart)) / DAY);
     if (days < 0) return 0;
     return Math.min(TERM.WEEKS + 1, Math.floor(days / 7) + 1);
   }

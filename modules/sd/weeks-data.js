@@ -98,13 +98,14 @@ const WEEKS = [
   goals:["Judge a complete portfolio against the four criteria, and say what stops it being a First.", "Commit to one theme, one audience and one goal.", "Start the work: rough layouts of one screen, on the right slide."],
   los: ["A1","B1"],
   out:{"sec": ["A1", "C1"], "what": "Theme, audience and goal locked \u2014 and C1 drafted, once the theme is"},
+  maybe:["D1"],   /* worth starting now if the goal is clear; no week owns the appendices */
   bring:"Laptop \u00b7 A4 paper and a thick marker \u00b7 your three possible themes",
   run:[
    {s:"Mark example 2 \u2014 alone first", d:"Open <a href=\"example-council.html\">the complete example</a> and <a href=\"rubric.html\">the blank rubric</a>. Read it the way a marker would: a band and a mark for each criterion, one sentence of evidence for each, then one overall mark. Marks come in steps \u2014 a 65 or a 68, never a 66. Alone and in silence: this is your judgement, not your table\u2019s."},
    {s:"Send your marks", d:"Through the form on <a href=\"assessment-materials.html\">Assessment materials</a>. The class average goes up beside our marks after the workshop, and nobody sees whose mark is whose."},
    {s:"Compare in fours", d:"Groups of four, counted off round the room. Read your four marks aloud. Wherever you are more than a band apart, find the slide that settles it. The only question a tutor asks: where in the deck is that?"},
    {s:"What makes it complete \u2014 and what stops it being a First", d:"Whole room. First: what does this have that the week 1 portfolio did not? Then: why is it not a First? Let the room find it before anyone says it."},
-   {s:"Lock your theme", d:"Fill in <code>A1</code>: your theme and your audience, one sentence each, and your goal \u2014 the one thing a person is trying to get done. <b>Need longer?</b> You have until week 3, and not a day after: everything from week 3 is built on it. If it is locked, write <code>C1</code> now, seventy words, while the decision is fresh."},
+   {s:"Lock your theme", d:"Fill in <code>A1</code>: your theme and your audience, one sentence each, and your goal \u2014 the one thing a person is trying to get done. <b>Need longer?</b> You have until week 3, and not a day after: everything from week 3 is built on it. If it is locked, write <code>C1</code> now, seventy words, while the decision is fresh. <b>If you can, start <code>D1</code> too:</b> how people reach your goal today \u2014 screenshots, a photo of the form, the group chat. The appendices fit any week, and the before is easiest to capture while it is fresh."},
    {s:"Start your deck \u2014 eight thumbnails", d:"Pick the one screen your goal needs most and draw it eight ways, quickly, markers only. Photograph all eight and put them on <code>B1</code>\u2019s slide today, as they are \u2014 week 3 builds on them. Rough is the point: a first piece of work on the right slide beats a perfect one nowhere."}
   ],
   leave:"Example 2 marked and sent. Your theme locked (or by week 3), and eight thumbnails on B1\u2019s slide.",
@@ -297,7 +298,7 @@ const WEEKS = [
   aim:"One goal, the steps people take to reach it now, and the screens of your version.",
   goals:["Name the goal, list how people reach it now, and give each of your screens a job in under ten words.", "Find the screens you forgot — empty, loading, error.", "Draw a flow somebody else can follow."],
   los: ["A1","B2"],
-  out:{"sec": ["A2", "B4", "C6", "D1"], "what": "The journey before and after, the before captured in an appendix, the flow diagram, and the ethics paragraph"},
+  out:{"sec": ["A2", "B4", "C6"], "what": "The journey before and after, the before captured in an appendix, the flow diagram, and the ethics paragraph"},
   bring:"Large paper · markers · your theme",
   run:[
    {s:"Write the goal, then the before", d:"One sentence: what the person is trying to get done. Then every step people take now to get there \u2014 the website, the form, the email, the WhatsApp group. If nothing like your idea exists yet, the before is how people manage without it. Count the steps, and screenshot or photograph each one into <code>D1</code>."},
@@ -413,7 +414,7 @@ const WEEKS = [
   aim:"Eight drafted sections turned from description into defence, and a click-through that works.",
   goals:["Cite a value you declared, in every section you write.", "Distinguish describing a design from defending one.", "Assemble and export one file that opens."],
   los: ["A1"],
-  out:{"sec": ["B8", "D2", "D3"], "what": "The click-through, and eight drafted sections turned from description into defence"},
+  out:{"sec": ["B8"], "what": "The click-through, and eight drafted sections turned from description into defence"},
   bring:"Laptop · complete spec sheet · everything from Part B",
   run:[
    {s:"Read two of your own, aloud, to one other person", d:"Not mine \u2014 <b>yours</b>. Pick any two of the eight sections you have already drafted and read them to a partner. Their only job is to say, for each one, whether it <i>describes</i> or <i>defends</i>. They will be right, and it takes a glance per paragraph."},
