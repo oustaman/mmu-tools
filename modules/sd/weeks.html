@@ -574,10 +574,12 @@ function render(){
     <div class="doneline dn"><b>Done when</b><span>${rich(k.done)}</span></div>
     <p class="pnote">~33 per room · three rooms run the same session · the studio hours after are unscheduled</p>`;
 
-  /* Week 1 only: the last word opens the staff sheet for week 1's sample
-     assessment. Unstyled and out of the tab order, so it reads as plain text. */
-  $('#qword').innerHTML = cur === 1
-    ? '<a class="qlink" href="example-sheet.html" tabindex="-1">edited</a>' : 'edited';
+  /* Weeks 1 and 2 only: the last word opens the staff sheet for that week's
+     marking exercise — the 42 in week 1, the council example in week 2.
+     Unstyled and out of the tab order, so it reads as plain text. */
+  const STAFF = { 1: 'example-sheet.html', 2: 'example-council-sheet.html' };
+  $('#qword').innerHTML = STAFF[cur]
+    ? `<a class="qlink" href="${STAFF[cur]}" tabindex="-1">edited</a>` : 'edited';
   try { history.replaceState(null, '', `?w=${cur}${location.hash || ''}`); } catch(e){}
 }
 
