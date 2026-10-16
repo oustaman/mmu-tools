@@ -110,7 +110,7 @@ const PARTS = [
    {sec:"B7", t:"Other screen sizes (optional)", dw:9, d:"Only if your project needs them", opt:true,
     h:"Optional. If your journey is used on more than one size of screen, show your key screens at those sizes \u2014 adapted, not shrunk. Improving the flow matters more than making more screens.", f:["[ paste screens at other sizes, if you made any ]","Caption (it must fit on the slide):"]},
    {sec:"B8", t:"Click-through", dw:10, d:"The journey, start to finish",
-    h:"Your screens are already slides. Link them so a marker can walk the journey from start to finish, with a way back and a way out — that is your prototype. Built in the week 10 workshop.",
+    h:"Your screens are already slides. Link them so a marker can walk the journey from start to finish, with a way back and a way out — that is your prototype. Put a “Start the prototype →” link on this slide. Built in the week 10 workshop.",
     f:["From slide  →  to slide  —  what the reader clicked",
        "1.","2.","3.","4.","5.","6.","",
        "Every step links to the next, with a way back and a way out. Links are checked for existence and destination, not elegance."]}
