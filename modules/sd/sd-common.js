@@ -95,7 +95,7 @@ const PARTS = [
   desc:"Everything visual. Paste images straight into the deck as you make them. Screens get one slide each.",
   items:[
    {sec:"B1", t:"Concept sketches", dw:3, d:"Photo in the deck",
-    h:"Rough layouts of your main screen, photographed — the grid-sheet layouts from week 3, and any sketches you made before.",
+    h:"Rough sketches of your main screen, photographed — quick, on paper, several versions. Your week 2 thumbnails, if you made them.",
     f:["[ paste photos of your layouts ]","Caption (it must fit on the slide):"]},
    {sec:"B2", t:"Mood board", dw:6, d:"One page",
     h:"The look you were aiming at.", f:["[ paste mood board ]","Caption (it must fit on the slide):"]},

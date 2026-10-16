@@ -1,0 +1,668 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>A grid in seven numbers — Screen Design, week 3</title>
+<style>
+  :root{
+    --bg:#F5F4F2; --surface:#FFFFFF; --surface-2:#EDEBE8;
+    --ink:#1A1618; --ink-2:#514B4A; --ink-3:#4D4847;
+    --line:#DFDBD7; --line-2:#8E8685;
+    --lec:#8C2437; --lec-soft:#F6E8EA;
+    --wsh:#1A526D; --wsh-soft:#E4EEF3;
+    --ok:#285638; --ok-soft:#E3EFE7;
+    --warn:#684604; --warn-soft:#F4EAD3;
+    --mono:ui-monospace,"SF Mono",Menlo,Consolas,monospace;
+    --sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Inter,Roboto,sans-serif;
+  }
+  html[data-theme="dark"]{
+    --bg:#151314; --surface:#1E1B1C; --surface-2:#262223;
+    --ink:#EDE9E7; --ink-2:#B9B2AF; --ink-3:#B7B2B0;
+    --line:#332E2F; --line-2:#7A7372;
+    --lec:#E69FAD; --lec-soft:#332226;
+    --wsh:#7FBEDC; --wsh-soft:#16262E;
+    --ok:#83C19A; --ok-soft:#1C2A22;
+    --warn:#DCB469; --warn-soft:#2A2417;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);line-height:1.5}
+  .wrap{max-width:1100px;margin:0 auto;padding:0 22px}
+  @media(max-width:420px){.wrap{padding:0 14px}}
+  @media(max-width:340px){.wrap{padding:0 10px}}
+  a{color:var(--lec)}
+
+  /* The bar, identical on every page (see assessment.html). */
+  header{border-bottom:1px solid var(--line);background:var(--surface);position:sticky;top:0;z-index:40}
+  .bar{display:flex;align-items:center;gap:10px;padding-block:11px;flex-wrap:nowrap}
+  .brand{font-weight:680;font-size:1rem;letter-spacing:-0.015em;white-space:nowrap;color:inherit;
+    text-decoration:none;padding:5px 8px;margin-left:-8px;border-radius:6px}
+  .brand:hover{background:var(--surface-2)}
+  .brand:focus-visible{outline:2px solid var(--lec);outline-offset:1px}
+  .sp{flex:1}
+  .navl{font-size:0.85rem;color:var(--ink-2);text-decoration:none;padding:6px 10px;border-radius:6px;white-space:nowrap}
+  .navl:hover{background:var(--surface-2);color:var(--ink)}
+  .ctl button{font-family:var(--mono);font-size:0.7rem;background:none;color:var(--ink-3);
+    border:1px solid var(--line-2);border-radius:5px;padding:5px 8px;cursor:pointer;line-height:1}
+  .ctl button:hover{border-color:var(--lec);color:var(--lec)}
+  @media(max-width:760px){ header .bar{gap:6px} .navl{padding:6px 8px;font-size:0.82rem} }
+  @media(max-width:560px){
+    header .bar{flex-wrap:wrap;row-gap:6px}
+    header .brand{order:0} header .ctl{order:1;margin-left:auto}
+    header .bar > .sp{order:2;flex-basis:100%;height:0}
+    header .navl{order:3;padding:5px 7px;font-size:0.78rem}
+  }
+  @media(max-width:430px){ .brand{font-size:0.9rem} .navl{padding:5px 6px;font-size:0.76rem} }
+
+  .navl.on{background:var(--lec);color:#fff}
+  html[data-theme="dark"] .navl.on{color:#151314}
+  h1{font-size:clamp(1.6rem,4.4vw,2.3rem);line-height:1.1;letter-spacing:-0.028em;margin:24px 0 4px;font-weight:700}
+  h2{font-size:1.2rem;font-weight:690;letter-spacing:-0.015em;margin:34px 0 6px}
+  .sub{color:var(--ink-2);margin:0 0 18px;max-width:70ch}
+  .lede{color:var(--ink-2);margin:0 0 14px;max-width:72ch;font-size:0.95rem}
+
+  .tiles{display:grid;gap:10px;grid-template-columns:repeat(auto-fit,minmax(min(220px,100%),1fr))}
+  .tile{display:block;background:var(--surface);border:1px solid var(--line);border-radius:11px;padding:14px 16px;
+    text-decoration:none;color:inherit}
+  .tile:hover{border-color:var(--lec)}
+  .tile b{display:block;font-size:0.98rem;margin-bottom:3px}
+  .tile span{font-size:0.86rem;color:var(--ink-2)}
+  .tile i{font-style:normal;font-family:var(--mono);font-size:0.68rem;color:var(--ink-3);display:block;margin-top:6px}
+
+  table.steps{width:100%;border-collapse:collapse;background:var(--surface);border:1px solid var(--line);
+    border-radius:11px;overflow:hidden;font-size:0.9rem}
+  .steps th{text-align:left;font-family:var(--mono);font-size:0.62rem;letter-spacing:0.08em;text-transform:uppercase;
+    color:var(--ink-3);padding:9px 12px;background:var(--surface-2);font-weight:500}
+  .steps td{padding:8px 12px;border-top:1px solid var(--line);vertical-align:middle}
+  .steps td.cls{font-weight:640}
+  .steps td.rg{font-family:var(--mono);font-size:0.8rem;color:var(--ink-2);white-space:nowrap}
+  .steps .m{display:inline-block;font-family:var(--mono);font-size:0.82rem;font-weight:700;min-width:34px;
+    text-align:center;padding:2px 6px;margin:2px 3px 2px 0;border-radius:5px;background:var(--bg);border:1px solid var(--line)}
+  .steps tr.first td.cls{color:var(--ok)}
+  .steps tr.fail td.cls{color:var(--lec)}
+
+  .ex{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(min(320px,100%),1fr))}
+  .excard{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:16px 18px;
+    display:flex;flex-direction:column;gap:10px}
+  .exk{font-family:var(--mono);font-size:0.64rem;letter-spacing:0.08em;text-transform:uppercase;color:var(--ink-3)}
+  .excard h3{margin:0;font-size:1.08rem}
+  .excard p{margin:0;font-size:0.9rem;color:var(--ink-2)}
+  .exmark{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap}
+  .exmark .n{font-size:2.2rem;font-weight:740;letter-spacing:-0.03em;color:var(--lec);line-height:1}
+  .exmark .crit{font-family:var(--mono);font-size:0.78rem;color:var(--ink-2)}
+  .exhid{font-size:0.9rem;color:var(--ink-2);background:var(--bg);border:1px dashed var(--line-2);border-radius:8px;padding:10px 12px}
+  .exacts{display:flex;flex-wrap:wrap;gap:8px;margin-top:auto}
+  .btn{display:inline-flex;align-items:center;min-height:42px;padding:0 15px;border-radius:8px;text-decoration:none;
+    font-weight:640;font-size:0.9rem;border:1px solid var(--line-2);color:var(--ink);background:var(--bg)}
+  .btn:hover{border-color:var(--lec);color:var(--lec)}
+  .btn.pri{background:var(--lec);border-color:var(--lec);color:#fff}
+  html[data-theme="dark"] .btn.pri{color:#151314}
+  .btn.off{color:var(--ink-3);border-style:dashed;cursor:default}
+  .faq{display:grid;gap:6px}
+  .faq details{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:0}
+  .faq summary{cursor:pointer;padding:12px 16px;font-weight:600;list-style:none;display:flex;gap:10px;align-items:baseline}
+  .faq summary::-webkit-details-marker{display:none}
+  .faq summary::before{content:"+";font-family:var(--mono);color:var(--ink-3);width:1em;flex:none}
+  .faq details[open] summary::before{content:"\2013"}
+  .faq .a{padding:0 16px 14px 42px;color:var(--ink-2);font-size:0.95rem;line-height:1.6}
+  .faq .a a{color:var(--lec)}
+  .note{font-size:0.82rem;color:var(--ink-3);margin:12px 0 0}
+  footer{padding:24px 0 44px;color:var(--ink-3);font-size:0.8rem;border-top:1px solid var(--line);margin-top:30px}
+  @media(max-width:520px){ .steps td{padding:7px 8px} .steps td.rg{white-space:normal} }
+
+  /* ── the grid deck ─────────────────────────────────────────────────── */
+  .dtools{position:sticky;top:var(--hdr,57px);z-index:30;background:var(--bg);border-bottom:1px solid var(--line)}
+  .dtools .wrap{display:flex;align-items:center;gap:8px;min-height:50px;flex-wrap:wrap;padding-block:6px}
+  .dtools b{font-size:0.92rem}
+  .dtools .sp{flex:1}
+  .dtools select{font:500 0.8rem var(--sans);color:var(--ink-2);background:var(--surface);border:1px solid var(--line-2);border-radius:8px;min-height:38px;padding:0 8px;max-width:240px}
+  .tb{font:600 0.8rem var(--sans);background:var(--surface);color:var(--ink-2);border:1px solid var(--line-2);border-radius:8px;min-height:38px;padding:0 12px;cursor:pointer}
+  .tb:hover:not(:disabled){color:var(--lec);border-color:var(--lec)} .tb:disabled{opacity:.35;cursor:default}
+  .tb[aria-pressed="true"],.tb[aria-pressed="true"]:hover{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+  .tb:focus-visible,.dtools select:focus-visible{outline:2px solid var(--lec);outline-offset:2px}
+
+  .sl{padding:clamp(28px,5vh,56px) 0;border-bottom:1px solid var(--line);min-height:calc(100vh - var(--hdr,57px) - 51px);display:flex;align-items:center;scroll-margin-top:calc(var(--hdr,57px) + 51px)}
+  .sl > .wrap{width:100%}
+  .ey{font-family:var(--mono);font-size:0.68rem;letter-spacing:0.14em;text-transform:uppercase;color:var(--ink-3);margin:0 0 10px}
+  .sl h2{margin:0 0 12px;font-size:clamp(1.6rem,3.6vw,2.6rem);letter-spacing:-0.028em;line-height:1.1;font-weight:720}
+  .sl .lead{margin:0 0 18px;font-size:clamp(1rem,1.6vw,1.2rem);color:var(--ink-2);line-height:1.55;max-width:64ch}
+  .sl .lead b{color:var(--ink)}
+  .two{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.45fr);gap:clamp(18px,3vw,44px);align-items:start}
+  @media(max-width:900px){.two{grid-template-columns:1fr}}
+  ul.pts{margin:0;padding:0;list-style:none;display:grid;gap:10px}
+  ul.pts li{padding-left:24px;position:relative;color:var(--ink-2);line-height:1.5}
+  ul.pts li::before{content:"→";position:absolute;left:0;color:var(--lec);font-weight:700}
+  ul.pts li b{color:var(--ink)}
+  p.try{display:block;font-family:var(--sans);font-size:0.92rem;background:var(--surface);border:1px solid var(--line);border-left:3px solid var(--lec);border-radius:0 8px 8px 0;padding:10px 14px;margin:16px 0 0;color:var(--ink-2)}
+  p.try b{color:var(--ink)}
+
+  /* the live screen */
+  .lab{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:14px}
+  .ctrls{display:grid;gap:10px 18px;grid-template-columns:repeat(auto-fit,minmax(min(220px,100%),1fr));margin:0 0 12px}
+  .ctrl{display:grid;gap:4px}
+  .ctrl label{font:600 0.8rem var(--sans);color:var(--ink-2);display:flex;justify-content:space-between;gap:8px}
+  .ctrl output{font-family:var(--mono);color:var(--lec);font-weight:600}
+  .ctrl input[type=range]{width:100%;accent-color:var(--lec);min-height:28px}
+  .seg{display:flex;flex-wrap:wrap;gap:6px}
+  .seg button{font:600 0.8rem var(--sans);border:1px solid var(--line-2);background:var(--bg);color:var(--ink-2);border-radius:99px;padding:0 12px;min-height:34px;cursor:pointer}
+  .seg button[aria-pressed="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+  .scr{background:#E9ECEA;border-radius:8px;padding:10px;overflow:hidden}
+  .scr svg{display:block;width:100%;height:auto;margin:0 auto;background:#fff;box-shadow:0 2px 14px rgba(0,0,0,.12);border-radius:3px}
+  .readout{font-family:var(--mono);font-size:0.8rem;color:var(--ink-2);margin:10px 0 0;line-height:1.6}
+  .readout b{color:var(--ink)}
+  .key{display:flex;flex-wrap:wrap;gap:6px 16px;font-size:0.76rem;color:var(--ink-3);margin:8px 0 0}
+  .key i{display:inline-block;width:12px;height:12px;border-radius:2px;vertical-align:-1px;margin-right:5px}
+
+  /* A3 table */
+  table.a3{border-collapse:collapse;width:100%;background:var(--surface);border:1px solid var(--line);border-radius:10px;overflow:hidden;font-size:0.95rem}
+  .a3 th,.a3 td{text-align:left;padding:9px 14px;border-top:1px solid var(--line);vertical-align:top}
+  .a3 tr:first-child th,.a3 tr:first-child td{border-top:0}
+  .a3 th{font-weight:640;width:34%;color:var(--ink)} .a3 td{color:var(--ink-2)}
+  .a3 a{color:var(--lec)}
+
+  /* your turn */
+  .yt{display:grid;gap:10px;grid-template-columns:repeat(auto-fit,minmax(min(180px,100%),1fr));margin:0 0 12px}
+  .yt label{display:grid;gap:4px;font:600 0.78rem var(--sans);color:var(--ink-2)}
+  .yt input{font:500 0.95rem var(--mono);padding:8px 10px;border:1px solid var(--line-2);border-radius:8px;background:var(--bg);color:var(--ink);min-height:40px;width:100%}
+  .yt .wide{grid-column:1/-1}
+  .yt input:focus-visible{outline:2px solid var(--lec);outline-offset:1px}
+  .copyrow{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin:12px 0 0}
+  .copyrow .btn{cursor:pointer;font:640 0.9rem var(--sans)}
+  .ok{font-family:var(--mono);font-size:0.78rem;color:var(--ok)}
+  .warnl{font-size:0.82rem;color:var(--warn);margin:8px 0 0}
+
+  /* present: one slide at a time */
+  html.present .sl{display:none;min-height:calc(100vh - var(--hdr,57px) - 51px)}
+  html.present .sl.on{display:flex}
+  @media print{ header,.dtools{display:none} .sl{min-height:0;page-break-after:always} }
+
+  /* THE BAR — one definition, identical on every page (written by navfix; change it
+     everywhere or nowhere). It used to be copied per page and drifted into two heights. */
+  header.sdnav{position:sticky;top:0;z-index:40;background:var(--surface);border-bottom:1px solid var(--line)}
+  header.sdnav .bar{display:flex;align-items:center;gap:10px;min-height:56px;padding-block:8px;flex-wrap:nowrap}
+  header.sdnav .brand{font-weight:680;font-size:1rem;letter-spacing:-0.015em;white-space:nowrap;color:inherit;
+    text-decoration:none;padding:5px 8px;margin-left:-8px;border-radius:6px;order:0}
+  header.sdnav .brand:hover{background:var(--surface-2,var(--bg))}
+  header.sdnav .sp{flex:1;display:block;height:auto;flex-basis:auto;order:0}
+  header.sdnav .sdlinks{display:flex;align-items:center;gap:2px;order:0}
+  header.sdnav .navl{display:inline-block;font-size:0.85rem;line-height:1.3;color:var(--ink-2);text-decoration:none;
+    padding:6px 10px;border-radius:6px;white-space:nowrap;order:0}
+  header.sdnav .navl:hover{background:var(--surface-2,var(--bg));color:var(--ink)}
+  header.sdnav .navl.on{background:var(--lec);color:#fff}
+  html[data-theme="dark"] header.sdnav .navl.on{color:#151314}
+  header.sdnav a:focus-visible,header.sdnav button:focus-visible{outline:2px solid var(--lec);outline-offset:1px}
+  header.sdnav .ctl{order:0;margin-left:4px}
+  header.sdnav .ctl button{font-family:var(--mono);font-size:0.7rem;background:none;color:var(--ink-3);
+    border:1px solid var(--line-2);border-radius:6px;padding:0 9px;cursor:pointer;line-height:1;
+    height:34px;min-height:34px;min-width:34px;display:inline-flex;align-items:center;justify-content:center}
+  header.sdnav .ctl button:hover{border-color:var(--lec);color:var(--lec)}
+  @media(max-width:960px){
+    header.sdnav .bar{flex-wrap:wrap;row-gap:0;padding-block:6px 0;min-height:0}
+    header.sdnav .ctl{order:1;margin-left:auto}
+    header.sdnav .sp{display:none}
+    header.sdnav .sdlinks{order:2;flex-basis:100%;overflow-x:auto;scrollbar-width:none;padding:4px 28px 8px 0;min-height:44px;
+      -webkit-mask-image:linear-gradient(to right,#000 calc(100% - 28px),transparent);mask-image:linear-gradient(to right,#000 calc(100% - 28px),transparent)}
+    header.sdnav .sdlinks::-webkit-scrollbar{display:none}
+    header.sdnav .navl{font-size:0.82rem;padding:6px 9px}
+  }
+</style>
+</head>
+<body>
+
+<header class="sdnav">
+  <div class="wrap bar">
+    <a class="brand" href="index.html">Screen Design</a>
+    <span class="sp"></span>
+    <nav class="sdlinks" aria-label="Screen Design"><a class="navl" href="index.html">Overview</a><a class="navl on" href="weeks.html?w=3">Week by week</a><a class="navl" href="brief.html">The brief</a><a class="navl" href="assessment.html">Checklist</a><a class="navl" href="assessment-materials.html">Marking and examples</a><a class="navl" href="toolkit.html">Toolkit</a><a class="navl" href="ideas.html">Theme ideas</a></nav>
+    <span class="ctl"><button id="theme" aria-label="Dark mode">◐</button></span>
+  </div>
+</header>
+<script>(function(){var n=document.querySelector(".sdlinks"),o=n&&n.querySelector(".on");if(o&&n.scrollWidth>n.clientWidth)n.scrollLeft=o.offsetLeft-n.offsetLeft-16;})();</script>
+
+<div class="dtools"><div class="wrap">
+  <b>A grid in seven numbers</b><span class="sp"></span>
+  <select id="jump" aria-label="Go to slide"></select>
+  <button type="button" class="tb" id="prev" aria-label="Previous slide">←</button>
+  <button type="button" class="tb" id="next" aria-label="Next slide">→</button>
+  <button type="button" class="tb" id="present" aria-pressed="false">Present</button>
+</div></div>
+
+<main id="deck">
+
+<section class="sl" data-t="Start"><div class="wrap">
+  <p class="ey">Week 3 · Layout · Part A §3</p>
+  <h2>A grid in seven numbers</h2>
+  <p class="lead">Part A §3 of your deck asks for the numbers behind your layout. This deck explains each one in turn, and every
+    slide has a <b>live screen you can change</b>, so you can see what the number does rather than take it on trust.
+    The last slide is where you set your own and copy them into A3.</p>
+  <div class="two">
+    <ul class="pts">
+      <li><b>Columns</b> — the vertical strips everything lines up to</li>
+      <li><b>Gutter</b> — the gap between two columns</li>
+      <li><b>Margin</b> — the space between the screen edge and the content</li>
+      <li><b>Max width</b> — where the content stops getting wider</li>
+      <li><b>Breakpoints</b> — the screen widths where the layout changes</li>
+      <li><b>Spacing scale</b> — the only gaps you allow yourself</li>
+    </ul>
+    <div>
+      <p class="lead" style="margin:0 0 8px">The examples use the numbers from <a href="example-council.html">Example 2</a>, the council-tax form. Yours will be different, and they should be.</p>
+      <p class="lead" style="margin:0">Move with the arrows above, the arrow keys, or just scroll. <b>Present</b> shows one slide at a time for the projector; <kbd>F</kbd> goes full screen.</p>
+    </div>
+  </div>
+</div></section>
+
+<section class="sl" data-t="The whole spec"><div class="wrap">
+  <p class="ey">What you are aiming for</p>
+  <h2>Example 2’s A3, in full</h2>
+  <div class="two">
+    <div>
+      <p class="lead">Every row is a number, and none says “about”. Read it now; by the end of this deck each line will make sense.
+        <b>Press the screen sizes</b> on the right to see the same page at each breakpoint.</p>
+      <table class="a3">
+        <tr><th>Columns</th><td>8 desktop · 6 tablet · 4 mobile</td></tr>
+        <tr><th>Gutter</th><td>24 px (16 px on mobile)</td></tr>
+        <tr><th>Margin</th><td>40 px desktop · 32 px tablet · 16 px mobile</td></tr>
+        <tr><th>Max width</th><td>960 px; the form column is 6 of the 8</td></tr>
+        <tr><th>Breakpoint 1</th><td>1024 px — desktop, 8 columns</td></tr>
+        <tr><th>Breakpoint 2</th><td>768 px — tablet, 6 columns</td></tr>
+        <tr><th>Breakpoint 3</th><td>375 px — mobile, 4 columns</td></tr>
+        <tr><th>Spacing scale</th><td>4 · 8 · 16 · 24 · 40 · 64</td></tr>
+      </table>
+    </div>
+    <div class="lab" data-lab="whole"></div>
+  </div>
+</div></section>
+
+<section class="sl" data-t="Columns"><div class="wrap">
+  <p class="ey">1 of 6 · Columns</p>
+  <h2>Columns: the strips everything lines up to</h2>
+  <div class="two">
+    <div>
+      <ul class="pts">
+        <li>The page is divided into equal <b>vertical strips</b>. Every box on it — a heading, a form, a picture — starts on one column and ends on another.</li>
+        <li>A box takes <b>whole columns</b>. Example 2’s form takes 6 of the 8; the note beside it takes the other 2.</li>
+        <li>Bigger screens get <b>more columns</b>: 8 on a desktop, 6 on a tablet, 4 on a phone.</li>
+        <li>Pick a number your content divides into. 12 splits into 2, 3, 4 or 6; 8 into 2 or 4; 4 on a phone is common.</li>
+      </ul>
+      <p class="try">Try it: change the columns. The form takes about three quarters of them, always in whole columns. Below 6 there is no room for the note beside it, so the note moves underneath. Then press <b>Mobile</b> and try 16.</p>
+    </div>
+    <div class="lab" data-lab="cols"></div>
+  </div>
+</div></section>
+
+<section class="sl" data-t="Gutter"><div class="wrap">
+  <p class="ey">2 of 6 · Gutter</p>
+  <h2>Gutter: the gap between two columns</h2>
+  <div class="two">
+    <div>
+      <ul class="pts">
+        <li>The gutter is the <b>empty strip between columns</b>. Nothing goes in it; it keeps two boxes side by side from touching.</li>
+        <li>Too small and neighbouring boxes run together. Too big and the page falls apart into islands.</li>
+        <li>Most published grids use <b>16 to 32 px</b>. A phone often gets a smaller gutter than a desktop, because every pixel counts.</li>
+      </ul>
+      <p class="try">Example 2: <b>24 px</b> on desktop and tablet, <b>16 px</b> on mobile. Try 0, then 48.</p>
+    </div>
+    <div class="lab" data-lab="gutter"></div>
+  </div>
+</div></section>
+
+<section class="sl" data-t="Margin"><div class="wrap">
+  <p class="ey">3 of 6 · Margin</p>
+  <h2>Margin: the edge of the screen to the content</h2>
+  <div class="two">
+    <div>
+      <ul class="pts">
+        <li>The margin is the space <b>between the edge of the screen and the first column</b>, on both sides.</li>
+        <li>Without it, text touches the edge of the phone and is hard to read and hard to tap.</li>
+        <li>On a phone, every pixel of margin comes out of the content, so it stays small: <b>16 px</b> is common. Desktops can afford more.</li>
+      </ul>
+      <p class="try">Example 2: <b>40 px</b> desktop · <b>32 px</b> tablet · <b>16 px</b> mobile. Try 0 on the phone.</p>
+    </div>
+    <div class="lab" data-lab="margin"></div>
+  </div>
+</div></section>
+
+<section class="sl" data-t="Max width"><div class="wrap">
+  <p class="ey">4 of 6 · Max width</p>
+  <h2>Max width: where the content stops growing</h2>
+  <div class="two">
+    <div>
+      <ul class="pts">
+        <li>On a very wide screen, a page that keeps stretching makes <b>lines of text far too long to read</b>. Max width is where it stops: the content stays that wide and the rest becomes empty space either side.</li>
+        <li>It is usually between <b>960 and 1440 px</b>, chosen for what is on the page. A form needs less than a newspaper.</li>
+        <li>Example 2 also says how wide the form is <b>inside</b> it: “the form column is 6 of the 8”.</li>
+      </ul>
+      <p class="try">Widen the screen with max width off, and watch the line length. Then turn it on.</p>
+    </div>
+    <div class="lab" data-lab="maxw"></div>
+  </div>
+</div></section>
+
+<section class="sl" data-t="Breakpoints"><div class="wrap">
+  <p class="ey">5 of 6 · Breakpoints</p>
+  <h2>Breakpoints: the widths where the layout changes</h2>
+  <div class="two">
+    <div>
+      <ul class="pts">
+        <li>A breakpoint is a <b>screen width</b> at which your grid switches to a different set of numbers: fewer columns, a smaller gutter, a smaller margin.</li>
+        <li>Example 2: from <b>1024 px</b> it is a desktop with 8 columns; from <b>768 px</b> a tablet with 6; below that a phone with 4, designed at <b>375 px</b>, a common phone width.</li>
+        <li>Only list breakpoints for the sizes you actually design. If you only design for a phone, you need one.</li>
+      </ul>
+      <p class="try">Drag the screen width slowly. Watch for the moment the columns change: that is a breakpoint.</p>
+    </div>
+    <div class="lab" data-lab="bp"></div>
+  </div>
+</div></section>
+
+<section class="sl" data-t="Spacing scale"><div class="wrap">
+  <p class="ey">6 of 6 · Spacing scale</p>
+  <h2>Spacing scale: the only gaps you allow yourself</h2>
+  <div class="two">
+    <div>
+      <ul class="pts">
+        <li>The columns handle space <b>across</b> the page. The spacing scale handles everything else: the gap between a label and its field, between two fields, before a button, between sections.</li>
+        <li>You pick a short list of sizes and <b>every gap uses one of them</b>. Nothing in between.</li>
+        <li>Without one, a screen ends up with eleven slightly different gaps and looks untidy without anyone knowing why.</li>
+      </ul>
+      <p class="try">Example 2: <b>4 · 8 · 16 · 24 · 40 · 64</b>. Press <b>Any gap</b>, then <b>Snap to the scale</b>.</p>
+    </div>
+    <div class="lab" data-lab="space"></div>
+  </div>
+</div></section>
+
+<section class="sl" data-t="Your turn"><div class="wrap">
+  <p class="ey">Your turn · Part A §3</p>
+  <h2>Set your own seven numbers</h2>
+  <p class="lead">Start from Example 2’s, or from a grid in <a href="https://interfaces.institute/collections/grids/">the published grids register</a>,
+    and change them for your content. The screen shows your numbers live. When every box has a number, <b>copy it into A3</b>.</p>
+  <div class="two">
+    <div>
+      <div class="yt" id="yt">
+        <label>Columns — desktop<input inputmode="numeric" data-k="cD" value="8"></label>
+        <label>Columns — tablet<input inputmode="numeric" data-k="cT" value="6"></label>
+        <label>Columns — mobile<input inputmode="numeric" data-k="cM" value="4"></label>
+        <label>Gutter (px)<input inputmode="numeric" data-k="g" value="24"></label>
+        <label>Gutter on mobile (px)<input inputmode="numeric" data-k="gM" value="16"></label>
+        <label>Margin — desktop (px)<input inputmode="numeric" data-k="mD" value="40"></label>
+        <label>Margin — tablet (px)<input inputmode="numeric" data-k="mT" value="32"></label>
+        <label>Margin — mobile (px)<input inputmode="numeric" data-k="mM" value="16"></label>
+        <label>Max width (px)<input inputmode="numeric" data-k="max" value="960"></label>
+        <label>Main column spans (desktop)<input inputmode="numeric" data-k="span" value="6"></label>
+        <label>Breakpoint — desktop from (px)<input inputmode="numeric" data-k="bD" value="1024"></label>
+        <label>Breakpoint — tablet from (px)<input inputmode="numeric" data-k="bT" value="768"></label>
+        <label>Mobile design width (px)<input inputmode="numeric" data-k="bM" value="375"></label>
+        <label class="wide">Spacing scale<input data-k="scale" value="4 · 8 · 16 · 24 · 40 · 64"></label>
+      </div>
+      <div class="copyrow"><button type="button" class="btn pri" id="copyA3">Copy for A3</button>
+        <button type="button" class="btn" id="resetA3">Back to Example 2’s</button><span class="ok" id="copied" aria-live="polite"></span></div>
+      <p class="warnl" id="warn" aria-live="polite"></p>
+    </div>
+    <div class="lab" data-lab="yours"></div>
+  </div>
+</div></section>
+
+</main>
+
+<script>
+(function () {
+  /* Example 2's numbers, the starting point for every live screen. */
+  const EX = { cD: 8, cT: 6, cM: 4, g: 24, gM: 16, mD: 40, mT: 32, mM: 16, max: 960, span: 6, bD: 1024, bT: 768, bM: 375, scale: [4, 8, 16, 24, 40, 64] };
+  const COL = 'rgba(214,74,92,.14)', COLL = 'rgba(214,74,92,.55)', INK = '#1A1618', MUTE = '#8E8685', BOX = '#DCE5F4', BOXD = '#1A526D', BTN = '#8C2437';
+
+  /* The layout of the mock page at a width, from the numbers. Content is
+     min(screen − 2 × margin, max width), centred; columns and gutters fill it. */
+  function grid(o) {
+    const inner = o.useMax === false ? o.w - 2 * o.m : Math.min(o.w - 2 * o.m, o.max);
+    const x0 = (o.w - inner) / 2;
+    const cw = (inner - (o.cols - 1) * o.g) / o.cols;
+    const colX = k => x0 + k * (cw + o.g);
+    const spanW = n => n * cw + (n - 1) * o.g;
+    return { inner, x0, cw, colX, spanW };
+  }
+  /* The council form page: a header, a title, three fields and a button in the
+     main column, and a note beside it where there are columns to spare. */
+  function page(o) {
+    const G = grid(o), S = o.space || EX.scale, sp = i => S[Math.min(i, S.length - 1)];
+    const span = Math.max(1, Math.min(o.cols, o.span ?? (o.cols >= 8 ? Math.round(o.cols * 0.75) : o.cols)));
+    const side = o.cols - span >= 2 ? o.cols - span : 0;
+    const gap = o.gaps || null;   // the spacing slide passes its own gaps
+    const g = (k, def) => gap ? gap[k] : def;
+    let y = 0, out = [];
+    const rect = (x, yy, w, h, f, extra = '') => out.push(`<rect x="${x.toFixed(1)}" y="${yy.toFixed(1)}" width="${Math.max(0, w).toFixed(1)}" height="${h}" fill="${f}" ${extra}/>`);
+    const text = (x, yy, s, sz, f = INK, w = 400) => out.push(`<text x="${x.toFixed(1)}" y="${yy.toFixed(1)}" font-family="system-ui,sans-serif" font-size="${sz}" font-weight="${w}" fill="${f}">${s}</text>`);
+    const fs = o.w < 600 ? 0.8 : o.w < 1000 ? 1.2 : 1.6;   // readable once the screen is scaled down to the slide
+    // header bar
+    rect(0, 0, o.w, 56, '#1A526D');
+    text(G.x0, 35, 'Castlegate Council', Math.min(17 * fs, 24), '#fff', 700);
+    y = 56 + sp(4);
+    // title
+    const tW = G.spanW(span);
+    text(G.x0, y + 26 * fs, 'Apply for a student exemption', 26 * fs, INK, 700);
+    y += 34 * fs + g('title', sp(3));
+    const marks = [];   // where the spacing gaps are, for the spacing slide
+    const fields = ['Your full name', 'Your term-time address', 'Your student ID'];
+    const top = y;
+    fields.forEach((lab, i) => {
+      text(G.x0, y + 14 * fs, lab, 14 * fs, INK, 600);
+      const a = y + 18 * fs; y = a + g('label', sp(1));
+      marks.push(['label', a, y]);
+      rect(G.x0, y, tW, 44 * Math.max(1, fs * 0.8), '#fff', `stroke="${MUTE}" stroke-width="1.5" rx="4"`);
+      const b = y + 44 * Math.max(1, fs * 0.8); y = b + g('field', sp(3));
+      if (i < fields.length - 1) marks.push(['field', b, y]);
+    });
+    y = y - g('field', sp(3)) + g('button', sp(4));
+    marks.push(['button', y - g('button', sp(4)), y]);
+    const bw = o.w < 600 ? tW : Math.min(tW, G.spanW(Math.min(span, o.cols >= 8 ? 2 : o.cols)));
+    rect(G.x0, y, bw, 48, BTN, 'rx="4"'); text(G.x0 + 16, y + 30, 'Continue', 16 * fs, '#fff', 700);
+    y += 48;
+    if (side) {
+      const sx = G.colX(span);
+      rect(sx, top, G.spanW(side), 150, BOX, 'rx="4"');
+      text(sx + 12, top + 24 * fs, 'Who counts', 14 * fs, BOXD, 700);
+      text(sx + 12, top + 44 * fs, 'as a student?', 14 * fs, BOXD, 400);
+    } else {
+      y += sp(5);
+      rect(G.x0, y, G.inner, 90, BOX, 'rx="4"'); text(G.x0 + 12, y + 30, 'Who counts as a student?', 14 * fs, BOXD, 700);
+      y += 90;
+    }
+    y += sp(5);
+    return { svgBody: out.join(''), h: Math.round(y), G, span, side, marks };
+  }
+  function overlay(o, G, h) {
+    let s = '';
+    for (let k = 0; k < o.cols; k++) s += `<rect x="${G.colX(k).toFixed(1)}" y="0" width="${G.cw.toFixed(1)}" height="${h}" fill="${COL}"/>`;
+    return s;
+  }
+  function svg(o, extra = '', body) {
+    const P = body || page(o);
+    const h = Math.max(P.h, o.minH || 0);
+    return { el: `<svg viewBox="0 0 ${o.w} ${h}" style="max-width:${Math.round(500 * o.w / h)}px" role="img" aria-label="${o.label || 'A page laid out on the grid'}">${o.showCols === false ? '' : overlay(o, P.G, h)}${P.svgBody}${extra(P, h)}</svg>`, P, h };
+  }
+  const dim = (x1, x2, y, label, c = INK) =>
+    `<line x1="${x1}" y1="${y}" x2="${x2}" y2="${y}" stroke="${c}" stroke-width="2" marker-start="url(#a)" marker-end="url(#a)"/><text x="${(x1 + x2) / 2}" y="${y - 7}" text-anchor="middle" font-family="ui-monospace,monospace" font-size="13" font-weight="700" fill="${c}">${label}</text>`;
+  const ARROW = `<defs><marker id="a" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse"><path d="M0 2 L8 5 L0 8z" fill="#8C2437"/></marker></defs>`;
+
+  /* controls */
+  const range = (id, label, min, max, step, val, unit = 'px') =>
+    `<div class="ctrl"><label for="${id}">${label}<output id="${id}o">${val}${unit}</output></label><input type="range" id="${id}" min="${min}" max="${max}" step="${step}" value="${val}"></div>`;
+  const seg = (id, label, opts, val) =>
+    `<div class="ctrl"><label>${label}</label><div class="seg" id="${id}" role="group" aria-label="${label}">${opts.map(([v, t]) => `<button type="button" data-v="${v}" aria-pressed="${v == val}">${t}</button>`).join('')}</div></div>`;
+  const KEY = `<div class="key"><span><i style="background:${COL};outline:1px solid ${COLL}"></i>columns</span><span><i style="background:${BOX}"></i>side note</span><span><i style="background:${BTN}"></i>button</span></div>`;
+  function mount(lab, html, draw) {
+    lab.innerHTML = html;
+    const go = () => draw(lab);
+    lab.addEventListener('input', go);
+    lab.addEventListener('click', e => { const b = e.target.closest('.seg button'); if (!b) return;
+      b.parentElement.querySelectorAll('button').forEach(x => x.setAttribute('aria-pressed', String(x === b))); go(); });
+    go();
+  }
+  const val = (lab, id) => +lab.querySelector('#' + id).value;
+  const segv = (lab, id) => lab.querySelector(`#${id} [aria-pressed="true"]`).dataset.v;
+  const put = (lab, id, s) => { const o = lab.querySelector('#' + id + 'o'); if (o) o.textContent = s; };
+  const SIZES = { desktop: { w: 1280, cols: EX.cD, g: EX.g, m: EX.mD }, tablet: { w: 768, cols: EX.cT, g: EX.g, m: EX.mT }, mobile: { w: 375, cols: EX.cM, g: EX.gM, m: EX.mM } };
+  const sizeSeg = (id, v = 'desktop') => seg(id, 'Screen', [['desktop', 'Desktop'], ['tablet', 'Tablet'], ['mobile', 'Mobile']], v);
+
+  const LABS = {
+    whole: lab => mount(lab, `<div class="ctrls">${sizeSeg('wz')}</div><div class="scr" id="s"></div><p class="readout" id="r"></p>${KEY}`, lab => {
+      const z = SIZES[segv(lab, 'wz')], o = { ...z, max: EX.max, span: z.cols === 8 ? EX.span : z.cols };
+      const { el, P } = svg(o, () => '');
+      lab.querySelector('#s').innerHTML = el;
+      lab.querySelector('#r').innerHTML = `Screen <b>${o.w}px</b> · <b>${o.cols}</b> columns of <b>${P.G.cw.toFixed(0)}px</b> · gutter <b>${o.g}px</b> · margin <b>${o.m}px</b>${o.w > o.max ? ` · content capped at <b>${o.max}px</b>` : ''}`;
+    }),
+    cols: lab => mount(lab, `<div class="ctrls">${range('c', 'Columns', 2, 16, 1, 8, '')}${sizeSeg('cz')}</div><div class="scr" id="s"></div><p class="readout" id="r"></p>${KEY}`, lab => {
+      const z = SIZES[segv(lab, 'cz')], cols = val(lab, 'c'); put(lab, 'c', cols);
+      const span = Math.max(1, Math.round(cols * 0.75));
+      const o = { ...z, cols, max: EX.max, span: cols >= 6 && z.w > 700 ? span : cols };
+      const { el, P } = svg(o, () => '');
+      lab.querySelector('#s').innerHTML = el;
+      lab.querySelector('#r').innerHTML = `<b>${cols}</b> columns, each <b>${P.G.cw.toFixed(1)}px</b> wide. The form spans <b>${P.span} of ${cols}</b>${P.side ? `; the note takes the other <b>${P.side}</b>` : ', so the note moves underneath'}.${P.G.cw < 40 ? ' <b>Each column is now narrower than a word.</b>' : ''}`;
+    }),
+    gutter: lab => mount(lab, `<div class="ctrls">${range('g', 'Gutter', 0, 64, 4, 24)}${sizeSeg('gz')}</div><div class="scr" id="s"></div><p class="readout" id="r"></p>${KEY}`, lab => {
+      const z = SIZES[segv(lab, 'gz')], g = val(lab, 'g'); put(lab, 'g', g + 'px');
+      const o = { ...z, g, max: EX.max, span: z.cols === 8 ? EX.span : z.cols };
+      const { el, P } = svg(o, (P, h) => {
+        if (o.cols < 2) return '';
+        const x1 = P.G.colX(0) + P.G.cw, x2 = P.G.colX(1);
+        return ARROW + (g > 0 ? dim(x1, x2, h - 14, g + 'px', BTN) : '');
+      });
+      lab.querySelector('#s').innerHTML = el;
+      lab.querySelector('#r').innerHTML = `Gutter <b>${g}px</b> · each column <b>${P.G.cw.toFixed(1)}px</b>. ${g === 0 ? 'With no gutter the form and the note touch.' : g >= 48 ? 'The columns are drifting apart.' : ''}`;
+    }),
+    margin: lab => mount(lab, `<div class="ctrls">${range('m', 'Margin', 0, 96, 4, 16)}${sizeSeg('mz', 'mobile')}</div><div class="scr" id="s"></div><p class="readout" id="r"></p>${KEY}`, lab => {
+      const z = SIZES[segv(lab, 'mz')], m = val(lab, 'm'); put(lab, 'm', m + 'px');
+      const o = { ...z, m, max: EX.max, span: z.cols === 8 ? EX.span : z.cols };
+      const { el, P } = svg(o, (P, h) => ARROW + (m > 0 && P.G.x0 > 0 ? dim(0, P.G.x0, h - 14, Math.round(P.G.x0) + 'px', BTN) : ''));
+      lab.querySelector('#s').innerHTML = el;
+      lab.querySelector('#r').innerHTML = `Margin <b>${m}px</b> on each side, leaving <b>${P.G.inner.toFixed(0)}px</b> of <b>${o.w}px</b> for content (${Math.round(100 * P.G.inner / o.w)}%).${m === 0 ? ' <b>The text now touches the edge of the screen.</b>' : ''}`;
+    }),
+    maxw: lab => mount(lab, `<div class="ctrls">${range('w', 'Screen width', 1024, 2560, 16, 1920)}${range('x', 'Max width', 640, 1600, 40, 960)}${seg('on', 'Max width', [['1', 'On'], ['0', 'Off']], '1')}</div><div class="scr" id="s"></div><p class="readout" id="r"></p>${KEY}`, lab => {
+      const w = val(lab, 'w'), max = val(lab, 'x'), on = segv(lab, 'on') === '1'; put(lab, 'w', w + 'px'); put(lab, 'x', max + 'px');
+      const o = { w, cols: 8, g: 24, m: 40, max, useMax: on, span: 6 };
+      const { el, P } = svg(o, (P, h) => ARROW + (on && w - 80 > max ? dim(P.G.x0, P.G.x0 + P.G.inner, h - 14, max + 'px', BTN) : ''));
+      lab.querySelector('#s').innerHTML = el;
+      const chars = Math.round(P.G.spanW(6) / 8.2);   // body text at 16px averages about 8px a character
+      lab.querySelector('#r').innerHTML = `Content <b>${P.G.inner.toFixed(0)}px</b> wide on a <b>${w}px</b> screen. A line of body text across the form would run to about <b>${chars} characters</b>${chars > 80 ? ' — <b>too long to read comfortably</b> (45–75 is the usual aim)' : ''}.`;
+    }),
+    bp: lab => mount(lab, `<div class="ctrls">${range('w', 'Screen width', 320, 1440, 4, 900)}</div><div class="scr" id="s"></div><p class="readout" id="r"></p>${KEY}`, lab => {
+      const w = val(lab, 'w'); put(lab, 'w', w + 'px');
+      const z = w >= EX.bD ? ['desktop', EX.cD, EX.g, EX.mD, EX.bD] : w >= EX.bT ? ['tablet', EX.cT, EX.g, EX.mT, EX.bT] : ['mobile', EX.cM, EX.gM, EX.mM, 0];
+      const o = { w, cols: z[1], g: z[2], m: z[3], max: EX.max, span: z[1] === 8 ? EX.span : z[1] };
+      const { el } = svg(o, () => '');
+      lab.querySelector('#s').innerHTML = el;
+      lab.querySelector('#r').innerHTML = `At <b>${w}px</b> the <b>${z[0]}</b> numbers apply: <b>${z[1]} columns</b>, gutter <b>${z[2]}px</b>, margin <b>${z[3]}px</b>. ${z[4] ? `They start at the <b>${z[4]}px</b> breakpoint.` : `Below ${EX.bT}px it is a phone, designed at ${EX.bM}px.`}`;
+    }),
+    space: lab => mount(lab, `<div class="ctrls">${seg('sp', 'Gaps', [['scale', 'Snap to the scale'], ['any', 'Any gap']], 'scale')}${sizeSeg('sz', 'mobile')}</div><div class="scr" id="s"></div><p class="readout" id="r"></p>`, lab => {
+      const z = SIZES[segv(lab, 'sz')], snap = segv(lab, 'sp') === 'scale';
+      const gaps = snap ? { title: 24, label: 8, field: 24, button: 40 } : { title: 19, label: 5, field: 27, button: 31 };
+      const odd = snap ? null : [11, 13, 22];
+      const o = { ...z, max: EX.max, span: z.cols === 8 ? EX.span : z.cols, gaps, showCols: false };
+      const { el, P } = svg(o, (P, h) => {
+        let s = '';
+        P.marks.forEach(([k, a, b], i) => {
+          const gp = Math.round(b - a), ok = EX.scale.includes(gp), x = P.G.x0 + P.G.spanW(P.span) + 6;
+          s += `<rect x="${P.G.x0}" y="${a}" width="${P.G.spanW(P.span)}" height="${b - a}" fill="${ok ? 'rgba(40,86,56,.18)' : 'rgba(214,74,92,.28)'}"/>`;
+          if (x + 46 < o.w) s += `<text x="${x}" y="${(a + b) / 2 + 5}" font-family="ui-monospace,monospace" font-size="13" font-weight="700" fill="${ok ? '#285638' : '#8C2437'}">${gp}</text>`;
+        });
+        return s;
+      });
+      lab.querySelector('#s').innerHTML = el;
+      const used = [...new Set(P.marks.map(([, a, b]) => Math.round(b - a)))].sort((a, b) => a - b);
+      lab.querySelector('#r').innerHTML = snap
+        ? `Gaps used: <b>${used.join(' · ')}</b> — every one is on the scale <b>${EX.scale.join(' · ')}</b>. Green means on the scale.`
+        : `Gaps used: <b>${used.join(' · ')}</b> — none is on the scale. Each was “about right” on its own, and together they look untidy.`;
+    }),
+    yours: lab => { lab.innerHTML = `<div class="ctrls">${sizeSeg('yz')}</div><div class="scr" id="s"></div><p class="readout" id="r"></p>${KEY}`; LABS.yoursDraw = () => drawYours(lab);
+      lab.addEventListener('click', e => { const b = e.target.closest('.seg button'); if (!b) return;
+        b.parentElement.querySelectorAll('button').forEach(x => x.setAttribute('aria-pressed', String(x === b))); drawYours(lab); }); drawYours(lab); },
+  };
+
+  /* your turn */
+  const yt = document.getElementById('yt');
+  const num = k => { const v = parseInt(yt.querySelector(`[data-k="${k}"]`).value, 10); return Number.isFinite(v) ? v : NaN; };
+  function drawYours(lab) {
+    const z = segv(lab, 'yz');
+    const N = { cD: num('cD'), cT: num('cT'), cM: num('cM'), g: num('g'), gM: num('gM'), mD: num('mD'), mT: num('mT'), mM: num('mM'), max: num('max'), span: num('span'), bD: num('bD'), bT: num('bT'), bM: num('bM') };
+    const scale = (yt.querySelector('[data-k="scale"]').value.match(/\d+/g) || []).map(Number);
+    const bad = Object.entries(N).filter(([, v]) => !(v >= 0)).map(([k]) => k);
+    const warn = [];
+    if (bad.length) warn.push('Some boxes have no number yet.');
+    if (N.span > N.cD) warn.push('The main column spans more columns than the desktop has.');
+    if (scale.length < 3) warn.push('A spacing scale needs at least three sizes.');
+    document.getElementById('warn').textContent = warn.join(' ');
+    const cfg = z === 'desktop' ? { w: Math.max(N.bD || 1024, 1280), cols: N.cD, g: N.g, m: N.mD, span: N.span }
+              : z === 'tablet' ? { w: N.bT || 768, cols: N.cT, g: N.g, m: N.mT }
+              : { w: N.bM || 375, cols: N.cM, g: N.gM, m: N.mM };
+    if (![cfg.cols, cfg.g, cfg.m, N.max].every(v => v >= 0) || cfg.cols < 1) { lab.querySelector('#s').innerHTML = ''; lab.querySelector('#r').textContent = 'Fill in the numbers on the left to see your grid.'; return; }
+    const o = { ...cfg, max: N.max, space: scale.length >= 3 ? scale : EX.scale };
+    const G = grid(o);
+    if (G.cw <= 4) { lab.querySelector('#s').innerHTML = ''; lab.querySelector('#r').innerHTML = `<b>These numbers leave no room for columns</b> on a ${o.w}px screen. Fewer columns, a smaller gutter or a smaller margin.`; return; }
+    const { el, P } = svg(o, () => '');
+    lab.querySelector('#s').innerHTML = el;
+    lab.querySelector('#r').innerHTML = `Your ${z}: <b>${o.cols}</b> columns of <b>${P.G.cw.toFixed(1)}px</b> on a <b>${o.w}px</b> screen · gutter <b>${o.g}px</b> · margin <b>${o.m}px</b>.`;
+  }
+  yt.addEventListener('input', () => LABS.yoursDraw && LABS.yoursDraw());
+  document.getElementById('resetA3').onclick = () => {
+    Object.entries(EX).forEach(([k, v]) => { const i = yt.querySelector(`[data-k="${k}"]`); if (i) i.value = Array.isArray(v) ? v.join(' · ') : v; });
+    LABS.yoursDraw();
+  };
+  document.getElementById('copyA3').onclick = async () => {
+    const v = k => yt.querySelector(`[data-k="${k}"]`).value.trim();
+    const t = [
+      `Columns: ${v('cD')} desktop · ${v('cT')} tablet · ${v('cM')} mobile`,
+      `Gutter: ${v('g')} px (${v('gM')} px on mobile)`,
+      `Margin: ${v('mD')} px desktop · ${v('mT')} px tablet · ${v('mM')} px mobile`,
+      `Max width: ${v('max')} px; the main column is ${v('span')} of the ${v('cD')}`,
+      `Breakpoint 1: ${v('bD')} px — desktop, ${v('cD')} columns`,
+      `Breakpoint 2: ${v('bT')} px — tablet, ${v('cT')} columns`,
+      `Breakpoint 3: ${v('bM')} px — mobile, ${v('cM')} columns`,
+      `Spacing scale: ${(v('scale').match(/\d+/g) || []).join(' · ')}`].join('\n');
+    const o = document.getElementById('copied');
+    try { await navigator.clipboard.writeText(t); o.textContent = 'Copied — paste it into A3'; }
+    catch (e) { o.textContent = 'Could not copy — select the numbers and copy them by hand'; }
+    setTimeout(() => { o.textContent = ''; }, 3000);
+  };
+
+  document.querySelectorAll('[data-lab]').forEach(l => LABS[l.dataset.lab](l));
+
+  /* the deck: scroll to read, Present for one slide at a time */
+  const root = document.documentElement, slides = [...document.querySelectorAll('.sl')], jump = document.getElementById('jump');
+  jump.innerHTML = slides.map((s, i) => `<option value="${i}">${i + 1} · ${s.dataset.t}</option>`).join('');
+  let cur = 0;
+  const present = () => root.classList.contains('present');
+  function mark(i) { cur = Math.max(0, Math.min(slides.length - 1, i)); jump.value = cur;
+    document.getElementById('prev').disabled = cur === 0; document.getElementById('next').disabled = cur === slides.length - 1;
+    try { history.replaceState(null, '', location.pathname + location.search + '#s' + (cur + 1)); } catch (e) {} }
+  function show(i, smooth) { mark(i);
+    if (present()) { slides.forEach((s, k) => s.classList.toggle('on', k === cur)); scrollTo(0, 0); }
+    else slides[cur].scrollIntoView({ behavior: smooth ? 'smooth' : 'auto', block: 'start' }); }
+  function measure() { root.style.setProperty('--hdr', document.querySelector('header').offsetHeight + 'px'); }
+  addEventListener('resize', measure); measure();
+  const seen = new IntersectionObserver(es => { if (present()) return;
+    const t = es.filter(e => e.isIntersecting).sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top)[0];
+    if (t) mark(slides.indexOf(t.target)); }, { rootMargin: '-40% 0px -55% 0px' });
+  slides.forEach(s => seen.observe(s));
+  jump.onchange = () => show(+jump.value, true);
+  document.getElementById('prev').onclick = () => show(cur - 1, true);
+  document.getElementById('next').onclick = () => show(cur + 1, true);
+  document.getElementById('present').onclick = e => { root.classList.toggle('present'); e.currentTarget.setAttribute('aria-pressed', String(present())); show(cur); };
+  addEventListener('keydown', e => {
+    if (/SELECT|INPUT|TEXTAREA/.test(e.target.tagName) || e.altKey || e.metaKey || e.ctrlKey) return;
+    if (e.key === 'ArrowRight' || (present() && (e.key === 'PageDown' || e.key === ' '))) { e.preventDefault(); show(cur + 1, true); }
+    if (e.key === 'ArrowLeft' || (present() && e.key === 'PageUp')) { e.preventDefault(); show(cur - 1, true); }
+    if (e.key.toLowerCase() === 'f') document.fullscreenElement ? document.exitFullscreen() : root.requestFullscreen();
+  });
+  const n = parseInt((location.hash.match(/^#s(\d+)$/) || [])[1], 10);
+  if (new URLSearchParams(location.search).get('view') === 'slides') { root.classList.add('present'); document.getElementById('present').setAttribute('aria-pressed', 'true'); }
+  show(n ? n - 1 : 0);
+})();
+
+const root = document.documentElement;
+try { const t = localStorage.getItem('sd-theme'); if (t) root.dataset.theme = t; } catch (e) {}
+if (!root.dataset.theme && matchMedia('(prefers-color-scheme: dark)').matches) root.dataset.theme = 'dark';
+document.getElementById('theme').onclick = () => {
+  root.dataset.theme = root.dataset.theme === 'dark' ? 'light' : 'dark';
+  try { localStorage.setItem('sd-theme', root.dataset.theme); } catch (e) {}
+};
+</script>
+</body>
+</html>
