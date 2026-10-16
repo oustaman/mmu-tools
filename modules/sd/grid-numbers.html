@@ -232,32 +232,22 @@
 <section class="sl" data-t="Start"><div class="wrap">
   <p class="ey">Week 3 · Layout · Part A §3</p>
   <h2>A grid in seven numbers</h2>
-  <p class="lead">Part A §3 of your deck asks for the numbers behind your layout. This deck explains each one in turn, and every
-    slide has a <b>live screen you can change</b>, so you can see what the number does rather than take it on trust.
-    The last slide is where you set your own and copy them into A3.</p>
-  <div class="two">
-    <ul class="pts">
-      <li><b>Columns</b> — the vertical strips everything lines up to</li>
-      <li><b>Gutter</b> — the gap between two columns</li>
-      <li><b>Margin</b> — the space between the screen edge and the content</li>
-      <li><b>Max width</b> — where the content stops getting wider</li>
-      <li><b>Breakpoints</b> — the screen widths where the layout changes</li>
-      <li><b>Spacing scale</b> — the only gaps you allow yourself</li>
-    </ul>
-    <div>
-      <p class="lead" style="margin:0 0 8px">The examples use the numbers from <a href="example-council.html">Example 2</a>, the council-tax form. Yours will be different, and they should be.</p>
-      <p class="lead" style="margin:0">Move with the arrows above, the arrow keys, or just scroll. <b>Present</b> shows one slide at a time for the projector; <kbd>F</kbd> goes full screen.</p>
-    </div>
-  </div>
+  <p class="lead">One slide per number, each with a screen you can change. On the last slide you set your own.</p>
+  <ul class="pts">
+    <li><b>Columns</b> — the strips everything lines up to</li>
+    <li><b>Gutter</b> — the gap between columns</li>
+    <li><b>Margin</b> — screen edge to content</li>
+    <li><b>Max width</b> — where the content stops growing</li>
+    <li><b>Breakpoints</b> — where the layout changes</li>
+    <li><b>Spacing scale</b> — the only gaps you allow</li>
+  </ul>
+  <p class="try">The examples use <a href="example-council.html">Example 2</a>’s numbers. Move with ← →; <b>Present</b> for the projector.</p>
 </div></section>
-
 <section class="sl" data-t="The whole spec"><div class="wrap">
   <p class="ey">What you are aiming for</p>
-  <h2>Example 2’s A3, in full</h2>
+  <h2>Example 2’s A3</h2>
   <div class="two">
     <div>
-      <p class="lead">Every row is a number, and none says “about”. Read it now; by the end of this deck each line will make sense.
-        <b>Press the screen sizes</b> on the right to see the same page at each breakpoint.</p>
       <table class="a3">
         <tr><th>Columns</th><td>8 desktop · 6 tablet · 4 mobile</td></tr>
         <tr><th>Gutter</th><td>24 px (16 px on mobile)</td></tr>
@@ -268,113 +258,70 @@
         <tr><th>Breakpoint 3</th><td>375 px — mobile, 4 columns</td></tr>
         <tr><th>Spacing scale</th><td>4 · 8 · 16 · 24 · 40 · 64</td></tr>
       </table>
+      <p class="try">Every row is a number. Switch the screen size to see each breakpoint.</p>
     </div>
     <div class="lab" data-lab="whole"></div>
   </div>
 </div></section>
-
 <section class="sl" data-t="Columns"><div class="wrap">
   <p class="ey">1 of 6 · Columns</p>
-  <h2>Columns: the strips everything lines up to</h2>
+  <h2>Columns</h2>
   <div class="two">
-    <div>
-      <ul class="pts">
-        <li>The page is divided into equal <b>vertical strips</b>. Every box on it — a heading, a form, a picture — starts on one column and ends on another.</li>
-        <li>A box takes <b>whole columns</b>. Example 2’s form takes 6 of the 8; the note beside it takes the other 2.</li>
-        <li>Bigger screens get <b>more columns</b>: 8 on a desktop, 6 on a tablet, 4 on a phone.</li>
-        <li>Pick a number your content divides into. 12 splits into 2, 3, 4 or 6; 8 into 2 or 4; 4 on a phone is common.</li>
-      </ul>
-      <p class="try">Try it: change the columns. The form takes about three quarters of them, always in whole columns. Below 6 there is no room for the note beside it, so the note moves underneath. Then press <b>Mobile</b> and try 16.</p>
-    </div>
+    <div><ul class="pts"><li>Equal vertical strips. Every box starts on one and ends on another.</li><li>Boxes take <b>whole columns</b>: the form takes 6 of 8.</li><li>Bigger screens, more columns: <b>8 · 6 · 4</b>.</li></ul>
+      <p class="try">Change the columns. Then try 16 on <b>Mobile</b>.</p></div>
     <div class="lab" data-lab="cols"></div>
   </div>
 </div></section>
-
 <section class="sl" data-t="Gutter"><div class="wrap">
   <p class="ey">2 of 6 · Gutter</p>
-  <h2>Gutter: the gap between two columns</h2>
+  <h2>Gutter</h2>
   <div class="two">
-    <div>
-      <ul class="pts">
-        <li>The gutter is the <b>empty strip between columns</b>. Nothing goes in it; it keeps two boxes side by side from touching.</li>
-        <li>Too small and neighbouring boxes run together. Too big and the page falls apart into islands.</li>
-        <li>Most published grids use <b>16 to 32 px</b>. A phone often gets a smaller gutter than a desktop, because every pixel counts.</li>
-      </ul>
-      <p class="try">Example 2: <b>24 px</b> on desktop and tablet, <b>16 px</b> on mobile. Try 0, then 48.</p>
-    </div>
+    <div><ul class="pts"><li>The empty gap <b>between columns</b>.</li><li>Too small and boxes touch; too big and the page falls apart.</li></ul>
+      <p class="try">Example 2: <b>24 px</b>, 16 on mobile. Try 0, then 48.</p></div>
     <div class="lab" data-lab="gutter"></div>
   </div>
 </div></section>
-
 <section class="sl" data-t="Margin"><div class="wrap">
   <p class="ey">3 of 6 · Margin</p>
-  <h2>Margin: the edge of the screen to the content</h2>
+  <h2>Margin</h2>
   <div class="two">
-    <div>
-      <ul class="pts">
-        <li>The margin is the space <b>between the edge of the screen and the first column</b>, on both sides.</li>
-        <li>Without it, text touches the edge of the phone and is hard to read and hard to tap.</li>
-        <li>On a phone, every pixel of margin comes out of the content, so it stays small: <b>16 px</b> is common. Desktops can afford more.</li>
-      </ul>
-      <p class="try">Example 2: <b>40 px</b> desktop · <b>32 px</b> tablet · <b>16 px</b> mobile. Try 0 on the phone.</p>
-    </div>
+    <div><ul class="pts"><li>From the <b>screen edge to the content</b>, on both sides.</li><li>On a phone it costs content, so keep it small.</li></ul>
+      <p class="try">Example 2: <b>40 · 32 · 16 px</b>. Try 0 on mobile.</p></div>
     <div class="lab" data-lab="margin"></div>
   </div>
 </div></section>
-
 <section class="sl" data-t="Max width"><div class="wrap">
   <p class="ey">4 of 6 · Max width</p>
-  <h2>Max width: where the content stops growing</h2>
+  <h2>Max width</h2>
   <div class="two">
-    <div>
-      <ul class="pts">
-        <li>On a very wide screen, a page that keeps stretching makes <b>lines of text far too long to read</b>. Max width is where it stops: the content stays that wide and the rest becomes empty space either side.</li>
-        <li>It is usually between <b>960 and 1440 px</b>, chosen for what is on the page. A form needs less than a newspaper.</li>
-        <li>Example 2 also says how wide the form is <b>inside</b> it: “the form column is 6 of the 8”.</li>
-      </ul>
-      <p class="try">Widen the screen with max width off, and watch the line length. Then turn it on.</p>
-    </div>
+    <div><ul class="pts"><li>Where the content <b>stops getting wider</b>.</li><li>Without it, lines grow too long to read.</li></ul>
+      <p class="try">Example 2: <b>960 px</b>. Turn it off and widen the screen.</p></div>
     <div class="lab" data-lab="maxw"></div>
   </div>
 </div></section>
-
 <section class="sl" data-t="Breakpoints"><div class="wrap">
   <p class="ey">5 of 6 · Breakpoints</p>
-  <h2>Breakpoints: the widths where the layout changes</h2>
+  <h2>Breakpoints</h2>
   <div class="two">
-    <div>
-      <ul class="pts">
-        <li>A breakpoint is a <b>screen width</b> at which your grid switches to a different set of numbers: fewer columns, a smaller gutter, a smaller margin.</li>
-        <li>Example 2: from <b>1024 px</b> it is a desktop with 8 columns; from <b>768 px</b> a tablet with 6; below that a phone with 4, designed at <b>375 px</b>, a common phone width.</li>
-        <li>Only list breakpoints for the sizes you actually design. If you only design for a phone, you need one.</li>
-      </ul>
-      <p class="try">Drag the screen width slowly. Watch for the moment the columns change: that is a breakpoint.</p>
-    </div>
+    <div><ul class="pts"><li>Screen widths where <b>the numbers change</b>.</li><li>Example 2: <b>1024</b> desktop · <b>768</b> tablet · <b>375</b> phone.</li><li>List only the sizes you design.</li></ul>
+      <p class="try">Drag the width and watch the columns switch.</p></div>
     <div class="lab" data-lab="bp"></div>
   </div>
 </div></section>
-
 <section class="sl" data-t="Spacing scale"><div class="wrap">
   <p class="ey">6 of 6 · Spacing scale</p>
-  <h2>Spacing scale: the only gaps you allow yourself</h2>
+  <h2>Spacing scale</h2>
   <div class="two">
-    <div>
-      <ul class="pts">
-        <li>The columns handle space <b>across</b> the page. The spacing scale handles everything else: the gap between a label and its field, between two fields, before a button, between sections.</li>
-        <li>You pick a short list of sizes and <b>every gap uses one of them</b>. Nothing in between.</li>
-        <li>Without one, a screen ends up with eleven slightly different gaps and looks untidy without anyone knowing why.</li>
-      </ul>
-      <p class="try">Example 2: <b>4 · 8 · 16 · 24 · 40 · 64</b>. Press <b>Any gap</b>, then <b>Snap to the scale</b>.</p>
-    </div>
+    <div><ul class="pts"><li>Columns handle space across; the scale handles <b>the gaps down the page</b>.</li><li>Pick a few sizes. Every gap uses one.</li></ul>
+      <p class="try">Example 2: <b>4 · 8 · 16 · 24 · 40 · 64</b>. Press <b>Any gap</b>.</p></div>
     <div class="lab" data-lab="space"></div>
   </div>
 </div></section>
 
 <section class="sl" data-t="Your turn"><div class="wrap">
   <p class="ey">Your turn · Part A §3</p>
-  <h2>Set your own seven numbers</h2>
-  <p class="lead">Start from Example 2’s, or from a grid in <a href="https://interfaces.institute/collections/grids/">the published grids register</a>,
-    and change them for your content. The screen shows your numbers live. When every box has a number, <b>copy it into A3</b>.</p>
+  <h2>Your seven numbers</h2>
+  <p class="lead">Start from Example 2’s numbers or a <a href="https://interfaces.institute/collections/grids/">published grid</a>, change them, then <b>copy into A3</b>.</p>
   <div class="two">
     <div>
       <div class="yt" id="yt">
