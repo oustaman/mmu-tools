@@ -160,7 +160,7 @@ const PARTS = [
     soon as the goal is set, and finishes all three by the deadline, so dw is
     the last week and no workshop lists them in out.sec. Week 2 invites D1. */
  {id:"D", name:"Appendices", tag:"before and after \u2014 no word count",
-  desc:"The evidence that your version is better: the process as it is now, what happened to each step, and two screens side by side.",
+  desc:"The evidence that your version is better: the process as it is now, what happened to each step, and two screens side by side. Anything else that helps your case is welcome here too \u2014 competitors, news stories, screenshots from review sites \u2014 if it has no better place in the deck.",
   items:[
    {sec:"D1", t:"The process before", dw:11, d:"Every step, captured and numbered",
     h:"How people reach the goal now \u2014 screenshots, a photo of the paper form, the WhatsApp chat. One image per step, numbered to match A2. It is evidence, not design: nobody marks how it looks.",

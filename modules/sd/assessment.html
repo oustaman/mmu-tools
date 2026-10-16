@@ -186,6 +186,7 @@
   .m.wk{background:var(--wsh-soft);color:var(--wsh);border:1px solid var(--wsh)}
   .m.dn{background:var(--ok-soft);color:var(--ok);border:1px solid var(--ok)}
   .m.wd{background:var(--surface-2);color:var(--ink-3);border:1px solid var(--line-2)}
+  .m.tl{color:var(--lec);border:1px solid var(--lec);text-decoration:none;background:none}
   .it.done{background:var(--ok-soft);border-color:var(--ok)}
   .it.done .it-b b{text-decoration:line-through;text-decoration-thickness:1px;color:var(--ink-3)}
 
@@ -279,7 +280,7 @@
   <div class="wrap bar">
     <a class="brand" href="index.html">Screen Design</a>
     <span class="sp"></span>
-    <a class="navl" href="index.html">Weeks</a><a class="navl hideable" href="weeks.html">Materials</a><a class="navl hideable" href="brief.html">The brief</a><a class="navl on" href="assessment.html">Checklist</a><a class="navl" href="assessment-materials.html">Assessment materials</a>
+    <a class="navl" href="index.html">Weeks</a><a class="navl hideable" href="weeks.html">Materials</a><a class="navl hideable" href="brief.html">The brief</a><a class="navl on" href="assessment.html">Checklist</a><a class="navl" href="toolkit.html">Toolkit</a><a class="navl" href="assessment-materials.html">Assessment materials</a>
     <span class="ctl"><button id="theme" aria-label="Dark mode">◐</button></span>
   </div>
 </header>
@@ -383,6 +384,8 @@
 const el = document.getElementById('parts');
 /* the week each section is made in, from the workshops themselves */
 const MADE = {}; WEEKS.forEach(w => w.workshop.out.sec.forEach(s => { MADE[s] = w.n; }));
+/* the sections the toolkit has cards for — each gets a link straight to them */
+const TOOLED = new Set(['A3','A4','A5','A6','B1','B2','B3','B4','B5','B6','B8','C5','C6','C9','D1','D2']);
 const NOW = SD.week();
 let total = 0;
 el.innerHTML = PARTS.map(p => {
@@ -396,6 +399,7 @@ el.innerHTML = PARTS.map(p => {
           <span class="m wk">${MADE[x.sec] ? `Week ${MADE[x.sec]}${x.dw > MADE[x.sec] ? ` \u00b7 final by week ${x.dw}` : ''}` : 'Any week'}</span>
           <span class="m dn">Done when: ${x.d}</span>
           ${x.opt ? '<span class="m wd">Optional</span>' : ''}
+          ${TOOLED.has(x.sec) ? `<a class="m tl" href="toolkit.html#${x.sec}">Tools \u2192</a>` : ''}
           ${x.wd ? `<span class="m wd">${x.wd}</span>` : ''}
         </span></span></label>`;
   }).join('');
