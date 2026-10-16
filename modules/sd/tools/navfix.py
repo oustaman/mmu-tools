@@ -67,6 +67,6 @@ for f in sorted(os.listdir(D)):
     s = s[:m.start()] + hdr + s[m.end():]
     s = re.sub(r'\n  /\* THE BAR — one definition.*?\n  }\n', '\n', s, flags=re.S)  # idempotent
     i = s.index('</style>')
-    s = s[:i] + CSS + s[i:]
+    s = s[:i].rstrip() + '\n' + CSS + s[i:]  # rstrip: re-running adds nothing
     open(os.path.join(D, f), 'w').write(s)
     print(f, 'theme' if had_theme else '')
