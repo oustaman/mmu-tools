@@ -134,6 +134,14 @@
   .howto{background:var(--surface);border:1px solid var(--line);border-left:3px solid var(--lec);border-radius:0 12px 12px 0;padding:14px 18px;margin:0 0 26px}
   .howto ol{margin:6px 0 0;padding-left:20px} .howto li{margin:4px 0;color:var(--ink-2)}
   .howto code{font-size:0.86em}
+  .howto{scroll-margin-top:80px}
+  table.mt{width:100%;border-collapse:collapse;margin:10px 0 4px;font-size:0.88rem;background:var(--bg);border-radius:8px;overflow:hidden}
+  .mt th,.mt td{text-align:left;vertical-align:top;padding:8px 10px;border-top:1px solid var(--line);color:var(--ink-2)}
+  .mt tr:first-child th{border-top:0;font-family:var(--mono);font-size:0.66rem;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-3);font-weight:600}
+  .mt th{color:var(--ink);font-weight:640;white-space:nowrap}
+  .mt kbd{font-family:var(--mono);font-size:0.8em;border:1px solid var(--line-2);border-bottom-width:2px;border-radius:4px;padding:0 4px;background:var(--surface)}
+  .mtn{margin:8px 0 0;font-size:0.85rem;color:var(--ink-3)}
+  @media(max-width:700px){ .mt,.mt tbody,.mt tr,.mt th,.mt td{display:block} .mt tr:first-child{display:none} .mt tr{border-top:1px solid var(--line);padding:6px 0} .mt th,.mt td{border:0;padding:3px 10px} .mt th{white-space:normal} }
 
   /* THE BAR — one definition, identical on every page (written by navfix; change it
      everywhere or nowhere). It used to be copied per page and drifted into two heights. */
@@ -186,6 +194,23 @@
 
   <p class="howto"><b>Still choosing a theme?</b> <a href="ideas.html">Theme ideas</a> gives you a ready-made one at the press of a button — someone specific, one goal, how people do it now and the screens you would need — to take as it is or change.</p>
 
+  <div class="howto" id="measure">
+    <b>Measure a website — its width, margins and breakpoints</b>
+    <table class="mt">
+      <tr><th></th><th>Open the inspector</th><th>Device mode — set the screen size</th></tr>
+      <tr><th>Chrome or Edge, Windows</th><td><kbd>F12</kbd>, or right-click › <b>Inspect</b></td><td><kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>M</kbd>, or the phone-and-tablet icon at the top left of the inspector</td></tr>
+      <tr><th>Chrome or Edge, Mac</th><td><kbd>Cmd</kbd>+<kbd>Option</kbd>+<kbd>I</kbd>, or right-click › <b>Inspect</b></td><td><kbd>Cmd</kbd>+<kbd>Shift</kbd>+<kbd>M</kbd>, or the same icon</td></tr>
+      <tr><th>Safari, Mac</th><td>Switch it on once: <b>Safari › Settings › Advanced</b>, tick <b>Show features for web developers</b> (older Safari: <b>Show Develop menu</b>). Then right-click › <b>Inspect Element</b>, or <kbd>Cmd</kbd>+<kbd>Option</kbd>+<kbd>I</kbd></td><td><b>Develop › Enter Responsive Design Mode</b>, or <kbd>Cmd</kbd>+<kbd>Option</kbd>+<kbd>R</kbd></td></tr>
+      <tr><th>Firefox</th><td><kbd>F12</kbd> on Windows, <kbd>Cmd</kbd>+<kbd>Option</kbd>+<kbd>I</kbd> on a Mac</td><td><kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>M</kbd> on Windows, <kbd>Cmd</kbd>+<kbd>Option</kbd>+<kbd>M</kbd> on a Mac</td></tr>
+    </table>
+    <ol>
+      <li><b>The size of a box:</b> with the inspector open, hover over part of the page. A label appears on it with its size in px — <code>div.container 1140 × 820</code> is 1140 wide and 820 tall.</li>
+      <li><b>The size of the screen:</b> in device mode the current width × height is shown above the page. Drag the edge of the page to change it, or type a width in.</li>
+      <li><b>Without device mode:</b> in Chrome and Edge, keep the inspector open and resize the window — the page size shows in its top-right corner as you drag.</li>
+    </ol>
+    <p class="mtn">There is no Safari for Windows; use Chrome or Edge. More help: <a href="https://developer.chrome.com/docs/devtools/device-mode" target="_blank" rel="noopener">Chrome’s guide to device mode</a>.</p>
+  </div>
+
   <div class="howto">
     <b>Collect the codes from any website — no install</b>
     <ol>
@@ -210,6 +235,9 @@
   const GROUPS = [
     { id: 'layout', h: 'Layout and grids', sub: 'For A3 — columns, gutter, margin, max width, spacing scale.', items: [
       ['A grid in seven numbers', 'grid-numbers.html', 'explore', ['A3'], 'What columns, gutter, margin, max width, breakpoints and a spacing scale mean, each with a live screen. The last slide sets your own and copies them for A3.', true],
+      ['GOV.UK Design System: Layout', 'https://design-system.service.gov.uk/styles/layout/', 'collect', ['A3'], 'A published grid in plain words — two-thirds and one-third columns, a fixed max width — behind most council and government services.'],
+      ['Bootstrap: Grid', 'https://getbootstrap.com/docs/5.3/layout/grid/', 'collect', ['A3'], 'The grid behind a large share of commercial websites: twelve columns and a breakpoint table to compare with what you measure.'],
+      ['Am I Responsive?', 'https://ui.dev/amiresponsive', 'check', ['A3', 'B7'], 'Paste in an address and see the site on four devices at once. Many big sites block it, so treat it as a quick look.'],
       ['One menu, four grids', II + '/patterns/four-grids/', 'explore', ['A3'], 'The same menu in manuscript, column, modular and hierarchical grids — and what each costs.', true],
       ['One website, every grid', II + '/patterns/every-grid/', 'explore', ['A3'], 'One plain website on twenty-seven published grids at four screen widths. See which column counts fill the row.', true],
       ['Published layout grids', II + '/collections/grids/', 'collect', ['A3'], 'Grids as their publishers wrote them down — columns, gutters, margins and breakpoints to borrow — and a spacing scale built live. Pick your numbers here.', true],
