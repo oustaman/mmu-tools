@@ -406,7 +406,7 @@
   <div class="wrap bar">
     <a class="brand" href="index.html">Screen Design</a>
     <span class="sp"></span>
-    <a class="navl" href="index.html">Weeks</a><a class="navl on" href="weeks.html">Materials</a><a class="navl hideable" href="brief.html">The brief</a><a class="navl hideable" href="assessment.html">Checklist</a><a class="navl hideable" href="assessment-materials.html">Assessment materials</a>
+    <a class="navl" href="index.html">Weeks</a><a class="navl on" href="weeks.html">Materials</a><a class="navl hideable" href="brief.html">The brief</a><a class="navl hideable" href="assessment.html">Checklist</a><a class="navl hideable" href="toolkit.html">Toolkit</a><a class="navl hideable" href="assessment-materials.html">Assessment materials</a>
     <span class="ctl"><button id="theme" aria-label="Dark mode">◐</button></span>
   </div>
 </header>
@@ -557,7 +557,7 @@ function render(){
       ${r.u ? `<div class="go">${show(r.u)}</div>` : ''}</li>`;
       return (core.length ? `<p class="corehead"><b>Start here.</b> ${core.length === 1 ? 'This is' : 'These two are'} what the week is built on — study ${core.length === 1 ? 'it' : 'them'} first.</p>
         <ol class="items">${core.map((r, i) => li(r, i, true)).join('')}</ol>` : '') +
-        (also.length ? `<p class="alsohead"><b>Also shown in class</b> — more depth, if you want it.</p>
+        (also.length ? `<p class="alsohead"><b>Worth a look</b> — more context and depth. Some of these were shown in class, some were not.</p>
         <ol class="items also">${also.map((r, i) => li(r, core.length + i, false)).join('')}</ol>` : '');
     })() : `<p class="none">No lecture this week.</p>`}`;
 

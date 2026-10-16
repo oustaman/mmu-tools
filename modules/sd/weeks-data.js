@@ -69,7 +69,7 @@ const WEEKS = [
   ],
   leave:"A shared Screen Design folder with your deck in it, a slide for every section, and a mark you had to defend.",
   done:"Your Screen Design folder is shared with the teaching staff, and the deck inside it has a slide for every section.",
-  between:"Choose three possible themes. Nothing else \u2014 week 2 locks one of them, and it cannot change after that.",
+  between:"Choose three possible themes. Nothing else \u2014 week 2 settles on one of them, and the later you change it after that, the more you redo.",
   mistake:"Marking on how it looks. Two groups in three give the visual criterion the highest number and cannot say why.",
   stuck:[["I can't find OneDrive","office.com, sign in with your uni account, OneDrive in the launcher. Do not use a personal Microsoft account."],
          ["Will you check my folder every week?","No. We look when you ask \u2014 for feedback or for help. Keep your latest work in there so it is ready when you do."],
@@ -81,7 +81,7 @@ const WEEKS = [
  n:2, title:"Composition and visual hierarchy",
  makes:["Example 2 marked","Theme locked","8 thumbnails"],
  idea:"You get one focal point. Everything else is arranged around what you chose.",
- hand:{keep:["A complete portfolio shows its evidence; a thin one only asserts it.", "Lock your theme by week 3 at the latest. After that it cannot change.", "Rough is fine. A first sketch on the right slide beats a perfect one nowhere."], next:"Lock your theme if you have not, and pick the thumbnail you would build."},
+ hand:{keep:["A complete portfolio shows its evidence; a thin one only asserts it.", "Settle your theme by week 3 if you can. You can still change it later, but every week after that is more work to redo.", "Rough is fine. A first sketch on the right slide beats a perfect one nowhere."], next:"Lock your theme if you have not, and pick the thumbnail you would build."},
  shown:[
   {core:true, s:"Scale, weight, space — live", u:"https://interfaces.institute/stairwell/hierarchy/", d:"Resize one element on a real page and watch the reading order change. Then add space only, change nothing else. <b>Five switches on one screen</b> — turn each device off in turn and the primary action stops being primary without moving, changing its words, or leaving the page.", take:"Changing one thing — size, weight, spacing — changes what gets read first. That is the whole of hierarchy."},
   {s:"Two focal points", d:"A real screen with two. Everyone takes a moment to find the first thing, and that moment is the cost.", u:"https://interfaces.institute/collections/bank-interfaces/", take:"You get one focal point per screen. Two costs the reader a moment, and that moment is what you write about in C2."},
@@ -91,7 +91,7 @@ const WEEKS = [
  ],
  three:[
   {t:"Example 2, marked", d:"A band, a mark and a line of evidence for each criterion \u2014 sent through the form."},
-  {t:"Your theme, locked", d:"Part A \u00a71 filled in: theme, audience and your goal. Need longer? Week 3 at the latest."},
+  {t:"Your theme, locked", d:"Part A \u00a71 filled in: theme, audience and your goal. Need longer? Week 3 \u2014 the later you change it, the more you redo."},
   {t:"A first piece of work in your deck", d:"Eight rough thumbnails of one screen, photographed onto B1\u2019s slide. Pick the one you would build before week 3.", open:true},
  ],
  workshop:{
