@@ -1,0 +1,468 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Theme ideas · Screen Design</title>
+<style>
+  :root{
+    --bg:#F5F4F2; --surface:#FFFFFF; --surface-2:#EDEBE8;
+    --ink:#1A1618; --ink-2:#514B4A; --ink-3:#4D4847;
+    --line:#DFDBD7; --line-2:#8E8685;
+    --lec:#8C2437; --lec-soft:#F6E8EA;
+    --wsh:#1A526D; --wsh-soft:#E4EEF3;
+    --ok:#285638; --ok-soft:#E3EFE7;
+    --warn:#684604; --warn-soft:#F4EAD3;
+    --mono:ui-monospace,"SF Mono",Menlo,Consolas,monospace;
+    --sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Inter,Roboto,sans-serif;
+  }
+  html[data-theme="dark"]{
+    --bg:#151314; --surface:#1E1B1C; --surface-2:#262223;
+    --ink:#EDE9E7; --ink-2:#B9B2AF; --ink-3:#B7B2B0;
+    --line:#332E2F; --line-2:#7A7372;
+    --lec:#E69FAD; --lec-soft:#332226;
+    --wsh:#7FBEDC; --wsh-soft:#16262E;
+    --ok:#83C19A; --ok-soft:#1C2A22;
+    --warn:#DCB469; --warn-soft:#2A2417;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);line-height:1.5}
+  .wrap{max-width:1100px;margin:0 auto;padding:0 22px}
+  @media(max-width:420px){.wrap{padding:0 14px}}
+  @media(max-width:340px){.wrap{padding:0 10px}}
+  a{color:var(--lec)}
+
+  /* The bar, identical on every page (see assessment.html). */
+  header{border-bottom:1px solid var(--line);background:var(--surface);position:sticky;top:0;z-index:40}
+  .bar{display:flex;align-items:center;gap:10px;padding-block:11px;flex-wrap:nowrap}
+  .brand{font-weight:680;font-size:1rem;letter-spacing:-0.015em;white-space:nowrap;color:inherit;
+    text-decoration:none;padding:5px 8px;margin-left:-8px;border-radius:6px}
+  .brand:hover{background:var(--surface-2)}
+  .brand:focus-visible{outline:2px solid var(--lec);outline-offset:1px}
+  .sp{flex:1}
+  .navl{font-size:0.85rem;color:var(--ink-2);text-decoration:none;padding:6px 10px;border-radius:6px;white-space:nowrap}
+  .navl:hover{background:var(--surface-2);color:var(--ink)}
+  .ctl button{font-family:var(--mono);font-size:0.7rem;background:none;color:var(--ink-3);
+    border:1px solid var(--line-2);border-radius:5px;padding:5px 8px;cursor:pointer;line-height:1}
+  .ctl button:hover{border-color:var(--lec);color:var(--lec)}
+  @media(max-width:760px){ header .bar{gap:6px} .navl{padding:6px 8px;font-size:0.82rem} }
+  @media(max-width:560px){
+    header .bar{flex-wrap:wrap;row-gap:6px}
+    header .brand{order:0} header .ctl{order:1;margin-left:auto}
+    header .bar > .sp{order:2;flex-basis:100%;height:0}
+    header .navl{order:3;padding:5px 7px;font-size:0.78rem}
+  }
+  @media(max-width:430px){ .brand{font-size:0.9rem} .navl{padding:5px 6px;font-size:0.76rem} }
+
+  .navl.on{background:var(--lec);color:#fff}
+  html[data-theme="dark"] .navl.on{color:#151314}
+  h1{font-size:clamp(1.6rem,4.4vw,2.3rem);line-height:1.1;letter-spacing:-0.028em;margin:24px 0 4px;font-weight:700}
+  h2{font-size:1.2rem;font-weight:690;letter-spacing:-0.015em;margin:34px 0 6px}
+  .sub{color:var(--ink-2);margin:0 0 18px;max-width:70ch}
+  .lede{color:var(--ink-2);margin:0 0 14px;max-width:72ch;font-size:0.95rem}
+
+  .tiles{display:grid;gap:10px;grid-template-columns:repeat(auto-fit,minmax(min(220px,100%),1fr))}
+  .tile{display:block;background:var(--surface);border:1px solid var(--line);border-radius:11px;padding:14px 16px;
+    text-decoration:none;color:inherit}
+  .tile:hover{border-color:var(--lec)}
+  .tile b{display:block;font-size:0.98rem;margin-bottom:3px}
+  .tile span{font-size:0.86rem;color:var(--ink-2)}
+  .tile i{font-style:normal;font-family:var(--mono);font-size:0.68rem;color:var(--ink-3);display:block;margin-top:6px}
+
+  table.steps{width:100%;border-collapse:collapse;background:var(--surface);border:1px solid var(--line);
+    border-radius:11px;overflow:hidden;font-size:0.9rem}
+  .steps th{text-align:left;font-family:var(--mono);font-size:0.62rem;letter-spacing:0.08em;text-transform:uppercase;
+    color:var(--ink-3);padding:9px 12px;background:var(--surface-2);font-weight:500}
+  .steps td{padding:8px 12px;border-top:1px solid var(--line);vertical-align:middle}
+  .steps td.cls{font-weight:640}
+  .steps td.rg{font-family:var(--mono);font-size:0.8rem;color:var(--ink-2);white-space:nowrap}
+  .steps .m{display:inline-block;font-family:var(--mono);font-size:0.82rem;font-weight:700;min-width:34px;
+    text-align:center;padding:2px 6px;margin:2px 3px 2px 0;border-radius:5px;background:var(--bg);border:1px solid var(--line)}
+  .steps tr.first td.cls{color:var(--ok)}
+  .steps tr.fail td.cls{color:var(--lec)}
+
+  .ex{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(min(320px,100%),1fr))}
+  .excard{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:16px 18px;
+    display:flex;flex-direction:column;gap:10px}
+  .exk{font-family:var(--mono);font-size:0.64rem;letter-spacing:0.08em;text-transform:uppercase;color:var(--ink-3)}
+  .excard h3{margin:0;font-size:1.08rem}
+  .excard p{margin:0;font-size:0.9rem;color:var(--ink-2)}
+  .exmark{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap}
+  .exmark .n{font-size:2.2rem;font-weight:740;letter-spacing:-0.03em;color:var(--lec);line-height:1}
+  .exmark .crit{font-family:var(--mono);font-size:0.78rem;color:var(--ink-2)}
+  .exhid{font-size:0.9rem;color:var(--ink-2);background:var(--bg);border:1px dashed var(--line-2);border-radius:8px;padding:10px 12px}
+  .exacts{display:flex;flex-wrap:wrap;gap:8px;margin-top:auto}
+  .btn{display:inline-flex;align-items:center;min-height:42px;padding:0 15px;border-radius:8px;text-decoration:none;
+    font-weight:640;font-size:0.9rem;border:1px solid var(--line-2);color:var(--ink);background:var(--bg)}
+  .btn:hover{border-color:var(--lec);color:var(--lec)}
+  .btn.pri{background:var(--lec);border-color:var(--lec);color:#fff}
+  html[data-theme="dark"] .btn.pri{color:#151314}
+  .btn.off{color:var(--ink-3);border-style:dashed;cursor:default}
+  .faq{display:grid;gap:6px}
+  .faq details{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:0}
+  .faq summary{cursor:pointer;padding:12px 16px;font-weight:600;list-style:none;display:flex;gap:10px;align-items:baseline}
+  .faq summary::-webkit-details-marker{display:none}
+  .faq summary::before{content:"+";font-family:var(--mono);color:var(--ink-3);width:1em;flex:none}
+  .faq details[open] summary::before{content:"\2013"}
+  .faq .a{padding:0 16px 14px 42px;color:var(--ink-2);font-size:0.95rem;line-height:1.6}
+  .faq .a a{color:var(--lec)}
+  .note{font-size:0.82rem;color:var(--ink-3);margin:12px 0 0}
+  footer{padding:24px 0 44px;color:var(--ink-3);font-size:0.8rem;border-top:1px solid var(--line);margin-top:30px}
+  @media(max-width:520px){ .steps td{padding:7px 8px} .steps td.rg{white-space:normal} }
+
+  /* the idea generator */
+  .gen{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:4px 0 14px}
+  .gen .btn{cursor:pointer;font:640 0.92rem var(--sans)}
+  .gen .btn.pri{min-height:48px;padding:0 20px;font-size:1rem}
+  .cats{display:flex;flex-wrap:wrap;gap:6px;margin:0 0 18px}
+  .cats button{appearance:none;border:1px solid var(--line);background:var(--surface);color:var(--ink-2);border-radius:99px;padding:6px 12px;min-height:36px;font:600 0.82rem var(--sans);cursor:pointer}
+  .cats button[aria-pressed="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+  .cats button:focus-visible,.gen .btn:focus-visible{outline:2px solid var(--lec);outline-offset:2px}
+  .idea{background:var(--surface);border:1px solid var(--line);border-top:4px solid var(--lec);border-radius:12px;padding:20px 22px 22px}
+  .idea .k{font-family:var(--mono);font-size:0.66rem;letter-spacing:0.09em;text-transform:uppercase;color:var(--ink-3)}
+  .idea h2{margin:6px 0 4px;font-size:clamp(1.3rem,3.4vw,1.7rem);letter-spacing:-0.02em;line-height:1.2}
+  .idea .goal{font-size:1.02rem;margin:0 0 16px;color:var(--ink-2)}
+  .idea .goal b{color:var(--ink)}
+  .rows{display:grid;gap:18px 30px;grid-template-columns:repeat(auto-fit,minmax(min(380px,100%),1fr))}
+  .blk h3{margin:0 0 6px;font-family:var(--mono);font-size:0.66rem;letter-spacing:0.09em;text-transform:uppercase;color:var(--ink-3);font-weight:600}
+  .blk p{margin:0;font-size:0.95rem}
+  .blk ol{margin:0;padding-left:22px;font-size:0.93rem} .blk li{margin:2px 0}
+  .blk li i{font-style:normal;color:var(--ink-3)}
+  .blk .tag{display:inline-block;font-family:var(--mono);font-size:0.66rem;border:1px solid var(--line);border-radius:4px;padding:1px 5px;margin-right:6px;color:var(--ink-2);background:var(--bg)}
+  .hint{font-size:0.82rem;color:var(--ink-3);margin:6px 0 0}
+  .copied{font-family:var(--mono);font-size:0.75rem;color:var(--ok);min-width:6ch}
+  .make{background:var(--surface);border:1px solid var(--line);border-left:3px solid var(--wsh);border-radius:0 12px 12px 0;padding:14px 18px;margin:22px 0 0}
+  .make ol{margin:6px 0 0;padding-left:20px} .make li{margin:5px 0;color:var(--ink-2)}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap bar">
+    <a class="brand" href="index.html">Screen Design</a>
+    <span class="sp"></span>
+    <a class="navl" href="index.html">Weeks</a><a class="navl" href="weeks.html">Materials</a><a class="navl" href="brief.html">The brief</a><a class="navl" href="assessment.html">Checklist</a><a class="navl on" href="toolkit.html">Toolkit</a><a class="navl" href="assessment-materials.html">Assessment materials</a>
+    <span class="ctl"><button id="theme" aria-label="Dark mode">◐</button></span>
+  </div>
+</header>
+
+<div class="wrap">
+  <h1>Stuck for a theme?</h1>
+  <p class="sub">Press the button for a theme that fits the brief: someone specific, one thing they are trying to get done,
+    how they do it today, and the screens your version would need. Each idea also comes with a starting point for the two
+    paragraphs the brief asks for by name: ethics or sustainability (C6) and a cross-cultural consideration (C7).
+    <b>Treat it as a starting point.</b> Change the audience, the place, the goal. It becomes yours the moment you change something.</p>
+
+  <div class="cats" id="cats" role="group" aria-label="Only show ideas about"></div>
+  <div class="gen">
+    <button type="button" class="btn pri" id="next">Give me an idea</button>
+    <button type="button" class="btn" id="aud">Same idea, another audience</button>
+    <button type="button" class="btn" id="copy">Copy for A1 and A2</button>
+    <span class="copied" id="copied" aria-live="polite"></span>
+  </div>
+
+  <article class="idea" id="idea" aria-live="polite"></article>
+
+  <div class="make">
+    <b>Before you lock it in week 3</b>
+    <ol>
+      <li><b>Can you screenshot the before?</b> D1 needs one picture of every step people take now: the website, the form, the WhatsApp chat. If you cannot capture it, pick another.</li>
+      <li><b>Is the audience a person you can picture?</b> “Students” is everyone. “First-years who moved cities and have never registered with a GP” is someone.</li>
+      <li><b>Is it one goal?</b> One thing a person is trying to get done, in one sitting. An app that does everything has no hierarchy to write about.</li>
+      <li><b>Does it need more than a few screens?</b> Three to six is plenty. If you need fifteen, the goal is too big; cut it in half.</li>
+      <li><b>Do you care about it even a little?</b> You will spend ten weeks on it. Your own life is the best place to look: something that annoyed you this term counts.</li>
+    </ol>
+  </div>
+
+  <footer><p>Screen Design · Level 4 · 2026–27 · The ideas are made up for this page. Organisations are described generically on purpose:
+    when you choose one, find the real service near you and capture that.</p></footer>
+</div>
+
+<script>
+(function () {
+  /* Each idea is complete on purpose. Random words glued together ("a fitness app for
+     pirates") give a student nothing to screenshot and no one to design for; every idea
+     here has a person, one goal, a before that exists today, and a few screens.
+     Each has two or three audiences, so "another audience" changes who it is for
+     without changing what it is. None repeats the two marked examples (a plant app,
+     council tax). Add ideas by copying a row; the categories build themselves. */
+  const IDEAS = [
+    { id: 'study-room', c: 'Student life', t: 'Booking a group study room',
+      g: 'Book a quiet room for four people tomorrow afternoon.',
+      a: ['First-years with their first group project', 'Commuting students who are only on campus two days a week', 'Students who use a wheelchair and need a room they can reach'],
+      b: ['Open the library website — search for “book a room”', 'Log in with the university account', 'Pick a building from a list', 'Read an hour-by-hour grid for a free slot', 'Confirm, then find the email'],
+      s: ['When and how many — pick the time and group size', 'Rooms free — the ones that fit', 'Confirm — book it', 'Your booking — reminder, directions, cancel'],
+      e: 'Unused bookings waste rooms others needed: release a room nobody checks into. And do not ask for every group member’s name when one is enough.',
+      x: 'Times and dates are written differently around the world: 15:00 or 3pm, 05/11 or 11/05. Show the day as a word.' },
+    { id: 'society', c: 'Student life', t: 'Trying a society for the first time',
+      g: 'Go to one society’s taster session this week.',
+      a: ['First-year international students who know nobody yet', 'Mature students with children, who can only do daytime', 'Students who do not drink and want events that are not in a bar'],
+      b: ['Pick up leaflets at the freshers’ fair', 'Scroll the students’ union list of societies', 'Find the society’s Instagram', 'Message a stranger for the WhatsApp link', 'Guess where and when the taster is'],
+      s: ['What you are into — a few interests', 'This week’s tasters — time, place, cost', 'One session — what happens, who to ask for', 'Add it to your calendar'],
+      e: 'Say the membership fee up front, before anyone signs up. A surprise cost on the last screen is a dark pattern.',
+      x: 'Alcohol, gender-mixed events and evening timings mean different things to different students. Label them plainly rather than guessing.' },
+    { id: 'repair', c: 'Student life', t: 'Getting a repair done in student halls',
+      g: 'Get a broken heater in your room fixed.',
+      a: ['First-years living away from home for the first time', 'International students in their first UK winter', 'Students with asthma, for whom damp and cold are a health problem'],
+      b: ['Tell reception at the desk or by email', 'Get sent a link to a maintenance portal', 'Log in, pick a category from a long list', 'Describe it in a text box', 'Hear nothing for days'],
+      s: ['What’s broken — pick from pictures', 'Where — your room, kitchen or bathroom', 'Add a photo', 'Track it — reported, booked, fixed'],
+      e: 'Heating and draughts are energy. A design that gets broken heaters fixed fast saves energy — and asks for no more personal details than a room number.',
+      x: 'Many residents are not native English speakers. Icons and photos for each category work across languages better than words like “HVAC”.' },
+    { id: 'extension', c: 'Student life', t: 'Asking for more time on an assignment',
+      g: 'Ask for an extension before the deadline, with the right evidence.',
+      a: ['Students who care for a family member', 'Students with a long-term illness or disability', 'Students who have just had a family emergency'],
+      b: ['Search the university website for the policy', 'Open a long PDF of rules', 'Find a form, work out which evidence counts', 'Upload a document', 'Email a tutor to check it arrived'],
+      s: ['Can I ask? — a plain check of who can', 'What to send — the evidence, in plain words', 'Send it', 'What happens now — status and the date you will hear'],
+      e: 'Medical and family details are sensitive. Ask only for what the decision needs, and say who will see it.',
+      x: 'Academic terms like “mitigating circumstances” are hard for anyone, harder in a second language. Plain words first, the official term in brackets.' },
+    { id: 'print', c: 'Student life', t: 'Printing before a deadline',
+      g: 'Print a 20-page assignment before a 10am hand-in.',
+      a: ['Students without a printer at home', 'Commuters arriving on campus at 9.30', 'Art students printing in colour for the first time'],
+      b: ['Find the printing page on the IT website', 'Upload the file to a print portal', 'Top up print credit somewhere else', 'Walk around to find a free printer', 'Log in at the printer to release the job'],
+      s: ['Upload — your file and how many copies', 'Nearest printer — which are free now', 'Pay — the cost before you print', 'Release — what to do at the machine'],
+      e: 'Default to double-sided and black and white, and say how much paper that saves. The default is the decision most people never change.',
+      x: 'International students may know Letter paper rather than A4, or different units. Show the page size the printer actually uses.' },
+    { id: 'step-free', c: 'Student life', t: 'Getting around campus step-free',
+      g: 'Get from the station to a lecture theatre without stairs.',
+      a: ['Wheelchair users on their first week', 'Students on crutches after an injury', 'Parents bringing a buggy to an open day'],
+      b: ['Open a campus map PDF', 'Search for an access guide to the building', 'Check whether the lift is working (nowhere says)', 'Ask security at the door', 'Find the step-free entrance by trial and error'],
+      s: ['Where from and where to', 'The step-free route — lifts and ramps marked', 'Inside the building — entrance to room', 'Something’s wrong — report a broken lift'],
+      e: 'This one is an ethics answer in itself: who gets left out when a map assumes everyone walks.',
+      x: 'Access symbols are not the same everywhere. Use a symbol and a word together, never a symbol alone.' },
+    { id: 'prayer', c: 'Student life', t: 'Finding a quiet or prayer room on campus',
+      g: 'Find a prayer room near your next lecture, with time to get there.',
+      a: ['Muslim students who pray at set times', 'Students of any faith who need a quiet room', 'Students who find busy spaces overwhelming'],
+      b: ['Search the chaplaincy or faith page', 'Find a list of rooms by building name', 'Open the campus map separately', 'Ask friends which ones are actually open', 'Check the opening hours on a door'],
+      s: ['Near me — rooms close to where you are', 'One room — open now, facilities, washing area', 'Directions', 'Times — add prayer times or quiet hours if you want them'],
+      e: 'Faith is sensitive personal data. Let people use it without logging in or saying why.',
+      x: 'Prayer times move through the year and depend on where you are. Show times as the local clock does, and never assume one faith.' },
+    { id: 'bills', c: 'Home', t: 'Splitting the bills in a shared house',
+      g: 'Work out who owes what for this month’s energy bill.',
+      a: ['Five housemates sharing a house for the first time', 'Couples moving in together', 'A house where one person was away for half the month'],
+      b: ['Open the bill PDF from the supplier', 'Do the sums on a calculator', 'Post the amount in the house WhatsApp', 'Chase people who have not paid', 'Keep track in a notes app or spreadsheet'],
+      s: ['Add a bill — amount and dates', 'Who was home — share it fairly', 'Who owes what', 'Paid — tick it off'],
+      e: 'Reminders can nag or shame. Design one that is firm and fair, and do not show everyone who is behind.',
+      x: 'Money is written differently around the world: £1,250.50 or 1.250,50. Show the format people expect.' },
+    { id: 'bins', c: 'Home', t: 'Which bin does it go in?',
+      g: 'Put a greasy pizza box in the right bin.',
+      a: ['Students new to the area', 'People who have just moved from another country', 'Older residents who find the council website hard'],
+      b: ['Search the council website A–Z', 'Open a PDF leaflet', 'Read the sticker on the bin lid', 'Ask in a local Facebook group and get three answers', 'Guess'],
+      s: ['What is it? — search or pick a picture', 'The answer — which bin, and why', 'Collection day — which bin goes out this week', 'Reminder — the night before'],
+      e: 'Recycling is the sustainability answer, but there is an access one too: bins are told apart by colour. What happens if you cannot see the colours?',
+      x: 'Bin colours and rules are different in every country, and even between neighbouring councils. Never let colour carry the meaning alone.' },
+    { id: 'deposit', c: 'Home', t: 'Getting your deposit back',
+      g: 'Get your full deposit back when you move out.',
+      a: ['Students ending their first tenancy', 'Renters who did not take photos when they moved in', 'International students leaving the UK in the summer'],
+      b: ['Find the tenancy agreement PDF', 'Look for the inventory from moving in', 'Dig through the camera roll for photos', 'Email the landlord', 'Search the deposit scheme’s website for how to dispute'],
+      s: ['Before you leave — a room-by-room checklist', 'Photos — one per room, dated', 'Ask for it back', 'If they say no — the steps, in order'],
+      e: 'Photos of your home are personal. Say where they are stored and who can see them.',
+      x: 'Renting rules and words (deposit, bond, inventory) vary a lot by country. Explain the term rather than assume it is known.' },
+    { id: 'damp', c: 'Home', t: 'Reporting damp and mould to a landlord',
+      g: 'Get a landlord to deal with mould in a bedroom.',
+      a: ['Students in a shared house', 'Families renting privately with young children', 'Renters who are nervous about complaining'],
+      b: ['Take photos of the mould', 'Text or email the landlord', 'Wait, chase, wait', 'Look up the rules on a housing charity website', 'Find the council’s housing complaint form'],
+      s: ['What and where — photos and the room', 'Send it — a message the landlord cannot misread', 'Track it — dates and replies', 'Not fixed? — what you can do next'],
+      e: 'Damp is a health problem, and renters often fear being evicted for complaining. The design has to make reporting feel safe.',
+      x: 'Some people come from places where complaining to a landlord is risky or unusual. The tone of the words matters as much as the form.' },
+    { id: 'gp', c: 'Health', t: 'Registering with a GP',
+      g: 'Register at a GP surgery near your new address.',
+      a: ['First-year students who have moved cities', 'International students who have never used the NHS', 'New parents registering a baby'],
+      b: ['Search the NHS website for nearby surgeries', 'Open the surgery’s own website', 'Find the registration form', 'Fill in several pages of questions', 'Wait for a letter or a phone call'],
+      s: ['Your postcode — surgeries taking new patients', 'One surgery — distance, hours, access', 'Register — the form, a few questions per screen', 'Done — what happens next'],
+      e: 'Health forms ask a lot. Ask only for what registration needs, and say why each question is there.',
+      x: 'Names are written in different orders and lengths around the world. A form with one “first name” and one “surname” box fails many people.' },
+    { id: 'prescription', c: 'Health', t: 'Ordering a repeat prescription',
+      g: 'Order the next month of an inhaler before it runs out.',
+      a: ['Students with asthma or another long-term condition', 'Older relatives who order for each other', 'Carers ordering for someone they look after'],
+      b: ['Find the paper slip from last time', 'Log in to the surgery’s online service', 'Tick the medicine from a long list', 'Choose a pharmacy', 'Phone the pharmacy to check it is ready'],
+      s: ['What you need — your regular medicines', 'Where to collect — pharmacy', 'Order sent', 'Ready to collect — and when'],
+      e: 'Medicine information is sensitive; think about who sees it on a shared phone. A reminder can say “your order is ready” without saying what it is.',
+      x: 'Medicine names differ between countries (paracetamol, acetaminophen). Show the name people know and the one on the box.' },
+    { id: 'urgent', c: 'Health', t: 'Where to go when it’s urgent but not an emergency',
+      g: 'Decide where to go with a sprained ankle on a Sunday.',
+      a: ['Students away from family for the first time', 'Parents of toddlers', 'People new to the UK who do not know the system'],
+      b: ['Search the web', 'Read the NHS website', 'Phone a helpline and wait', 'Check a hospital website for waiting times', 'Go to A&E anyway'],
+      s: ['What happened — a few questions', 'Your options — what is open now, and how far', 'One place — how to get there, what to bring', 'If it gets worse — the number to call'],
+      e: 'Honest waiting times, not hopeful ones. And sending people to the right place takes pressure off emergency departments.',
+      x: 'People who do not speak English well are often the most unsure where to go. Say whether interpreters are available.' },
+    { id: 'fridge', c: 'Food', t: 'Cooking from what’s already in the fridge',
+      g: 'Cook dinner tonight from what you already have.',
+      a: ['Students cooking for themselves for the first time', 'Busy parents at 6pm', 'People on a tight food budget at the end of the month'],
+      b: ['Look in the fridge', 'Search recipes online', 'Watch a video that needs three things you do not have', 'Write a shopping list in a notes app', 'Give up and order food'],
+      s: ['What you have — tick the ingredients', 'What you can make — recipes that use them', 'Cook it — the steps, big and simple', 'What’s left — a short shopping list'],
+      e: 'Food waste is the sustainability answer — say how much this could save.',
+      x: 'Recipes use cups, grams or ounces depending on the country, and some foods are off-limits for faith or culture. Let people set both.' },
+    { id: 'pantry', c: 'Food', t: 'Getting help from a food bank or community pantry',
+      g: 'Find out how to get a food parcel this week.',
+      a: ['Students who run out of money before the next loan payment', 'Families waiting for a first benefits payment', 'Older people living alone'],
+      b: ['Search the council website', 'Find a charity’s page about referrals', 'Work out who can refer you', 'Phone during opening hours', 'Find out the opening times by turning up'],
+      s: ['Can I use it? — plain answers', 'Nearest places — open when', 'What to bring', 'What you will get — and dietary needs'],
+      e: 'Dignity is the ethics answer here: no shaming words, no more questions than needed, nothing that marks someone out.',
+      x: 'Halal, kosher, vegetarian and other needs matter here. So do words for “food bank” that may carry shame in some cultures.' },
+    { id: 'allergy', c: 'Food', t: 'Eating out safely with an allergy',
+      g: 'Find somewhere to eat out tonight with a nut allergy.',
+      a: ['People with a severe nut allergy', 'Parents of a child with allergies', 'Coeliacs looking for gluten-free'],
+      b: ['Open each restaurant’s website', 'Find an allergen PDF, if there is one', 'Phone to ask', 'Ask the staff again on arrival', 'Pick the place you went last time'],
+      s: ['Your allergies — set once', 'Places near you — with allergen info', 'One menu — what you can eat', 'A card to show staff'],
+      e: 'Be honest about what the design cannot promise. An app that says “safe” when a kitchen made a mistake can hurt someone.',
+      x: 'A card to show staff is a natural place for translation: allergen words in the language the kitchen speaks.' },
+    { id: 'bus', c: 'Getting around', t: 'Catching the bus to a 9am class',
+      g: 'Get to a 9am class by bus from a new address.',
+      a: ['Students who have just moved to a new area', 'Wheelchair users and parents with buggies', 'People who have never used buses in this city'],
+      b: ['Plan the route on a maps app', 'Download the bus company’s app for a ticket', 'Check a timetable at the stop', 'Work out which ticket is cheapest', 'Hope it is on time'],
+      s: ['From and to — and when you need to arrive', 'The route — which bus, where to change', 'Ticket — the right one, before you board', 'Live — when it arrives'],
+      e: 'Buses are lower-carbon than taxis or driving. The sustainability answer is making the low-carbon option the easy one.',
+      x: '24-hour times, maps, and symbols for accessible buses read differently to people from other countries. Test the wording, not just the icons.' },
+    { id: 'cycle', c: 'Getting around', t: 'Cycling to campus safely',
+      g: 'Plan a safe cycle route and find somewhere secure to lock the bike.',
+      a: ['New cyclists nervous about traffic', 'Students who cannot afford a bus pass', 'International students used to riding on the other side'],
+      b: ['Plan the route on a maps app', 'Open the council’s cycle map PDF', 'Search the university site for bike storage', 'Ask friends which racks get stolen from', 'Find out the building is closed'],
+      s: ['Route — quieter roads preferred', 'Where to lock — secure parking near your building', 'Report — a hazard or a theft', 'Get started — where to get a cheap bike checked'],
+      e: 'Sustainability, clearly — and safety: say honestly which roads have no cycle lane.',
+      x: 'People from countries that drive on the right ride on the right by habit. Road signs and road layouts differ too.' },
+    { id: 'lost', c: 'Getting around', t: 'Getting lost property back',
+      g: 'Get back a laptop left on a bus.',
+      a: ['Anyone who has just realised what they lost', 'Students with exams the next day', 'Visitors leaving the city tomorrow'],
+      b: ['Search the bus company’s website', 'Find a lost property form', 'Phone and wait', 'Email with a description', 'Hear back days later'],
+      s: ['What and where — when you lost it', 'Matches — items found that might be yours', 'Prove it is yours', 'Collect — where and when'],
+      e: 'Lost property attracts scams. Do not show found items in a way that lets someone claim them falsely.',
+      x: 'People describe things differently (a “mobile” or a “cell”), so search should match more than one word.' },
+    { id: 'volunteer', c: 'Community', t: 'Volunteering for one afternoon',
+      g: 'Sign up for one volunteering session this month.',
+      a: ['Students who want experience for a CV', 'Retired people looking to get out more', 'People new to the city who want to meet locals'],
+      b: ['Search a volunteering website', 'Read long role descriptions', 'Fill in an application form', 'Wait for an email', 'Book a session by phone'],
+      s: ['What you like — and when you are free', 'Sessions — one-off ones near you', 'Sign up', 'The day — where, what to bring, who to ask for'],
+      e: 'A social answer: making it easy to give a few hours, not a commitment for life. And no selling the volunteers’ data.',
+      x: 'Volunteering means different things in different places. Make clear it is unpaid and that people can stop.' },
+    { id: 'flytip', c: 'Community', t: 'Reporting fly-tipping on your street',
+      g: 'Report a dumped sofa so the council collects it.',
+      a: ['Residents who have never reported anything', 'Students in shared houses on a busy street', 'Older residents who prefer the phone'],
+      b: ['Search the council website for “report”', 'Find the right category', 'Drop a pin on a map', 'Fill in a form with contact details', 'Get no update'],
+      s: ['Photo — of the rubbish', 'Where — the place, on a map', 'What — type of rubbish', 'Track — reported, collected'],
+      e: 'Location data is personal. Collect where the rubbish is, not where the person reporting it lives.',
+      x: 'A picture of the rubbish and an icon for each type work for people who read English slowly.' },
+    { id: 'vote', c: 'Community', t: 'Registering to vote',
+      g: 'Register to vote at your term-time address.',
+      a: ['First-time voters', 'Students with a home address and a term-time address', 'People from other countries unsure whether they can vote'],
+      b: ['Search for how to register', 'Find the government website', 'Look for a National Insurance number', 'Answer questions about nationality and address', 'Get a letter from the council later'],
+      s: ['Can I vote? — a plain check', 'Your details', 'Check and send', 'What happens next — and when'],
+      e: 'Never collect political views or anything beyond what registration needs. Trust is the whole point.',
+      x: 'Who can vote depends on nationality and differs by election. Say exactly which elections someone can vote in.' },
+    { id: 'language', c: 'Community', t: 'Finding someone to practise a language with',
+      g: 'Find a conversation partner to practise a language with each week.',
+      a: ['International students who want to practise English', 'Home students learning Spanish, Mandarin or Arabic', 'Shy students who would not go to a language café'],
+      b: ['See a poster on a noticeboard', 'Find the language café page', 'Join a WhatsApp group with 200 people', 'Message strangers', 'Never meet up'],
+      s: ['Your languages — what you speak and want to learn', 'Matches — people with the opposite pair', 'Say hello', 'Meet — when and where on campus'],
+      e: 'Meeting strangers needs safety: public places, no phone numbers shared until people choose to.',
+      x: 'This idea is cross-cultural by nature. Think about how names, greetings and politeness differ between the two speakers.' },
+    { id: 'museum', c: 'Culture and free time', t: 'Booking a free event at a museum',
+      g: 'Book a free family workshop at a museum this Saturday.',
+      a: ['Parents with young children', 'International students exploring the city', 'Autistic visitors who want a quiet session'],
+      b: ['Open the museum website', 'Scroll a long events listing', 'Click through to a ticketing site', 'Make an account', 'Find the ticket in email'],
+      s: ['When — this weekend', 'What’s on — for your group', 'Book — how many people', 'Your ticket — and what to expect'],
+      e: 'Free events still collect data. Book without an account and say why an email is needed.',
+      x: 'Visitors from abroad are a museum’s audience. Language choice, and pictures of what the event looks like, help both.' },
+    { id: 'relaxed', c: 'Culture and free time', t: 'Finding a relaxed cinema screening',
+      g: 'Find a relaxed screening of a film this month.',
+      a: ['Autistic adults', 'Parents who want to bring a baby', 'People with anxiety in crowded places'],
+      b: ['Search the cinema website', 'Find that relaxed screenings are on a separate page', 'Check dates on a PDF', 'Phone to ask what “relaxed” means there', 'Book through the normal checkout'],
+      s: ['What’s on — relaxed screenings only', 'What to expect — lights, sound, moving around', 'Book', 'Before you go — the building, step by step'],
+      e: 'Inclusion is the ethics answer. Do not make people declare a condition to see the screenings.',
+      x: 'What counts as polite in a cinema differs by culture; a relaxed screening changes the rules, so say what they are.' },
+    { id: 'clothes', c: 'Environment', t: 'Giving away clothes you no longer wear',
+      g: 'Give away a bag of clothes instead of binning them.',
+      a: ['Students moving out of halls in June', 'Parents with children who have outgrown everything', 'People clearing a relative’s home'],
+      b: ['Look up charity shop opening hours', 'List items on a selling app one by one', 'Search for a textile bank on the council website', 'Ask in a local group', 'Bin them'],
+      s: ['What you have — type and condition', 'Who takes it — shops, banks, collections', 'Drop off or collect', 'Done — what happens to it'],
+      e: 'Textile waste is the sustainability answer — say what happens to clothes nobody wants.',
+      x: 'Clothing sizes differ between countries (UK 10, EU 38, US 6). A donation guide has to handle all three.' },
+    { id: 'borrow', c: 'Environment', t: 'Borrowing instead of buying',
+      g: 'Borrow a drill for one afternoon instead of buying one.',
+      a: ['Renters who need a tool once a year', 'Students putting up shelves in a new flat', 'Neighbours who want to share more'],
+      b: ['Search for a “library of things”', 'Find opening hours', 'Ask in a neighbours’ WhatsApp group', 'Give up', 'Buy one and use it once'],
+      s: ['Search — what you need', 'Near you — available when', 'Reserve it', 'Return it — when and where'],
+      e: 'Sustainability, directly: one drill shared by fifty people.',
+      x: 'Lending and borrowing between neighbours is normal in some cultures and strange in others. The words of the first screen set the tone.' },
+    { id: 'shift', c: 'Work', t: 'Swapping a shift at a part-time job',
+      g: 'Swap your Saturday shift with a colleague.',
+      a: ['Students working in a café or shop', 'Parents fitting work around childcare', 'New staff who do not know anyone yet'],
+      b: ['Post in the staff WhatsApp group', 'Message people one by one', 'Text the manager', 'Wait for an OK', 'Check a photo of the paper rota'],
+      s: ['Your shifts', 'Offer one — to who can take it', 'Accept — a colleague takes it', 'Approved — the manager confirms'],
+      e: 'Fairness: do not let the design pressure people into taking shifts, or show who keeps saying no.',
+      x: 'Time formats and weekends differ between countries — not everywhere has Saturday off. Use day names and clear times.' },
+    { id: 'campus-job', c: 'Work', t: 'Applying for a job on campus',
+      g: 'Apply for a student ambassador job.',
+      a: ['First-years with no CV yet', 'International students with limits on their working hours', 'Students with a disability who want to know about adjustments'],
+      b: ['Find the jobs page on the careers website', 'Open a PDF job description', 'Fill in an application form', 'Upload a CV', 'Wait for an email'],
+      s: ['Jobs — open now, hours, pay', 'Can I do it? — hours, eligibility', 'Apply — a few questions per screen', 'Status — received, interview, decision'],
+      e: 'Bias is the ethics answer: what you ask for (a photo, a date of birth) can unfairly filter people out.',
+      x: 'CVs follow different rules in different countries — some include a photo and age, the UK does not. Say what to include.' },
+  ];
+
+  const CATS = [...new Set(IDEAS.map(i => i.c))];
+  const $ = id => document.getElementById(id);
+  const esc = s => s.replace(/&/g, '&amp;').replace(/</g, '&lt;');
+  let cat = '', cur = null, aud = 0, deck = [];
+
+  /* A shuffled deck, so pressing the button walks through every idea before
+     any comes back, instead of showing the same three twice. */
+  function shuffle(a) { for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; }
+  function draw() {
+    if (!deck.length) deck = shuffle(IDEAS.filter(i => !cat || i.c === cat).filter(i => i !== cur));
+    if (!deck.length) deck = IDEAS.filter(i => !cat || i.c === cat);
+    return deck.pop();
+  }
+  function show(i, a) {
+    cur = i; aud = a;
+    const step = s => { const [w, t] = s.split(' — '); return `<li>${esc(w)}${t ? ` <i>— ${esc(t)}</i>` : ''}</li>`; };
+    $('idea').innerHTML = `
+      <span class="k">${esc(i.c)} · idea ${IDEAS.indexOf(i) + 1} of ${IDEAS.length}</span>
+      <h2>${esc(i.t)}</h2>
+      <p class="goal"><b>For:</b> ${esc(i.a[a])}<br><b>Goal:</b> ${esc(i.g)}</p>
+      <div class="rows">
+        <div class="blk"><h3>How people do it now · ${i.b.length} steps</h3><ol>${i.b.map(step).join('')}</ol>
+          <p class="hint">Screenshot each of these for D1. Find the real ones near you.</p></div>
+        <div class="blk"><h3>Your screens · ${i.s.length}</h3><ol>${i.s.map(step).join('')}</ol>
+          <p class="hint">A starting list. Add the empty and error states in week 7.</p></div>
+        <div class="blk"><h3>A start for C6</h3><p><span class="tag">ethics or sustainability</span>${esc(i.e)}</p></div>
+        <div class="blk"><h3>A start for C7</h3><p><span class="tag">cross-cultural</span>${esc(i.x)}</p></div>
+      </div>`;
+    $('aud').disabled = i.a.length < 2;
+    try { history.replaceState(null, '', `#${i.id}-${a + 1}`); } catch (e) {}
+  }
+  function paintCats() {
+    $('cats').innerHTML = `<button type="button" data-c="" aria-pressed="${!cat}">Anything</button>` +
+      CATS.map(c => `<button type="button" data-c="${c}" aria-pressed="${cat === c}">${c}</button>`).join('');
+  }
+  $('cats').addEventListener('click', e => { const b = e.target.closest('[data-c]'); if (!b) return;
+    cat = b.dataset.c; deck = []; paintCats(); const i = draw(); show(i, Math.floor(Math.random() * i.a.length)); });
+  $('next').onclick = () => { const i = draw(); show(i, Math.floor(Math.random() * i.a.length)); };
+  $('aud').onclick = () => { if (cur) show(cur, (aud + 1) % cur.a.length); };
+  $('copy').onclick = async () => {
+    if (!cur) return;
+    const i = cur, txt = [
+      `Theme: ${i.t}`, `Audience: ${i.a[aud]}`, '', `Goal: ${i.g}`, '',
+      'BEFORE — how people do it now', ...i.b.map((s, n) => `${n + 1}.  ${s}`), `Steps before: ${i.b.length}`, '',
+      'AFTER — your screens', ...i.s.map((s, n) => `${n + 1}.  ${s}`), `Screens after: ${i.s.length}`].join('\n');
+    try { await navigator.clipboard.writeText(txt); $('copied').textContent = 'Copied'; }
+    catch (e) { $('copied').textContent = 'Select and copy the card instead'; }
+    setTimeout(() => { $('copied').textContent = ''; }, 2500);
+  };
+
+  /* A link to one idea (#gp-2) opens it, so a tutor can send a student the one they discussed. */
+  const m = location.hash.match(/^#([a-z-]+)-(\d)$/);
+  const hit = m && IDEAS.find(i => i.id === m[1]);
+  paintCats();
+  if (hit) show(hit, Math.min(+m[2] - 1, hit.a.length - 1)); else $('next').click();
+})();
+
+const root = document.documentElement;
+try { const t = localStorage.getItem('sd-theme'); if (t) root.dataset.theme = t; } catch (e) {}
+if (!root.dataset.theme && matchMedia('(prefers-color-scheme: dark)').matches) root.dataset.theme = 'dark';
+document.getElementById('theme').onclick = () => {
+  root.dataset.theme = root.dataset.theme === 'dark' ? 'light' : 'dark';
+  try { localStorage.setItem('sd-theme', root.dataset.theme); } catch (e) {}
+};
+</script>
+</body>
+</html>
