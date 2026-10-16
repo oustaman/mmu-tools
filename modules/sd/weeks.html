@@ -274,6 +274,12 @@
   #class .bh{border-color:var(--lec)} #workshop .bh{border-color:var(--wsh)}
 
   .items{list-style:none;margin:0;padding:0;display:grid;gap:6px}
+  .items > li.core{border:2px solid var(--lec)}
+  .corebadge{display:inline-block;font-style:normal;font-family:var(--mono);font-size:0.62rem;letter-spacing:0.08em;text-transform:uppercase;
+    background:var(--lec);color:#fff;border-radius:4px;padding:1px 6px;margin:0 8px 0 0;vertical-align:2px}
+  .corehead,.alsohead{margin:4px 0 8px;font-size:0.9rem;color:var(--ink-2)}
+  .alsohead{margin-top:18px;color:var(--ink-3)}
+  .items.also > li{background:var(--surface-2,var(--surface))}
   .items > li{background:var(--surface);border:1px solid var(--line);border-radius:10px}
   .it > summary{display:grid;grid-template-columns:28px 1fr 16px;gap:11px;align-items:start;
     padding:11px 14px;cursor:pointer;list-style:none}
@@ -539,12 +545,21 @@ function render(){
 
   $('#class').innerHTML = `
     <div class="bh"><h2>In class</h2><span class="when">1h · 09:00–10:00 · GM LT7, Geoffrey Manton · everyone</span></div>
-    ${w.shown.length ? `<ol class="items">${w.shown.map((r, i) => `<li>
+    ${w.shown.length ? (() => {
+      /* Core first: the one or two links the week is built on, so anyone who
+         missed the class — or a colleague taking it — knows where to start.
+         The rest were shown too, and stay, as further depth. */
+      const core = w.shown.filter(r => r.core), also = w.shown.filter(r => !r.core);
+      const li = (r, i, c) => `<li${c ? ' class="core"' : ''}>
       <details class="it"><summary><span class="n">${i + 1}</span>
-        <span class="s"><b>${rich(r.s)}</b>${r.take ? `<span class="take">${rich(r.take)}</span>` : ''}</span></summary>
+        <span class="s">${c ? '<em class="corebadge">Core</em>' : ''}<b>${rich(r.s)}</b>${r.take ? `<span class="take">${rich(r.take)}</span>` : ''}</span></summary>
         <div class="more"><p>${rich(r.d)}</p></div></details>
-      ${r.u ? `<div class="go">${show(r.u)}</div>` : ''}</li>`).join('')}</ol>`
-      : `<p class="none">No lecture this week.</p>`}`;
+      ${r.u ? `<div class="go">${show(r.u)}</div>` : ''}</li>`;
+      return (core.length ? `<p class="corehead"><b>Start here.</b> ${core.length === 1 ? 'This is' : 'These two are'} what the week is built on — study ${core.length === 1 ? 'it' : 'them'} first.</p>
+        <ol class="items">${core.map((r, i) => li(r, i, true)).join('')}</ol>` : '') +
+        (also.length ? `<p class="alsohead"><b>Also shown in class</b> — more depth, if you want it.</p>
+        <ol class="items also">${also.map((r, i) => li(r, core.length + i, false)).join('')}</ol>` : '');
+    })() : `<p class="none">No lecture this week.</p>`}`;
 
   $('#workshop').innerHTML = `
     <div class="bh"><h2>Workshop</h2><span class="when">2h · 10:00–12:00 · your group · three rooms run the same session</span></div>

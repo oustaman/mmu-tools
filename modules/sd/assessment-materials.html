@@ -98,6 +98,14 @@
   .btn.pri{background:var(--lec);border-color:var(--lec);color:#fff}
   html[data-theme="dark"] .btn.pri{color:#151314}
   .btn.off{color:var(--ink-3);border-style:dashed;cursor:default}
+  .faq{display:grid;gap:6px}
+  .faq details{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:0}
+  .faq summary{cursor:pointer;padding:12px 16px;font-weight:600;list-style:none;display:flex;gap:10px;align-items:baseline}
+  .faq summary::-webkit-details-marker{display:none}
+  .faq summary::before{content:"+";font-family:var(--mono);color:var(--ink-3);width:1em;flex:none}
+  .faq details[open] summary::before{content:"\2013"}
+  .faq .a{padding:0 16px 14px 42px;color:var(--ink-2);font-size:0.95rem;line-height:1.6}
+  .faq .a a{color:var(--lec)}
   .note{font-size:0.82rem;color:var(--ink-3);margin:12px 0 0}
   footer{padding:24px 0 44px;color:var(--ink-3);font-size:0.8rem;border-top:1px solid var(--line);margin-top:30px}
   @media(max-width:520px){ .steps td{padding:7px 8px} .steps td.rg{white-space:normal} }
@@ -132,6 +140,11 @@
     work. Read them the way a marker would.</p>
   <div class="ex" id="examples"></div>
 
+  <h2 id="faq">Questions people ask</h2>
+  <p class="lede">Every answer here comes from the official brief or this module's own pages. If yours is not here,
+    ask in the workshop — it is probably someone else's question too.</p>
+  <div class="faq" id="faqs"></div>
+
   <footer><p>Screen Design · Level 4 · 30 credits · 2026–27</p></footer>
 </div>
 
@@ -145,9 +158,33 @@
     [OFFICIAL_BRIEF.file, 'Official assessment brief', `The university\u2019s document \u00b7 ${OFFICIAL_BRIEF.kind}, ${OFFICIAL_BRIEF.size}`, 'download'],
     ['brief.html', 'The brief, explained', 'What it asks for, slide by slide'],
     ['assessment.html', 'Checklist', `All ${SD.total} sections, ticked off as you go`],
+    ['#faq', 'Questions people ask', 'Deadline, length, names, AI, marks'],
     ['rubric.html', 'The blank rubric', 'Mark an example, or your own deck'],
     ['Screen_Design_Feedback_Sheet_2026-27.docx', 'The feedback sheet', 'What your marker fills in \u00b7 Word', 'download']
   ].map(t => `<a class="tile" href="${t[0]}"${t[3] ? ' download' : ''}><b>${t[1]}</b><span>${t[2]}</span>${t[3] ? '<i>\u2193 download</i>' : ''}</a>`).join('');
+
+  /* The deadline is read from TERM, the one place it is written. */
+  const due = new Date(TERM.DEADLINE);
+  const dueText = due.toLocaleDateString('en-GB', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' }) + ', ' +
+    due.toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' });
+  const FAQ = [
+    ['What do I hand in, and when?', `One PDF, exported from your deck, uploaded to Moodle by <b>${dueText}</b>. Nothing is handed in weekly. Late work is subject to the standard MMU late penalty policy.`],
+    ['How much can I write?', `One rule: <b>no caption, answer or paragraph runs past one slide</b>. The only thing that is counted is the written rationale in Part C, which comes to about 500–700 words in all — the brief's one strict limit. Your reference list does not count toward it; in-text citations do. See <a href="assessment.html">the checklist</a>.`],
+    ['Is there a limit on slides?', 'No. A cover, a slide for each section on the checklist, and a slide for every screen of your journey. The deck is as long as what is in it.'],
+    ['Do I put my name on it?', 'No. Marking is anonymous: your student ID goes on the cover, and your name goes nowhere — not in the filename, not on a slide, not in a header or footer.'],
+    ['Do I have to use Figma?', 'No. The brief accepts Figma, Adobe XD, PowerPoint or a clickable PDF. In this module your screens are slides, and linking them so a marker can click through the journey is your prototype (B8).'],
+    ['Can I use AI?', 'Yes — the brief permits it. Keep a line for every use as you go (A7), and in C8 say which tools you used, for what, and how you judged or changed what they made — or why you used none. AI-generated text you do not declare is academic misconduct.'],
+    ['Can I test my design with friends or classmates?', 'No. Testing with people needs ethics approval, which this assessment does not have. Measure both versions yourself instead: count the steps before and after, check the contrast, check the sizes. Numbers you produced are the evidence.'],
+    ['What does “evidenced” mean?', 'Something a marker can see: a number from your spec sheet, a before and an after, a contrast ratio. A claim with no number behind it is description, and description scores lower than defence.'],
+    ['How is it marked?', `Against four criteria, each given a band and one of the marks in <a href="#steps">the table above</a>. Together they inform one overall mark — they are not added up or averaged. <a href="rubric.html">The blank rubric</a> is the one we use.`],
+    ['Can I change my theme?', 'Until week 3. After that your theme is locked, because everything after it builds on it.'],
+    ['What goes in the appendices?', 'The evidence that your version is better: how people do it now, what happened to each step, and the two side by side. No word count, any week, and at the end of the deck.'],
+    ['Which referencing style?', 'Cite Them Right Harvard: <a href="http://libguides.mmu.ac.uk/refguide" target="_blank" rel="noopener">libguides.mmu.ac.uk/refguide</a>.'],
+    ['Who looks in my OneDrive folder?', 'Share it with your tutors and the teaching staff in week 1. We only open it if you ask us to.'],
+    ['I missed a week. What do I do?', 'Open that week under <a href="weeks.html">Materials</a>. <b>In class</b> starts with the one or two core links — study those first. <b>Workshop</b> lists what to make, and <b>Before next week</b> what to finish.'],
+    ['When do I get my mark?', 'Written feedback comes back within four weeks of the deadline, through Moodle and Turnitin. Grades are provisional until the Assessment Board confirms them, and with anonymous marking there can be a delay between the grade and the written feedback.'],
+  ];
+  document.getElementById('faqs').innerHTML = FAQ.map(([q, a]) => `<details><summary>${q}</summary><div class="a">${a}</div></details>`).join('');
 
   document.getElementById('steptable').innerHTML =
     '<tr><th>Classification</th><th>Bracket</th><th>Marks</th></tr>' +

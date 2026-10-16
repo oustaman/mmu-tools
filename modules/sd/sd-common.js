@@ -65,15 +65,15 @@ const SESSIONS = [
  *  `f` is the fill-in lines for the skeleton. An empty string is a blank line.
  */
 const PARTS = [
- {id:"A", name:"Design spec sheet", tag:"≈400 words equivalent",
+ {id:"A", name:"Design spec sheet", tag:"fill-in fields",
   desc:"Fill-in fields, not writing. Every one comes out of a workshop.",
   items:[
-   {sec:"A1", t:"Theme & audience", dw:2, d:"Two lines written",
-    h:"One sentence each. Who is it for, what do they need.",
+   {sec:"A1", t:"Theme & audience", dw:2, d:"Both fields filled",
+    h:"Who is it for, and what do they need.",
     f:["Theme:","Audience:"]},
    {sec:"A2", t:"The journey, before and after", dw:7, d:"A goal, and both lists counted",
     h:"One goal a person has. How people reach it now — even if that is a WhatsApp group — and the screens of your version. Count both.",
-    f:["Goal (one sentence):","","BEFORE — how people do it now","1.  step  —  tool or screen","2.","3.","4.","5.","6.","Steps before:","","AFTER — your screens","1.  screen  —  job","2.","3.","4.","Screens after:"]},
+    f:["Goal:","","BEFORE — how people do it now","1.  step  —  tool or screen","2.","3.","4.","5.","6.","Steps before:","","AFTER — your screens","1.  screen  —  job","2.","3.","4.","Screens after:"]},
    {sec:"A3", t:"Layout", dw:3, d:"Every field has a number",
     h:"Columns, gutter, margin, max width, 3 breakpoints, spacing scale.",
     f:["Columns:","Gutter:","Margin:","Max width:","Breakpoint 1:","Breakpoint 2:","Breakpoint 3:","Spacing scale:"]},
@@ -91,60 +91,60 @@ const PARTS = [
     h:"The running record — tool, output, what you changed. You evaluate it later, in C8.",
     f:["Tool  |  What it made  |  What I changed  |  Why","1.","2.","3."]}
   ]},
- {id:"B", name:"The work", tag:"images, with a caption each",
+ {id:"B", name:"The work", tag:"images, with a caption each \u2014 no caption runs past its slide",
   desc:"Everything visual. Paste images straight into the deck as you make them. Screens get one slide each.",
   items:[
    {sec:"B1", t:"Concept sketches", dw:3, d:"Photo in the deck",
     h:"Your week 2 thumbnails, photographed. Pasted in week 3, once your theme has survived a week.",
-    f:["[ paste photo of 8 thumbnails ]","Caption (~100 words):"]},
+    f:["[ paste photo of 8 thumbnails ]","Caption (it must fit on the slide):"]},
    {sec:"B2", t:"Mood board", dw:6, d:"One page",
-    h:"The look you were aiming at.", f:["[ paste mood board ]","Caption (~100 words):"]},
+    h:"The look you were aiming at.", f:["[ paste mood board ]","Caption (it must fit on the slide):"]},
    {sec:"B3", t:"Style tile", dw:6, d:"One page",
-    h:"Type, colour and spacing with sample components.", f:["[ paste style tile ]","Caption (~100 words):"]},
+    h:"Type, colour and spacing with sample components.", f:["[ paste style tile ]","Caption (it must fit on the slide):"]},
    {sec:"B4", t:"Flow diagram", dw:7, d:"Photo in the deck",
-    h:"Your screens and the arrows between them.", f:["[ paste flow diagram ]","Caption (~100 words):"]},
+    h:"Your screens and the arrows between them.", f:["[ paste flow diagram ]","Caption (it must fit on the slide):"]},
    {sec:"B5", t:"Wireframe set", dw:8, d:"One per screen in A2",
-    h:"Every screen of your journey wireframed. Paper is fine.", f:["[ paste wireframes ]","Caption (~100 words):"]},
+    h:"Every screen of your journey wireframed. Paper is fine.", f:["[ paste wireframes ]","Caption (it must fit on the slide):"]},
    {sec:"B6", t:"The finished screens", dw:9, d:"Every screen of the journey",
-    h:"Your journey, one screen per slide — as many as it needs, usually fewer than before.", f:["[ paste screens ]","Caption (~100 words):"]},
+    h:"Your journey, one screen per slide — as many as it needs, usually fewer than before.", f:["[ paste screens ]","Caption (it must fit on the slide):"]},
    {sec:"B7", t:"2 screens × 3 sizes", dw:9, d:"6 images total",
-    h:"Two key screens at all three breakpoints from A3.", f:["[ paste 6 images ]","Caption (~100 words):"]},
+    h:"Two key screens at all three breakpoints from A3.", f:["[ paste 6 images ]","Caption (it must fit on the slide):"]},
    {sec:"B8", t:"Click-through", dw:10, d:"The journey, start to finish",
     h:"Your screens are already slides. Link them so a marker can walk the journey from start to finish, with a way back and a way out — that is your prototype. Built in the week 10 workshop.",
     f:["From slide  →  to slide  —  what the reader clicked",
        "1.","2.","3.","4.","5.","6.","",
        "Every step links to the next, with a way back and a way out. Links are checked for existence and destination, not elegance."]}
   ]},
- {id:"C", name:"Rationale", tag:"500–700 words total",
-  desc:"The written part. Nine short answers, each drafted in the week that made the decision it defends — C1 in week 2, C2 in week 3, C3 in week 4, C4 and C7 in week 5, C8 in week 6, C6 in week 7, C5 in week 9, C9 in week 11. None of it is written at the end. Every one quotes a number from Part A.",
+ {id:"C", name:"Rationale", tag:"500–700 words in all \u2014 the brief\u2019s one strict limit",
+  desc:"The written part. Nine short answers, each drafted in the week that made the decision it defends — C1 in week 2, C2 in week 3, C3 in week 4, C4 and C7 in week 5, C8 in week 6, C6 in week 7, C5 in week 9, C9 in week 11. None of it is written at the end. Every one quotes a number from Part A, and no answer runs past one slide.",
   items:[
-   {sec:"C1", t:"Theme & audience", dw:10, d:"~70 words, quoting A1", wd:"70 w",
+   {sec:"C1", t:"Theme & audience", dw:10, d:"Quoting A1", wd:"1 slide max",
     h:"Who it is for, what they need, why this topic.",
-    f:["(~70 words — quote something from A1)"]},
-   {sec:"C2", t:"Layout & hierarchy", dw:10, d:"~90 words, quoting A3", wd:"90 w",
+    f:["(One slide at most — quote something from A1)"]},
+   {sec:"C2", t:"Layout & hierarchy", dw:10, d:"Quoting A3", wd:"1 slide max",
     h:"What you wanted read first, and the grid that made it happen.",
-    f:["(~90 words — quote a number from A3)"]},
-   {sec:"C3", t:"Typography", dw:10, d:"~90 words, quoting A4", wd:"90 w",
+    f:["(One slide at most — quote a number from A3)"]},
+   {sec:"C3", t:"Typography", dw:10, d:"Quoting A4", wd:"1 slide max",
     h:"Why this pairing, this scale, this measure.",
-    f:["(~90 words — quote the ratio from A4)"]},
-   {sec:"C4", t:"Colour", dw:10, d:"~90 words, quoting A5", wd:"90 w",
+    f:["(One slide at most — quote the ratio from A4)"]},
+   {sec:"C4", t:"Colour", dw:10, d:"Quoting A5", wd:"1 slide max",
     h:"Why these colours, and what the contrast figures changed.",
-    f:["(~90 words — quote a ratio from A5)"]},
-   {sec:"C5", t:"User needs & accessibility", dw:9, d:"~100 words, quoting A6", wd:"100 w",
+    f:["(One slide at most — quote a ratio from A5)"]},
+   {sec:"C5", t:"User needs & accessibility", dw:9, d:"Quoting A6", wd:"1 slide max",
     h:"How your choices serve user needs and promote accessibility. REQUIRED BY THE BRIEF.",
-    f:["(~100 words — quote a value from A6)","","The brief asks for this one by name."]},
-   {sec:"C6", t:"Ethics or sustainability", dw:10, d:"~90 words, one dimension named", wd:"90 w",
+    f:["(One slide at most — quote a value from A6)","","The brief asks for this one by name."]},
+   {sec:"C6", t:"Ethics or sustainability", dw:10, d:"One dimension named", wd:"1 slide max",
     h:"One environmental, ethical or social dimension of your design. REQUIRED BY THE BRIEF.",
-    f:["(~90 words)","","Pick ONE and be concrete. Data you chose not to collect. A dark pattern you",
+    f:["(One slide at most)","","Pick ONE and be concrete. Data you chose not to collect. A dark pattern you",
        "refused. Image weight and what it costs to load. Something you made work",
        "without an account."]},
-   {sec:"C7", t:"A cross-cultural consideration", dw:5, d:"~80 words, one consideration named", wd:"80 w",
+   {sec:"C7", t:"A cross-cultural consideration", dw:5, d:"One consideration named", wd:"1 slide max",
     h:"One cross-cultural communication point relevant to your design. REQUIRED BY THE BRIEF.",
-    f:["(~80 words)","","Pick ONE: colour symbolism · reading direction · icon universality ·",
+    f:["(One slide at most)","","Pick ONE: colour symbolism · reading direction · icon universality ·",
        "cultural specificity of the imagery you used."]},
-   {sec:"C8", t:"Your AI use", dw:6, d:"~80 words, or a reason for not using it", wd:"80 w",
+   {sec:"C8", t:"Your AI use", dw:6, d:"Your use judged, or a reason for not using any", wd:"1 slide max",
     h:"Which tools, for what, and how you evaluated or changed the output. Or why you did not use any. REQUIRED BY THE BRIEF.",
-    f:["(~80 words)","","Not the same as the A7 log. A7 is the record; this is what you make of it —",
+    f:["(One slide at most)","","Not the same as the A7 log. A7 is the record; this is what you make of it —",
        "was the output any good, whose work is it, what did you change and why."]},
    {sec:"C9", t:"References", dw:11, d:"Everything you cited, listed",
     h:"Cite Them Right Harvard. The list does not count toward your 500–700 words — in-text citations do.",
@@ -244,10 +244,12 @@ const SD = (() => {
     L.push('Student ID:');
     L.push('(do not put your name anywhere in this document)');
     L.push('');
+    L.push('ONE RULE FOR ALL TEXT: no caption, answer or paragraph runs past one slide.');
+    L.push('');
     PARTS.forEach(p => {
       L.push('='.repeat(58));
       L.push(`PART ${p.id} — ${p.name.toUpperCase()}`);
-      if (p.id === 'C') L.push('500–700 words in total. Every section quotes a number from Part A.');
+      if (p.id === 'C') L.push('500–700 words in all — the brief\'s one strict limit. Every section quotes a number from Part A.');
       if (p.id === 'D') L.push('Appendices do not count toward the word budget.');
       L.push('='.repeat(58));
       L.push('');
