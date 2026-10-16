@@ -135,6 +135,16 @@
   .howto ol{margin:6px 0 0;padding-left:20px} .howto li{margin:4px 0;color:var(--ink-2)}
   .howto code{font-size:0.86em}
   .howto{scroll-margin-top:80px}
+  details.howto{padding:0}
+  details.howto > summary{cursor:pointer;list-style:none;display:flex;align-items:center;gap:10px;min-height:48px;padding:12px 18px}
+  details.howto > summary::-webkit-details-marker{display:none}
+  details.howto > summary::after{content:"+";margin-left:auto;font-family:var(--mono);font-size:1.1rem;color:var(--ink-3)}
+  details.howto[open] > summary::after{content:"\2013"}
+  details.howto > summary:hover b{color:var(--lec)}
+  details.howto > summary:focus-visible{outline:2px solid var(--lec);outline-offset:2px;border-radius:0 12px 12px 0}
+  details.howto > :not(summary){margin-left:18px;margin-right:18px}
+  details.howto[open]{padding-bottom:14px}
+  details.howto + details.howto{margin-top:-14px}
   table.mt{width:100%;border-collapse:collapse;margin:10px 0 4px;font-size:0.88rem;background:var(--bg);border-radius:8px;overflow:hidden}
   .mt th,.mt td{text-align:left;vertical-align:top;padding:8px 10px;border-top:1px solid var(--line);color:var(--ink-2)}
   .mt tr:first-child th{border-top:0;font-family:var(--mono);font-size:0.66rem;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-3);font-weight:600}
@@ -194,8 +204,8 @@
 
   <p class="howto"><b>Still choosing a theme?</b> <a href="ideas.html">Theme ideas</a> gives you a ready-made one at the press of a button — someone specific, one goal, how people do it now and the screens you would need — to take as it is or change.</p>
 
-  <div class="howto" id="measure">
-    <b>Measure a website — its width, margins and breakpoints</b>
+  <details class="howto" id="measure">
+    <summary><b>Measure a website — its width, margins and breakpoints</b></summary>
     <table class="mt">
       <tr><th></th><th>Open the inspector</th><th>Device mode — set the screen size</th></tr>
       <tr><th>Chrome or Edge, Windows</th><td><kbd>F12</kbd>, or right-click › <b>Inspect</b></td><td><kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>M</kbd>, or the phone-and-tablet icon at the top left of the inspector</td></tr>
@@ -209,17 +219,17 @@
       <li><b>Without device mode:</b> in Chrome and Edge, keep the inspector open and resize the window — the page size shows in its top-right corner as you drag.</li>
     </ol>
     <p class="mtn">There is no Safari for Windows; use Chrome or Edge. More help: <a href="https://developer.chrome.com/docs/devtools/device-mode" target="_blank" rel="noopener">Chrome’s guide to device mode</a>.</p>
-  </div>
+  </details>
 
-  <div class="howto">
-    <b>Collect the codes from any website — no install</b>
+  <details class="howto" id="codes">
+    <summary><b>Collect the codes from any website — no install</b></summary>
     <ol>
       <li>In Chrome or Edge, right-click the page and choose <b>Inspect</b>.</li>
       <li>Open the <b>⋮</b> menu in the panel → <b>More tools</b> → <b>CSS Overview</b> → <b>Capture overview</b>.</li>
       <li>You get every colour on the page, every typeface and font size, and a list of contrast problems — click any one to copy its code.</li>
       <li>Paste what you collected into <code>A4</code> and <code>A5</code>, and say where it came from.</li>
     </ol>
-  </div>
+  </details>
 
   <div class="tk-filter" id="tkf" role="group" aria-label="Show tools for a deck section"></div>
   <div id="tk"></div>
@@ -312,6 +322,11 @@
   addEventListener('hashchange', () => { only = (location.hash.match(/^#([A-D]\d)$/) || [])[1] || null; paint(); });
   paint();
 })();
+
+/* A link to a guide (toolkit.html#measure) opens it; on their own they stay closed. */
+function openGuide(){ const d = document.getElementById(location.hash.slice(1));
+  if (d && d.tagName === 'DETAILS') { d.open = true; d.scrollIntoView({ block: 'start' }); } }
+openGuide(); addEventListener('hashchange', openGuide);
 
 const root = document.documentElement;
 try { const t = localStorage.getItem('sd-theme'); if (t) root.dataset.theme = t; } catch (e) {}
