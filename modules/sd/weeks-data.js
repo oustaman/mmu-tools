@@ -157,7 +157,8 @@ const WEEKS = [
          ["I don’t know which screen to draw","The first one someone sees when they arrive. Draw that."],
          ["My blocks don’t fit","Good — that is the grid telling you something. Use a wider or narrower block, or change a number in A3."],
          ["Does it have to be 8px?","No. Consistent and written down."],
-         ["I didn’t do anything in week 2","That is fine. Today starts from nothing: the grid sheet and the one screen your goal needs most."]]
+         ["I didn’t do anything in week 2","That is fine. Today starts from nothing: the grid sheet and the one screen your goal needs most."],
+         ["I still don’t have a theme","Open <a href=\"ideas.html\">Theme ideas</a> and press the button until one is something you would use yourself. Change one thing about it — the audience, the place — and it is yours. Today is the last day to lock it."]]
  }
 },
 {
