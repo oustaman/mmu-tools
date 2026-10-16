@@ -499,7 +499,8 @@ const esc = s => String(s).replace(/[<&]/g, c => c === '<' ? '&lt;' : '&amp;');
    sentence rather than a thing to type. The content of this file is authored
    here, not submitted by anyone, so a fixed whitelist is the whole risk. */
 const rich = s => esc(s)
-  .replace(/&lt;(\/?)(code|b)>/g, '<$1$2>')
+  .replace(/&lt;(\/?)(code|b|i)>/g, '<$1$2>')
+  .replace(/&lt;br>/g, '<br>')
   /* Links too. The href is matched narrowly — a relative page in this folder,
      or an https URL — so the whitelist stays a whitelist. Without this the run
      sheets printed raw <a href="..."> at the reader. */
