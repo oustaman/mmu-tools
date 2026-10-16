@@ -129,7 +129,7 @@ const WEEKS = [
   {core:true, s:"One menu, four grids", u:"https://interfaces.institute/patterns/four-grids/", d:"One cha chaan teng menu on a laminated A4 sheet, set four ways: manuscript, column, modular and hierarchical. Do a goal on each sheet with the clock running, then read the counts — how many dishes fit on the front, which sheet needs its back, how much of the paper is type.", take:"A grid decides how much fits. The column grid that looks crowded holds the whole menu on one side; the modular grid that looks generous needs both. Choose the grid for your content, not for the look."},
   {core:true, s:"A layout with eleven different gaps", u:"https://interfaces.institute/collections/grids/#eleven", d:"Count them out loud on the projector — every gap is drawn with its measurement beside it. Then press <b>Snap to an 8px scale</b> and the eleven become five, with nothing else on the card changing.", take:"Every gap should come from a list you decided once. Eleven different gaps is eleven decisions you did not make."},
   {s:"Sixty-seven published grids", d:"Each plate drawn to that publisher's own numbers. Filter by who published it — a CSS framework beside a government manual beside a 1962 standard.", u:"https://interfaces.institute/collections/grids/", take:"Forty-nine of the sixty-seven wrote their grid down. Eighteen did not, and that is a finding rather than a gap. Yours goes in A3 today."},
-  {s:"How many name no breakpoint", d:"Read the count off the page live. Do not memorise it.", u:"https://interfaces.institute/collections/grids/", take:"Plenty of published grids name no breakpoint at all. Yours names three, because the brief requires responsive design."},
+  {s:"How many name no breakpoint", d:"Read the count off the page live. Do not memorise it.", u:"https://interfaces.institute/collections/grids/", take:"Plenty of published grids name no breakpoint at all. Yours names the screen sizes your project actually needs \u2014 one is a fine answer."},
   {s:"A spacing scale, built live", u:"https://interfaces.institute/collections/grids/#spacing", d:"4, 8, 12, 16, 24, 32. Then a layout snapping to it. <b>Read the counts off the page live</b> \u2014 41 of 68 publish no spacing scale at all, and the filter will show you which.", take:"A spacing scale is six numbers you reuse everywhere. Pick them now and stop guessing."}
  ],
  three:[
@@ -144,7 +144,7 @@ const WEEKS = [
   out:{"sec": ["A3", "B1", "C2"], "what": "Seven layout numbers, last week's sketches, and the layout paragraph"},
   bring:"Laptop · your week 2 thumbnails · spec sheet",
   run:[
-   {s:"Name the seven numbers", d:"Columns, gutter, margin, max width, three breakpoints. Plus a spacing scale. You leave with all of them."},
+   {s:"Name the numbers", d:"Columns, gutter, margin, max width, and a breakpoint for any other screen size your project needs. Plus a spacing scale. You leave with all of them."},
    {s:"Build your grid", d:"Work against your best week 2 thumbnail. Any tool, or graph paper. Do not pick 12 columns because everyone does — pick the number you can actually fill."},
    {s:"Test it", d:"Redraw that thumbnail ON your grid. If it does not fit, the grid is wrong, not the drawing. Fix the grid."},
    {s:"Swap, then paste your sketches", d:"Can your partner rebuild your grid from your numbers alone, without asking you anything? If not, a number is missing. Then paste last week's eight thumbnails into <code>B1</code> — your theme has survived a week, so they are now the right sketches."},
@@ -350,7 +350,7 @@ const WEEKS = [
   ],
   leave:"One wireframe per screen, photographed — and two of them already finished screens in B6.",
   done:"A classmate who has not seen it can name each screen's job with the labels covered.",
-  between:"<b>Finish B6.</b> Two screens were built in the workshop; build the rest of the journey. This is the largest single piece of independent work in the module, and it is due <b>at the start of week 9</b>, not at the deadline. Everything in week 9 operates on these screens: you cannot show a screen at three sizes, or audit it, if it does not exist.",
+  between:"<b>Finish B6.</b> Two screens were built in the workshop; build the rest of the journey. This is the largest single piece of independent work in the module, and it is due <b>at the start of week 9</b>, not at the deadline. Everything in week 9 operates on these screens: you cannot audit a screen that does not exist.",
   mistake:"Decorating. A wireframe that took an hour is a mockup and is worth less here.",
   stuck:[["How detailed?","Boxes and labels. If you are choosing a font, stop."],
          ["My grid doesn't fit","Then week 3 was wrong. Fix it and update Part A §3 — that is allowed and honest."],
@@ -359,7 +359,7 @@ const WEEKS = [
 },
 {
  n:9, title:"Adaptation and access",
- makes:["2 screens × 3 sizes","Access audit → Part A §6","C5 drafted"],
+ makes:["Access audit → Part A §6","C5 drafted","Other sizes, if you need them"],
  idea:"The conditions you designed in are not the conditions it will be used in.",
  hand:{keep:["Responsive means deciding what to remove, not shrinking everything.", "Touch targets at least 44px. Focus always visible.", "Log every failure — a logged failure still scores."], next:"Fix what the audit found, and log each fix."},
  shown:[
@@ -371,7 +371,7 @@ const WEEKS = [
   {core:true, s:"Tab through a real page", u:"https://interfaces.institute/collections/keyboard-grammar/#tabstops", d:"Then tab through one where the focus ring was removed. Say nothing during the second one. The specimen has a button that takes the ring away and puts it back \u2014 tab it blind, then restore it and it shows the path they took. <b>10 controls, 8 tab stops</b>, both counted live.", take:"Tab through your own screens. If you cannot see where you are, neither can anyone using a keyboard."}
  ],
  three:[
-  {t:"Two screens at three sizes", d:"Six images in B7 — adapted, not shrunk."},
+  {t:"Other sizes, only if you need them", d:"B7 is optional. A better flow is worth more than more screens."},
   {t:"An honest audit", d:"Part A §6 filled in, C5 drafted, every failure written down."},
   {t:"The fixes, and the log", d:"Fix what the audit found and log each fix. The log is what is marked.", open:true},
  ],
@@ -379,11 +379,11 @@ const WEEKS = [
   aim:"Six images and an honest audit — on screens that arrived finished.",
   goals:["Adapt a layout rather than shrink it.", "Run an accessibility check across a whole set.", "Log a failure you have not fixed."],
   los: ["B1","B2"],
-  out:{"sec": ["A6", "B7", "C5"], "what": "Three sizes of two screens, accessibility values and the accessibility paragraph"},
+  out:{"sec": ["A6", "B7", "C5"], "what": "Accessibility values and the accessibility paragraph \u2014 and other screen sizes, if your project needs them"},
   bring:"Laptop · spec sheet · your contrast table · <b>every finished screen of your journey</b>",
   run:[
-   {s:"Screens on the table, first thing", d:"Before anything else: <b>every screen of your journey, finished, on the wall, now.</b> This is <code>B6</code>, and it was due today — two built in the week 8 workshop, the rest between then and now. Anyone short says so at the start rather than at the end. <b>Nothing in today’s session works without them:</b> you cannot show a screen at three sizes that does not exist, and you cannot audit it either."},
-   {s:"Two screens at three sizes", d:"Your two most important screens, at the three breakpoints in your §3. At the small size, decide what to REMOVE — not what to shrink. If nothing can go, the big version has nothing on it."},
+   {s:"Screens on the table, first thing", d:"Before anything else: <b>every screen of your journey, finished, on the wall, now.</b> This is <code>B6</code>, and it was due today — two built in the week 8 workshop, the rest between then and now. Anyone short says so at the start rather than at the end. <b>Nothing in today’s session works without them:</b> you cannot audit a screen that does not exist."},
+   {s:"Other sizes \u2014 only if your project needs them", d:"Optional. Some journeys live on one size of screen: a council service is almost never used on a phone app, and that is fine. If yours is used on more than one size, take your two most important screens to the breakpoints in your §3. At the small size, decide what to REMOVE — not what to shrink. If nothing can go, the big version has nothing on it."},
    {s:"Run the checklist over everything", d:"Contrast, target size, focus, non-colour cues. Over the whole set, not just the two. Write down every failure — a logged failure you did not fix still scores; an unlogged one does not."},
    {s:"Fill in §6", d:"Minimum touch target, focus state, non-colour cues. Three real values from your own work."}
   ],

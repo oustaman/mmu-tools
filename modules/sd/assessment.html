@@ -395,6 +395,7 @@ el.innerHTML = PARTS.map(p => {
         <span class="it-meta">
           <span class="m wk">${MADE[x.sec] ? `Week ${MADE[x.sec]}${x.dw > MADE[x.sec] ? ` \u00b7 final by week ${x.dw}` : ''}` : 'Any week'}</span>
           <span class="m dn">Done when: ${x.d}</span>
+          ${x.opt ? '<span class="m wd">Optional</span>' : ''}
           ${x.wd ? `<span class="m wd">${x.wd}</span>` : ''}
         </span></span></label>`;
   }).join('');
