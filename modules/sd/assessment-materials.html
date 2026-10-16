@@ -177,6 +177,7 @@
     ['Can I test my design with friends or classmates?', 'No. Testing with people needs ethics approval, which this assessment does not have. Measure both versions yourself instead: count the steps before and after, check the contrast, check the sizes. Numbers you produced are the evidence.'],
     ['What does “evidenced” mean?', 'Something a marker can see: a number from your spec sheet, a before and an after, a contrast ratio. A claim with no number behind it is description, and description scores lower than defence.'],
     ['How is it marked?', `Against four criteria, each given a band and one of the marks in <a href="#steps">the table above</a>. Together they inform one overall mark — they are not added up or averaged. <a href="rubric.html">The blank rubric</a> is the one we use.`],
+    ['Do I need mobile, tablet and desktop screens?', 'Optional, not required. It depends on your project and the experience you are improving — a city council service, for example, is almost never used as a phone app. You can show your key screens at other sizes (B7), but it matters far more that you <b>improve the experience, the flow</b>, than that you build more screens.'],
     ['Can I change my theme?', 'Until week 3. After that your theme is locked, because everything after it builds on it.'],
     ['What goes in the appendices?', 'The evidence that your version is better: how people do it now, what happened to each step, and the two side by side. No word count, any week, and at the end of the deck.'],
     ['Which referencing style?', 'Cite Them Right Harvard: <a href="http://libguides.mmu.ac.uk/refguide" target="_blank" rel="noopener">libguides.mmu.ac.uk/refguide</a>.'],
@@ -192,9 +193,8 @@
       <td class="cls">${b.cls}</td><td class="rg">${b.range}</td>
       <td>${b.marks.map(m => `<span class="m">${m}</span>`).join('')}</td></tr>`).join('');
 
-  /* Example 1 was marked in week 1, so its marks are public now. Example 2 is
-     the week 2 exercise: students mark it first, through the form, and its
-     marks stay off this page until after. */
+  /* Both examples have now been marked in class — Example 1 in week 1, Example 2
+     in week 2 — so both carry their marks, marked copy and feedback sheet here. */
   const crit = EXAMPLE.criteria.map(c => `${c.n} \u00b7 ${c.mark}`).join('   ');
   const form = MARKING_FORM.council;
   document.getElementById('examples').innerHTML = `
@@ -212,14 +212,22 @@
     <div class="excard">
       <span class="exk">Example 2 \u00b7 the week 2 exercise</span>
       <h3>Complete: council tax for a student house</h3>
-      <p>One journey made shorter, seven steps to four, with the before in the appendices. Mark it
-        on the blank rubric, then send your marks.</p>
-      <p class="exhid">Our marks appear here after week 2, beside the class average.</p>
+      <p>One journey made shorter, seven steps to four, with the before in the appendices. You marked it
+        in week 2; this is how we did, criterion by criterion.</p>
+      <div class="exmark" id="ex2mark"></div>
       <div class="exacts"><a class="btn" href="example-council.html">Read it</a>
-        ${form ? `<a class="btn pri" href="${form}" target="_blank" rel="noopener">Send your marks</a>`
-               : '<span class="btn off" title="The link is posted in class">Form: posted in class</span>'}
+        <a class="btn pri" href="example-council-marked.html">See how we marked it</a>
+        <a class="btn" href="example-council-feedback.html">Its feedback sheet</a>
         <a class="btn" href="rubric.html">Blank rubric</a></div>
     </div>`;
+  /* Example 2's marks, read from its own data. Both data files declare EXAMPLE,
+     so the second is read in its own scope rather than loaded beside the first.
+     Opened to students after the week 2 marking exercise (16 Oct 2026). */
+  fetch('example-council-data.js').then(r => r.text()).then(t => {
+    const E2 = new Function(t + '; return EXAMPLE;')();
+    document.getElementById('ex2mark').innerHTML = `<span class="n">${E2.mark.overall}</span>
+      <span><b>${esc(E2.mark.band)}</b><br><span class="crit">criteria ${E2.criteria.map(c => `${c.n} \u00b7 ${c.mark}`).join('   ')}</span></span>`;
+  }).catch(() => {});
 })();
 
 const root = document.documentElement;
