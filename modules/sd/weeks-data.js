@@ -124,41 +124,38 @@ const WEEKS = [
  n:3, title:"The grid",
  makes:["Layout spec → Part A §3","C2 drafted"],
  idea:"A grid is a decision you make once so you do not remake it four hundred times.",
- hand:{keep:["A grid is seven numbers you decide once.", "If your sketch does not fit the grid, change the grid.", "Use a spacing scale, not eleven different gaps."], next:"Finish C2 if you ran out of time. Nothing else."},
+ hand:{keep:["A grid is seven numbers you decide once.", "If your sketch does not fit the grid, change the grid.", "Use a spacing scale, not eleven different gaps."], next:"Fill in every box of A3, using the grid deck\u2019s last slide."},
  shown:[
   {core:true, s:"One menu, four grids", u:"https://interfaces.institute/patterns/four-grids/", d:"One cha chaan teng menu on a laminated A4 sheet, set four ways: manuscript, column, modular and hierarchical. Do a goal on each sheet with the clock running, then read the counts — how many dishes fit on the front, which sheet needs its back, how much of the paper is type.", take:"A grid decides how much fits. The column grid that looks crowded holds the whole menu on one side; the modular grid that looks generous needs both. Choose the grid for your content, not for the look."},
   {core:true, s:"One website, every grid", u:"https://interfaces.institute/patterns/every-grid/", d:"One plain website laid out on twenty-seven grids that real organisations publish \u2014 Bootstrap, GOV.UK, Material, IBM\u2019s Carbon \u2014 at four screen widths. Pick a grid, switch the width, and read the table: most fill every row, and the ones that do not show you why.", take:"Twelve columns divide by two, three, four and six, so rows of cards, pictures and links fill exactly. Sixteen will not take a row of three. Choose a column count that divides the way your content does."},
   {s:"Published layout grids \u2014 one page, four stops", u:"https://interfaces.institute/collections/grids/", d:"One page, taken in this order. <b>1. Eleven different gaps</b> \u2014 count them out loud, every gap drawn with its measurement; then press <b>Snap to an 8px scale</b> and the eleven become five, with nothing else changing. <b>2. The published grids</b> \u2014 each plate drawn to its publisher\u2019s own numbers; filter by who published it, a CSS framework beside a government manual beside a 1962 standard. <b>3. How many name no breakpoint</b> \u2014 read the count off the page, live. <b>4. A spacing scale, built live</b> \u2014 4, 8, 12, 16, 24, 32, then a layout snapping to it; the filter shows which publishers have no scale at all.", take:"A grid is a handful of numbers you decide once \u2014 columns, gutter, margin, max width and a spacing scale \u2014 and every gap comes from that list. Plenty of publishers never wrote theirs down; yours goes in A3 today."}
  ],
  three:[
-  {t:"Your layout numbers", d:"Part A §3 filled in. Nothing says “about” or “roughly”."},
-  {t:"Two layouts on B1", d:"Your one screen, blocked out twice on the grid sheet and photographed."},
-  {t:"C2 drafted", d:"The layout paragraph, quoting three of your numbers.", open:true},
+  {t:"Your theme, locked", d:"If it was not already: A1 filled in, and the goal at the top of A2."},
+  {t:"Your seven numbers", d:"Part A §3 filled in from the grid deck’s last slide. Nothing says “about” or “roughly”."},
+  {t:"C2 started", d:"Once your numbers are set: what you want read first, quoting three of them.", open:true},
  ],
  workshop:{
-  aim:"Find a grid in a real website, lay out your own screen on one, and write its numbers into Part A §3.",
-  goals:["See that real websites sit on columns, and count them.", "Lay out one screen of your own on a grid, twice.", "Write down the numbers of your grid, and one paragraph that uses them."],
+  aim:"Know what each layout number means. Then, if you have a theme, set your own; if you do not, find one.",
+  goals:["Say what columns, gutter, margin, max width, breakpoints and a spacing scale are, and see each one change a real screen.", "Set your own seven numbers for A3 \u2014 or, without a theme yet, choose one.", "Leave with A3 filled in, or A1 locked and A3 started from a published grid."],
   los: ["B1"],
-  out:{"sec": ["A3", "B1", "C2"], "what": "Your layout numbers, two layouts of one screen, and the layout paragraph"},
-  bring:"Laptop · scissors and a glue stick if you have them · the <a href=\"grid-sheet.html\">grid sheet</a>, printed (we bring copies)",
+  out:{"sec": ["A1", "A3", "C2"], "what": "Your layout numbers \u2014 and your theme, if it was not locked"},
+  bring:"Laptop \u00b7 your theme, if you have one",
   run:[
-   {s:"Find the grid in a real website", d:"In pairs. Open <a href=\"https://www.gov.uk/\">GOV.UK</a>, <a href=\"https://www.bbc.co.uk/news\">BBC News</a>, or a website from your own theme. Take a screenshot, paste it onto a blank slide, and draw a see-through rectangle over every column of content. <b>How many columns? How wide is the empty margin at each side?</b> Write both on the slide. There is no wrong answer; you are learning to see them."},
-   {s:"Same page, other widths", d:"Open <a href=\"https://interfaces.institute/patterns/every-grid/\">One website, every grid</a>. Press <b>1440</b> (a laptop), then <b>360</b> (a phone), and read the Columns in the table each time. At 1440 almost every grid has twelve. At 360 most still have twelve, squeezed very thin, and a few drop to four. On a phone, four columns are each wide enough to hold something, which is why today’s grid sheet uses four."},
-   {s:"Pick your starting numbers", d:"Fill in <code>A3</code>. If you are not sure, start here and change it later: <b>phone — 4 columns, 16px gutter, 16px margin; laptop, only if you design one — 12 columns, 24px gutter, 1200px max width; spacing scale — 4, 8, 16, 24, 32, 48.</b> Starting from a published grid is fine: say which one in C2. What matters is that every box has a number."},
-   {s:"Lay out your screen on paper", d:"Pick the one screen your goal needs most — the first screen someone sees is fine. Cut out the blocks on page 2 of the <a href=\"grid-sheet.html\">grid sheet</a> and arrange them on the phone grid on page 1: every edge on a dashed line. Do it once, photograph it, then <b>change one thing</b> — a bigger picture, the button higher, the heading across all four columns — and photograph the second. No printout? Draw four equal strips on a phone-sized rectangle and tear paper blocks. Both photos go on <code>B1</code>’s slide today."},
-   {s:"Swap and check", d:"Give your two layouts to the person next to you. They answer three questions out loud. Does every block start and end on a line? What do you read first, and is that what was meant? How many different gaps can you see? If it is more than three, pick sizes from your spacing scale and close them up."},
-   {s:"Write C2", d:"One slide. Finish these sentences, then join them up: <i>On my ___ screen, the first thing people read is ___, because it spans ___ of ___ columns. I used a ___-column grid with ___px gutters because ___.</i> <b>Quote three numbers from <code>A3</code>.</b> A layout paragraph with no number in it is a description, and descriptions are the bottom band."}
+   {s:"A grid in seven numbers \u2014 the mini deck", d:"Your tutor walks through <a href=\"grid-numbers.html\">A grid in seven numbers</a>: one slide per number, each with a live screen you can change. The numbers are Example 2\u2019s, so you can see what a finished A3 looks like. <b>Open it on your own laptop and play with the screens as you go.</b> It works on its own too, if you missed this or want to go through it again."},
+   {s:"Got a theme? Explore grids", d:"Open <a href=\"https://interfaces.institute/patterns/every-grid/\">One website, every grid</a> and the <a href=\"https://interfaces.institute/collections/grids/\">published grids register</a>, and find a grid close to what your screens need. Then go to the deck\u2019s last slide, <b>Your turn</b>: start from Example 2\u2019s numbers or that grid\u2019s, change them for your content, and watch the screen. When every box has a number, <b>Copy for A3</b> and paste it into your deck."},
+   {s:"No theme yet? Explore an idea", d:"Open <a href=\"ideas.html\">Theme ideas</a> and press the button until one is something you would use yourself. Change one thing about it \u2014 the audience, the place \u2014 so it is yours, copy it into A1 and A2, and tell your tutor. Doing your own project, like a family business? Read <a href=\"ideas.html#own\">your own idea, or a real business</a>. Then start A3 from Example 2\u2019s numbers on the deck\u2019s last slide; you can change them later."},
+   {s:"Write C2, if your numbers are set", d:"One slide: what you want read first on your main screen, and the grid that makes it happen. <b>Quote three numbers from <code>A3</code>.</b> A layout paragraph with no number in it is a description, and descriptions are the bottom band."}
   ],
-  leave:"A3 filled in, two layouts photographed onto B1, and C2 drafted.",
-  done:"Every box in A3 has a number, B1 has two photographs, and C2 quotes three numbers.",
-  between:"Nothing new. If B1 or C2 is not done, finish it — an hour, not an evening.",
-  mistake:"Placing blocks by eye between the lines. If a block does not fit the columns, change the block or change the grid — do not fudge it.",
-  stuck:[["How many columns?","Four on a phone. Twelve on a laptop if you design one. You can change them later."],
-         ["I don’t know which screen to draw","The first one someone sees when they arrive. Draw that."],
-         ["My blocks don’t fit","Good — that is the grid telling you something. Use a wider or narrower block, or change a number in A3."],
+  leave:"A3 filled in \u2014 and A1, if your theme was not locked.",
+  done:"Every box in A3 has a number. Your theme is in A1.",
+  between:"If you chose your theme today, set your seven numbers on the deck\u2019s last slide before week 4.",
+  mistake:"Copying Example 2\u2019s numbers without asking whether they suit your screens. Start from them; then change them.",
+  stuck:[["What are the seven numbers?","Columns, gutter, margin, max width, breakpoints, a spacing scale \u2014 and how many columns your main content spans. The deck has a slide for each."],
+         ["How many columns?","Four on a phone is common. On a bigger screen, a number your content divides into: 8 or 12."],
+         ["Do I need tablet and desktop?","Only if you design them. Breakpoints are only for the screen sizes you actually show."],
          ["Does it have to be 8px?","No. Consistent and written down."],
-         ["I didn’t do anything in week 2","That is fine. Today starts from nothing: the grid sheet and the one screen your goal needs most."],
-         ["I still don’t have a theme","Open <a href=\"ideas.html\">Theme ideas</a> and press the button until one is something you would use yourself. Change one thing about it — the audience, the place — and it is yours. Today is the last day to lock it."]]
+         ["I still don\u2019t have a theme","Open <a href=\"ideas.html\">Theme ideas</a> and press the button until one is something you would use yourself. Change one thing about it \u2014 the audience, the place \u2014 and it is yours. Today is the last day to lock it."]]
  }
 },
 {
