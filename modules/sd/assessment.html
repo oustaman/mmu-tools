@@ -302,6 +302,8 @@
     header.sdnav .sdlinks::-webkit-scrollbar{display:none}
     header.sdnav .navl{font-size:0.82rem;padding:6px 9px}
   }
+  .it.flash{outline:3px solid #FFDD00;outline-offset:2px;box-shadow:0 0 0 6px #0B0C0C22}
+  .it{scroll-margin-top:120px}
 </style>
 </head>
 <body>
@@ -423,7 +425,7 @@ el.innerHTML = PARTS.map(p => {
   const rows = p.items.map((x,i) => {
     const key = `sd-${p.id}-${i}`; total++;
     const late = NOW > x.dw && !SD.isDone(key);
-    return `<label class="it ${late ? 'late' : ''}" data-k="${key}" data-week="${MADE[x.sec] || 'any'}">
+    return `<label class="it ${late ? 'late' : ''}" id="${x.sec}" data-k="${key}" data-week="${MADE[x.sec] || 'any'}">
       <input type="checkbox">
       <span class="it-b"><b><span class="secno">${x.sec}</span>${x.t}</b><span class="how">${x.h}</span>
         <span class="it-meta">
@@ -468,6 +470,12 @@ boxes.forEach(b => b.querySelector('input').addEventListener('change', e => {
 }));
 document.getElementById('reset').onclick = () => { write({}); paint(); };
 paint();
+/* A link to one section (assessment.html#C5, from a worked case) lands on its
+   row and marks it, since the rows are drawn after the browser looks for it. */
+function landOn(){ const r = document.getElementById(location.hash.slice(1));
+  if (!r || !r.classList.contains('it')) return;
+  r.scrollIntoView({ block: 'center' }); r.classList.add('flash'); setTimeout(() => r.classList.remove('flash'), 2400); }
+landOn(); addEventListener('hashchange', landOn);
 
 /* ── the week filter ─────────────────────────────────────────────────────
    Toggle any number of weeks; none selected shows everything. The choice is a
