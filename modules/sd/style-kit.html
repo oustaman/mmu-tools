@@ -166,9 +166,35 @@
   .k .gridov{position:absolute;inset:0 var(--m);display:grid;grid-template-columns:repeat(var(--cols),1fr);column-gap:var(--g);pointer-events:none;z-index:5}
   .k .gridov span{background:rgba(214,74,92,.12);border-left:1px dashed rgba(214,74,92,.5);border-right:1px dashed rgba(214,74,92,.5)}
   /* wireframe: the same system, drawn as boxes */
-  .k.wire{--ink:#333;--muted:#777;--pri:#555;--on:#fff;--bg:#fff;--panel:#eee;--ok:#666;--err:#555;--accent:#999;--fh:'Comic Neue','Segoe Print',cursive;--fb:'Comic Neue','Segoe Print',cursive;--hw:700}
-  .k.wire .done{background:#ddd;color:#333} .k.wire .done h2,.k.wire .done p{color:#333}
-  .k.wire .o,.k.wire .card{border-style:dashed}
+  /* four levels of fidelity — the same screen, the same grid, sizes and order each time */
+  .k .pic{display:grid;place-items:center;height:92px;border-radius:6px;margin:0 0 var(--sp2);font-size:var(--small);color:var(--muted);background:var(--panel);border:2px dashed color-mix(in srgb,var(--muted) 45%,transparent);text-align:center;padding:0 8px}
+  /* 1 · sketch */
+  .k.l1{background:#FCFBF5}
+  .k.l1 .bar{border-bottom:2px dashed #555}
+  .k.l1 .o,.k.l1 .card,.k.l1 .btn,.k.l1 .done,.k.l1 .panel,.k.l1 .pic{background:transparent;border:2px solid #444;border-radius:255px 14px 225px 14px/14px 225px 14px 255px;box-shadow:none;color:#333}
+  .k.l1 .btn{color:#333;font-weight:700} .k.l1 .done h2,.k.l1 .done p{color:#333} .k.l1 .card{border-left-width:2px}
+  .k.l1 .pic{background:linear-gradient(to top right,transparent calc(50% - 1px),#777 50%,transparent calc(50% + 1px)),linear-gradient(to top left,transparent calc(50% - 1px),#777 50%,transparent calc(50% + 1px));color:transparent}
+  .k.l1 .o i{border-color:#444}
+  /* 2 · wireframe */
+  .k.l2 .o,.k.l2 .card{border:2px solid #BDBDBD;border-left-width:2px;background:#F2F2F2}
+  .k.l2 .btn{background:#6E6E6E} .k.l2 .done{background:#D9D9D9} .k.l2 .done h2,.k.l2 .done p{color:#333}
+  .k.l2 .pic{background:#E3E3E3;border:2px solid #C4C4C4;color:#555}
+  /* 4 · decorated */
+  .k.l4 .bar{background:linear-gradient(90deg,var(--accent),var(--pri));color:#fff;border-bottom:0} .k.l4 .bar span{color:#fff;opacity:.85}
+  .k.l4 .pic{border:0;color:transparent;background:radial-gradient(circle at 30% 35%,#fff6 0 18%,transparent 19%),radial-gradient(ellipse at 70% 80%,#0003 0 30%,transparent 31%),linear-gradient(135deg,#E9C9A0,#B9845A 55%,#6E4A33);box-shadow:0 6px 18px rgba(0,0,0,.25);border-radius:14px;height:110px}
+  .k.l4 .o,.k.l4 .card{box-shadow:0 4px 14px rgba(0,0,0,.12);border-radius:14px}
+  .k.l4 .btn{border-radius:99px;box-shadow:0 8px 20px color-mix(in srgb,var(--pri) 45%,transparent)}
+  .k.l4 .done{border-radius:16px;box-shadow:0 8px 22px rgba(0,0,0,.2);background:linear-gradient(135deg,var(--ok),color-mix(in srgb,var(--ok) 60%,#000))}
+  .k.l4 h2::after{content:" ✨"}
+  /* the ladder */
+  .ladder{display:grid;gap:16px;grid-template-columns:repeat(auto-fit,minmax(min(240px,100%),1fr));margin:10px 0 6px}
+  .rung{display:flex;flex-direction:column;gap:8px}
+  .rung .mini{width:254px;height:454px;overflow:hidden;border:7px solid #1C1A1B;border-radius:24px;background:#fff;align-self:center}
+  .rung .mini .k{width:300px;height:550px;transform:scale(.8);transform-origin:top left}
+  .rung h3{margin:4px 0 0;font-size:1rem} .rung .lvl{font:700 0.68rem var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--ink-3)}
+  .rung p{margin:0;font-size:0.88rem;color:var(--ink-2);line-height:1.5}
+  .rung .use{font:600 0.8rem var(--sans);border-radius:6px;padding:6px 9px;line-height:1.4}
+  .rung .use.ok{background:var(--ok-soft);color:var(--ok)} .rung .use.min{background:var(--wsh-soft);color:var(--wsh);border:2px solid var(--wsh)} .rung .use.no{background:var(--surface-2);color:var(--ink-2)}
 
   .spec{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(min(300px,100%),1fr));margin:20px 0 6px}
   .spec section{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:12px 14px}
@@ -251,7 +277,7 @@
   <p class="lead">Pick a grid, a type pairing and a palette from published design systems. The same three screens redraw with whatever you pick —
     <b>one set of decisions, applied to every screen</b>. That is what A3, A4 and A5 are for: hand them to someone else and the next screen they build will match.</p>
   <p class="lead">Every option says where it comes from, so <b>no AI is needed</b>: cite the source in C9 and say in C3 and C4 why you chose it, and what you changed.
-    Type your own words below and the screens become your project — screenshot them for your style tile.</p>
+    Type your own words below and the screens become your project — screenshot them for your style tile. Further down: <a href="#fidelity">the same screen at four levels of finish</a>, and which one your finished screens need.</p>
 
   <div class="pick">
     <fieldset><legend>Grid <span>A3</span></legend><div class="opts" id="o-grid"></div></fieldset>
@@ -269,7 +295,7 @@
   </div>
 
   <div class="viewbar">
-    <span class="seg" role="group" aria-label="Fidelity"><button type="button" data-f="full" aria-pressed="true">Finished look</button><button type="button" data-f="wire" aria-pressed="false">Boxes and sketch</button></span>
+    <span class="seg" role="group" aria-label="Fidelity"><button type="button" data-f="l1">1 · Sketch</button><button type="button" data-f="l2">2 · Wireframe</button><button type="button" data-f="l3">3 · Applied spec</button><button type="button" data-f="l4">4 · Decorated</button></span>
     <label><input type="checkbox" id="showgrid"> Show the grid</label>
     <button type="button" class="btn" id="allbad" style="cursor:pointer;font:640 0.82rem var(--sans);min-height:38px">What are we fixing? Show all three wrong</button>
     <button type="button" class="btn" id="allgood" style="cursor:pointer;font:640 0.82rem var(--sans);min-height:38px">Back to a good set</button>
@@ -283,9 +309,11 @@
     <li><b>Brand first</b> — pale grey text at 3.0:1, white on lemon at 1.4:1, and a green that only says “success” to people who can see green. <i>A5, C4, A6</i></li>
     <li>Every one of these is a choice someone made on purpose. The fix is not talent: it is <b>deciding once, writing it down, and using it everywhere</b>.</li></ul></div>
 
-  <div class="why"><b class="h">Fidelity does not change the decisions</b>
-    <p>Press <b>Boxes and sketch</b>: the same grid, the same sizes, the same order — drawn as boxes. Screens built from boxes, wireframes or neat paper sketches are fine for this module.
-      What is marked is whether the decisions are made, written down and applied the same way on every screen, and whether the journey is better. When the rubric says <i>polished</i>, read it as <b>consistent and complete</b> — every screen built from the same numbers, every link working — not decorated.</p></div>
+  <h2 id="fidelity" style="margin:30px 0 4px">The same screen, four ways</h2>
+  <p class="lead">Your own first screen, drawn at four levels of finish. Every level uses the same grid, the same sizes and the same order — only how much is shown changes.
+    <b>Your finished screens (B6) need level 3, “applied spec”</b>: it is the first level where a marker can see your type and colour, which Criterion 1 marks. Anything beyond it earns nothing.</p>
+  <div class="ladder" id="ladder"></div>
+  <p class="note" style="font-size:.85rem;color:var(--ink-3)">“Polished” and “production-quality” in the rubric mean <b>consistent</b> (every screen from the same numbers), <b>complete</b> (every screen of the journey, states included) and <b>working</b> (every link clicks) — not decorated.</p>
 
   <div class="spec">
     <section><h3>A3 · Layout</h3><pre id="s-a3"></pre><button type="button" class="btn" data-copy="s-a3">Copy for A3</button><span class="ok-msg" id="m-s-a3"></span></section>
@@ -338,8 +366,9 @@
   const ratio = (a, b) => { const [x, y] = [lum(a), lum(b)].sort((m, n) => n - m); return (x + 0.05) / (y + 0.05); };
   const r1 = (a, b) => ratio(a, b).toFixed(1);
 
-  const state = { grid: 'ex2', type: 'atk', col: 'civic', f: 'full', grid_on: false };
+  const state = { grid: 'ex2', type: 'atk', col: 'civic', f: 'l3', grid_on: false };
   try { Object.assign(state, JSON.parse(localStorage.getItem('sd-kit') || '{}')); } catch (e) {}
+  if (!/^l[1-4]$/.test(state.f)) state.f = state.f === 'wire' ? 'l2' : 'l3';
 
   function opts(el, list, key, sw) {
     $(el).innerHTML = list.map(o => `<label class="opt${o.bad ? ' bad' : ''}"><input type="radio" name="${key}" value="${o.id}" ${state[key] === o.id ? 'checked' : ''}><b>${esc(o.n)}${sw ? `<span class="sw">${['ink', 'pri', 'accent', 'panel'].map(k => `<i style="background:${o[k]}"></i>`).join('')}</span>` : ''}</b><small>${esc(o.s)}</small>${o.bad ? '<em class="badtag">Don’t — see why</em>' : ''}</label>`).join('');
@@ -350,29 +379,42 @@
   function draw() {
     try { localStorage.setItem('sd-kit', JSON.stringify(state)); } catch (e) {}
     const G = GRIDS.find(x => x.id === state.grid), T = TYPES.find(x => x.id === state.type), C = COLS.find(x => x.id === state.col);
-    const on = '#FFFFFF', wire = state.f === 'wire';
-    /* Boxes and sketch keeps every size and every position, and drops only the colour and the typefaces */
-    const P = wire ? { ink: '#333333', muted: '#666666', pri: '#555555', bg: '#FFFFFF', panel: '#EEEEEE', ok: '#DDDDDD', err: '#444444', accent: '#999999' } : C;
-    const fh = wire ? "'Comic Neue'" : T.fh, fb = wire ? "'Comic Neue'" : T.fb;
-    const vars = `--ink:${P.ink};--muted:${P.muted};--pri:${P.pri};--on:${on};--bg:${P.bg};--panel:${P.panel};--ok:${P.ok};--err:${P.err};--accent:${P.accent};` +
-      `--fh:${fh},system-ui;--fb:${fb},system-ui;--hw:${T.hw};--h1:${T.h1}px;--h1l:${Math.round(T.h1 * 1.2)}px;--body:${T.body}px;--bodyl:${Math.round(T.body * 1.5)}px;--small:${T.small}px;--label:${T.body}px;` +
-      `--m:${G.ph.m}px;--g:${G.ph.g}px;--cols:${G.ph.c};`;
+    const on = '#FFFFFF';
+    const GREY = { ink: '#333333', muted: '#5F5F5F', pri: '#6E6E6E', bg: '#FFFFFF', panel: '#EEEEEE', ok: '#D9D9D9', err: '#444444', accent: '#9E9E9E' };
     const w = id => esc($(id).value.trim());
     const answers = $('w-opts').value.split(/[·,|]/).map(s => esc(s.trim())).filter(Boolean).slice(0, 3);
-    const grid = state.grid_on && G.ph.c ? `<div class="gridov">${'<span></span>'.repeat(G.ph.c)}</div>` : '';
-    const cls = `k ${state.f === 'wire' ? 'wire' : ''} ${G.id === 'eye' ? 'eye' : ''} ${T.id === 'all' ? 'loud' : ''}`;
-    const bar = `<div class="bar">${w('w-name')}<span>1 of 3</span></div>`;
-    $('screens').innerHTML = `
-      <figure class="ph3" style="margin:0"><div class="${cls}" style="${vars}">${grid}${bar}<div class="in">
+    /* one screen at one level: levels 1 and 2 keep the grid, sizes and order and drop colour and type;
+       level 3 is the spec applied; level 4 adds decoration and nothing else */
+    const varsFor = (lvl) => {
+      const P = lvl <= 2 ? GREY : C;
+      const fh = lvl === 1 ? "'Comic Neue'" : lvl === 2 ? 'system-ui' : T.fh, fb = lvl === 1 ? "'Comic Neue'" : lvl === 2 ? 'system-ui' : T.fb;
+      return `--ink:${P.ink};--muted:${P.muted};--pri:${P.pri};--on:${on};--bg:${P.bg};--panel:${P.panel};--ok:${P.ok};--err:${P.err};--accent:${P.accent};` +
+        `--fh:${fh},system-ui;--fb:${fb},system-ui;--hw:${lvl <= 2 ? 700 : T.hw};--h1:${T.h1}px;--h1l:${Math.round(T.h1 * 1.2)}px;--body:${T.body}px;--bodyl:${Math.round(T.body * 1.5)}px;--small:${T.small}px;--label:${T.body}px;` +
+        `--m:${G.ph.m}px;--g:${G.ph.g}px;--cols:${G.ph.c};`; };
+    const clsFor = (lvl) => `k l${lvl} ${G.id === 'eye' ? 'eye' : ''} ${T.id === 'all' && lvl >= 3 ? 'loud' : ''}`;
+    const gridFor = () => state.grid_on && G.ph.c ? `<div class="gridov">${'<span></span>'.repeat(G.ph.c)}</div>` : '';
+    const scr1 = (lvl) => `<div class="${clsFor(lvl)}" style="${varsFor(lvl)}">${gridFor()}<div class="bar">${w('w-name')}<span>1 of 3</span></div><div class="in">
+        <div class="pic">Picture — a labelled box is enough</div>
         <h2>${w('w-q')}</h2>${answers.map((a, i) => `<div class="o ${i === 0 ? 'on' : ''}"><i></i>${a}</div>`).join('')}
-        <p class="hint">Choose one</p><span class="btn">${w('w-btn')}</span></div></div><span class="cap">A question</span></figure>
-      <figure class="ph3" style="margin:0"><div class="${cls}" style="${vars}">${grid}<div class="bar">${w('w-name')}<span>Results</span></div><div class="in">
+        <span class="btn">${w('w-btn')}</span></div></div>`;
+    const lvl = +String(state.f).replace('l', '') || 3;
+    $('screens').innerHTML = `
+      <figure class="ph3" style="margin:0">${scr1(lvl)}<span class="cap">A question</span></figure>
+      <figure class="ph3" style="margin:0"><div class="${clsFor(lvl)}" style="${varsFor(lvl)}">${gridFor()}<div class="bar">${w('w-name')}<span>Results</span></div><div class="in">
         <h2>3 results</h2><div class="card"><b>${w('w-res')}</b><span>A line of detail · another line</span></div>
         <div class="card"><b>Another result</b><span>A line of detail</span></div><div class="card"><b>A third result</b><span>A line of detail</span></div>
         <p class="err">An error looks like this</p></div></div><span class="cap">A list</span></figure>
-      <figure class="ph3" style="margin:0"><div class="${cls}" style="${vars}">${grid}<div class="bar">${w('w-name')}<span>Done</span></div><div class="in">
+      <figure class="ph3" style="margin:0"><div class="${clsFor(lvl)}" style="${varsFor(lvl)}">${gridFor()}<div class="bar">${w('w-name')}<span>Done</span></div><div class="in">
         <div class="done"><h2>${w('w-done')}</h2><p>Reference AB-1234</p></div><p>What happens next, in a sentence or two of body text.</p>
         <div class="panel">A note in a panel, in the small size.</div></div></div><span class="cap">A confirmation</span></figure>`;
+    const RUNGS = [
+      [1, 'Sketch', 'Paper, or a pen on a tablet. Shows the layout and what comes first.', 'ok', 'B1 sketches · fine for B5 wireframes too'],
+      [2, 'Wireframe', 'Boxes and labels on your grid. Shows the order and the grid — but no type or colour yet.', 'ok', 'B5 wireframes · expected'],
+      [3, 'Applied spec', 'Your real grid, typefaces, sizes and colours. Pictures are labelled boxes. Shows every decision Criterion 1 marks.', 'min', 'B6 finished screens · the minimum, and enough for a First'],
+      [4, 'Decorated', 'Photos, illustration, shadows, gradients. Looks finished; shows no decision level 3 did not.', 'no', 'Optional · earns nothing extra — spend the time on the journey'],
+    ];
+    $('ladder').innerHTML = RUNGS.map(([n, name, what, kind, use]) => `<div class="rung"><span class="lvl">Level ${n}</span><div class="mini">${scr1(n)}</div>
+      <h3>${name}</h3><p>${what}</p><span class="use ${kind}">${use}</span></div>`).join('');
 
     // the spec, written out from the same choices
     if (G.bad) $('s-a3').textContent = ['Grid: none — placed by eye', 'Columns: none', 'Gutter: none', 'Margin: “about 10 to 20”, different on every box',

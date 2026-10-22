@@ -162,7 +162,7 @@ const WEEKS = [
  n:4, title:"Type, colour and the grid: one visual system",
  makes:["Layout, type and colour → Part A §3–5","A first style tile","C3 and C4 drafted"],
  idea:"Three decisions, made once and written down, so every screen — yours or anyone else’s — comes out matching.",
- hand:{keep:["A grid, a type scale and a palette are one set of decisions.", "Write them down as numbers, and every screen will match.", "Polished means consistent and complete — not decorated."], next:"Check every colour pair in A5 passes 4.5:1."},
+ hand:{keep:["A grid, a type scale and a palette are one set of decisions.", "Write them down as numbers, and every screen will match.", "Finished screens need applied spec — real type and colour, boxes for pictures."], next:"Check every colour pair in A5 passes 4.5:1."},
  shown:[
   {core:true, s:"Style kit — what are we fixing?", u:"style-kit.html", d:"Press <b>Show all three wrong</b>: a page laid out by eye, five typefaces, and pale colours that fail. Then pick a published grid, type pairing and palette, and watch the same three screens come right. Press <b>Boxes and sketch</b>: the decisions survive without the polish.", take:"Grid, type and colour are one set of decisions. Made once and written down, they make every screen match — even when the screen is drawn in boxes."},
   {core:true, s:"Contrast, live", d:"Put a real pair up, get the ratio, darken it until it passes. Do the arithmetic in front of them.", u:"https://interfaces.institute/collections/design-tools/#pairs", take:"Anything under 4.5:1 gets changed. That is the one colour rule nobody can argue with."},
@@ -186,7 +186,7 @@ const WEEKS = [
    {s:"What are we fixing?", d:"Open the <a href=\"style-kit.html\">Style kit</a> and press <b>Show all three wrong</b>. In pairs, name what is wrong with each screen — the gaps, the typefaces, the colours. Then read the A3, A4 and A5 it writes: that is what “no decisions” looks like on paper."},
    {s:"Choose your three", d:"Pick a grid, a type pairing and a palette for <i>your</i> audience. Type your own service name, question and button into the boxes. Change your mind as often as you like — the screens redraw each time. <b>Prefer your own choices?</b> Use them; the kit is a starting point, not a rule."},
    {s:"Copy them into your deck", d:"<b>Copy for A3</b>, <b>Copy for A4</b>, <b>Copy for A5</b> into your deck, and <b>Copy for C9</b> into your references. If A5 says anything FAILS, change the colour now and copy it again."},
-   {s:"A first style tile", d:"Screenshot the three screens and paste them into <code>B3</code>. Then press <b>Boxes and sketch</b> and look again: same grid, same sizes, same order. Boxes, wireframes or neat paper are fine for your screens; what is marked is the decisions, applied the same way everywhere."},
+   {s:"A first style tile, and the four levels", d:"Screenshot the three screens and paste them into <code>B3</code>. Then scroll to <a href=\"style-kit.html#fidelity\">the same screen, four ways</a>: sketch, wireframe, applied spec, decorated. Sketches and wireframes can be any finish. <b>Your finished screens need level 3, applied spec</b> — your real grid, type and colour, with labelled boxes for pictures. Level 4 earns nothing extra."},
    {s:"Write C3 and C4", d:"One slide each. Say why this type and these colours suit your audience, and <b>quote numbers from A4 and A5</b>. If you changed something from the kit, say what and why — that is the strongest paragraph you can write."}
   ],
   leave:"A3, A4 and A5 filled in, a first style tile in B3, C3 and C4 drafted.",
@@ -195,7 +195,7 @@ const WEEKS = [
   mistake:"Choosing by look alone. Choose for your audience, then check the numbers.",
   stuck:[["I missed weeks 3 and 4","Start here. The style kit gives you a complete A3, A4 and A5 in one sitting, with sources."],
          ["Do I have to use the kit?","No. Use your own choices, any tool. The kit just shows what a complete answer looks like."],
-         ["My screens are only boxes","That is fine. Polished means consistent and complete, not decorated."],
+         ["My screens are only boxes","Fine for sketches and wireframes. Finished screens need your real type and colour on them — labelled boxes for pictures are fine."],
          ["My brand colour fails","Darken it until it passes, or keep it for large text and decoration. Both go in A5."],
          ["Where do I cite the fonts and grid?","C9. The kit writes the references for you."]]
  }
@@ -346,7 +346,7 @@ const WEEKS = [
    {s:"Frame it and demo one", d:"Boxes and labels. No colour, no fonts, no icons. One screen on the projector, drawn quickly, saying what is being decided while drawing: this before that, this bigger than that."},
    {s:"Wireframe the set", d:"Every screen of your journey, on your own grid, quick rather than polished. Start with the boring screen, not the pretty one."},
    {s:"The blind test", d:"Cover your labels. Hand the set to a partner. Can they name each screen's job? Every failure is a screen you redraw now."},
-   {s:"Build the first two, for real", d:"Pick your two most important wireframes and make them finished screens — your grid from <code>A3</code>, your scale from <code>A4</code>, your palette from <code>A5</code>, your style tile from <code>B3</code>. <b>Nothing new is invented here.</b> Every decision was made in weeks 3 to 6; this is the first time they are all applied at once, and doing two in the room is what makes the other four possible on your own. These are the first two rows of <code>B6</code>."},
+   {s:"Build the first two, for real", d:"Pick your two most important wireframes and make them finished screens — your grid from <code>A3</code>, your scale from <code>A4</code>, your palette from <code>A5</code>, your style tile from <code>B3</code>. <b>Finished means applied spec</b>: your real type and colour on your grid, with labelled boxes for pictures — <a href=\"style-kit.html#fidelity\">level 3 of 4</a>. No photos or decoration needed. <b>Nothing new is invented here.</b> Every decision was made in weeks 3 to 6; this is the first time they are all applied at once, and doing two in the room is what makes the other four possible on your own. These are the first two rows of <code>B6</code>."},
    {s:"Photograph the set", d:"<code>B5</code> complete, and the first two rows of <code>B6</code> in the deck."}
   ],
   leave:"One wireframe per screen, photographed — and two of them already finished screens in B6.",
