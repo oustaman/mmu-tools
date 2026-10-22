@@ -14,7 +14,7 @@ ACTIVE = {'index': 'index.html', 'weeks': 'weeks.html', 'teardowns': 'weeks.html
   'example-feedback': 'assessment-materials.html', 'example-council': 'assessment-materials.html',
   'example-council-marked': 'assessment-materials.html', 'example-council-feedback': 'assessment-materials.html',
   'example-sheet': 'assessment-materials.html', 'example-council-sheet': 'assessment-materials.html',
-  'toolkit': 'toolkit.html', 'ideas': 'ideas.html', 'grid-numbers': 'weeks.html', 'before-after': 'assessment-materials.html', 'case-missed-bin': 'assessment-materials.html', 'case-bakery': 'assessment-materials.html', 'case-railcard': 'assessment-materials.html', 'case-short-course': 'assessment-materials.html'}
+  'toolkit': 'toolkit.html', 'ideas': 'ideas.html', 'grid-numbers': 'weeks.html', 'before-after': 'assessment-materials.html', 'case-missed-bin': 'assessment-materials.html', 'case-bakery': 'assessment-materials.html', 'case-railcard': 'assessment-materials.html', 'case-short-course': 'assessment-materials.html', 'style-kit': 'toolkit.html'}
 HREF = {'teardowns': {'weeks.html': 'weeks.html?w=1'}, 'grid-numbers': {'weeks.html': 'weeks.html?w=3'}, 'passready': {'weeks.html': 'weeks.html?w=7'}}
 CSS = '''
   /* THE BAR — one definition, identical on every page (written by navfix; change it
