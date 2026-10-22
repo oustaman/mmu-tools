@@ -159,84 +159,85 @@ const WEEKS = [
  }
 },
 {
- n:4, title:"Typography",
- makes:["Type spec → Part A §4","1 specimen screen","C3 drafted"],
- idea:"Most bad screen type is a line-length problem wearing a font problem's clothes.",
- hand:{keep:["Two typefaces at most, each with a job.", "Most bad type is lines too long: aim for 45–75 characters.", "Name each size and what it is for."], next:"Set a second screen in your type scale."},
+ n:4, title:"Type, colour and the grid: one visual system",
+ makes:["Layout, type and colour → Part A §3–5","A first style tile","C3 and C4 drafted"],
+ idea:"Three decisions, made once and written down, so every screen — yours or anyone else’s — comes out matching.",
+ hand:{keep:["A grid, a type scale and a palette are one set of decisions.", "Write them down as numbers, and every screen will match.", "Polished means consistent and complete — not decorated."], next:"Check every colour pair in A5 passes 4.5:1."},
  shown:[
-  {core:true, s:"What a published scale actually does", u:"https://interfaces.institute/collections/type-scales/", d:"Five design systems, their type scales read out of the files they ship, and the ratio between every pair of steps computed.", take:"<b>None of the five is geometric.</b> Across 62 steps the ratio wanders in every one \u2014 Tailwind 1.111 to 1.333, Material 1.0 to 1.375. Bootstrap\u2019s top four headings have no fixed size at all. \u201cI used a 1.25 scale\u201d is a claim the systems you copied from would not survive: name your sizes, name what each is for, name the measure."},
-  {core:true, s:"Two paragraphs", u:"https://written.institute/laboratory/#measure", d:"Same font, same size. One at 45 characters, one poured into the full width. Leave both up for ten seconds and say nothing. The slider underneath sets any measure from 20 to 140, and both labels <b>count the characters live</b> rather than claiming a number.", take:"Line length is the problem more often than the font is. If your text is hard to read, the column is too wide."},
-  {s:"The type laboratory", d:"Anatomy, fast. Enough to describe a difference, not a taxonomy test. Five guide lines — baseline, x-height, cap height, ascender, descender — laid over Latin, Arabic, Devanagari and Han at the same size on the same baseline. <b>Toggle them off one at a time</b> and watch how many have nothing to measure.", u:"https://written.institute/laboratory/#anatomy", take:"Two families at most, four or five sizes. More is a portfolio that could not decide."},
+  {core:true, s:"Style kit — what are we fixing?", u:"style-kit.html", d:"Press <b>Show all three wrong</b>: a page laid out by eye, five typefaces, and pale colours that fail. Then pick a published grid, type pairing and palette, and watch the same three screens come right. Press <b>Boxes and sketch</b>: the decisions survive without the polish.", take:"Grid, type and colour are one set of decisions. Made once and written down, they make every screen match — even when the screen is drawn in boxes."},
+  {core:true, s:"Contrast, live", d:"Put a real pair up, get the ratio, darken it until it passes. Do the arithmetic in front of them.", u:"https://interfaces.institute/collections/design-tools/#pairs", take:"Anything under 4.5:1 gets changed. That is the one colour rule nobody can argue with."},
+  {s:"What a published scale actually does", u:"https://interfaces.institute/collections/type-scales/", d:"Five design systems, their type scales read out of the files they ship, and the ratio between every pair of steps computed.", take:"<b>None of the five is geometric.</b> Across 62 steps the ratio wanders in every one \u2014 Tailwind 1.111 to 1.333, Material 1.0 to 1.375. Bootstrap\u2019s top four headings have no fixed size at all. \u201cI used a 1.25 scale\u201d is a claim the systems you copied from would not survive: name your sizes, name what each is for, name the measure."},
+  {s:"Two paragraphs", u:"https://written.institute/laboratory/#measure", d:"Same font, same size. One at 45 characters, one poured into the full width. Leave both up for ten seconds and say nothing. The slider underneath sets any measure from 20 to 140, and both labels <b>count the characters live</b> rather than claiming a number.", take:"Line length is the problem more often than the font is. If your text is hard to read, the column is too wide."},
   {s:"Families have jobs", d:"Walk the hall of typologies.", u:"https://written.institute/typologies/", take:"Families have jobs. One for headings, one for reading — and say why in C3."},
-  {s:"What systems actually ship", d:"Measured body face and size across 122 design systems. Read the common values live.", u:"https://interfaces.institute/collections/design-systems/", take:"Design systems publish their real type sizes. Yours goes in A4 with a role for every size."},
-  {s:"Where text breaks", d:"Forty-nine line-breaking classes, each with a specimen. One of them is the one every design assumes.", u:"https://interfaces.institute/collections/line-breaking/", take:"Not every language breaks lines the way English does. If your topic touches another language, this is material for C7."}
+  {s:"What four systems ship, measured", u:"https://interfaces.institute/collections/palettes/", d:"Every colour four design systems publish, measured against the background it ships on.", take:"All eleven colours these systems publish <i>as text</i> pass 4.5:1. <b>Six of the sixteen they publish as fills fail every threshold</b> \u2014 Bootstrap\u2019s warning at 1.63, Carbon\u2019s yellow at 1.68. A fill is not a text colour, and the one system publishing a separate darker foreground per role has no failing colour anywhere. Three of Bootstrap\u2019s land between 4.50 and 4.53: no margin at all."}
  ],
  three:[
-  {t:"A type scale with roles", d:"Part A §4 filled in, and C3 drafted."},
-  {t:"One specimen screen", d:"Set only in sizes from your own scale. It becomes part of B6."},
-  {t:"A second screen in the scale", d:"Half the time of the first, and the test of whether the scale works.", open:true},
+  {t:"Part A §3–5 filled in", d:"Every row a number. A5 has a ratio for every text pair, none under 4.5:1."},
+  {t:"A first style tile", d:"Your three screens from the style kit, in your own words, pasted into B3."},
+  {t:"C3 and C4 drafted", d:"Why this type and why these colours, quoting the numbers.", open:true},
  ],
  workshop:{
-  aim:"A type scale, one screen set in it, and the paragraph that defends both.",
-  goals:["Build a type scale with a role for every size.", "Set a real screen using only sizes from that scale.", "Recognise a line-length problem when you see one."],
-  los: ["B2"],
-  out:{"sec": ["A4", "C3"], "what": "Type scale with a role for every size, and the typography paragraph"},
-  bring:"Laptop · your grid · spec sheet",
+  aim:"Choose your grid, type and colour as one set, write them into Part A §3–5, and see them on your own screens.",
+  goals:["Say what a grid, a type scale and a palette each decide.", "Choose all three for your audience, from published systems or your own, and write them down as numbers.", "Show that the same decisions make every screen match, at any fidelity."],
+  los: ["B1","B2"],
+  out:{"sec": ["A3", "A4", "A5", "B3", "C3", "C4"], "what": "Layout, type and colour as numbers, a first style tile, and the type and colour paragraphs"},
+  bring:"Laptop · your theme · your deck",
   run:[
-   {s:"Two families maximum", d:"One for headings, one for body — or one doing both. Three families is a portfolio that looks unsure. Pick a base size and a ratio; 16 and 1.25 work."},
-   {s:"Build the scale", d:"Generate your sizes and give each one a job: page title, section, body, caption. Four or five sizes. If you have eight, delete three."},
-   {s:"Set one screen in it", d:"Your most text-heavy screen, using only sizes from your scale. This is where the scale gets tested and usually revised."},
-   {s:"Swap", d:"Find one thing on your partner's screen that is not on their scale. There is always one."},
-   {s:"Write C3 — the type decisions", d:"Ninety words, quoting sizes from <code>A4</code>. Name the two families and say what each is for. If you used three, defend the third here or drop it — that is the choice, and both answers are markable."}
+   {s:"What are we fixing?", d:"Open the <a href=\"style-kit.html\">Style kit</a> and press <b>Show all three wrong</b>. In pairs, name what is wrong with each screen — the gaps, the typefaces, the colours. Then read the A3, A4 and A5 it writes: that is what “no decisions” looks like on paper."},
+   {s:"Choose your three", d:"Pick a grid, a type pairing and a palette for <i>your</i> audience. Type your own service name, question and button into the boxes. Change your mind as often as you like — the screens redraw each time. <b>Prefer your own choices?</b> Use them; the kit is a starting point, not a rule."},
+   {s:"Copy them into your deck", d:"<b>Copy for A3</b>, <b>Copy for A4</b>, <b>Copy for A5</b> into your deck, and <b>Copy for C9</b> into your references. If A5 says anything FAILS, change the colour now and copy it again."},
+   {s:"A first style tile", d:"Screenshot the three screens and paste them into <code>B3</code>. Then press <b>Boxes and sketch</b> and look again: same grid, same sizes, same order. Boxes, wireframes or neat paper are fine for your screens; what is marked is the decisions, applied the same way everywhere."},
+   {s:"Write C3 and C4", d:"One slide each. Say why this type and these colours suit your audience, and <b>quote numbers from A4 and A5</b>. If you changed something from the kit, say what and why — that is the strongest paragraph you can write."}
   ],
-  leave:"Part A §4 filled, C3 drafted, and one specimen screen — the first thing that becomes B6.",
-  done:"Nothing on your screen is at a size that is not on your scale.",
-  between:"Set a second screen in your scale. It takes half as long as the first, and it is the test of whether the scale works or whether you fitted it to one screen.",
-  mistake:"Eight sizes. You need four.",
-  stuck:[["Which fonts?","Anything on Google Fonts. The pairing matters less than the scale holding."],
-         ["What ratio?","1.25. Look at your headings and decide if you want more or less contrast."],
-         ["My measure is too long","The column is too wide. Go back to your grid — that is what it is for."]]
+  leave:"A3, A4 and A5 filled in, a first style tile in B3, C3 and C4 drafted.",
+  done:"Every row of A3–A5 is a number, every colour pair passes 4.5:1, and B3 shows your three screens.",
+  between:"If anything in A5 failed, fix it and copy it again. Nothing else.",
+  mistake:"Choosing by look alone. Choose for your audience, then check the numbers.",
+  stuck:[["I missed weeks 3 and 4","Start here. The style kit gives you a complete A3, A4 and A5 in one sitting, with sources."],
+         ["Do I have to use the kit?","No. Use your own choices, any tool. The kit just shows what a complete answer looks like."],
+         ["My screens are only boxes","That is fine. Polished means consistent and complete, not decorated."],
+         ["My brand colour fails","Darken it until it passes, or keep it for large text and decoration. Both go in A5."],
+         ["Where do I cite the fonts and grid?","C9. The kit writes the references for you."]]
  }
 },
 {
- n:5, title:"Colour",
- makes:["Colour spec → Part A §5","Contrast table","C4 drafted"],
- idea:"Contrast is the one part of colour that is measurable, and therefore the one part nobody can argue with you about.",
- hand:{keep:["Body text needs 4.5:1 contrast with its background.", "Give colours roles first: background, surface, text, quiet text, accent.", "Colour must never be the only way something is shown."], next:"Recolour your second screen."},
+ n:5, title:"The journey: what are we fixing?",
+ makes:["The journey before → Part A §2","The before, captured → D1","C7 drafted"],
+ idea:"A better screen is not the point. A shorter, kinder journey is — and you can count it.",
+ hand:{keep:["Write the goal, then every step people take now.", "Count the steps, the waits and the dead ends.", "Every problem gets a number, not an adjective."], next:"Screenshot every step of your before, numbered to match A2."},
  shown:[
-  {s:"Traffic colour", d:"How the meaning got fixed, and by whom.", u:"https://symbolic.institute/visual-grammar/traffic-colour/", take:"Colour means different things in different places. Pick one such difference and write it into C7 today — the brief asks for it by name."},
-  {core:true, s:"The same hue, different meanings", d:"Colour associations by place. Walk a few.", u:"https://symbolic.institute/collections/colour-associations/", take:"Same hue, different meaning depending on where you are. That is your cross-cultural consideration, and it is markable."},
-  {s:"A law that names colour and no values", d:"GHS: black symbol, white ground, red frame \"sufficiently wide to be clearly visible\". No hex anywhere in a binding text.", u:"https://symbolic.institute/collections/symbol-standards/", take:"A law can name a colour without naming a value. Your A5 names values, because a marker has to be able to check them."},
-  {s:"What four systems ship, measured", u:"https://interfaces.institute/collections/palettes/", d:"Every colour four design systems publish, measured against the background it ships on.", take:"All eleven colours these systems publish <i>as text</i> pass 4.5:1. <b>Six of the sixteen they publish as fills fail every threshold</b> \u2014 Bootstrap\u2019s warning at 1.63, Carbon\u2019s yellow at 1.68. A fill is not a text colour, and the one system publishing a separate darker foreground per role has no failing colour anywhere. Three of Bootstrap\u2019s land between 4.50 and 4.53: no margin at all."},
-  {s:"What fifty banks actually use", d:"Measured off their live pages. Sort by hue and watch the blues stack up.", u:"https://interfaces.institute/collections/bank-interfaces/", take:"Measure your colours, do not describe them. Every text pair gets a contrast figure in A5."},
-  {core:true, s:"Contrast, live", d:"Put a real pair up, get the ratio, darken it until it passes. Do the arithmetic in front of them.", u:"https://interfaces.institute/collections/design-tools/#pairs", take:"Anything under 4.5:1 gets changed in the room. That number is the one thing nobody can argue with you about."}
+  {core:true, s:"Before and after: the painful one", u:"case-bakery.html", d:"A made-up bakery that takes cake orders by message: a splash page with music, a sideways scanned menu, a full voicemail, 23 messages and a closure announced in a story. Walk the <i>now</i> slides first, then the improved ones.", take:"The before is evidence, even when it is a message thread. Count it — channels, messages, days — and every count becomes a line in C5 and D2."},
+  {core:true, s:"Before and after: the okay one", u:"case-missed-bin.html", d:"Liverpool’s missed-bin report: good type and colour, a journey that hides its one rule. Thirteen problems, each measured; thirteen decisions, each explained.", take:"A service can look fine and still fail its users. The problems are in the order of things — which is what A2 and B4 are for."},
+  {s:"Before and after: the Railcard", u:"case-railcard.html", d:"Questions in the wrong order, and the requirements announced after you have started.", take:"Ask what decides everything first."},
+  {s:"Before and after: a Welsh course", u:"case-short-course.html", d:"Complete facts in the provider’s words. The cross-cultural case.", take:"Use your user’s words; explain the service’s where they appear."},
+  {s:"The same hue, different meanings", d:"Colour associations by place. Walk a few.", u:"https://symbolic.institute/collections/colour-associations/", take:"Same hue, different meaning depending on where you are. That is your cross-cultural consideration, and it is markable."},
+  {s:"Traffic colour", d:"How the meaning got fixed, and by whom.", u:"https://symbolic.institute/visual-grammar/traffic-colour/", take:"Colour means different things in different places. Pick one such difference and write it into C7 today — the brief asks for it by name."}
  ],
  three:[
-  {t:"Five colours with roles", d:"Part A §5, a ratio on every text pair, nothing under 4.5:1."},
-  {t:"C4 and C7 drafted", d:"The colour paragraph, and the cross-cultural one."},
-  {t:"The second screen recoloured", d:"Two screens then carry your grid, your scale and your palette.", open:true},
+  {t:"Your journey before, counted", d:"Part A §2: the goal and every step people take now, with the count."},
+  {t:"The before, captured", d:"D1: one screenshot or photo per step, numbered to match A2."},
+  {t:"C7 drafted", d:"One cross-cultural consideration, specific to your service.", open:true},
  ],
  workshop:{
-  aim:"Five colours with roles, and a ratio for every text pair.",
-  goals:["Assign colour roles before choosing any colour.", "Measure the contrast of every text pair and record the number.", "Change a failing pair rather than argue with it."],
-  los: ["B2"],
-  out:{"sec": ["A5", "C4", "C7"], "what": "Colours with contrast figures, the colour paragraph and the cross-cultural one"},
-  bring:"Laptop · spec sheet · your week 4 screen",
+  aim:"Find out what your design has to fix: the goal, every step people take now, counted, and captured.",
+  goals:["Read a before-and-after case the way a marker would.", "Write your goal and every step people take now, and count them.", "Capture the before as evidence, and name one cross-cultural consideration."],
+  los: ["A1","B2"],
+  out:{"sec": ["A2", "D1", "C7"], "what": "The journey before, counted, the before captured, and the cross-cultural paragraph"},
+  bring:"Laptop · your theme · access to the service you are improving (the website, the app, the chat)",
   run:[
-   {s:"Roles first, colours second", d:"Write the five roles before you pick anything: background, surface, body text, quiet text, accent. Five is plenty."},
-   {s:"Assign a hex to each", d:"Then check the first pair immediately and watch it fail. That failure is the lesson — do not skip it."},
-   {s:"The contrast table", d:"Every text-on-background pair, measured, written into §5. Anything under 4.5:1 gets changed now, in this room. Use any contrast checker."},
-   {s:"Write C4 — the colour decisions", d:"Ninety words, quoting two ratios from <code>A5</code>. Say which pair failed first and what you changed. <b>The failure is the paragraph.</b> A colour section with no number in it reads as decoration."},
-   {s:"Recolour", d:"Apply it to your week 4 screen."},
-   {s:"Write C7 — the cross-cultural paragraph", d:"Eighty words, and the brief asks for it by name. Pick ONE: colour symbolism, reading direction, icon universality, or how culturally specific your imagery is. If you used red for a warning, <a href=\"https://symbolic.institute/collections/colour-associations/\" target=\"_blank\">colour associations</a> will tell you where that reads differently."}
+   {s:"Walk one case, in pairs", d:"Open <a href=\"before-after.html\">Before and after</a> and walk the bakery’s <i>now</i> slides. For each red number, say what it costs the customer. Then the improved slides: which green number fixes which red one?"},
+   {s:"Write the goal, then the before", d:"Your goal: what the person is trying to get done. Then every step people take now — the website, the form, the phone call, the message thread. If nothing like your idea exists yet, the before is how people manage without it. Write it into <code>A2</code>."},
+   {s:"Count it", d:"Steps, taps, fields, messages, days waiting, dead ends. Every problem gets a number, not an adjective: “199 words before you can start”, not “too much text”."},
+   {s:"Capture it", d:"Screenshot or photograph every step into <code>D1</code>, numbered to match A2. Chats need the owner’s permission and every other person’s name and number blurred."},
+   {s:"Write C7 — one cross-cultural consideration", d:"One slide. Pick ONE that is real for your service: colour meaning, reading direction, names and dates, language, icons. The Welsh course case shows several."}
   ],
-  leave:"A5 filled, C4 and C7 drafted.",
-  done:"Every pair has a number and none is below 4.5:1.",
-  between:"Recolour that second screen. You now have two screens carrying your grid, your scale and your palette.",
-  mistake:"Listing colours without pairs. The pair is what has a ratio.",
-  stuck:[["My brand colour fails","Keep it for large text and non-text. Darken a variant for body. Both go in the table."],
-         ["How many colours?","Five roles."],
-         ["Is 4.4:1 fine?","No. It is a number, and the number is the point."]]
+  leave:"A2 with your before counted, D1 captured, C7 drafted.",
+  done:"Every step in A2 has a picture in D1, and the before has a count.",
+  between:"Finish capturing D1 while you still have access to the before.",
+  mistake:"Describing the before instead of counting it.",
+  stuck:[["There is no website for my idea","Then the before is how people manage now: the chat, the phone, the paper. The bakery case is exactly that."],
+         ["Can I screenshot a real service?","Yes, for your appendix, credited. Blur anyone’s personal details."],
+         ["What counts as a step?","Anything the person has to do or wait for: a page, a tap, a call, a reply."]]
  }
 },
 {
@@ -263,8 +264,9 @@ const WEEKS = [
   bring:"Laptop · spec sheet §3–5 · whatever AI tools you use",
   run:[
    {s:"Mood board, fast", d:"Fifteen images, one page, the feeling you are aiming at. Generated images are encouraged here — every one gets a line in the log."},
-   {s:"Style tile", d:"Not a mood board. Your type scale, your palette with roles, your spacing, and three sample components: a button, a field, a card. Every value comes from your own §3–5."},
+   {s:"Style tile", d:"Not a mood board. Start from week 4’s screens and finish the tile: your type scale, your palette with roles, your spacing, and three sample components — a button, a field, a card. Every value comes from your own §3–5."},
    {s:"Open the log", d:"Part A §7. Every AI use from today: tool, what it produced, what you changed, why. One line each. Do it now — you will not remember in January."},
+   {s:"Optional: feedback on your deck", d:"If you have shared your deck and would like feedback, sign up for a short slot with your tutor during the workshop. It is optional and not marked; everyone else carries on with the steps here."},
    {s:"Write C8 — what you make of the AI", d:"Eighty words, required by the brief and not the same as the A7 log. A7 is the record; C8 asks whether the output was any good, whose work it is, and what you changed. If you used none, say why — that is a full answer."}
   ],
   leave:"Mood board and style tile in B2–B3, A7 started, C8 drafted.",
@@ -278,7 +280,7 @@ const WEEKS = [
 },
 {
  n:7, title:"UX basics and screen states",
- makes:["Journey before/after → Part A §2","Flow diagram","C6 drafted"],
+ makes:["Your screens → Part A §2","Flow diagram","C6 drafted"],
  idea:"The screens you forget to design are the ones people meet on their worst day.",
  hand:{keep:["Every screen has an empty, a loading and an error state.", "Give each screen a job in under ten words.", "Two screens with the same job are one screen."], next:"Nothing — you are ready to wireframe."},
  shown:[
@@ -296,13 +298,13 @@ const WEEKS = [
   {t:"The two you build first", d:"Decide before week 8, when every screen gets wireframed.", open:true},
  ],
  workshop:{
-  aim:"One goal, the steps people take to reach it now, and the screens of your version.",
+  aim:"The screens of your version, the states you forgot, and a flow somebody else can follow.",
   goals:["Name the goal, list how people reach it now, and give each of your screens a job in under ten words.", "Find the screens you forgot — empty, loading, error.", "Draw a flow somebody else can follow."],
   los: ["A1","B2"],
   out:{"sec": ["A2", "B4", "C6"], "what": "The journey before and after, the before captured in an appendix, the flow diagram, and the ethics paragraph"},
   bring:"Large paper and markers, or a laptop for draw.io · your theme",
   run:[
-   {s:"Write the goal, then the before", d:"The goal: what the person is trying to get done. Then every step people take now to get there \u2014 the website, the form, the email, the WhatsApp group. If nothing like your idea exists yet, the before is how people manage without it. Count the steps, and screenshot or photograph each one into <code>D1</code>."},
+   {s:"Your journey, after", d:"Open <code>A2</code> from week 5: the goal and the before are there. Now the after."},
    {s:"List your screens", d:"Give each of yours a job in under ten words, starting with a verb. Cross out any two that share a job. Do not add features: your count should come in under the before, and the difference is a number you will quote in C5."},
    {s:"The states check", d:"For each screen ask: what does this look like empty? Loading? When it fails? This usually adds one or two screens, and that is the point."},
    {s:"Draw the flow", d:"Boxes and arrows — on big paper, or in <a href=\"https://app.diagrams.net/\">draw.io</a>, free in the browser with no account. In class we rebuild <a href=\"example-council.html\">Example 2</a>’s B4 in it first: four screens, three decisions. One box per screen, one arrow per way between them, and a diamond for each decision. Where does someone enter? Where can they get stuck? In draw.io, <b>File → Export as → PNG</b> and paste it into <code>B4</code>; save the <code>.drawio</code> file in your OneDrive folder so you can change it later."},

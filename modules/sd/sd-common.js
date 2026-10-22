@@ -80,7 +80,7 @@ const PARTS = [
    {sec:"A4", t:"Typography", dw:4, d:"Every field has a number",
     h:"Families and roles, sizes, line heights, scale ratio, measure.",
     f:["Heading family:","Body family:","Base size:","Scale ratio:","Sizes and their roles:","Line height:","Measure (characters per line):"]},
-   {sec:"A5", t:"Colour + contrast table", dw:5, d:"No pair below 4.5:1 unlisted",
+   {sec:"A5", t:"Colour + contrast table", dw:4, d:"No pair below 4.5:1 unlisted",
     h:"Hex with roles, and a contrast ratio for every text/background pair.",
     f:["Background:  #","Surface:     #","Body text:   #","Quiet text:  #","Accent:      #","",
        "CONTRAST — every text on every background it sits on","  body on background   =      :1","  quiet on background  =      :1","  body on surface      =      :1","  accent on background =      :1"]},
