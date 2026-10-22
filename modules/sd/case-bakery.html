@@ -1,0 +1,719 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ordering a celebration cake — Before and after — Screen Design</title>
+<style>
+  :root{
+    --bg:#F5F4F2; --surface:#FFFFFF; --surface-2:#EDEBE8;
+    --ink:#1A1618; --ink-2:#514B4A; --ink-3:#4D4847;
+    --line:#DFDBD7; --line-2:#8E8685;
+    --lec:#8C2437; --lec-soft:#F6E8EA;
+    --wsh:#1A526D; --wsh-soft:#E4EEF3;
+    --ok:#285638; --ok-soft:#E3EFE7;
+    --warn:#684604; --warn-soft:#F4EAD3;
+    --mono:ui-monospace,"SF Mono",Menlo,Consolas,monospace;
+    --sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Inter,Roboto,sans-serif;
+  }
+  html[data-theme="dark"]{
+    --bg:#151314; --surface:#1E1B1C; --surface-2:#262223;
+    --ink:#EDE9E7; --ink-2:#B9B2AF; --ink-3:#B7B2B0;
+    --line:#332E2F; --line-2:#7A7372;
+    --lec:#E69FAD; --lec-soft:#332226;
+    --wsh:#7FBEDC; --wsh-soft:#16262E;
+    --ok:#83C19A; --ok-soft:#1C2A22;
+    --warn:#DCB469; --warn-soft:#2A2417;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);line-height:1.5}
+  .wrap{max-width:1100px;margin:0 auto;padding:0 22px}
+  @media(max-width:420px){.wrap{padding:0 14px}}
+  @media(max-width:340px){.wrap{padding:0 10px}}
+  a{color:var(--lec)}
+
+  /* The bar, identical on every page (see assessment.html). */
+  header{border-bottom:1px solid var(--line);background:var(--surface);position:sticky;top:0;z-index:40}
+  .bar{display:flex;align-items:center;gap:10px;padding-block:11px;flex-wrap:nowrap}
+  .brand{font-weight:680;font-size:1rem;letter-spacing:-0.015em;white-space:nowrap;color:inherit;
+    text-decoration:none;padding:5px 8px;margin-left:-8px;border-radius:6px}
+  .brand:hover{background:var(--surface-2)}
+  .brand:focus-visible{outline:2px solid var(--lec);outline-offset:1px}
+  .sp{flex:1}
+  .navl{font-size:0.85rem;color:var(--ink-2);text-decoration:none;padding:6px 10px;border-radius:6px;white-space:nowrap}
+  .navl:hover{background:var(--surface-2);color:var(--ink)}
+  .ctl button{font-family:var(--mono);font-size:0.7rem;background:none;color:var(--ink-3);
+    border:1px solid var(--line-2);border-radius:5px;padding:5px 8px;cursor:pointer;line-height:1}
+  .ctl button:hover{border-color:var(--lec);color:var(--lec)}
+  @media(max-width:760px){ header .bar{gap:6px} .navl{padding:6px 8px;font-size:0.82rem} }
+  @media(max-width:560px){
+    header .bar{flex-wrap:wrap;row-gap:6px}
+    header .brand{order:0} header .ctl{order:1;margin-left:auto}
+    header .bar > .sp{order:2;flex-basis:100%;height:0}
+    header .navl{order:3;padding:5px 7px;font-size:0.78rem}
+  }
+  @media(max-width:430px){ .brand{font-size:0.9rem} .navl{padding:5px 6px;font-size:0.76rem} }
+
+  .navl.on{background:var(--lec);color:#fff}
+  html[data-theme="dark"] .navl.on{color:#151314}
+  h1{font-size:clamp(1.6rem,4.4vw,2.3rem);line-height:1.1;letter-spacing:-0.028em;margin:24px 0 4px;font-weight:700}
+  h2{font-size:1.2rem;font-weight:690;letter-spacing:-0.015em;margin:34px 0 6px}
+
+  .tile{display:block;background:var(--surface);border:1px solid var(--line);border-radius:11px;padding:14px 16px;
+    text-decoration:none;color:inherit}
+  .tile:hover{border-color:var(--lec)}
+  .tile b{display:block;font-size:0.98rem;margin-bottom:3px}
+  .tile span{font-size:0.86rem;color:var(--ink-2)}
+  .tile i{font-style:normal;font-family:var(--mono);font-size:0.68rem;color:var(--ink-3);display:block;margin-top:6px}
+
+  .btn{display:inline-flex;align-items:center;min-height:42px;padding:0 15px;border-radius:8px;text-decoration:none;
+    font-weight:640;font-size:0.9rem;border:1px solid var(--line-2);color:var(--ink);background:var(--bg)}
+  .btn:hover{border-color:var(--lec);color:var(--lec)}
+
+  .note{font-size:0.82rem;color:var(--ink-3);margin:12px 0 0}
+  footer{padding:24px 0 44px;color:var(--ink-3);font-size:0.8rem;border-top:1px solid var(--line);margin-top:30px}
+
+  .so{background:#F0F2F5;min-height:760px;font-family:system-ui,sans-serif;color:#1c1e21}
+
+  .so-av{width:38px;height:38px;border-radius:50%;background:#C8A27A;flex:none;display:grid;place-items:center;color:#fff;font:700 16px Georgia,serif}
+
+  .ch{background:#fff;min-height:760px;font-family:system-ui,sans-serif;color:#111;display:flex;flex-direction:column}
+  .ch-top{padding:12px 14px;display:flex;align-items:center;gap:10px;border-bottom:1px solid #e5e5e5;font-weight:700;font-size:16px}
+  .ch-top small{display:block;font-weight:400;font-size:12px;color:#65676B}
+  .ch-body{padding:10px 12px;display:flex;flex-direction:column;gap:6px}
+  .ch-day{align-self:center;font-size:11px;color:#65676B;margin:8px 0 2px}
+  .ch-m{max-width:78%;padding:8px 12px;border-radius:18px;font-size:14.5px;line-height:1.4}
+  .ch-m.me{align-self:flex-end;background:#3B82F6;color:#fff;border-bottom-right-radius:5px}
+  .ch-m.them{align-self:flex-start;background:#E9E9EB;color:#111;border-bottom-left-radius:5px}
+  .ch-m small{display:block;font-size:10.5px;opacity:.7;margin-top:2px}
+  .ch-photo{align-self:flex-start;width:190px;height:150px;border-radius:14px;background:#f6efe3;border:1px solid #e5d9c5;padding:10px;font:italic 12px/1.35 'Comic Sans MS','Segoe Print',cursive;color:#6b5a48;transform:rotate(-1.5deg)}
+
+  /* the bakery after — the redesign's own system (A3–A5 below) */
+  .bk{background:#FBF6EE;min-height:760px;font-family:'Source Sans 3',system-ui,sans-serif;color:#2B211C}
+  .bk-top{display:flex;align-items:center;justify-content:space-between;padding:14px 16px;border-bottom:1px solid #E6D6BD}
+  .bk-top b{font:700 21px/1 'Fraunces',Georgia,serif;letter-spacing:-.01em}
+  .bk-top span{font-size:15px;color:#5E534C}
+  .bk-in{padding:16px}
+
+  .bk-in h1{font:700 28px/1.15 'Fraunces',Georgia,serif;margin:0 0 12px;letter-spacing:-.01em}
+  .bk-in p{font-size:18px;line-height:1.5;margin:0 0 14px}
+  .bk-in .back{font-size:16px;color:#8A3B12;text-decoration:underline;margin:0 0 12px}
+  .bk-btn{display:block;text-align:center;background:#8A3B12;color:#fff;font:700 18px/1 'Source Sans 3',sans-serif;padding:15px;border-radius:6px;margin:8px 0 12px}
+  .bk-card{display:grid;grid-template-columns:auto 1fr auto;gap:2px 12px;align-items:center;background:#fff;border:2px solid #E6D6BD;border-radius:8px;padding:12px 14px;margin:0 0 8px}
+  .bk-card.on{border-color:#8A3B12;box-shadow:inset 0 0 0 1px #8A3B12}
+  .bk-card .rad{width:22px;height:22px;border:2px solid #2B211C;border-radius:50%;grid-row:1/3;position:relative}
+  .bk-card.on .rad::after{content:"";position:absolute;inset:4px;border-radius:50%;background:#8A3B12}
+  .bk-card b{font-size:18px} .bk-card small{font-size:15px;color:#5E534C;grid-column:2}
+  .bk-card .pr{grid-row:1/3;grid-column:3;font:700 20px/1 'Fraunces',Georgia,serif}
+  .bk-tag{display:inline-block;font-size:13px;border:1px solid #C9B79C;border-radius:99px;padding:1px 8px;margin:4px 4px 0 0;color:#5E534C;background:#FBF6EE}
+  .bk-note{background:#F1E4CF;border-radius:8px;padding:12px 14px;font-size:16px;line-height:1.45;margin:0 0 14px}
+  .bk-cal{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;margin:0 0 12px;text-align:center}
+  .bk-cal span{font-size:13px;color:#5E534C;padding:2px 0}
+  .bk-cal i{font-style:normal;font-size:16px;padding:9px 0;border-radius:6px;background:#fff;border:1px solid #E6D6BD}
+  .bk-cal i.x{background:#EFE7DA;color:#9a8f86;text-decoration:line-through;border-style:dashed}
+  .bk-cal i.on{background:#8A3B12;color:#fff;border-color:#8A3B12}
+  .bk-slots{display:flex;gap:8px;flex-wrap:wrap;margin:0 0 12px}
+  .bk-slots i{font-style:normal;font-size:16px;padding:10px 14px;border:2px solid #E6D6BD;border-radius:6px;background:#fff}
+  .bk-slots i.on{border-color:#8A3B12;box-shadow:inset 0 0 0 1px #8A3B12}
+  .bk-lbl{display:block;font-weight:700;font-size:18px;margin:0 0 4px}
+  .bk-field{background:#fff;border:2px solid #2B211C;border-radius:4px;height:48px;font-size:18px;line-height:44px;padding:0 10px;margin:0 0 6px}
+  .bk-hint{font-size:15px;color:#5E534C;margin:0 0 14px}
+  .bk-cake{margin:0 0 14px;height:120px;border-radius:50% 50% 12px 12px / 30% 30% 12px 12px;background:#F1E4CF;border:2px solid #E6D6BD;display:grid;place-items:center;font:italic 22px 'Fraunces',Georgia,serif;color:#8A3B12}
+  .bk-done{background:#2E6B3F;color:#fff;border-radius:8px;padding:18px 16px;margin:0 0 14px}
+  .bk-done h1{color:#fff;margin:0 0 6px} .bk-done p{color:#fff;margin:0;font-size:17px}
+  .bk-sum{border-top:1px solid #E6D6BD;margin:0 0 14px}
+  .bk-sum div{display:flex;justify-content:space-between;gap:10px;padding:8px 0;border-bottom:1px solid #E6D6BD;font-size:16px}
+  .bk-sum dt{font-weight:700} .bk-sum dd{margin:0;text-align:right}
+  /* the painful version: splash, scanned menu, voicemail, story */
+  .sp-page{position:relative;height:760px;background:linear-gradient(170deg,#C9A27A,#7B5A3C);font-family:Georgia,serif;color:#fff;text-align:center;overflow:hidden}
+  .sp-page .logo{padding-top:150px;font:italic 46px/1.05 Georgia,serif;text-shadow:0 2px 8px rgba(0,0,0,.25)}
+  .sp-page .tag{font:14px/1.4 Georgia,serif;letter-spacing:.3em;text-transform:uppercase;margin-top:10px;opacity:.9}
+  .sp-enter{display:inline-block;margin-top:40px;border:1px solid rgba(255,255,255,.7);color:#F7E7C6;padding:12px 34px;letter-spacing:.4em;font:13px Georgia,serif}
+  .sp-music{position:absolute;top:14px;left:14px;font:13px system-ui,sans-serif;background:rgba(0,0,0,.25);padding:5px 10px;border-radius:20px}
+  .sp-cookie{position:absolute;left:0;right:0;bottom:0;background:#fff;color:#444;font:14px/1.45 system-ui,sans-serif;text-align:left;padding:16px 16px 18px;box-shadow:0 -4px 14px rgba(0,0,0,.2)}
+  .sp-cookie b{display:block;font-size:16px;color:#222;margin-bottom:4px}
+  .sp-cookie span{display:block;margin-top:12px;background:#E0A458;color:#fff;text-align:center;padding:12px;border-radius:24px;font-weight:700;letter-spacing:.1em}
+  .pdf{background:#525659;height:760px;font-family:system-ui,sans-serif;position:relative}
+  .pdf-top{background:#323639;color:#eee;font-size:13px;padding:12px 14px;display:flex;justify-content:space-between}
+  .pdf-sheet{position:absolute;left:80px;top:90px;width:200px;height:290px;background:#FBF7EE;writing-mode:vertical-rl;box-shadow:0 2px 10px rgba(0,0,0,.4);padding:14px;font:italic 9px/1.35 Georgia,serif;color:#6b5a48;filter:blur(.3px)}
+  .pdf-sheet span{display:inline-block}
+  .pdf-sheet b{display:block;font-size:13px;margin-bottom:6px}
+  .pdf-note{position:absolute;left:0;right:0;bottom:0;background:#323639;color:#ddd;font-size:13px;padding:12px 14px;text-align:center}
+  .call{height:760px;background:linear-gradient(#2C3E50,#11161c);color:#fff;font-family:system-ui,sans-serif;text-align:center;padding-top:120px}
+  .call .who{font-size:28px;font-weight:300} .call .num{font-size:15px;opacity:.7;margin-top:6px}
+  .call .vm{margin:60px 24px 0;background:rgba(255,255,255,.1);border-radius:14px;padding:16px;font-size:16px;line-height:1.5}
+  .call .end{width:66px;height:66px;border-radius:50%;background:#E5483A;margin:70px auto 0;display:grid;place-items:center;font-size:26px}
+  .story{height:760px;background:linear-gradient(160deg,#3a2c22,#16110d);color:#fff;font-family:system-ui,sans-serif;position:relative}
+  .story-bars{display:flex;gap:4px;padding:10px 10px 0}.story-bars i{flex:1;height:3px;background:rgba(255,255,255,.4);border-radius:2px}.story-bars i:first-child{background:#fff}
+  .story-who{display:flex;align-items:center;gap:8px;padding:10px 12px;font-size:14px}
+  .story-txt{position:absolute;left:24px;right:24px;top:300px;text-align:center;font:700 26px/1.25 system-ui,sans-serif;text-shadow:0 2px 6px rgba(0,0,0,.4)}
+  .story-txt small{display:block;font-weight:400;font-size:16px;margin-top:10px}
+  .story-exp{position:absolute;left:0;right:0;bottom:24px;text-align:center;font-size:13px;opacity:.75}
+  /* tables */
+  table.tb{border-collapse:collapse;width:100%;background:var(--surface);border:1px solid var(--line);border-radius:10px;overflow:hidden;font-size:0.92rem;margin:8px 0 6px}
+  .tb th,.tb td{text-align:left;padding:8px 12px;border-top:1px solid var(--line);vertical-align:top;color:var(--ink-2)}
+  .tb tr:first-child th{border-top:0;font-family:var(--mono);font-size:0.66rem;letter-spacing:.07em;text-transform:uppercase;color:var(--ink-3);background:var(--surface-2,var(--bg))}
+  .tb td:first-child,.tb th[scope=row]{color:var(--ink);font-weight:600}
+  .tb .num{font-family:var(--mono);white-space:nowrap}
+  .tb .up{color:var(--ok);font-weight:700}
+  .tb .sw{display:inline-block;width:14px;height:14px;border-radius:3px;vertical-align:-2px;margin-right:6px;border:1px solid rgba(0,0,0,.15)}
+  .tbw{overflow-x:auto}
+  .fair{background:var(--ok-soft);border:1px solid var(--line);border-radius:10px;padding:12px 16px;margin:12px 0}
+  .fair b{color:var(--ok)}
+  .why{display:grid;gap:10px;grid-template-columns:repeat(auto-fit,minmax(min(300px,100%),1fr));margin:10px 0}
+  .why div{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:12px 14px}
+  .why div b{display:block;margin-bottom:4px;color:var(--ink)}
+  .why div span{font-size:0.9rem;color:var(--ink-2);line-height:1.5}
+  .why code{font-size:.85em}
+  .note{font-size:0.85rem;color:var(--ink-3);margin:8px 0 0}
+
+  .meta{font-family:var(--mono);font-size:0.74rem;color:var(--ink-3);margin:0 0 14px;line-height:1.7}
+  .meta a{color:var(--lec)}
+  .goal{display:grid;gap:10px 28px;grid-template-columns:repeat(auto-fit,minmax(min(240px,100%),1fr));background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:16px 20px;margin:6px 0 4px}
+  .goal div b{display:block;font-family:var(--mono);font-size:0.66rem;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3);margin-bottom:3px}
+  .goal div span{color:var(--ink);line-height:1.5}
+  .goal a{color:var(--lec)}
+
+  /* ── walkthrough: one screen at a time, the pane explains every number ── */
+  html,body{height:auto}
+  .wt-bar{position:sticky;top:var(--hdr,57px);z-index:30;background:var(--bg);border-bottom:1px solid var(--line)}
+  .wt-bar .wrap{display:flex;align-items:center;gap:8px;min-height:52px;flex-wrap:wrap;padding-block:6px}
+  .wt-bar b{font-size:0.95rem}
+  .wt-bar .sp{flex:1}
+  .wt-bar .ct{font-family:var(--mono);font-size:0.74rem;color:var(--ink-3)}
+  .tb{font:600 0.85rem var(--sans);background:var(--surface);color:var(--ink-2);border:1px solid var(--line-2);border-radius:8px;min-height:40px;min-width:44px;padding:0 12px;cursor:pointer}
+  .tb:hover:not(:disabled){color:var(--lec);border-color:var(--lec)} .tb:disabled{opacity:.35;cursor:default}
+  .tb:focus-visible,.chip:focus-visible,.wt-nav button:focus-visible{outline:2px solid var(--lec);outline-offset:2px}
+  .wt-nav{display:flex;flex-wrap:wrap;gap:6px;padding:10px 0 4px}
+  .wt-nav .grp{display:flex;gap:4px;align-items:center;flex-wrap:wrap;margin-right:10px}
+  .wt-nav .grp i{font-style:normal;font-family:var(--mono);font-size:0.64rem;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-3);margin-right:4px}
+  .wt-nav button{font:600 0.78rem var(--sans);min-width:34px;min-height:32px;border-radius:7px;border:1px solid var(--line);background:var(--surface);color:var(--ink-2);cursor:pointer;padding:0 8px}
+  .wt-nav button[aria-current="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+  .wt-nav button.now{border-left:3px solid #B3261E} .wt-nav button.new{border-left:3px solid #00703C}
+
+  .ws{display:none;padding:22px 0 40px}
+  .ws.on{display:block}
+  .ws-grid{display:grid;grid-template-columns:auto minmax(0,1fr);gap:clamp(20px,3vw,44px);align-items:start}
+  @media(max-width:900px){.ws-grid{grid-template-columns:1fr}}
+  .stagec{display:flex;justify-content:center;position:sticky;top:calc(var(--hdr,57px) + 120px)}
+  @media(max-width:900px){.stagec{position:static}}
+
+  /* the phone, at a size you can read */
+  .phone{--s:0.94;width:calc(360px * var(--s) + 20px);height:calc(760px * var(--s) + 20px);border:10px solid #1C1A1B;border-radius:34px;overflow:hidden;position:relative;background:#fff;box-shadow:0 10px 34px rgba(0,0,0,.2)}
+  @media(max-width:420px){.phone{--s:0.86}}
+  .scr{width:360px;height:760px;transform:scale(var(--s));transform-origin:top left;font-family:'Atkinson Hyperlegible',system-ui,sans-serif;color:#202427;background:#fff;position:relative;overflow:hidden}
+  .redrawn{position:absolute;top:0;right:0;z-index:9;font-family:var(--mono);font-size:10px;letter-spacing:.08em;text-transform:uppercase;background:#F4EAD3;color:#684604;padding:3px 8px;border-bottom-left-radius:6px}
+
+  /* numbered markers, on the screen and in the pane */
+  .pin{position:absolute;z-index:8;width:32px;height:32px;margin:-16px 0 0 -16px;border-radius:50%;color:#fff;font:700 15px/32px system-ui,sans-serif;text-align:center;box-shadow:0 0 0 3px #fff,0 2px 8px rgba(0,0,0,.3);cursor:pointer;transition:transform .15s}
+  .pin.bad,.dot.bad{background:#B3261E} .pin.good,.dot.good{background:#00703C}
+  .pin.hot{transform:scale(1.35);box-shadow:0 0 0 3px #fff,0 0 0 7px rgba(255,221,0,.95)}
+  .ring{position:absolute;z-index:7;border:3px solid #FFDD00;border-radius:6px;box-shadow:0 0 0 2px #0B0C0C;pointer-events:none;opacity:0;transition:opacity .15s}
+  .ring.hot{opacity:1}
+
+  .pane .ph{font-family:var(--mono);font-size:0.7rem;letter-spacing:.1em;text-transform:uppercase;margin:0 0 6px}
+  .pane .ph.now{color:#B3261E} .pane .ph.new{color:#00703C}
+  .pane h2{margin:0 0 8px;font-size:clamp(1.4rem,2.6vw,1.9rem);letter-spacing:-0.02em;line-height:1.15}
+  .pane > p{color:var(--ink-2);line-height:1.6;margin:0 0 14px;max-width:62ch}
+  .pts{list-style:none;margin:0;padding:0;display:grid;gap:10px}
+  .pts li{display:grid;grid-template-columns:34px 1fr;gap:4px 12px;background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:12px 14px;cursor:default;transition:border-color .15s}
+  .pts li.hot{border-color:#0B0C0C;box-shadow:0 0 0 3px #FFDD00}
+  .dot{width:30px;height:30px;border-radius:50%;color:#fff;font:700 14px/30px system-ui,sans-serif;text-align:center;grid-row:1/4}
+  .pts b{color:var(--ink);line-height:1.35}
+  .pts .tx{color:var(--ink-2);line-height:1.55;font-size:0.94rem}
+  .pts .num{font-family:var(--mono);font-size:0.8rem;color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:4px;padding:0 5px;white-space:nowrap}
+  .chips{display:flex;flex-wrap:wrap;gap:5px;margin-top:4px}
+  .chip{font:600 0.72rem var(--sans);text-decoration:none;color:var(--wsh);background:var(--wsh-soft);border:1px solid var(--line);border-radius:99px;padding:3px 9px;white-space:nowrap}
+  .chip:hover{border-color:var(--wsh)}
+  .chip i{font-style:normal;font-family:var(--mono);font-weight:700;margin-right:4px}
+  .deck{margin:16px 0 0;background:var(--surface);border:1px solid var(--line);border-left:4px solid var(--wsh);border-radius:0 10px 10px 0;padding:12px 16px}
+  .deck b.h{display:block;font-family:var(--mono);font-size:0.68rem;letter-spacing:.1em;text-transform:uppercase;color:var(--wsh);margin-bottom:6px}
+  .deck ul{margin:0;padding-left:18px} .deck li{margin:4px 0;color:var(--ink-2);line-height:1.5}
+  .deck li b{color:var(--ink)}
+  .wide{max-width:1000px}
+  .wide h2{margin:0 0 8px;font-size:clamp(1.4rem,2.6vw,1.9rem);letter-spacing:-0.02em}
+  .wide h3{margin:22px 0 6px;font-size:1.02rem}
+  .wide > p{color:var(--ink-2);line-height:1.6;max-width:74ch}
+  @media (prefers-reduced-motion:reduce){.pin,.ring,.pts li{transition:none}}
+
+  /* THE BAR — one definition, identical on every page (written by navfix; change it
+     everywhere or nowhere). It used to be copied per page and drifted into two heights. */
+  header.sdnav{position:sticky;top:0;z-index:40;background:var(--surface);border-bottom:1px solid var(--line)}
+  header.sdnav .bar{display:flex;align-items:center;gap:10px;min-height:56px;padding-block:8px;flex-wrap:nowrap}
+  header.sdnav .brand{font-weight:680;font-size:1rem;letter-spacing:-0.015em;white-space:nowrap;color:inherit;
+    text-decoration:none;padding:5px 8px;margin-left:-8px;border-radius:6px;order:0}
+  header.sdnav .brand:hover{background:var(--surface-2,var(--bg))}
+  header.sdnav .sp{flex:1;display:block;height:auto;flex-basis:auto;order:0}
+  header.sdnav .sdlinks{display:flex;align-items:center;gap:2px;order:0}
+  header.sdnav .navl{display:inline-block;font-size:0.85rem;line-height:1.3;color:var(--ink-2);text-decoration:none;
+    padding:6px 10px;border-radius:6px;white-space:nowrap;order:0}
+  header.sdnav .navl:hover{background:var(--surface-2,var(--bg));color:var(--ink)}
+  header.sdnav .navl.on{background:var(--lec);color:#fff}
+  html[data-theme="dark"] header.sdnav .navl.on{color:#151314}
+  header.sdnav a:focus-visible,header.sdnav button:focus-visible{outline:2px solid var(--lec);outline-offset:1px}
+  header.sdnav .ctl{order:0;margin-left:4px}
+  header.sdnav .ctl button{font-family:var(--mono);font-size:0.7rem;background:none;color:var(--ink-3);
+    border:1px solid var(--line-2);border-radius:6px;padding:0 9px;cursor:pointer;line-height:1;
+    height:34px;min-height:34px;min-width:34px;display:inline-flex;align-items:center;justify-content:center}
+  header.sdnav .ctl button:hover{border-color:var(--lec);color:var(--lec)}
+  @media(max-width:960px){
+    header.sdnav .bar{flex-wrap:wrap;row-gap:0;padding-block:6px 0;min-height:0}
+    header.sdnav .ctl{order:1;margin-left:auto}
+    header.sdnav .sp{display:none}
+    header.sdnav .sdlinks{order:2;flex-basis:100%;overflow-x:auto;scrollbar-width:none;padding:4px 28px 8px 0;min-height:44px;
+      -webkit-mask-image:linear-gradient(to right,#000 calc(100% - 28px),transparent);mask-image:linear-gradient(to right,#000 calc(100% - 28px),transparent)}
+    header.sdnav .sdlinks::-webkit-scrollbar{display:none}
+    header.sdnav .navl{font-size:0.82rem;padding:6px 9px}
+  }
+</style>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@700&family=Source+Sans+3:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<header class="sdnav">
+  <div class="wrap bar">
+    <a class="brand" href="index.html">Screen Design</a>
+    <span class="sp"></span>
+    <nav class="sdlinks" aria-label="Screen Design"><a class="navl" href="weeks.html">Week by week</a><a class="navl" href="assessment.html">Checklist</a><a class="navl on" href="examples.html">Examples</a><a class="navl" href="toolkit.html">Toolkit</a><a class="navl" href="assessment-materials.html">Marking</a></nav>
+    <span class="ctl"><button id="theme" aria-label="Dark mode">◐</button></span>
+  </div>
+</header>
+<script>(function(){var n=document.querySelector(".sdlinks"),o=n&&n.querySelector(".on");if(o&&n.scrollWidth>n.clientWidth)n.scrollLeft=o.offsetLeft-n.offsetLeft-16;})();</script>
+
+<div class="wt-bar" id="wt"><div class="wrap">
+  <b>Ordering a celebration cake</b><span class="sp"></span><span class="ct" id="wtct"></span>
+  <button type="button" class="tb" id="wtprev" aria-label="Previous">←</button>
+  <button type="button" class="tb" id="wtnext" aria-label="Next">→</button>
+</div><div class="wrap"><div class="wt-nav" id="wtnav" role="group" aria-label="Slides"></div></div></div>
+
+<div class="wrap">
+
+<section class="ws" data-title="Start" data-short="Start" data-group="">
+  <div class="wide">
+    <p class="meta"><a href="examples.html#before-after">Before and after</a> · case 2</p>
+    <h2 style="font-size:clamp(1.8rem,4vw,2.6rem)">Ordering a celebration cake</h2>
+    <p class="meta">Boulangerie Vauclerc, 7 Mallow Street, Castlegate — <b>a made-up bakery</b>, drawn from the way many small food businesses take orders today:
+      a website that is only a front door, and everything else in a message thread. The social page and the messages are drawn generically, and every name and number is invented.</p>
+    <div class="goal">
+      <div><b>Who</b><span>Someone ordering a birthday cake for 12 people, to collect at the weekend — on a phone, in a lunch break.</span></div>
+      <div><b>Goal</b><span>Know the price, pick the cake, choose when to collect it, and be sure it is booked.</span></div>
+      <div><b>Why this case</b><span>It is the <a href="toolkit.html#no-service">own-business route</a> several of you are taking: chat now, one booking flow after — and the owner can still confirm each order by hand.</span></div>
+    </div>
+    <h3>How to read this</h3>
+    <ul class="pts" style="max-width:760px">
+      <li><span class="dot bad">1</span><b>Red numbers are problems</b><span class="tx">Six screens of ordering as it is now, each problem counted.</span></li>
+      <li><span class="dot good">1</span><b>Green numbers are decisions</b><span class="tx">Six screens of the same order, improved, each decision explained.</span></li>
+      <li><span class="dot" style="background:var(--wsh)">A2</span><b>Blue tags are your deck</b><span class="tx">Each point links to the section of your portfolio where the same thinking goes.</span></li>
+    </ul>
+    <p class="cx-link">Ratios like “4.5:1” come up throughout this case: <a href="gallery.html#contrast">what a contrast ratio means</a>.</p>
+    <p class="note">Point at a number on the screen or in the list and both light up. Move with ← →.</p>
+  </div>
+</section>
+
+<!-- NOW 1 -->
+<section class="ws" data-title="Now 1 · the website" data-short="1" data-group="Now" data-kind="now">
+  <div class="ws-grid">
+    <div class="stagec"><div class="phone"><div class="scr"><span class="redrawn">Made up</span><div class="sp-page">
+      <span class="sp-music" data-t="1">♪ Playing — tap to mute</span>
+      <div class="logo">Boulangerie<br>Vauclerc</div><div class="tag">Artisan · Since 2009</div>
+      <span class="sp-enter" data-t="2">ENTER</span>
+      <div class="sp-cookie" data-t="3"><b>We value your privacy</b>We use cookies to give you the best experience. By clicking Accept you agree to our cookies, partners and their partners.<span>ACCEPT ALL</span></div></div>
+    </div></div></div>
+    <div class="pane">
+      <p class="ph now">Now · screen 1 of 6</p>
+      <h2>A front door you have to get past</h2>
+      <p>The customer wants a birthday cake for 12 people on Saturday. First, the website.</p>
+      <ol class="pts">
+        <li data-n="1"><span class="dot bad">1</span><b>Music, on its own</b><span class="tx">An accordion plays as the page opens — in a lunch break, at a desk, on a bus. The mute is a small pale label in the corner.</span><span data-tags="C5 C6"></span></li>
+        <li data-n="2"><span class="dot bad">2</span><b>A splash page that says “ENTER”</b><span class="tx">One extra tap before anything at all, in pale gold letters on a photo — as low as <span class="num">1.9:1</span>.</span><span data-tags="A5 A2"></span></li>
+        <li data-n="3"><span class="dot bad">3</span><b>“Accept all”, and no other button</b><span class="tx">The cookie banner covers half the screen and offers only agreement. That is not a choice — and the UK regulator expects refusing to be as easy as accepting.</span><span data-tags="C6"></span></li>
+      </ol>
+      <div class="deck"><b class="h">In your deck</b><ul>
+        <li><b>C6</b> — a cookie banner with only “Accept” is a ready-made ethics paragraph. Name it if your “before” has one.</li>
+        <li><b>A2</b> — count “ENTER” as a step. Every tap before the task is one.</li></ul></div>
+    </div>
+  </div>
+</section>
+
+<!-- NOW 2 -->
+<section class="ws" data-title="Now 2 · the menu" data-short="2" data-group="Now" data-kind="now">
+  <div class="ws-grid">
+    <div class="stagec"><div class="phone"><div class="scr"><span class="redrawn">Made up</span><div class="pdf">
+      <div class="pdf-top"><span>MENU_FINAL_v3 (2).pdf</span><span>1 / 12</span></div>
+      <div class="pdf-sheet" data-t="4"><b>Boulangerie Vauclerc — Menu</b>Pain de campagne £4.20 · Baguette £1.90 · Croissant £1.60 · Pain au chocolat £1.80 · Brioche £3.40 · Tarte au citron £3.20 · Éclair £2.80 · Mille-feuille £3.10 ...<br><br><b>Celebration cakes</b><span data-t="5">— please ask in store —</span></div>
+      <div class="pdf-note">9.4 MB · scanned · page 1 of 12</div></div>
+    </div></div></div>
+    <div class="pane">
+      <p class="ph now">Now · screen 2 of 6</p>
+      <h2>A twelve-page scan, on its side</h2>
+      <ol class="pts">
+        <li data-n="4"><span class="dot bad">4</span><b>The menu is a 9.4 MB scanned PDF, sideways</b><span class="tx">Turn the phone, pinch, scroll twelve pages. Nothing in it can be searched, enlarged cleanly or read aloud by a screen reader.</span><span data-tags="A6 C5"></span></li>
+        <li data-n="5"><span class="dot bad">5</span><b>Cakes: “please ask in store”</b><span class="tx">Twelve pages, and the one thing the customer came for is not on any of them.</span><span data-tags="A2 C2"></span></li>
+      </ol>
+      <div class="deck"><b class="h">In your deck</b><ul>
+        <li><b>A6</b> — text inside a picture or a scan is invisible to a screen reader. Say what replaces it in your design.</li></ul></div>
+    </div>
+  </div>
+</section>
+
+<!-- NOW 3 -->
+<section class="ws" data-title="Now 3 · phoning" data-short="3" data-group="Now" data-kind="now">
+  <div class="ws-grid">
+    <div class="stagec"><div class="phone"><div class="scr"><span class="redrawn">Made up</span><div class="call">
+      <div class="who">Boulangerie Vauclerc</div><div class="num">01632 960 412 · 0:21</div>
+      <div class="vm" data-t="6">“Bonjour! You’ve reached Vauclerc. We’re busy baking! Please leave a… <b>The mailbox is full and cannot accept new messages.</b>”</div>
+      <div class="end">✆</div></div>
+    </div></div></div>
+    <div class="pane">
+      <p class="ph now">Now · screen 3 of 6</p>
+      <h2>“Ask in store” — so they ring</h2>
+      <ol class="pts">
+        <li data-n="6"><span class="dot bad">6</span><b>The voicemail is full</b><span class="tx">At 12:40 the owner is serving a queue; the phone rings out to a mailbox that cannot take messages. The greeting suggests messaging on social media instead.</span><span data-tags="A2 C5"></span></li>
+      </ol>
+      <p>Two channels so far — website and phone — and neither can take an order. The third is a message thread.</p>
+      <div class="deck"><b class="h">In your deck</b><ul>
+        <li><b>A2</b> — your “before” can cross channels: website, phone, social, shop. Each one is a step, and so is each dead end.</li></ul></div>
+    </div>
+  </div>
+</section>
+
+<!-- NOW 4 -->
+<section class="ws" data-title="Now 4 · the thread" data-short="4" data-group="Now" data-kind="now">
+  <div class="ws-grid">
+    <div class="stagec"><div class="phone"><div class="scr"><span class="redrawn">Drawn generically</span><div class="ch">
+      <div class="ch-top"><span class="so-av">V</span><div>Boulangerie Vauclerc<small>Usually replies within a few days</small></div></div>
+      <div class="ch-body">
+        <span class="ch-day">MON 12:44</span>
+        <div class="ch-m me">Hi! Do you do birthday cakes? For Saturday, 12 people</div>
+        <span class="ch-day" data-t="7">WED 10:51 — 46 hours later</span>
+        <div class="ch-m them">Hiya! Yes we do 😊 what size?</div>
+        <div class="ch-m me">Not sure — for 12 people?</div>
+        <div class="ch-m them">Depends how big the slices are 😂</div>
+        <div class="ch-photo" data-t="8" style="transform:rotate(-7deg);filter:blur(.6px)">Celebration ca...<br>6" — £24 &nbsp;8" — £3?<br>10" — £4? (ask)<br>Choc · Lemon · Va...<br>** 2 days notice **</div>
+        <div class="ch-m them">Sat is fully booked tho, Fri ok?</div>
+      </div></div>
+    </div></div></div>
+    <div class="pane">
+      <p class="ph now">Now · screen 4 of 6</p>
+      <h2>Forty-six hours to the first question back</h2>
+      <ol class="pts">
+        <li data-n="7"><span class="dot bad">7</span><b>Two days before anyone answers</b><span class="tx">The owner is baking, not ignoring anyone. But the order cannot move until she is free, and Saturday has filled up while it waited.</span><span data-tags="A2 C5"></span></li>
+        <li data-n="8"><span class="dot bad">8</span><b>The price list is a tilted, blurred photo</b><span class="tx">The 8-inch price is half cut off. The customer has to ask again — another day.</span><span data-tags="A6 C4"></span></li>
+      </ol>
+      <div class="deck"><b class="h">In your deck</b><ul>
+        <li><b>D1</b> — screenshot a thread with the owner’s permission, blur every name and number that is not yours, and count the waiting as well as the messages.</li></ul></div>
+    </div>
+  </div>
+</section>
+
+<!-- NOW 5 -->
+<section class="ws" data-title="Now 5 · paying, and the name" data-short="5" data-group="Now" data-kind="now">
+  <div class="ws-grid">
+    <div class="stagec"><div class="phone"><div class="scr"><span class="redrawn">Drawn generically</span><div class="ch">
+      <div class="ch-top"><span class="so-av">V</span><div>Boulangerie Vauclerc<small>Usually replies within a few days</small></div></div>
+      <div class="ch-body">
+        <span class="ch-day">THU 21:12</span>
+        <div class="ch-m them" data-t="9">£32, can you send £15 to my personal acc and screenshot it? 00-00-00 · 00000000 · ref CAKE</div>
+        <div class="ch-m me">Done! Can it say Happy 30th Sam?</div>
+        <span class="ch-day">FRI 07:02</span>
+        <div class="ch-m them" data-t="10">Lovely, Happy 30th Pam it is xx</div>
+        <div class="ch-m me">SAM!! S for Sam 😅</div>
+        <div class="ch-m them">Oops sorry!! 👍</div>
+      </div></div>
+    </div></div></div>
+    <div class="pane">
+      <p class="ph now">Now · screen 5 of 6</p>
+      <h2>Money to a personal account, and a name nearly piped wrong</h2>
+      <ol class="pts">
+        <li data-n="9"><span class="dot bad">9</span><b>“Send it to my personal account and screenshot it”</b><span class="tx">Bank details in a chat, a payment with no receipt, and a screenshot as proof. Exactly the pattern scams copy.</span><span data-tags="C6"></span></li>
+        <li data-n="10"><span class="dot bad">10</span><b>“Happy 30th Pam”</b><span class="tx">Caught only because the customer read the reply at seven in the morning. Nothing in the process reads the order back.</span><span data-tags="C5 D3"></span></li>
+      </ol>
+      <div class="deck"><b class="h">In your deck</b><ul>
+        <li><b>C6</b> — paying a stranger’s personal account on a screenshot is a real trust and safety problem. Name it plainly.</li></ul></div>
+    </div>
+  </div>
+</section>
+
+<!-- NOW 6 -->
+<section class="ws" data-title="Now 6 · Friday" data-short="6" data-group="Now" data-kind="now">
+  <div class="ws-grid">
+    <div class="stagec"><div class="phone"><div class="scr"><div class="story">
+      <div class="story-bars"><i></i><i></i></div>
+      <div class="story-who"><span class="so-av">V</span>boulangerie_vauclerc · 6h</div>
+      <div class="story-txt" data-t="11">CLOSED TODAY 😔<small>Oven’s broken!! Cake orders collect tomorrow, sorry everyone xx</small></div>
+      <div class="story-exp" data-t="12">This story disappears in 18 hours</div></div>
+    </div></div></div>
+    <div class="pane">
+      <p class="ph now">Now · screen 6 of 6</p>
+      <h2>Friday: closed, announced in a story</h2>
+      <ol class="pts">
+        <li data-n="11"><span class="dot bad">11</span><b>The only notice is a 24-hour story</b><span class="tx">Not a message to the people who ordered — a story, seen only by followers who happen to open the app. The customer finds out at the locked door.</span><span data-tags="C5 C6"></span></li>
+        <li data-n="12"><span class="dot bad">12</span><b>Counted</b><span class="tx"><span class="num">4</span> channels tried · <span class="num">23</span> messages · <span class="num">4</span> days from first message to a cake · <span class="num">1</span> name nearly piped wrong · <span class="num">0</span> receipts · <span class="num">0</span> allergy questions · and the party moved to Saturday after all.</span><span data-tags="A2 D2"></span></li>
+      </ol>
+      <div class="fair"><b>What already works — keep it.</b> The cakes are good, the owner is kind, and customers forgive her a lot. She wants to check every order herself. <b>The redesign keeps all of that</b>: it takes the questions, the money and the news out of the chat — not the person.</div>
+    </div>
+  </div>
+</section>
+
+<!-- IMPROVED 1 -->
+<section class="ws" data-title="Improved 1 · start" data-short="1" data-group="Improved" data-kind="new">
+  <div class="ws-grid">
+    <div class="stagec"><div class="phone"><div class="scr"><div class="bk">
+      <div class="bk-top"><b>Vauclerc</b><span>Open today 8–4</span></div>
+      <div class="bk-in"><h1>Order a celebration cake</h1>
+        <p data-t="1">Three sizes, from <b>£24</b>. Collect from 7 Mallow Street. We need <b>two days’ notice</b>.</p>
+        <div class="bk-note" data-t="2">Next free collection: <b>Friday 30 October</b></div>
+        <span class="bk-btn">Start your order</span>
+        <p style="font-size:16px;color:#5E534C">Questions? Call 01632 960 412</p></div></div>
+    </div></div></div>
+    <div class="pane">
+      <p class="ph new">Improved · screen 1 of 6</p>
+      <h2>The three answers, before anyone asks</h2>
+      <ol class="pts">
+        <li data-n="1"><span class="dot good">1</span><b>Price and notice on the first screen</b><span class="tx">The two facts every order starts with, in one sentence of <span class="num">18px</span> text at <span class="num">14.6:1</span>.</span><span data-tags="C2 A4"></span></li>
+        <li data-n="2"><span class="dot good">2</span><b>The next free day, said plainly</b><span class="tx">The answer to “can you do Saturday?” — before the customer has to ask.</span><span data-tags="C5"></span></li>
+      </ol>
+      <div class="deck"><b class="h">In your deck</b><ul>
+        <li><b>C2</b> — what is read first? Here it is the price and the notice, because they decide whether the customer orders at all.</li></ul></div>
+    </div>
+  </div>
+</section>
+
+<!-- IMPROVED 2 -->
+<section class="ws" data-title="Improved 2 · which cake" data-short="2" data-group="Improved" data-kind="new">
+  <div class="ws-grid">
+    <div class="stagec"><div class="phone"><div class="scr"><div class="bk">
+      <div class="bk-top"><b>Vauclerc</b><span>Step 1 of 4</span></div>
+      <div class="bk-in"><p class="back">‹ Back</p><h1>Which cake?</h1>
+        <div class="bk-card"><span class="rad"></span><b>6 inch</b><small>Serves 8</small><span class="pr">£24</span></div>
+        <div class="bk-card on" data-t="3"><span class="rad"></span><b>8 inch</b><small>Serves 12</small><span class="pr">£32</span></div>
+        <div class="bk-card"><span class="rad"></span><b>10 inch</b><small>Serves 20</small><span class="pr">£48</span></div>
+        <span class="bk-lbl" style="margin-top:12px">Flavour</span>
+        <div class="bk-card on" data-t="4"><span class="rad"></span><b>Chocolate</b><small><span class="bk-tag">milk</span><span class="bk-tag">egg</span><span class="bk-tag">wheat</span></small></div>
+        <div class="bk-card"><span class="rad"></span><b>Lemon</b><small><span class="bk-tag">milk</span><span class="bk-tag">egg</span><span class="bk-tag">wheat</span></small></div>
+      </div></div>
+    </div></div></div>
+    <div class="pane">
+      <p class="ph new">Improved · screen 2 of 6</p>
+      <h2>Size by how many it feeds</h2>
+      <ol class="pts">
+        <li data-n="3"><span class="dot good">3</span><b>“Serves 12”, beside the size and the price</b><span class="tx">Customers think in people, not inches. Size, people and price sit in one line, so the comparison is done by eye.</span><span data-tags="C2 A3"></span></li>
+        <li data-n="4"><span class="dot good">4</span><b>Allergens on every flavour</b><span class="tx">The law requires bakeries to tell customers about 14 allergens; here they are where the choice is made, not on a separate page.</span><span data-tags="C5 C6"></span></li>
+      </ol>
+      <div class="deck"><b class="h">In your deck</b><ul>
+        <li><b>A3</b> — the price lines up at the right edge on every card: one column of the grid is kept for it.</li></ul></div>
+    </div>
+  </div>
+</section>
+
+<!-- IMPROVED 3 -->
+<section class="ws" data-title="Improved 3 · when" data-short="3" data-group="Improved" data-kind="new">
+  <div class="ws-grid">
+    <div class="stagec"><div class="phone"><div class="scr"><div class="bk">
+      <div class="bk-top"><b>Vauclerc</b><span>Step 2 of 4</span></div>
+      <div class="bk-in"><p class="back">‹ Back</p><h1>When will you collect it?</h1>
+        <div class="bk-cal" data-t="5"><span>M</span><span>T</span><span>W</span><span>T</span><span>F</span><span>S</span><span>S</span>
+          <i class="x">26</i><i class="x">27</i><i class="x">28</i><i class="x">29</i><i class="on">30</i><i class="x">31</i><i class="x">1</i>
+          <i>2</i><i>3</i><i>4</i><i>5</i><i>6</i><i class="x">7</i><i class="x">8</i></div>
+        <p class="bk-hint" data-t="6">Crossed-out days are full, closed, or less than two days away.</p>
+        <span class="bk-lbl">Time</span>
+        <div class="bk-slots"><i>10–12</i><i class="on">12–2</i><i>2–4</i></div>
+        <span class="bk-btn">Continue</span></div></div>
+    </div></div></div>
+    <div class="pane">
+      <p class="ph new">Improved · screen 3 of 6</p>
+      <h2>Only the days that can work</h2>
+      <ol class="pts">
+        <li data-n="5"><span class="dot good">5</span><b>Full days are shown, and crossed out</b><span class="tx">Saturday is still there — crossed out, not missing — so the customer knows it was not overlooked.</span><span data-tags="C5 A6"></span></li>
+        <li data-n="6"><span class="dot good">6</span><b>The rule is said in words, not just shown</b><span class="tx">Crossing out is a visual cue; the sentence under it gives the reason, for everyone and for screen readers.</span><span data-tags="A6 C4"></span></li>
+      </ol>
+      <div class="deck"><b class="h">In your deck</b><ul>
+        <li><b>C5</b> — a choice the customer cannot make should explain itself on the screen.</li></ul></div>
+    </div>
+  </div>
+</section>
+
+<!-- IMPROVED 4 -->
+<section class="ws" data-title="Improved 4 · the message" data-short="4" data-group="Improved" data-kind="new">
+  <div class="ws-grid">
+    <div class="stagec"><div class="phone"><div class="scr"><div class="bk">
+      <div class="bk-top"><b>Vauclerc</b><span>Step 3 of 4</span></div>
+      <div class="bk-in"><p class="back">‹ Back</p><h1>What should it say?</h1>
+        <span class="bk-lbl">Message on the cake</span>
+        <div class="bk-field">Happy 30th Sam</div><p class="bk-hint">14 of 30 letters</p>
+        <div class="bk-cake" data-t="7">Happy 30th Sam</div>
+        <span class="bk-lbl">Does anyone eating it have an allergy?</span>
+        <div data-t="8"><div class="bk-card"><span class="rad"></span><b>No</b></div>
+        <div class="bk-card on"><span class="rad"></span><b>Yes — tell us which</b></div></div></div></div>
+    </div></div></div>
+    <div class="pane">
+      <p class="ph new">Improved · screen 4 of 6</p>
+      <h2>Read it back, and ask the question nobody asked</h2>
+      <ol class="pts">
+        <li data-n="7"><span class="dot good">7</span><b>The message is shown on a cake</b><span class="tx">The customer sees the spelling as it will be piped. A misspelt name is caught here, not on Friday.</span><span data-tags="C5 B6"></span></li>
+        <li data-n="8"><span class="dot good">8</span><b>The allergy question is asked, every time</b><span class="tx">From <span class="num">0</span> to <span class="num">1</span>. It cannot be skipped, because it is the one answer that can hurt someone.</span><span data-tags="C6 C5"></span></li>
+      </ol>
+      <div class="deck"><b class="h">In your deck</b><ul>
+        <li><b>C6</b> — the ethics of a design can be one required question. Say which question in yours cannot be skipped, and why.</li></ul></div>
+    </div>
+  </div>
+</section>
+
+<!-- IMPROVED 5 -->
+<section class="ws" data-title="Improved 5 · you and payment" data-short="5" data-group="Improved" data-kind="new">
+  <div class="ws-grid">
+    <div class="stagec"><div class="phone"><div class="scr"><div class="bk">
+      <div class="bk-top"><b>Vauclerc</b><span>Step 4 of 4</span></div>
+      <div class="bk-in"><p class="back">‹ Back</p><h1>Your details</h1>
+        <div data-t="9"><span class="bk-lbl">Name</span><div class="bk-field">Sam’s friend Jo</div>
+        <span class="bk-lbl" style="margin-top:10px">Mobile, for the confirmation</span><div class="bk-field">07700 900123</div></div>
+        <span class="bk-lbl" style="margin-top:14px">Deposit</span>
+        <div data-t="10"><div class="bk-card on"><span class="rad"></span><b>Pay £10 now by card</b></div>
+        <div class="bk-card"><span class="rad"></span><b>Pay in the shop when you collect</b></div></div>
+        <span class="bk-btn">Send order request</span></div></div>
+    </div></div></div>
+    <div class="pane">
+      <p class="ph new">Improved · screen 5 of 6</p>
+      <h2>Two details, and no bank numbers</h2>
+      <ol class="pts">
+        <li data-n="9"><span class="dot good">9</span><b>Only a name and a mobile</b><span class="tx">The bakery needs to know who is collecting and how to confirm. Nothing else.</span><span data-tags="C6 A2"></span></li>
+        <li data-n="10"><span class="dot good">10</span><b>Pay by card, or pay in the shop</b><span class="tx">No sort code in a chat. A customer who would rather not pay online does not have to.</span><span data-tags="C6 C5"></span></li>
+      </ol>
+      <div class="deck"><b class="h">In your deck</b><ul>
+        <li><b>C6</b> — removing bank details from messages is a concrete safety improvement. Name yours.</li></ul></div>
+    </div>
+  </div>
+</section>
+
+<!-- IMPROVED 6 -->
+<section class="ws" data-title="Improved 6 · request sent" data-short="6" data-group="Improved" data-kind="new">
+  <div class="ws-grid">
+    <div class="stagec"><div class="phone"><div class="scr"><div class="bk">
+      <div class="bk-top"><b>Vauclerc</b><span>Done</span></div>
+      <div class="bk-in"><div class="bk-done" data-t="11"><h1>Request sent</h1><p>We will text you to confirm within 24 hours — and if anything changes.</p></div>
+        <dl class="bk-sum" data-t="12"><div><dt>Cake</dt><dd>8 inch chocolate, serves 12</dd></div><div><dt>Says</dt><dd>Happy 30th Sam</dd></div>
+          <div><dt>Collect</dt><dd>Fri 30 Oct, 12–2</dd></div><div><dt>Allergy</dt><dd>Yes — we will call</dd></div><div><dt>Paid</dt><dd>£10 of £32</dd></div></dl>
+        <p style="font-size:16px">Order VC-1031 · 7 Mallow Street</p></div></div>
+    </div></div></div>
+    <div class="pane">
+      <p class="ph new">Improved · screen 6 of 6</p>
+      <h2>Honest about the person behind it</h2>
+      <ol class="pts">
+        <li data-n="11"><span class="dot good">11</span><b>“We will text you to confirm”</b><span class="tx">The owner still checks every order by hand — and the screen says so, with a time. If the oven breaks on Friday, everyone who ordered gets a text, not a story. A design does not have to automate everything; it has to be honest about what happens next.</span><span data-tags="C5 C1"></span></li>
+        <li data-n="12"><span class="dot good">12</span><b>The whole order, written back</b><span class="tx">Size, message, day, allergy and payment, in one place — what the thumbs-up never gave.</span><span data-tags="D3 C5"></span></li>
+      </ol>
+      <div class="deck"><b class="h">In your deck</b><ul>
+        <li><b>D3</b> — put the 👍 beside this screen. That pair says more than a paragraph.</li></ul></div>
+    </div>
+  </div>
+</section>
+
+<!-- THEN -->
+<section class="ws" data-title="Before against after, counted" data-short="Counted" data-group="Then">
+  <div class="wide">
+    <h2>Before against after, counted</h2>
+    <p>This bakery is made up — deliberately the worst of the four cases — so the “now” numbers come from the screens drawn here, not a real business. Every part of it happens somewhere; all of it at once is the joke. The method is the point: count your own “before” the same way.</p>
+    <div class="tbw"><table class="tb">
+      <tr><th>Measured</th><th>Now</th><th>Improved</th></tr>
+      <tr><td>Channels tried before an order is possible</td><td class="num">4 — website, menu, phone, messages</td><td class="num up">1</td></tr>
+      <tr><td>Messages to place one order</td><td class="num">23</td><td class="num up">0</td></tr>
+      <tr><td>Days from first message to a cake</td><td class="num">4, and a day late</td><td class="num up">confirmed within 24 hours</td></tr>
+      <tr><td>Price visible before asking</td><td class="num">no — “ask in store”</td><td class="num up">yes, on the first screen</td></tr>
+      <tr><td>Questions about allergies</td><td class="num">0</td><td class="num up">1, required</td></tr>
+      <tr><td>Times the order is read back</td><td class="num">0 — one name misheard</td><td class="num up">2 — on the cake, and in the summary</td></tr>
+      <tr><td>Payments with a receipt</td><td class="num">0 — a screenshot</td><td class="num up">1 — card, or pay in the shop</td></tr>
+      <tr><td>Customers told when something changes</td><td class="num">by a 24-hour story</td><td class="num up">by text, each one</td></tr>
+    </table></div>
+    <span data-tags="A2 C5 D3"></span>
+  </div>
+</section>
+
+<section class="ws" data-title="What happened to every step" data-short="Steps" data-group="Then">
+  <div class="wide">
+    <h2>What happened to every step</h2>
+    <div class="tbw"><table class="tb">
+      <tr><th>Step now</th><th>What happened</th><th>Why</th></tr>
+      <tr><td>Splash page, music, “Accept all”</td><td>Removed; a plain page that opens on the order</td><td>Three taps and a sound before anything useful</td></tr>
+      <tr><td>Scanned PDF menu</td><td>Replaced by text prices on each choice</td><td>Readable, searchable, read aloud by screen readers</td></tr>
+      <tr><td>Phone with a full voicemail</td><td>Kept for questions, no longer needed to order</td><td>The order no longer depends on the owner being free</td></tr>
+      <tr><td>“What size?” “Which flavour?” by message</td><td>Merged into one screen of choices</td><td>Size by people served; flavour with allergens</td></tr>
+      <tr><td>Negotiating the day</td><td>Replaced by a calendar of free days</td><td>Full days crossed out, with the reason in words</td></tr>
+      <tr><td>Bank transfer to a personal account, and a screenshot</td><td>Removed; card or pay in the shop</td><td>A receipt, and no account numbers in chats</td></tr>
+      <tr><td>The name, never read back</td><td>Shown on a cake preview, and in the summary</td><td>“Pam” is caught on screen, not at 7am</td></tr>
+      <tr><td>Closure announced in a story</td><td>Replaced by a text to everyone who ordered</td><td>The people affected are told, not the followers</td></tr>
+      <tr><td>(never asked) Allergies</td><td>Added, required</td><td>The one answer that can hurt someone</td></tr>
+    </table></div>
+    <p class="note">The redesign assumes the bakery can take card payments online, or offer pay-in-shop only. A booking tool the owner checks by hand is enough; nothing here needs a custom system.</p>
+    <span data-tags="D2"></span>
+  </div>
+</section>
+
+<section class="ws" data-title="The redesign’s A3, A4 and A5" data-short="A3–A5" data-group="Then">
+  <div class="wide">
+    <h2>The redesign’s A3, A4 and A5</h2>
+    <p>A warm look, kept from the bakery’s feel — and every number written down, so anyone could build the next screen and it would match.</p>
+    <h3>A3 · Layout</h3>
+    <div class="tbw"><table class="tb">
+      <tr><th>Row</th><th>Number</th><th>Why</th></tr>
+      <tr><td>Columns</td><td class="num">4 phone · 12 desktop</td><td>Most cake orders are placed on a phone</td></tr>
+      <tr><td>Gutter</td><td class="num">16 px phone · 24 px desktop</td><td>Size cards sit two across on a tablet; 16 keeps them apart</td></tr>
+      <tr><td>Margin</td><td class="num">16 px phone · 32 px desktop</td><td>Full-width choice cards on a 360 px phone</td></tr>
+      <tr><td>Max width</td><td class="num">960 px; the order form is 8 of the 12</td><td>A short form; lines stay under 65 characters</td></tr>
+      <tr><td>Breakpoints</td><td class="num">768 px</td><td>Above it, the cake preview moves beside the form</td></tr>
+      <tr><td>Spacing scale</td><td class="num">4 · 8 · 12 · 16 · 24 · 32</td><td>8 between cards, 16 inside them, 24 before a button</td></tr>
+    </table></div>
+    <h3>A4 · Typography</h3>
+    <div class="tbw"><table class="tb">
+      <tr><th>Role</th><th>Face · size / line height</th><th>Why</th></tr>
+      <tr><td>Headings and prices</td><td class="num">Fraunces Bold 28 / 32</td><td>A soft serif keeps the bakery’s warmth; used only for headings and prices</td></tr>
+      <tr><td>Body and answers</td><td class="num">Source Sans 3, 18 / 27</td><td>A plain sans for everything you read; never below 18 on a form</td></tr>
+      <tr><td>Labels</td><td class="num">Source Sans 3 Bold 18 / 24</td><td>Same size as the answer; weight does the work</td></tr>
+      <tr><td>Hints and allergen tags</td><td class="num">15 / 22 and 13 / 18</td><td>The two smaller sizes, both at 6.9:1 or better</td></tr>
+    </table></div>
+    <h3>A5 · Colour and contrast</h3>
+    <div class="tbw"><table class="tb">
+      <tr><th>Role</th><th>Colour</th><th>On</th><th>Ratio</th></tr>
+      <tr><td>Background</td><td><span class="sw" style="background:#FBF6EE"></span><code>#FBF6EE</code> cream</td><td>—</td><td class="num">—</td></tr>
+      <tr><td>Text</td><td><span class="sw" style="background:#2B211C"></span><code>#2B211C</code></td><td>cream</td><td class="num">14.6:1</td></tr>
+      <tr><td>Hints</td><td><span class="sw" style="background:#5E534C"></span><code>#5E534C</code></td><td>cream</td><td class="num">6.9:1</td></tr>
+      <tr><td>Buttons, links, chosen</td><td><span class="sw" style="background:#8A3B12"></span><code>#8A3B12</code> crust</td><td>white text / cream</td><td class="num">7.7:1 / 7.2:1</td></tr>
+      <tr><td>Notes</td><td><span class="sw" style="background:#F1E4CF"></span><code>#F1E4CF</code> oat</td><td>text on it</td><td class="num">12.5:1</td></tr>
+      <tr><td>Done</td><td><span class="sw" style="background:#2E6B3F"></span><code>#2E6B3F</code></td><td>white text</td><td class="num">6.4:1</td></tr>
+      <tr><td>Error</td><td><span class="sw" style="background:#B3261E"></span><code>#B3261E</code></td><td>cream</td><td class="num">6.1:1</td></tr>
+    </table></div>
+    <p class="note">The old site’s gold button scored 2.2:1. The crust brown keeps the warmth and reaches 7.7:1.</p>
+    <span data-tags="A3 A4 A5"></span>
+  </div>
+</section>
+
+<section class="ws" data-title="What a marker would credit" data-short="Why" data-group="Then">
+  <div class="wide">
+    <h2>What a marker would credit, and where it goes in your deck</h2>
+    <div class="why">
+      <div><b>The before is real evidence, even when it is a chat</b><span>A message thread, counted — messages, hours, places to look — is a “before” as strong as any website.</span><span data-tags="D1 A2"></span></div>
+      <div><b>The person is kept</b><span>The owner still confirms each order. Designing around how a small business actually works is user-centred too.</span><span data-tags="C1 C5"></span></div>
+      <div><b>Accessibility is specific</b><span>Text prices instead of a photo, crossed-out days explained in words, contrast raised from 2.2:1 to 7.7:1.</span><span data-tags="A6 C5"></span></div>
+      <div><b>An ethics answer you can point at</b><span>A required allergy question; no bank details in chats.</span><span data-tags="C6"></span></div>
+      <div><b>The look is kept, and made legible</b><span>The warmth survives in the colours and the serif; the numbers make it consistent.</span><span data-tags="C3 C4"></span></div>
+      <div><b>It states its limits</b><span>The bakery is made up, the counts come from the drawn thread, and the payment assumption is written down.</span><span data-tags="C5"></span></div>
+    </div>
+    <p class="note">Boulangerie Vauclerc, its address and phone number are invented; 01632 960 is a range reserved for drama and examples. The social page and messages are drawn generically, not copied from any service.</p>
+  </div>
+</section>
+
+</div>
+
+<script src="sd-common.js"></script>
+<script src="cases.js"></script>
+<script>
+const root = document.documentElement;
+try { const t = localStorage.getItem('sd-theme'); if (t) root.dataset.theme = t; } catch (e) {}
+if (!root.dataset.theme && matchMedia('(prefers-color-scheme: dark)').matches) root.dataset.theme = 'dark';
+document.getElementById('theme').onclick = () => {
+  root.dataset.theme = root.dataset.theme === 'dark' ? 'light' : 'dark';
+  try { localStorage.setItem('sd-theme', root.dataset.theme); } catch (e) {}
+};
+</script>
+</body>
+</html>

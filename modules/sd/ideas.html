@@ -59,56 +59,15 @@
   h1{font-size:clamp(1.6rem,4.4vw,2.3rem);line-height:1.1;letter-spacing:-0.028em;margin:24px 0 4px;font-weight:700}
   h2{font-size:1.2rem;font-weight:690;letter-spacing:-0.015em;margin:34px 0 6px}
   .sub{color:var(--ink-2);margin:0 0 18px;max-width:70ch}
-  .lede{color:var(--ink-2);margin:0 0 14px;max-width:72ch;font-size:0.95rem}
 
-  .tiles{display:grid;gap:10px;grid-template-columns:repeat(auto-fit,minmax(min(220px,100%),1fr))}
-  .tile{display:block;background:var(--surface);border:1px solid var(--line);border-radius:11px;padding:14px 16px;
-    text-decoration:none;color:inherit}
-  .tile:hover{border-color:var(--lec)}
-  .tile b{display:block;font-size:0.98rem;margin-bottom:3px}
-  .tile span{font-size:0.86rem;color:var(--ink-2)}
-  .tile i{font-style:normal;font-family:var(--mono);font-size:0.68rem;color:var(--ink-3);display:block;margin-top:6px}
-
-  table.steps{width:100%;border-collapse:collapse;background:var(--surface);border:1px solid var(--line);
-    border-radius:11px;overflow:hidden;font-size:0.9rem}
-  .steps th{text-align:left;font-family:var(--mono);font-size:0.62rem;letter-spacing:0.08em;text-transform:uppercase;
-    color:var(--ink-3);padding:9px 12px;background:var(--surface-2);font-weight:500}
-  .steps td{padding:8px 12px;border-top:1px solid var(--line);vertical-align:middle}
-  .steps td.cls{font-weight:640}
-  .steps td.rg{font-family:var(--mono);font-size:0.8rem;color:var(--ink-2);white-space:nowrap}
-  .steps .m{display:inline-block;font-family:var(--mono);font-size:0.82rem;font-weight:700;min-width:34px;
-    text-align:center;padding:2px 6px;margin:2px 3px 2px 0;border-radius:5px;background:var(--bg);border:1px solid var(--line)}
-  .steps tr.first td.cls{color:var(--ok)}
-  .steps tr.fail td.cls{color:var(--lec)}
-
-  .ex{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(min(320px,100%),1fr))}
-  .excard{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:16px 18px;
-    display:flex;flex-direction:column;gap:10px}
-  .exk{font-family:var(--mono);font-size:0.64rem;letter-spacing:0.08em;text-transform:uppercase;color:var(--ink-3)}
-  .excard h3{margin:0;font-size:1.08rem}
-  .excard p{margin:0;font-size:0.9rem;color:var(--ink-2)}
-  .exmark{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap}
-  .exmark .n{font-size:2.2rem;font-weight:740;letter-spacing:-0.03em;color:var(--lec);line-height:1}
-  .exmark .crit{font-family:var(--mono);font-size:0.78rem;color:var(--ink-2)}
-  .exhid{font-size:0.9rem;color:var(--ink-2);background:var(--bg);border:1px dashed var(--line-2);border-radius:8px;padding:10px 12px}
-  .exacts{display:flex;flex-wrap:wrap;gap:8px;margin-top:auto}
   .btn{display:inline-flex;align-items:center;min-height:42px;padding:0 15px;border-radius:8px;text-decoration:none;
     font-weight:640;font-size:0.9rem;border:1px solid var(--line-2);color:var(--ink);background:var(--bg)}
   .btn:hover{border-color:var(--lec);color:var(--lec)}
   .btn.pri{background:var(--lec);border-color:var(--lec);color:#fff}
   html[data-theme="dark"] .btn.pri{color:#151314}
   .btn.off{color:var(--ink-3);border-style:dashed;cursor:default}
-  .faq{display:grid;gap:6px}
-  .faq details{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:0}
-  .faq summary{cursor:pointer;padding:12px 16px;font-weight:600;list-style:none;display:flex;gap:10px;align-items:baseline}
-  .faq summary::-webkit-details-marker{display:none}
-  .faq summary::before{content:"+";font-family:var(--mono);color:var(--ink-3);width:1em;flex:none}
-  .faq details[open] summary::before{content:"\2013"}
-  .faq .a{padding:0 16px 14px 42px;color:var(--ink-2);font-size:0.95rem;line-height:1.6}
-  .faq .a a{color:var(--lec)}
-  .note{font-size:0.82rem;color:var(--ink-3);margin:12px 0 0}
+
   footer{padding:24px 0 44px;color:var(--ink-3);font-size:0.8rem;border-top:1px solid var(--line);margin-top:30px}
-  @media(max-width:520px){ .steps td{padding:7px 8px} .steps td.rg{white-space:normal} }
 
   /* the idea generator */
   .gen{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:4px 0 14px}
@@ -133,6 +92,8 @@
   .copied{font-family:var(--mono);font-size:0.75rem;color:var(--ok);min-width:6ch}
   .make{background:var(--surface);border:1px solid var(--line);border-left:3px solid var(--wsh);border-radius:0 12px 12px 0;padding:14px 18px;margin:22px 0 0}
   .make ol{margin:6px 0 0;padding-left:20px} .make li{margin:5px 0;color:var(--ink-2)}
+  .make p{margin:10px 0 0;color:var(--ink-2);line-height:1.55;max-width:80ch} .make p b{color:var(--ink)}
+  .make{scroll-margin-top:80px}
   .own{margin:34px 0 0;scroll-margin-top:80px} .own h2{margin:0 0 6px}
   .own ol{margin:0;padding-left:22px;max-width:78ch} .own li{margin:8px 0;color:var(--ink-2);line-height:1.55} .own li b{color:var(--ink)}
 
@@ -173,7 +134,7 @@
   <div class="wrap bar">
     <a class="brand" href="index.html">Screen Design</a>
     <span class="sp"></span>
-    <nav class="sdlinks" aria-label="Screen Design"><a class="navl" href="index.html">Overview</a><a class="navl" href="weeks.html">Week by week</a><a class="navl" href="brief.html">The brief</a><a class="navl" href="assessment.html">Checklist</a><a class="navl" href="assessment-materials.html">Marking and examples</a><a class="navl" href="toolkit.html">Toolkit</a><a class="navl on" href="ideas.html" aria-current="page">Theme ideas</a></nav>
+    <nav class="sdlinks" aria-label="Screen Design"><a class="navl" href="weeks.html">Week by week</a><a class="navl" href="assessment.html">Checklist</a><a class="navl" href="examples.html">Examples</a><a class="navl" href="toolkit.html">Toolkit</a><a class="navl" href="assessment-materials.html">Marking</a></nav>
     <span class="ctl"><button id="theme" aria-label="Dark mode">◐</button></span>
   </div>
 </header>
@@ -184,7 +145,7 @@
   <p class="sub">Press the button for a theme that fits the brief: someone specific, one thing they are trying to get done,
     how they do it today, and the screens your version would need. Each idea also comes with a starting point for the two
     paragraphs the brief asks for by name: ethics or sustainability (C6) and a cross-cultural consideration (C7).
-    <b>Treat it as a starting point.</b> Change the audience, the place, the goal. It becomes yours the moment you change something. Got your own idea already? See <a href="#own">your own idea, or a real business</a>.</p>
+    <b>Treat it as a starting point.</b> Change the audience, the place, the goal. It becomes yours the moment you change something. Got your own idea already? See <a href="toolkit.html#project">Is my idea a good project?</a></p>
 
   <div class="cats" id="cats" role="group" aria-label="Only show ideas about"></div>
   <div class="gen">
@@ -196,45 +157,9 @@
 
   <article class="idea" id="idea" aria-live="polite"></article>
 
-  <div class="make">
-    <b>Before you lock it in week 3</b>
-    <ol>
-      <li><b>Can you screenshot the before?</b> D1 needs one picture of every step people take now: the website, the form, the WhatsApp chat. If you cannot capture it, pick another.</li>
-      <li><b>Is the audience a person you can picture?</b> “Students” is everyone. “First-years who moved cities and have never registered with a GP” is someone.</li>
-      <li><b>Is it one goal?</b> One thing a person is trying to get done, in one sitting. An app that does everything has no hierarchy to write about.</li>
-      <li><b>Does it need more than a few screens?</b> Three to six is plenty. If you need fifteen, the goal is too big; cut it in half.</li>
-      <li><b>Do you care about it even a little?</b> You will spend ten weeks on it. Your own life is the best place to look: something that annoyed you this term counts.</li>
-    </ol>
-  </div>
+  <p class="make">Doing your own project, or not sure this one will work? The Toolkit has
+    <a href="toolkit.html#project">Is my idea a good project?</a> and <a href="toolkit.html#no-service">When there’s no service yet</a>.</p>
 
-  <section class="own" id="own">
-    <h2>Your own idea, or a real business</h2>
-    <p class="sub">A project of your own is welcome — a family business with no website, a club you run, something you have
-      noticed nobody has built. Say a mum’s salon takes bookings through Facebook messages and WhatsApp, and you design the
-      website where customers book a slot instead. The brief asks the same of it as of any other theme. In practice:</p>
-    <ol>
-      <li><b>Design one flow, not the whole website.</b> Pick the one goal — <i>book a slot</i> — and design the three to six
-        screens it takes. No About page, no gallery, no blog. A2 lists those screens and nothing else.</li>
-      <li><b>The before is the chat.</b> The Facebook message, the WhatsApp back-and-forth, the paper diary, the confirmation
-        text: each one is a step, and D1 gets a screenshot or photo of each. <b>Ask the owner first, and blur every customer’s name,
-        number and photo.</b> If you cannot use the real chat, recreate it with made-up names and say so in the caption.</li>
-      <li><b>Count both sides.</b> Messages sent and replies waited for before; taps and fields after. That count is your
-        evidence in C5 — you do not need anyone to try it.</li>
-      <li><b>Do not test it with customers, family or friends.</b> Showing work to people as evidence needs ethics approval,
-        which this assessment does not have. Asking the owner how bookings work today is fine: that is finding out the
-        process, not testing the design.</li>
-      <li><b>It can stay simple behind the screen.</b> You are designing what a customer sees, not the system underneath. It is
-        fine if the owner still confirms each booking by hand — the request comes from your website instead of a chat.
-        Say so in a caption.</li>
-      <li><b>No need to make every image.</b> A labelled box — <i>photo of the salon</i> — is enough wherever a picture would go.
-        Real photos of the business need the owner’s permission; generated ones go in your AI log, A7.</li>
-      <li><b>Branding is a choice.</b> Use the business’s own logo and colours (say where they came from) or design new ones.
-        Either way A4 and A5 still need your type sizes, colour codes and contrast ratios.</li>
-      <li><b>You do not have to launch it.</b> Your clickable deck is the prototype. Whether the business ever uses it is not marked.</li>
-    </ol>
-    <p class="hint">C6 has a ready answer here: the WhatsApp version leaves customers’ phone numbers and messages on a personal
-      phone. What does your version collect, and what does it not need?</p>
-  </section>
 
   <footer><p>Screen Design · Level 4 · 2026–27 · The ideas are made up for this page. Organisations are described generically on purpose:
     when you choose one, find the real service near you and capture that.</p></footer>

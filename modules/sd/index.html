@@ -86,12 +86,7 @@
   .nb-list li.ok .sec{color:var(--ink-3);border-color:var(--line-2)}
   .nb-list li.ok i{color:var(--hnd,#2C5F3E)} .nb-list li.ok span{color:var(--ink-3);text-decoration:line-through}
   .nb-lab{margin:12px 0 6px;font-family:var(--mono);font-size:0.64rem;letter-spacing:0.08em;text-transform:uppercase;color:var(--ink-3)}
-  .nb-three{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:6px;counter-reset:n}
-  .nb-three li{counter-increment:n;font-size:0.88rem;background:var(--surface-2);border-radius:99px;padding:5px 12px 5px 9px}
-  .nb-three li::before{content:counter(n);font-family:var(--mono);font-size:0.7rem;font-weight:700;color:var(--ink-3);margin-right:6px}
-  .nb-three li b{font-weight:600}
-  .nb-three li.open{background:var(--warn-soft);color:var(--warn)}
-  .nb-three li.open::before{content:"\2192";color:var(--warn)}
+
   .nb-list .ifcan{font-style:normal;font-family:var(--mono);font-size:0.66rem;color:var(--ink-3);
     border:1px dashed var(--line-2);border-radius:99px;padding:1px 7px;margin-left:4px}
   .nb-week{display:inline-flex;align-items:center;min-height:44px;padding:0 18px;border-radius:9px;margin:4px 0 2px;
@@ -170,10 +165,7 @@
   table.wk tr.past td{opacity:.62}
   .wn{font-family:var(--mono);font-size:0.72rem;color:var(--ink-3);white-space:nowrap}
   .wt{color:var(--ink);font-weight:620}
-  .wmake{display:flex;flex-wrap:wrap;gap:4px}
-  .chip{font-family:var(--mono);font-size:0.65rem;border-radius:4px;padding:2px 7px;white-space:nowrap}
-  .chip.mk{background:var(--wsh-soft);color:var(--wsh);border:1px solid var(--wsh)}
-  .chip.no{background:var(--surface-2);color:var(--ink-3);border:1px solid var(--line-2)}
+
   /* display:flex on a <td> takes it out of the table's row layout entirely —
      the cell stops stretching to the row height, so its bottom border drew
      short and high, and the divider under the Sheets column sat a few pixels
@@ -192,7 +184,7 @@
      the fold rendered as a solid triangle sticking out past the page edge — and
      it changed shape under the hover background. */
   .doc svg{display:block;width:13px;height:16px;flex:none}
-  .doc-c{color:var(--lec)} .doc-c:hover{border-color:var(--lec);background:var(--lec-soft)}
+
   .doc-w{color:var(--wsh)} .doc-w:hover{border-color:var(--wsh);background:var(--wsh-soft)}
   /* A deck used in the lecture hour: drawn as an easel, the same glyph the decks
      themselves use for "show as slides". */
@@ -233,7 +225,6 @@
   .sh{display:flex;align-items:baseline;gap:10px;margin-bottom:4px;flex-wrap:wrap}
   .sh h2{font-size:1.28rem;font-weight:680;letter-spacing:-0.02em;margin:0}
   .sh em{font-family:var(--mono);font-size:0.68rem;font-style:normal;color:var(--ink-3);letter-spacing:0.06em}
-  .lede{color:var(--ink-2);margin:0 0 16px;max-width:60ch;font-size:0.95rem}
 
   .three{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(min(260px,100%),1fr))}
   .card{background:var(--surface);border:1px solid var(--line);border-radius:11px;padding:16px 18px}
@@ -245,11 +236,6 @@
   .card li a{display:inline-block;padding-block:4px}   /* 2.5.8: 17px-high links become 25px */
   .big{font-size:1.9rem;font-weight:720;letter-spacing:-0.03em;line-height:1}
 
-  .ctarow{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(min(290px,100%),1fr));margin:16px 0 4px}
-  .ctarow .cta{margin:0}
-  .cta2{background:var(--wsh)}
-  .cta3{background:var(--ink);color:var(--bg)}
-  html[data-theme="dark"] .cta3{color:#151314}
   .cta{display:flex;align-items:center;gap:14px;background:var(--lec);color:#fff;border-radius:12px;
        padding:18px 22px;text-decoration:none;margin:16px 0 4px;flex-wrap:wrap}
   html[data-theme="dark"] .cta{color:#151314}
@@ -257,23 +243,13 @@
   .cta span{font-size:0.9rem;opacity:.9}
   .cta .go{margin-left:auto;font-family:var(--mono);font-size:0.85rem;white-space:nowrap}
 
-  .rulecta{display:flex;align-items:center;gap:14px;background:var(--surface);border:1px solid var(--line);
-    border-left:4px solid var(--wsh);border-radius:11px;padding:14px 18px;text-decoration:none;
-    margin-bottom:20px;flex-wrap:wrap}
-  .rulecta:hover{border-color:var(--wsh)}
-  .rulecta .rn{font-size:1.7rem;font-weight:730;color:var(--wsh);line-height:1;letter-spacing:-0.03em}
-  .rulecta b{display:block;font-size:1rem;font-weight:660}
-  .rulecta > span > span{font-size:0.88rem;color:var(--ink-2)}
-  .rulecta .go{margin-left:auto;font-family:var(--mono);font-size:0.8rem;color:var(--wsh)}
+  .fit{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:6px;margin:4px 0 6px}
+  @media(max-width:620px){.fit{grid-template-columns:1fr}}
+  .fit div{position:relative;background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:8px 8px 10px;display:flex;flex-direction:column;gap:2px}
+  .fit span{font:700 0.7rem var(--mono);color:var(--wsh)} .fit b{font-size:0.86rem} .fit small{font-size:0.74rem;color:var(--ink-3);line-height:1.35}
 
   .links{display:grid;gap:10px;grid-template-columns:repeat(auto-fit,minmax(min(240px,100%),1fr))}
-  .lnk{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:13px 15px;
-       text-decoration:none;display:block}
-  .lnk:hover{border-color:var(--lec)}
-  .lnk b{display:block;font-size:0.95rem;font-weight:640;margin-bottom:2px}
-  .lnk span{font-size:0.84rem;color:var(--ink-2)}
-  .lnk u{display:block;font-family:var(--mono);font-size:0.65rem;color:var(--ink-3);
-         margin-top:6px;text-decoration:none}
+
   .soon{opacity:.55}
   .soon:hover{border-color:var(--line)}
 
@@ -281,150 +257,18 @@
   footer p{margin:0 0 5px;max-width:74ch}
   code{font-family:var(--mono);font-size:0.88em;overflow-wrap:anywhere}
 
-  /* Said on every page a student might plan against. Content moves; the
-     assessment does not — and being explicit about which is which is what
-     stops a reworded workshop reading as a moved goalpost. */
-  .subject{margin:0 0 8px;padding:11px 14px;border-left:3px solid var(--warn,#8A5D05);
-    background:var(--warn-soft,#F4EAD3);border-radius:0 8px 8px 0;
-    font-size:0.86rem;line-height:1.55;color:var(--ink-2);max-width:78ch}
-  .subject b{color:var(--ink)}
-  html[data-theme="dark"] .subject{background:#2A2417;border-left-color:#DCB469}
-
   /* ── handouts: built for a phone first, a desk second, A4 third ─────────── */
   #handout{border:0;padding:0;margin:auto;width:min(860px,calc(100% - 32px));max-height:90vh;
     background:var(--surface);color:var(--ink);border-radius:10px;box-shadow:0 18px 60px rgba(0,0,0,.3);overflow:hidden}
   #handout[open]{display:flex;flex-direction:column}
   #handout::backdrop{background:rgba(26,22,24,.55)}
-  .ho-bar{flex:none;display:flex;align-items:center;justify-content:space-between;gap:10px;
-    padding:10px 14px 10px 18px;background:var(--surface-2);border-bottom:1px solid var(--line)}
-  .ho-kicker{font-family:var(--mono);font-size:.7rem;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-3);
-    min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-  .ho-tools{display:flex;gap:6px;flex:none}
-  .ho-btn{font:600 .8rem/1 inherit;min-height:40px;padding:0 14px;border:1px solid var(--line-2);border-radius:6px;
-    background:var(--surface);color:var(--ink-2);cursor:pointer}
-  .ho-btn:hover{border-color:var(--ink-3);color:var(--ink)}
-  .ho-x{background:var(--ink);color:var(--surface);border-color:var(--ink)}
-  .ho-body{flex:1;overflow:auto;padding:20px 24px 26px;-webkit-overflow-scrolling:touch;overscroll-behavior:contain}
-  .ho-body h2{margin:0 0 6px;font-size:1.55rem;letter-spacing:-.02em;line-height:1.12}
-  .ho-idea{margin:0 0 16px;font-size:.98rem;line-height:1.45;color:var(--ink-2);border-left:3px solid var(--ink);padding-left:12px}
-  .ho-block{margin:0 0 14px;padding:14px 16px;border:1px solid var(--line);border-radius:8px;background:var(--bg)}
-  .ho-main{border-left:4px solid var(--wsh);background:var(--wsh-soft)}
-  .ho-warn{border-left:4px solid var(--lec);background:var(--lec-soft)}
-  .ho-block h3{margin:0 0 10px;font-size:.74rem;letter-spacing:.08em;text-transform:uppercase;
-    display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 10px}
-  .ho-sub{font-family:var(--mono);font-size:.66rem;letter-spacing:.03em;text-transform:none;color:var(--ink-3);font-weight:400}
-  .ho-lab{display:block;font-size:.66rem;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-3);font-weight:600;margin-bottom:4px}
 
-  /* the session split: the workshop takes two thirds, because it is two thirds */
-
-  .ho-aim{margin:0 0 10px;font-size:1rem;font-weight:650;line-height:1.35}
-  /* the workshop as a sequence: numbered nodes joined by a line, left to right,
-     and top to bottom on a phone. There is no clock on purpose. */
-  /* The three, on the week table: titles only — the line each one expands to
-     is on the week page and the handout. */
-  .tl3{list-style:none;margin:6px 0 0;padding:0;display:flex;flex-wrap:wrap;gap:4px;counter-reset:n}
-  .tl3 li{counter-increment:n;font-size:0.72rem;line-height:1.3;color:var(--ink-2);
-    background:var(--surface-2);border-radius:99px;padding:3px 9px 3px 7px}
-  .tl3 li::before{content:counter(n);font-family:var(--mono);font-size:0.62rem;font-weight:700;
-    color:var(--ink-3);margin-right:5px}
-  .tl3 li.open{background:var(--warn-soft);color:var(--warn);font-weight:600}
-  .tl3 li.open::before{content:"→";color:var(--warn)}
-  .ho-chips{margin:12px 0 0;display:flex;flex-wrap:wrap;gap:6px;align-items:center}
-  .ho-chips .ho-lab{width:100%;margin:0}
-  .ho-chips span:not(.ho-lab){font-size:.8rem;padding:4px 9px;border-radius:999px;background:var(--surface);
-    border:1px solid var(--line-2)}
-
-  /* ticks: 44px rows, because this is used with a thumb */
-  .ho-code{font-family:var(--mono);font-size:.74rem;font-weight:700;text-align:center;padding:3px 0;border-radius:4px;color:#fff}
-  .ho-what b{display:block;font-size:.9rem;line-height:1.3}
-  .ho-what em{display:block;font-style:normal;font-size:.8rem;color:var(--ink-3);line-height:1.35}
-  .ho-empty{margin:0;font-size:.88rem;color:var(--ink-2)}
-  .ho-A{background:var(--wsh)} .ho-B{background:var(--lec)} .ho-C{background:var(--sup)} .ho-D{background:var(--ink-3)}
-
-
-  .ho-two{display:grid;grid-template-columns:1.5fr 1fr;gap:14px}
-  .ho-two .ho-block{margin:0}
-  .ho-keep{margin:0;padding-left:18px;font-size:.9rem;line-height:1.45}
-  .ho-keep li{margin-bottom:6px}
-  .ho-warn p{margin:0;font-size:.9rem;line-height:1.45}
-  .ho-next{margin:14px 0 0;padding:12px 16px;border-radius:8px;background:var(--ink);color:var(--surface);
-    font-size:.95rem;font-weight:600;line-height:1.35}
-  .ho-next .ho-lab{color:inherit;opacity:.65}
-  .ho-foot{margin:12px 0 0;font-size:.76rem;color:var(--ink-3);line-height:1.5}
-  .ho-foot a,.ho-links a{color:var(--wsh);font-weight:600}
-  .ho-dlk{font-family:var(--mono);font-size:.7rem;font-weight:400;color:var(--ink-3);margin-left:6px}
-
-  /* brief */
-  .ho-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:0 0 14px}
-  .ho-stats div{padding:10px 12px;border-radius:8px;background:var(--surface-2)}
-  .ho-stats b{display:block;font-size:1.6rem;letter-spacing:-.03em;line-height:1}
-  .ho-stats span{font-size:.74rem;color:var(--ink-3);line-height:1.3}
-  .ho-parts{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
-  .ho-part{border-radius:8px;padding:10px 12px;background:var(--surface);border:1px solid var(--line);border-top:4px solid}
-  .ho-part.ho-A{border-top-color:var(--wsh)} .ho-part.ho-B{border-top-color:var(--lec)} .ho-part.ho-C{border-top-color:var(--sup)} .ho-part.ho-D{border-top-color:var(--ink-3)}
-  .ho-part{background-color:var(--surface) !important}
-  .ho-part-h{display:flex;gap:10px;align-items:center}
-  .ho-part-n{font-size:1.8rem;font-weight:750;letter-spacing:-.03em;line-height:1}
-  .ho-part-h b{display:block;font-size:.86rem}
-  .ho-part-h em{display:block;font-style:normal;font-size:.72rem;color:var(--ink-3)}
-  .ho-part-c{margin:8px 0 0;display:flex;flex-wrap:wrap;gap:4px}
-  .ho-part-c span{font-family:var(--mono);font-size:.68rem;padding:2px 5px;border-radius:3px;background:var(--surface-2)}
-  .ho-weeks{display:flex;flex-direction:column;gap:3px}
-  .ho-wk{display:grid;grid-template-columns:22px 150px minmax(60px,1fr) 24px;align-items:center;gap:8px;min-height:26px}
-  .ho-wk-n{font-family:var(--mono);font-size:.74rem;color:var(--ink-3);text-align:right}
-  .ho-wk-dots{display:flex;flex-wrap:wrap;gap:3px}
-  .ho-wk-dots i{font:700 .64rem/1 var(--mono);font-style:normal;color:#fff;padding:3px 4px;border-radius:3px}
-  .ho-wk-dots em{color:var(--ink-3);font-style:normal;font-size:.74rem}
-  .ho-wk-bar{height:8px;background:var(--surface-2);border-radius:4px;overflow:hidden}
-  .ho-wk-bar b{display:block;height:100%;background:var(--ink)}
-  .ho-wk-c{font-family:var(--mono);font-size:.7rem;color:var(--ink-2)}
-  .ho-legend{margin:8px 0 0;font-size:.72rem;color:var(--ink-3);display:flex;flex-wrap:wrap;align-items:center;gap:4px 8px}
-  .ho-legend i{display:inline-block;width:10px;height:10px;border-radius:2px;margin-right:-4px}
-  .ho-crit{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
-  .ho-c{padding:10px 12px;border-radius:8px;background:var(--surface);border:1px solid var(--line)}
-  .ho-c-n{display:inline-grid;place-items:center;width:22px;height:22px;border-radius:50%;background:var(--ink);
-    color:var(--surface);font:700 .72rem/1 var(--mono);margin-right:6px;vertical-align:1px}
-  .ho-c b{font-size:.88rem}
-  .ho-c ul{margin:6px 0 0;padding-left:18px;font-size:.82rem;line-height:1.4}
-  .ho-musts{list-style:none;margin:0;padding:0;columns:2;column-gap:20px}
-  .ho-musts li{break-inside:avoid;display:flex;gap:8px;font-size:.88rem;line-height:1.35;padding:4px 0}
-  .ho-musts li span{flex:none;font-size:1rem;line-height:1.2}
-  .ho-links{margin:14px 0 0;display:flex;flex-wrap:wrap;gap:8px}
-  .ho-links a{display:inline-flex;align-items:center;min-height:44px;padding:0 14px;border-radius:8px;
-    border:1px solid var(--line-2);text-decoration:none;background:var(--surface);font-size:.86rem}
-
-  .doc-h{color:var(--sup);cursor:pointer;font-family:var(--mono)}
-  .doc-h:hover{border-color:var(--sup);background:var(--sup-soft)}
   button.cta{border:0;font:inherit;text-align:left;cursor:pointer;width:100%}
-  .ho-prt{display:none}
-
-  /* handout view switch, and the slide nav that only slide mode shows */
-  /* the view switch shows pictures, not words: a page to read, an easel to present */
-  .vico{display:block;margin:auto}
-  .ho-view button{min-width:46px}
-  .ho-view{display:inline-flex;border:1px solid var(--line-2);border-radius:6px;overflow:hidden}
-  .ho-view button{font:600 .76rem/1 var(--mono);min-height:40px;padding:0 12px;border:0;background:var(--surface);
-    color:var(--ink-2);cursor:pointer}
-  .ho-view button + button{border-left:1px solid var(--line-2)}
-  .ho-view button[aria-pressed="true"]{background:var(--ink);color:var(--surface)}
-  .ho-dnav{display:none}
 
   /* Slides: the handout fills the screen and shows one group at a time. On a
      projector the content is scaled up rather than restyled, so it is the same
      sheet students have in their pocket, just readable from the back row. */
   #handout.deck{width:100vw;max-width:100vw;height:100dvh;max-height:100dvh;border-radius:0;margin:0}
-  #handout.deck .ho-body{display:flex;flex-direction:column;justify-content:center;overflow:hidden;padding:24px 32px}
-  #handout.deck .ho-slide{display:none;width:100%;max-width:880px;margin:0 auto;max-height:100%;overflow:auto}
-  #handout.deck .ho-slide.on{display:block}
-  #handout.deck .ho-slide > .ho-block,#handout.deck .ho-slide > .ho-two{margin-bottom:0}
-  #handout.deck .ho-dnav{flex:none;display:flex;align-items:center;gap:10px;padding:10px 18px;
-    border-top:1px solid var(--line);background:var(--surface-2)}
-  .ho-count{font-family:var(--mono);font-size:.78rem;color:var(--ink-3);min-width:48px;text-align:center}
-  .ho-dprog{flex:1;height:4px;border-radius:2px;background:var(--line);overflow:hidden}
-  .ho-dprog i{display:block;height:100%;background:var(--wsh);transition:width .18s}
-  #handout .ho-btn:disabled{opacity:.35;cursor:default}
-  @media (min-width:1000px) and (min-height:640px){ #handout.deck .ho-slide{zoom:1.35} }
-  @media (min-width:1500px) and (min-height:860px){ #handout.deck .ho-slide{zoom:1.6} }
 
   /* the phone: the sheet becomes the screen */
   @media (max-width:640px){
@@ -477,6 +321,12 @@
     *,*::before,*::after{transition:none!important;animation:none!important;scroll-behavior:auto!important}
   }
 
+  .brief{margin:0 0 18px} .brief .sub{max-width:78ch}
+  .brieflinks{display:flex;flex-wrap:wrap;gap:8px 18px;align-items:center;margin:10px 0 0;font-size:0.92rem}
+  .brieflinks a{color:var(--lec)} .brieflinks .dl{font-weight:650}
+  .brieflinks .dl span{font-weight:400;color:var(--ink-3);font-size:0.82rem;margin-left:4px}
+  .bring{margin:12px 0 0;font-size:0.9rem;color:var(--ink-2)} .bring b{color:var(--ink)}
+
   /* THE BAR — one definition, identical on every page (written by navfix; change it
      everywhere or nowhere). It used to be copied per page and drifted into two heights. */
   header.sdnav{position:sticky;top:0;z-index:40;background:var(--surface);border-bottom:1px solid var(--line)}
@@ -514,7 +364,7 @@
   <div class="wrap bar">
     <a class="brand" href="index.html">Screen Design</a>
     <span class="sp"></span>
-    <nav class="sdlinks" aria-label="Screen Design"><a class="navl on" href="index.html" aria-current="page">Overview</a><a class="navl" href="weeks.html">Week by week</a><a class="navl" href="brief.html">The brief</a><a class="navl" href="assessment.html">Checklist</a><a class="navl" href="assessment-materials.html">Marking and examples</a><a class="navl" href="toolkit.html">Toolkit</a><a class="navl" href="ideas.html">Theme ideas</a></nav>
+    <nav class="sdlinks" aria-label="Screen Design"><a class="navl" href="weeks.html">Week by week</a><a class="navl" href="assessment.html">Checklist</a><a class="navl" href="examples.html">Examples</a><a class="navl" href="toolkit.html">Toolkit</a><a class="navl" href="assessment-materials.html">Marking</a></nav>
     <span class="ctl"><button id="theme" aria-label="Dark mode">◐</button></span>
   </div>
 </header>
@@ -526,14 +376,21 @@
   <div class="nowbox" id="nowbox"></div>
 
   <h1>Screen Design 2026–27</h1>
-  <p class="sub">One slide deck, filled in over eleven weeks. Nothing is handed in weekly — you export it as a PDF and upload it by <b id="dl"></b>.</p>
+  <section class="brief" id="brief">
+    <p class="sub"><b>One journey, made better, and a record of why it looks like that.</b> You pick one thing a person
+      is trying to get done, find out how they do it now and count the steps, then design a shorter, clearer version and
+      write down every choice as you make it. It all goes in one slide deck, filled in a section or two each week and
+      handed in as one PDF: 100% of the mark, with no exam, presentation or group work.</p>
+    <p class="brieflinks"><a class="dl" id="briefdl" download></a>
+      <a href="assessment.html">What goes in the deck →</a>
+      <a href="assessment-materials.html#how">How it is marked →</a>
+      <a href="ideas.html">Need a theme? Theme ideas →</a></p>
+  </section>
 
-  <!-- ========== THE WEEK, FIRST ========== -->
+  <!-- ========== THE WEEK ========== -->
   <div class="weekbox">
     <div class="wb-top"><b>Every Tuesday, the same shape</b><span id="wb-hours">5 HOURS</span></div>
-
     <div class="hbar" id="hbar"></div>
-
     <div class="split">
       <span class="sblk"><span class="dots l" id="d100"></span><small>100+ together</small></span>
       <span class="arrow">→</span>
@@ -542,76 +399,19 @@
       <span class="sblk"><span class="dots g3" id="dg3"></span><small>~34</small></span>
       <span class="sblk"><small style="color:var(--wsh)">3 rooms · identical session</small></span>
     </div>
+    <p class="bring"><b>Bring every week:</b> a laptop or tablet, with your <code>Screen Design</code> folder and your deck open.</p>
   </div>
 
-  <a class="rulecta" href="weeks.html#rules">
-    <span class="rn" id="rulen">–</span>
-    <span><b>Rules that apply every week</b>
-      <span>Where your work lives, what to bring, how to name files, what to do if you miss a week.</span></span>
-    <span class="go">Read →</span>
-  </a>
-
-  <!-- ========== WEEK GRID ========== -->
+  <!-- ========== WEEKS ========== -->
   <section id="weeks" style="padding-top:14px">
-    <div class="sh"><h2>What happens each week</h2><em>11 WEEKS</em></div>
-    <p class="lede">The workshop is where you make things. Everything in the fourth column goes
-      into your one deck. <b>Both sheets are open to everyone</b> — the one your tutor runs
-      from is the one you can read.</p>
+    <div class="sh"><h2>Week by week</h2><em>11 WEEKS</em></div>
     <div class="gridwrap">
       <table class="wk">
-        <thead><tr><th style="width:52px">Wk</th><th style="width:62px">Date</th><th style="width:22%">Shown in class · 1h</th>
-          <th style="width:34%">Workshop · 2h</th>
-          <th style="width:172px">This week</th></tr></thead>
+        <thead><tr><th style="width:52px">Wk</th><th style="width:62px">Date</th><th>What the week is about</th>
+          <th style="width:172px">Open</th></tr></thead>
         <tbody id="wkbody"></tbody>
       </table>
     </div>
-  </section>
-
-  <!-- ========== ASSESSMENT CTA ========== -->
-  <section id="assess">
-    <div class="sh"><h2>The hand-in</h2><em>100% OF THE MARK</em></div>
-    <div class="three">
-      <div class="card"><span class="k">Part A</span><span class="big" data-part-count="A">7</span>
-        <h3>Spec sheet</h3>
-        <ul><li>Fill-in fields, not an essay</li><li>Made in the workshops</li><li>Nothing runs past a slide</li></ul></div>
-      <div class="card"><span class="k">Part B</span><span class="big" data-part-count="B">8</span>
-        <h3>Screens + artefacts</h3>
-        <ul><li>One journey, as many screens as it needs</li><li>Other screen sizes optional</li><li>Sketches, wireframes, style tile</li></ul></div>
-      <div class="card"><span class="k">Part C</span><span class="big" data-part-count="C">9</span>
-        <h3>Short sections</h3>
-        <ul><li>500–700 words total</li><li>Each cites a number from Part A</li><li>Drafted the week each decision is made</li></ul></div>
-      <div class="card"><span class="k">Part D</span><span class="big" data-part-count="D">3</span>
-        <h3>Appendices</h3>
-        <ul><li>The process before</li><li>What happened to each step</li><li>No word count</li></ul></div>
-    </div>
-    <div class="ctarow">
-      <a class="cta" href="assessment.html">
-        <span><b>Open the checklist</b><span>All <span data-sec-count>24</span> sections, ticked off as you go.</span></span>
-        <span class="go">Open →</span>
-      </a>
-      <a class="cta cta2" href="brief.html">
-        <span><b>The brief, explained</b><span>What it is and how it is marked.</span></span>
-        <span class="go">Open →</span>
-      </a>
-      <button type="button" class="cta cta3" data-brief-handout>
-        <span><b>The brief on one page</b><span>Everything you hand in, in a one-minute read.</span></span>
-        <span class="go">Open →</span>
-      </button>
-    </div>
-    <a class="rulecta" href="assessment-materials.html" style="margin:12px 0 0">
-      <span class="rn">2</span>
-      <span><b>Marking and examples</b>
-        <span>The blank rubric, the marks we can give, and two example portfolios — one thin, one complete.</span></span>
-      <span class="go">Open →</span>
-    </a>
-  </section>
-
-  <!-- ========== TOOLS ========== -->
-  <section id="tools">
-    <div class="sh"><h2>Use these any time</h2><em>PUBLIC · NO LOGIN</em></div>
-    <p class="lede">Not module tools — they are public and they stay up after you graduate.
-      Every one of them is evidence you can cite in Part C.</p>
-    <div class="links" id="tools-list"></div>
   </section>
 
   <!-- ========== HELP ========== -->
@@ -621,44 +421,18 @@
       <div class="card"><span class="k">Fastest</span><h3>Support hours</h3>
         <ul><li>2 hours every week</li><li>Same rooms as your workshop</li><li>Just turn up</li></ul></div>
       <div class="card"><span class="k">Booked</span><h3>10-minute check-in</h3>
-        <ul><li>Sign up in advance</li><li>~3 each per semester</li><li>Bring your spec sheet</li></ul></div>
-      <div class="card"><span class="k">Reference</span><h3>Examples</h3>
-        <ul><li><a href="https://interfaces.institute/stairwell/">Ten principles, shown broken and fixed</a></li>
-            <li><a href="https://written.institute/laboratory">Type laboratory</a></li>
-            <li><a href="https://symbolic.institute/visual-grammar/">Visual grammar</a></li></ul></div>
+        <ul><li>Sign up in advance</li><li>~3 each per semester</li><li>Bring your deck</li></ul></div>
+      <div class="card"><span class="k">Missed a week?</span><h3>Catch up</h3>
+        <ul><li>Open that week in <a href="weeks.html">Week by week</a></li><li>Study the In class items marked Core, then do the workshop steps</li><li>Bring the gap to the support hours</li></ul></div>
     </div>
   </section>
-
-  <p class="subject"><b>The weekly content may change.</b> What is shown in class and how a workshop runs can be adjusted during the term — check the week before you rely on it. <b>The assessment does not change.</b> The <span class="seccount">24</span> sections, the four marking criteria and the deadline are fixed, and anything that did change would be announced, not quietly edited.</p>
 
   <footer>
     <p><b>Screen Design</b> · Level 4 · 30 credits · Semester 1 · <code>1L4Z0045</code> · School of English,
       Faculty of Arts and Humanities. Approved v1.0, 29 July 2025. Module coordinator Michail Oustamanolakis.</p>
-    <p>Staff: every week's two sheets are on <a href="weeks.html">the materials page</a>, and the
-      week 1 marking exercise has its own staff sheet, which is deliberately not linked from anywhere — open <code>example-sheet.html</code> directly.</p>
   </footer>
 </div>
 
-<dialog id="handout" aria-labelledby="ho-title">
-  <div class="ho-bar">
-    <span class="ho-kicker" id="ho-kicker"></span>
-    <span class="ho-tools">
-      <span class="ho-view" role="group" aria-label="How to show the handout">
-        <button type="button" data-hview="scroll" aria-pressed="true" aria-label="Read as a page" title="Read as a page"><svg class="vico" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5"/><path d="M9 9h2M9 13h6M9 17h6"/></svg></button>
-        <button type="button" data-hview="deck" aria-pressed="false" aria-label="Show as slides" title="Show as slides"><svg class="vico" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2.5 3.5h19"/><rect x="4" y="3.5" width="16" height="11.5" rx="1"/><path d="M7.5 11.5l2.8-2.8 2.4 2 3.8-3.9"/><path d="M12 15v3.2M12 18.2 8 21.5M12 18.2l4 3.3"/></svg></button>
-      </span>
-      <button type="button" class="ho-btn" id="ho-print">Print</button>
-      <button type="button" class="ho-btn ho-x" id="ho-close">Close</button>
-    </span>
-  </div>
-  <div class="ho-body" id="ho-body"></div>
-  <div class="ho-dnav">
-    <button type="button" class="ho-btn" id="ho-prev">← Back</button>
-    <span class="ho-count" id="ho-count"></span>
-    <button type="button" class="ho-btn" id="ho-next">Next →</button>
-    <span class="ho-dprog"><i id="ho-dprog"></i></span>
-  </div>
-</dialog>
 
 <script src="sd-common.js"></script>
 <script src="weeks-data.js"></script>
@@ -667,42 +441,9 @@
    version held its own copy of the eleven weeks and the two drifted the moment
    a workshop was reworded. */
 const ROWS = WEEKS.map(w => ({
-  n: w.n, dead: !!w.dead, l: w.title, w: w.workshop.aim, m: w.makes, three: w.three,
+  n: w.n, dead: !!w.dead, l: w.title,
   decks: w.shown.filter(x => x.slides).map(x => ({ l: x.slides, u: x.u }))
 }));
-
-/* Public, live, and none of it expires with the module. Each one is something a
-   student can point at in Part C — which is what "cite a source" means here. */
-const TOOLS = [
- {n:"The Stairwell", d:"Ten principles, each with two working interfaces — one that breaks it, one that keeps it. Press both.",
-  w:"Weeks 2, 7, 9", u:"https://interfaces.institute/stairwell/"},
- {n:"The button, drawn eight times", d:"One control across three decades, plus 63 real buttons measured off live design systems.",
-  w:"Week 8", u:"https://interfaces.institute/components/button/"},
- {n:"Published layout grids", d:"Sixty-eight publishers who wrote their grid down, each plate drawn to its own numbers.",
-  w:"Week 3", u:"https://interfaces.institute/collections/grids/"},
- {n:"Design systems, measured", d:"122 systems with their real body face, size and palette read off the live page.",
-  w:"Weeks 4, 6", u:"https://interfaces.institute/collections/design-systems/"},
- {n:"Bank interfaces", d:"Fifty banks, colour measured and sorted by hue. Useful when you cannot decide on a palette.",
-  w:"Weeks 2, 5", u:"https://interfaces.institute/collections/bank-interfaces/"},
- {n:"Where text breaks", d:"Forty-nine line-breaking classes with a specimen for each. Why your Thai or Japanese text wraps wrong.",
-  w:"Week 4", u:"https://interfaces.institute/collections/line-breaking/"},
- {n:"WCAG 2.2", d:"All 87 success criteria, filterable. The accessibility source you cite in §6.",
-  w:"Week 9", u:"https://interfaces.institute/collections/wcag/"},
- {n:"The UX dictionary", d:"787 terms with a definition and every page that uses them. Use it when a brief says a word you do not know.",
-  w:"Any week", u:"https://interfaces.institute/dictionary/"},
- {n:"The type laboratory", d:"Anatomy and classification, set in the faces it describes.",
-  w:"Week 4", u:"https://written.institute/laboratory/"},
- {n:"Colour associations", d:"What a hue means, and where it means something else.",
-  w:"Week 5", u:"https://symbolic.institute/collections/colour-associations/"},
- {n:"Visual grammar", d:"Twelve marks and how each one got its meaning — traffic colour, the hamburger, the arrow.",
-  w:"Weeks 5, 7", u:"https://symbolic.institute/visual-grammar/"},
- {n:"PassReady: the worst-day screens", d:"Five slides and a live model from an app built for a test people get one go at: not knowing, not being sure yet, and what to do next.",
-  w:"Week 7", u:"passready.html"},
- {n:"A room finder for a made-up university", d:"A real prototype over an invented university. Browse it, search it, then open a building with nothing in it.",
-  w:"Week 7", u:"room-finder/index.html"},
- {n:"WebAIM contrast checker", d:"The one third-party tool on this list. Week 5 needs it and it is the standard.",
-  w:"Week 5", u:"https://webaim.org/resources/contrastchecker/"}
-];
 
 const NOW = SD.week();
 /* One page glyph, used for both sheet links. */
@@ -720,16 +461,11 @@ document.getElementById('wkbody').innerHTML = ROWS.map(w => `
     <td class="wn">${w.n === NOW ? '▶ ' : ''}${String(w.n).padStart(2,'0')}</td>
     <td class="wn">${SD.fmtShort(SD.dateOf(w.n))}${w.n === NOW ? '<span class="nowtag">This week</span>' : ''}</td>
     <td class="wt">${w.l}</td>
-    <td>${w.w}
-      <ol class="tl3">${w.three.map(x => `<li class="${x.open ? 'open' : ''}">${x.t}</li>`).join('')}</ol></td>
     <td class="sheets"><span class="docs">
       <a class="doc doc-w" href="weeks.html?w=${w.n}" title="Week ${w.n}: class, workshop and what comes next, on one page">${PAGE}Open week</a>
       ${w.decks.map(d => `<a class="doc doc-s" href="${d.u}" title="Slides shown in class: ${d.l}">${EASEL}${d.l}</a>`).join('')}
     </span></td>
   </tr>`).join('');
-
-document.getElementById('tools-list').innerHTML = TOOLS.map(t => `
-  <a class="lnk" href="${t.u}" target="_blank" rel="noopener"><b>${t.n}</b><span>${t.d}</span><u>${t.w}</u></a>`).join('');
 
 /* This week, and whether you are behind. Everything here is derived from the
    two dates in sd-common.js — nothing is typed and nothing goes stale. */
@@ -749,15 +485,15 @@ document.getElementById('hbar').innerHTML = SD.SESSIONS.map(x => `
     </div>
   </div>`).join('');
 
-document.getElementById('dl').textContent = SD.fmtFull(SD.dead);
-document.getElementById('rulen').textContent = RULES.length;
+{ const a = document.getElementById('briefdl'); a.href = OFFICIAL_BRIEF.file;
+  a.innerHTML = `\u2193 ${OFFICIAL_BRIEF.label} <span>${OFFICIAL_BRIEF.kind} \u00b7 ${OFFICIAL_BRIEF.size}</span>`; }
 
 (function nowBox(){
   const el = document.getElementById('nowbox');
   const w = SD.week(), days = SD.daysToDeadline(), done = SD.doneCount(), total = SD.total;
   const wk = ROWS.find(x => x.n === w);
 
-  let cls = '', wkLine = '', title = '', list = '', three = null, weekLink = '';
+  let cls = '', wkLine = '', title = '', list = '', weekLink = '';
   if (w === 0) {
     cls = 'pre';
     wkLine = `First class ${SD.DAY} ${SD.fmt(SD.dateOf(1))}, 09:00 · GM LT7`;
@@ -773,7 +509,6 @@ document.getElementById('rulen').textContent = RULES.length;
     const W = WEEKS.find(x => x.n === w), bySec = s => SD.all.find(i => i.sec === s);
     const made = W.workshop.out.sec.map(bySec).filter(Boolean), maybe = (W.workshop.maybe || []).map(bySec).filter(Boolean);
     title = W.dead ? 'Submission week. Nothing new — finish it and hand it in.' : `This week: ${W.title}`;
-    three = W.three;
     list = [...made.map(i => [i, false]), ...maybe.map(i => [i, true])].map(([i, opt]) => {
       const ok = SD.isDone(i.key);
       return `<li class="${ok ? 'ok' : ''}"><i>${ok ? '✓' : '○'}</i><span><b class="sec">${i.sec}</b> ${i.t}${opt ? ' <em class="ifcan">if you can</em>' : ''}</span></li>`;
@@ -794,8 +529,6 @@ document.getElementById('rulen').textContent = RULES.length;
       <span class="nb-days">${days > 0 ? `<b>${days}</b> days to hand in` :
         days === 0 ? '<b>Due today</b>' : '<b>Deadline passed</b>'}</span></div>
     <p class="nb-do">${title}</p>
-    ${three ? `<p class="nb-lab">Leave with three things</p><ol class="nb-three">${three.map(x =>
-      `<li class="${x.open ? 'open' : ''}"><b>${x.t}</b></li>`).join('')}</ol>` : ''}
     ${list ? `<p class="nb-lab">Sections to fill in</p><ul class="nb-list">${list}</ul>` : ''}
     ${weekLink ? `<a class="nb-week" href="${weekLink}">Open week ${w} \u2192</a>` : ''}
     <div class="nb-bar">
@@ -848,194 +581,6 @@ document.querySelectorAll('.seccount').forEach(el => {
   var el = document.querySelector('[data-sec-count]');
   if (el && typeof PARTS !== 'undefined')
     el.textContent = PARTS.reduce(function (n, g) { return n + g.items.length; }, 0);
-})();
-
-/* ── The handouts ─────────────────────────────────────────────────────────────
-   Two one-minute reads in one dialog: a sheet per session, and the whole brief
-   on a page. Students skim, and most of them arrive in the last three weeks, so
-   both are built to be scanned: bars, ticks, chips and one-line bullets. Nothing
-   is a paragraph.
-
-   Everything that can be derived is derived — step names and minutes, sections
-   and what each must contain, dates, counts — so a handout cannot say something
-   the week does not. Only the three "keep in mind" lines and the next-week line
-   are written by hand, in WEEKS[].hand, because a distillation has to be.
-
-   The workshop leads the weekly sheet and gets the widest graphic. Two of the
-   three hours are the workshop and every section handed in is made there.
-
-   Ticks are the same ticks as the interactive checklist (SD.read / SD.write),
-   so a student who ticks A5 here finds it ticked there. */
-(function () {
-  const dlg = document.getElementById('handout');
-  if (!dlg || typeof WEEKS === 'undefined' || typeof PARTS === 'undefined') return;
-  const body = document.getElementById('ho-body');
-  const kick = document.getElementById('ho-kicker');
-
-
-  const esc = t => String(t).replace(/[<&]/g, c => c === '<' ? '&lt;' : '&amp;');
-  const SEC = {};
-  SD.all.forEach(i => { SEC[i.sec] = i; });
-  const PART = { A: 'Spec sheet', B: 'The work', C: 'Rationale', D: 'Appendices' };
-  const TOTAL = SD.all.length;
-  const madeIn = n => WEEKS.find(w => w.n === n).workshop.out.sec.filter(x => SEC[x]);
-  /* the appendices belong to no week; they count in at the last one */
-  const ANYTIME = SD.all.filter(i => !WEEKS.some(w => w.workshop.out.sec.includes(i.sec))).length;
-  const doneBy = n => WEEKS.filter(w => w.n <= n).reduce((a, w) => a + madeIn(w.n).length, 0) + (n >= WEEKS.length ? ANYTIME : 0);
-  const days = () => Math.max(0, SD.daysToDeadline());
-
-  /* The weekly handout lived here as a modal. It became the week page itself
-     (weeks.html?w=N), which prints as the one-page version; only the brief's
-     one-pager is still a modal. */
-
-  /* ── the whole brief ─────────────────────────────────────────────────────── */
-  const GETS = {
-    1: ['Your own A3–A5 numbers visibly used on every screen', 'One clear first thing to read on each screen'],
-    2: ['A6 filled with real values, and every text pair passing', 'A small-screen version someone could actually use'],
-    3: ['Sketches → flow → wireframes → screens, all present', 'A journey shorter than its before, clickable start to finish'],
-    4: ['A reason and a number in every paragraph', 'Ethics or sustainability, and your AI use, dealt with honestly'],
-  };
-  const MUSTS = [
-    'One PDF, exported from your one deck',
-    'Your name nowhere in it',
-    'A2 counts the steps before and the screens after',
-    'Every screen of your journey, one per slide',
-    'The journey clicks through, start to finish — checked in the PDF, not the editor',
-    'Every C section quotes a number from Part A',
-    'Every AI use logged in A7 and discussed in C8',
-    'Everything you cite listed in C9 (Cite Them Right Harvard)',
-  ];
-
-  function brief() {
-    kick.textContent = 'The assessment · on one page';
-    const parts = PARTS.map(g => ({ id: g.id, n: g.items.length, items: g.items }));
-    body.innerHTML = `
-      <h2 id="ho-title">Screen Design portfolio</h2>
-      <p class="ho-idea">One deck, filled in a little every week. Nothing is written at the end.</p>
-
-      <div class="ho-stats">
-        <div><b>1</b><span>PDF, from one deck</span></div>
-        <div><b>${TOTAL}</b><span>sections to fill</span></div>
-        <div><b>100%</b><span>of the module mark</span></div>
-        <div><b class="ho-scr">${days()}</b><b class="ho-prt">${SD.fmtShort(SD.dead)}</b><span><span class="ho-scr">days to </span>${SD.fmt(SD.dead)}, 21:00</span></div>
-      </div>
-
-      <section class="ho-block" data-slide>
-        <h3>What you hand in</h3>
-        <div class="ho-parts">${parts.map(g => `
-          <div class="ho-part ho-${g.id}">
-            <div class="ho-part-h"><span class="ho-part-n">${g.n}</span>
-              <span><b>Part ${g.id} · ${PART[g.id]}</b><em>${esc(PARTS.find(x => x.id === g.id).tag)}</em></span></div>
-            <p class="ho-part-c">${g.items.map(i => `<span title="${esc(i.t)}">${i.sec}</span>`).join('')}</p>
-          </div>`).join('')}
-        </div>
-      </section>
-
-      <section class="ho-block" data-slide>
-        <h3>When each section is made <span class="ho-sub">week by week</span></h3>
-        <div class="ho-weeks" role="img" aria-label="Sections produced in each of the eleven weeks">${WEEKS.map(w => {
-          const m = madeIn(w.n), d = doneBy(w.n);
-          return `<div class="ho-wk">
-            <span class="ho-wk-n">${w.n}</span>
-            <span class="ho-wk-dots">${m.map(x => `<i class="ho-${SEC[x].part}" title="${x} ${esc(SEC[x].t)}">${x}</i>`).join('') || '<em>—</em>'}</span>
-            <span class="ho-wk-bar"><b style="width:${Math.round(d / TOTAL * 100)}%"></b></span>
-            <span class="ho-wk-c">${d}</span></div>`;
-        }).join('')}</div>
-        <p class="ho-legend"><i class="ho-A"></i>Spec sheet <i class="ho-B"></i>The work <i class="ho-C"></i>Rationale <i class="ho-D"></i>Appendices
-          <span>· bar = sections done by the end of that week · the appendices fit any week</span></p>
-      </section>
-
-      <section class="ho-block" data-slide>
-        <h3>How it is marked <span class="ho-sub">one overall mark, four criteria</span></h3>
-        <div class="ho-crit">${RUBRIC_LITE.map(c => `
-          <div class="ho-c"><span class="ho-c-n">${c.n}</span><b>${esc(c.name)}</b>
-            <ul>${GETS[c.n].map(x => `<li>${esc(x)}</li>`).join('')}</ul></div>`).join('')}
-        </div>
-      </section>
-
-      <section class="ho-block ho-main" data-slide>
-        <h3>Before you submit</h3>
-        <ul class="ho-musts">${MUSTS.map(x => `<li><span aria-hidden="true">☐</span>${esc(x)}</li>`).join('')}</ul>
-      </section>
-
-      <p class="ho-links">
-        <a href="assessment.html">Interactive checklist →</a>
-        <a href="rubric.html">Blank marking rubric →</a>
-        <a href="brief.html">The brief, explained →</a>
-        ${typeof OFFICIAL_BRIEF !== 'undefined' ? `<a href="${OFFICIAL_BRIEF.file}" download>↓ ${OFFICIAL_BRIEF.label} <span class="ho-dlk">${OFFICIAL_BRIEF.kind} · ${OFFICIAL_BRIEF.size}</span></a>` : ''}
-      </p>`;
-  }
-
-  /* The rubric's own criterion names, so the one-pager cannot rename them. */
-  const RUBRIC_LITE = (typeof RUBRIC !== 'undefined' ? RUBRIC : [
-    { n: 1, name: 'Visual Design & Communication' }, { n: 2, name: 'User-Centred Thinking' },
-    { n: 3, name: 'Technical Craft & Process' }, { n: 4, name: 'Critical Reflection' }]);
-
-  /* Scroll by default — a student reads a handout. Slides is for the room: the
-     same content, one group at a time, full screen, arrow keys. The choice holds
-     while the page is open, so a lecturer switches once and every handout they
-     open after that comes up as slides. */
-  let hview = 'scroll', hcur = 0;
-  const hslides = () => [...body.querySelectorAll(':scope > .ho-slide')];
-
-  function slideify() {
-    const kids = [...body.children];
-    const groups = [];
-    kids.forEach(k => {
-      if (!groups.length || k.hasAttribute('data-slide')) groups.push([]);
-      groups[groups.length - 1].push(k);
-    });
-    body.innerHTML = '';
-    groups.forEach(g => { const d = document.createElement('div'); d.className = 'ho-slide';
-      g.forEach(k => d.appendChild(k)); body.appendChild(d); });
-  }
-  function hshow(n) {
-    const sl = hslides();
-    hcur = Math.max(0, Math.min(sl.length - 1, n));
-    sl.forEach((d, i) => d.classList.toggle('on', i === hcur));
-    document.getElementById('ho-count').textContent = `${hcur + 1} / ${sl.length}`;
-    document.getElementById('ho-prev').disabled = hcur === 0;
-    document.getElementById('ho-next').disabled = hcur === sl.length - 1;
-    document.getElementById('ho-dprog').style.width = ((hcur + 1) / sl.length * 100) + '%';
-    if (sl[hcur]) sl[hcur].scrollTop = 0;
-  }
-  function hsetView(v) {
-    hview = v;
-    dlg.classList.toggle('deck', v === 'deck');
-    dlg.querySelectorAll('[data-hview]').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.hview === v)));
-    body.scrollTop = 0;
-    hshow(hcur);
-  }
-  dlg.querySelector('.ho-view').onclick = e => {
-    const b = e.target.closest('[data-hview]'); if (b) hsetView(b.dataset.hview);
-  };
-  document.getElementById('ho-prev').onclick = () => hshow(hcur - 1);
-  document.getElementById('ho-next').onclick = () => hshow(hcur + 1);
-  dlg.addEventListener('keydown', e => {
-    if (hview !== 'deck' || e.target.closest('input')) return;
-    if (['ArrowRight','PageDown',' '].includes(e.key)) { e.preventDefault(); hshow(hcur + 1); }
-    if (['ArrowLeft','PageUp'].includes(e.key))        { e.preventDefault(); hshow(hcur - 1); }
-    if (e.key === 'Home') hshow(0);
-    if (e.key === 'End')  hshow(hslides().length - 1);
-  });
-
-  body.addEventListener('change', e => {
-    const c = e.target.closest('input[data-key]'); if (!c) return;
-    const st = SD.read(); st[c.dataset.key] = c.checked; SD.write(st);
-  });
-  document.addEventListener('click', e => {
-    const b = e.target.closest('[data-brief-handout]');
-    if (!b) return;
-    brief();
-    slideify();
-    dlg.dataset.kind = 'brief';
-    hcur = 0;
-    hsetView(hview);
-    dlg.showModal();
-  });
-  document.getElementById('ho-close').onclick = () => dlg.close();
-  document.getElementById('ho-print').onclick = () => window.print();
-  dlg.addEventListener('click', e => { if (e.target === dlg) dlg.close(); });
 })();
 </script>
 </body>

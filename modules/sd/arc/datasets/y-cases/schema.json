@@ -1,0 +1,152 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "y-cases — accessibility cases anchored to screens.json, with candidates and dismissals kept",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "rows", "counts", "notes"],
+  "properties": {
+    "schema_version": { "const": "1.0" },
+    "rows": {
+      "type": "array",
+      "maxItems": 25,
+      "items": { "$ref": "#/definitions/row" },
+      "description": "A ceiling and deliberately no floor, for the reason stated in themes/schema.json: a minimum tells a collector to reach a number. Fifteen confirmed cases with their dismissals beside them are worth more than twenty-five that were reached for."
+    },
+    "counts": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["rows_total", "by_failure_type", "by_status", "by_evidence", "screens_covered"],
+      "description": "additionalProperties is false here to do a job the prose cannot: there is no lawful place to put by_source or by_country. Most of this corpus is national government portals, and a per-source tally is a ranking of governments wearing a teaching dataset's clothes.",
+      "properties": {
+        "rows_total": { "type": "integer" },
+        "by_failure_type": {
+          "type": "object",
+          "additionalProperties": { "type": "integer" },
+          "description": "The brief caps any one type at five. JSON Schema cannot express that against a computed tally, so it is a hand check."
+        },
+        "by_status": { "type": "object", "additionalProperties": { "type": "integer" } },
+        "by_evidence": { "type": "object", "additionalProperties": { "type": "integer" } },
+        "screens_covered": {
+          "type": "integer",
+          "description": "Distinct screen_id values. The brief asks for at least twelve, and for no more than two cases from any one screen."
+        },
+        "confirmed_total": { "type": "integer" }
+      }
+    },
+    "notes": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["known_gaps", "collected_on"],
+      "properties": {
+        "known_gaps": { "type": "array", "items": { "type": "string" }, "minItems": 1 },
+        "collected_on": { "type": "string", "format": "date" },
+        "detector": {
+          "type": ["object", "null"],
+          "additionalProperties": false,
+          "required": ["name", "version"],
+          "description": "The rule engine that raised the candidates. A case found by a tool is only reproducible if the tool is named and versioned.",
+          "properties": {
+            "name": { "type": "string" },
+            "version": { "type": "string" },
+            "ruleset": { "type": ["string", "null"] }
+          }
+        },
+        "hand_checks": {
+          "type": ["object", "null"],
+          "additionalProperties": false,
+          "required": ["by", "on"],
+          "description": "The three rules the schema cannot enforce — that every screen_id resolves, that no failure_type exceeds five, that no screen carries more than two cases. Recording who checked and when makes the gap auditable instead of merely known.",
+          "properties": {
+            "by": { "type": "string" },
+            "on": { "type": "string", "format": "date" },
+            "screen_ids_resolve": { "type": ["boolean", "null"] },
+            "type_cap_respected": { "type": ["boolean", "null"] },
+            "per_screen_cap_respected": { "type": ["boolean", "null"] }
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "row": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "screen_id", "failure_type", "wcag_ref", "principle_ids",
+                   "evidence", "measurement", "status", "what_the_user_hits"],
+      "properties": {
+        "id": { "type": "string", "pattern": "^sd-y-[0-9]{3}$" },
+        "screen_id": {
+          "type": "string",
+          "pattern": "^sd-scr-[0-9]{3,4}$",
+          "description": "Must be an id that already exists in screens.json. The shape is checkable here; the existence is not, which is why this dataset is blocked on that one rather than merely ordered after it."
+        },
+        "failure_type": {
+          "enum": ["contrast", "target-size", "focus-order", "focus-visible", "colour-only",
+                   "reflow", "error-identification", "labels", "alt-text", "language",
+                   "reading-order", "heading-structure", "keyboard-trap", "motion", "timing"]
+        },
+        "wcag_ref": {
+          "type": ["string", "null"],
+          "description": "Null is common and correct. Plenty of real failures breach no success criterion, and recording one that does not apply is worse than recording none."
+        },
+        "principle_ids": { "type": "array", "items": { "type": "string", "pattern": "^[a-z0-9-]+$" } },
+        "evidence": { "enum": ["measured", "observed", "reported"] },
+        "measurement": {
+          "type": ["object", "null"],
+          "additionalProperties": false,
+          "required": ["value", "unit"],
+          "description": "Present only where evidence is measured, and null everywhere else. A number nobody took is the shape of the fabrication this folder is designed against.",
+          "properties": {
+            "value": { "type": ["number", "string"] },
+            "unit": { "enum": ["ratio", "css-px", "seconds", "count", "percent"] },
+            "threshold": { "type": ["number", "string", "null"] },
+            "how": { "type": ["string", "null"] }
+          }
+        },
+        "detector": { "type": ["string", "null"] },
+        "status": {
+          "enum": ["candidate", "confirmed", "dismissed"],
+          "description": "A candidate is a tool's output and is never taught as a failure. Dismissed cases are kept: a real flag dismissed for a stated reason on a named screen is the most useful record in the file."
+        },
+        "confirmed_by": { "type": ["string", "null"] },
+        "confirmed_on": { "type": ["string", "null"], "format": "date" },
+        "dismissed_because": {
+          "type": ["string", "null"],
+          "minLength": 20,
+          "description": "State which exception applies — the inline exception in SC 2.5.8, the two-dimensional exception in SC 1.4.10, incidental text in SC 1.4.3."
+        },
+        "what_the_user_hits": {
+          "type": "string",
+          "minLength": 25,
+          "description": "The consequence for a person, in one sentence. Not the criterion restated: 'the focus ring is invisible against the blue header' rather than 'fails SC 2.4.7'."
+        },
+        "exceptions_checked": { "type": ["string", "null"] },
+        "teaching_note": { "type": ["string", "null"] }
+      },
+      "allOf": [
+        {
+          "if": { "properties": { "evidence": { "const": "measured" } }, "required": ["evidence"] },
+          "then": { "properties": { "measurement": { "type": "object" } },
+                    "description": "measured requires the number that was taken." }
+        },
+        {
+          "if": { "properties": { "evidence": { "enum": ["observed", "reported"] } }, "required": ["evidence"] },
+          "then": { "properties": { "measurement": { "type": "null" } },
+                    "description": "If nobody measured it, the field is null rather than estimated." }
+        },
+        {
+          "if": { "properties": { "status": { "const": "confirmed" } }, "required": ["status"] },
+          "then": { "required": ["confirmed_by", "confirmed_on"],
+                    "properties": { "confirmed_by": { "type": "string" }, "confirmed_on": { "type": "string" } },
+                    "description": "A person turns a candidate into a case, and the file records which person." }
+        },
+        {
+          "if": { "properties": { "status": { "const": "dismissed" } }, "required": ["status"] },
+          "then": { "required": ["dismissed_because"],
+                    "properties": { "dismissed_because": { "type": "string" } },
+                    "description": "A dismissal without a reason is a deletion with extra steps." }
+        }
+      ]
+    }
+  }
+}

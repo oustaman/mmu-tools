@@ -182,6 +182,17 @@
     header.sdnav .sdlinks::-webkit-scrollbar{display:none}
     header.sdnav .navl{font-size:0.82rem;padding:6px 9px}
   }
+  .tk-guide p{margin:8px 0;color:var(--ink-2);line-height:1.55;max-width:82ch}
+  .tk-guide p b,.tk-guide li b{color:var(--ink)}
+  .tk-guide ol,.tk-guide ul{margin:6px 0;padding-left:22px;color:var(--ink-2);line-height:1.55;max-width:82ch}
+  .tk-guide li{margin:4px 0}
+  .tk-guide h3{font-size:0.95rem;margin:4px 0}
+  .tk-cols{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(280px,100%),1fr));gap:4px 24px;margin:8px 0}
+  .tk-warn{border-left:3px solid var(--lec);padding-left:12px}
+  details.howto{margin:0 0 10px}
+  details.howto[open]{padding-bottom:10px}
+  details.howto > p{margin:8px 18px;color:var(--ink-2);line-height:1.55;max-width:82ch}
+  details.howto + :not(details){margin-top:22px}
 </style>
 </head>
 <body>
@@ -190,7 +201,7 @@
   <div class="wrap bar">
     <a class="brand" href="index.html">Screen Design</a>
     <span class="sp"></span>
-    <nav class="sdlinks" aria-label="Screen Design"><a class="navl" href="index.html">Overview</a><a class="navl" href="weeks.html">Week by week</a><a class="navl" href="brief.html">The brief</a><a class="navl" href="assessment.html">Checklist</a><a class="navl" href="assessment-materials.html">Marking and examples</a><a class="navl on" href="toolkit.html" aria-current="page">Toolkit</a><a class="navl" href="ideas.html">Theme ideas</a></nav>
+    <nav class="sdlinks" aria-label="Screen Design"><a class="navl" href="weeks.html">Week by week</a><a class="navl" href="assessment.html">Checklist</a><a class="navl" href="examples.html">Examples</a><a class="navl on" href="toolkit.html" aria-current="page">Toolkit</a><a class="navl" href="assessment-materials.html">Marking</a></nav>
     <span class="ctl"><button id="theme" aria-label="Dark mode">◐</button></span>
   </div>
 </header>
@@ -199,11 +210,65 @@
 <div class="wrap">
   <h1>Toolkit</h1>
   <p class="sub">Tools and websites for the fundamentals — layout, type, colour, access — and for collecting the exact
-    numbers your deck asks for. Each card says which section of the deck it helps you fill. Most are free; none is required.
-    Use whatever you are comfortable with.</p>
+    numbers your deck asks for. Each card says which section of the deck it helps you fill.</p>
 
-  <p class="howto"><b>Still choosing a theme?</b> <a href="ideas.html">Theme ideas</a> gives you a ready-made one at the press of a button — someone specific, one goal, how people do it now and the screens you would need — to take as it is or change.</p>
-
+  <details class="howto tk-guide" id="project">
+    <summary><b>Is my idea a good project?</b></summary>
+    <p>Any theme can work, from any place or community, and your own project is welcome: a family business, a club you run,
+      something nobody has built yet. <b>Check it with your tutor before you settle it.</b> Work you started for another module
+      or a job is fine too, as long as it answers this brief. Need an idea? <a href="ideas.html">Theme ideas</a>.</p>
+    <ol>
+      <li><b>Can you show the before?</b> D1 needs a picture of every step people take now: the website, the form, the WhatsApp chat. If you cannot capture it, pick another.</li>
+      <li><b>Is the audience a person you can picture?</b> “Students” is everyone. “First-years who moved cities and have never registered with a GP” is someone.</li>
+      <li><b>Is it one goal?</b> One thing a person is trying to get done, in one sitting. Design that one flow, not the whole website: no About page, gallery or blog.</li>
+      <li><b>Does it need more than a few screens?</b> Three to six is plenty. If you need fifteen, the goal is too big; cut it in half.</li>
+      <li><b>Do you care about it even a little?</b> You will spend ten weeks on it. Something that annoyed you this term counts.</li>
+    </ol>
+    <p><b>Steer clear of</b> redesigning Spotify or Instagram (you end up critiquing them, with nothing of yours to mark); anything regulated, such as medical, legal or financial services, where steps exist because the law requires them; and adding features: your job is a shorter, clearer journey, not a longer one.</p>
+    <p><b>Settle it by week 3.</b> You can change it later, but everything after is built on it, so a later change means more to redo.</p>
+  </details>
+  <details class="howto tk-guide" id="no-service">
+    <summary><b>When there’s no service yet</b></summary>
+    <p>Your idea may have no website or app yet: a salon that books through Facebook messages and WhatsApp, a club that signs people
+      up on paper, something nobody has built. It is marked the same as any other theme.</p>
+    <ol>
+      <li><b>The before is how people manage now.</b> The message thread, the phone call, the paper diary, the spreadsheet: each one is a step. Write them into A2, and give D1 a screenshot or photo of each.</li>
+      <li><b>Ask first, and blur.</b> Ask the owner before you capture anything, and blur every other person’s name, number and photo. If you cannot use the real thing, recreate it with made-up names and say so in the caption.</li>
+      <li><b>Asking how it works today is fine:</b> that is finding out the process, not testing the design (<a href="assessment.html#C5">why testing is out</a>).</li>
+      <li><b>Count both sides.</b> Messages sent and replies waited for before; taps and fields after. That count is your evidence in C5.</li>
+      <li><b>It can stay simple behind the screen.</b> You design what a customer sees, not the system underneath. It is fine if the owner still confirms each booking by hand; say so in a caption.</li>
+      <li><b>A labelled box is enough</b> wherever a picture would go. Real photos of a business need the owner’s permission; generated ones go in A7.</li>
+      <li><b>Branding is a choice.</b> Use the business’s own logo and colours (say where they came from) or design new ones. Either way, A4 and A5 still need your sizes, codes and ratios.</li>
+      <li><b>You do not have to launch it.</b> Your clickable deck is the prototype. Whether anyone ever uses it is not marked.</li>
+    </ol>
+    <p>C6 often has a ready answer here: the chat version keeps customers’ numbers and messages on a personal phone. What does your version collect, and what does it not need?</p>
+  </details>
+  <details class="howto tk-guide" id="ai">
+    <summary><b>Using AI</b></summary>
+    <p><b>AI is allowed.</b> The brief permits it and calls it authentic industry practice, so using it is not cheating.
+      <b>Not using it is fine too</b>, and costs you nothing.</p>
+    <div class="tk-cols">
+      <div><h3>Fine to use it for</h3>
+        <ul><li>exploring ideas and themes</li><li>mood board images</li><li>trying palettes, type pairings and layouts</li>
+          <li>placeholder text</li><li>feedback on your screens or your writing</li>
+          <li>fixing the language of your writing: grammar, spelling, clarity</li></ul></div>
+      <div><h3>What stays yours</h3>
+        <ul><li>The decisions: every number in A3–A5, and the reason for it.</li>
+          <li>The submission: a screen can start from an AI-generated layout, as long as you rework it and the whole deck follows the brief.</li>
+          <li>The argument in your rationale. AI may tidy its language; it does not make your case for you.</li></ul></div>
+    </div>
+    <p><b>Say where you used it.</b> Log each use in <a href="assessment.html#A7">A7</a> as you go. Judge it in <a href="assessment.html#C8">C8</a>:
+      was it any good, whose work is it, what did you change? Then <a href="assessment.html#D4">D4</a>, your AI statement: if you used it, how, where and why;
+      if not, one line: <i>No AI was used.</i></p>
+    <p class="tk-warn">In the brief’s words: <q>Submitting AI-generated text without declaration constitutes academic misconduct.</q>
+      Whether you used AI is not marked; what you make of it in C8 counts toward Critical Reflection.</p>
+  </details>
+  <details class="howto" id="tools">
+    <summary><b>Which tools?</b></summary>
+    <p>Any you are comfortable with: PowerPoint, Google Slides, Figma, Canva, Adobe XD,
+    or paper you photograph. The brief accepts all of them, and no software is taught or required. In this module your screens
+    are slides, and linking them is your prototype (<a href="assessment.html#B8">B8</a>). Most tools below are free.</p>
+  </details>
   <details class="howto" id="measure">
     <summary><b>Measure a website — its width, margins and breakpoints</b></summary>
     <table class="mt">
@@ -231,6 +296,9 @@
     </ol>
   </details>
 
+
+
+
   <div class="tk-filter" id="tkf" role="group" aria-label="Show tools for a deck section"></div>
   <div id="tk"></div>
 
@@ -244,6 +312,8 @@
   const II = 'https://interfaces.institute';
   const GROUPS = [
     { id: 'layout', h: 'Layout and grids', sub: 'For A3 — columns, gutter, margin, max width, spacing scale.', items: [
+      ['Gallery: grids, type and colour', 'gallery.html', 'make', ['A3', 'A4', 'A5', 'C9'], 'Grids, typefaces and palettes from published design systems, each with its numbers and its source. Click one of each and copy A3, A4, A5 and the references.', true],
+      ['Style kit', 'style-kit.html', 'make', ['A3', 'A4', 'A5', 'B3', 'C9'], 'Pick a grid, type and colour from published systems, see them on three screens in your own words, and copy A3, A4, A5 and the references. Includes what bad choices look like.', true],
       ['A grid in seven numbers', 'grid-numbers.html', 'explore', ['A3'], 'What columns, gutter, margin, max width, breakpoints and a spacing scale mean, each with a live screen. The last slide sets your own and copies them for A3.', true],
       ['GOV.UK Design System: Layout', 'https://design-system.service.gov.uk/styles/layout/', 'collect', ['A3'], 'A published grid in plain words — two-thirds and one-third columns, a fixed max width — behind most council and government services.'],
       ['Bootstrap: Grid', 'https://getbootstrap.com/docs/5.3/layout/grid/', 'collect', ['A3'], 'The grid behind a large share of commercial websites: twelve columns and a breakpoint table to compare with what you measure.'],
@@ -251,6 +321,8 @@
       ['One menu, four grids', II + '/patterns/four-grids/', 'explore', ['A3'], 'The same menu in manuscript, column, modular and hierarchical grids — and what each costs.', true],
       ['One website, every grid', II + '/patterns/every-grid/', 'explore', ['A3'], 'One plain website on twenty-seven published grids at four screen widths. See which column counts fill the row.', true],
       ['Published layout grids', II + '/collections/grids/', 'collect', ['A3'], 'Grids as their publishers wrote them down — columns, gutters, margins and breakpoints to borrow — and a spacing scale built live. Pick your numbers here.', true],
+      ['Project Wallace', 'https://www.projectwallace.com/', 'collect', ['A3', 'A4', 'A5'], 'Paste in a website address: it lists the colours, font sizes, typefaces and line heights in its CSS, and every media query — the breakpoints for A3. Works in any browser, nothing to install.'],
+      ['CSS Stats', 'https://cssstats.com/', 'collect', ['A3', 'A4', 'A5'], 'Paste in a website address for a breakdown of its CSS: text and background colours, font sizes and media queries.'],
       ['CSS Overview (Chrome)', 'https://developer.chrome.com/docs/devtools/css-overview', 'collect', ['A3', 'A4', 'A5'], 'Built into Chrome and Edge: every colour, typeface, size and spacing on any website you study.'],
     ]},
     { id: 'type', h: 'Typography', sub: 'For A4 — families, base size, scale ratio, line height, measure.', items: [
@@ -288,15 +360,26 @@
       ['Figma', 'https://www.figma.com/education/', 'make', ['B3', 'B5', 'B6', 'B8'], 'The industry’s design tool, free for students. Optional — never required here.'],
       ['Canva', 'https://www.canva.com/education/', 'make', ['B2', 'B3'], 'Quick mood boards and style tiles from templates, free for students.'],
       ['Excalidraw', 'https://excalidraw.com/', 'make', ['B4', 'B5'], 'Hand-drawn-looking flows and wireframes in the browser. Free, no account.'],
-      ['draw.io', 'https://app.diagrams.net/', 'make', ['B4'], 'Boxes and arrows for your flow diagram in week 7. Free in the browser, no account. Export a PNG for B4 and keep the .drawio file in your OneDrive folder.'],
+      ['How flows work', 'flow-guide.html', 'explore', ['B4', 'D2'], 'What each part of a flow means, with a real example from the four cases: step, wait, stuck, yes/no question, back to a step; then kept, merged, moved, removed and new. Two short self-tests. Read it before the Flow maker.'],
+      ['Flow maker', 'flow.html', 'make', ['B4', 'A2', 'D2'], 'Your journey as a 16:9 slide for B4. List what people do now and mark where they get stuck (week 5). Then make your version from a copy: remove, merge, move, rename and add screens (week 7). It labels what happened to every step, which is your D2, and counts both journeys.', true],
+      ['draw.io', 'https://app.diagrams.net/', 'make', ['B4'], 'Boxes and arrows by hand, if you want full control of your flow diagram. Free in the browser, no account. Export a PNG for B4 and keep the .drawio file in your OneDrive folder.'],
       ['Are.na', 'https://www.are.na/', 'collect', ['B2'], 'Collect images and links into boards — a calmer place than most to build a mood board.'],
     ]},
-    { id: 'ai', h: 'Tools Mike showed in class', sub: 'AI tools from the lectures, added as they are shown. Most need no account; where one does, the card says so. Anything you use goes in A7, one line each.', items: [
+    { id: 'ai-tools', h: 'Tools Mike showed in class', sub: 'AI tools from the lectures, added as they are shown. Most need no account; where one does, the card says so. Anything you use goes in A7, one line each.', items: [
       ['LlamaCoder', 'https://llamacoder.together.ai/', 'explore', ['A7', 'C8'], 'Describe an app in a sentence and it writes the code and runs it in the browser. No account.'],
       ['Arena', 'https://arena.ai/', 'explore', ['A7', 'C8'], 'Ask two unnamed AI models the same thing side by side, pick the better answer, then see which models they were. No account to try it.'],
       ['Suno', 'https://suno.com/', 'explore', ['A7', 'C8'], 'A whole song, music and vocals, from a line of text. Needs a free account.'],
     ]},
+    { id: 'any', h: 'Use these any time', sub: 'Public sites, no login, and they stay up after you graduate. Each one is a source you can cite in Part C.', items: [
+      ['The Stairwell', II + '/stairwell/', 'explore', ['C2', 'C5'], 'Ten principles, each with two working interfaces: one that breaks it, one that keeps it. Press both.', true],
+      ['Design systems, measured', II + '/collections/design-systems/', 'collect', ['A4', 'A5'], '122 systems with their real body face, size and palette read off the live page.', true],
+      ['Where text breaks', II + '/collections/line-breaking/', 'explore', ['A4', 'C7'], 'Line-breaking rules with a specimen for each: why Thai or Japanese text wraps wrong.', true],
+      ['The UX dictionary', II + '/dictionary/', 'explore', ['C1', 'C2'], 'Terms with a definition and every page that uses them. For when the brief says a word you do not know.', true],
+      ['Colour associations', 'https://symbolic.institute/collections/colour-associations/', 'explore', ['C4', 'C7'], 'What a hue means, and where it means something else.', true],
+      ['Visual grammar', 'https://symbolic.institute/visual-grammar/', 'explore', ['C2', 'C7'], 'Marks and how each got its meaning: traffic colour, the hamburger, the arrow.', true],
+    ]},
     { id: 'refs', h: 'Evidence and references', sub: 'For D1–D3 and C9 — the before, the competitors, and where your claims come from.', items: [
+      ['Before and after', 'examples.html#before-after', 'collect', ['A2', 'C5', 'D1', 'D2', 'D3'], 'Four real and made-up services walked step by step: what is wrong now, measured, and the same job improved — with what a marker would credit.', true],
       ['Cite Them Right Harvard', 'https://libguides.mmu.ac.uk/refguide', 'make', ['C9'], 'The referencing style the brief asks for, with an example for every kind of source.'],
       ['Six documented failures', II + '/basement/', 'collect', ['C6', 'D1'], 'Screens that went wrong in public, with the reasoning kept. Good company for your before.', true],
       ['Where five billion people bank', II + '/collections/bank-interfaces/', 'collect', ['A5', 'D2'], 'Forty-five banks’ colours, typefaces and buttons, measured. A model of comparing competitors.', true],

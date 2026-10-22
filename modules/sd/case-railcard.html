@@ -1,0 +1,714 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Buying a 16–25 Railcard — Before and after — Screen Design</title>
+<style>
+  :root{
+    --bg:#F5F4F2; --surface:#FFFFFF; --surface-2:#EDEBE8;
+    --ink:#1A1618; --ink-2:#514B4A; --ink-3:#4D4847;
+    --line:#DFDBD7; --line-2:#8E8685;
+    --lec:#8C2437; --lec-soft:#F6E8EA;
+    --wsh:#1A526D; --wsh-soft:#E4EEF3;
+    --ok:#285638; --ok-soft:#E3EFE7;
+    --warn:#684604; --warn-soft:#F4EAD3;
+    --mono:ui-monospace,"SF Mono",Menlo,Consolas,monospace;
+    --sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Inter,Roboto,sans-serif;
+  }
+  html[data-theme="dark"]{
+    --bg:#151314; --surface:#1E1B1C; --surface-2:#262223;
+    --ink:#EDE9E7; --ink-2:#B9B2AF; --ink-3:#B7B2B0;
+    --line:#332E2F; --line-2:#7A7372;
+    --lec:#E69FAD; --lec-soft:#332226;
+    --wsh:#7FBEDC; --wsh-soft:#16262E;
+    --ok:#83C19A; --ok-soft:#1C2A22;
+    --warn:#DCB469; --warn-soft:#2A2417;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);line-height:1.5}
+  .wrap{max-width:1100px;margin:0 auto;padding:0 22px}
+  @media(max-width:420px){.wrap{padding:0 14px}}
+  @media(max-width:340px){.wrap{padding:0 10px}}
+  a{color:var(--lec)}
+
+  /* The bar, identical on every page (see assessment.html). */
+  header{border-bottom:1px solid var(--line);background:var(--surface);position:sticky;top:0;z-index:40}
+  .bar{display:flex;align-items:center;gap:10px;padding-block:11px;flex-wrap:nowrap}
+  .brand{font-weight:680;font-size:1rem;letter-spacing:-0.015em;white-space:nowrap;color:inherit;
+    text-decoration:none;padding:5px 8px;margin-left:-8px;border-radius:6px}
+  .brand:hover{background:var(--surface-2)}
+  .brand:focus-visible{outline:2px solid var(--lec);outline-offset:1px}
+  .sp{flex:1}
+  .navl{font-size:0.85rem;color:var(--ink-2);text-decoration:none;padding:6px 10px;border-radius:6px;white-space:nowrap}
+  .navl:hover{background:var(--surface-2);color:var(--ink)}
+  .ctl button{font-family:var(--mono);font-size:0.7rem;background:none;color:var(--ink-3);
+    border:1px solid var(--line-2);border-radius:5px;padding:5px 8px;cursor:pointer;line-height:1}
+  .ctl button:hover{border-color:var(--lec);color:var(--lec)}
+  @media(max-width:760px){ header .bar{gap:6px} .navl{padding:6px 8px;font-size:0.82rem} }
+  @media(max-width:560px){
+    header .bar{flex-wrap:wrap;row-gap:6px}
+    header .brand{order:0} header .ctl{order:1;margin-left:auto}
+    header .bar > .sp{order:2;flex-basis:100%;height:0}
+    header .navl{order:3;padding:5px 7px;font-size:0.78rem}
+  }
+  @media(max-width:430px){ .brand{font-size:0.9rem} .navl{padding:5px 6px;font-size:0.76rem} }
+
+  .navl.on{background:var(--lec);color:#fff}
+  html[data-theme="dark"] .navl.on{color:#151314}
+  h1{font-size:clamp(1.6rem,4.4vw,2.3rem);line-height:1.1;letter-spacing:-0.028em;margin:24px 0 4px;font-weight:700}
+  h2{font-size:1.2rem;font-weight:690;letter-spacing:-0.015em;margin:34px 0 6px}
+
+  .tile{display:block;background:var(--surface);border:1px solid var(--line);border-radius:11px;padding:14px 16px;
+    text-decoration:none;color:inherit}
+  .tile:hover{border-color:var(--lec)}
+  .tile b{display:block;font-size:0.98rem;margin-bottom:3px}
+  .tile span{font-size:0.86rem;color:var(--ink-2)}
+  .tile i{font-style:normal;font-family:var(--mono);font-size:0.68rem;color:var(--ink-3);display:block;margin-top:6px}
+
+  table.steps{width:100%;border-collapse:collapse;background:var(--surface);border:1px solid var(--line);
+    border-radius:11px;overflow:hidden;font-size:0.9rem}
+  .steps th{text-align:left;font-family:var(--mono);font-size:0.62rem;letter-spacing:0.08em;text-transform:uppercase;
+    color:var(--ink-3);padding:9px 12px;background:var(--surface-2);font-weight:500}
+  .steps td{padding:8px 12px;border-top:1px solid var(--line);vertical-align:middle}
+
+  .btn{display:inline-flex;align-items:center;min-height:42px;padding:0 15px;border-radius:8px;text-decoration:none;
+    font-weight:640;font-size:0.9rem;border:1px solid var(--line-2);color:var(--ink);background:var(--bg)}
+  .btn:hover{border-color:var(--lec);color:var(--lec)}
+
+  .btn.off{color:var(--ink-3);border-style:dashed;cursor:default}
+
+  .note{font-size:0.82rem;color:var(--ink-3);margin:12px 0 0}
+  footer{padding:24px 0 44px;color:var(--ink-3);font-size:0.8rem;border-top:1px solid var(--line);margin-top:30px}
+  @media(max-width:520px){ .steps td{padding:7px 8px} }
+
+  /* the Railcard now — redrawn */
+  .rn{background:#FBEFEA;min-height:760px;font-family:Roboto,Arial,sans-serif;color:#2B3A67}
+  .rn.white{background:#fff}
+  .rn-top{background:#F07F15;height:58px;display:flex;align-items:center;justify-content:space-between;padding:0 16px;color:#fff;font-weight:700;font-size:17px}
+  .rn-top i{font-style:normal;font-size:24px}
+  .rn-in{padding:16px}
+  .rn-in .sm{font-size:14px;color:#222;margin:10px 0 16px}
+  .rn-in h1{font-size:28px;line-height:1.2;color:#2B3A67;margin:0 0 16px}
+  .rn-buy{display:block;text-align:center;background:#F07F15;color:#fff;font-weight:700;font-size:18px;padding:14px;border-radius:8px;margin:0 0 14px}
+  .rn-link{display:block;text-align:center;font-weight:700;text-decoration:underline;color:#111;font-size:17px;margin:0 0 18px}
+  .rn-ben{background:#fff;border-top:5px solid #F07F15;border-radius:8px;padding:12px 14px}
+  .rn-ben div{display:flex;gap:12px;align-items:center;padding:10px 0;font-size:17px;color:#111}
+  .rn-ben i{font-style:normal;width:40px;height:40px;border-radius:50%;background:#F07F15;flex:none}
+  .rn-card{background:#fff;margin:-30px 10px 0;border-radius:8px;padding:16px 14px;box-shadow:0 1px 4px rgba(0,0,0,.08);position:relative}
+  .rn-band{background:#ED6A0B;height:70px}
+  .rn-card h2{font-size:21px;color:#5a5a5a;font-weight:500;margin:0 0 10px}
+  .rn-tick{display:flex;gap:10px;font-size:15.5px;color:#444;margin:0 0 12px;line-height:1.35}
+  .rn-tick b{color:#ED6A0B;font-size:18px}
+  .rn-q{font-size:20px;color:#5a5a5a;margin:16px 0 8px}
+  .rn-q sup{color:#e33}
+  .rn-chk{display:flex;gap:10px;align-items:center;font-size:16px;color:#444}
+  .rn-chk i{width:24px;height:24px;border:2px solid #999;border-radius:4px}
+  .rn-dur{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+  .rn-dur div{border:1px solid #ddd;border-radius:6px;text-align:center;padding:12px 4px;box-shadow:0 1px 3px rgba(0,0,0,.08)}
+  .rn-dur b{display:block;font-size:15px;color:#555} .rn-dur strong{display:block;font-size:30px;font-weight:400;color:#666;margin:8px 0}
+  .rn-dur em{font-style:normal;background:#ED6A0B;color:#fff;border-radius:12px;padding:3px 9px;font-size:14px}
+  .rn-dur span{display:block;margin-top:10px;color:#555;font-size:15px}
+  .rn-opt{border:1px solid #ddd;padding:12px;display:flex;gap:10px;align-items:center;font-size:15px;color:#444}
+  .rn-opt i{width:20px;height:20px;border:2px solid #bbb;border-radius:50%;flex:none}
+  .rn-pop{background:#ED6A0B;color:#fff;text-align:center;font-size:14px;padding:6px;margin:8px 8px 0}
+  .rn-field{height:44px;border:1px solid #ccc;border-radius:4px;margin:0 0 8px}
+  .rn-apply{background:#ddd;color:#777;text-align:center;padding:12px;border-radius:4px;font-size:16px}
+  .rn-cont{display:block;text-align:center;background:#ED6A0B;color:#fff;font-size:17px;padding:14px;border-radius:4px;margin-top:16px}
+  .rn-help{padding:18px;font:16px/1.55 Roboto,Arial,sans-serif;color:#2B3A67}
+  .rn-help ol{padding-left:20px;margin:8px 0} .rn-help li{margin:6px 0}
+  .rn-help .src{font-size:13px;color:#666;border-top:1px solid #ddd;padding-top:8px;margin-top:10px}
+
+  /* the Railcard improved — the redesign's own system (A3–A5 below) */
+  .rw{background:#fff;min-height:760px;font-family:Roboto,Arial,sans-serif;color:#1F2A44}
+  .rw-top{background:#A63F00;color:#fff;height:52px;display:flex;align-items:center;justify-content:space-between;padding:0 16px;font-weight:700;font-size:17px}
+  .rw-top span{font-weight:400;font-size:15px}
+  .rw-in{padding:18px 16px}
+  .rw-in .back{font-size:16px;color:#A63F00;text-decoration:underline;margin:0 0 12px}
+  .rw-in h1{font-size:28px;line-height:1.2;margin:0 0 12px}
+  .rw-in p{font-size:18px;line-height:1.5;margin:0 0 14px}
+  .rw-lbl{display:block;font-weight:700;font-size:18px;margin:0 0 4px}
+  .rw-hint{font-size:16px;color:#4A5468;margin:0 0 8px}
+  .rw-dob{display:flex;gap:10px;margin:0 0 14px}
+  .rw-dob div{text-align:center} .rw-dob small{display:block;font-size:15px;color:#4A5468}
+  .rw-dob span{display:block;height:48px;border:2px solid #1F2A44;border-radius:4px;font-size:18px;line-height:44px}
+  .rw-ok{background:#E8F3EC;border-left:6px solid #24653A;padding:12px 14px;font-size:17px;line-height:1.45;margin:0 0 14px}
+  .rw-btn{display:block;text-align:center;background:#A63F00;color:#fff;font-weight:700;font-size:18px;padding:15px;border-radius:6px;margin:6px 0 12px}
+  .rw-card{display:grid;grid-template-columns:auto 1fr auto;gap:2px 12px;align-items:center;border:2px solid #C9CDD6;border-radius:8px;padding:12px 14px;margin:0 0 8px}
+  .rw-card.on{border-color:#A63F00;box-shadow:inset 0 0 0 1px #A63F00}
+  .rw-card .rad{width:22px;height:22px;border:2px solid #1F2A44;border-radius:50%;grid-row:1/3;position:relative}
+  .rw-card.on .rad::after{content:"";position:absolute;inset:4px;border-radius:50%;background:#A63F00}
+  .rw-card b{font-size:18px} .rw-card small{font-size:15.5px;color:#4A5468;grid-column:2;line-height:1.35}
+  .rw-card .pr{grid-row:1/3;grid-column:3;font-weight:700;font-size:20px;text-align:right}
+  .rw-card .pr small{display:block;font-weight:400;font-size:14px}
+  .rw-need{list-style:none;padding:0;margin:0 0 14px}
+  .rw-need li{display:flex;gap:12px;align-items:flex-start;border-bottom:1px solid #E3E6EC;padding:12px 0;font-size:17px;line-height:1.4}
+  .rw-need i{font-style:normal;flex:none;width:30px;height:30px;border-radius:50%;background:#FDF1E7;color:#A63F00;font-weight:700;display:grid;place-items:center}
+  .rw-need small{display:block;font-size:15px;color:#4A5468}
+  .rw-photo{display:flex;gap:14px;align-items:center;margin:0 0 14px}
+  .rw-frame{width:120px;height:150px;border-radius:8px;background:#EEF0F4;position:relative;overflow:hidden;flex:none}
+  .rw-frame::before{content:"";position:absolute;left:28px;top:22px;width:64px;height:80px;border-radius:50%;background:#C9CDD6}
+  .rw-frame::after{content:"";position:absolute;left:12px;top:96px;width:96px;height:70px;border-radius:48px 48px 0 0;background:#C9CDD6}
+  .rw-frame b{position:absolute;inset:14px 20px 40px;border:3px dashed #24653A;border-radius:50%;z-index:2}
+  .rw-checks{list-style:none;padding:0;margin:0;font-size:16px;line-height:1.5}
+  .rw-checks li::before{content:"✓ ";color:#24653A;font-weight:700}
+  .rw-sum{border-top:1px solid #E3E6EC;margin:0 0 12px}
+  .rw-sum div{display:flex;justify-content:space-between;gap:10px;padding:9px 0;border-bottom:1px solid #E3E6EC;font-size:16px}
+  .rw-sum dt{font-weight:700} .rw-sum dd{margin:0;text-align:right}
+  .rw-tc{display:flex;gap:10px;align-items:flex-start;font-size:16px;line-height:1.45;margin:0 0 10px}
+  .rw-tc i{width:24px;height:24px;border:2px solid #1F2A44;border-radius:3px;flex:none;margin-top:2px}
+  .rw-code{font-size:16px;color:#A63F00;text-decoration:underline;margin:0 0 12px}
+  .rw-done{background:#24653A;color:#fff;border-radius:8px;padding:18px 16px;margin:0 0 14px}
+  .rw-done h1{color:#fff;margin:0 0 6px} .rw-done p{color:#fff;margin:0;font-size:17px}
+  /* tables */
+  table.tb{border-collapse:collapse;width:100%;background:var(--surface);border:1px solid var(--line);border-radius:10px;overflow:hidden;font-size:0.92rem;margin:8px 0 6px}
+  .tb th,.tb td{text-align:left;padding:8px 12px;border-top:1px solid var(--line);vertical-align:top;color:var(--ink-2)}
+  .tb tr:first-child th{border-top:0;font-family:var(--mono);font-size:0.66rem;letter-spacing:.07em;text-transform:uppercase;color:var(--ink-3);background:var(--surface-2,var(--bg))}
+  .tb td:first-child,.tb th[scope=row]{color:var(--ink);font-weight:600}
+  .tb .num{font-family:var(--mono);white-space:nowrap}
+  .tb .up{color:var(--ok);font-weight:700}
+  .tb .sw{display:inline-block;width:14px;height:14px;border-radius:3px;vertical-align:-2px;margin-right:6px;border:1px solid rgba(0,0,0,.15)}
+  .tbw{overflow-x:auto}
+  .fair{background:var(--ok-soft);border:1px solid var(--line);border-radius:10px;padding:12px 16px;margin:12px 0}
+  .fair b{color:var(--ok)}
+  .why{display:grid;gap:10px;grid-template-columns:repeat(auto-fit,minmax(min(300px,100%),1fr));margin:10px 0}
+  .why div{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:12px 14px}
+  .why div b{display:block;margin-bottom:4px;color:var(--ink)}
+  .why div span{font-size:0.9rem;color:var(--ink-2);line-height:1.5}
+  .why code{font-size:.85em}
+  .note{font-size:0.85rem;color:var(--ink-3);margin:8px 0 0}
+
+  .meta{font-family:var(--mono);font-size:0.74rem;color:var(--ink-3);margin:0 0 14px;line-height:1.7}
+  .meta a{color:var(--lec)}
+  .goal{display:grid;gap:10px 28px;grid-template-columns:repeat(auto-fit,minmax(min(240px,100%),1fr));background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:16px 20px;margin:6px 0 4px}
+  .goal div b{display:block;font-family:var(--mono);font-size:0.66rem;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3);margin-bottom:3px}
+  .goal div span{color:var(--ink);line-height:1.5}
+  .goal a{color:var(--lec)}
+  .lv-more{position:absolute;left:0;right:0;bottom:0;padding:12px 16px;background:linear-gradient(rgba(255,255,255,.6),#fff 40%);font:600 14px system-ui,sans-serif;color:#4B5257;text-align:center;border-top:1px dashed #B1B4B6}
+  /* ── walkthrough: one screen at a time, the pane explains every number ── */
+  html,body{height:auto}
+  .wt-bar{position:sticky;top:var(--hdr,57px);z-index:30;background:var(--bg);border-bottom:1px solid var(--line)}
+  .wt-bar .wrap{display:flex;align-items:center;gap:8px;min-height:52px;flex-wrap:wrap;padding-block:6px}
+  .wt-bar b{font-size:0.95rem}
+  .wt-bar .sp{flex:1}
+  .wt-bar .ct{font-family:var(--mono);font-size:0.74rem;color:var(--ink-3)}
+  .tb{font:600 0.85rem var(--sans);background:var(--surface);color:var(--ink-2);border:1px solid var(--line-2);border-radius:8px;min-height:40px;min-width:44px;padding:0 12px;cursor:pointer}
+  .tb:hover:not(:disabled){color:var(--lec);border-color:var(--lec)} .tb:disabled{opacity:.35;cursor:default}
+  .tb:focus-visible,.chip:focus-visible,.wt-nav button:focus-visible{outline:2px solid var(--lec);outline-offset:2px}
+  .wt-nav{display:flex;flex-wrap:wrap;gap:6px;padding:10px 0 4px}
+  .wt-nav .grp{display:flex;gap:4px;align-items:center;flex-wrap:wrap;margin-right:10px}
+  .wt-nav .grp i{font-style:normal;font-family:var(--mono);font-size:0.64rem;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-3);margin-right:4px}
+  .wt-nav button{font:600 0.78rem var(--sans);min-width:34px;min-height:32px;border-radius:7px;border:1px solid var(--line);background:var(--surface);color:var(--ink-2);cursor:pointer;padding:0 8px}
+  .wt-nav button[aria-current="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+  .wt-nav button.now{border-left:3px solid #B3261E} .wt-nav button.new{border-left:3px solid #00703C}
+
+  .ws{display:none;padding:22px 0 40px}
+  .ws.on{display:block}
+  .ws-grid{display:grid;grid-template-columns:auto minmax(0,1fr);gap:clamp(20px,3vw,44px);align-items:start}
+  @media(max-width:900px){.ws-grid{grid-template-columns:1fr}}
+  .stagec{display:flex;justify-content:center;position:sticky;top:calc(var(--hdr,57px) + 120px)}
+  @media(max-width:900px){.stagec{position:static}}
+
+  /* the phone, at a size you can read */
+  .phone{--s:0.94;width:calc(360px * var(--s) + 20px);height:calc(760px * var(--s) + 20px);border:10px solid #1C1A1B;border-radius:34px;overflow:hidden;position:relative;background:#fff;box-shadow:0 10px 34px rgba(0,0,0,.2)}
+  @media(max-width:420px){.phone{--s:0.86}}
+  .scr{width:360px;height:760px;transform:scale(var(--s));transform-origin:top left;font-family:'Atkinson Hyperlegible',system-ui,sans-serif;color:#202427;background:#fff;position:relative;overflow:hidden}
+  .redrawn{position:absolute;top:0;right:0;z-index:9;font-family:var(--mono);font-size:10px;letter-spacing:.08em;text-transform:uppercase;background:#F4EAD3;color:#684604;padding:3px 8px;border-bottom-left-radius:6px}
+
+  /* numbered markers, on the screen and in the pane */
+  .pin{position:absolute;z-index:8;width:32px;height:32px;margin:-16px 0 0 -16px;border-radius:50%;color:#fff;font:700 15px/32px system-ui,sans-serif;text-align:center;box-shadow:0 0 0 3px #fff,0 2px 8px rgba(0,0,0,.3);cursor:pointer;transition:transform .15s}
+  .pin.bad,.dot.bad{background:#B3261E} .pin.good,.dot.good{background:#00703C}
+  .pin.hot{transform:scale(1.35);box-shadow:0 0 0 3px #fff,0 0 0 7px rgba(255,221,0,.95)}
+  .ring{position:absolute;z-index:7;border:3px solid #FFDD00;border-radius:6px;box-shadow:0 0 0 2px #0B0C0C;pointer-events:none;opacity:0;transition:opacity .15s}
+  .ring.hot{opacity:1}
+
+  .pane .ph{font-family:var(--mono);font-size:0.7rem;letter-spacing:.1em;text-transform:uppercase;margin:0 0 6px}
+  .pane .ph.now{color:#B3261E} .pane .ph.new{color:#00703C}
+  .pane h2{margin:0 0 8px;font-size:clamp(1.4rem,2.6vw,1.9rem);letter-spacing:-0.02em;line-height:1.15}
+  .pane > p{color:var(--ink-2);line-height:1.6;margin:0 0 14px;max-width:62ch}
+  .pts{list-style:none;margin:0;padding:0;display:grid;gap:10px}
+  .pts li{display:grid;grid-template-columns:34px 1fr;gap:4px 12px;background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:12px 14px;cursor:default;transition:border-color .15s}
+  .pts li.hot{border-color:#0B0C0C;box-shadow:0 0 0 3px #FFDD00}
+  .dot{width:30px;height:30px;border-radius:50%;color:#fff;font:700 14px/30px system-ui,sans-serif;text-align:center;grid-row:1/4}
+  .pts b{color:var(--ink);line-height:1.35}
+  .pts .tx{color:var(--ink-2);line-height:1.55;font-size:0.94rem}
+  .pts .num{font-family:var(--mono);font-size:0.8rem;color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:4px;padding:0 5px;white-space:nowrap}
+  .chips{display:flex;flex-wrap:wrap;gap:5px;margin-top:4px}
+  .chip{font:600 0.72rem var(--sans);text-decoration:none;color:var(--wsh);background:var(--wsh-soft);border:1px solid var(--line);border-radius:99px;padding:3px 9px;white-space:nowrap}
+  .chip:hover{border-color:var(--wsh)}
+  .chip i{font-style:normal;font-family:var(--mono);font-weight:700;margin-right:4px}
+  .deck{margin:16px 0 0;background:var(--surface);border:1px solid var(--line);border-left:4px solid var(--wsh);border-radius:0 10px 10px 0;padding:12px 16px}
+  .deck b.h{display:block;font-family:var(--mono);font-size:0.68rem;letter-spacing:.1em;text-transform:uppercase;color:var(--wsh);margin-bottom:6px}
+  .deck ul{margin:0;padding-left:18px} .deck li{margin:4px 0;color:var(--ink-2);line-height:1.5}
+  .deck li b{color:var(--ink)}
+  .wide{max-width:1000px}
+  .wide h2{margin:0 0 8px;font-size:clamp(1.4rem,2.6vw,1.9rem);letter-spacing:-0.02em}
+  .wide h3{margin:22px 0 6px;font-size:1.02rem}
+  .wide > p{color:var(--ink-2);line-height:1.6;max-width:74ch}
+  @media (prefers-reduced-motion:reduce){.pin,.ring,.pts li{transition:none}}
+
+  /* THE BAR — one definition, identical on every page (written by navfix; change it
+     everywhere or nowhere). It used to be copied per page and drifted into two heights. */
+  header.sdnav{position:sticky;top:0;z-index:40;background:var(--surface);border-bottom:1px solid var(--line)}
+  header.sdnav .bar{display:flex;align-items:center;gap:10px;min-height:56px;padding-block:8px;flex-wrap:nowrap}
+  header.sdnav .brand{font-weight:680;font-size:1rem;letter-spacing:-0.015em;white-space:nowrap;color:inherit;
+    text-decoration:none;padding:5px 8px;margin-left:-8px;border-radius:6px;order:0}
+  header.sdnav .brand:hover{background:var(--surface-2,var(--bg))}
+  header.sdnav .sp{flex:1;display:block;height:auto;flex-basis:auto;order:0}
+  header.sdnav .sdlinks{display:flex;align-items:center;gap:2px;order:0}
+  header.sdnav .navl{display:inline-block;font-size:0.85rem;line-height:1.3;color:var(--ink-2);text-decoration:none;
+    padding:6px 10px;border-radius:6px;white-space:nowrap;order:0}
+  header.sdnav .navl:hover{background:var(--surface-2,var(--bg));color:var(--ink)}
+  header.sdnav .navl.on{background:var(--lec);color:#fff}
+  html[data-theme="dark"] header.sdnav .navl.on{color:#151314}
+  header.sdnav a:focus-visible,header.sdnav button:focus-visible{outline:2px solid var(--lec);outline-offset:1px}
+  header.sdnav .ctl{order:0;margin-left:4px}
+  header.sdnav .ctl button{font-family:var(--mono);font-size:0.7rem;background:none;color:var(--ink-3);
+    border:1px solid var(--line-2);border-radius:6px;padding:0 9px;cursor:pointer;line-height:1;
+    height:34px;min-height:34px;min-width:34px;display:inline-flex;align-items:center;justify-content:center}
+  header.sdnav .ctl button:hover{border-color:var(--lec);color:var(--lec)}
+  @media(max-width:960px){
+    header.sdnav .bar{flex-wrap:wrap;row-gap:0;padding-block:6px 0;min-height:0}
+    header.sdnav .ctl{order:1;margin-left:auto}
+    header.sdnav .sp{display:none}
+    header.sdnav .sdlinks{order:2;flex-basis:100%;overflow-x:auto;scrollbar-width:none;padding:4px 28px 8px 0;min-height:44px;
+      -webkit-mask-image:linear-gradient(to right,#000 calc(100% - 28px),transparent);mask-image:linear-gradient(to right,#000 calc(100% - 28px),transparent)}
+    header.sdnav .sdlinks::-webkit-scrollbar{display:none}
+    header.sdnav .navl{font-size:0.82rem;padding:6px 9px}
+  }
+</style>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<header class="sdnav">
+  <div class="wrap bar">
+    <a class="brand" href="index.html">Screen Design</a>
+    <span class="sp"></span>
+    <nav class="sdlinks" aria-label="Screen Design"><a class="navl" href="weeks.html">Week by week</a><a class="navl" href="assessment.html">Checklist</a><a class="navl on" href="examples.html">Examples</a><a class="navl" href="toolkit.html">Toolkit</a><a class="navl" href="assessment-materials.html">Marking</a></nav>
+    <span class="ctl"><button id="theme" aria-label="Dark mode">◐</button></span>
+  </div>
+</header>
+<script>(function(){var n=document.querySelector(".sdlinks"),o=n&&n.querySelector(".on");if(o&&n.scrollWidth>n.clientWidth)n.scrollLeft=o.offsetLeft-n.offsetLeft-16;})();</script>
+
+<div class="wt-bar" id="wt"><div class="wrap">
+  <b>Buying a 16–25 Railcard</b><span class="sp"></span><span class="ct" id="wtct"></span>
+  <button type="button" class="tb" id="wtprev" aria-label="Previous">←</button>
+  <button type="button" class="tb" id="wtnext" aria-label="Next">→</button>
+</div><div class="wrap"><div class="wt-nav" id="wtnav" role="group" aria-label="Slides"></div></div></div>
+
+<div class="wrap">
+
+<section class="ws" data-title="Start" data-short="Start" data-group="">
+  <div class="wide">
+    <p class="meta"><a href="examples.html#before-after">Before and after</a> · case 3</p>
+    <h2 style="font-size:clamp(1.8rem,4vw,2.6rem)">Buying a 16–25 Railcard</h2>
+    <p class="meta">16-25railcard.co.uk, “the official retailer of Railcards by National Rail” · walked on 22 October 2026 on a phone, as far as the terms-and-conditions box — the walk stopped there, without accepting them ·
+      the steps after it come from the site’s own help pages, and are marked as such · the screens are <b>redrawn</b>, because the site licenses nothing ·
+      <a href="https://www.16-25railcard.co.uk/" target="_blank" rel="noopener">see the live site ↗</a></p>
+    <div class="goal">
+      <div><b>Who</b><span>A 19-year-old student who has just been told a Railcard pays for itself in three trips home.</span></div>
+      <div><b>Goal</b><span>Buy one, on a phone, and have it in time for Friday’s train.</span></div>
+      <div><b>Why this case</b><span>A well-made site with a confident look — and a journey that keeps its hardest requirements until after you have started.</span></div>
+    </div>
+    <h3>How to read this</h3>
+    <ul class="pts" style="max-width:760px">
+      <li><span class="dot bad">1</span><b>Red numbers are problems</b><span class="tx">Six screens of buying as it is now, each problem measured.</span></li>
+      <li><span class="dot good">1</span><b>Green numbers are decisions</b><span class="tx">Six screens of the same purchase, improved.</span></li>
+      <li><span class="dot" style="background:var(--wsh)">A2</span><b>Blue tags are your deck</b><span class="tx">Each point links to the section of your portfolio where the same thinking goes.</span></li>
+    </ul>
+    <p class="cx-link">Ratios like “4.5:1” come up throughout this case: <a href="gallery.html#contrast">what a contrast ratio means</a>.</p>
+    <p class="note">Point at a number on the screen or in the list and both light up. Move with ← →.</p>
+  </div>
+</section>
+
+<!-- NOW 1 -->
+<section class="ws" data-title="Now 1 · the home page" data-short="1" data-group="Now" data-kind="now">
+  <div class="ws-grid">
+    <div class="stagec"><div class="phone"><div class="scr"><span class="redrawn">Redrawn</span><div class="rn">
+      <div class="rn-top">16-25 Railcard<i>☰</i></div>
+      <div class="rn-in"><p class="sm">The official retailer of Railcards by National Rail</p>
+        <h1>Get 1/3 off rail travel with a 16-25 Railcard</h1>
+        <span class="rn-buy" data-t="1">Buy Now</span><span class="rn-link">Renew my Railcard</span>
+        <div class="rn-ben"><div><i></i>1/3 off rail travel</div><div><i></i>Average annual savings of up to £212!**</div><div><i></i>Just £35 for 1 year or £80 for 3 years</div></div></div>
+      <div class="lv-more" data-t="2" style="background:linear-gradient(rgba(251,239,234,.6),#FBEFEA 40%)">↓ 6.8 screens down, after the partner offers: who can buy one</div>
+    </div></div></div></div>
+    <div class="pane">
+      <p class="ph now">Now · screen 1 of 6</p>
+      <h2>A clear start, in colours that are hard to read</h2>
+      <p>This page does a lot right: the offer is in the heading and Buy Now is on the first screen.</p>
+      <ol class="pts">
+        <li data-n="1"><span class="dot bad">1</span><b>White on orange: 2.7:1</b><span class="tx">The most important button on the site fails the <span class="num">4.5:1</span> minimum for its text. The brand orange is used as a background for white text everywhere.</span><span data-tags="A5 C4"></span></li>
+        <li data-n="2"><span class="dot bad">2</span><b>Who can buy one is 6.8 screens down</b><span class="tx">The page is <span class="num">10.4</span> phone screens long. Eligibility and terms come at <span class="num">4,490px</span>, after the partner offers at <span class="num">2,068px</span>.</span><span data-tags="C2 A2"></span></li>
+      </ol>
+      <div class="deck"><b class="h">In your deck</b><ul>
+        <li><b>A5</b> — brand colours have to pass too. If yours does not carry white text, say what you use instead.</li></ul></div>
+    </div>
+  </div>
+</section>
+
+<!-- NOW 2 -->
+<section class="ws" data-title="Now 2 · the rules, and the first question" data-short="2" data-group="Now" data-kind="now">
+  <div class="ws-grid">
+    <div class="stagec"><div class="phone"><div class="scr"><span class="redrawn">Redrawn</span><div class="rn white">
+      <div class="rn-top" style="background:#ED6A0B">16-25 Railcard<i>●</i></div><div class="rn-band"></div>
+      <div class="rn-card"><h2>16-25 Railcard</h2>
+        <div class="rn-tick"><b>✓</b>Save 1/3 on a wide range of fares</div>
+        <div class="rn-tick" data-t="3"><b>✓</b>Buy a 3-year Railcard up until the day before your 24th birthday</div>
+        <div class="rn-tick"><b>✓</b>You can also apply if you’re a mature student in full time study</div>
+        <div data-t="4"><p class="rn-q">Are you a mature student? ⓘ</p><div class="rn-chk"><i></i><span><b>Yes</b>, I am a mature student</span></div></div>
+      </div></div>
+    </div></div></div>
+    <div class="pane">
+      <p class="ph now">Now · screen 2 of 6</p>
+      <h2>A rule to work out yourself, and a rare question first</h2>
+      <ol class="pts">
+        <li data-n="3"><span class="dot bad">3</span><b>The age rule is a ticked bullet</b><span class="tx">“Up until the day before your 24th birthday” — set as a benefit with a tick, and left for the reader to check against their own date of birth.</span><span data-tags="C5 A2"></span></li>
+        <li data-n="4"><span class="dot bad">4</span><b>The first question applies to few people</b><span class="tx">Mature students are the exception, but everyone is asked about it first. The question that matters to everyone — who is it for? — comes last.</span><span data-tags="C2 D2"></span></li>
+      </ol>
+      <div class="deck"><b class="h">In your deck</b><ul>
+        <li><b>C2</b> — order your questions by how many people they affect. The common path goes first.</li></ul></div>
+    </div>
+  </div>
+</section>
+
+<!-- NOW 3 -->
+<section class="ws" data-title="Now 3 · how long, and what kind" data-short="3" data-group="Now" data-kind="now">
+  <div class="ws-grid">
+    <div class="stagec"><div class="phone"><div class="scr"><span class="redrawn">Redrawn</span><div class="rn white" style="padding:16px">
+      <p class="rn-q" style="margin-top:0">Select duration of Railcard <sup>*</sup></p>
+      <div class="rn-dur"><div><b>3 years</b><strong>£80</strong><em data-t="5">Save £25</em><span>Select</span></div><div><b>1 year</b><strong>£35</strong><span style="margin-top:26px">Select</span></div></div>
+      <p class="rn-q">Choose the type of Railcard you would like <sup>*</sup> ⓘ</p>
+      <div style="border:1px solid #ddd"><div class="rn-pop" data-t="6">POPULAR CHOICE: 75% go digital</div>
+        <div class="rn-opt"><i></i><span><b>Digital</b><br>Available through the Railcard app on your phone (best option if you're travelling soon).</span></div>
+        <div class="rn-opt"><i></i><span><b>Plastic</b><br>Delivery by post. UK address only.</span></div></div>
+    </div></div></div></div>
+    <div class="pane">
+      <p class="ph now">Now · screen 3 of 6</p>
+      <h2>Badges that are hard to read, and a nudge instead of a fact</h2>
+      <ol class="pts">
+        <li data-n="5"><span class="dot bad">5</span><b>“Save £25”: 3.4:1</b><span class="tx">White on orange again. Four pieces of text on this page measure between <span class="num">3.39</span> and <span class="num">3.47:1</span>, including the Continue button.</span><span data-tags="A5 A6"></span></li>
+        <li data-n="6"><span class="dot bad">6</span><b>“75% go digital”</b><span class="tx">Telling people what others chose is persuasion. What a student needs is the fact behind it: digital is in the app today, plastic takes about ten days by post.</span><span data-tags="C6 C5"></span></li>
+      </ol>
+      <div class="deck"><b class="h">In your deck</b><ul>
+        <li><b>C6</b> — pressure by popularity is a mild dark pattern. Replacing it with a plain fact is a specific ethics answer.</li></ul></div>
+    </div>
+  </div>
+</section>
+
+<!-- NOW 4 -->
+<section class="ws" data-title="Now 4 · codes, who it is for, terms" data-short="4" data-group="Now" data-kind="now">
+  <div class="ws-grid">
+    <div class="stagec"><div class="phone"><div class="scr"><span class="redrawn">Redrawn</span><div class="rn white" style="padding:16px">
+      <div data-t="7"><p class="rn-q" style="margin-top:0">If you have a <b>promotional code</b>, please apply it below: ⓘ</p><div class="rn-field"></div><div class="rn-apply">Apply Code</div></div>
+      <div data-t="8"><p class="rn-q">Who is the Railcard being purchased for? <sup>*</sup> ⓘ</p>
+        <div class="rn-opt"><i></i>The Railcard is for me</div><div class="rn-opt" style="border-top:0"><i></i>The Railcard is for someone else</div></div>
+      <div data-t="9"><p class="rn-q" style="font-size:17px">Terms and Conditions</p><div class="rn-chk" style="font-size:14px;align-items:flex-start"><i style="flex:none"></i>I have read and accept the terms and conditions… for having it on a mobile device</div>
+        <span class="rn-cont">Continue</span></div>
+    </div></div></div></div>
+    <div class="pane">
+      <p class="ph now">Now · screen 4 of 6</p>
+      <h2>The question that changes everything comes last</h2>
+      <ol class="pts">
+        <li data-n="7"><span class="dot bad">7</span><b>A promotional code box before the main question</b><span class="tx">Most buyers have no code. An empty box with a grey button invites a search for one.</span><span data-tags="C2"></span></li>
+        <li data-n="8"><span class="dot bad">8</span><b>“Who is it for?” is asked after the price</b><span class="tx">If it is for someone else, it is <i>their</i> age, ID and photo that count — but by now the duration has been chosen against the buyer’s.</span><span data-tags="A2 C2"></span></li>
+        <li data-n="9"><span class="dot bad">9</span><b>A terms box appears only after a choice</b><span class="tx">It is not on the page until “Digital” is chosen. Pressing Continue without it shows two error messages — the page does explain itself, once you have failed.</span><span data-tags="C5 B6"></span></li>
+      </ol>
+      <div class="deck"><b class="h">In your deck</b><ul>
+        <li><b>B4</b> — draw the order of questions in your flow. Ask yourself which answer changes the others, and put it first.</li></ul></div>
+    </div>
+  </div>
+</section>
+
+<!-- NOW 5 -->
+<section class="ws" data-title="Now 5 · what comes next" data-short="5" data-group="Now" data-kind="now">
+  <div class="ws-grid">
+    <div class="stagec"><div class="phone"><div class="scr" style="background:#F3F2F1"><div class="rn-help">
+      <b style="font-size:21px">After Continue</b> <span style="font-size:14px;color:#666">— from the help pages, not walked</span>
+      <ol data-t="10"><li>Register, or log in</li><li>Enter a passport, UK driving licence or EEA ID card number</li><li>Upload a digital passport-style photo</li><li>Pay</li></ol>
+      <div data-t="11"><li style="list-style:none;margin:6px 0">5. An email with an application number — which “cannot be used to buy discounted tickets”</li>
+      <li style="list-style:none;margin:6px 0">6. For a digital card: download the app, and sign in again</li></div>
+      <p class="src">Source: 16-25railcard.co.uk, Help › FAQs, read 22 October 2026.</p></div>
+    </div></div></div>
+    <div class="pane">
+      <p class="ph now">Now · screen 5 of 6</p>
+      <h2>The hardest requirements come after you have started</h2>
+      <ol class="pts">
+        <li data-n="10"><span class="dot bad">10</span><b>An ID number and a photo — said nowhere before this</b><span class="tx">A student on the bus without a passport, or without a plain-background photo, finds out only after choosing, agreeing and registering.</span><span data-tags="A2 C5"></span></li>
+        <li data-n="11"><span class="dot bad">11</span><b>The confirmation is not the card</b><span class="tx">The email says what it cannot do. For a digital card, there is an app to install and a second sign-in before the Railcard can be used.</span><span data-tags="A2 D3"></span></li>
+      </ol>
+      <div class="deck"><b class="h">In your deck</b><ul>
+        <li><b>D1</b> — if you cannot walk every step, say which ones you took from help pages, and name the page and the date. That is honest evidence.</li></ul></div>
+    </div>
+  </div>
+</section>
+
+<!-- NOW 6 -->
+<section class="ws" data-title="Now 6 · counted" data-short="6" data-group="Now" data-kind="now">
+  <div class="ws-grid">
+    <div class="stagec"><div class="phone"><div class="scr" style="background:#F3F2F1;display:grid;place-items:center">
+      <div data-t="12" style="padding:28px;font:19px/1.6 system-ui,sans-serif;color:#202427"><b style="font-size:24px">The purchase, counted</b><br><br>
+        <b>10.4</b> screens of home page<br><b>6</b> things on the first form<br><b>5</b> pieces of text below 4.5:1 contrast<br><b>2</b> requirements first heard about mid-purchase<br><b>2</b> sign-ins, website and app</div>
+    </div></div></div>
+    <div class="pane">
+      <p class="ph now">Now · screen 6 of 6</p>
+      <h2>Counted</h2>
+      <ol class="pts">
+        <li data-n="12"><span class="dot bad">12</span><b>The problems are in the order and the colour</b><span class="tx">Questions in the wrong order, requirements told too late, and an orange that fails behind white text.</span><span data-tags="A2 A5"></span></li>
+      </ol>
+      <div class="fair"><b>What already works — keep it.</b> The offer is clear and the button is on the first screen. Prices are plain. The form does show clear error messages when something is missing. And a digital card in an app really is the quickest way to travel on Friday.</div>
+    </div>
+  </div>
+</section>
+
+<!-- IMPROVED 1 -->
+<section class="ws" data-title="Improved 1 · can I get one?" data-short="1" data-group="Improved" data-kind="new">
+  <div class="ws-grid">
+    <div class="stagec"><div class="phone"><div class="scr"><div class="rw">
+      <div class="rw-top">16-25 Railcard<span>Step 1 of 5</span></div>
+      <div class="rw-in"><h1>Who is the Railcard for?</h1>
+        <div class="rw-card on" data-t="1" style="grid-template-columns:auto 1fr"><span class="rad"></span><b>Me</b></div>
+        <div class="rw-card" style="grid-template-columns:auto 1fr"><span class="rad"></span><b>Someone else</b></div>
+        <span class="rw-lbl" style="margin-top:12px">Your date of birth</span>
+        <div class="rw-dob"><div><small>Day</small><span style="width:60px">14</span></div><div><small>Month</small><span style="width:60px">03</span></div><div><small>Year</small><span style="width:90px">2007</span></div></div>
+        <div class="rw-ok" data-t="2"><b>You can buy a 16–25 Railcard.</b> A 3-year card is available to you until 13 March 2031.</div>
+        <span class="rw-btn">Continue</span></div></div>
+    </div></div></div>
+    <div class="pane">
+      <p class="ph new">Improved · screen 1 of 6</p>
+      <h2>Ask what decides everything, first</h2>
+      <ol class="pts">
+        <li data-n="1"><span class="dot good">1</span><b>“Who is it for?” comes first</b><span class="tx">Because every later answer — age, ID, photo — belongs to that person.</span><span data-tags="A2 C2 B4"></span></li>
+        <li data-n="2"><span class="dot good">2</span><b>The age rule is checked, not explained</b><span class="tx">The form works out eligibility from the date of birth and says it in a sentence. Mature students get their own route here, only if the date says they need it.</span><span data-tags="C5 D2"></span></li>
+      </ol>
+      <div class="deck"><b class="h">In your deck</b><ul>
+        <li><b>C5</b> — when a rule can be checked by the screen, check it. “The form tells you” beats “the page explains”.</li></ul></div>
+    </div>
+  </div>
+</section>
+
+<!-- IMPROVED 2 -->
+<section class="ws" data-title="Improved 2 · which card" data-short="2" data-group="Improved" data-kind="new">
+  <div class="ws-grid">
+    <div class="stagec"><div class="phone"><div class="scr"><div class="rw">
+      <div class="rw-top">16-25 Railcard<span>Step 2 of 5</span></div>
+      <div class="rw-in"><p class="back">‹ Back</p><h1>Which Railcard?</h1>
+        <div class="rw-card"><span class="rad"></span><b>1 year</b><small>Until Oct 2027</small><span class="pr">£35</span></div>
+        <div class="rw-card on" data-t="3"><span class="rad"></span><b>3 years</b><small>Until Oct 2029 · £26.67 a year</small><span class="pr">£80<small>save £25</small></span></div>
+        <span class="rw-lbl" style="margin-top:14px">On your phone, or by post?</span>
+        <div data-t="4"><div class="rw-card on" style="grid-template-columns:auto 1fr"><span class="rad"></span><b>In the app</b><small>Ready to use today</small></div>
+        <div class="rw-card" style="grid-template-columns:auto 1fr"><span class="rad"></span><b>Plastic card</b><small>By post, about 10 days, UK only</small></div></div>
+        <p class="rw-code">Have a promotional code?</p></div></div>
+    </div></div></div>
+    <div class="pane">
+      <p class="ph new">Improved · screen 2 of 6</p>
+      <h2>Facts instead of nudges</h2>
+      <ol class="pts">
+        <li data-n="3"><span class="dot good">3</span><b>The saving in dark text, with the sum shown</b><span class="tx">“£26.67 a year” lets a student compare without a calculator. Every text here clears <span class="num">6.3:1</span>.</span><span data-tags="A5 C4"></span></li>
+        <li data-n="4"><span class="dot good">4</span><b>“Ready to use today” replaces “75% go digital”</b><span class="tx">The difference that matters for Friday’s train, said as a fact. The promotional code becomes a link for the few who have one.</span><span data-tags="C6 C2"></span></li>
+      </ol>
+      <div class="deck"><b class="h">In your deck</b><ul>
+        <li><b>C4</b> — keep the brand, darken it until it passes. The orange here is a darker version of the Railcard’s own.</li></ul></div>
+    </div>
+  </div>
+</section>
+
+<!-- IMPROVED 3 -->
+<section class="ws" data-title="Improved 3 · what you will need" data-short="3" data-group="Improved" data-kind="new">
+  <div class="ws-grid">
+    <div class="stagec"><div class="phone"><div class="scr"><div class="rw">
+      <div class="rw-top">16-25 Railcard<span>Step 3 of 5</span></div>
+      <div class="rw-in"><p class="back">‹ Back</p><h1>Before you go on, have these ready</h1>
+        <ul class="rw-need" data-t="5"><li><i>1</i><span>The number from your passport, UK driving licence or EEA ID card<small>To check your date of birth</small></span></li>
+          <li><i>2</i><span>A photo of your head and shoulders<small>Plain background, no hat — you can take it on the next screen</small></span></li>
+          <li><i>3</i><span>A payment card<small>£80 today</small></span></li></ul>
+        <p class="rw-hint" data-t="6">Not got them with you? We will keep your answers for 7 days — come back with the link we email you.</p>
+        <span class="rw-btn">I have them — continue</span></div></div>
+    </div></div></div>
+    <div class="pane">
+      <p class="ph new">Improved · screen 3 of 6</p>
+      <h2>Tell people what they need before they need it</h2>
+      <ol class="pts">
+        <li data-n="5"><span class="dot good">5</span><b>The three requirements, up front</b><span class="tx">From <span class="num">2</span> requirements discovered mid-purchase to <span class="num">0</span>. A student on the bus knows now whether to carry on or wait until home.</span><span data-tags="A2 C5"></span></li>
+        <li data-n="6"><span class="dot good">6</span><b>A way to stop and come back</b><span class="tx">Answers are kept, so stopping is not starting again.</span><span data-tags="C5 B8"></span></li>
+      </ol>
+      <div class="deck"><b class="h">In your deck</b><ul>
+        <li><b>A2</b> — a “have these ready” screen is a real screen with a job. It belongs in your list of screens.</li></ul></div>
+    </div>
+  </div>
+</section>
+
+<!-- IMPROVED 4 -->
+<section class="ws" data-title="Improved 4 · your photo" data-short="4" data-group="Improved" data-kind="new">
+  <div class="ws-grid">
+    <div class="stagec"><div class="phone"><div class="scr"><div class="rw">
+      <div class="rw-top">16-25 Railcard<span>Step 4 of 5</span></div>
+      <div class="rw-in"><p class="back">‹ Back</p><h1>Your photo</h1>
+        <div class="rw-photo"><div class="rw-frame" data-t="7"><b></b></div>
+          <ul class="rw-checks" data-t="8"><li>Face in the oval</li><li>Plain background</li><li>No hat or sunglasses</li></ul></div>
+        <span class="rw-btn">Take a photo</span>
+        <p style="text-align:center;font-size:17px;color:#A63F00;text-decoration:underline">Upload one instead</p></div></div>
+    </div></div></div>
+    <div class="pane">
+      <p class="ph new">Improved · screen 4 of 6</p>
+      <h2>Show what a good photo is, while it is taken</h2>
+      <ol class="pts">
+        <li data-n="7"><span class="dot good">7</span><b>A guide on the camera</b><span class="tx">An oval to fit the face into, instead of a paragraph of photo rules in the help pages.</span><span data-tags="C5 A6"></span></li>
+        <li data-n="8"><span class="dot good">8</span><b>Three checks, ticked as they pass</b><span class="tx">Each rule is said in words, not only shown, so it works for screen readers too.</span><span data-tags="A6 C5"></span></li>
+      </ol>
+      <div class="deck"><b class="h">In your deck</b><ul>
+        <li><b>A6</b> — every visual cue (an oval, a tick) needs words too. List them.</li></ul></div>
+    </div>
+  </div>
+</section>
+
+<!-- IMPROVED 5 -->
+<section class="ws" data-title="Improved 5 · check and pay" data-short="5" data-group="Improved" data-kind="new">
+  <div class="ws-grid">
+    <div class="stagec"><div class="phone"><div class="scr"><div class="rw">
+      <div class="rw-top">16-25 Railcard<span>Step 5 of 5</span></div>
+      <div class="rw-in"><p class="back">‹ Back</p><h1>Check and pay</h1>
+        <dl class="rw-sum" data-t="9"><div><dt>For</dt><dd>You, born 14 Mar 2007</dd></div><div><dt>Railcard</dt><dd>3 years, in the app</dd></div><div><dt>ID</dt><dd>Passport ending 2231</dd></div><div><dt>Photo</dt><dd>Added</dd></div></dl>
+        <div class="rw-tc" data-t="10"><i></i><span>I accept the <u style="color:#A63F00">Railcard terms</u>. In short: carry it when you travel, and a £12 minimum fare applies before 10am on weekdays.</span></div>
+        <span class="rw-btn">Pay £80</span></div></div>
+    </div></div></div>
+    <div class="pane">
+      <p class="ph new">Improved · screen 5 of 6</p>
+      <h2>One summary, one box, one button</h2>
+      <ol class="pts">
+        <li data-n="9"><span class="dot good">9</span><b>Everything in one place before paying</b><span class="tx">Each line can be changed. The ID number is shown shortened, so it is not read over a shoulder.</span><span data-tags="C5 C6"></span></li>
+        <li data-n="10"><span class="dot good">10</span><b>The terms, summarised beside the box</b><span class="tx">The two rules a student will actually meet, in one sentence, next to the box they are agreeing with — not a box that appears from nowhere.</span><span data-tags="C6 C5"></span></li>
+      </ol>
+      <div class="deck"><b class="h">In your deck</b><ul>
+        <li><b>C6</b> — agreeing to terms nobody reads is an ethical problem. Summarising them in a line is a design answer.</li></ul></div>
+    </div>
+  </div>
+</section>
+
+<!-- IMPROVED 6 -->
+<section class="ws" data-title="Improved 6 · done" data-short="6" data-group="Improved" data-kind="new">
+  <div class="ws-grid">
+    <div class="stagec"><div class="phone"><div class="scr"><div class="rw">
+      <div class="rw-top">16-25 Railcard<span>Done</span></div>
+      <div class="rw-in"><div class="rw-done" data-t="11"><h1>Your Railcard is in the app</h1><p>Open it now, signed in already from this phone.</p></div>
+        <span class="rw-btn">Open the Railcard app</span>
+        <p data-t="12">Buying tickets online? Add your Railcard number when you book: <b>2207 4419 8830</b></p></div></div>
+    </div></div></div>
+    <div class="pane">
+      <p class="ph new">Improved · screen 6 of 6</p>
+      <h2>Finish with the thing itself</h2>
+      <ol class="pts">
+        <li data-n="11"><span class="dot good">11</span><b>The card, not an application number</b><span class="tx">The last screen hands over the Railcard. This assumes the website and the app share one sign-in — the redesign’s biggest assumption, and it is written down.</span><span data-tags="D3 C5"></span></li>
+        <li data-n="12"><span class="dot good">12</span><b>The number you will be asked for</b><span class="tx">Booking sites ask for the Railcard number; it is on the screen where you need it next.</span><span data-tags="C5"></span></li>
+      </ol>
+      <div class="deck"><b class="h">In your deck</b><ul>
+        <li><b>D3</b> — the strongest pair here: the old confirmation email beside this screen.</li></ul></div>
+    </div>
+  </div>
+</section>
+
+<!-- THEN -->
+<section class="ws" data-title="Before against after, counted" data-short="Counted" data-group="Then">
+  <div class="wide">
+    <h2>Before against after, counted</h2>
+    <div class="tbw"><table class="tb">
+      <tr><th>Measured</th><th>Now</th><th>Improved</th></tr>
+      <tr><td>Phone screens on the home page</td><td class="num">10.4</td><td class="num up">not needed to buy — Buy starts the check</td></tr>
+      <tr><td>Things on the first form</td><td class="num">6</td><td class="num up">2 — who, and date of birth</td></tr>
+      <tr><td>Pieces of text below the 4.5:1 contrast minimum</td><td class="num">5</td><td class="num up">0</td></tr>
+      <tr><td>Requirements first heard about mid-purchase</td><td class="num">2 (ID, photo)</td><td class="num up">0 — listed on step 3</td></tr>
+      <tr><td>Eligibility checked by the form</td><td class="num">no</td><td class="num up">yes, from date of birth</td></tr>
+      <tr><td>Sign-ins before the card can be used</td><td class="num">2</td><td class="num up">1 — assumes one shared account</td></tr>
+    </table></div>
+    <p class="note">“Now” counts come from the home page and the first purchase page, walked on 22 October 2026, and from the site’s help pages for the steps after the terms box.</p>
+    <span data-tags="A2 C5 D3"></span>
+  </div>
+</section>
+
+<section class="ws" data-title="What happened to every step" data-short="Steps" data-group="Then">
+  <div class="wide">
+    <h2>What happened to every step</h2>
+    <div class="tbw"><table class="tb">
+      <tr><th>Step now</th><th>What happened</th><th>Why</th></tr>
+      <tr><td>Home page Buy Now</td><td>Kept, darker orange</td><td>Right place, wrong contrast: 2.7:1 to 6.3:1</td></tr>
+      <tr><td>Age rule as a ticked bullet</td><td>Replaced by a check from date of birth</td><td>The form can work it out; the reader should not have to</td></tr>
+      <tr><td>Mature student question</td><td>Moved: only shown when the date of birth needs it</td><td>A rare route should not come first for everyone</td></tr>
+      <tr><td>Duration and type</td><td>Kept, with facts instead of badges</td><td>“Ready today” and “£26.67 a year” are what decide it</td></tr>
+      <tr><td>Promotional code box</td><td>Moved behind a link</td><td>Most buyers have none</td></tr>
+      <tr><td>Who is it for</td><td>Moved first</td><td>Every later answer belongs to that person</td></tr>
+      <tr><td>Terms box</td><td>Moved to the payment screen, with a one-line summary</td><td>Agree where you pay, knowing what you agree to</td></tr>
+      <tr><td>Register, ID, photo, pay</td><td>Kept; announced on a “have these ready” screen; photo taken with a guide</td><td>No surprises mid-purchase</td></tr>
+      <tr><td>Email with application number</td><td>Replaced by the card in the app</td><td>Assumes the website and app share one sign-in</td></tr>
+    </table></div>
+    <span data-tags="D2"></span>
+  </div>
+</section>
+
+<section class="ws" data-title="The redesign’s A3, A4 and A5" data-short="A3–A5" data-group="Then">
+  <div class="wide">
+    <h2>The redesign’s A3, A4 and A5</h2>
+    <p>The Railcard look is kept — orange and navy — with the orange darkened until white text passes.</p>
+    <h3>A3 · Layout</h3>
+    <div class="tbw"><table class="tb">
+      <tr><th>Row</th><th>Number</th><th>Why</th></tr>
+      <tr><td>Columns</td><td class="num">4 phone · 12 desktop</td><td>Most buyers are students on phones</td></tr>
+      <tr><td>Gutter</td><td class="num">16 px phone · 24 px desktop</td><td>The two duration cards sit side by side above 600 px</td></tr>
+      <tr><td>Margin</td><td class="num">16 px phone · 40 px desktop</td><td>Full-width choices on a phone</td></tr>
+      <tr><td>Max width</td><td class="num">1,080 px; the form is 6 of the 12</td><td>One question per screen keeps lines under 60 characters</td></tr>
+      <tr><td>Breakpoints</td><td class="num">600 · 1,024 px</td><td>At 600 the cards go two-up; at 1,024 the summary sits beside the form</td></tr>
+      <tr><td>Spacing scale</td><td class="num">4 · 8 · 12 · 16 · 24 · 40</td><td>8 between choices, 16 inside them, 24 before a button</td></tr>
+    </table></div>
+    <h3>A4 · Typography</h3>
+    <div class="tbw"><table class="tb">
+      <tr><th>Role</th><th>Face · size / line height</th><th>Why</th></tr>
+      <tr><td>Everything</td><td class="num">Roboto</td><td>Kept from the site; plain and wide-ranging</td></tr>
+      <tr><td>Question (H1)</td><td class="num">Bold 28 / 34</td><td>One question per screen, the biggest thing on it</td></tr>
+      <tr><td>Body, answers, labels</td><td class="num">18 / 27 · labels Bold 18 / 24</td><td>Never below 18 on a form</td></tr>
+      <tr><td>Hints and small print</td><td class="num">15.5–16 / 24 in #4A5468</td><td>7.6:1</td></tr>
+      <tr><td>Prices</td><td class="num">Bold 20, right-aligned</td><td>Prices line up down the right edge</td></tr>
+    </table></div>
+    <h3>A5 · Colour and contrast</h3>
+    <div class="tbw"><table class="tb">
+      <tr><th>Role</th><th>Colour</th><th>On</th><th>Ratio</th></tr>
+      <tr><td>Text</td><td><span class="sw" style="background:#1F2A44"></span><code>#1F2A44</code> navy</td><td>white</td><td class="num">14.3:1</td></tr>
+      <tr><td>Hints</td><td><span class="sw" style="background:#4A5468"></span><code>#4A5468</code></td><td>white</td><td class="num">7.6:1</td></tr>
+      <tr><td>Buttons, links, chosen</td><td><span class="sw" style="background:#A63F00"></span><code>#A63F00</code> Railcard orange, darkened</td><td>white text</td><td class="num">6.3:1</td></tr>
+      <tr><td>Panels</td><td><span class="sw" style="background:#FDF1E7"></span><code>#FDF1E7</code></td><td>navy text</td><td class="num">12.8:1</td></tr>
+      <tr><td>Success</td><td><span class="sw" style="background:#24653A"></span><code>#24653A</code></td><td>white text</td><td class="num">7.0:1</td></tr>
+    </table></div>
+    <p class="note">The site’s orange behind white text measured 2.7:1 and 3.4:1. Darkening it to #A63F00 keeps it recognisably orange at 6.3:1.</p>
+    <span data-tags="A3 A4 A5"></span>
+  </div>
+</section>
+
+<section class="ws" data-title="What a marker would credit" data-short="Why" data-group="Then">
+  <div class="wide">
+    <h2>What a marker would credit, and where it goes in your deck</h2>
+    <div class="why">
+      <div><b>The order of questions is argued</b><span>Who it is for first, because it decides the rest.</span><span data-tags="B4 C2"></span></div>
+      <div><b>Honest about what was walked</b><span>The walk stopped at the terms box; the later steps are taken from the help pages, named and dated.</span><span data-tags="D1 C9"></span></div>
+      <div><b>Brand kept, contrast fixed</b><span>The orange is darkened until it passes, not replaced.</span><span data-tags="A5 C4"></span></div>
+      <div><b>Requirements said early</b><span>The ID and photo appear before anyone commits.</span><span data-tags="A2 C5"></span></div>
+      <div><b>A specific ethics point</b><span>Persuasion by popularity replaced with a fact; terms summarised where they are agreed to.</span><span data-tags="C6"></span></div>
+      <div><b>Its biggest assumption is written down</b><span>One sign-in for website and app. If that is not possible, the last screen changes — and the case says so.</span><span data-tags="C5"></span></div>
+    </div>
+    <p class="note">The Railcard pages are redrawn for criticism and review. The improved screens are a teaching example, not an official Railcard design; the Railcard number and dates on them are invented.</p>
+  </div>
+</section>
+
+</div>
+
+<script src="sd-common.js"></script>
+<script src="cases.js"></script>
+<script>
+const root = document.documentElement;
+try { const t = localStorage.getItem('sd-theme'); if (t) root.dataset.theme = t; } catch (e) {}
+if (!root.dataset.theme && matchMedia('(prefers-color-scheme: dark)').matches) root.dataset.theme = 'dark';
+document.getElementById('theme').onclick = () => {
+  root.dataset.theme = root.dataset.theme === 'dark' ? 'light' : 'dark';
+  try { localStorage.setItem('sd-theme', root.dataset.theme); } catch (e) {}
+};
+</script>
+</body>
+</html>

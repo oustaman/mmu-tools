@@ -1,0 +1,257 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Examples — Screen Design</title>
+<style>
+  :root{
+    --bg:#F5F4F2; --surface:#FFFFFF; --surface-2:#EDEBE8;
+    --ink:#1A1618; --ink-2:#514B4A; --ink-3:#4D4847;
+    --line:#DFDBD7; --line-2:#8E8685;
+    --lec:#8C2437; --lec-soft:#F6E8EA;
+    --wsh:#1A526D; --wsh-soft:#E4EEF3;
+    --ok:#285638; --ok-soft:#E3EFE7;
+    --warn:#684604; --warn-soft:#F4EAD3;
+    --mono:ui-monospace,"SF Mono",Menlo,Consolas,monospace;
+    --sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Inter,Roboto,sans-serif;
+  }
+  html[data-theme="dark"]{
+    --bg:#151314; --surface:#1E1B1C; --surface-2:#262223;
+    --ink:#EDE9E7; --ink-2:#B9B2AF; --ink-3:#B7B2B0;
+    --line:#332E2F; --line-2:#7A7372;
+    --lec:#E69FAD; --lec-soft:#332226;
+    --wsh:#7FBEDC; --wsh-soft:#16262E;
+    --ok:#83C19A; --ok-soft:#1C2A22;
+    --warn:#DCB469; --warn-soft:#2A2417;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);line-height:1.5}
+  .wrap{max-width:1100px;margin:0 auto;padding:0 22px}
+  @media(max-width:420px){.wrap{padding:0 14px}}
+  @media(max-width:340px){.wrap{padding:0 10px}}
+  a{color:var(--lec)}
+
+  /* The bar, identical on every page (see assessment.html). */
+  header{border-bottom:1px solid var(--line);background:var(--surface);position:sticky;top:0;z-index:40}
+  .bar{display:flex;align-items:center;gap:10px;padding-block:11px;flex-wrap:nowrap}
+  .brand{font-weight:680;font-size:1rem;letter-spacing:-0.015em;white-space:nowrap;color:inherit;
+    text-decoration:none;padding:5px 8px;margin-left:-8px;border-radius:6px}
+  .brand:hover{background:var(--surface-2)}
+  .brand:focus-visible{outline:2px solid var(--lec);outline-offset:1px}
+  .sp{flex:1}
+  .navl{font-size:0.85rem;color:var(--ink-2);text-decoration:none;padding:6px 10px;border-radius:6px;white-space:nowrap}
+  .navl:hover{background:var(--surface-2);color:var(--ink)}
+  .ctl button{font-family:var(--mono);font-size:0.7rem;background:none;color:var(--ink-3);
+    border:1px solid var(--line-2);border-radius:5px;padding:5px 8px;cursor:pointer;line-height:1}
+  .ctl button:hover{border-color:var(--lec);color:var(--lec)}
+  @media(max-width:760px){ header .bar{gap:6px} .navl{padding:6px 8px;font-size:0.82rem} }
+  @media(max-width:560px){
+    header .bar{flex-wrap:wrap;row-gap:6px}
+    header .brand{order:0} header .ctl{order:1;margin-left:auto}
+    header .bar > .sp{order:2;flex-basis:100%;height:0}
+    header .navl{order:3;padding:5px 7px;font-size:0.78rem}
+  }
+  @media(max-width:430px){ .brand{font-size:0.9rem} .navl{padding:5px 6px;font-size:0.76rem} }
+
+  .navl.on{background:var(--lec);color:#fff}
+  html[data-theme="dark"] .navl.on{color:#151314}
+  h1{font-size:clamp(1.6rem,4.4vw,2.3rem);line-height:1.1;letter-spacing:-0.028em;margin:24px 0 4px;font-weight:700}
+  h2{font-size:1.2rem;font-weight:690;letter-spacing:-0.015em;margin:34px 0 6px}
+  .sub{color:var(--ink-2);margin:0 0 18px;max-width:70ch}
+  .lede{color:var(--ink-2);margin:0 0 14px;max-width:72ch;font-size:0.95rem}
+
+  .tile{display:block;background:var(--surface);border:1px solid var(--line);border-radius:11px;padding:14px 16px;
+    text-decoration:none;color:inherit}
+  .tile:hover{border-color:var(--lec)}
+  .tile b{display:block;font-size:0.98rem;margin-bottom:3px}
+  .tile span{font-size:0.86rem;color:var(--ink-2)}
+  .tile i{font-style:normal;font-family:var(--mono);font-size:0.68rem;color:var(--ink-3);display:block;margin-top:6px}
+
+  table.steps{width:100%;border-collapse:collapse;background:var(--surface);border:1px solid var(--line);
+    border-radius:11px;overflow:hidden;font-size:0.9rem}
+  .steps th{text-align:left;font-family:var(--mono);font-size:0.62rem;letter-spacing:0.08em;text-transform:uppercase;
+    color:var(--ink-3);padding:9px 12px;background:var(--surface-2);font-weight:500}
+  .steps td{padding:8px 12px;border-top:1px solid var(--line);vertical-align:middle}
+
+  .ex{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(min(320px,100%),1fr))}
+  .excard{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:16px 18px;
+    display:flex;flex-direction:column;gap:10px}
+  .exk{font-family:var(--mono);font-size:0.64rem;letter-spacing:0.08em;text-transform:uppercase;color:var(--ink-3)}
+  .excard h3{margin:0;font-size:1.08rem}
+  .excard p{margin:0;font-size:0.9rem;color:var(--ink-2)}
+  .exmark{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap}
+  .exmark .n{font-size:2.2rem;font-weight:740;letter-spacing:-0.03em;color:var(--lec);line-height:1}
+  .exmark .crit{font-family:var(--mono);font-size:0.78rem;color:var(--ink-2)}
+
+  .exacts{display:flex;flex-wrap:wrap;gap:8px;margin-top:auto}
+  .btn{display:inline-flex;align-items:center;min-height:42px;padding:0 15px;border-radius:8px;text-decoration:none;
+    font-weight:640;font-size:0.9rem;border:1px solid var(--line-2);color:var(--ink);background:var(--bg)}
+  .btn:hover{border-color:var(--lec);color:var(--lec)}
+  .btn.pri{background:var(--lec);border-color:var(--lec);color:#fff}
+  html[data-theme="dark"] .btn.pri{color:#151314}
+
+  .note{font-size:0.82rem;color:var(--ink-3);margin:12px 0 0}
+  footer{padding:24px 0 44px;color:var(--ink-3);font-size:0.8rem;border-top:1px solid var(--line);margin-top:30px}
+  @media(max-width:520px){ .steps td{padding:7px 8px} }
+
+  .cases{display:grid;gap:14px;grid-template-columns:repeat(auto-fill,minmax(min(300px,100%),1fr));margin:18px 0 0}
+  .case{display:flex;flex-direction:column;gap:6px;background:var(--surface);border:1px solid var(--line);border-left:4px solid var(--lec);border-radius:0 12px 12px 0;padding:16px 18px;color:inherit;text-decoration:none}
+  .case:hover,.case:focus-visible{border-color:var(--lec)} .case:focus-visible{outline:2px solid var(--lec);outline-offset:2px}
+  .case .k{font-family:var(--mono);font-size:0.66rem;letter-spacing:.09em;text-transform:uppercase;color:var(--ink-3)}
+  .case b{font-size:1.1rem} .case span{color:var(--ink-2);font-size:0.92rem;line-height:1.5}
+  .case .go{margin-top:6px;font-family:var(--mono);font-size:0.78rem;color:var(--lec)}
+  .how{margin:22px 0 0;padding-left:20px;max-width:72ch} .how li{margin:6px 0;color:var(--ink-2)}
+
+  .qbox{background:var(--surface);border:1px solid var(--line);border-left:4px solid var(--wsh);border-radius:0 12px 12px 0;padding:14px 18px;margin:14px 0 16px;max-width:860px}
+  .qbox > b{display:block;font-size:1rem;margin-bottom:4px}
+  .qbox p{margin:0 0 8px;color:var(--ink-2);font-size:0.92rem;line-height:1.55}
+  .qbox ol{margin:0;padding-left:22px;line-height:1.6;font-size:0.95rem}
+  .qbox li{margin:0 0 4px} .qbox li span{color:var(--ink-3);font-size:0.86rem}
+
+  .wide{overflow-x:auto;border:1px solid var(--line);border-radius:11px;background:var(--surface)}
+  .wide:focus-visible{outline:2px solid var(--lec);outline-offset:2px}
+
+  h2[id]{scroll-margin-top:70px}
+
+  /* THE BAR — one definition, identical on every page (written by navfix; change it
+     everywhere or nowhere). It used to be copied per page and drifted into two heights. */
+  header.sdnav{position:sticky;top:0;z-index:40;background:var(--surface);border-bottom:1px solid var(--line)}
+  header.sdnav .bar{display:flex;align-items:center;gap:10px;min-height:56px;padding-block:8px;flex-wrap:nowrap}
+  header.sdnav .brand{font-weight:680;font-size:1rem;letter-spacing:-0.015em;white-space:nowrap;color:inherit;
+    text-decoration:none;padding:5px 8px;margin-left:-8px;border-radius:6px;order:0}
+  header.sdnav .brand:hover{background:var(--surface-2,var(--bg))}
+  header.sdnav .sp{flex:1;display:block;height:auto;flex-basis:auto;order:0}
+  header.sdnav .sdlinks{display:flex;align-items:center;gap:2px;order:0}
+  header.sdnav .navl{display:inline-block;font-size:0.85rem;line-height:1.3;color:var(--ink-2);text-decoration:none;
+    padding:6px 10px;border-radius:6px;white-space:nowrap;order:0}
+  header.sdnav .navl:hover{background:var(--surface-2,var(--bg));color:var(--ink)}
+  header.sdnav .navl.on{background:var(--lec);color:#fff}
+  html[data-theme="dark"] header.sdnav .navl.on{color:#151314}
+  header.sdnav a:focus-visible,header.sdnav button:focus-visible{outline:2px solid var(--lec);outline-offset:1px}
+  header.sdnav .ctl{order:0;margin-left:4px}
+  header.sdnav .ctl button{font-family:var(--mono);font-size:0.7rem;background:none;color:var(--ink-3);
+    border:1px solid var(--line-2);border-radius:6px;padding:0 9px;cursor:pointer;line-height:1;
+    height:34px;min-height:34px;min-width:34px;display:inline-flex;align-items:center;justify-content:center}
+  header.sdnav .ctl button:hover{border-color:var(--lec);color:var(--lec)}
+  @media(max-width:960px){
+    header.sdnav .bar{flex-wrap:wrap;row-gap:0;padding-block:6px 0;min-height:0}
+    header.sdnav .ctl{order:1;margin-left:auto}
+    header.sdnav .sp{display:none}
+    header.sdnav .sdlinks{order:2;flex-basis:100%;overflow-x:auto;scrollbar-width:none;padding:4px 28px 8px 0;min-height:44px;
+      -webkit-mask-image:linear-gradient(to right,#000 calc(100% - 28px),transparent);mask-image:linear-gradient(to right,#000 calc(100% - 28px),transparent)}
+    header.sdnav .sdlinks::-webkit-scrollbar{display:none}
+    header.sdnav .navl{font-size:0.82rem;padding:6px 9px}
+  }
+</style>
+</head>
+<body>
+
+<header class="sdnav">
+  <div class="wrap bar">
+    <a class="brand" href="index.html">Screen Design</a>
+    <span class="sp"></span>
+    <nav class="sdlinks" aria-label="Screen Design"><a class="navl" href="weeks.html">Week by week</a><a class="navl" href="assessment.html">Checklist</a><a class="navl on" href="examples.html" aria-current="page">Examples</a><a class="navl" href="toolkit.html">Toolkit</a><a class="navl" href="assessment-materials.html">Marking</a></nav>
+    <span class="ctl"><button id="theme" aria-label="Dark mode">◐</button></span>
+  </div>
+</header>
+<script>(function(){var n=document.querySelector(".sdlinks"),o=n&&n.querySelector(".on");if(o&&n.scrollWidth>n.clientWidth)n.scrollLeft=o.offsetLeft-n.offsetLeft-16;})();</script>
+
+<div class="wrap">
+  <h1>Examples</h1>
+  <p class="sub">What earns marks, shown rather than described: four services walked before and after, then two complete
+    portfolios, one thin and one strong. <a href="assessment-materials.html">How it is marked</a> is on its own page.</p>
+
+  <h2 id="before-after">Before and after</h2>
+  <ol class="how">
+    <li><b>Now</b> — every screen, with what goes wrong numbered on it.</li>
+    <li><b>Measured</b> — words, taps, fields, contrast: the counts behind each problem.</li>
+    <li><b>Improved</b> — the same job, redesigned, with each decision explained.</li>
+    <li><b>The decisions</b> — the redesign’s own A3, A4 and A5.</li>
+    <li><b>Counted</b> — before against after, and what happened to every step.</li>
+    <li><b>Why it is better</b> — what a marker credits, and which deck section it belongs in.</li>
+  </ol>
+  <div class="qbox" id="questions"><b>Six questions for every case</b>
+    <p>Keep these in front of you while you study a case. Write numbers, not adjectives. Most answers are on the case’s slide 16, <i>The redesign’s A3, A4 and A5</i>.</p>
+    <ol>
+      <li><b>Who</b> is it for, and where are they when they use it? <span>(the Start slide)</span></li>
+      <li><b>Type:</b> how many sizes does the redesign use, and what is each one for? Why is the smallest not smaller?</li>
+      <li><b>Colour:</b> what is the lowest ratio any <i>text</i> has in its A5? Which colour is kept away from text, and what is its ratio? <span>(The Railcard and Welsh course cases also count the text that failed 4.5:1 before.)</span></li>
+      <li><b>Grid:</b> how many columns on a phone, and how wide is the main content on a laptop? What reason is given?</li>
+      <li><b>Kept:</b> what did the redesign keep from the original service, and why keep it?</li>
+      <li><b>Yours:</b> which row would you take for your own A3, A4 or A5 — and what would you change for your audience?</li>
+    </ol>
+  </div>
+  <div class="cases">
+    <a class="case" href="case-missed-bin.html"><span class="k">Case 1 · a council service</span><b>Reporting a missed bin</b>
+      <span>Liverpool City Council. Good type and colour, a journey that hides its one rule: 199 words before you can start, 10 things to fill in, no check that you are still in time.</span>
+      <span class="go">Open the case →</span></a>
+    <a class="case" href="case-bakery.html"><span class="k">Case 2 · a small business, made up</span><b>Ordering a celebration cake</b>
+      <span>The painful one, on purpose: a splash page with music, a sideways scanned menu, a full voicemail, 23 messages, a misheard name, money to a personal account — and a closure announced in a story. The own-business route, fixed with the owner still confirming by hand.</span>
+      <span class="go">Open the case →</span></a>
+    <a class="case" href="case-railcard.html"><span class="k">Case 3 · a national retailer</span><b>Buying a 16–25 Railcard</b>
+      <span>A confident site whose orange fails behind white text, whose questions come in the wrong order, and whose ID and photo requirements arrive after you have started.</span>
+      <span class="go">Open the case →</span></a>
+    <a class="case" href="case-short-course.html"><span class="k">Case 4 · a bilingual public service</span><b>Finding a first Welsh course</b>
+      <span>Complete facts in the provider’s words: 23 lines per result, the most advanced course first, and an account before anything else. A cross-cultural case.</span>
+      <span class="go">Open the case →</span></a>
+  </div>
+
+  <h2 id="portfolios">Two example portfolios</h2>
+  <p class="lede">Both were written by the module team as teaching examples. Neither is a real student's
+    work. Read them the way a marker would.</p>
+  <div class="ex" id="examples"></div>
+
+  <footer><p>Screen Design · Level 4 · 30 credits · 2026–27</p></footer>
+</div>
+
+<script src="sd-common.js"></script>
+<script src="example-council-data.js"></script>
+<script>var EXAMPLE2 = EXAMPLE;   /* Example 2, kept before Example 1 loads over it */</script>
+<script src="example-data.js"></script>
+<script>
+(function () {
+  const esc = s => String(s).replace(/[<&]/g, c => c === '<' ? '&lt;' : '&amp;');
+  /* Both examples have now been marked in class — Example 1 in week 1, Example 2
+     in week 2 — so both carry their marks, marked copy and feedback sheet here. */
+  const crit = EXAMPLE.criteria.map(c => `${c.n} \u00b7 ${c.mark}`).join('   ');
+  const form = MARKING_FORM.council;
+  document.getElementById('examples').innerHTML = `
+    <div class="excard">
+      <span class="exk">Example 1 \u00b7 marked in week 1</span>
+      <h3>Thin: present, and almost nothing evidenced</h3>
+      <div class="exmark"><span class="n">${EXAMPLE.mark.overall}</span>
+        <span><b>${esc(EXAMPLE.mark.band)}</b><br><span class="crit">criteria ${crit}</span></span></div>
+      <p>Everything the brief asks for is there, and almost none of it is shown. The marked copy has every
+        margin comment.</p>
+      <div class="exacts"><a class="btn" href="example.html">Read it</a>
+        <a class="btn pri" href="example-marked.html">See how we marked it</a>
+        <a class="btn" href="example-feedback.html">Its feedback sheet</a></div>
+    </div>
+    <div class="excard">
+      <span class="exk">Example 2 \u00b7 the week 2 exercise</span>
+      <h3>Complete: council tax for a student house</h3>
+      <p>One journey made shorter, seven steps to four, with the before in the appendices. You marked it
+        in week 2; this is how we did, criterion by criterion.</p>
+      <div class="exmark" id="ex2mark"></div>
+      <div class="exacts"><a class="btn" href="example-council.html">Read it</a>
+        <a class="btn pri" href="example-council-marked.html">See how we marked it</a>
+        <a class="btn" href="example-council-feedback.html">Its feedback sheet</a>
+        <a class="btn" href="rubric.html">Blank rubric</a></div>
+    </div>`;
+  /* Example 2's marks, read from its own data (loaded first, as EXAMPLE2). No fetch: it fails
+     when the page is opened straight from the folder. */
+  document.getElementById('ex2mark').innerHTML = `<span class="n">${EXAMPLE2.mark.overall}</span>
+    <span><b>${esc(EXAMPLE2.mark.band)}</b><br><span class="crit">criteria ${EXAMPLE2.criteria.map(c => `${c.n} \u00b7 ${c.mark}`).join('   ')}</span></span>`;
+})();
+
+const root = document.documentElement;
+try { const t = localStorage.getItem('sd-theme'); if (t) root.dataset.theme = t; } catch (e) {}
+if (!root.dataset.theme && matchMedia('(prefers-color-scheme: dark)').matches) root.dataset.theme = 'dark';
+document.getElementById('theme').onclick = () => {
+  root.dataset.theme = root.dataset.theme === 'dark' ? 'light' : 'dark';
+  try { localStorage.setItem('sd-theme', root.dataset.theme); } catch (e) {}
+};
+</script>
+</body>
+</html>

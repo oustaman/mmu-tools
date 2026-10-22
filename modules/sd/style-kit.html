@@ -1,0 +1,452 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Style kit — Screen Design</title>
+<style>
+  :root{
+    --bg:#F5F4F2; --surface:#FFFFFF; --surface-2:#EDEBE8;
+    --ink:#1A1618; --ink-2:#514B4A; --ink-3:#4D4847;
+    --line:#DFDBD7; --line-2:#8E8685;
+    --lec:#8C2437; --lec-soft:#F6E8EA;
+    --wsh:#1A526D; --wsh-soft:#E4EEF3;
+    --ok:#285638; --ok-soft:#E3EFE7;
+    --warn:#684604; --warn-soft:#F4EAD3;
+    --mono:ui-monospace,"SF Mono",Menlo,Consolas,monospace;
+    --sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Inter,Roboto,sans-serif;
+  }
+  html[data-theme="dark"]{
+    --bg:#151314; --surface:#1E1B1C; --surface-2:#262223;
+    --ink:#EDE9E7; --ink-2:#B9B2AF; --ink-3:#B7B2B0;
+    --line:#332E2F; --line-2:#7A7372;
+    --lec:#E69FAD; --lec-soft:#332226;
+    --wsh:#7FBEDC; --wsh-soft:#16262E;
+    --ok:#83C19A; --ok-soft:#1C2A22;
+    --warn:#DCB469; --warn-soft:#2A2417;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);line-height:1.5}
+  .wrap{max-width:1100px;margin:0 auto;padding:0 22px}
+  @media(max-width:420px){.wrap{padding:0 14px}}
+  @media(max-width:340px){.wrap{padding:0 10px}}
+  a{color:var(--lec)}
+
+  /* The bar, identical on every page (see assessment.html). */
+  header{border-bottom:1px solid var(--line);background:var(--surface);position:sticky;top:0;z-index:40}
+  .bar{display:flex;align-items:center;gap:10px;padding-block:11px;flex-wrap:nowrap}
+  .brand{font-weight:680;font-size:1rem;letter-spacing:-0.015em;white-space:nowrap;color:inherit;
+    text-decoration:none;padding:5px 8px;margin-left:-8px;border-radius:6px}
+  .brand:hover{background:var(--surface-2)}
+  .brand:focus-visible{outline:2px solid var(--lec);outline-offset:1px}
+  .sp{flex:1}
+  .navl{font-size:0.85rem;color:var(--ink-2);text-decoration:none;padding:6px 10px;border-radius:6px;white-space:nowrap}
+  .navl:hover{background:var(--surface-2);color:var(--ink)}
+  .ctl button{font-family:var(--mono);font-size:0.7rem;background:none;color:var(--ink-3);
+    border:1px solid var(--line-2);border-radius:5px;padding:5px 8px;cursor:pointer;line-height:1}
+  .ctl button:hover{border-color:var(--lec);color:var(--lec)}
+  @media(max-width:760px){ header .bar{gap:6px} .navl{padding:6px 8px;font-size:0.82rem} }
+  @media(max-width:560px){
+    header .bar{flex-wrap:wrap;row-gap:6px}
+    header .brand{order:0} header .ctl{order:1;margin-left:auto}
+    header .bar > .sp{order:2;flex-basis:100%;height:0}
+    header .navl{order:3;padding:5px 7px;font-size:0.78rem}
+  }
+  @media(max-width:430px){ .brand{font-size:0.9rem} .navl{padding:5px 6px;font-size:0.76rem} }
+
+  .navl.on{background:var(--lec);color:#fff}
+  html[data-theme="dark"] .navl.on{color:#151314}
+  h1{font-size:clamp(1.6rem,4.4vw,2.3rem);line-height:1.1;letter-spacing:-0.028em;margin:24px 0 4px;font-weight:700}
+  h2{font-size:1.2rem;font-weight:690;letter-spacing:-0.015em;margin:34px 0 6px}
+
+  .tile{display:block;background:var(--surface);border:1px solid var(--line);border-radius:11px;padding:14px 16px;
+    text-decoration:none;color:inherit}
+  .tile:hover{border-color:var(--lec)}
+  .tile b{display:block;font-size:0.98rem;margin-bottom:3px}
+  .tile span{font-size:0.86rem;color:var(--ink-2)}
+  .tile i{font-style:normal;font-family:var(--mono);font-size:0.68rem;color:var(--ink-3);display:block;margin-top:6px}
+
+  .btn{display:inline-flex;align-items:center;min-height:42px;padding:0 15px;border-radius:8px;text-decoration:none;
+    font-weight:640;font-size:0.9rem;border:1px solid var(--line-2);color:var(--ink);background:var(--bg)}
+  .btn:hover{border-color:var(--lec);color:var(--lec)}
+  .btn.pri{background:var(--lec);border-color:var(--lec);color:#fff}
+  html[data-theme="dark"] .btn.pri{color:#151314}
+
+  .note{font-size:0.82rem;color:var(--ink-3);margin:12px 0 0}
+  footer{padding:24px 0 44px;color:var(--ink-3);font-size:0.8rem;border-top:1px solid var(--line);margin-top:30px}
+
+  /* ── the style kit ─────────────────────────────────────────────── */
+  .kitpage h1{margin-bottom:4px}
+  .lead{color:var(--ink-2);max-width:72ch;line-height:1.6;margin:0 0 14px}
+  .lead b{color:var(--ink)}
+  .pick{display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(min(300px,100%),1fr));margin:18px 0}
+  .pick fieldset{border:1px solid var(--line);border-radius:12px;background:var(--surface);padding:12px 14px 14px;margin:0;min-width:0}
+  .pick legend{font:700 0.95rem var(--sans);padding:0 6px}
+  .pick legend span{font:600 0.68rem var(--mono);letter-spacing:.08em;color:var(--wsh);background:var(--wsh-soft);border-radius:4px;padding:1px 6px;margin-left:6px}
+  .opts{display:grid;gap:6px}
+  .opt{display:grid;grid-template-columns:auto 1fr;gap:2px 10px;align-items:start;border:2px solid var(--line);border-radius:9px;padding:8px 10px;cursor:pointer;background:var(--bg)}
+  .opt:has(input:checked){border-color:var(--ink)}
+  .opt:has(input:focus-visible){outline:2px solid var(--lec);outline-offset:2px}
+  .opt input{margin:3px 0 0;accent-color:var(--lec);width:18px;height:18px}
+  .opt b{font-size:0.92rem} .opt small{grid-column:2;font-size:0.78rem;color:var(--ink-3);line-height:1.4}
+  .sw{display:inline-flex;gap:2px;vertical-align:middle;margin-left:6px}
+  .sw i{width:13px;height:13px;border-radius:3px;border:1px solid rgba(0,0,0,.15)}
+  .words{display:grid;gap:8px 12px;grid-template-columns:repeat(auto-fit,minmax(min(220px,100%),1fr));background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:12px 14px;margin:0 0 14px}
+  .words label{display:grid;gap:3px;font:600 0.78rem var(--sans);color:var(--ink-2)}
+  .words input{font:500 0.95rem var(--sans);padding:8px 10px;border:1px solid var(--line-2);border-radius:7px;background:var(--bg);color:var(--ink)}
+
+  .seg{display:inline-flex;border:1px solid var(--line-2);border-radius:8px;overflow:hidden}
+  .seg button{font:600 0.82rem var(--sans);border:0;background:var(--surface);color:var(--ink-2);padding:0 12px;min-height:38px;cursor:pointer}
+  .seg button+button{border-left:1px solid var(--line-2)}
+  .seg button[aria-pressed="true"]{background:var(--ink);color:var(--bg)}
+
+  /* settings beside the screens: one viewport, no scrolling between them */
+  .wrap.kitpage{max-width:1380px}
+  .studio{display:grid;grid-template-columns:270px minmax(0,1fr);gap:18px;align-items:start;margin:12px 0 8px}
+  @media(max-width:860px){.studio{grid-template-columns:1fr}}
+  .panel{position:sticky;top:calc(var(--hdr,57px) + 10px);background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:12px;display:grid;gap:10px}
+  @media(max-width:860px){.panel{position:static}}
+  .ctl{display:grid;gap:3px}
+  .tabs{display:grid;grid-template-columns:repeat(3,1fr);border:1px solid var(--line-2);border-radius:8px;overflow:hidden}
+  .tabs button{font:700 0.82rem var(--sans);border:0;background:var(--bg);color:var(--ink-2);min-height:38px;cursor:pointer;padding:0 4px}
+  .tabs button+button{border-left:1px solid var(--line-2)}
+  .tabs button span{font:600 0.6rem var(--mono);color:var(--wsh);margin-left:3px}
+  .tabs button[aria-selected="true"]{background:var(--ink);color:var(--bg)} .tabs button[aria-selected="true"] span{color:var(--bg);opacity:.8}
+  .tabs button:focus-visible{outline:2px solid var(--lec);outline-offset:-3px}
+  .tabp .opts{display:grid;gap:4px;padding:2px}
+  .panel .opt{padding:6px 9px;gap:1px 8px} .panel .opt b{font-size:0.84rem} .panel .opt small{font-size:0.72rem}
+  /* only the chosen button shows its description, so a whole list fits beside the screens */
+  .panel .opt:not(:has(input:checked)) small,.panel .opt:not(:has(input:checked)) .badtag{display:none}
+  .panel{max-height:calc(100vh - var(--hdr,57px) - 20px);overflow:auto}
+  .panel .opt input{width:16px;height:16px;margin-top:2px}
+  .chosen{margin:0;font-size:0.74rem;color:var(--ink-3);line-height:1.45}
+  .chosen b{color:var(--ink)}
+  .ctl label,.ctl .lbl{font:700 0.8rem var(--sans);color:var(--ink)}
+  .ctl label span{font:600 0.62rem var(--mono);color:var(--wsh);background:var(--wsh-soft);border-radius:4px;padding:1px 5px;margin-left:4px}
+  .ctl select{font:500 0.88rem var(--sans);padding:7px 8px;border:1px solid var(--line-2);border-radius:7px;background:var(--bg);color:var(--ink);width:100%}
+  .ctl small{font-size:0.74rem;color:var(--ink-3);line-height:1.35;min-height:1em}
+
+  .panel .seg{display:grid;grid-template-columns:repeat(4,1fr)} .panel .seg button{padding:0 2px;min-height:34px;font-size:0.72rem}
+  .chk{font:600 0.8rem var(--sans);color:var(--ink-2);display:flex;gap:6px;align-items:center}
+  .btnrow{display:grid;grid-template-columns:1fr auto;gap:6px}
+  .pbtn{font:640 0.78rem var(--sans);min-height:34px;border:1px solid var(--line-2);border-radius:7px;background:var(--bg);color:var(--ink-2);cursor:pointer;padding:0 10px}
+  .pbtn.bad{border-color:#E7B4AE;color:#B3261E;background:#FFF6F5}
+  .pbtn:hover{border-color:var(--lec)}
+  .wordsbox summary{cursor:pointer;font:700 0.8rem var(--sans);color:var(--ink);min-height:30px;display:flex;align-items:center}
+  .wordsbox .words{display:grid;grid-template-columns:1fr;gap:6px;padding:4px 0 0;margin:0;background:none;border:0}
+  .wordsbox .words label{font-size:0.72rem}
+  .wordsbox .words input{font-size:0.82rem;padding:6px 8px}
+  .jump{font:600 0.8rem var(--sans);color:var(--lec)}
+  .stage{min-width:0}
+  .stage .screens{flex-wrap:nowrap;gap:16px;transform-origin:top left}
+  @media(max-width:860px){.stage .screens{overflow-x:auto;padding-bottom:8px}}
+  .stage .fixing{margin-top:10px}
+  /* the three screens, drawn from the chosen kit */
+  .screens{display:flex;flex-wrap:wrap;gap:22px;align-items:flex-start}
+  .ph3{width:300px;border:9px solid #1C1A1B;border-radius:30px;overflow:hidden;background:#fff;box-shadow:0 8px 26px rgba(0,0,0,.18)}
+  .ph3 .cap{display:block;text-align:center;font:600 0.72rem var(--mono);letter-spacing:.08em;color:var(--ink-3);background:var(--surface);padding:4px}
+  .k{--ink:#202427;--muted:#4B5257;--pri:#005DA7;--on:#fff;--bg:#fff;--panel:#F3F2F1;--ok:#00703C;--err:#B3261E;--accent:#663BA3;
+     --fh:system-ui;--fb:system-ui;--hw:700;--h1:28px;--h1l:34px;--body:18px;--bodyl:27px;--small:15px;--label:18px;
+     --m:16px;--g:16px;--cols:4;--sp1:8px;--sp2:16px;--sp3:24px;
+     position:relative;background:var(--bg);color:var(--ink);font-family:var(--fb);font-size:var(--body);line-height:var(--bodyl);height:560px;overflow:hidden}
+  .k .bar{height:48px;display:flex;align-items:center;justify-content:space-between;padding:0 var(--m);border-bottom:4px solid var(--accent);font:var(--hw) 17px var(--fh);color:var(--ink)}
+  .k .bar span{font:400 14px var(--fb);color:var(--muted)}
+  .k .in{padding:var(--sp2) var(--m)}
+  .k h2{font:var(--hw) var(--h1)/var(--h1l) var(--fh);margin:0 0 var(--sp2);color:var(--ink);letter-spacing:-.01em}
+  .k p{margin:0 0 var(--sp2)}
+
+  .k .o{display:flex;gap:10px;align-items:center;border:2px solid color-mix(in srgb,var(--muted) 45%,transparent);border-radius:6px;padding:10px 12px;margin:0 0 var(--sp1);font-size:var(--body)}
+  .k .o.on{border-color:var(--pri);box-shadow:inset 0 0 0 1px var(--pri)}
+  .k .o i{width:20px;height:20px;border:2px solid var(--ink);border-radius:50%;flex:none;position:relative}
+  .k .o.on i::after{content:"";position:absolute;inset:3px;border-radius:50%;background:var(--pri)}
+  .k .btn{display:block;text-align:center;background:var(--pri);color:var(--on);font:700 var(--body) var(--fb);padding:13px;border-radius:6px;margin-top:var(--sp3)}
+  .k .card{border:1px solid color-mix(in srgb,var(--muted) 35%,transparent);border-left:5px solid var(--accent);border-radius:6px;padding:10px 12px;margin:0 0 var(--sp1);background:var(--bg)}
+  .k .card b{display:block;font:var(--hw) var(--label)/1.3 var(--fh)} .k .card span{display:block;font-size:var(--small);color:var(--muted);line-height:1.45}
+  .k .done{background:var(--ok);color:#fff;border-radius:8px;padding:16px;margin:0 0 var(--sp2)}
+  .k .done h2{color:#fff;margin:0 0 4px}
+  .k .done p{margin:0;color:#fff}
+  .k .panel{background:var(--panel);border-radius:6px;padding:10px 12px;font-size:var(--small);line-height:1.5}
+  .k .err{color:var(--err);font-weight:700;font-size:var(--small);margin:0 0 var(--sp1)}
+  /* the grid, drawn over the screen when asked */
+  .k .gridov{position:absolute;inset:0 var(--m);display:grid;grid-template-columns:repeat(var(--cols),1fr);column-gap:var(--g);pointer-events:none;z-index:5}
+  .k .gridov span{background:rgba(214,74,92,.12);border-left:1px dashed rgba(214,74,92,.5);border-right:1px dashed rgba(214,74,92,.5)}
+  /* wireframe: the same system, drawn as boxes */
+  /* four levels of fidelity — the same screen, the same grid, sizes and order each time */
+  .k .pic{display:grid;place-items:center;height:92px;border-radius:6px;margin:0 0 var(--sp2);font-size:var(--small);color:var(--muted);background:var(--panel);border:2px dashed color-mix(in srgb,var(--muted) 45%,transparent);text-align:center;padding:0 8px}
+  /* 1 · sketch */
+  .k.l1{background:#FCFBF5}
+  .k.l1 .bar{border-bottom:2px dashed #555}
+  .k.l1 .o,.k.l1 .card,.k.l1 .btn,.k.l1 .done,.k.l1 .panel,.k.l1 .pic{background:transparent;border:2px solid #444;border-radius:255px 14px 225px 14px/14px 225px 14px 255px;box-shadow:none;color:#333}
+  .k.l1 .btn{color:#333;font-weight:700} .k.l1 .done h2,.k.l1 .done p{color:#333} .k.l1 .card{border-left-width:2px}
+  .k.l1 .pic{background:linear-gradient(to top right,transparent calc(50% - 1px),#777 50%,transparent calc(50% + 1px)),linear-gradient(to top left,transparent calc(50% - 1px),#777 50%,transparent calc(50% + 1px));color:transparent}
+  .k.l1 .o i{border-color:#444}
+  /* 2 · wireframe */
+  .k.l2 .o,.k.l2 .card{border:2px solid #BDBDBD;border-left-width:2px;background:#F2F2F2}
+  .k.l2 .btn{background:#6E6E6E} .k.l2 .done{background:#D9D9D9} .k.l2 .done h2,.k.l2 .done p{color:#333}
+  .k.l2 .pic{background:#E3E3E3;border:2px solid #C4C4C4;color:#555}
+  /* 4 · decorated */
+  .k.l4 .bar{background:linear-gradient(90deg,var(--accent),var(--pri));color:#fff;border-bottom:0} .k.l4 .bar span{color:#fff;opacity:.85}
+  .k.l4 .pic{border:0;color:transparent;background:radial-gradient(circle at 30% 35%,#fff6 0 18%,transparent 19%),radial-gradient(ellipse at 70% 80%,#0003 0 30%,transparent 31%),linear-gradient(135deg,#E9C9A0,#B9845A 55%,#6E4A33);box-shadow:0 6px 18px rgba(0,0,0,.25);border-radius:14px;height:110px}
+  .k.l4 .o,.k.l4 .card{box-shadow:0 4px 14px rgba(0,0,0,.12);border-radius:14px}
+  .k.l4 .btn{border-radius:99px;box-shadow:0 8px 20px color-mix(in srgb,var(--pri) 45%,transparent)}
+  .k.l4 .done{border-radius:16px;box-shadow:0 8px 22px rgba(0,0,0,.2);background:linear-gradient(135deg,var(--ok),color-mix(in srgb,var(--ok) 60%,#000))}
+  .k.l4 h2::after{content:" ✨"}
+  /* the ladder */
+  .ladder{display:grid;gap:16px;grid-template-columns:repeat(auto-fit,minmax(min(240px,100%),1fr));margin:10px 0 6px}
+  .rung{display:flex;flex-direction:column;gap:8px}
+  .rung .mini{width:254px;height:454px;overflow:hidden;border:7px solid #1C1A1B;border-radius:24px;background:#fff;align-self:center}
+  .rung .mini .k{width:300px;height:550px;transform:scale(.8);transform-origin:top left}
+  .rung h3{margin:4px 0 0;font-size:1rem} .rung .lvl{font:700 0.68rem var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--ink-3)}
+  .rung p{margin:0;font-size:0.88rem;color:var(--ink-2);line-height:1.5}
+  .rung .use{font:600 0.8rem var(--sans);border-radius:6px;padding:6px 9px;line-height:1.4}
+  .rung .use.ok{background:var(--ok-soft);color:var(--ok)} .rung .use.min{background:var(--wsh-soft);color:var(--wsh);border:2px solid var(--wsh)} .rung .use.no{background:var(--surface-2);color:var(--ink-2)}
+
+  .spec{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(min(300px,100%),1fr));margin:20px 0 6px}
+  .spec section{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:12px 14px}
+  .spec h3{margin:0 0 6px;font-size:1rem}
+  .spec pre{white-space:pre-wrap;font:0.8rem/1.55 var(--mono);color:var(--ink-2);margin:0 0 8px}
+  .spec .btn{cursor:pointer;font:640 0.85rem var(--sans);min-height:38px}
+  .opt.bad{border-style:dashed;background:#FFF6F5}
+  .opt.bad:has(input:checked){border-color:#B3261E}
+  .badtag{grid-column:2;font-style:normal;font:700 0.68rem var(--mono);letter-spacing:.06em;text-transform:uppercase;color:#B3261E}
+  /* by eye: each box where it happened to land */
+  .k.eye .in{padding:11px 9px}
+  .k.eye h2{margin:0 0 7px 13px} .k.eye .o:nth-of-type(1){margin:0 6px 13px 3px} .k.eye .o:nth-of-type(2){margin:0 22px 5px 9px;width:auto}
+  .k.eye .o:nth-of-type(3){margin:0 0 17px 0}
+  .k.eye .btn{margin:31px 40px 0 11px;padding:9px} .k.eye .card:nth-of-type(1){margin:0 14px 11px 0} .k.eye .card:nth-of-type(2){margin:0 0 5px 19px}
+  .k.eye .card:nth-of-type(3){margin:0 30px 22px 7px} .k.eye .done{margin:9px 5px 26px 14px} .k.eye .panel{margin-left:22px}
+  .k.eye .bar{padding:0 7px 0 13px}
+  /* something for everyone */
+  .k.loud h2{text-transform:uppercase;letter-spacing:.08em;text-align:center;line-height:1}
+  .k.loud p{text-align:center} .k.loud .o{font-family:Georgia,serif;font-style:italic;font-size:17px}
+  .k.loud .btn{font-family:'Brush Script MT','Segoe Script',cursive;font-size:26px;font-weight:400;text-transform:none}
+  .k.loud .card b{font-family:'Courier New',monospace;font-size:16px} .k.loud .card span{font-size:9px;color:#B0B0B0}
+ .k.loud .bar{font-family:'Brush Script MT','Segoe Script',cursive;font-size:24px;font-weight:400}
+  .k.loud .done h2{font-size:22px}
+  .fixing{background:#FFF6F5;border:1px solid #F1C9C4;border-left:4px solid #B3261E;border-radius:0 12px 12px 0;padding:12px 16px;margin:14px 0 0}
+  .fixing b.h{display:block;font-family:var(--mono);font-size:0.68rem;letter-spacing:.1em;text-transform:uppercase;color:#B3261E;margin-bottom:6px}
+  .fixing ul{margin:0;padding-left:18px} .fixing li{margin:4px 0;color:var(--ink-2);line-height:1.5}
+
+  .ok-msg{font-family:var(--mono);font-size:0.75rem;color:var(--ok);margin-left:8px}
+  .why{background:var(--surface);border:1px solid var(--line);border-left:4px solid var(--wsh);border-radius:0 12px 12px 0;padding:12px 16px;margin:18px 0}
+  .why b.h{display:block;font-family:var(--mono);font-size:0.68rem;letter-spacing:.1em;text-transform:uppercase;color:var(--wsh);margin-bottom:6px}
+  .why p{margin:4px 0;color:var(--ink-2);line-height:1.55;max-width:80ch}
+
+  /* what a contrast ratio means — the same box on every page that quotes one */
+
+  /* THE BAR — one definition, identical on every page (written by navfix; change it
+     everywhere or nowhere). It used to be copied per page and drifted into two heights. */
+  header.sdnav{position:sticky;top:0;z-index:40;background:var(--surface);border-bottom:1px solid var(--line)}
+  header.sdnav .bar{display:flex;align-items:center;gap:10px;min-height:56px;padding-block:8px;flex-wrap:nowrap}
+  header.sdnav .brand{font-weight:680;font-size:1rem;letter-spacing:-0.015em;white-space:nowrap;color:inherit;
+    text-decoration:none;padding:5px 8px;margin-left:-8px;border-radius:6px;order:0}
+  header.sdnav .brand:hover{background:var(--surface-2,var(--bg))}
+  header.sdnav .sp{flex:1;display:block;height:auto;flex-basis:auto;order:0}
+  header.sdnav .sdlinks{display:flex;align-items:center;gap:2px;order:0}
+  header.sdnav .navl{display:inline-block;font-size:0.85rem;line-height:1.3;color:var(--ink-2);text-decoration:none;
+    padding:6px 10px;border-radius:6px;white-space:nowrap;order:0}
+  header.sdnav .navl:hover{background:var(--surface-2,var(--bg));color:var(--ink)}
+  header.sdnav .navl.on{background:var(--lec);color:#fff}
+  html[data-theme="dark"] header.sdnav .navl.on{color:#151314}
+  header.sdnav a:focus-visible,header.sdnav button:focus-visible{outline:2px solid var(--lec);outline-offset:1px}
+  header.sdnav .ctl{order:0;margin-left:4px}
+  header.sdnav .ctl button{font-family:var(--mono);font-size:0.7rem;background:none;color:var(--ink-3);
+    border:1px solid var(--line-2);border-radius:6px;padding:0 9px;cursor:pointer;line-height:1;
+    height:34px;min-height:34px;min-width:34px;display:inline-flex;align-items:center;justify-content:center}
+  header.sdnav .ctl button:hover{border-color:var(--lec);color:var(--lec)}
+  @media(max-width:960px){
+    header.sdnav .bar{flex-wrap:wrap;row-gap:0;padding-block:6px 0;min-height:0}
+    header.sdnav .ctl{order:1;margin-left:auto}
+    header.sdnav .sp{display:none}
+    header.sdnav .sdlinks{order:2;flex-basis:100%;overflow-x:auto;scrollbar-width:none;padding:4px 28px 8px 0;min-height:44px;
+      -webkit-mask-image:linear-gradient(to right,#000 calc(100% - 28px),transparent);mask-image:linear-gradient(to right,#000 calc(100% - 28px),transparent)}
+    header.sdnav .sdlinks::-webkit-scrollbar{display:none}
+    header.sdnav .navl{font-size:0.82rem;padding:6px 9px}
+  }
+</style>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=Fraunces:wght@700&family=Source+Sans+3:wght@400;700&family=Roboto:wght@400;700&family=Nunito+Sans:wght@400;800&family=IBM+Plex+Sans:wght@400;700&family=IBM+Plex+Serif:wght@600&family=Inter:wght@400;700&family=Merriweather:wght@700&family=Lexend:wght@400;700&family=Public+Sans:wght@400;700&family=Noto+Sans:wght@400;700&family=Noto+Serif:wght@700&family=Lora:wght@700&family=Open+Sans:wght@400;700&family=Source+Serif+4:wght@700&family=DM+Sans:wght@400;700&family=DM+Serif+Display&family=Comic+Neue:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<header class="sdnav">
+  <div class="wrap bar">
+    <a class="brand" href="index.html">Screen Design</a>
+    <span class="sp"></span>
+    <nav class="sdlinks" aria-label="Screen Design"><a class="navl" href="weeks.html">Week by week</a><a class="navl" href="assessment.html">Checklist</a><a class="navl" href="examples.html">Examples</a><a class="navl on" href="toolkit.html">Toolkit</a><a class="navl" href="assessment-materials.html">Marking</a></nav>
+    <span class="ctl"><button id="theme" aria-label="Dark mode">◐</button></span>
+  </div>
+</header>
+<script>(function(){var n=document.querySelector(".sdlinks"),o=n&&n.querySelector(".on");if(o&&n.scrollWidth>n.clientWidth)n.scrollLeft=o.offsetLeft-n.offsetLeft-16;})();</script>
+
+<div class="wrap kitpage">
+  <h1>Style kit</h1>
+  <p class="lead" style="margin-bottom:6px">Pick a grid, type and colour from published design systems — the three screens redraw as you go. <b>One set of decisions, applied to every screen.</b> More to choose from in the <a href="gallery.html">Gallery</a>.</p>
+  <div class="studio">
+    <aside class="panel" aria-label="Settings">
+      <div class="tabs" role="tablist" aria-label="Settings">
+        <button type="button" role="tab" id="t-grid" aria-controls="p-grid" aria-selected="true">Grid <span>A3</span></button>
+        <button type="button" role="tab" id="t-type" aria-controls="p-type" aria-selected="false">Type <span>A4</span></button>
+        <button type="button" role="tab" id="t-col" aria-controls="p-col" aria-selected="false">Colour <span>A5</span></button>
+      </div>
+      <div class="tabp" role="tabpanel" id="p-grid" aria-labelledby="t-grid"><div class="opts" id="o-grid"></div></div>
+      <div class="tabp" role="tabpanel" id="p-type" aria-labelledby="t-type" hidden><div class="opts" id="o-type"></div></div>
+      <div class="tabp" role="tabpanel" id="p-col" aria-labelledby="t-col" hidden><div class="opts" id="o-col"></div></div>
+      <p class="chosen" id="chosen"></p>
+      <div class="ctl"><span class="lbl">Finish</span><span class="seg" role="group" aria-label="Level of finish"><button type="button" data-f="l1" title="Sketch">1 Sketch</button><button type="button" data-f="l2" title="Wireframe">2 Wire</button><button type="button" data-f="l3" title="Applied spec">3 Applied</button><button type="button" data-f="l4" title="Decorated">4 Decor</button></span></div>
+      <label class="chk"><input type="checkbox" id="showgrid"> Show the grid</label>
+      <div class="btnrow"><button type="button" class="pbtn bad" id="allbad">Show all three wrong</button><button type="button" class="pbtn" id="allgood">Good set</button></div>
+      <details class="wordsbox"><summary>Your words</summary><div class="words">
+        <label>Service<input id="w-name" value="Castlegate Council"></label>
+        <label>Main question<input id="w-q" value="Which bin was not emptied?"></label>
+        <label>Three answers<input id="w-opts" value="Blue bin · Food caddy · Purple bin"></label>
+        <label>Button<input id="w-btn" value="Continue"></label>
+        <label>A result’s title<input id="w-res" value="Blue bin, due today"></label>
+        <label>Done message<input id="w-done" value="Report sent"></label></div></details>
+      <a class="jump" href="#spec">Copy A3, A4, A5 and C9 ↓</a>
+    </aside>
+    <div class="stage" id="stage">
+      <div class="screens" id="screens"></div>
+  <div class="fixing" id="fixing" hidden><b class="h">What are we fixing?</b><ul>
+    <li><b>By eye</b> — eleven different gaps and no two boxes lined up. It looks “nearly fine” on its own; it is why the next screen never matches. <i>A3, C2</i></li>
+    <li><b>Something for everyone</b> — a typeface for every mood and a size for every line, so nothing is more important than anything else. Real small-business sites look like this. <i>A4, C3</i></li>
+    <li><b>Brand first</b> — pale grey text at 3.0:1, white on lemon at 1.4:1, and a green that only says “success” to people who can see green. <i>A5, C4, A6</i></li>
+    <li>Every one of these is a choice someone made on purpose. The fix is not talent: it is <b>deciding once, writing it down, and using it everywhere</b>.</li></ul></div>
+    </div>
+  </div>
+
+  <p class="lead" style="margin-top:22px">Pick a grid, a type pairing and a palette from published design systems. The same three screens redraw with whatever you pick —
+    <b>one set of decisions, applied to every screen</b>. That is what A3, A4 and A5 are for: hand them to someone else and the next screen they build will match.</p>
+  <p class="lead">Every option says where it comes from, so <b>no AI is needed</b>: cite the source in C9 and say in C3 and C4 why you chose it, and what you changed.
+    Type your own words below and the screens become your project — screenshot them for your style tile. Further down: <a href="#fidelity">the same screen at four levels of finish</a>, and which one your finished screens need.</p>
+
+  <h2 id="fidelity" style="margin:30px 0 4px">The same screen, four ways</h2>
+  <p class="lead">Your own first screen, drawn at four levels of finish. Every level uses the same grid, the same sizes and the same order — only how much is shown changes.
+    <b>Your finished screens (B6) can be wireframes</b> — as long as your style tile (B3) shows your type and colour on real components, so a marker can see them. Level 3, “applied spec”, is the easiest way to show every decision in one place. Anything beyond it earns nothing.</p>
+  <div class="ladder" id="ladder"></div>
+  <p class="note" style="font-size:.85rem;color:var(--ink-3)">“Polished” and “production-quality” in the rubric mean <b>consistent</b> (every screen from the same numbers), <b>complete</b> (every screen of the journey, states included) and <b>working</b> (every link clicks) — not decorated.</p>
+
+  <div class="spec" id="spec">
+    <section><h3>A3 · Layout</h3><pre id="s-a3"></pre><button type="button" class="btn" data-copy="s-a3">Copy for A3</button><span class="ok-msg" id="m-s-a3"></span></section>
+    <section><h3>A4 · Typography</h3><pre id="s-a4"></pre><button type="button" class="btn" data-copy="s-a4">Copy for A4</button><span class="ok-msg" id="m-s-a4"></span></section>
+    <section><h3>A5 · Colour and contrast</h3><pre id="s-a5"></pre><button type="button" class="btn" data-copy="s-a5">Copy for A5</button><span class="ok-msg" id="m-s-a5"></span></section>
+    <section><h3>C9 · Where these came from</h3><pre id="s-c9"></pre><button type="button" class="btn" data-copy="s-c9">Copy for C9</button><span class="ok-msg" id="m-s-c9"></span></section>
+  </div>
+  <p class="note" style="font-size:.85rem;color:var(--ink-3)">The grid numbers come from the <a href="https://interfaces.institute/collections/grids/">published grids register</a>, each from its publisher’s documentation. Every typeface is free under the SIL Open Font Licence from Google Fonts. Contrast ratios are computed on this page with the WCAG formula.</p>
+
+  <footer><p>Screen Design · Level 4 · 2026–27</p></footer>
+</div>
+
+<script src="sd-options.js"></script>
+<script>
+(function () {
+  /* the options and the A3–A5 text live in sd-options.js, shared with the Gallery (gallery.html);
+     this panel shows the ones marked kit:true, plus anything chosen in the Gallery */
+  const { GRIDS, TYPES, COLS } = window.SDO;
+
+  const $ = id => document.getElementById(id);
+  const esc = s => String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+
+  const state = { grid: 'ex2', type: 'atk', col: 'civic', f: 'l3', grid_on: false };
+  try { Object.assign(state, JSON.parse(localStorage.getItem('sd-kit') || '{}')); } catch (e) {}
+  if (!/^l[1-4]$/.test(state.f)) state.f = state.f === 'wire' ? 'l2' : 'l3';
+
+  function opts(key, all, sw) {
+    if (!all.some(o => o.id === state[key])) state[key] = all[0].id;
+    const list = all.filter(o => o.kit || o.id === state[key]);
+    $('o-' + key).innerHTML = list.map(o => `<label class="opt${o.bad ? ' bad' : ''}"><input type="radio" name="${key}" value="${o.id}" ${state[key] === o.id ? 'checked' : ''}><b>${esc(o.n)}${sw ? `<span class="sw">${['ink', 'pri', 'accent', 'panel'].map(k => `<i style="background:${o[k]}"></i>`).join('')}</span>` : ''}</b><small>${esc(o.s)}</small>${o.bad ? '<em class="badtag">Don’t — see why</em>' : ''}</label>`).join('');
+    $('o-' + key).addEventListener('change', e => { state[key] = e.target.value; draw(); });
+  }
+  opts('grid', GRIDS); opts('type', TYPES); opts('col', COLS, true);
+  /* three tabs, one list of buttons showing at a time */
+  const tabs = ['grid', 'type', 'col'];
+  const showTab = k => tabs.forEach(t => { $('t-' + t).setAttribute('aria-selected', String(t === k)); $('p-' + t).hidden = t !== k; });
+  tabs.forEach((t, i) => { $('t-' + t).addEventListener('click', () => showTab(t));
+    $('t-' + t).addEventListener('keydown', e => { const d = e.key === 'ArrowRight' ? 1 : e.key === 'ArrowLeft' ? -1 : 0; if (!d) return;
+      const n = tabs[(i + d + tabs.length) % tabs.length]; showTab(n); $('t-' + n).focus(); }); });
+
+  let draw = function () {
+    try { localStorage.setItem('sd-kit', JSON.stringify(state)); } catch (e) {}
+    const G = GRIDS.find(x => x.id === state.grid), T = TYPES.find(x => x.id === state.type), C = COLS.find(x => x.id === state.col);
+    ['grid', 'type', 'col'].forEach(k => { const i = document.querySelector(`input[name=${k}][value=${state[k]}]`); if (i) i.checked = true; });
+    $('chosen').innerHTML = `Now: <b>${esc(G.n)}</b> · <b>${esc(T.n)}</b> · <b>${esc(C.n)}</b>`;
+    const on = C.on || '#FFFFFF';
+    const GREY = { ink: '#333333', muted: '#5F5F5F', pri: '#6E6E6E', bg: '#FFFFFF', panel: '#EEEEEE', ok: '#D9D9D9', err: '#444444', accent: '#9E9E9E' };
+    const w = id => esc($(id).value.trim());
+    const answers = $('w-opts').value.split(/[·,|]/).map(s => esc(s.trim())).filter(Boolean).slice(0, 3);
+    /* one screen at one level: levels 1 and 2 keep the grid, sizes and order and drop colour and type;
+       level 3 is the spec applied; level 4 adds decoration and nothing else */
+    const varsFor = (lvl) => {
+      const P = lvl <= 2 ? GREY : C;
+      const fh = lvl === 1 ? "'Comic Neue'" : lvl === 2 ? 'system-ui' : T.fh, fb = lvl === 1 ? "'Comic Neue'" : lvl === 2 ? 'system-ui' : T.fb;
+      return `--ink:${P.ink};--muted:${P.muted};--pri:${P.pri};--on:${lvl <= 2 ? '#FFFFFF' : on};--bg:${P.bg};--panel:${P.panel};--ok:${P.ok};--err:${P.err};--accent:${P.accent};` +
+        `--fh:${fh},system-ui;--fb:${fb},system-ui;--hw:${lvl <= 2 ? 700 : T.hw};--h1:${T.h1}px;--h1l:${Math.round(T.h1 * 1.2)}px;--body:${T.body}px;--bodyl:${Math.round(T.body * 1.5)}px;--small:${T.small}px;--label:${T.body}px;` +
+        `--m:${G.ph.m}px;--g:${G.ph.g}px;--cols:${G.ph.c};`; };
+    const clsFor = (lvl) => `k l${lvl} ${G.id === 'eye' ? 'eye' : ''} ${T.id === 'all' && lvl >= 3 ? 'loud' : ''}`;
+    const gridFor = () => state.grid_on && G.ph.c ? `<div class="gridov">${'<span></span>'.repeat(G.ph.c)}</div>` : '';
+    const scr1 = (lvl) => `<div class="${clsFor(lvl)}" style="${varsFor(lvl)}">${gridFor()}<div class="bar">${w('w-name')}<span>1 of 3</span></div><div class="in">
+        <div class="pic">Picture — a labelled box is enough</div>
+        <h2>${w('w-q')}</h2>${answers.map((a, i) => `<div class="o ${i === 0 ? 'on' : ''}"><i></i>${a}</div>`).join('')}
+        <span class="btn">${w('w-btn')}</span></div></div>`;
+    const lvl = +String(state.f).replace('l', '') || 3;
+    $('screens').innerHTML = `
+      <figure class="ph3" style="margin:0">${scr1(lvl)}<span class="cap">A question</span></figure>
+      <figure class="ph3" style="margin:0"><div class="${clsFor(lvl)}" style="${varsFor(lvl)}">${gridFor()}<div class="bar">${w('w-name')}<span>Results</span></div><div class="in">
+        <h2>3 results</h2><div class="card"><b>${w('w-res')}</b><span>A line of detail · another line</span></div>
+        <div class="card"><b>Another result</b><span>A line of detail</span></div><div class="card"><b>A third result</b><span>A line of detail</span></div>
+        <p class="err">An error looks like this</p></div></div><span class="cap">A list</span></figure>
+      <figure class="ph3" style="margin:0"><div class="${clsFor(lvl)}" style="${varsFor(lvl)}">${gridFor()}<div class="bar">${w('w-name')}<span>Done</span></div><div class="in">
+        <div class="done"><h2>${w('w-done')}</h2><p>Reference AB-1234</p></div><p>What happens next, in a sentence or two of body text.</p>
+        <div class="panel">A note in a panel, in the small size.</div></div></div><span class="cap">A confirmation</span></figure>`;
+    const RUNGS = [
+      [1, 'Sketch', 'Paper, or a pen on a tablet. Shows the layout and what comes first.', 'ok', 'B1 sketches · fine for B5 wireframes too'],
+      [2, 'Wireframe', 'Boxes and labels on your grid. Shows the order and the grid — but no type or colour.', 'ok', 'B5 wireframes · and fine for B6 when your style tile shows type and colour'],
+      [3, 'Applied spec', 'Your real grid, typefaces, sizes and colours. Pictures are labelled boxes. Shows every decision Criterion 1 marks, in one place.', 'min', 'B6 finished screens · recommended — the easiest to see'],
+      [4, 'Decorated', 'Photos, illustration, shadows, gradients. Looks finished; shows no decision level 3 did not.', 'no', 'Optional · earns nothing extra — spend the time on the journey'],
+    ];
+    $('ladder').innerHTML = RUNGS.map(([n, name, what, kind, use]) => `<div class="rung"><span class="lvl">Level ${n}</span><div class="mini">${scr1(n)}</div>
+      <h3>${name}</h3><p>${what}</p><span class="use ${kind}">${use}</span></div>`).join('');
+
+    // the spec, written out from the same choices (sd-options.js, so the Gallery copies the same words)
+    $('s-a3').textContent = SDO.a3(G); $('s-a4').textContent = SDO.a4(T); $('s-a5').textContent = SDO.a5(C);
+    $('s-c9').textContent = SDO.c9([G, T, C]);
+    $('fixing').hidden = !(G.bad || T.bad || C.bad);
+  };
+
+  ['w-name', 'w-q', 'w-opts', 'w-btn', 'w-res', 'w-done'].forEach(id => $(id).addEventListener('input', draw));
+  document.querySelector('.seg').addEventListener('click', e => { const b = e.target.closest('[data-f]'); if (!b) return; state.f = b.dataset.f;
+    document.querySelectorAll('.seg button').forEach(x => x.setAttribute('aria-pressed', String(x === b))); draw(); });
+  $('showgrid').checked = !!state.grid_on; $('showgrid').addEventListener('change', e => { state.grid_on = e.target.checked; draw(); });
+  document.querySelectorAll('.seg button').forEach(x => x.setAttribute('aria-pressed', String(x.dataset.f === state.f)));
+  document.querySelector('.spec').addEventListener('click', async e => { const b = e.target.closest('[data-copy]'); if (!b) return;
+    const m = $('m-' + b.dataset.copy);
+    try { await navigator.clipboard.writeText($(b.dataset.copy).textContent); m.textContent = 'Copied'; } catch (err) { m.textContent = 'Select the text and copy it'; }
+    setTimeout(() => { m.textContent = ''; }, 2500); });
+  const pickAll = (g, t, c) => { state.grid = g; state.type = t; state.col = c;
+    draw(); };
+  $('allbad').onclick = () => pickAll('eye', 'all', 'brand');
+  $('allgood').onclick = () => pickAll('ex2', 'atk', 'civic');
+  function fit() {
+    const sc = $('screens'), st = $('stage'); sc.style.zoom = 1;
+    if (innerWidth <= 860) return;
+    const w = sc.scrollWidth, h = sc.scrollHeight;
+    /* the screens should end inside the window when the page is at the top */
+    const room = innerHeight - (sc.getBoundingClientRect().top + scrollY) - 16;
+    sc.style.zoom = Math.max(0.55, Math.min(1, st.clientWidth / w, room / h)).toFixed(3);
+  }
+  const _draw = draw; draw = function () { _draw(); fit(); };
+  addEventListener('resize', fit);
+  draw();
+  if (document.fonts) document.fonts.ready.then(draw);
+})();
+
+const root = document.documentElement;
+try { const t = localStorage.getItem('sd-theme'); if (t) root.dataset.theme = t; } catch (e) {}
+if (!root.dataset.theme && matchMedia('(prefers-color-scheme: dark)').matches) root.dataset.theme = 'dark';
+document.getElementById('theme').onclick = () => {
+  root.dataset.theme = root.dataset.theme === 'dark' ? 'light' : 'dark';
+  try { localStorage.setItem('sd-theme', root.dataset.theme); } catch (e) {}
+};
+</script>
+</body>
+</html>

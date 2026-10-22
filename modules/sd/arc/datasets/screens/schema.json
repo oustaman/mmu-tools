@@ -1,0 +1,88 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "screens — the SD corpus join key. Measured fields and annotated fields are kept apart on purpose.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "rows", "counts", "notes"],
+  "properties": {
+    "schema_version": { "const": "1.0" },
+    "rows": { "type": "array", "items": { "$ref": "#/definitions/row" } },
+    "counts": {
+      "type": "object",
+      "required": ["rows_total", "measured", "annotated", "by_screen_type"],
+      "additionalProperties": true,
+      "properties": {
+        "rows_total": { "type": "integer" },
+        "measured": { "type": "integer" },
+        "annotated": {
+          "type": "integer",
+          "description": "Rows whose judgement fields a person has filled. The gap between this and rows_total is the queue, and every instrument must show it."
+        },
+        "by_screen_type": { "type": "object", "additionalProperties": { "type": "integer" } },
+        "not_english": { "type": "integer" },
+        "not_a_product": { "type": "integer" },
+        "government": { "type": "integer" },
+        "pre_2010": { "type": "integer" }
+      }
+    },
+    "notes": {
+      "type": "object",
+      "required": ["known_gaps", "collected_on"],
+      "additionalProperties": true,
+      "properties": {
+        "known_gaps": { "type": "array", "items": { "type": "string" }, "minItems": 1 },
+        "collected_on": { "type": "string", "format": "date" }
+      }
+    }
+  },
+  "definitions": {
+    "row": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "source", "platform", "captured_date", "measured", "annotation"],
+      "properties": {
+        "id": { "type": "string", "pattern": "^sd-scr-[0-9]{3,4}$" },
+        "source": { "type": "string" },
+        "platform": { "enum": ["web", "ios", "android", "kiosk", "print"] },
+        "url_or_app": { "type": ["string", "null"] },
+        "captured_date": { "type": "string", "format": "date" },
+        "licence_note": { "type": ["string", "null"] },
+        "image_ref": { "type": ["string", "null"] },
+
+        "measured": {
+          "type": ["object", "null"],
+          "description": "Written by capture_screens.mjs. Null where the capture failed — which is a result, not a gap.",
+          "additionalProperties": true,
+          "properties": {
+            "ok": { "type": "boolean" },
+            "viewport": { "type": "object" },
+            "grid": { "type": ["object", "null"] },
+            "palette": { "type": ["array", "null"] },
+            "type": { "type": ["object", "null"] },
+            "target_sizes": { "type": ["array", "null"] },
+            "breakpoints_captured": { "type": ["array", "null"] }
+          }
+        },
+
+        "annotation": {
+          "type": ["object", "null"],
+          "description": "Written by a person, or null. NEVER generated. A null is a queue; an invented value is inherited by every instrument that reads this file.",
+          "additionalProperties": false,
+          "properties": {
+            "by": { "type": "string" },
+            "on": { "type": "string", "format": "date" },
+            "category": { "type": "string" },
+            "screen_type": { "enum": ["onboarding","list","detail","form","empty","error","success","settings"] },
+            "reading_order": { "type": "array", "items": { "type": "string" }, "minItems": 2 },
+            "devices_used": { "type": "array", "items": { "enum": ["scale","weight","colour","space","position"] } },
+            "does_well": { "type": "array", "items": { "type": "string", "minLength": 15 } },
+            "does_badly": { "type": "array", "items": { "type": "string", "minLength": 15 } },
+            "principle_ids": { "type": "array", "items": { "type": "string" } },
+            "a11y_failures": { "type": "array", "items": { "type": "string" } }
+          },
+          "required": ["by", "on", "screen_type", "reading_order"]
+        }
+      }
+    }
+  }
+}

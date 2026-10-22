@@ -1,0 +1,462 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Flow maker — Screen Design</title>
+<style>
+  :root{
+    --bg:#F5F4F2; --surface:#FFFFFF; --surface-2:#EDEBE8;
+    --ink:#1A1618; --ink-2:#514B4A; --ink-3:#4D4847;
+    --line:#DFDBD7; --line-2:#8E8685;
+    --lec:#8C2437; --lec-soft:#F6E8EA;
+    --wsh:#1A526D; --wsh-soft:#E4EEF3;
+    --ok:#285638; --ok-soft:#E3EFE7;
+    --warn:#684604; --warn-soft:#F4EAD3;
+    --mono:ui-monospace,"SF Mono",Menlo,Consolas,monospace;
+    --sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Inter,Roboto,sans-serif;
+  }
+  html[data-theme="dark"]{
+    --bg:#151314; --surface:#1E1B1C; --surface-2:#262223;
+    --ink:#EDE9E7; --ink-2:#B9B2AF; --ink-3:#B7B2B0;
+    --line:#332E2F; --line-2:#7A7372;
+    --lec:#E69FAD; --lec-soft:#332226;
+    --wsh:#7FBEDC; --wsh-soft:#16262E;
+    --ok:#83C19A; --ok-soft:#1C2A22;
+    --warn:#DCB469; --warn-soft:#2A2417;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);line-height:1.5}
+  .wrap{max-width:1100px;margin:0 auto;padding:0 22px}
+  @media(max-width:420px){.wrap{padding:0 14px}}
+  @media(max-width:340px){.wrap{padding:0 10px}}
+  a{color:var(--lec)}
+
+  /* The bar, identical on every page (see assessment.html). */
+  header{border-bottom:1px solid var(--line);background:var(--surface);position:sticky;top:0;z-index:40}
+  .bar{display:flex;align-items:center;gap:10px;padding-block:11px;flex-wrap:nowrap}
+  .brand{font-weight:680;font-size:1rem;letter-spacing:-0.015em;white-space:nowrap;color:inherit;
+    text-decoration:none;padding:5px 8px;margin-left:-8px;border-radius:6px}
+  .brand:hover{background:var(--surface-2)}
+  .brand:focus-visible{outline:2px solid var(--lec);outline-offset:1px}
+  .sp{flex:1}
+  .navl{font-size:0.85rem;color:var(--ink-2);text-decoration:none;padding:6px 10px;border-radius:6px;white-space:nowrap}
+  .navl:hover{background:var(--surface-2);color:var(--ink)}
+  .ctl button{font-family:var(--mono);font-size:0.7rem;background:none;color:var(--ink-3);
+    border:1px solid var(--line-2);border-radius:5px;padding:5px 8px;cursor:pointer;line-height:1}
+  .ctl button:hover{border-color:var(--lec);color:var(--lec)}
+  @media(max-width:760px){ header .bar{gap:6px} .navl{padding:6px 8px;font-size:0.82rem} }
+  @media(max-width:560px){
+    header .bar{flex-wrap:wrap;row-gap:6px}
+    header .brand{order:0} header .ctl{order:1;margin-left:auto}
+    header .bar > .sp{order:2;flex-basis:100%;height:0}
+    header .navl{order:3;padding:5px 7px;font-size:0.78rem}
+  }
+  @media(max-width:430px){ .brand{font-size:0.9rem} .navl{padding:5px 6px;font-size:0.76rem} }
+
+  .navl.on{background:var(--lec);color:#fff}
+  html[data-theme="dark"] .navl.on{color:#151314}
+  h1{font-size:clamp(1.6rem,4.4vw,2.3rem);line-height:1.1;letter-spacing:-0.028em;margin:24px 0 4px;font-weight:700}
+  h2{font-size:1.2rem;font-weight:690;letter-spacing:-0.015em;margin:34px 0 6px}
+  .sub{color:var(--ink-2);margin:0 0 18px;max-width:70ch}
+  .lede{color:var(--ink-2);margin:0 0 14px;max-width:72ch;font-size:0.95rem}
+
+  .tiles{display:grid;gap:10px;grid-template-columns:repeat(auto-fit,minmax(min(220px,100%),1fr))}
+  .tile{display:block;background:var(--surface);border:1px solid var(--line);border-radius:11px;padding:14px 16px;
+    text-decoration:none;color:inherit}
+  .tile:hover{border-color:var(--lec)}
+  .tile b{display:block;font-size:0.98rem;margin-bottom:3px}
+  .tile span{font-size:0.86rem;color:var(--ink-2)}
+  .tile i{font-style:normal;font-family:var(--mono);font-size:0.68rem;color:var(--ink-3);display:block;margin-top:6px}
+
+  table.steps{width:100%;border-collapse:collapse;background:var(--surface);border:1px solid var(--line);
+    border-radius:11px;overflow:hidden;font-size:0.9rem}
+  .steps th{text-align:left;font-family:var(--mono);font-size:0.62rem;letter-spacing:0.08em;text-transform:uppercase;
+    color:var(--ink-3);padding:9px 12px;background:var(--surface-2);font-weight:500}
+  .steps td{padding:8px 12px;border-top:1px solid var(--line);vertical-align:middle}
+  .steps td.cls{font-weight:640}
+  .steps td.rg{font-family:var(--mono);font-size:0.8rem;color:var(--ink-2);white-space:nowrap}
+  .steps .m{display:inline-block;font-family:var(--mono);font-size:0.82rem;font-weight:700;min-width:34px;
+    text-align:center;padding:2px 6px;margin:2px 3px 2px 0;border-radius:5px;background:var(--bg);border:1px solid var(--line)}
+  .steps tr.first td.cls{color:var(--ok)}
+  .steps tr.fail td.cls{color:var(--lec)}
+
+  .ex{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(min(320px,100%),1fr))}
+  .excard{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:16px 18px;
+    display:flex;flex-direction:column;gap:10px}
+  .exk{font-family:var(--mono);font-size:0.64rem;letter-spacing:0.08em;text-transform:uppercase;color:var(--ink-3)}
+  .excard h3{margin:0;font-size:1.08rem}
+  .excard p{margin:0;font-size:0.9rem;color:var(--ink-2)}
+  .exmark{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap}
+  .exmark .n{font-size:2.2rem;font-weight:740;letter-spacing:-0.03em;color:var(--lec);line-height:1}
+  .exmark .crit{font-family:var(--mono);font-size:0.78rem;color:var(--ink-2)}
+  .exhid{font-size:0.9rem;color:var(--ink-2);background:var(--bg);border:1px dashed var(--line-2);border-radius:8px;padding:10px 12px}
+  .exacts{display:flex;flex-wrap:wrap;gap:8px;margin-top:auto}
+  .btn{display:inline-flex;align-items:center;min-height:42px;padding:0 15px;border-radius:8px;text-decoration:none;
+    font-weight:640;font-size:0.9rem;border:1px solid var(--line-2);color:var(--ink);background:var(--bg)}
+  .btn:hover{border-color:var(--lec);color:var(--lec)}
+  .btn.pri{background:var(--lec);border-color:var(--lec);color:#fff}
+  html[data-theme="dark"] .btn.pri{color:#151314}
+  .btn.off{color:var(--ink-3);border-style:dashed;cursor:default}
+  .faq{display:grid;gap:6px}
+  .faq details{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:0}
+  .faq summary{cursor:pointer;padding:12px 16px;font-weight:600;list-style:none;display:flex;gap:10px;align-items:baseline}
+  .faq summary::-webkit-details-marker{display:none}
+  .faq summary::before{content:"+";font-family:var(--mono);color:var(--ink-3);width:1em;flex:none}
+  .faq details[open] summary::before{content:"\2013"}
+  .faq .a{padding:0 16px 14px 42px;color:var(--ink-2);font-size:0.95rem;line-height:1.6}
+  .faq .a a{color:var(--lec)}
+  .note{font-size:0.82rem;color:var(--ink-3);margin:12px 0 0}
+  footer{padding:24px 0 44px;color:var(--ink-3);font-size:0.8rem;border-top:1px solid var(--line);margin-top:30px}
+  @media(max-width:520px){ .steps td{padding:7px 8px} .steps td.rg{white-space:normal} }
+
+
+  /* the Flow maker: rows in, a 16:9 slide out */
+  .fm-goal{display:flex;flex-wrap:wrap;gap:6px 10px;align-items:center;margin:14px 0}
+  .fm-goal label{font-weight:700}
+  .fm-goal input{font:inherit;flex:1;min-width:min(260px,100%);padding:9px 11px;border:1px solid var(--line-2);border-radius:8px;background:var(--surface);color:var(--ink)}
+  .fm-stage{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:12px;margin:0 0 18px}
+  .fm-bar{display:flex;flex-wrap:wrap;gap:8px 14px;align-items:center;margin-bottom:10px}
+  .fm-seg{display:inline-flex;border:1px solid var(--line-2);border-radius:8px;overflow:hidden}
+  .fm-stage .fm-seg button{font:inherit;font-size:0.86rem;border:0;background:var(--surface);color:var(--ink);padding:7px 14px;cursor:pointer}
+  .fm-stage .fm-seg button+button{border-left:1px solid var(--line-2)}
+  .fm-stage .fm-seg button[aria-pressed="true"]{background:var(--lec);color:#fff}
+  html[data-theme="dark"] .fm-stage .fm-seg button[aria-pressed="true"]{color:#151314}
+  .fm-tally{font-size:0.86rem;color:var(--ink-2)} .fm-tally b{color:var(--ink)}
+  .fm-slide{aspect-ratio:16/9;border:1px solid var(--line);border-radius:6px;overflow:hidden;background:#fff}
+  .fm-slide svg{display:block;width:100%;height:100%}
+  .fm-out{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-top:10px}
+  .fm-stage button,.fm-panel button,.fm-add button{font:inherit;font-size:0.85rem;border-radius:7px;padding:6px 11px;cursor:pointer;border:1px solid var(--line-2);background:var(--surface);color:var(--ink)}
+  .fm-stage button:hover,.fm-panel button:hover{border-color:var(--lec);color:var(--lec)}
+  button.pri{background:var(--lec)!important;border-color:var(--lec)!important;color:#fff!important;font-weight:600}
+  html[data-theme="dark"] button.pri{color:#151314!important}
+  button:focus-visible,.fm-panel input:focus-visible,.fm-panel select:focus-visible{outline:2px solid var(--lec);outline-offset:1px}
+  .msg{font-size:0.82rem;color:var(--ok)}
+  .fm-tabs{display:flex;gap:4px;border-bottom:1px solid var(--line-2);margin:6px 0 0;overflow-x:auto}
+  .fm-tabs button{font:inherit;font-size:0.92rem;font-weight:650;border:1px solid transparent;border-bottom:0;border-radius:8px 8px 0 0;background:none;color:var(--ink-2);padding:9px 14px;cursor:pointer;white-space:nowrap}
+  .fm-tabs button span{font-weight:400;font-size:0.76rem;color:var(--ink-3);margin-left:4px}
+  .fm-tabs button[aria-selected="true"]{background:var(--surface);border-color:var(--line-2);color:var(--ink);margin-bottom:-1px}
+  .fm-panel{background:var(--surface);border:1px solid var(--line-2);border-top:0;border-radius:0 0 12px 12px;padding:14px 16px 16px}
+  .fm-how{margin:0 0 12px;color:var(--ink-2);font-size:0.92rem;line-height:1.55;max-width:80ch}
+  .fm-recipe{margin:0 0 14px;padding-left:20px;color:var(--ink-2);font-size:0.92rem;line-height:1.6}
+  .fm-recipe li{margin:0 0 6px}
+  .fm-list{list-style:none;margin:0;padding:0;display:grid;gap:8px}
+  .fm-row{display:grid;grid-template-columns:34px minmax(0,2.2fr) minmax(0,1.3fr) 150px 236px;gap:6px 8px;align-items:center;border:1px solid var(--line);border-radius:9px;padding:8px 10px;background:var(--bg)}
+  .fm-row.bad{border-color:var(--lec);box-shadow:inset 3px 0 0 var(--lec)}
+  .fm-row.k-q{background:color-mix(in srgb,#FFF4D6 45%,var(--bg))}
+  html[data-theme="dark"] .fm-row.k-q{background:#2A2417}
+  .fm-row.k-wait{border-style:dashed}
+  .fm-n{font-family:var(--mono);font-weight:700;font-size:0.85rem;color:var(--ink-3);text-align:center}
+  .fm-row input,.fm-row select,.fm-d2 input{font:inherit;font-size:0.9rem;padding:6px 8px;border:1px solid var(--line-2);border-radius:6px;background:var(--surface);color:var(--ink);min-width:0;width:100%}
+  .fm-row select{width:100%}
+  .fm-tools{display:flex;gap:4px;flex-wrap:wrap;justify-content:flex-end}
+  .fm-panel .fm-tools button{padding:5px 8px;font-size:0.8rem}
+  .fm-tools button:disabled{opacity:.35;cursor:default}
+  .fm-panel .fm-tools .stk.on{background:var(--lec-soft);border-color:var(--lec);color:var(--lec);font-weight:700}
+  .fm-if,.fm-from{grid-column:2 / -1;display:flex;gap:8px;align-items:center;flex-wrap:wrap;font-size:0.85rem;color:var(--ink-2)}
+  .fm-if input{flex:1;min-width:180px;width:auto}
+  .fm-panel .fm-from .chip{font-family:var(--mono);font-size:0.76rem;padding:3px 8px;border-radius:99px}
+  .fm-panel .fm-from .chip.on{background:var(--wsh);border-color:var(--wsh);color:#fff}
+  html[data-theme="dark"] .fm-panel .fm-from .chip.on{color:#151314}
+  .fm-from .new{font-style:normal;font-size:0.76rem;font-weight:700;color:var(--ok)}
+  .fm-add{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap}
+  .fm-empty{color:var(--ink-3);font-size:0.9rem;padding:8px 0}
+  .fm-d2{width:100%;border-collapse:collapse;font-size:0.9rem}
+  .fm-d2 th{text-align:left;font-size:0.78rem;color:var(--ink-3);font-weight:600;border-bottom:1px solid var(--line-2);padding:6px}
+  .fm-d2 td{border-bottom:1px solid var(--line);padding:6px;vertical-align:middle}
+  .fm-d2 td:first-child{width:34%} .fm-d2 td:nth-child(2){width:22%}
+  .fate{font-size:0.8rem;font-weight:700;border-radius:99px;padding:2px 9px;white-space:nowrap;display:inline-block}
+  .fate.kept,.fate.changed{background:var(--ok-soft);color:var(--ok)} .fate.merged,.fate.moved{background:var(--wsh-soft);color:var(--wsh)}
+  .fate.removed{background:var(--surface-2);color:var(--ink-3);text-decoration:line-through} .fate.new{background:var(--ok-soft);color:var(--ok);white-space:normal}
+  .fm-rule{font-size:0.84rem;color:var(--ink-3);margin:10px 0 0}
+  .linkish{font:inherit;background:none;border:0;padding:0;color:var(--lec);text-decoration:underline;cursor:pointer}
+  @media(max-width:760px){
+    .fm-row{grid-template-columns:28px minmax(0,1fr)}
+    .fm-row > input.fm-w,.fm-row > span.fm-w,.fm-row > select,.fm-tools{grid-column:2}
+    .fm-tools{justify-content:flex-start}
+    .fm-d2,.fm-d2 tbody,.fm-d2 tr,.fm-d2 td{display:block;width:auto!important} .fm-d2 thead{display:none} .fm-d2 tr{border-bottom:1px solid var(--line-2);padding:6px 0} .fm-d2 td{border:0;padding:3px 0}
+  }
+
+  /* THE BAR — one definition, identical on every page (written by navfix; change it
+     everywhere or nowhere). It used to be copied per page and drifted into two heights. */
+  header.sdnav{position:sticky;top:0;z-index:40;background:var(--surface);border-bottom:1px solid var(--line)}
+  header.sdnav .bar{display:flex;align-items:center;gap:10px;min-height:56px;padding-block:8px;flex-wrap:nowrap}
+  header.sdnav .brand{font-weight:680;font-size:1rem;letter-spacing:-0.015em;white-space:nowrap;color:inherit;
+    text-decoration:none;padding:5px 8px;margin-left:-8px;border-radius:6px;order:0}
+  header.sdnav .brand:hover{background:var(--surface-2,var(--bg))}
+  header.sdnav .sp{flex:1;display:block;height:auto;flex-basis:auto;order:0}
+  header.sdnav .sdlinks{display:flex;align-items:center;gap:2px;order:0}
+  header.sdnav .navl{display:inline-block;font-size:0.85rem;line-height:1.3;color:var(--ink-2);text-decoration:none;
+    padding:6px 10px;border-radius:6px;white-space:nowrap;order:0}
+  header.sdnav .navl:hover{background:var(--surface-2,var(--bg));color:var(--ink)}
+  header.sdnav .navl.on{background:var(--lec);color:#fff}
+  html[data-theme="dark"] header.sdnav .navl.on{color:#151314}
+  header.sdnav a:focus-visible,header.sdnav button:focus-visible{outline:2px solid var(--lec);outline-offset:1px}
+  header.sdnav .ctl{order:0;margin-left:4px}
+  header.sdnav .ctl button{font-family:var(--mono);font-size:0.7rem;background:none;color:var(--ink-3);
+    border:1px solid var(--line-2);border-radius:6px;padding:0 9px;cursor:pointer;line-height:1;
+    height:34px;min-height:34px;min-width:34px;display:inline-flex;align-items:center;justify-content:center}
+  header.sdnav .ctl button:hover{border-color:var(--lec);color:var(--lec)}
+  @media(max-width:960px){
+    header.sdnav .bar{flex-wrap:wrap;row-gap:0;padding-block:6px 0;min-height:0}
+    header.sdnav .ctl{order:1;margin-left:auto}
+    header.sdnav .sp{display:none}
+    header.sdnav .sdlinks{order:2;flex-basis:100%;overflow-x:auto;scrollbar-width:none;padding:4px 28px 8px 0;min-height:44px;
+      -webkit-mask-image:linear-gradient(to right,#000 calc(100% - 28px),transparent);mask-image:linear-gradient(to right,#000 calc(100% - 28px),transparent)}
+    header.sdnav .sdlinks::-webkit-scrollbar{display:none}
+    header.sdnav .navl{font-size:0.82rem;padding:6px 9px}
+  }
+</style>
+</head>
+<body>
+
+<header class="sdnav">
+  <div class="wrap bar">
+    <a class="brand" href="index.html">Screen Design</a>
+    <span class="sp"></span>
+    <nav class="sdlinks" aria-label="Screen Design"><a class="navl" href="weeks.html">Week by week</a><a class="navl" href="assessment.html">Checklist</a><a class="navl" href="examples.html">Examples</a><a class="navl on" href="toolkit.html">Toolkit</a><a class="navl" href="assessment-materials.html">Marking</a></nav>
+    <span class="ctl"><button id="theme" aria-label="Dark mode">◐</button></span>
+  </div>
+</header>
+<script>(function(){var n=document.querySelector(".sdlinks"),o=n&&n.querySelector(".on");if(o&&n.scrollWidth>n.clientWidth)n.scrollLeft=o.offsetLeft-n.offsetLeft-16;})();</script>
+
+<div class="wrap">
+  <h1>Flow maker</h1>
+  <p class="lede">Your journey as a slide for <b>B4</b>, made in two steps. New to flows? Read <a href="flow-guide.html">How flows work</a> first: every option, with real examples. <b>Week 5:</b> list what a person does <i>now</i>, step by step, and mark where they get stuck. <b>Week 7:</b> make <i>your version</i> from a copy of it. Remove steps, merge them, move them and add screens, and the tool keeps track of what happened to each one. That record is your <b>D2</b>.</p>
+
+  <div class="fm-goal"><label for="goal">Goal</label><input id="goal" placeholder="What the person is trying to get done, e.g. Report a missed bin collection"></div>
+
+  <div class="fm-stage">
+    <div class="fm-bar">
+      <span class="fm-seg" role="group" aria-label="What the slide shows"><button type="button" data-view="before">Now</button><button type="button" data-view="after">Your version</button><button type="button" data-view="both">Both</button></span>
+      <span class="fm-tally" id="tally"></span>
+    </div>
+    <div class="fm-slide" id="slide" aria-label="The B4 slide, drawn from your steps"></div>
+    <div class="fm-out">
+      <button type="button" class="pri" data-act="png">Download the slide for B4</button>
+      <button type="button" data-act="a2">Copy both lists for A2</button>
+      <button type="button" data-act="d2">Copy “what happened” for D2</button>
+      <span class="msg" id="msg" role="status"></span>
+    </div>
+  </div>
+
+  <div class="fm-tabs" role="tablist" aria-label="Steps">
+    <button type="button" role="tab" data-tab="before" id="t-before" aria-controls="p-before">1 · Now <span>week 5</span></button>
+    <button type="button" role="tab" data-tab="after" id="t-after" aria-controls="p-after">2 · Your version <span>week 7</span></button>
+    <button type="button" role="tab" data-tab="d2" id="t-d2" aria-controls="p-d2">3 · What happened <span>D2</span></button>
+  </div>
+
+  <section class="fm-panel" role="tabpanel" id="p-before" aria-labelledby="t-before">
+    <p class="fm-how">One row for everything a person does or waits for, in order, from the first search to getting what they came for. If a row is a yes/no question, pick <b>Yes/no question</b> and say what happens if the answer is no. Press <b>✗ stuck</b> wherever people go wrong, and say why. These are the problems your version has to fix.</p>
+    <ol class="fm-list" id="l-before"></ol>
+    <div class="fm-add"><button type="button" data-act="add" data-side="before">+ Add a step</button><button type="button" data-act="add" data-side="before" data-k="wait">+ Add a wait</button></div>
+  </section>
+
+  <section class="fm-panel" role="tabpanel" id="p-after" aria-labelledby="t-after" hidden>
+    <ol class="fm-recipe">
+      <li>Press <button type="button" class="pri" data-act="seed">Start from my “now”</button>. You get a copy to change.</li>
+      <li>Work through it with the problems in front of you. <b>✕</b> removes a step, <b>merge ↓</b> joins a step to the next one, and <b>↑ ↓</b> moves a step. Rename a step to say what your screen does, and <b>+ Add a screen</b> for anything new.</li>
+      <li>The numbers under each row show which steps from <i>now</i> it came from. The slide labels every old step <i>kept</i>, <i>merged</i>, <i>moved</i> or <i>removed</i> — the four words D2 asks for. Renaming a step does not change what it is: one step now, one screen after, is <i>kept</i>. Not sure which is which? <a href="flow-guide.html#after">How flows work</a> shows each with a real example.</li>
+    </ol>
+    <ol class="fm-list" id="l-after"></ol>
+    <div class="fm-add"><button type="button" data-act="add" data-side="after">+ Add a screen</button><button type="button" data-act="add" data-side="after" data-k="wait">+ Add a wait</button></div>
+  </section>
+
+  <section class="fm-panel" role="tabpanel" id="p-d2" aria-labelledby="t-d2" hidden>
+    <p class="fm-how">Every step from <i>now</i>, and what happened to it in your version. The tool fills in the middle column. You write the <b>why</b>: that is what makes D2 evidence rather than a list. Then <b>Copy “what happened” for D2</b>.</p>
+    <div id="d2"></div>
+  </section>
+
+  <p class="note">Your work stays in this browser, on this computer. Before you close it, download the slide and copy both lists into your deck. <button type="button" class="linkish" data-act="example">Load the example</button> · <button type="button" class="linkish" data-act="clear">Start again</button>. The example is a made-up council, drawn from the <a href="case-missed-bin.html">missed bin case</a>. Prefer paper? Draw boxes and arrows, left to right, and photograph them into B4.</p>
+
+  <footer><p>Screen Design · Level 4 · 2026–27</p></footer>
+</div>
+
+<script src="flow-draw.js"></script>
+<script>
+(function () {
+  /* The Flow maker. Students list the journey as it is now (week 5), then build their version
+     FROM it (week 7): start from a copy, then remove, merge, move, rename and add screens.
+     Every step now ends up kept, merged, moved or removed, which is D2; the drawing is a
+     16:9 slide for B4. Nothing to learn but the buttons. */
+  const $ = id => document.getElementById(id);
+  const { esc, nums, counts, fatesOf, COL, band, DEFS, FONT } = window.FD;
+  const fates = () => fatesOf(S.before, S.after);
+  const KEY = 'sd-flow2';
+  let uid = 1; const nid = p => p + (uid++) + '-' + Date.now().toString(36);
+
+  /* the example is the missed-bin case (case-missed-bin.html): its "now" screens, and its
+     "What happened to every step" table — nothing added that the case does not say */
+  const EXAMPLE = () => {
+    const B = [
+      ['b1', 'Read the missed bin information page', 'website', 'step', true, '199 words, 2.6 phone screens, before you can start'],
+      ['b2', 'Choose your bin, and its type', 'form', 'step', true, 'Colours on the page, categories on the form'],
+      ['b3', 'Name, email and phone', 'form'],
+      ['b4', 'Postcode and address', 'form'],
+      ['b5', 'Additional information', 'form'],
+      ['b6', 'Assisted collection', 'form'],
+      ['b7', 'Summary', 'form'],
+      ['b8', 'Finish', 'form', 'step', true, 'Never checks the 2pm deadline, so it cannot say you are too late'],
+    ].map(([id, t, w, k, bad, note, ifnot, go, back]) => ({ id, t, w: w || '', k: k || 'step', bad: !!bad, note: note || '', ifnot: ifnot || '', go: go || 'stuck', back: back || '' }));
+    const A = [
+      ['a1', 'Start: the one rule, in 38 words', 'start page', ['b1']],
+      ['a2', 'Your postcode and address', 'form', ['b4']],
+      ['a3', 'Which bin was not emptied?', 'by colour', ['b2']],
+      ['a4', 'How should we update you? (optional)', 'form', ['b3']],
+      ['a5', 'Check your answers', 'with Change links', ['b7']],
+      ['a6', 'Report sent', 'date and reference', ['b8']],
+    ].map(([id, t, w, from, k]) => ({ id, t, w, from, k: k || 'step', bad: false, note: '', ifnot: '', go: 'stuck', back: '' }));
+    return { goal: 'Report a missed bin collection', before: B, after: A, view: 'both', tab: 'before',
+      why: { b1: 'Only the deadline decides whether reporting is any use; the other rules are one link away',
+        b2: 'The address tells the council which bins are due and what kind they are', b3: 'Nothing in emptying a bin needs a name; one way to send an update is enough',
+        b4: 'Everything else follows from it', b5: 'Rarely needed; if the council wants it, it returns as an optional box on the bin screen',
+        b6: 'Arranged with the council, so already on file for the address', b7: 'Fixing a mistake should not mean starting again',
+        b8: 'The button says what it does, and the next screen says what happens' } };
+  };
+  const EMPTY = () => ({ goal: '', before: [], after: [], why: {}, view: 'before', tab: 'before' });
+  let S; try { S = JSON.parse(localStorage.getItem(KEY) || 'null'); } catch (e) {}
+  if (!S || !Array.isArray(S.before)) S = EXAMPLE();
+  const save = () => { try { localStorage.setItem(KEY, JSON.stringify(S)); } catch (e) {} };
+
+  /* numbers: waits are not steps, so they carry no number */
+  /* ---------- the editors ---------- */
+  function rowHTML(x, i, list, side, N) {
+    const num = x.k === 'wait' ? '⏱' : N[x.id];
+    const backOpts = list.filter(y => y.k !== 'wait' && y.id !== x.id).map(y => `<option value="${y.id}" ${x.back === y.id ? 'selected' : ''}>back to step ${N[y.id]}</option>`).join('');
+    const from = side === 'after' ? `<div class="fm-from" role="group" aria-label="Comes from these steps now"><span>From now:</span>${S.before.map(b => b.k === 'wait' && false ? '' :
+      `<button type="button" class="chip${(x.from || []).includes(b.id) ? ' on' : ''}" data-act="from" data-b="${b.id}" aria-pressed="${(x.from || []).includes(b.id)}" title="${esc(b.t)}">${b.k === 'wait' ? '⏱' : nums(S.before)[b.id]}</button>`).join('')}${(x.from || []).length ? '' : '<em class="new">new</em>'}</div>` : '';
+    return `<li class="fm-row k-${x.k}${x.bad ? ' bad' : ''}" data-side="${side}" data-id="${x.id}">
+      <span class="fm-n">${num}</span>
+      <input class="fm-t" data-f="t" value="${esc(x.t)}" placeholder="${x.k === 'wait' ? 'How long? e.g. 2 working days' : side === 'before' ? 'What the person does' : 'The screen, or what happens'}" aria-label="Step ${num}">
+      ${x.k === 'wait' ? '<span class="fm-w"></span>' : `<input class="fm-w" data-f="w" value="${esc(x.w)}" placeholder="Where: website, form, phone…" aria-label="Where step ${num} happens">`}
+      <select data-f="k" aria-label="Kind of step ${num}"><option value="step" ${x.k === 'step' ? 'selected' : ''}>Step</option><option value="q" ${x.k === 'q' ? 'selected' : ''}>Yes/no question</option><option value="wait" ${x.k === 'wait' ? 'selected' : ''}>Waiting</option></select>
+      <span class="fm-tools">${x.k === 'wait' ? '' : `<button type="button" class="stk${x.bad ? ' on' : ''}" data-act="bad" aria-pressed="${x.bad}" title="People get stuck here">✗ stuck</button>`}
+        <button type="button" data-act="up" aria-label="Move step up" ${i ? '' : 'disabled'}>↑</button><button type="button" data-act="down" aria-label="Move step down" ${i < list.length - 1 ? '' : 'disabled'}>↓</button>
+        ${side === 'after' && i < list.length - 1 ? '<button type="button" data-act="merge" title="Merge with the next one">merge ↓</button>' : ''}
+        <button type="button" data-act="del" aria-label="Remove step">✕</button></span>
+      ${x.k === 'q' ? `<div class="fm-if"><span>If not:</span><input data-f="ifnot" value="${esc(x.ifnot)}" placeholder="What happens then?" aria-label="If not"><select data-f="goback" aria-label="Where it leads"><option value="stuck" ${x.go !== 'back' ? 'selected' : ''}>and they are stuck</option>${backOpts}</select></div>` : ''}
+      ${x.bad ? `<div class="fm-if"><span>Why:</span><input data-f="note" value="${esc(x.note)}" placeholder="What goes wrong, with a number if you have one" aria-label="Why people get stuck"></div>` : ''}
+      ${from}</li>`;
+  }
+  function renderList(side) {
+    const list = S[side], N = nums(list);
+    $('l-' + side).innerHTML = list.map((x, i) => rowHTML(x, i, list, side, N)).join('') || `<li class="fm-empty">${side === 'before' ? 'No steps yet. Add the first thing a person does.' : 'Nothing yet. Start from your “now”, then change it.'}</li>`;
+  }
+  function renderD2() {
+    const F = fates(), N = nums(S.before), an = nums(S.after);
+    const news = S.after.filter(a => !(a.from || []).length);
+    $('d2').innerHTML = S.before.length ? `<table class="fm-d2"><thead><tr><th>Now</th><th>What happened</th><th>Why</th></tr></thead><tbody>${S.before.map(b => `<tr><td><b>${b.k === 'wait' ? '⏱' : N[b.id]}</b> ${esc(b.t)}</td>
+      <td><span class="fate ${F[b.id].kind}">${esc(F[b.id].label)}</span></td><td><input data-why="${b.id}" value="${esc(S.why[b.id] || '')}" placeholder="${F[b.id].kind === 'kept' ? 'Optional for a kept step' : 'Why?'}" aria-label="Why, for step ${N[b.id] || 'wait'}"></td></tr>`).join('')}
+      ${news.map(a => `<tr><td><em>new</em></td><td><span class="fate new">New: step ${an[a.id] || '⏱'} — ${esc(a.t)}</span></td><td><input data-why="${a.id}" value="${esc(S.why[a.id] || '')}" placeholder="Why add it?" aria-label="Why add ${esc(a.t)}"></td></tr>`).join('')}</tbody></table>
+      <p class="fm-rule">A step the law or a policy requires can move or merge, never disappear.</p>` : '<p class="fm-empty">Fill in your “now” first.</p>';
+  }
+  function renderAll() {
+    renderList('before'); renderList('after'); renderD2();
+    $('goal').value = S.goal;
+    document.querySelectorAll('[data-tab]').forEach(b => { const on = b.dataset.tab === S.tab; b.setAttribute('aria-selected', String(on)); $('p-' + b.dataset.tab).hidden = !on; });
+    document.querySelectorAll('[data-view]').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.view === S.view)));
+    draw();
+  }
+
+  /* ---------- the slide: 1920 × 1080, read left to right ---------- */
+  const W = 1920, H = 1080, M = 72;
+  function slide() {
+    const cb = counts(S.before), ca = counts(S.after), v = S.view, F = v === 'both' ? fates() : null;
+    const head = v === 'before' ? 'How people do it now' : v === 'after' ? 'Your version' : 'Now, and your version';
+    let s = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${W} ${H}" width="${W}" height="${H}" font-family="${FONT}">
+      ${DEFS}
+      <rect width="${W}" height="${H}" fill="#fff"/>
+      <text x="${M}" y="${M + 22}" font-size="20" font-weight="700" fill="${COL.mute}" letter-spacing="2">B4 · FLOW DIAGRAM</text>
+      <text x="${M}" y="${M + 72}" font-size="44" font-weight="800" fill="${COL.ink}">${esc(S.goal || 'Your goal')}</text>
+      <text x="${W - M}" y="${M + 72}" font-size="22" fill="${COL.mute}" text-anchor="end">${esc(head)}</text>`;
+    const sum = c => `${c.steps} step${c.steps === 1 ? '' : 's'} · ${c.waits} wait${c.waits === 1 ? '' : 's'} · ${c.stuck} where people get stuck${c.loops ? ` · ${c.loops} back to an earlier step` : ''}`;
+    const y0 = M + 120, bw0 = W - 2 * M;
+    if (v === 'both') {
+      const hh = (H - y0 - 40) / 2;
+      s += band(S.before, M, y0, bw0, hh - 10, 'NOW', sum(cb), F, true) + `<line x1="${M}" y1="${y0 + hh}" x2="${W - M}" y2="${y0 + hh}" stroke="#DFDBD7" stroke-width="2"/>` +
+        band(S.after, M, y0 + hh + 14, bw0, hh - 10, 'YOUR VERSION', `${sum(ca)}   (was ${cb.steps} steps, ${cb.stuck} stuck)`, null, true);
+    } else s += band(v === 'before' ? S.before : S.after, M, y0, bw0, H - y0 - 40, v === 'before' ? 'NOW' : 'YOUR VERSION', sum(v === 'before' ? cb : ca), null);
+    return s + '</svg>';
+  }
+  function draw() {
+    save();
+    $('slide').innerHTML = slide();
+    const cb = counts(S.before), ca = counts(S.after);
+    const t = c => `<b>${c.steps}</b> step${c.steps === 1 ? '' : 's'}, <b>${c.waits}</b> wait${c.waits === 1 ? '' : 's'}, <b>${c.stuck}</b> stuck`;
+    $('tally').innerHTML = `Now: ${t(cb)}` + (S.after.length ? ` · Your version: ${t(ca)}` : '');
+  }
+
+  /* ---------- editing ---------- */
+  const listOf = el => S[el.closest('.fm-row').dataset.side];
+  const itemOf = el => { const r = el.closest('.fm-row'); return S[r.dataset.side].find(x => x.id === r.dataset.id); };
+  document.addEventListener('input', e => {
+    const t = e.target;
+    if (t.id === 'goal') { S.goal = t.value; draw(); return; }
+    if (t.dataset.why) { S.why[t.dataset.why] = t.value; save(); return; }
+    const f = t.dataset.f; if (!f || f === 'k' || f === 'goback') return;
+    itemOf(t)[f] = t.value; draw();
+    if (f === 't') renderD2();
+  });
+  document.addEventListener('change', e => {
+    const t = e.target, f = t.dataset.f; if (f !== 'k' && f !== 'goback') return;
+    const x = itemOf(t);
+    if (f === 'k') { x.k = t.value; if (x.k === 'wait') x.bad = false; }
+    else { if (t.value === 'stuck') x.go = 'stuck'; else { x.go = 'back'; x.back = t.value; } }
+    renderAll();
+  });
+  document.addEventListener('click', e => {
+    const b = e.target.closest('button'); if (!b) return;
+    if (b.dataset.tab) { S.tab = b.dataset.tab; if (b.dataset.tab === 'after' && S.view === 'before' && S.after.length) S.view = 'both'; renderAll(); return; }
+    if (b.dataset.view) { S.view = b.dataset.view; renderAll(); return; }
+    const act = b.dataset.act; if (!act) return;
+    const msg = $('msg');
+    if (act === 'add') { const side = b.dataset.side; S[side].push({ id: nid(side[0]), t: '', w: '', k: b.dataset.k || 'step', bad: false, note: '', ifnot: '', go: 'stuck', back: '', from: [] }); renderAll();
+      const rows = $('l-' + side).querySelectorAll('.fm-t'); rows[rows.length - 1].focus(); return; }
+    if (act === 'seed') { if (S.after.length && !confirm('Replace your version with a fresh copy of “now”?')) return;
+      S.after = S.before.map(x => Object.assign({}, x, { id: nid('a'), from: [x.id], bad: false, note: '' })); S.view = 'both'; renderAll(); return; }
+    if (act === 'example') { if (!confirm('Replace everything here with the example?')) return; S = EXAMPLE(); renderAll(); return; }
+    if (act === 'clear') { if (!confirm('Clear everything and start again?')) return; S = EMPTY(); renderAll(); return; }
+    if (act === 'png') return png(msg);
+    if (act === 'a2') return copy(a2Text(), msg);
+    if (act === 'd2') return copy(d2Text(), msg);
+    const list = listOf(b), x = itemOf(b), i = list.indexOf(x);
+    if (act === 'del') list.splice(i, 1);
+    if (act === 'up' && i > 0) [list[i - 1], list[i]] = [list[i], list[i - 1]];
+    if (act === 'down' && i < list.length - 1) [list[i + 1], list[i]] = [list[i], list[i + 1]];
+    if (act === 'bad') x.bad = !x.bad;
+    if (act === 'merge' && list[i + 1]) { const y = list[i + 1]; x.from = [...new Set([...(x.from || []), ...(y.from || [])])]; list.splice(i + 1, 1); }
+    if (act === 'from') { const id = b.dataset.b; x.from = (x.from || []).includes(id) ? x.from.filter(z => z !== id) : [...(x.from || []), id]; }
+    renderAll();
+  });
+
+  /* ---------- out: the slide as a picture, A2 and D2 as text ---------- */
+  function png(msg) {
+    const img = new Image(), cv = document.createElement('canvas'); cv.width = W; cv.height = H;
+    img.onload = () => { const c = cv.getContext('2d'); c.fillStyle = '#fff'; c.fillRect(0, 0, W, H); c.drawImage(img, 0, 0);
+      cv.toBlob(bl => { const a = document.createElement('a'); a.href = URL.createObjectURL(bl); a.download = `B4-flow-${S.view}.png`; a.click(); setTimeout(() => URL.revokeObjectURL(a.href), 4000); say(msg, 'Downloaded — paste it onto your B4 slide'); }); };
+    img.onerror = () => say(msg, 'Could not make the picture — take a screenshot of the slide instead');
+    img.src = 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(slide());
+  }
+  const listText = (list) => { const N = nums(list); return list.map(x => x.k === 'wait' ? `    wait: ${x.t}` : `${(N[x.id] + '.').padEnd(4)}${x.t}${x.w ? '  —  ' + x.w : ''}${x.bad ? `  (people get stuck${x.note ? ': ' + x.note : ''})` : ''}${x.k === 'q' && x.ifnot ? `\n    if not: ${x.ifnot}${x.go === 'back' && N[x.back] ? ' → back to step ' + N[x.back] : ' (stuck)'}` : ''}`).join('\n'); };
+  const a2Text = () => { const cb = counts(S.before), ca = counts(S.after);
+    return `Goal: ${S.goal}\n\nBEFORE — how people do it now\n${listText(S.before)}\nSteps before: ${cb.steps} · waits: ${cb.waits} · places people get stuck: ${cb.stuck}\n\nAFTER — your screens\n${listText(S.after)}\nScreens after: ${ca.steps} · waits: ${ca.waits} · places people get stuck: ${ca.stuck}`; };
+  const d2Text = () => { const F = fates(), N = nums(S.before), an = nums(S.after);
+    const rows = S.before.map(b => `${(N[b.id] ? N[b.id] + '.' : 'wait').padEnd(5)}${b.t}  →  ${F[b.id].label}${S.why[b.id] ? '  —  ' + S.why[b.id] : ''}`);
+    S.after.filter(a => !(a.from || []).length).forEach(a => rows.push(`new  →  step ${an[a.id] || '⏱'}: ${a.t}${S.why[a.id] ? '  —  ' + S.why[a.id] : ''}`));
+    return `BEFORE STEP  →  AFTER  —  what happened, and why\n${rows.join('\n')}\n\nSteps before: ${counts(S.before).steps}        Screens after: ${counts(S.after).steps}`; };
+  async function copy(text, msg) { try { await navigator.clipboard.writeText(text); say(msg, 'Copied — paste it into your deck'); } catch (e) { say(msg, 'Copy did not work in this browser'); } }
+  function say(msg, t) { msg.textContent = t; clearTimeout(say.t); say.t = setTimeout(() => { msg.textContent = ''; }, 3500); }
+
+  renderAll();
+})();
+
+const root = document.documentElement;
+try { const t = localStorage.getItem('sd-theme'); if (t) root.dataset.theme = t; } catch (e) {}
+if (!root.dataset.theme && matchMedia('(prefers-color-scheme: dark)').matches) root.dataset.theme = 'dark';
+document.getElementById('theme').onclick = () => {
+  root.dataset.theme = root.dataset.theme === 'dark' ? 'light' : 'dark';
+  try { localStorage.setItem('sd-theme', root.dataset.theme); } catch (e) {}
+};
+</script>
+</body>
+</html>

@@ -1,0 +1,355 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Week 2, marking example 2 — staff sheet</title>
+<style>
+  :root{
+    --bg:#F5F4F2; --surface:#FFFFFF; --surface-2:#EDEBE8; --ink:#1A1618; --ink-2:#514B4A; --ink-3:#4D4847;
+    --line:#DFDBD7; --line-2:#8E8685; --lec:#8C2437; --lec-soft:#F6E8EA;
+    --wsh:#1A526D; --wsh-soft:#E7F0F5; --warn:#684604; --warn-soft:#F4EAD3;
+    --ok:#285638; --ok-soft:#E3EFE7;
+    --mono:ui-monospace,"SF Mono",Menlo,Consolas,monospace;
+    --sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Inter,Roboto,sans-serif;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);line-height:1.5}
+  .wrap{max-width:1100px;margin:0 auto;padding:0 22px}
+  @media(max-width:420px){.wrap{padding:0 14px}}
+  a{color:var(--lec)}
+
+  header{border-bottom:1px solid var(--line);background:var(--surface);position:sticky;top:0;z-index:40}
+  .bar{display:flex;align-items:center;gap:10px;padding-block:11px;flex-wrap:nowrap}
+  .brand{font-weight:680;font-size:1rem;letter-spacing:-0.015em;white-space:nowrap;color:inherit;
+    text-decoration:none;padding:5px 8px;margin-left:-8px;border-radius:6px}
+  .brand:hover{background:var(--surface-2)}
+  .brand:focus-visible{outline:2px solid var(--lec);outline-offset:1px}
+  .sp{flex:1}
+  .navl{font-size:0.85rem;color:var(--ink-2);text-decoration:none;padding:6px 10px;border-radius:6px;white-space:nowrap}
+  .navl:hover{background:#EDEBE8;color:var(--ink)}
+  .navl.on{background:var(--lec);color:#fff}
+  /* Links used to be hidden on phones, which left a student on a phone with no
+     way to reach the brief. They wrap to a second row instead. */
+  @media(max-width:760px){ header .bar{gap:6px} .navl{padding:6px 8px;font-size:0.82rem} }
+  @media(max-width:560px){
+    header .bar{flex-wrap:wrap;row-gap:6px}
+    header .brand{order:0} header .ctl{order:1;margin-left:auto}
+    header .bar > .sp{order:2;flex-basis:100%;height:0}
+    header .navl{order:3;padding:5px 7px;font-size:0.78rem}
+  }
+
+  h1{font-size:clamp(1.5rem,3.6vw,2.1rem);letter-spacing:-0.026em;margin:22px 0 4px;font-weight:700}
+  .sub{color:var(--ink-2);margin:0 0 16px;max-width:74ch}
+  h2{font-size:1.06rem;margin:30px 0 10px;font-weight:680;letter-spacing:-0.012em;
+     padding-bottom:6px;border-bottom:1px solid var(--line)}
+  h2 span{font-family:var(--mono);font-size:0.66rem;color:var(--ink-3);letter-spacing:0.08em;
+     text-transform:uppercase;margin-right:9px}
+
+  .staffbar{display:flex;align-items:flex-start;gap:12px;background:var(--wsh-soft);
+    border:1px solid var(--wsh);border-radius:10px;padding:13px 16px;margin:0 0 18px}
+  .staffbar > b{color:var(--wsh);font-family:var(--mono);font-size:0.66rem;letter-spacing:0.09em;
+    text-transform:uppercase;white-space:nowrap;padding-top:2px}
+  .staffbar .pts{flex:1}
+  @media(max-width:560px){ .staffbar{flex-direction:column;gap:6px} .staffbar > b{white-space:normal} }
+
+  /* the mark */
+  .ms-top{display:flex;align-items:center;gap:18px;background:var(--surface);border:1px solid var(--line);
+    border-left:5px solid var(--lec);border-radius:12px;padding:16px 20px;margin-bottom:12px;flex-wrap:wrap}
+  .ms-n{font-size:2.8rem;font-weight:740;letter-spacing:-0.04em;line-height:1;color:var(--lec)}
+  .ms-t b{display:block;font-size:1rem}
+  .ms-t span{font-size:0.88rem;color:var(--ink-2)}
+  @media(max-width:420px){ .ms-top{gap:12px} .ms-n{font-size:2.1rem} }
+
+  .grid{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(min(270px,100%),1fr))}
+  .card{background:var(--surface);border:1px solid var(--line);border-radius:11px;padding:14px 16px}
+  .card > .h{display:flex;align-items:baseline;gap:9px;margin-bottom:6px}
+  .card > .h i{font-style:normal;font-family:var(--mono);font-size:0.66rem;color:var(--ink-3)}
+  .card > .h b{font-size:0.93rem;flex:1}
+  .card > .h em{font-style:normal;font-family:var(--mono);font-size:1.05rem;font-weight:700;color:var(--lec)}
+  .bd{font-family:var(--mono);font-size:0.62rem;letter-spacing:0.06em;text-transform:uppercase;
+    color:var(--ink-3);display:block;margin-bottom:6px}
+  .card p{margin:0 0 8px;font-size:0.86rem;line-height:1.55;color:var(--ink-2)}
+  .card ul{margin:6px 0 0;padding-left:17px}
+  .card li{font-size:0.82rem;line-height:1.5;color:var(--ink-2);margin-bottom:5px}
+  .card li b{color:var(--ink);font-family:var(--mono);font-size:0.74rem}
+
+  /* the run */
+  table.run{width:100%;border-collapse:collapse;background:var(--surface);
+    border:1px solid var(--line);border-radius:11px;overflow:hidden}
+  table.run th{text-align:left;font-family:var(--mono);font-size:0.62rem;letter-spacing:0.09em;
+    text-transform:uppercase;color:var(--ink-3);padding:9px 12px;background:#EDEBE8;font-weight:500}
+  table.run td{padding:10px 12px;border-bottom:1px solid var(--line);vertical-align:top;
+    font-size:0.87rem;color:var(--ink-2);line-height:1.5}
+  table.run tr:last-child td{border-bottom:0}
+  table.run td.t{font-family:var(--mono);font-size:0.78rem;color:var(--ink);white-space:nowrap;width:1%}
+  table.run td b{color:var(--ink)}
+  .scroller{overflow-x:auto}
+
+  .qa{background:var(--surface);border:1px solid var(--line);border-radius:11px;padding:4px 16px}
+  .qa dt{font-size:0.88rem;font-weight:640;margin:12px 0 3px}
+  .qa dd{margin:0 0 12px;font-size:0.86rem;color:var(--ink-2);line-height:1.55}
+
+  .warnbox{margin:0 0 14px;padding:12px 15px;border-left:3px solid var(--warn);
+    background:var(--warn-soft);border-radius:0 9px 9px 0;font-size:0.88rem;line-height:1.55;color:var(--ink-2)}
+  .warnbox b.k{color:var(--warn);font-family:var(--mono);font-size:0.64rem;letter-spacing:0.08em;
+    text-transform:uppercase;display:block;margin-bottom:4px}
+  .okbox{margin:0 0 14px;padding:12px 15px;border-left:3px solid var(--ok);
+    background:var(--ok-soft);border-radius:0 9px 9px 0;font-size:0.88rem;line-height:1.55;color:var(--ink-2)}
+
+  footer{padding:26px 0 44px;color:var(--ink-3);font-size:0.8rem;border-top:1px solid var(--line);margin-top:30px}
+
+  @media print{
+    header,footer,.navl{display:none}
+    body{background:#fff}
+    .card,.ms-top,table.run,.qa{break-inside:avoid}
+    h2{break-after:avoid}
+  }
+    .wk{font:600 10px/1 var(--mono);letter-spacing:.09em;text-transform:uppercase;color:var(--ink-3);
+        border:1px solid var(--line);border-radius:3px;padding:3px 6px;vertical-align:middle}
+    .twopar{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+    @media(max-width:760px){.twopar{grid-template-columns:1fr}}
+    .par{border:1px solid var(--line);background:var(--surface);padding:14px 16px 16px}
+    .par-def{border-left:3px solid var(--lec)}
+    .parhead{display:flex;justify-content:space-between;align-items:baseline;gap:10px;
+             font:600 11px/1 var(--mono);letter-spacing:.09em;text-transform:uppercase;
+             color:var(--ink);margin-bottom:9px}
+    .parw{font-weight:400;letter-spacing:.04em;color:var(--ink-3)}
+    .par p{margin:0;font-size:14px;line-height:1.62}
+    .moves{margin:0;padding:0 0 0 22px;display:flex;flex-direction:column;gap:9px}
+    .moves li{font-size:14px;line-height:1.55}
+    .moves li b{display:block}
+    .moves li span{color:var(--ink-2)}
+    .tot td{border-top:2px solid var(--ink)}
+  .bank{margin:18px 0 26px}
+  .bank h3{margin:0 0 4px;font-size:0.95rem}
+  .bank .what{margin:0 0 10px;font-size:0.82rem;color:var(--ink-3)}
+  .bank .bd{white-space:nowrap;font-family:var(--mono);font-size:0.72rem;color:var(--ink-2)}
+  .look{margin:12px 0 4px;font-size:0.8rem}
+  .look-l{margin:0;padding-left:20px;font-size:0.85rem;line-height:1.6}
+  .look-l li{margin-bottom:3px}
+
+  /* ── scannable points: a bold line, and a quieter remark under it ── */
+  .pts{list-style:none;margin:0;padding:0;display:grid;gap:8px}
+  .pts > li{position:relative;padding-left:18px;font-size:0.92rem;line-height:1.45}
+  .pts > li::before{content:"";position:absolute;left:3px;top:0.55em;width:7px;height:7px;border-radius:50%;background:var(--lec)}
+  .pts > li > b{display:block;color:var(--ink);font-weight:640}
+  .pts > li > span{display:block;color:var(--ink-2);font-size:0.86rem}
+  .staffbar .pts > li::before{background:var(--wsh)}
+  .qa.pts{background:none;border:0;padding:0;grid-template-columns:repeat(auto-fit,minmax(min(320px,100%),1fr));gap:10px}
+  .qa.pts > li{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:10px 12px 10px 28px}
+  .qa.pts > li::before{left:12px;top:1.05em}
+  .qa.pts > li:first-child{border-color:var(--warn);background:var(--warn-soft)}
+  .qa.pts > li:first-child::before{background:var(--warn)}
+
+  .steps{list-style:none;margin:0;padding:0;display:grid;gap:0}
+  .steps > li{display:grid;grid-template-columns:34px 1fr;gap:14px;position:relative;padding-bottom:16px}
+  .steps > li:not(:last-child)::before{content:"";position:absolute;left:16px;top:34px;bottom:0;width:2px;background:var(--line-2)}
+  .steps .sn{width:34px;height:34px;border-radius:50%;background:var(--wsh);color:#fff;display:grid;place-items:center;
+    font:700 0.9rem var(--mono)}
+  .steps .end .sn{background:var(--ok)}
+  .steps .st{display:block;font-size:1rem;margin:6px 0 6px}
+  .steps .pts > li::before{background:var(--wsh)}
+  .pts .opn{color:var(--warn)}
+
+  .crows{list-style:none;margin:0;padding:0;display:grid;gap:8px}
+  .crows li{display:grid;grid-template-columns:56px minmax(180px,260px) 1fr;gap:14px;align-items:start;
+    background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:10px 14px}
+  .crows .cm{font:740 1.5rem/1 var(--sans);color:var(--lec);letter-spacing:-0.03em;padding-top:2px}
+  .crows .cn{font-weight:640;font-size:0.92rem}
+  .crows .cn i{font-style:normal;font-family:var(--mono);font-size:0.7rem;color:var(--ink-3)}
+  .crows .cn em{display:block;font-style:normal;font-family:var(--mono);font-size:0.66rem;letter-spacing:0.05em;
+    text-transform:uppercase;color:var(--ink-3);margin-top:2px}
+  .crows .cw b{display:block;font-size:0.92rem}
+  .crows .cw span{display:block;font-size:0.84rem;color:var(--ink-2)}
+  @media(max-width:640px){ .crows li{grid-template-columns:44px 1fr} .crows .cw{grid-column:1 / -1} }
+
+  h2.later{margin-top:40px;color:var(--ink-3)}
+  .fold{background:var(--surface);border:1px solid var(--line);border-radius:11px;margin:0 0 10px}
+  .fold > summary{cursor:pointer;padding:13px 16px;font-weight:640;list-style:none;display:flex;gap:10px;
+    align-items:baseline;flex-wrap:wrap}
+  .fold > summary::-webkit-details-marker{display:none}
+  .fold > summary::before{content:"▸";color:var(--ink-3);transition:transform .15s}
+  .fold[open] > summary::before{transform:rotate(90deg)}
+  .fold > summary em{font-style:normal;font-family:var(--mono);font-size:0.7rem;color:var(--ink-3);font-weight:400}
+  .fold > :not(summary){margin-left:16px;margin-right:16px}
+  .fold[open]{padding-bottom:14px}
+  .fold .pts{margin-bottom:14px}
+  @media print{ .fold > :not(summary){display:block} .steps > li,.crows li{break-inside:avoid} }
+
+  /* Accessibility (WCAG 2.2 audit, September 2026) */
+  .ctl button{min-width:44px;min-height:44px;font-size:.8rem}         /* 2.5.5: the theme button was 25 × 23 */
+  summary{min-height:44px;padding-block:11px}                           /* 2.5.8: a 23px-high row */
+  input[type=checkbox],input[type=radio]{width:24px;height:24px}         /* 2.5.8: 19px boxes */
+  @media (prefers-reduced-motion: reduce){                               /* 2.3.3 */
+    *,*::before,*::after{transition:none!important;animation:none!important;scroll-behavior:auto!important}
+  }
+
+  /* THE BAR — one definition, identical on every page (written by navfix; change it
+     everywhere or nowhere). It used to be copied per page and drifted into two heights. */
+  header.sdnav{position:sticky;top:0;z-index:40;background:var(--surface);border-bottom:1px solid var(--line)}
+  header.sdnav .bar{display:flex;align-items:center;gap:10px;min-height:56px;padding-block:8px;flex-wrap:nowrap}
+  header.sdnav .brand{font-weight:680;font-size:1rem;letter-spacing:-0.015em;white-space:nowrap;color:inherit;
+    text-decoration:none;padding:5px 8px;margin-left:-8px;border-radius:6px;order:0}
+  header.sdnav .brand:hover{background:var(--surface-2,var(--bg))}
+  header.sdnav .sp{flex:1;display:block;height:auto;flex-basis:auto;order:0}
+  header.sdnav .sdlinks{display:flex;align-items:center;gap:2px;order:0}
+  header.sdnav .navl{display:inline-block;font-size:0.85rem;line-height:1.3;color:var(--ink-2);text-decoration:none;
+    padding:6px 10px;border-radius:6px;white-space:nowrap;order:0}
+  header.sdnav .navl:hover{background:var(--surface-2,var(--bg));color:var(--ink)}
+  header.sdnav .navl.on{background:var(--lec);color:#fff}
+  html[data-theme="dark"] header.sdnav .navl.on{color:#151314}
+  header.sdnav a:focus-visible,header.sdnav button:focus-visible{outline:2px solid var(--lec);outline-offset:1px}
+  header.sdnav .ctl{order:0;margin-left:4px}
+  header.sdnav .ctl button{font-family:var(--mono);font-size:0.7rem;background:none;color:var(--ink-3);
+    border:1px solid var(--line-2);border-radius:6px;padding:0 9px;cursor:pointer;line-height:1;
+    height:34px;min-height:34px;min-width:34px;display:inline-flex;align-items:center;justify-content:center}
+  header.sdnav .ctl button:hover{border-color:var(--lec);color:var(--lec)}
+  @media(max-width:960px){
+    header.sdnav .bar{flex-wrap:wrap;row-gap:0;padding-block:6px 0;min-height:0}
+    header.sdnav .ctl{order:1;margin-left:auto}
+    header.sdnav .sp{display:none}
+    header.sdnav .sdlinks{order:2;flex-basis:100%;overflow-x:auto;scrollbar-width:none;padding:4px 28px 8px 0;min-height:44px;
+      -webkit-mask-image:linear-gradient(to right,#000 calc(100% - 28px),transparent);mask-image:linear-gradient(to right,#000 calc(100% - 28px),transparent)}
+    header.sdnav .sdlinks::-webkit-scrollbar{display:none}
+    header.sdnav .navl{font-size:0.82rem;padding:6px 9px}
+  }
+</style>
+</head>
+<body>
+
+<header class="sdnav">
+  <div class="wrap bar">
+    <a class="brand" href="index.html">Screen Design</a>
+    <span class="sp"></span>
+    <nav class="sdlinks" aria-label="Screen Design"><a class="navl" href="index.html">Overview</a><a class="navl" href="weeks.html">Week by week</a><a class="navl" href="brief.html">The brief</a><a class="navl" href="assessment.html">Checklist</a><a class="navl on" href="assessment-materials.html">Marking and examples</a><a class="navl" href="toolkit.html">Toolkit</a><a class="navl" href="ideas.html">Theme ideas</a></nav>
+  </div>
+</header>
+<script>(function(){var n=document.querySelector(".sdlinks"),o=n&&n.querySelector(".on");if(o&&n.scrollWidth>n.clientWidth)n.scrollLeft=o.offsetLeft-n.offsetLeft-16;})();</script>
+
+<div class="wrap">
+  <h1>Week 2 · Marking example 2</h1>
+  <p class="sub">Staff sheet. The top half is all you need in the room; everything folded at the
+    bottom is for later.</p>
+
+  <div class="staffbar">
+    <b>Staff only</b>
+    <ul class="pts">
+      <li><b>It is not a real student's work.</b><span>We wrote it, and Castlegate is a made-up city. Nothing in it is copied from a submission.</span></li>
+      <li><b>Students mark it alone first, and send their marks through the form.</b><span>Don't give ours until the form has closed. The class average goes up beside our marks after the workshop.</span></li>
+      <li><b>Have these open in tabs:</b><span><a href="example-council.html">student copy</a> ·
+        <a href="example-council-marked.html">marked copy</a> · <a href="example-council-feedback.html">its feedback sheet</a> ·
+        <a href="rubric.html">blank rubric</a> · <a href="assessment-materials.html">the form (on Marking and examples)</a></span></li>
+    </ul>
+  </div>
+
+  <h2><span>01</span>The answer</h2>
+  <div id="mark"></div>
+
+  <h2><span>02</span>Run it</h2>
+  <ol class="steps" id="run"></ol>
+
+  <h2><span>03</span>Expect this</h2>
+  <ul class="pts qa" id="qa"></ul>
+
+  <h2><span>04</span>What would make it a First</h2>
+  <ul class="pts" id="gaps"></ul>
+
+  <h2 class="later"><span>Later</span>Folded away</h2>
+
+  <details class="fold">
+    <summary>All the margin comments <em id="fcount"></em></summary>
+    <div class="scroller"><table class="run" id="faults"></table></div>
+  </details>
+
+  <details class="fold">
+    <summary>Collecting the class average <em>after the workshop</em></summary>
+    <ul class="pts">
+      <li><b>Open the form's responses in Google Sheets.</b><span>One column per criterion, one for the overall.</span></li>
+      <li><b>Take the average and the median of each column.</b><span><code>=AVERAGE(B2:B200)</code> and <code>=MEDIAN(B2:B200)</code>. The median matters: three 85s pull an average and do not move a median.</span></li>
+      <li><b>Round to the nearest step for the slide, not for the record.</b><span>"The room gave it 67" is a fine sentence; the class sits between our 65 and the next step up.</span></li>
+      <li><b>Send the numbers to the module leader.</b><span>They go on Marking and examples, beside our marks.</span></li>
+    </ul>
+  </details>
+
+  <footer>
+    <p>Screen Design · Level 4 · 30 credits · 2026–27 · staff sheet, not for circulation to students
+      before the exercise.</p>
+  </footer>
+</div>
+
+<script src="example-council-data.js"></script>
+<script src="rubric-data.js"></script>
+<script src="weeks-data.js"></script>
+<script>
+const esc = s => String(s).replace(/[<&]/g, c => c === '<' ? '&lt;' : '&amp;');
+const plain = s => String(s).replace(/<[^>]+>/g, '');
+const pt = (b, r) => `<li><b>${b}</b><span>${r}</span></li>`;
+const CRIT = ['', 'Visual Design & Communication', 'User-Centred Thinking', 'Technical Craft & Process', 'Critical Reflection'];
+
+/* 01 — the answer: marks from the data, the one-line reasons written for a busy room */
+const WHY = {
+  1: ['First-level on its own.', 'Every screen built from the student\'s own numbers; a real reflow. One flaw: the mobile summary keeps two columns at 375.'],
+  2: ['Accessibility designed in, not claimed.', 'Every pair passes; focus solved. Held back: "faster" and "clearer" are asserted, not measured.'],
+  3: ['A complete, credible process.', 'Held back: check-your-answers removed for the designer\'s comfort; "save and come back" links nowhere.'],
+  4: ['Defends rather than describes — mostly.', 'C6 finds the consent question and settles it in a sentence; C7 is generic.'],
+};
+const avg = EXAMPLE.criteria.reduce((a, c) => a + c.mark, 0) / EXAMPLE.criteria.length;
+document.getElementById('mark').innerHTML =
+  `<div class="ms-top"><span class="ms-n">${EXAMPLE.mark.overall}</span>
+     <span class="ms-t"><b>${esc(EXAMPLE.mark.band)}</b>
+     <span>Complete and well made; its strongest claims asserted rather than measured. Average of the criteria ${avg}, which is not a step: the overall is ${EXAMPLE.mark.overall}.</span></span></div>
+   <ul class="crows">${EXAMPLE.criteria.map(c => `<li>
+     <span class="cm">${c.mark}</span>
+     <span class="cn"><i>${c.n}</i> ${esc(c.name)}<em>${esc(c.band)}</em></span>
+     <span class="cw"><b>${esc(WHY[c.n][0])}</b><span>${esc(WHY[c.n][1])}</span></span></li>`).join('')}
+   </ul>`;
+
+/* 02 — the run, step names from the week 2 data; the remarks are for staff */
+const w2 = WEEKS[1].workshop;
+const RUN = [
+  [['Alone and in silence.', 'Their judgement, not their table\'s. Ten minutes in, most will be stuck on Criterion 1.'],
+   ['Steps only.', 'A 65 or a 68, never a 66. The rubric page offers only the steps.']],
+  [['The form is on Marking and examples.', 'If the link is not live yet, they keep their marks on the blank rubric and send them later.'],
+   ['Anonymous.', 'Say so. It is what makes an honest 50 possible.']],
+  [['Count off the fours.', 'Break up friends.'],
+   ['More than a band apart?', 'Find the slide that settles it. Your only question: "Where in the deck is that?"']],
+  [['First: what does this have that week 1\'s did not?', 'The before (D1–D3), numbers from its own spec, every section evidenced.'],
+   ['Then: why is it not a First?', 'Let them find it. Steer to C5 and C6 if the room stalls. Only then give our 65.']],
+  [['Theme, audience and goal into A1.', 'The goal is one thing a person is trying to get done.'],
+   ['More time is allowed: until week 3.', 'Not after. Say it twice.']],
+  [['Eight thumbnails, markers only.', 'Photographed onto B1\'s slide today, as they are.'],
+   ['Rough is the point.', 'Anyone tidying is spending the time on the wrong thing.']],
+];
+if (RUN.length !== w2.run.length) console.warn(`week 2 sheet: ${RUN.length} notes for ${w2.run.length} steps`);
+document.getElementById('run').innerHTML = w2.run.map((r, i) => `<li>
+  <span class="sn">${i + 1}</span>
+  <div><b class="st">${esc(plain(r.s))}</b>
+    <ul class="pts">${(RUN[i] || []).map(x => pt(esc(x[0]), esc(x[1]))).join('')}</ul></div></li>`).join('') +
+  `<li class="end"><span class="sn">\u2192</span><div><b class="st">They leave with three things</b>
+    <ul class="pts">${WEEKS[1].three.map(x => pt(esc(x.t), esc(plain(x.d)) + (x.open ? ' <b class="opn">Open \u2014 week 3 opens on it.</b>' : ''))).join('')}</ul></div></li>`;
+
+/* 03 — what the room will say */
+document.getElementById('qa').innerHTML = [
+  ['They mark it on looks.', 'It is well designed, so the marks come out high everywhere. Ask what each mark is evidence of.'],
+  ['"Criterion 1 is 72 — so isn\'t it a First?"', 'One criterion in the First does not make a First. One overall mark, for the whole.'],
+  ['"Why 65 and not 66, the average?"', '66 is not a mark we can give. The nearest step is 65.'],
+  ['"Should they have tested it with real users?"', 'No. Showing work to people needs the university\'s ethics approval. Measuring both versions — fields, clicks, words — does the job.'],
+  ['"My mark is 72 overall."', 'Fine, with a slide behind it. Where in the deck does it reach the First descriptors for 2, 3 and 4?'],
+  ...w2.stuck.map(q => [esc('"' + q[0] + '"'), esc(q[1])]),
+].map(c => pt(c[0], c[1])).join('');
+
+/* 04 — the feedforward, from the data */
+document.getElementById('gaps').innerHTML = EXAMPLE.gaps.map(g => pt(esc(g[0]), esc(g[1]))).join('');
+
+/* Later — every margin comment, in deck order */
+const faults = [];
+EXAMPLE.slides.forEach(sl => sl.blocks.forEach(b => { if (b.note) faults.push({ p: sl.n, sec: sl.sec || '', c: b.note.c, band: b.note.band, s: b.note.s }); }));
+document.getElementById('fcount').textContent = `${faults.length} comments, strengths and limits`;
+document.getElementById('faults').innerHTML =
+  '<tr><th>Slide</th><th>Section</th><th>Criterion</th><th>Band</th><th>Comment</th></tr>' +
+  faults.map(f => `<tr><td class="w">${f.p}</td><td class="t">${esc(f.sec)}</td>
+    <td class="w">${f.c} · ${esc(CRIT[f.c].split(' ')[0])}</td><td class="w">${esc(f.band)}</td><td>${esc(f.s)}</td></tr>`).join('');
+</script>
+</body>
+</html>

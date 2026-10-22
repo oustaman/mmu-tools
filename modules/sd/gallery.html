@@ -1,0 +1,402 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Gallery: grids, type and colour — Screen Design</title>
+<style>
+  :root{
+    --bg:#F5F4F2; --surface:#FFFFFF; --surface-2:#EDEBE8;
+    --ink:#1A1618; --ink-2:#514B4A; --ink-3:#4D4847;
+    --line:#DFDBD7; --line-2:#8E8685;
+    --lec:#8C2437; --lec-soft:#F6E8EA;
+    --wsh:#1A526D; --wsh-soft:#E4EEF3;
+    --ok:#285638; --ok-soft:#E3EFE7;
+    --warn:#684604; --warn-soft:#F4EAD3;
+    --mono:ui-monospace,"SF Mono",Menlo,Consolas,monospace;
+    --sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Inter,Roboto,sans-serif;
+  }
+  html[data-theme="dark"]{
+    --bg:#151314; --surface:#1E1B1C; --surface-2:#262223;
+    --ink:#EDE9E7; --ink-2:#B9B2AF; --ink-3:#B7B2B0;
+    --line:#332E2F; --line-2:#7A7372;
+    --lec:#E69FAD; --lec-soft:#332226;
+    --wsh:#7FBEDC; --wsh-soft:#16262E;
+    --ok:#83C19A; --ok-soft:#1C2A22;
+    --warn:#DCB469; --warn-soft:#2A2417;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);line-height:1.5}
+  .wrap{max-width:1100px;margin:0 auto;padding:0 22px}
+  @media(max-width:420px){.wrap{padding:0 14px}}
+  @media(max-width:340px){.wrap{padding:0 10px}}
+  a{color:var(--lec)}
+
+  /* The bar, identical on every page (see assessment.html). */
+  header{border-bottom:1px solid var(--line);background:var(--surface);position:sticky;top:0;z-index:40}
+  .bar{display:flex;align-items:center;gap:10px;padding-block:11px;flex-wrap:nowrap}
+  .brand{font-weight:680;font-size:1rem;letter-spacing:-0.015em;white-space:nowrap;color:inherit;
+    text-decoration:none;padding:5px 8px;margin-left:-8px;border-radius:6px}
+  .brand:hover{background:var(--surface-2)}
+  .brand:focus-visible{outline:2px solid var(--lec);outline-offset:1px}
+  .sp{flex:1}
+  .navl{font-size:0.85rem;color:var(--ink-2);text-decoration:none;padding:6px 10px;border-radius:6px;white-space:nowrap}
+  .navl:hover{background:var(--surface-2);color:var(--ink)}
+  .ctl button{font-family:var(--mono);font-size:0.7rem;background:none;color:var(--ink-3);
+    border:1px solid var(--line-2);border-radius:5px;padding:5px 8px;cursor:pointer;line-height:1}
+  .ctl button:hover{border-color:var(--lec);color:var(--lec)}
+  @media(max-width:760px){ header .bar{gap:6px} .navl{padding:6px 8px;font-size:0.82rem} }
+  @media(max-width:560px){
+    header .bar{flex-wrap:wrap;row-gap:6px}
+    header .brand{order:0} header .ctl{order:1;margin-left:auto}
+    header .bar > .sp{order:2;flex-basis:100%;height:0}
+    header .navl{order:3;padding:5px 7px;font-size:0.78rem}
+  }
+  @media(max-width:430px){ .brand{font-size:0.9rem} .navl{padding:5px 6px;font-size:0.76rem} }
+
+  .navl.on{background:var(--lec);color:#fff}
+  html[data-theme="dark"] .navl.on{color:#151314}
+  h1{font-size:clamp(1.6rem,4.4vw,2.3rem);line-height:1.1;letter-spacing:-0.028em;margin:24px 0 4px;font-weight:700}
+  h2{font-size:1.2rem;font-weight:690;letter-spacing:-0.015em;margin:34px 0 6px}
+  .sub{color:var(--ink-2);margin:0 0 18px;max-width:70ch}
+  .lede{color:var(--ink-2);margin:0 0 14px;max-width:72ch;font-size:0.95rem}
+
+  .tiles{display:grid;gap:10px;grid-template-columns:repeat(auto-fit,minmax(min(220px,100%),1fr))}
+  .tile{display:block;background:var(--surface);border:1px solid var(--line);border-radius:11px;padding:14px 16px;
+    text-decoration:none;color:inherit}
+  .tile:hover{border-color:var(--lec)}
+  .tile b{display:block;font-size:0.98rem;margin-bottom:3px}
+  .tile span{font-size:0.86rem;color:var(--ink-2)}
+  .tile i{font-style:normal;font-family:var(--mono);font-size:0.68rem;color:var(--ink-3);display:block;margin-top:6px}
+
+  table.steps{width:100%;border-collapse:collapse;background:var(--surface);border:1px solid var(--line);
+    border-radius:11px;overflow:hidden;font-size:0.9rem}
+  .steps th{text-align:left;font-family:var(--mono);font-size:0.62rem;letter-spacing:0.08em;text-transform:uppercase;
+    color:var(--ink-3);padding:9px 12px;background:var(--surface-2);font-weight:500}
+  .steps td{padding:8px 12px;border-top:1px solid var(--line);vertical-align:middle}
+  .steps td.cls{font-weight:640}
+  .steps td.rg{font-family:var(--mono);font-size:0.8rem;color:var(--ink-2);white-space:nowrap}
+  .steps .m{display:inline-block;font-family:var(--mono);font-size:0.82rem;font-weight:700;min-width:34px;
+    text-align:center;padding:2px 6px;margin:2px 3px 2px 0;border-radius:5px;background:var(--bg);border:1px solid var(--line)}
+  .steps tr.first td.cls{color:var(--ok)}
+  .steps tr.fail td.cls{color:var(--lec)}
+
+  .ex{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(min(320px,100%),1fr))}
+  .excard{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:16px 18px;
+    display:flex;flex-direction:column;gap:10px}
+  .exk{font-family:var(--mono);font-size:0.64rem;letter-spacing:0.08em;text-transform:uppercase;color:var(--ink-3)}
+  .excard h3{margin:0;font-size:1.08rem}
+  .excard p{margin:0;font-size:0.9rem;color:var(--ink-2)}
+  .exmark{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap}
+  .exmark .n{font-size:2.2rem;font-weight:740;letter-spacing:-0.03em;color:var(--lec);line-height:1}
+  .exmark .crit{font-family:var(--mono);font-size:0.78rem;color:var(--ink-2)}
+  .exhid{font-size:0.9rem;color:var(--ink-2);background:var(--bg);border:1px dashed var(--line-2);border-radius:8px;padding:10px 12px}
+  .exacts{display:flex;flex-wrap:wrap;gap:8px;margin-top:auto}
+  .btn{display:inline-flex;align-items:center;min-height:42px;padding:0 15px;border-radius:8px;text-decoration:none;
+    font-weight:640;font-size:0.9rem;border:1px solid var(--line-2);color:var(--ink);background:var(--bg)}
+  .btn:hover{border-color:var(--lec);color:var(--lec)}
+  .btn.pri{background:var(--lec);border-color:var(--lec);color:#fff}
+  html[data-theme="dark"] .btn.pri{color:#151314}
+  .btn.off{color:var(--ink-3);border-style:dashed;cursor:default}
+  .faq{display:grid;gap:6px}
+  .faq details{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:0}
+  .faq summary{cursor:pointer;padding:12px 16px;font-weight:600;list-style:none;display:flex;gap:10px;align-items:baseline}
+  .faq summary::-webkit-details-marker{display:none}
+  .faq summary::before{content:"+";font-family:var(--mono);color:var(--ink-3);width:1em;flex:none}
+  .faq details[open] summary::before{content:"\2013"}
+  .faq .a{padding:0 16px 14px 42px;color:var(--ink-2);font-size:0.95rem;line-height:1.6}
+  .faq .a a{color:var(--lec)}
+  .note{font-size:0.82rem;color:var(--ink-3);margin:12px 0 0}
+  footer{padding:24px 0 44px;color:var(--ink-3);font-size:0.8rem;border-top:1px solid var(--line);margin-top:30px}
+  @media(max-width:520px){ .steps td{padding:7px 8px} .steps td.rg{white-space:normal} }
+
+
+  /* the gallery: three sets of cards, one tray of picks */
+  .jumps{display:flex;flex-wrap:wrap;gap:8px;margin:16px 0 0}
+  .jumps a{text-decoration:none;color:var(--ink);background:var(--surface);border:1px solid var(--line-2);border-radius:99px;padding:6px 14px;font-size:0.9rem}
+  .jumps a:hover{border-color:var(--lec);color:var(--lec)}
+  .jumps a span{font-family:var(--mono);font-size:0.72rem;color:var(--ink-3);margin-left:4px}
+  h2 .sec{font-family:var(--mono);font-size:0.75rem;font-weight:500;color:var(--ink-3);border:1px solid var(--line-2);border-radius:5px;padding:2px 6px;margin-left:6px;vertical-align:3px}
+  .gal{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(300px,100%),1fr));gap:14px;margin:12px 0 8px}
+  .oc{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:14px 16px 12px;display:flex;flex-direction:column;gap:8px;min-width:0}
+  .oc{cursor:pointer;position:relative}
+  .oc:hover{border-color:var(--line-2)}
+  .oc.on{border-color:var(--lec);box-shadow:inset 0 0 0 2px var(--lec);background:color-mix(in srgb,var(--lec-soft) 45%,var(--surface))}
+  .oc:has(.pk:focus-visible){outline:2px solid var(--lec);outline-offset:2px}
+  .vh{position:absolute;width:1px;height:1px;margin:-1px;padding:0;overflow:hidden;clip:rect(0 0 0 0);border:0}
+  .oc h3{font-size:1.02rem;margin:2px 0 0;letter-spacing:-0.01em}
+  .oc .sub{margin:0;color:var(--ink-2);font-size:0.88rem;line-height:1.4}
+  .oc dl{margin:0;display:grid;grid-template-columns:auto 1fr;gap:2px 12px;font-size:0.84rem}
+  .oc dt{color:var(--ink-3)} .oc dd{margin:0;color:var(--ink);overflow-wrap:anywhere}
+  .acts{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-top:auto;padding-top:4px}
+  .acts button,.tray button{font:inherit;font-size:0.86rem;border-radius:7px;padding:7px 12px;cursor:pointer;border:1px solid var(--line-2);background:var(--surface);color:var(--ink)}
+  .acts button:hover,.tray button:hover{border-color:var(--lec);color:var(--lec)}
+  .acts button:focus-visible,.tray button:focus-visible,.tray a:focus-visible{outline:2px solid var(--lec);outline-offset:2px}
+  .acts button.done,.tray button[data-tray].done{background:var(--ok);border-color:var(--ok);color:#fff}
+  html[data-theme="dark"] .acts button.done,html[data-theme="dark"] .tray button[data-tray].done{color:#151314}
+  .acts button.fail{border-color:var(--lec);color:var(--lec)}
+  .oc details{font-size:0.82rem}
+  .oc summary{cursor:pointer;color:var(--ink-3)}
+  .oc pre{white-space:pre-wrap;font-family:var(--mono);font-size:0.74rem;line-height:1.5;background:var(--surface-2);border-radius:8px;padding:10px;margin:6px 0 0;color:var(--ink)}
+  .oc .src{margin:0;font-size:0.78rem;color:var(--ink-3)}
+  /* grid diagrams: a phone at 375 px and a desktop window at 1280 px, to scale */
+  .viz{display:flex;gap:10px;align-items:flex-end}
+  .dev{position:relative;height:118px;border:1.5px solid var(--line-2);border-radius:6px;background:var(--bg);overflow:hidden;flex:none}
+  .dev.ph{width:60px;border-radius:10px} .dev.dk{flex:1}
+  .dev i{position:absolute;top:0;bottom:0;background:rgba(140,36,55,.16)}
+  .dev i.main{background:rgba(140,36,55,.38)}
+  html[data-theme="dark"] .dev i{background:rgba(230,159,173,.18)} html[data-theme="dark"] .dev i.main{background:rgba(230,159,173,.42)}
+  .viz small{display:block;font-family:var(--mono);font-size:0.62rem;color:var(--ink-3);margin-top:3px;text-align:center}
+  .viz figure{margin:0} .viz figure.grow{flex:1;min-width:0}
+  .viz figure.grow .dev{width:100%}
+  .key{font-size:0.76rem;color:var(--ink-3);margin:0}
+  .key i{display:inline-block;width:10px;height:10px;vertical-align:-1px;background:rgba(140,36,55,.38);border-radius:2px;margin-right:4px}
+  /* type samples: always on white, like a screen */
+  .ts{background:#fff;color:#1A1618;border:1px solid var(--line);border-radius:8px;padding:12px 14px;overflow:hidden}
+  .ts .h{display:block;margin:0 0 6px;line-height:1.2}
+  .ts p{margin:0 0 8px;line-height:1.5}
+  .ts .lb{display:block;font-weight:700;margin:0}
+  .ts small{display:block;color:#4D4847;line-height:1.5}
+  /* colour samples */
+  .cs{border:1px solid var(--line);border-radius:8px;padding:12px 14px;display:grid;gap:7px;font:15px/1.4 system-ui,sans-serif}
+  .cs b{font-size:17px} .cs .pn{border-radius:6px;padding:7px 10px}
+  .cs .row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+  .cs .bt{border-radius:6px;padding:8px 14px;font-weight:700}
+  .cs .okp{border-radius:6px;padding:6px 10px;font-weight:700}
+  .sw{display:flex;flex-wrap:wrap;gap:4px}
+  .sw span{display:flex;align-items:center;gap:5px;font-family:var(--mono);font-size:0.68rem;color:var(--ink-2);border:1px solid var(--line);border-radius:99px;padding:2px 8px 2px 3px}
+  .sw span i{width:14px;height:14px;border-radius:50%;border:1px solid rgba(0,0,0,.15)}
+  html[data-theme="dark"] .sw span i{border-color:rgba(255,255,255,.4)}
+  .rt{list-style:none;margin:0;padding:0;font-size:0.82rem;display:grid;gap:2px}
+  .rt li{display:flex;gap:8px;align-items:baseline}
+  .pill{font-family:var(--mono);font-size:0.72rem;border-radius:5px;padding:1px 6px;white-space:nowrap;min-width:74px;text-align:center}
+  .pill.ok{background:var(--ok-soft);color:var(--ok)} .pill.no{background:var(--lec-soft);color:var(--lec);font-weight:700} .pill.na{background:var(--surface-2);color:var(--ink-3)}
+  .verd{font-size:0.82rem;font-weight:650;margin:0}
+  .verd.ok{color:var(--ok)} .verd.no{color:var(--lec)}
+  /* the tray: what you picked, copied in one go */
+  .tray{position:sticky;bottom:0;z-index:30;background:var(--surface);border-top:1px solid var(--line);box-shadow:0 -4px 16px rgba(0,0,0,.06);margin-top:24px}
+  .tray .wrap{display:flex;flex-wrap:wrap;gap:8px 12px;align-items:center;padding-block:10px}
+  .tray .sel{flex:1;min-width:220px;font-size:0.86rem;color:var(--ink-2);line-height:1.4}
+  .tray .sel b{color:var(--ink)}
+  .tray .go{font-size:0.86rem;color:var(--lec);white-space:nowrap}
+  .trayb{display:flex;flex-wrap:wrap;gap:6px}
+  .tray button[data-tray]{background:var(--lec);border-color:var(--lec);color:#fff;font-weight:600}
+  html[data-theme="dark"] .tray button[data-tray]{color:#151314}
+  .tray button[data-tray]:disabled{background:var(--surface-2);border-color:var(--line);color:var(--ink-3);font-weight:500;cursor:not-allowed}
+  .tray .sel .none{color:var(--ink-3)}
+  .tray pre{position:absolute;left:-9999px}
+  @media(max-width:560px){
+    .tray .wrap{gap:6px 10px;padding-block:7px}
+    .tray .sel{min-width:100%;font-size:0.76rem;line-height:1.3}
+    .tray button{font-size:0.8rem;padding:6px 10px} .tray .go{font-size:0.8rem}
+  }
+  /* what a contrast ratio means: the one explainer on the site */
+  .cx-box{background:var(--surface);border:1px solid var(--line);border-left:4px solid var(--wsh);border-radius:0 12px 12px 0;padding:14px 16px;margin:16px 0;max-width:820px}
+  .cx-box > b{display:block;font-size:1rem;margin-bottom:4px}
+  .cx-box p,.cx-box li{color:var(--ink-2);line-height:1.55;font-size:0.92rem;margin:4px 0}
+  .cx-box ul{margin:8px 0 4px;padding-left:18px}
+  .cx-scale{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:6px;margin:10px 0 4px}
+  @media(max-width:560px){.cx-scale{grid-template-columns:repeat(3,minmax(0,1fr))}}
+  .cx-scale div{background:#fff;border:1px solid var(--line);border-radius:8px;padding:8px 6px;text-align:center;font-family:system-ui,sans-serif}
+  .cx-scale div span{display:block;font-size:22px;font-weight:700;line-height:1.1}
+  .cx-scale div small{display:block;font:600 0.72rem var(--mono);color:#333;margin-top:4px}
+  .cx-scale div em{display:block;font-style:normal;font-size:0.68rem;margin-top:2px;font-weight:700}
+  .cx-scale .f em{color:#B3261E} .cx-scale .p em{color:#205C2E}
+  .cx-scale .min{outline:3px solid var(--wsh);outline-offset:1px}
+  .cx-box{scroll-margin-top:70px}
+
+  /* THE BAR — one definition, identical on every page (written by navfix; change it
+     everywhere or nowhere). It used to be copied per page and drifted into two heights. */
+  header.sdnav{position:sticky;top:0;z-index:40;background:var(--surface);border-bottom:1px solid var(--line)}
+  header.sdnav .bar{display:flex;align-items:center;gap:10px;min-height:56px;padding-block:8px;flex-wrap:nowrap}
+  header.sdnav .brand{font-weight:680;font-size:1rem;letter-spacing:-0.015em;white-space:nowrap;color:inherit;
+    text-decoration:none;padding:5px 8px;margin-left:-8px;border-radius:6px;order:0}
+  header.sdnav .brand:hover{background:var(--surface-2,var(--bg))}
+  header.sdnav .sp{flex:1;display:block;height:auto;flex-basis:auto;order:0}
+  header.sdnav .sdlinks{display:flex;align-items:center;gap:2px;order:0}
+  header.sdnav .navl{display:inline-block;font-size:0.85rem;line-height:1.3;color:var(--ink-2);text-decoration:none;
+    padding:6px 10px;border-radius:6px;white-space:nowrap;order:0}
+  header.sdnav .navl:hover{background:var(--surface-2,var(--bg));color:var(--ink)}
+  header.sdnav .navl.on{background:var(--lec);color:#fff}
+  html[data-theme="dark"] header.sdnav .navl.on{color:#151314}
+  header.sdnav a:focus-visible,header.sdnav button:focus-visible{outline:2px solid var(--lec);outline-offset:1px}
+  header.sdnav .ctl{order:0;margin-left:4px}
+  header.sdnav .ctl button{font-family:var(--mono);font-size:0.7rem;background:none;color:var(--ink-3);
+    border:1px solid var(--line-2);border-radius:6px;padding:0 9px;cursor:pointer;line-height:1;
+    height:34px;min-height:34px;min-width:34px;display:inline-flex;align-items:center;justify-content:center}
+  header.sdnav .ctl button:hover{border-color:var(--lec);color:var(--lec)}
+  @media(max-width:960px){
+    header.sdnav .bar{flex-wrap:wrap;row-gap:0;padding-block:6px 0;min-height:0}
+    header.sdnav .ctl{order:1;margin-left:auto}
+    header.sdnav .sp{display:none}
+    header.sdnav .sdlinks{order:2;flex-basis:100%;overflow-x:auto;scrollbar-width:none;padding:4px 28px 8px 0;min-height:44px;
+      -webkit-mask-image:linear-gradient(to right,#000 calc(100% - 28px),transparent);mask-image:linear-gradient(to right,#000 calc(100% - 28px),transparent)}
+    header.sdnav .sdlinks::-webkit-scrollbar{display:none}
+    header.sdnav .navl{font-size:0.82rem;padding:6px 9px}
+  }
+</style>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=Fraunces:wght@700&family=Source+Sans+3:wght@400;700&family=Roboto:wght@400;700&family=Nunito+Sans:wght@400;800&family=IBM+Plex+Sans:wght@400;700&family=IBM+Plex+Serif:wght@600&family=Inter:wght@400;700&family=Merriweather:wght@700&family=Lexend:wght@400;700&family=Public+Sans:wght@400;700&family=Noto+Sans:wght@400;700&family=Noto+Serif:wght@700&family=Lora:wght@700&family=Open+Sans:wght@400;700&family=Source+Serif+4:wght@700&family=DM+Sans:wght@400;700&family=DM+Serif+Display&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<header class="sdnav">
+  <div class="wrap bar">
+    <a class="brand" href="index.html">Screen Design</a>
+    <span class="sp"></span>
+    <nav class="sdlinks" aria-label="Screen Design"><a class="navl" href="weeks.html">Week by week</a><a class="navl" href="assessment.html">Checklist</a><a class="navl" href="examples.html">Examples</a><a class="navl on" href="toolkit.html">Toolkit</a><a class="navl" href="assessment-materials.html">Marking</a></nav>
+    <span class="ctl"><button id="theme" aria-label="Dark mode">◐</button></span>
+  </div>
+</header>
+<script>(function(){var n=document.querySelector(".sdlinks"),o=n&&n.querySelector(".on");if(o&&n.scrollWidth>n.clientWidth)n.scrollLeft=o.offsetLeft-n.offsetLeft-16;})();</script>
+
+<div class="wrap">
+  <h1>Gallery: grids, type and colour</h1>
+  <p class="lede">Ready-made options from published design systems and from this module’s own cases. Click a card to choose it, then copy it into <b>A3</b>, <b>A4</b> or <b>A5</b>, and the sources into <b>C9</b>. Each one says where it came from, so there is nothing to look up. To see your three together on screens, open the <a href="style-kit.html">Style kit</a>: it remembers what you chose here. Does what you choose change your mark? <a href="assessment-materials.html#choices">How marking treats your choices</a>.</p>
+
+
+  <nav class="jumps" aria-label="Galleries"><a href="#grids">Grids <span>A3</span></a><a href="#type">Typefaces <span>A4</span></a><a href="#colour">Colours <span>A5</span></a></nav>
+
+  <h2 id="grids">Grids <span class="sec">A3</span></h2>
+  <p class="lede">Each diagram is drawn to scale: a phone 375 px wide, and a desktop window 1280 px wide. The darker columns are where the main content sits; the rest is for anything beside it, or for space.</p>
+  <div class="gal" id="g-grid"></div>
+
+  <h2 id="type">Typefaces <span class="sec">A4</span></h2>
+  <p class="lede">All of them are free from Google Fonts, under the SIL Open Font Licence. Each comes with a scale of three sizes, one for each job: headings, everything you read, and hints. Each sample is shown at its real size.</p>
+  <div class="gal" id="g-type"></div>
+
+  <h2 id="colour">Colours <span class="sec">A5</span></h2>
+  <p class="lede">Each palette gives every colour a job: text, quiet text, button, surface, success, error and an accent. Every ratio is worked out on this page with the WCAG formula, not typed in. If you change a colour, check its ratio again.</p>
+  <div class="cx-box" id="contrast"><b>What a contrast ratio means</b>
+      <p>Contrast is how different a text colour is from its background, written as a ratio. <b>1:1</b> is text the same colour as its background — invisible. <b>21:1</b> is black on white — the most there is.</p>
+      <div class="cx-scale" aria-hidden="true">
+        <div class="f"><span style="color:#D3D3D3">Aa</span><small>1.5:1</small><em>fails</em></div>
+        <div class="f"><span style="color:#AFAFAF">Aa</span><small>2.2:1</small><em>fails</em></div>
+        <div class="f"><span style="color:#959595">Aa</span><small>3:1</small><em>large text only</em></div>
+        <div class="p min"><span style="color:#767676">Aa</span><small>4.5:1</small><em>the minimum</em></div>
+        <div class="p"><span style="color:#595959">Aa</span><small>7:1</small><em>better</em></div>
+        <div class="p"><span style="color:#000">Aa</span><small>21:1</small><em>the most</em></div></div>
+      <ul><li><b>Aim for 4.5:1 or more</b> for all ordinary text — body text, labels, links and the words on buttons. This is the baseline (WCAG 2.2, success criterion 1.4.3, level AA).</li>
+        <li><b>3:1 is enough only</b> for large text (24px, or about 19px bold) and for icons, borders and focus outlines.</li>
+        <li><b>7:1 or more is better</b> (level AAA) — worth aiming for small text, and for people reading outdoors or with low vision.</li>
+        <li>“8 pieces of text below 4.5:1” means eight bits of wording on that page that fail the minimum. Check any pair with the <a href="https://webaim.org/resources/contrastchecker/">WebAIM contrast checker</a>, and write the ratio into A5.</li></ul></div>
+  <div class="gal" id="g-col"></div>
+
+  <p class="note">The grid numbers come from the <a href="https://interfaces.institute/collections/grids/">published grids register</a>, which takes each one from its publisher’s documentation. Example 2 and the case grids and palettes are this module’s own. To see what <i>no</i> decisions look like, press <b>Show all three wrong</b> in the <a href="style-kit.html">Style kit</a>.</p>
+
+  <footer><p>Screen Design · Level 4 · 2026–27</p></footer>
+</div>
+
+<div class="tray" id="tray"><div class="wrap">
+  <p class="sel" id="sel"></p>
+  <span class="trayb" aria-live="polite"><button type="button" data-tray="A3">Copy A3</button><button type="button" data-tray="A4">Copy A4</button><button type="button" data-tray="A5">Copy A5</button><button type="button" data-tray="C9">Copy C9</button></span>
+  <a class="go" href="style-kit.html">See them on screens →</a>
+</div></div>
+
+<script src="sd-options.js"></script>
+<script>
+(function () {
+  const S = window.SDO, $ = id => document.getElementById(id);
+  const esc = s => String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+  /* What the student has picked here, and nothing else: it starts empty, so the tray's buttons stay
+     grey until a card is clicked. Each pick is also handed to the Style kit (sd-kit), which then
+     shows it on its screens; the kit's own defaults never come back the other way. */
+  const state = {};
+  try { Object.assign(state, JSON.parse(localStorage.getItem('sd-gallery') || '{}')); } catch (e) {}
+  const save = () => { try { localStorage.setItem('sd-gallery', JSON.stringify(state));
+    const o = JSON.parse(localStorage.getItem('sd-kit') || '{}'); localStorage.setItem('sd-kit', JSON.stringify(Object.assign(o, state))); } catch (e) {} };
+  const LIST = { grid: S.GRIDS, type: S.TYPES, col: S.COLS }, TEXT = { grid: S.a3, type: S.a4, col: S.a5 }, SEC = { grid: 'A3', type: 'A4', col: 'A5' };
+  const srcLink = o => o.url ? `<a href="${esc(o.url)}"${/^https/.test(o.url) ? ' target="_blank" rel="noopener"' : ''}>Source</a>: ` : 'Source: ';
+  /* the card is the choice: a click anywhere on it picks it; the hidden radio is the same choice
+     for the keyboard and for screen readers */
+  const acts = (k, o) => `<div class="acts" aria-live="polite"><button type="button" class="cp" data-k="${k}" data-id="${o.id}">Copy ${esc(o.n)} for ${SEC[k]}</button></div>
+    <details><summary>What gets copied</summary><pre>${esc(TEXT[k](o))}</pre></details>
+    <p class="src">${srcLink(o)}${esc(o.src)}</p>`;
+
+  /* one device drawn to scale: margins, gutters and columns as a share of its width */
+  const dev = (vw, max, { c, g, m }, mainN, cls) => {
+    const W = max ? Math.min(max, vw) : vw, left = (vw - W) / 2 + m, cw = (W - 2 * m - (c - 1) * g) / c;
+    const cols = Array.from({ length: c }, (_, i) => `<i${i < mainN ? ' class="main"' : ''} style="left:${((left + i * (cw + g)) / vw * 100).toFixed(3)}%;width:${(cw / vw * 100).toFixed(3)}%"></i>`).join('');
+    return `<div class="dev ${cls}">${cols}</div>`; };
+  const gridCard = G => { const mn = +(G.main.match(/^(\d+)/) || [0, 0])[1];
+    return `<article class="oc" data-k="grid" data-id="${G.id}"><input class="pk vh" type="radio" name="pick-grid" value="${G.id}" aria-label="Choose ${esc(G.n)}"><div class="viz">
+      <figure>${dev(375, 0, G.ph, G.ph.c, 'ph')}<small>phone</small></figure>
+      <figure class="grow">${dev(1280, G.max, G.dk, mn, 'dk')}<small>desktop, 1280 px window</small></figure></div>
+      <h3>${esc(G.n)}</h3><p class="sub">${esc(G.s)}</p>
+      <dl><dt>Columns</dt><dd>${G.dk.c} desktop · ${G.ph.c} phone</dd><dt>Gutter</dt><dd>${G.dk.g === G.ph.g ? G.dk.g : G.dk.g + ' · ' + G.ph.g} px</dd>
+      <dt>Margin</dt><dd>${G.dk.m === G.ph.m ? G.dk.m : G.dk.m + ' · ' + G.ph.m} px</dd><dt>Max width</dt><dd>${G.max ? G.max + ' px' : 'none — fills the window'}</dd>
+      <dt>Main content</dt><dd>${esc(G.main)} columns</dd><dt>Breakpoints</dt><dd>${esc(G.bps)}</dd></dl>${acts('grid', G)}</article>`; };
+
+  const typeCard = T => `<article class="oc" data-k="type" data-id="${T.id}"><input class="pk vh" type="radio" name="pick-type" value="${T.id}" aria-label="Choose ${esc(T.n)}">
+      <div class="ts"><span class="h" style="font:${T.hw} ${T.h1}px/1.2 ${T.fh},system-ui">Book a collection</span>
+      <p style="font:400 ${T.body}px/1.5 ${T.fb},system-ui">Choose a day, and we will text you the evening before.</p>
+      <span class="lb" style="font:700 ${T.body}px/1.4 ${T.fb},system-ui">Postcode</span>
+      <small style="font:400 ${T.small}px/1.5 ${T.fb},system-ui">For example, L1 8JQ</small></div>
+      <h3>${esc(T.n)}</h3><p class="sub">${esc(T.s)}</p>
+      <dl><dt>Headings</dt><dd>${esc(T.fh.replace(/'/g, ''))} ${T.hw}, ${T.h1} px</dd><dt>Body and labels</dt><dd>${esc(T.fb.replace(/'/g, ''))}, ${T.body} px</dd>
+      <dt>Hints</dt><dd>${T.small} px</dd><dt>Why</dt><dd>${esc(T.why)}</dd></dl>${acts('type', T)}</article>`;
+
+  const colCard = C => { const on = C.on || '#FFFFFF', P = S.pairs(C);
+    const fails = P.filter(([n, f, b]) => n !== 'accent on background' && S.ratio(f, b) < 4.5).length;
+    const roles = [['text', C.ink], ['quiet', C.muted], ['button', C.pri], ['surface', C.panel], ['background', C.bg], ['success', C.ok], ['error', C.err], ['accent', C.accent]];
+    return `<article class="oc" data-k="col" data-id="${C.id}"><input class="pk vh" type="radio" name="pick-col" value="${C.id}" aria-label="Choose ${esc(C.n)}">
+      <div class="cs" style="background:${C.bg};color:${C.ink}"><b>Which bin was not emptied?</b><span style="color:${C.muted}">Choose one answer</span>
+      <span class="pn" style="background:${C.panel}">Collections are on Tuesdays.</span>
+      <span class="row"><span class="bt" style="background:${C.pri};color:${on}">Continue</span><span style="color:${C.link || C.pri};text-decoration:underline">Go back</span></span>
+      <span class="row"><span style="color:${C.err};font-weight:700">Choose a bin</span><span class="okp" style="background:${C.ok};color:${on}">Report sent</span></span></div>
+      <h3>${esc(C.n)}</h3><p class="sub">${esc(C.s)}</p>
+      <div class="sw">${roles.map(([n, h]) => `<span><i style="background:${h}"></i>${n} ${h}</span>`).join('')}</div>
+      <ul class="rt">${P.map(([n, f, b]) => { const r = S.ratio(f, b), dec = n === 'accent on background';
+        const cls = r >= 4.5 ? 'ok' : dec ? 'na' : 'no', mark = r >= 4.5 ? '✓' : dec ? '–' : '✗';
+        return `<li><span class="pill ${cls}">${mark} ${r.toFixed(1)}:1</span>${n}${dec && r < 4.5 ? ' — decoration only' : ''}</li>`; }).join('')}</ul>
+      <p class="verd ${fails ? 'no' : 'ok'}">${fails ? `✗ ${fails} text pair${fails > 1 ? 's' : ''} below 4.5:1 — can lose marks` : '✓ Every text pair passes WCAG AA'}</p>${acts('col', C)}</article>`; };
+
+  $('g-grid').innerHTML = S.GRIDS.filter(o => !o.bad).map(gridCard).join('');
+  $('g-type').innerHTML = S.TYPES.filter(o => !o.bad).map(typeCard).join('');
+  $('g-col').innerHTML = S.COLS.filter(o => !o.bad).map(colCard).join('');
+  $('g-grid').insertAdjacentHTML('beforebegin', '<p class="key"><i></i>darker columns: the main content</p>');
+
+  const find = (k, id) => LIST[k].find(o => o.id === id) || LIST[k][0];
+  const chosen = k => state[k] && LIST[k].find(o => o.id === state[k]);
+  const TRAY = { A3: () => chosen('grid') && S.a3(chosen('grid')), A4: () => chosen('type') && S.a4(chosen('type')),
+    A5: () => chosen('col') && S.a5(chosen('col')), C9: () => ['grid', 'type', 'col'].some(chosen) && S.c9(['grid', 'type', 'col'].map(chosen)) };
+  function mark() {
+    document.querySelectorAll('.oc').forEach(c => { const on = state[c.dataset.k] === c.dataset.id; c.classList.toggle('on', on);
+      c.querySelector('.pk').checked = on; });
+    const name = (k, label) => chosen(k) ? `<b>${esc(chosen(k).n)}</b>` : `<span class="none">no ${label} yet</span>`;
+    $('sel').innerHTML = `Chosen: ${name('grid', 'grid')} · ${name('type', 'typeface')} · ${name('col', 'colours')}`;
+    document.querySelectorAll('[data-tray]').forEach(b => { const t = TRAY[b.dataset.tray](); b.disabled = !t;
+      b.title = t ? '' : b.dataset.tray === 'C9' ? 'Choose something first' : `Choose a ${{ A3: 'grid', A4: 'typeface', A5: 'palette' }[b.dataset.tray]} first`; });
+  }
+  const pick = (k, id) => { state[k] = id; save(); mark(); };
+  /* the button itself answers: green and "Copied ✓" for a moment, then its own label again */
+  async function copy(text, btn, pre) {
+    const label = btn.dataset.label || (btn.dataset.label = btn.textContent);
+    clearTimeout(btn._t); btn.classList.remove('done', 'fail');
+    try { await navigator.clipboard.writeText(text); btn.classList.add('done'); btn.textContent = 'Copied ✓'; }
+    catch (e) { btn.classList.add('fail'); btn.textContent = 'Copy it from the text below';
+      if (pre) { pre.closest('details').open = true; getSelection().selectAllChildren(pre); } }
+    btn._t = setTimeout(() => { btn.classList.remove('done', 'fail'); btn.textContent = label; }, 2200);
+  }
+  document.addEventListener('click', e => {
+    const b = e.target.closest('.cp');
+    if (b) { const { k, id } = b.dataset; pick(k, id); copy(TEXT[k](find(k, id)), b, b.closest('.oc').querySelector('pre')); return; }
+    const t = e.target.closest('[data-tray]');
+    if (t) { const text = TRAY[t.dataset.tray](); if (text) copy(text, t); return; }
+    /* anywhere else on a card picks it; its links and the copied-text preview keep their own job */
+    const c = e.target.closest('.oc'); if (c && !e.target.closest('a, summary, pre, input')) pick(c.dataset.k, c.dataset.id);
+  });
+  document.addEventListener('change', e => { if (e.target.classList.contains('pk')) pick(e.target.name.slice(5), e.target.value); });
+  mark();
+})();
+
+const root = document.documentElement;
+try { const t = localStorage.getItem('sd-theme'); if (t) root.dataset.theme = t; } catch (e) {}
+if (!root.dataset.theme && matchMedia('(prefers-color-scheme: dark)').matches) root.dataset.theme = 'dark';
+document.getElementById('theme').onclick = () => {
+  root.dataset.theme = root.dataset.theme === 'dark' ? 'light' : 'dark';
+  try { localStorage.setItem('sd-theme', root.dataset.theme); } catch (e) {}
+};
+</script>
+</body>
+</html>

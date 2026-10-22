@@ -1,0 +1,546 @@
+{
+ "schema_version": 1,
+ "dataset_name": "flow-census",
+ "note": "Screens, not captures. Derived from the walks in flows.json by reduce_flows.py. Screen names are the page H1 quoted off the capture; heights are measured from the full-page PNG at 1440 CSS px wide. No screenshots are published.",
+ "derived_from": "sd-flows",
+ "extraction_date": "2026-09-01",
+ "generated_by": "reduce_flows.py",
+ "flows": [
+  {
+   "id": "sd-flow-001",
+   "name": "Register to vote — the full application, up to the summary",
+   "entry_url": "https://www.gov.uk/register-to-vote",
+   "service_host": "registertovote.service.gov.uk",
+   "captured_date": "2026-09-01",
+   "viewport": {
+    "width": 1440,
+    "height": 900,
+    "dpr": 2
+   },
+   "captures": 32,
+   "screens": 16,
+   "not_reached": "The walk stopped at the summary. Sending the application, the confirmation and every error state are uncaptured — submitting a real registration for a person who does not exist is an offence, and the service says so on the screen."
+  },
+  {
+   "id": "sd-flow-002",
+   "name": "Find a GP — postcode to provider to how to register",
+   "entry_url": "https://www.nhs.uk/service-search/find-a-gp",
+   "service_host": "www.nhs.uk",
+   "captured_date": "2026-09-01",
+   "viewport": {
+    "width": 1440,
+    "height": 900,
+    "dpr": 2
+   },
+   "captures": 7,
+   "screens": 5,
+   "not_reached": null
+  },
+  {
+   "id": "sd-flow-003",
+   "name": "News front page — front page to lead story",
+   "entry_url": "https://www.bbc.co.uk/news",
+   "service_host": "www.bbc.com",
+   "captured_date": "2026-09-01",
+   "viewport": {
+    "width": 1440,
+    "height": 900,
+    "dpr": 2
+   },
+   "captures": 2,
+   "screens": 2,
+   "not_reached": "Two screens only: front page and lead story. Section fronts, search and video are uncaptured."
+  },
+  {
+   "id": "sd-flow-004",
+   "name": "Retail checkout — product page (INCOMPLETE)",
+   "entry_url": "https://www.screwfix.com/p/stanley-fatmax-5m-tape-measure/31529",
+   "service_host": "www.screwfix.com",
+   "captured_date": "2026-09-01",
+   "viewport": {
+    "width": 1440,
+    "height": 900,
+    "dpr": 2
+   },
+   "captures": 2,
+   "screens": 1,
+   "not_reached": "Incomplete. The walk stopped at the product page; no basket, delivery or payment screen was captured."
+  }
+ ],
+ "counts": {
+  "flows": 4,
+  "captures": 43,
+  "screens": 24,
+  "collapse_ratio": 1.79,
+  "with_door_not_taken": 20,
+  "without": 4,
+  "questions": 15,
+  "question_height_min": 1048,
+  "question_height_max": 2161,
+  "tallest_screen": "GP surgeries near E9 7HQ",
+  "tallest_height": 27028
+ },
+ "screens": [
+  {
+   "flow": "sd-flow-001",
+   "flow_name": "Register to vote",
+   "screen": "Register to vote",
+   "kind": "guide",
+   "job": "Explain the service and start it.",
+   "job_words": 6,
+   "door_not_taken": "Register to vote - apply by post",
+   "captures": 2,
+   "steps": [
+    1,
+    2
+   ],
+   "files": [
+    "01-start@full.webp",
+    "02-cookies-rejected@full.webp"
+   ],
+   "height_css": [
+    4732,
+    4897
+   ]
+  },
+  {
+   "flow": "sd-flow-001",
+   "flow_name": "Register to vote",
+   "screen": "Where do you live?",
+   "kind": "question",
+   "job": "Route the applicant to the right nation.",
+   "job_words": 7,
+   "door_not_taken": "British citizen living in another country",
+   "captures": 3,
+   "steps": [
+    3,
+    4,
+    5
+   ],
+   "files": [
+    "03-start-now@full.webp",
+    "04-service-cookies-rejected@full.webp",
+    "05-where-do-you-live@full.webp"
+   ],
+   "height_css": [
+    1308,
+    1403
+   ]
+  },
+  {
+   "flow": "sd-flow-001",
+   "flow_name": "Register to vote",
+   "screen": "What is your nationality?",
+   "kind": "question",
+   "job": "Establish eligibility to vote.",
+   "job_words": 4,
+   "door_not_taken": "I cannot provide my nationality",
+   "captures": 2,
+   "steps": [
+    6,
+    7
+   ],
+   "files": [
+    "06-nationality@full.webp",
+    "07-nationality-british@full.webp"
+   ],
+   "height_css": 1225
+  },
+  {
+   "flow": "sd-flow-001",
+   "flow_name": "Register to vote",
+   "screen": "What is your date of birth?",
+   "kind": "question",
+   "job": "Establish age eligibility.",
+   "job_words": 3,
+   "door_not_taken": "I cannot provide my date of birth",
+   "captures": 2,
+   "steps": [
+    8,
+    9
+   ],
+   "files": [
+    "08-date-of-birth@full.webp",
+    "09-dob-filled@full.webp"
+   ],
+   "height_css": 1088
+  },
+  {
+   "flow": "sd-flow-001",
+   "flow_name": "Register to vote",
+   "screen": "What is your full name?",
+   "kind": "question",
+   "job": "Take the name that goes on the register.",
+   "job_words": 8,
+   "door_not_taken": null,
+   "captures": 2,
+   "steps": [
+    10,
+    11
+   ],
+   "files": [
+    "10-name@full.webp",
+    "11-name-filled@full.webp"
+   ],
+   "height_css": 1183
+  },
+  {
+   "flow": "sd-flow-001",
+   "flow_name": "Register to vote",
+   "screen": "Have you ever changed your name?",
+   "kind": "question",
+   "job": "Find the applicant under a previous name.",
+   "job_words": 7,
+   "door_not_taken": "Yes",
+   "captures": 2,
+   "steps": [
+    12,
+    13
+   ],
+   "files": [
+    "12-name-change@full.webp",
+    "13-name-change-no@full.webp"
+   ],
+   "height_css": 1110
+  },
+  {
+   "flow": "sd-flow-001",
+   "flow_name": "Register to vote",
+   "screen": "What is your National Insurance number?",
+   "kind": "question",
+   "job": "Verify identity against existing government records.",
+   "job_words": 6,
+   "door_not_taken": "I cannot provide my National Insurance number",
+   "captures": 3,
+   "steps": [
+    14,
+    15,
+    16
+   ],
+   "files": [
+    "14-next-after-name-change@full.webp",
+    "15-ni-cannot-provide@full.webp",
+    "16-ni-reason-filled@full.webp"
+   ],
+   "height_css": [
+    1213,
+    1661
+   ]
+  },
+  {
+   "flow": "sd-flow-001",
+   "flow_name": "Register to vote",
+   "screen": "What is your UK postcode?",
+   "kind": "question",
+   "job": "Narrow the address to one list.",
+   "job_words": 6,
+   "door_not_taken": "I do not know which postcode to use",
+   "captures": 2,
+   "steps": [
+    17,
+    18
+   ],
+   "files": [
+    "17-address@full.webp",
+    "18-postcode-filled@full.webp"
+   ],
+   "height_css": 1048
+  },
+  {
+   "flow": "sd-flow-001",
+   "flow_name": "Register to vote",
+   "screen": "What is your address?",
+   "kind": "question",
+   "job": "Pick the exact property from that list.",
+   "job_words": 7,
+   "door_not_taken": "I cannot find my address on the list",
+   "captures": 2,
+   "steps": [
+    19,
+    20
+   ],
+   "files": [
+    "19-address-picker@full.webp",
+    "20-address-selected@full.webp"
+   ],
+   "height_css": 1048
+  },
+  {
+   "flow": "sd-flow-001",
+   "flow_name": "Register to vote",
+   "screen": "Do you also live at a second address?",
+   "kind": "question",
+   "job": "Catch students and second homes.",
+   "job_words": 5,
+   "door_not_taken": "Yes, I live at 2 addresses",
+   "captures": 2,
+   "steps": [
+    21,
+    22
+   ],
+   "files": [
+    "21-after-address@full.webp",
+    "22-second-address-no@full.webp"
+   ],
+   "height_css": 1345
+  },
+  {
+   "flow": "sd-flow-001",
+   "flow_name": "Register to vote",
+   "screen": "Have you permanently moved out of another address in the last 12 months?",
+   "kind": "question",
+   "job": "Remove the old entry from the register.",
+   "job_words": 7,
+   "door_not_taken": "Yes, from a UK address",
+   "captures": 2,
+   "steps": [
+    23,
+    24
+   ],
+   "files": [
+    "23-after-second-address@full.webp",
+    "24-previous-address-no@full.webp"
+   ],
+   "height_css": 1240
+  },
+  {
+   "flow": "sd-flow-001",
+   "flow_name": "Register to vote",
+   "screen": "Decide if you want your details to appear on the ‘open register’",
+   "kind": "question",
+   "job": "Explain two registers, then take a choice.",
+   "job_words": 7,
+   "door_not_taken": "register to vote anonymously",
+   "captures": 2,
+   "steps": [
+    25,
+    26
+   ],
+   "files": [
+    "25-after-previous-address@full.webp",
+    "26-open-register-opt-out@full.webp"
+   ],
+   "height_css": 2161
+  },
+  {
+   "flow": "sd-flow-001",
+   "flow_name": "Register to vote",
+   "screen": "Choose how you would like to be contacted",
+   "kind": "question",
+   "job": "Ask which contact details are worth collecting.",
+   "job_words": 7,
+   "door_not_taken": "You can email me",
+   "captures": 1,
+   "steps": [
+    27
+   ],
+   "files": [
+    "27-after-open-register@full.webp"
+   ],
+   "height_css": 1226
+  },
+  {
+   "flow": "sd-flow-001",
+   "flow_name": "Register to vote",
+   "screen": "What is your email address?",
+   "kind": "question",
+   "job": "Take an email address.",
+   "job_words": 4,
+   "door_not_taken": null,
+   "captures": 2,
+   "steps": [
+    28,
+    29
+   ],
+   "files": [
+    "28-after-contact@full.webp",
+    "29-email-filled@full.webp"
+   ],
+   "height_css": 1148
+  },
+  {
+   "flow": "sd-flow-001",
+   "flow_name": "Register to vote",
+   "screen": "What is your phone number?",
+   "kind": "question",
+   "job": "Take a phone number.",
+   "job_words": 4,
+   "door_not_taken": null,
+   "captures": 2,
+   "steps": [
+    30,
+    31
+   ],
+   "files": [
+    "30-after-email@full.webp",
+    "31-phone-filled@full.webp"
+   ],
+   "height_css": 1208
+  },
+  {
+   "flow": "sd-flow-001",
+   "flow_name": "Register to vote",
+   "screen": "Check your answers before sending your application",
+   "kind": "confirm",
+   "job": "Show everything given, let any of it change.",
+   "job_words": 8,
+   "door_not_taken": "Change",
+   "captures": 1,
+   "steps": [
+    32
+   ],
+   "files": [
+    "32-after-phone@full.webp"
+   ],
+   "height_css": 2216
+  },
+  {
+   "flow": "sd-flow-002",
+   "flow_name": "Find a GP",
+   "screen": "Find a GP",
+   "kind": "question",
+   "job": "Take a postcode.",
+   "job_words": 3,
+   "door_not_taken": "Use your location",
+   "captures": 3,
+   "steps": [
+    1,
+    2,
+    3
+   ],
+   "files": [
+    "01-start@full.webp",
+    "02-cookies-rejected@full.webp",
+    "03-postcode-filled@full.webp"
+   ],
+   "height_css": [
+    1211,
+    1464
+   ]
+  },
+  {
+   "flow": "sd-flow-002",
+   "flow_name": "Find a GP",
+   "screen": "GP surgeries near E9 7HQ",
+   "kind": "list",
+   "job": "List every surgery, nearest first.",
+   "job_words": 5,
+   "door_not_taken": "Filter by availability",
+   "captures": 1,
+   "steps": [
+    4
+   ],
+   "files": [
+    "04-results@full.png"
+   ],
+   "height_css": 27028
+  },
+  {
+   "flow": "sd-flow-002",
+   "flow_name": "Find a GP",
+   "screen": "LONDON FIELDS MEDICAL CENTRE",
+   "kind": "detail",
+   "job": "Show one surgery, and whether it is open.",
+   "job_words": 8,
+   "door_not_taken": "go to NHS 111 online or call 111, for urgent care",
+   "captures": 1,
+   "steps": [
+    5
+   ],
+   "files": [
+    "05-provider-detail@full.webp"
+   ],
+   "height_css": 1683
+  },
+  {
+   "flow": "sd-flow-002",
+   "flow_name": "Find a GP",
+   "screen": "How to register with this GP surgery",
+   "kind": "guide",
+   "job": "Check catchment, then explain how to register.",
+   "job_words": 7,
+   "door_not_taken": "Check that you live in this GP surgery’s catchment area",
+   "captures": 1,
+   "steps": [
+    6
+   ],
+   "files": [
+    "06-how-to-register@full.webp"
+   ],
+   "height_css": 2659
+  },
+  {
+   "flow": "sd-flow-002",
+   "flow_name": "Find a GP",
+   "screen": "Contact details and opening times",
+   "kind": "detail",
+   "job": "Give the address, the phone number, the hours.",
+   "job_words": 8,
+   "door_not_taken": null,
+   "captures": 1,
+   "steps": [
+    7
+   ],
+   "files": [
+    "07-contact-and-opening-times@full.webp"
+   ],
+   "height_css": 2624
+  },
+  {
+   "flow": "sd-flow-003",
+   "flow_name": "News front page",
+   "screen": "News front page",
+   "kind": "list",
+   "job": "Rank today, and show the ranking.",
+   "job_words": 6,
+   "door_not_taken": "every headline below the lead",
+   "captures": 1,
+   "steps": [
+    1
+   ],
+   "files": [
+    "01-start@full.webp"
+   ],
+   "height_css": 6069
+  },
+  {
+   "flow": "sd-flow-003",
+   "flow_name": "News front page",
+   "screen": "Lead story",
+   "kind": "detail",
+   "job": "Give one story in full.",
+   "job_words": 5,
+   "door_not_taken": "related stories at the foot",
+   "captures": 1,
+   "steps": [
+    2
+   ],
+   "files": [
+    "02-lead-story@full.webp"
+   ],
+   "height_css": 7808
+  },
+  {
+   "flow": "sd-flow-004",
+   "flow_name": "Retail checkout",
+   "screen": "Product page",
+   "kind": "detail",
+   "job": "Describe one product and let it be bought.",
+   "job_words": 8,
+   "door_not_taken": "Check stock in your local store",
+   "captures": 2,
+   "steps": [
+    1,
+    2
+   ],
+   "files": [
+    "01-start@full.webp",
+    "02-consent-rejected@full.webp"
+   ],
+   "height_css": [
+    2289,
+    5589
+   ]
+  }
+ ]
+}

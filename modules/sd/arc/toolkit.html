@@ -1,0 +1,340 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Toolkit · Screen Design</title>
+<style>
+  :root{
+    --bg:#F5F4F2; --surface:#FFFFFF; --surface-2:#EDEBE8;
+    --ink:#1A1618; --ink-2:#514B4A; --ink-3:#4D4847;
+    --line:#DFDBD7; --line-2:#8E8685;
+    --lec:#8C2437; --lec-soft:#F6E8EA;
+    --wsh:#1A526D; --wsh-soft:#E4EEF3;
+    --ok:#285638; --ok-soft:#E3EFE7;
+    --warn:#684604; --warn-soft:#F4EAD3;
+    --mono:ui-monospace,"SF Mono",Menlo,Consolas,monospace;
+    --sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Inter,Roboto,sans-serif;
+  }
+  html[data-theme="dark"]{
+    --bg:#151314; --surface:#1E1B1C; --surface-2:#262223;
+    --ink:#EDE9E7; --ink-2:#B9B2AF; --ink-3:#B7B2B0;
+    --line:#332E2F; --line-2:#7A7372;
+    --lec:#E69FAD; --lec-soft:#332226;
+    --wsh:#7FBEDC; --wsh-soft:#16262E;
+    --ok:#83C19A; --ok-soft:#1C2A22;
+    --warn:#DCB469; --warn-soft:#2A2417;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);line-height:1.5}
+  .wrap{max-width:1100px;margin:0 auto;padding:0 22px}
+  @media(max-width:420px){.wrap{padding:0 14px}}
+  @media(max-width:340px){.wrap{padding:0 10px}}
+  a{color:var(--lec)}
+
+  /* The bar, identical on every page (see assessment.html). */
+  header{border-bottom:1px solid var(--line);background:var(--surface);position:sticky;top:0;z-index:40}
+  .bar{display:flex;align-items:center;gap:10px;padding-block:11px;flex-wrap:nowrap}
+  .brand{font-weight:680;font-size:1rem;letter-spacing:-0.015em;white-space:nowrap;color:inherit;
+    text-decoration:none;padding:5px 8px;margin-left:-8px;border-radius:6px}
+  .brand:hover{background:var(--surface-2)}
+  .brand:focus-visible{outline:2px solid var(--lec);outline-offset:1px}
+  .sp{flex:1}
+  .navl{font-size:0.85rem;color:var(--ink-2);text-decoration:none;padding:6px 10px;border-radius:6px;white-space:nowrap}
+  .navl:hover{background:var(--surface-2);color:var(--ink)}
+  .ctl button{font-family:var(--mono);font-size:0.7rem;background:none;color:var(--ink-3);
+    border:1px solid var(--line-2);border-radius:5px;padding:5px 8px;cursor:pointer;line-height:1}
+  .ctl button:hover{border-color:var(--lec);color:var(--lec)}
+  @media(max-width:760px){ header .bar{gap:6px} .navl{padding:6px 8px;font-size:0.82rem} }
+  @media(max-width:560px){
+    header .bar{flex-wrap:wrap;row-gap:6px}
+    header .brand{order:0} header .ctl{order:1;margin-left:auto}
+    header .bar > .sp{order:2;flex-basis:100%;height:0}
+    header .navl{order:3;padding:5px 7px;font-size:0.78rem}
+  }
+  @media(max-width:430px){ .brand{font-size:0.9rem} .navl{padding:5px 6px;font-size:0.76rem} }
+
+  .navl.on{background:var(--lec);color:#fff}
+  html[data-theme="dark"] .navl.on{color:#151314}
+  h1{font-size:clamp(1.6rem,4.4vw,2.3rem);line-height:1.1;letter-spacing:-0.028em;margin:24px 0 4px;font-weight:700}
+  h2{font-size:1.2rem;font-weight:690;letter-spacing:-0.015em;margin:34px 0 6px}
+  .sub{color:var(--ink-2);margin:0 0 18px;max-width:70ch}
+  .lede{color:var(--ink-2);margin:0 0 14px;max-width:72ch;font-size:0.95rem}
+
+  .tiles{display:grid;gap:10px;grid-template-columns:repeat(auto-fit,minmax(min(220px,100%),1fr))}
+  .tile{display:block;background:var(--surface);border:1px solid var(--line);border-radius:11px;padding:14px 16px;
+    text-decoration:none;color:inherit}
+  .tile:hover{border-color:var(--lec)}
+  .tile b{display:block;font-size:0.98rem;margin-bottom:3px}
+  .tile span{font-size:0.86rem;color:var(--ink-2)}
+  .tile i{font-style:normal;font-family:var(--mono);font-size:0.68rem;color:var(--ink-3);display:block;margin-top:6px}
+
+  table.steps{width:100%;border-collapse:collapse;background:var(--surface);border:1px solid var(--line);
+    border-radius:11px;overflow:hidden;font-size:0.9rem}
+  .steps th{text-align:left;font-family:var(--mono);font-size:0.62rem;letter-spacing:0.08em;text-transform:uppercase;
+    color:var(--ink-3);padding:9px 12px;background:var(--surface-2);font-weight:500}
+  .steps td{padding:8px 12px;border-top:1px solid var(--line);vertical-align:middle}
+  .steps td.cls{font-weight:640}
+  .steps td.rg{font-family:var(--mono);font-size:0.8rem;color:var(--ink-2);white-space:nowrap}
+  .steps .m{display:inline-block;font-family:var(--mono);font-size:0.82rem;font-weight:700;min-width:34px;
+    text-align:center;padding:2px 6px;margin:2px 3px 2px 0;border-radius:5px;background:var(--bg);border:1px solid var(--line)}
+  .steps tr.first td.cls{color:var(--ok)}
+  .steps tr.fail td.cls{color:var(--lec)}
+
+  .ex{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(min(320px,100%),1fr))}
+  .excard{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:16px 18px;
+    display:flex;flex-direction:column;gap:10px}
+  .exk{font-family:var(--mono);font-size:0.64rem;letter-spacing:0.08em;text-transform:uppercase;color:var(--ink-3)}
+  .excard h3{margin:0;font-size:1.08rem}
+  .excard p{margin:0;font-size:0.9rem;color:var(--ink-2)}
+  .exmark{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap}
+  .exmark .n{font-size:2.2rem;font-weight:740;letter-spacing:-0.03em;color:var(--lec);line-height:1}
+  .exmark .crit{font-family:var(--mono);font-size:0.78rem;color:var(--ink-2)}
+  .exhid{font-size:0.9rem;color:var(--ink-2);background:var(--bg);border:1px dashed var(--line-2);border-radius:8px;padding:10px 12px}
+  .exacts{display:flex;flex-wrap:wrap;gap:8px;margin-top:auto}
+  .btn{display:inline-flex;align-items:center;min-height:42px;padding:0 15px;border-radius:8px;text-decoration:none;
+    font-weight:640;font-size:0.9rem;border:1px solid var(--line-2);color:var(--ink);background:var(--bg)}
+  .btn:hover{border-color:var(--lec);color:var(--lec)}
+  .btn.pri{background:var(--lec);border-color:var(--lec);color:#fff}
+  html[data-theme="dark"] .btn.pri{color:#151314}
+  .btn.off{color:var(--ink-3);border-style:dashed;cursor:default}
+  .faq{display:grid;gap:6px}
+  .faq details{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:0}
+  .faq summary{cursor:pointer;padding:12px 16px;font-weight:600;list-style:none;display:flex;gap:10px;align-items:baseline}
+  .faq summary::-webkit-details-marker{display:none}
+  .faq summary::before{content:"+";font-family:var(--mono);color:var(--ink-3);width:1em;flex:none}
+  .faq details[open] summary::before{content:"\2013"}
+  .faq .a{padding:0 16px 14px 42px;color:var(--ink-2);font-size:0.95rem;line-height:1.6}
+  .faq .a a{color:var(--lec)}
+  .note{font-size:0.82rem;color:var(--ink-3);margin:12px 0 0}
+  footer{padding:24px 0 44px;color:var(--ink-3);font-size:0.8rem;border-top:1px solid var(--line);margin-top:30px}
+  @media(max-width:520px){ .steps td{padding:7px 8px} .steps td.rg{white-space:normal} }
+
+  /* the toolkit: cards, filtered by the deck section each one helps fill */
+  .tk-filter{display:flex;flex-wrap:wrap;gap:6px;margin:6px 0 16px}
+  .tk-filter button{appearance:none;border:1px solid var(--line);background:var(--surface);color:var(--ink-2);border-radius:99px;padding:6px 12px;min-height:36px;font:600 0.82rem var(--sans,inherit);cursor:pointer}
+  .tk-filter button[aria-pressed="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+  .tk-group{margin:0 0 26px;scroll-margin-top:80px}
+  .tk-group h2{margin:0 0 4px}
+  .tk-group .gsub{margin:0 0 10px;color:var(--ink-3);font-size:0.9rem}
+  .tk-grid{display:grid;gap:10px;grid-template-columns:repeat(auto-fill,minmax(min(270px,100%),1fr))}
+  .tk{display:flex;flex-direction:column;gap:6px;background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:14px 16px;color:inherit;text-decoration:none;transition:border-color .15s,transform .15s}
+  .tk:hover,.tk:focus-visible{border-color:var(--lec);transform:translateY(-1px)}
+  .tk:focus-visible{outline:2px solid var(--lec);outline-offset:2px}
+  @media (prefers-reduced-motion:reduce){.tk{transition:none}.tk:hover{transform:none}}
+  .tk .top{display:flex;justify-content:space-between;gap:8px;align-items:baseline}
+  .tk b{font-size:1rem}
+  .tk .kind{font-family:var(--mono);font-size:0.62rem;letter-spacing:0.08em;text-transform:uppercase;border-radius:4px;padding:2px 6px;white-space:nowrap;border:1px solid currentColor}
+  .tk .kind.explore{color:var(--lec)} .tk .kind.collect{color:#1E6B3A} .tk .kind.check{color:#8F2E1B} .tk .kind.make{color:#6A4B00}
+  .tk p{margin:0;color:var(--ink-2);font-size:0.9rem;line-height:1.5;flex:1}
+  .tk .foot{display:flex;flex-wrap:wrap;gap:5px;align-items:center;font-family:var(--mono);font-size:0.68rem;color:var(--ink-3)}
+  .tk .sec{background:var(--bg);border:1px solid var(--line);border-radius:4px;padding:1px 5px;color:var(--ink-2)}
+  .tk .host{margin-left:auto}
+  .tk.ours{border-color:var(--lec)}
+  .howto{background:var(--surface);border:1px solid var(--line);border-left:3px solid var(--lec);border-radius:0 12px 12px 0;padding:14px 18px;margin:0 0 26px}
+  .howto ol{margin:6px 0 0;padding-left:20px} .howto li{margin:4px 0;color:var(--ink-2)}
+  .howto code{font-size:0.86em}
+  .howto{scroll-margin-top:80px}
+  details.howto{padding:0}
+  details.howto > summary{cursor:pointer;list-style:none;display:flex;align-items:center;gap:10px;min-height:48px;padding:12px 18px}
+  details.howto > summary::-webkit-details-marker{display:none}
+  details.howto > summary::after{content:"+";margin-left:auto;font-family:var(--mono);font-size:1.1rem;color:var(--ink-3)}
+  details.howto[open] > summary::after{content:"\2013"}
+  details.howto > summary:hover b{color:var(--lec)}
+  details.howto > summary:focus-visible{outline:2px solid var(--lec);outline-offset:2px;border-radius:0 12px 12px 0}
+  details.howto > :not(summary){margin-left:18px;margin-right:18px}
+  details.howto[open]{padding-bottom:14px}
+  details.howto + details.howto{margin-top:-14px}
+  table.mt{width:100%;border-collapse:collapse;margin:10px 0 4px;font-size:0.88rem;background:var(--bg);border-radius:8px;overflow:hidden}
+  .mt th,.mt td{text-align:left;vertical-align:top;padding:8px 10px;border-top:1px solid var(--line);color:var(--ink-2)}
+  .mt tr:first-child th{border-top:0;font-family:var(--mono);font-size:0.66rem;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-3);font-weight:600}
+  .mt th{color:var(--ink);font-weight:640;white-space:nowrap}
+  .mt kbd{font-family:var(--mono);font-size:0.8em;border:1px solid var(--line-2);border-bottom-width:2px;border-radius:4px;padding:0 4px;background:var(--surface)}
+  .mtn{margin:8px 0 0;font-size:0.85rem;color:var(--ink-3)}
+  @media(max-width:700px){ .mt,.mt tbody,.mt tr,.mt th,.mt td{display:block} .mt tr:first-child{display:none} .mt tr{border-top:1px solid var(--line);padding:6px 0} .mt th,.mt td{border:0;padding:3px 10px} .mt th{white-space:normal} }
+
+  /* THE BAR — one definition, identical on every page (written by navfix; change it
+     everywhere or nowhere). It used to be copied per page and drifted into two heights. */
+  header.sdnav{position:sticky;top:0;z-index:40;background:var(--surface);border-bottom:1px solid var(--line)}
+  header.sdnav .bar{display:flex;align-items:center;gap:10px;min-height:56px;padding-block:8px;flex-wrap:nowrap}
+  header.sdnav .brand{font-weight:680;font-size:1rem;letter-spacing:-0.015em;white-space:nowrap;color:inherit;
+    text-decoration:none;padding:5px 8px;margin-left:-8px;border-radius:6px;order:0}
+  header.sdnav .brand:hover{background:var(--surface-2,var(--bg))}
+  header.sdnav .sp{flex:1;display:block;height:auto;flex-basis:auto;order:0}
+  header.sdnav .sdlinks{display:flex;align-items:center;gap:2px;order:0}
+  header.sdnav .navl{display:inline-block;font-size:0.85rem;line-height:1.3;color:var(--ink-2);text-decoration:none;
+    padding:6px 10px;border-radius:6px;white-space:nowrap;order:0}
+  header.sdnav .navl:hover{background:var(--surface-2,var(--bg));color:var(--ink)}
+  header.sdnav .navl.on{background:var(--lec);color:#fff}
+  html[data-theme="dark"] header.sdnav .navl.on{color:#151314}
+  header.sdnav a:focus-visible,header.sdnav button:focus-visible{outline:2px solid var(--lec);outline-offset:1px}
+  header.sdnav .ctl{order:0;margin-left:4px}
+  header.sdnav .ctl button{font-family:var(--mono);font-size:0.7rem;background:none;color:var(--ink-3);
+    border:1px solid var(--line-2);border-radius:6px;padding:0 9px;cursor:pointer;line-height:1;
+    height:34px;min-height:34px;min-width:34px;display:inline-flex;align-items:center;justify-content:center}
+  header.sdnav .ctl button:hover{border-color:var(--lec);color:var(--lec)}
+  @media(max-width:960px){
+    header.sdnav .bar{flex-wrap:wrap;row-gap:0;padding-block:6px 0;min-height:0}
+    header.sdnav .ctl{order:1;margin-left:auto}
+    header.sdnav .sp{display:none}
+    header.sdnav .sdlinks{order:2;flex-basis:100%;overflow-x:auto;scrollbar-width:none;padding:4px 28px 8px 0;min-height:44px;
+      -webkit-mask-image:linear-gradient(to right,#000 calc(100% - 28px),transparent);mask-image:linear-gradient(to right,#000 calc(100% - 28px),transparent)}
+    header.sdnav .sdlinks::-webkit-scrollbar{display:none}
+    header.sdnav .navl{font-size:0.82rem;padding:6px 9px}
+  }
+</style>
+</head>
+<body>
+
+<header class="sdnav">
+  <div class="wrap bar">
+    <a class="brand" href="index.html">Screen Design</a>
+    <span class="sp"></span>
+    <nav class="sdlinks" aria-label="Screen Design"><a class="navl" href="index.html">Overview</a><a class="navl" href="weeks.html">Week by week</a><a class="navl" href="brief.html">The brief</a><a class="navl" href="assessment.html">Checklist</a><a class="navl" href="assessment-materials.html">Marking and examples</a><a class="navl on" href="toolkit.html" aria-current="page">Toolkit</a><a class="navl" href="ideas.html">Theme ideas</a></nav>
+    <span class="ctl"><button id="theme" aria-label="Dark mode">◐</button></span>
+  </div>
+</header>
+<script>(function(){var n=document.querySelector(".sdlinks"),o=n&&n.querySelector(".on");if(o&&n.scrollWidth>n.clientWidth)n.scrollLeft=o.offsetLeft-n.offsetLeft-16;})();</script>
+
+<div class="wrap">
+  <h1>Toolkit</h1>
+  <p class="sub">Tools and websites for the fundamentals — layout, type, colour, access — and for collecting the exact
+    numbers your deck asks for. Each card says which section of the deck it helps you fill. Most are free; none is required.
+    Use whatever you are comfortable with.</p>
+
+  <p class="howto"><b>Still choosing a theme?</b> <a href="ideas.html">Theme ideas</a> gives you a ready-made one at the press of a button — someone specific, one goal, how people do it now and the screens you would need — to take as it is or change.</p>
+
+  <details class="howto" id="measure">
+    <summary><b>Measure a website — its width, margins and breakpoints</b></summary>
+    <table class="mt">
+      <tr><th></th><th>Open the inspector</th><th>Device mode — set the screen size</th></tr>
+      <tr><th>Chrome or Edge, Windows</th><td><kbd>F12</kbd>, or right-click › <b>Inspect</b></td><td><kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>M</kbd>, or the phone-and-tablet icon at the top left of the inspector</td></tr>
+      <tr><th>Chrome or Edge, Mac</th><td><kbd>Cmd</kbd>+<kbd>Option</kbd>+<kbd>I</kbd>, or right-click › <b>Inspect</b></td><td><kbd>Cmd</kbd>+<kbd>Shift</kbd>+<kbd>M</kbd>, or the same icon</td></tr>
+      <tr><th>Safari, Mac</th><td>Switch it on once: <b>Safari › Settings › Advanced</b>, tick <b>Show features for web developers</b> (older Safari: <b>Show Develop menu</b>). Then right-click › <b>Inspect Element</b>, or <kbd>Cmd</kbd>+<kbd>Option</kbd>+<kbd>I</kbd></td><td><b>Develop › Enter Responsive Design Mode</b>, or <kbd>Cmd</kbd>+<kbd>Option</kbd>+<kbd>R</kbd></td></tr>
+      <tr><th>Firefox</th><td><kbd>F12</kbd> on Windows, <kbd>Cmd</kbd>+<kbd>Option</kbd>+<kbd>I</kbd> on a Mac</td><td><kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>M</kbd> on Windows, <kbd>Cmd</kbd>+<kbd>Option</kbd>+<kbd>M</kbd> on a Mac</td></tr>
+    </table>
+    <ol>
+      <li><b>The size of a box:</b> with the inspector open, hover over part of the page. A label appears on it with its size in px — <code>div.container 1140 × 820</code> is 1140 wide and 820 tall.</li>
+      <li><b>The size of the screen:</b> in device mode the current width × height is shown above the page. Drag the edge of the page to change it, or type a width in.</li>
+      <li><b>Without device mode:</b> in Chrome and Edge, keep the inspector open and resize the window — the page size shows in its top-right corner as you drag.</li>
+    </ol>
+    <p class="mtn">There is no Safari for Windows; use Chrome or Edge. More help: <a href="https://developer.chrome.com/docs/devtools/device-mode" target="_blank" rel="noopener">Chrome’s guide to device mode</a>.</p>
+  </details>
+
+  <details class="howto" id="codes">
+    <summary><b>Collect the codes from any website — no install</b></summary>
+    <ol>
+      <li>In Chrome or Edge, right-click the page and choose <b>Inspect</b>.</li>
+      <li>Open the <b>⋮</b> menu in the panel → <b>More tools</b> → <b>CSS Overview</b> → <b>Capture overview</b>.</li>
+      <li>You get every colour on the page, every typeface and font size, and a list of contrast problems — click any one to copy its code.</li>
+      <li>Paste what you collected into <code>A4</code> and <code>A5</code>, and say where it came from.</li>
+    </ol>
+  </details>
+
+  <div class="tk-filter" id="tkf" role="group" aria-label="Show tools for a deck section"></div>
+  <div id="tk"></div>
+
+  <footer><p>Screen Design · Level 4 · 30 credits · 2026–27 · Links checked October 2026. Tell us if one breaks.</p></footer>
+</div>
+
+<script>
+(function () {
+  /* kind: explore (play with the idea) · collect (take numbers off something real) ·
+     check (test what you made) · make (produce the artefact). sec: the deck sections it helps fill. */
+  const II = 'https://interfaces.institute';
+  const GROUPS = [
+    { id: 'layout', h: 'Layout and grids', sub: 'For A3 — columns, gutter, margin, max width, spacing scale.', items: [
+      ['A grid in seven numbers', 'grid-numbers.html', 'explore', ['A3'], 'What columns, gutter, margin, max width, breakpoints and a spacing scale mean, each with a live screen. The last slide sets your own and copies them for A3.', true],
+      ['GOV.UK Design System: Layout', 'https://design-system.service.gov.uk/styles/layout/', 'collect', ['A3'], 'A published grid in plain words — two-thirds and one-third columns, a fixed max width — behind most council and government services.'],
+      ['Bootstrap: Grid', 'https://getbootstrap.com/docs/5.3/layout/grid/', 'collect', ['A3'], 'The grid behind a large share of commercial websites: twelve columns and a breakpoint table to compare with what you measure.'],
+      ['Am I Responsive?', 'https://ui.dev/amiresponsive', 'check', ['A3', 'B7'], 'Paste in an address and see the site on four devices at once. Many big sites block it, so treat it as a quick look.'],
+      ['One menu, four grids', II + '/patterns/four-grids/', 'explore', ['A3'], 'The same menu in manuscript, column, modular and hierarchical grids — and what each costs.', true],
+      ['One website, every grid', II + '/patterns/every-grid/', 'explore', ['A3'], 'One plain website on twenty-seven published grids at four screen widths. See which column counts fill the row.', true],
+      ['Published layout grids', II + '/collections/grids/', 'collect', ['A3'], 'Grids as their publishers wrote them down — columns, gutters, margins and breakpoints to borrow — and a spacing scale built live. Pick your numbers here.', true],
+      ['CSS Overview (Chrome)', 'https://developer.chrome.com/docs/devtools/css-overview', 'collect', ['A3', 'A4', 'A5'], 'Built into Chrome and Edge: every colour, typeface, size and spacing on any website you study.'],
+    ]},
+    { id: 'type', h: 'Typography', sub: 'For A4 — families, base size, scale ratio, line height, measure.', items: [
+      ['Type explorer', II + '/tools/type/', 'explore', ['A4'], 'Try heading, body and Chinese typefaces and a type scale on your own words. Copies the whole spec for your deck.', true],
+      ['Published type scales', II + '/collections/type-scales/', 'collect', ['A4'], 'Five design systems’ type scales, read from the files they ship, with the ratio between every step.', true],
+      ['Line length, live', 'https://written.institute/laboratory/', 'explore', ['A4'], 'The same paragraph at 45 characters and at full width. Why your measure matters.'],
+      ['Google Fonts', 'https://fonts.google.com/', 'collect', ['A4'], 'Free, open-licence typefaces, including Traditional Chinese. Every one can be used in your work.'],
+      ['Typescale', 'https://typescale.com/', 'explore', ['A4'], 'Pick a base size and a ratio and see every size it makes, with the numbers to copy.'],
+      ['Fontjoy', 'https://fontjoy.com/', 'explore', ['A4'], 'Generates typeface pairings to argue with. Lock one face and shuffle the other.'],
+      ['Realtime Colors', 'https://www.realtimecolors.com/', 'explore', ['A4', 'A5'], 'A whole website mock-up you restyle live. Press Randomize Fonts for a new heading and body pair, Randomize Colors for a new palette; lock what you like. No account.'],
+      ['WhatFont', 'https://chromewebstore.google.com/detail/whatfont/jabopobgcpjmedljpbcaablpmlmfcogm', 'collect', ['A4'], 'A Chrome extension: hover over any text on a website to see its typeface, size and line height.'],
+      ['WhatTheFont', 'https://www.myfonts.com/pages/whatthefont', 'collect', ['A4'], 'Upload a picture of lettering — a poster, a sign, a menu — and it suggests the typeface.'],
+    ]},
+    { id: 'colour', h: 'Colour and contrast', sub: 'For A5 — every colour as a code with a role, and a contrast ratio for every text on every background.', items: [
+      ['Colour explorer', II + '/tools/colour/', 'explore', ['A5', 'B3'], 'A colour wheel with harmony rules. Every colour comes with its codes, a plain name and a contrast check. Takes colours from your own screenshots.', true],
+      ['Adobe Color', 'https://color.adobe.com/', 'explore', ['A5', 'B3'], 'The classic colour wheel (it used to be called Kuler), with harmony rules and palettes from images.'],
+      ['Coolors', 'https://coolors.co/', 'explore', ['A5', 'B3'], 'Press the space bar for a new palette; lock the colours you like and keep going.'],
+      ['Huemint', 'https://huemint.com/', 'explore', ['A5', 'B3'], 'AI-generated palettes shown on a mock website, a brand mark or an illustration, so you judge colours in use rather than as swatches. No account.'],
+      ['WebAIM contrast checker', 'https://webaim.org/resources/contrastchecker/', 'check', ['A5'], 'Two colours in, one contrast ratio out, with pass or fail for text. The number your A5 table needs.'],
+      ['Contrast pairs', II + '/collections/design-tools/#pairs', 'check', ['A5'], 'Real colour pairs with their ratios worked out, and what it takes to make a failing one pass.', true],
+      ['What systems ship, measured', II + '/collections/palettes/', 'collect', ['A5'], 'Every colour four design systems publish, measured against the background it ships on.', true],
+      ['Coblis', 'https://www.color-blindness.com/coblis-color-blindness-simulator/', 'check', ['A5', 'A6'], 'Upload a screen and see it as people with colour blindness do.'],
+      ['ColorZilla', 'https://www.colorzilla.com/', 'collect', ['A5'], 'A browser extension: an eyedropper for any pixel on a website, and a palette of the whole page.'],
+      ['Digital Color Meter (Mac)', 'https://support.apple.com/guide/digital-color-meter/welcome/mac', 'collect', ['A5'], 'Already on every Mac: point at any pixel on screen, in any app, and read its colour.'],
+      ['Color Picker (Windows)', 'https://learn.microsoft.com/en-us/windows/powertoys/color-picker', 'collect', ['A5'], 'Part of Microsoft PowerToys: Win+Shift+C picks any pixel on screen and copies its code.'],
+    ]},
+    { id: 'access', h: 'Accessibility', sub: 'For A6 and C5 — touch targets, focus, cues that are not colour alone.', items: [
+      ['Target size, measured', II + '/components/button/', 'collect', ['A6'], 'How big real buttons are across sixty-three design systems. Your minimum touch target starts here.', true],
+      ['WCAG, readable', II + '/collections/wcag/', 'collect', ['A6', 'C5'], 'The accessibility guidelines, criterion by criterion, in plain words.', true],
+      ['WAVE', 'https://wave.webaim.org/', 'check', ['A6', 'C5'], 'Paste in the address of a website and see its accessibility problems marked on the page.'],
+      ['Lighthouse (Chrome)', 'https://developer.chrome.com/docs/lighthouse/overview', 'check', ['A6'], 'Built into Chrome: an accessibility score for any website, with each problem explained.'],
+    ]},
+    { id: 'make', h: 'Sketches, mood boards, flows and screens', sub: 'For B1–B8 — use whatever you are comfortable with.', items: [
+      ['PowerPoint or Google Slides', 'assessment.html', 'make', ['B1', 'B2', 'B3', 'B6', 'B8'], 'Your deck is already a design tool: screens as slides, linked into a click-through. No new software needed.'],
+      ['Figma', 'https://www.figma.com/education/', 'make', ['B3', 'B5', 'B6', 'B8'], 'The industry’s design tool, free for students. Optional — never required here.'],
+      ['Canva', 'https://www.canva.com/education/', 'make', ['B2', 'B3'], 'Quick mood boards and style tiles from templates, free for students.'],
+      ['Excalidraw', 'https://excalidraw.com/', 'make', ['B4', 'B5'], 'Hand-drawn-looking flows and wireframes in the browser. Free, no account.'],
+      ['draw.io', 'https://app.diagrams.net/', 'make', ['B4'], 'Boxes and arrows for your flow diagram in week 7. Free in the browser, no account. Export a PNG for B4 and keep the .drawio file in your OneDrive folder.'],
+      ['Are.na', 'https://www.are.na/', 'collect', ['B2'], 'Collect images and links into boards — a calmer place than most to build a mood board.'],
+    ]},
+    { id: 'ai', h: 'Tools Mike showed in class', sub: 'AI tools from the lectures, added as they are shown. Most need no account; where one does, the card says so. Anything you use goes in A7, one line each.', items: [
+      ['LlamaCoder', 'https://llamacoder.together.ai/', 'explore', ['A7', 'C8'], 'Describe an app in a sentence and it writes the code and runs it in the browser. No account.'],
+      ['Arena', 'https://arena.ai/', 'explore', ['A7', 'C8'], 'Ask two unnamed AI models the same thing side by side, pick the better answer, then see which models they were. No account to try it.'],
+      ['Suno', 'https://suno.com/', 'explore', ['A7', 'C8'], 'A whole song, music and vocals, from a line of text. Needs a free account.'],
+    ]},
+    { id: 'refs', h: 'Evidence and references', sub: 'For D1–D3 and C9 — the before, the competitors, and where your claims come from.', items: [
+      ['Cite Them Right Harvard', 'https://libguides.mmu.ac.uk/refguide', 'make', ['C9'], 'The referencing style the brief asks for, with an example for every kind of source.'],
+      ['Six documented failures', II + '/basement/', 'collect', ['C6', 'D1'], 'Screens that went wrong in public, with the reasoning kept. Good company for your before.', true],
+      ['Where five billion people bank', II + '/collections/bank-interfaces/', 'collect', ['A5', 'D2'], 'Forty-five banks’ colours, typefaces and buttons, measured. A model of comparing competitors.', true],
+    ]},
+  ];
+  const host = u => u.startsWith('http') ? new URL(u).hostname.replace(/^www\./, '') : 'this site';
+  const KIND = { explore: 'Explore', collect: 'Collect', check: 'Check', make: 'Make' };
+  const secs = [...new Set(GROUPS.flatMap(g => g.items.flatMap(i => i[3])))].sort((a, b) => a.localeCompare(b, 'en', { numeric: true }));
+  let only = (location.hash.match(/^#([A-D]\d)$/) || [])[1] || null;
+  function paint() {
+    document.getElementById('tkf').innerHTML = `<button type="button" data-s="" aria-pressed="${!only}">All</button>` +
+      secs.map(s => `<button type="button" data-s="${s}" aria-pressed="${only === s}">${s}</button>`).join('');
+    document.getElementById('tk').innerHTML = GROUPS.map(g => {
+      const items = g.items.filter(i => !only || i[3].includes(only)); if (!items.length) return '';
+      return `<section class="tk-group" id="${g.id}"><h2>${g.h}</h2><p class="gsub">${g.sub}</p><div class="tk-grid">${items.map(([n, u, k, s, d, ours]) =>
+        `<a class="tk${ours ? ' ours' : ''}" href="${u}"${u.startsWith('http') ? ' target="_blank" rel="noopener"' : ''}>
+          <span class="top"><b>${n}</b><span class="kind ${k}">${KIND[k]}</span></span><p>${d}</p>
+          <span class="foot">${s.map(x => `<span class="sec">${x}</span>`).join('')}<span class="host">${host(u)} ↗</span></span></a>`).join('')}</div></section>`;
+    }).join('') || '<p class="sub">No tools for that section yet.</p>';
+  }
+  document.getElementById('tkf').addEventListener('click', e => { const b = e.target.closest('[data-s]'); if (!b) return;
+    only = b.dataset.s || null; history.replaceState(null, '', only ? '#' + only : location.pathname); paint(); });
+  addEventListener('hashchange', () => { only = (location.hash.match(/^#([A-D]\d)$/) || [])[1] || null; paint(); });
+  paint();
+})();
+
+/* A link to a guide (toolkit.html#measure) opens it; on their own they stay closed. */
+function openGuide(){ const d = document.getElementById(location.hash.slice(1));
+  if (d && d.tagName === 'DETAILS') { d.open = true; d.scrollIntoView({ block: 'start' }); } }
+openGuide(); addEventListener('hashchange', openGuide);
+
+const root = document.documentElement;
+try { const t = localStorage.getItem('sd-theme'); if (t) root.dataset.theme = t; } catch (e) {}
+if (!root.dataset.theme && matchMedia('(prefers-color-scheme: dark)').matches) root.dataset.theme = 'dark';
+document.getElementById('theme').onclick = () => {
+  root.dataset.theme = root.dataset.theme === 'dark' ? 'light' : 'dark';
+  try { localStorage.setItem('sd-theme', root.dataset.theme); } catch (e) {}
+};
+</script>
+</body>
+</html>

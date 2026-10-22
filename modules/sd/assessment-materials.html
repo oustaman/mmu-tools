@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Marking and examples — Screen Design</title>
+<title>Marking — Screen Design</title>
 <style>
   :root{
     --bg:#F5F4F2; --surface:#FFFFFF; --surface-2:#EDEBE8;
@@ -81,23 +81,6 @@
   .steps tr.first td.cls{color:var(--ok)}
   .steps tr.fail td.cls{color:var(--lec)}
 
-  .ex{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(min(320px,100%),1fr))}
-  .excard{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:16px 18px;
-    display:flex;flex-direction:column;gap:10px}
-  .exk{font-family:var(--mono);font-size:0.64rem;letter-spacing:0.08em;text-transform:uppercase;color:var(--ink-3)}
-  .excard h3{margin:0;font-size:1.08rem}
-  .excard p{margin:0;font-size:0.9rem;color:var(--ink-2)}
-  .exmark{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap}
-  .exmark .n{font-size:2.2rem;font-weight:740;letter-spacing:-0.03em;color:var(--lec);line-height:1}
-  .exmark .crit{font-family:var(--mono);font-size:0.78rem;color:var(--ink-2)}
-  .exhid{font-size:0.9rem;color:var(--ink-2);background:var(--bg);border:1px dashed var(--line-2);border-radius:8px;padding:10px 12px}
-  .exacts{display:flex;flex-wrap:wrap;gap:8px;margin-top:auto}
-  .btn{display:inline-flex;align-items:center;min-height:42px;padding:0 15px;border-radius:8px;text-decoration:none;
-    font-weight:640;font-size:0.9rem;border:1px solid var(--line-2);color:var(--ink);background:var(--bg)}
-  .btn:hover{border-color:var(--lec);color:var(--lec)}
-  .btn.pri{background:var(--lec);border-color:var(--lec);color:#fff}
-  html[data-theme="dark"] .btn.pri{color:#151314}
-  .btn.off{color:var(--ink-3);border-style:dashed;cursor:default}
   .faq{display:grid;gap:6px}
   .faq details{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:0}
   .faq summary{cursor:pointer;padding:12px 16px;font-weight:600;list-style:none;display:flex;gap:10px;align-items:baseline}
@@ -109,6 +92,67 @@
   .note{font-size:0.82rem;color:var(--ink-3);margin:12px 0 0}
   footer{padding:24px 0 44px;color:var(--ink-3);font-size:0.8rem;border-top:1px solid var(--line);margin-top:30px}
   @media(max-width:520px){ .steps td{padding:7px 8px} .steps td.rg{white-space:normal} }
+
+  .case{display:flex;flex-direction:column;gap:6px;background:var(--surface);border:1px solid var(--line);border-left:4px solid var(--lec);border-radius:0 12px 12px 0;padding:16px 18px;color:inherit;text-decoration:none}
+  .case:hover,.case:focus-visible{border-color:var(--lec)} .case:focus-visible{outline:2px solid var(--lec);outline-offset:2px}
+  .case .k{font-family:var(--mono);font-size:0.66rem;letter-spacing:.09em;text-transform:uppercase;color:var(--ink-3)}
+  .case b{font-size:1.1rem} .case span{color:var(--ink-2);font-size:0.92rem;line-height:1.5}
+  .case .go{margin-top:6px;font-family:var(--mono);font-size:0.78rem;color:var(--lec)}
+  .how{margin:22px 0 0;padding-left:20px;max-width:72ch} .how li{margin:6px 0;color:var(--ink-2)}
+
+  /* How it is marked: moved here from the Checklist, 23 October 2026 */
+  .mnote{border-left:3px solid var(--lec);background:var(--surface);padding:13px 17px;border-radius:0 9px 9px 0;margin:18px 0}
+  .mnote h4, .mnote h3.h4{font-family:var(--mono);font-size:0.68rem;letter-spacing:0.09em;text-transform:uppercase;
+           color:var(--lec);margin:0 0 6px}
+  .mnote p{margin:0 0 7px;font-size:0.9rem;color:var(--ink-2)}
+  .mnote p:last-child{margin:0}
+  .mnote.ok{border-left-color:var(--ok)}
+  .mnote.ok h4{color:var(--ok)}
+  .eg{font-family:var(--mono);font-size:0.8rem;background:var(--surface-2);padding:9px 11px;
+      border-radius:7px;display:block;margin-top:6px;color:var(--ink-2);line-height:1.45}
+  .eg b{color:var(--ok)}
+
+  .rub-note{margin:0 0 14px;font-size:0.9rem;color:var(--ink-2);max-width:74ch}
+  .rub-note b{color:var(--ink)}
+  .wide{overflow-x:auto;border:1px solid var(--line);border-radius:11px;background:var(--surface)}
+  .wide:focus-visible{outline:2px solid var(--lec);outline-offset:2px}
+  table.rubt{width:100%;border-collapse:collapse;font-size:0.82rem;min-width:840px}
+  table.rubt th{font-family:var(--mono);font-size:0.6rem;letter-spacing:0.07em;text-transform:uppercase;
+    color:var(--ink-3);text-align:left;padding:9px 11px;border-bottom:1px solid var(--line);
+    background:var(--surface-2);font-weight:500;vertical-align:bottom}
+  table.rubt th .pc{display:block;color:var(--ink-2);font-size:0.68rem;letter-spacing:0}
+  table.rubt td{padding:11px;border-bottom:1px solid var(--line);vertical-align:top;
+    color:var(--ink-2);line-height:1.45}
+  table.rubt tr:last-child td{border-bottom:0}
+  table.rubt td.crit{color:var(--ink);width:19%}
+  table.rubt td.crit b{display:block;font-size:0.9rem;margin-bottom:4px}
+  table.rubt td.crit span{font-size:0.78rem;color:var(--ink-2)}
+  table.rubt td.fail{background:var(--lec-soft)}
+  table.rubt td.first{background:var(--ok-soft)}
+  .los{margin-top:22px}
+  .lo-h{margin:0 0 10px;font-size:1rem;font-weight:680}
+  .lo-grid{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(min(260px,100%),1fr))}
+  .lo-c{display:flex;flex-direction:column;gap:7px;background:var(--surface);border:1px solid var(--line);
+    border-radius:11px;padding:14px 16px}
+  .lo-id{display:flex;align-items:baseline;gap:8px;font-family:var(--mono);font-size:0.62rem;
+    letter-spacing:0.07em;text-transform:uppercase;color:var(--ink-3)}
+  .lo-id b{font-size:0.76rem;letter-spacing:0;background:var(--ink);color:var(--surface);border-radius:5px;padding:2px 7px}
+  .lo-p{margin:0;font-size:1rem;font-weight:640;line-height:1.35;color:var(--ink)}
+  .lo-off{margin:0;font-size:0.8rem;color:var(--ink-3);line-height:1.45}
+  .lo-off span,.lo-ask span{display:block;font-family:var(--mono);font-size:0.6rem;letter-spacing:0.07em;
+    text-transform:uppercase;color:var(--ink-3)}
+  .lo-secs{display:flex;flex-wrap:wrap;gap:4px}
+  .lo-secs i{font-style:normal;font-family:var(--mono);font-size:0.7rem;font-weight:700;
+    background:var(--surface-2);border:1px solid var(--line);border-radius:5px;padding:1px 6px;color:var(--ink)}
+  .lo-ask{margin:auto 0 0;padding-top:8px;border-top:1px solid var(--line);font-size:0.86rem;color:var(--ink)}
+  .lo-rest{margin:12px 0 0;display:flex;flex-wrap:wrap;gap:8px;align-items:baseline;font-size:0.86rem;color:var(--ink-2)}
+
+  h2[id]{scroll-margin-top:70px}
+  .qlinks{list-style:none;margin:8px 0 0;padding:0;display:grid;gap:0;border:1px solid var(--line);border-radius:11px;background:var(--surface);overflow:hidden}
+  .qlinks li{display:flex;flex-wrap:wrap;justify-content:space-between;gap:2px 14px;padding:10px 14px;border-top:1px solid var(--line)}
+  .qlinks li:first-child{border-top:0}
+  .qlinks a{color:var(--ink);font-weight:600;text-decoration:none} .qlinks a:hover{color:var(--lec);text-decoration:underline}
+  .qlinks span{font-size:0.82rem;color:var(--ink-3)}
 
   /* THE BAR — one definition, identical on every page (written by navfix; change it
      everywhere or nowhere). It used to be copied per page and drifted into two heights. */
@@ -147,78 +191,124 @@
   <div class="wrap bar">
     <a class="brand" href="index.html">Screen Design</a>
     <span class="sp"></span>
-    <nav class="sdlinks" aria-label="Screen Design"><a class="navl" href="index.html">Overview</a><a class="navl" href="weeks.html">Week by week</a><a class="navl" href="brief.html">The brief</a><a class="navl" href="assessment.html">Checklist</a><a class="navl on" href="assessment-materials.html" aria-current="page">Marking and examples</a><a class="navl" href="toolkit.html">Toolkit</a><a class="navl" href="ideas.html">Theme ideas</a></nav>
+    <nav class="sdlinks" aria-label="Screen Design"><a class="navl" href="weeks.html">Week by week</a><a class="navl" href="assessment.html">Checklist</a><a class="navl" href="examples.html">Examples</a><a class="navl" href="toolkit.html">Toolkit</a><a class="navl on" href="assessment-materials.html" aria-current="page">Marking</a></nav>
     <span class="ctl"><button id="theme" aria-label="Dark mode">◐</button></span>
   </div>
 </header>
 <script>(function(){var n=document.querySelector(".sdlinks"),o=n&&n.querySelector(".on");if(o&&n.scrollWidth>n.clientWidth)n.scrollLeft=o.offsetLeft-n.offsetLeft-16;})();</script>
 
 <div class="wrap">
-  <h1>Marking and examples</h1>
-  <p class="sub">How the portfolio is marked, in one place: the brief, the rubric, the marks we can
-    give, and two example portfolios — one thin, one complete.</p>
+  <h1>Marking</h1>
+  <p class="sub">How the portfolio is marked. To see what earns marks, look at the <a href="examples.html">Examples</a>.</p>
 
   <div class="tiles" id="tiles"></div>
 
+  <h2 id="how">How it is marked</h2>
+  <p class="rub-note"><b>One overall mark for the portfolio as a whole.</b> The four criteria are not weighted separately,
+    so a strong prototype does not offset a rationale that evidences nothing. In the brief’s words, <q>grades reflect overall
+    performance across all criteria, not a mechanical average</q>. This is the rubric we use, word for word from
+    the brief; <a href="rubric.html">print it blank</a> to mark an example, or your own deck.</p>
+  <div class="wide" tabindex="0" role="region" aria-label="Marking rubric"><table class="rubt" id="rubt"></table></div>
+  <div class="los" id="los"></div>
+
+  <div class="mnote ok" id="evidence">
+    <h3 class="h4">The one thing that changes your grade</h3>
+    <p>In Part C, every section quotes a number you wrote in Part A. That is the difference between a pass and a good mark,
+      and it takes no extra work: the numbers are already in your spec sheet. <b>Evidenced</b> means something a marker can
+      see: a number from your spec sheet, a before and an after, a contrast ratio. A claim with no number behind it is
+      description, and description scores lower than defence.</p>
+    <span class="eg">✗ &nbsp;"I chose a warm palette because it feels friendly."<br>
+      <b>✓ &nbsp;"I changed body text from #8B8382 to #56504F because the first pair was 2.9:1 and failed AA."</b></span>
+  </div>
+
+  <div class="mnote" id="choices">
+    <h3 class="h4">Your grid, type and colours don’t change your mark; contrast can</h3>
+    <p>No grid, typeface or colour earns marks, and none loses them: a marker will not prefer a serif to a sans, or blue
+      to orange. What is marked is that you decided, wrote it down in A3–A5, used it the same way on every screen, and said
+      why in C2–C4. <b>The one exception is contrast:</b> text below 4.5:1 against its background fails WCAG AA, and that
+      can lose you marks. Ready-made, checked options are in the <a href="gallery.html">Gallery</a>.</p>
+  </div>
+
   <h2 id="steps">The marks we can give</h2>
-  <p class="lede">Every mark — each criterion, and the overall — is one of these steps. There is no 66:
-    a portfolio between the two is a 65 or a 68. The four criteria inform <b>one overall mark</b>; they
-    are not added up.</p>
+  <p class="lede">Every mark, each criterion and the overall, is one of these steps. There is no 66:
+    a portfolio between the two is a 65 or a 68.</p>
   <table class="steps" id="steptable"></table>
 
-  <h2>Two example portfolios</h2>
-  <p class="lede">Both were written by the module team as teaching examples. Neither is a real student's
-    work. Read them the way a marker would.</p>
-  <div class="ex" id="examples"></div>
-
   <h2 id="faq">Questions people ask</h2>
-  <p class="lede">Every answer here comes from the official brief or this module's own pages. If yours is not here,
-    ask in the workshop — it is probably someone else's question too.</p>
+  <p class="lede">Each question goes to the one place that answers it. If yours is not here, ask in the workshop:
+    it is probably someone else's question too.</p>
   <div class="faq" id="faqs"></div>
 
   <footer><p>Screen Design · Level 4 · 30 credits · 2026–27</p></footer>
 </div>
 
+<script>/* Before and after, and the two portfolios, moved to examples.html (24 Oct 2026). */
+(function(){ var h = location.hash.slice(1); if (/^(before-after|questions|examples|portfolios)$/.test(h)) location.replace('examples.html#' + (h === 'examples' ? 'portfolios' : h)); })();</script>
 <script src="sd-common.js"></script>
 <script src="rubric-data.js"></script>
-<script src="example-data.js"></script>
 <script>
+(function rubric(){
+  const t = document.getElementById('rubt');
+  t.innerHTML =
+    `<thead><tr><th>We look at</th>${BANDS.map(x =>
+      `<th>${x.label}<span class="pc">${x.range}</span></th>`).join('')}</tr></thead>` +
+    `<tbody>${RUBRIC.map(r => `<tr>
+      <td class="crit"><b>${r.n}. ${r.name}</b><span>${r.what}</span></td>
+      ${r.b.map((cell, i) => `<td class="${BANDS[i].k === 'fail' ? 'fail' : BANDS[i].k === 'first' ? 'first' : ''}">${cell}</td>`).join('')}
+    </tr>`).join('')}</tbody>`;
+  /* Each outcome in plain words, where the deck shows it, and a question to
+     put to your own work. The official wording stays, verbatim, under each. */
+  const known = new Set(PARTS.flatMap(p => p.items.map(i => i.sec)));
+  [...OUTCOMES.flatMap(o => o.secs), ...OUTCOME_REST.secs].forEach(x => {
+    if (!known.has(x)) console.warn(`assessment: outcome section ${x} is not in PARTS`);
+  });
+  const chips = a => a.map(x => `<i>${x}</i>`).join('');
+  document.getElementById('los').innerHTML =
+    `<h3 class="lo-h">What the three module outcomes mean for your deck</h3>
+     <div class="lo-grid">${OUTCOMES.map(o => `
+       <div class="lo-c">
+         <span class="lo-id"><b>${o.id}</b>${o.group}</span>
+         <p class="lo-p">${o.plain}</p>
+         <p class="lo-off"><span>Official wording</span>${o.t}</p>
+         <span class="lo-secs">${chips(o.secs)}</span>
+         <p class="lo-ask"><span>Ask your own work</span>${o.ask}</p>
+       </div>`).join('')}</div>
+     <p class="lo-rest"><span class="lo-secs">${chips(OUTCOME_REST.secs)}</span>${OUTCOME_REST.why}</p>
+     <p class="rub-note" style="margin:6px 0 0">Where each outcome shows is our guide, not a weighting —
+       the portfolio gets one overall mark. Outcomes verbatim from the approved module record.</p>`;
+})();
 (function () {
   const esc = s => String(s).replace(/[<&]/g, c => c === '<' ? '&lt;' : '&amp;');
   document.getElementById('tiles').innerHTML = [
-    [OFFICIAL_BRIEF.file, 'Official assessment brief', `The university\u2019s document \u00b7 ${OFFICIAL_BRIEF.kind}, ${OFFICIAL_BRIEF.size}`, 'download'],
-    ['brief.html', 'The brief, explained', 'What it asks for, slide by slide'],
-    ['assessment.html', 'Checklist', `All ${SD.total} sections, ticked off as you go`],
-    ['#faq', 'Questions people ask', 'Deadline, length, names, AI, marks'],
     ['rubric.html', 'The blank rubric', 'Mark an example, or your own deck'],
     ['Screen_Design_Feedback_Sheet_2026-27.docx', 'The feedback sheet', 'What your marker fills in \u00b7 Word', 'download']
   ].map(t => `<a class="tile" href="${t[0]}"${t[3] ? ' download' : ''}><b>${t[1]}</b><span>${t[2]}</span>${t[3] ? '<i>\u2193 download</i>' : ''}</a>`).join('');
 
-  /* The deadline is read from TERM, the one place it is written. */
-  const due = new Date(TERM.DEADLINE);
-  const dueText = due.toLocaleDateString('en-GB', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' }) + ', ' +
-    due.toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' });
+  /* Each question links to the one place that answers it; nothing is answered twice. */
   const FAQ = [
-    ['What do I hand in, and when?', `One PDF, exported from your deck, uploaded to Moodle by <b>${dueText}</b>. Nothing is handed in weekly. Late work is subject to the standard MMU late penalty policy.`],
-    ['How much can I write?', `One rule: <b>no caption, answer or paragraph runs past one slide</b>. The only thing that is counted is the written rationale in Part C, which comes to about 500–700 words in all — the brief's one strict limit. Your reference list does not count toward it; in-text citations do. See <a href="assessment.html">the checklist</a>.`],
-    ['Is there a limit on slides?', 'No. A cover, a slide for each section on the checklist, and a slide for every screen of your journey. The deck is as long as what is in it.'],
-    ['Do I put my name on it?', 'Please don\u2019t — marking is anonymous, so your student ID goes on the cover and your name stays off. But if your name does slip in somewhere, nothing happens: no penalty, nothing to fix.'],
-    ['How can a PDF be a prototype?', 'Because you link it. The brief lists “PowerPoint/Clickable PDF” as a way to build the prototype, and says one inside the PDF “needs to be clickable”. Your screens are slides; link each button to the slide it leads to, and the exported PDF clicks through the journey like an app. Put a <b>Start the prototype →</b> link on your B8 slide, then export and click every link in the PDF itself — that is the file that is marked. Built in Figma instead? Put a clearly labelled link to it in the deck, shared so anyone with the link can view it, and still include the screens as slides. A short screen recording of the walk-through is welcome as an extra, linked from B8; it does not replace the links.'],
-    ['Do I have to use Figma?', 'No. Use anything you are comfortable with — PowerPoint, Google Slides, Figma, Canva, Adobe XD, or paper you photograph. The brief accepts any of them. In this module your screens are slides, and linking them so a marker can click through the journey is your prototype (B8). <a href="toolkit.html">The toolkit</a> has free options.'],
-    ['Can I use AI?', 'Yes — the brief permits it. Keep a line for every use as you go (A7), and in C8 say which tools you used, for what, and how you judged or changed what they made — or why you used none. AI-generated text you do not declare is academic misconduct.'],
-    ['Can I test my design with friends or classmates?', 'No. Testing with people needs ethics approval, which this assessment does not have. Measure both versions yourself instead: count the steps before and after, check the contrast, check the sizes. Numbers you produced are the evidence.'],
-    ['What does “evidenced” mean?', 'Something a marker can see: a number from your spec sheet, a before and an after, a contrast ratio. A claim with no number behind it is description, and description scores lower than defence.'],
-    ['How is it marked?', `Against four criteria, each given a band and one of the marks in <a href="#steps">the table above</a>. Together they inform one overall mark — they are not added up or averaged. <a href="rubric.html">The blank rubric</a> is the one we use.`],
-    ['Do I need mobile, tablet and desktop screens?', 'Optional, not required. It depends on your project and the experience you are improving — a city council service, for example, is almost never used as a phone app. You can show your key screens at other sizes (B7), but it matters far more that you <b>improve the experience, the flow</b>, than that you build more screens.'],
-    ['Can I design for a real business, like a family member’s?', 'Yes, and your own idea is welcome too. Design <b>one flow</b> for one goal — booking a slot, say — not the whole website, and use labelled boxes where pictures would go. The before is however customers do it now, even a WhatsApp chat: screenshot it with the owner’s permission and every customer’s name and number blurred. Do not test it with customers, family or friends. The full list is on <a href="ideas.html#own">Theme ideas</a>.'],
-    ['Can I change my theme?', 'Yes — but the later you change it, the more work you will have to redo. Your grid, type, colours and screens all build on it, so a change in week 3 costs an afternoon and a change in week 8 costs weeks. Settle it by week 3 if you can.'],
-    ['What goes in the appendices?', 'First, the evidence that your version is better: how people do it now, what happened to each step, and the two side by side. Beyond that, additional material is welcome, as you see fit — competitors, news stories, screenshots from review sites and app stores, anything that helps your case. Put it wherever it makes sense in your deck; if you are not sure where something goes, the appendices are the place. No word count, at the end of the deck.'],
-    ['Which referencing style?', 'Cite Them Right Harvard: <a href="http://libguides.mmu.ac.uk/refguide" target="_blank" rel="noopener">libguides.mmu.ac.uk/refguide</a>.'],
-    ['Who looks in my OneDrive folder?', 'Share it with your tutors and the teaching staff in week 1. We only open it if you ask us to.'],
-    ['I missed a week. What do I do?', 'Open that week under <a href="weeks.html">Week by week</a>. <b>In class</b> starts with the one or two core links — study those first. <b>Workshop</b> lists what to make, and <b>Before next week</b> what to finish.'],
-    ['When do I get my mark?', 'Written feedback comes back within four weeks of the deadline, through Moodle and Turnitin. Grades are provisional until the Assessment Board confirms them, and with anonymous marking there can be a delay between the grade and the written feedback.'],
+    ['What do I hand in, and when?', 'assessment.html#handin', 'Checklist · Hand in'],
+    ['When do I get my mark?', 'assessment.html#handin', 'Checklist · Hand in'],
+    ['How much can I write? Is there a limit on slides?', 'assessment.html#setup', 'Checklist · one rule for every piece of text'],
+    ['Do I put my name on it?', 'assessment.html#setup', 'Checklist · Set up your deck'],
+    ['Who looks in my OneDrive folder?', 'assessment.html#setup', 'Checklist · Set up your deck'],
+    ['How is it marked?', '#how', 'How it is marked, above'],
+    ['What does “evidenced” mean?', '#evidence', 'The one thing that changes your grade, above'],
+    ['Do my colours and typefaces affect my mark?', '#choices', 'Above'],
+    ['What does “4.5:1” mean?', 'gallery.html#contrast', 'Gallery · contrast'],
+    ['Does it have to look polished?', 'style-kit.html#fidelity', 'Style kit · four levels of finish'],
+    ['Do I need mobile, tablet and desktop screens?', 'assessment.html#B7', 'Checklist · B7'],
+    ['How can a PDF be a prototype?', 'assessment.html#B8', 'Checklist · B8, and week 10'],
+    ['Do I have to use Figma? Which tools?', 'toolkit.html#tools', 'Toolkit · which tools'],
+    ['Can I use AI? Is it cheating?', 'toolkit.html#ai', 'Toolkit · using AI'],
+    ['Is my own project allowed?', 'toolkit.html#project', 'Toolkit · is my idea a good project?'],
+    ['Can I test my design with friends or classmates?', 'assessment.html#C5', 'Checklist · C5'],
+    ['Which referencing style?', 'assessment.html#C9', 'Checklist · C9'],
+    ['What goes in the appendices?', 'assessment.html#D1', 'Checklist · Part D'],
+    ['Can I design for a real business, like a family member’s?', 'toolkit.html#no-service', 'Toolkit · when there’s no service yet'],
+    ['Can I change my theme?', 'toolkit.html#project', 'Toolkit · is my idea a good project?'],
+    ['I missed a week. What do I do?', 'index.html#help', 'Overview · Stuck?'],
   ];
-  document.getElementById('faqs').innerHTML = FAQ.map(([q, a]) => `<details><summary>${q}</summary><div class="a">${a}</div></details>`).join('');
+  document.getElementById('faqs').innerHTML = `<ul class="qlinks">${FAQ.map(([q, u, w]) => `<li><a href="${u}">${q}</a><span>${w}</span></li>`).join('')}</ul>`;
 
   document.getElementById('steptable').innerHTML =
     '<tr><th>Classification</th><th>Bracket</th><th>Marks</th></tr>' +
@@ -226,41 +316,6 @@
       <td class="cls">${b.cls}</td><td class="rg">${b.range}</td>
       <td>${b.marks.map(m => `<span class="m">${m}</span>`).join('')}</td></tr>`).join('');
 
-  /* Both examples have now been marked in class — Example 1 in week 1, Example 2
-     in week 2 — so both carry their marks, marked copy and feedback sheet here. */
-  const crit = EXAMPLE.criteria.map(c => `${c.n} \u00b7 ${c.mark}`).join('   ');
-  const form = MARKING_FORM.council;
-  document.getElementById('examples').innerHTML = `
-    <div class="excard">
-      <span class="exk">Example 1 \u00b7 marked in week 1</span>
-      <h3>Thin: present, and almost nothing evidenced</h3>
-      <div class="exmark"><span class="n">${EXAMPLE.mark.overall}</span>
-        <span><b>${esc(EXAMPLE.mark.band)}</b><br><span class="crit">criteria ${crit}</span></span></div>
-      <p>Everything the brief asks for is there, and almost none of it is shown. The marked copy has every
-        margin comment.</p>
-      <div class="exacts"><a class="btn" href="example.html">Read it</a>
-        <a class="btn pri" href="example-marked.html">See how we marked it</a>
-        <a class="btn" href="example-feedback.html">Its feedback sheet</a></div>
-    </div>
-    <div class="excard">
-      <span class="exk">Example 2 \u00b7 the week 2 exercise</span>
-      <h3>Complete: council tax for a student house</h3>
-      <p>One journey made shorter, seven steps to four, with the before in the appendices. You marked it
-        in week 2; this is how we did, criterion by criterion.</p>
-      <div class="exmark" id="ex2mark"></div>
-      <div class="exacts"><a class="btn" href="example-council.html">Read it</a>
-        <a class="btn pri" href="example-council-marked.html">See how we marked it</a>
-        <a class="btn" href="example-council-feedback.html">Its feedback sheet</a>
-        <a class="btn" href="rubric.html">Blank rubric</a></div>
-    </div>`;
-  /* Example 2's marks, read from its own data. Both data files declare EXAMPLE,
-     so the second is read in its own scope rather than loaded beside the first.
-     Opened to students after the week 2 marking exercise (16 Oct 2026). */
-  fetch('example-council-data.js').then(r => r.text()).then(t => {
-    const E2 = new Function(t + '; return EXAMPLE;')();
-    document.getElementById('ex2mark').innerHTML = `<span class="n">${E2.mark.overall}</span>
-      <span><b>${esc(E2.mark.band)}</b><br><span class="crit">criteria ${E2.criteria.map(c => `${c.n} \u00b7 ${c.mark}`).join('   ')}</span></span>`;
-  }).catch(() => {});
 })();
 
 const root = document.documentElement;

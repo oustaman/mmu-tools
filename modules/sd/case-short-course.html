@@ -1,0 +1,702 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Finding a first Welsh course — Before and after — Screen Design</title>
+<style>
+  :root{
+    --bg:#F5F4F2; --surface:#FFFFFF; --surface-2:#EDEBE8;
+    --ink:#1A1618; --ink-2:#514B4A; --ink-3:#4D4847;
+    --line:#DFDBD7; --line-2:#8E8685;
+    --lec:#8C2437; --lec-soft:#F6E8EA;
+    --wsh:#1A526D; --wsh-soft:#E4EEF3;
+    --ok:#285638; --ok-soft:#E3EFE7;
+    --warn:#684604; --warn-soft:#F4EAD3;
+    --mono:ui-monospace,"SF Mono",Menlo,Consolas,monospace;
+    --sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Inter,Roboto,sans-serif;
+  }
+  html[data-theme="dark"]{
+    --bg:#151314; --surface:#1E1B1C; --surface-2:#262223;
+    --ink:#EDE9E7; --ink-2:#B9B2AF; --ink-3:#B7B2B0;
+    --line:#332E2F; --line-2:#7A7372;
+    --lec:#E69FAD; --lec-soft:#332226;
+    --wsh:#7FBEDC; --wsh-soft:#16262E;
+    --ok:#83C19A; --ok-soft:#1C2A22;
+    --warn:#DCB469; --warn-soft:#2A2417;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);line-height:1.5}
+  .wrap{max-width:1100px;margin:0 auto;padding:0 22px}
+  @media(max-width:420px){.wrap{padding:0 14px}}
+  @media(max-width:340px){.wrap{padding:0 10px}}
+  a{color:var(--lec)}
+
+  /* The bar, identical on every page (see assessment.html). */
+  header{border-bottom:1px solid var(--line);background:var(--surface);position:sticky;top:0;z-index:40}
+  .bar{display:flex;align-items:center;gap:10px;padding-block:11px;flex-wrap:nowrap}
+  .brand{font-weight:680;font-size:1rem;letter-spacing:-0.015em;white-space:nowrap;color:inherit;
+    text-decoration:none;padding:5px 8px;margin-left:-8px;border-radius:6px}
+  .brand:hover{background:var(--surface-2)}
+  .brand:focus-visible{outline:2px solid var(--lec);outline-offset:1px}
+  .sp{flex:1}
+  .navl{font-size:0.85rem;color:var(--ink-2);text-decoration:none;padding:6px 10px;border-radius:6px;white-space:nowrap}
+  .navl:hover{background:var(--surface-2);color:var(--ink)}
+  .ctl button{font-family:var(--mono);font-size:0.7rem;background:none;color:var(--ink-3);
+    border:1px solid var(--line-2);border-radius:5px;padding:5px 8px;cursor:pointer;line-height:1}
+  .ctl button:hover{border-color:var(--lec);color:var(--lec)}
+  @media(max-width:760px){ header .bar{gap:6px} .navl{padding:6px 8px;font-size:0.82rem} }
+  @media(max-width:560px){
+    header .bar{flex-wrap:wrap;row-gap:6px}
+    header .brand{order:0} header .ctl{order:1;margin-left:auto}
+    header .bar > .sp{order:2;flex-basis:100%;height:0}
+    header .navl{order:3;padding:5px 7px;font-size:0.78rem}
+  }
+  @media(max-width:430px){ .brand{font-size:0.9rem} .navl{padding:5px 6px;font-size:0.76rem} }
+
+  .navl.on{background:var(--lec);color:#fff}
+  html[data-theme="dark"] .navl.on{color:#151314}
+  h1{font-size:clamp(1.6rem,4.4vw,2.3rem);line-height:1.1;letter-spacing:-0.028em;margin:24px 0 4px;font-weight:700}
+  h2{font-size:1.2rem;font-weight:690;letter-spacing:-0.015em;margin:34px 0 6px}
+  .sub{color:var(--ink-2);margin:0 0 18px;max-width:70ch}
+
+  .tile{display:block;background:var(--surface);border:1px solid var(--line);border-radius:11px;padding:14px 16px;
+    text-decoration:none;color:inherit}
+  .tile:hover{border-color:var(--lec)}
+  .tile b{display:block;font-size:0.98rem;margin-bottom:3px}
+  .tile span{font-size:0.86rem;color:var(--ink-2)}
+  .tile i{font-style:normal;font-family:var(--mono);font-size:0.68rem;color:var(--ink-3);display:block;margin-top:6px}
+
+  table.steps{width:100%;border-collapse:collapse;background:var(--surface);border:1px solid var(--line);
+    border-radius:11px;overflow:hidden;font-size:0.9rem}
+  .steps th{text-align:left;font-family:var(--mono);font-size:0.62rem;letter-spacing:0.08em;text-transform:uppercase;
+    color:var(--ink-3);padding:9px 12px;background:var(--surface-2);font-weight:500}
+  .steps td{padding:8px 12px;border-top:1px solid var(--line);vertical-align:middle}
+
+  .btn{display:inline-flex;align-items:center;min-height:42px;padding:0 15px;border-radius:8px;text-decoration:none;
+    font-weight:640;font-size:0.9rem;border:1px solid var(--line-2);color:var(--ink);background:var(--bg)}
+  .btn:hover{border-color:var(--lec);color:var(--lec)}
+
+  .note{font-size:0.82rem;color:var(--ink-3);margin:12px 0 0}
+  footer{padding:24px 0 44px;color:var(--ink-3);font-size:0.8rem;border-top:1px solid var(--line);margin-top:30px}
+  @media(max-width:520px){ .steps td{padding:7px 8px} }
+
+  /* Learn Welsh now — redrawn */
+  .ln{background:#fff;min-height:760px;font-family:Montserrat,Arial,sans-serif;color:#333}
+  .ln-top{display:flex;align-items:center;gap:8px;padding:12px 12px;border-bottom:1px solid #eee}
+  .ln-top .lg{width:36px;height:30px;background:linear-gradient(135deg,#6b5aa5,#2d2a5a);clip-path:polygon(50% 0,100% 100%,0 100%)}
+  .ln-top small{font-size:10px;color:#555;line-height:1.2;flex:1}
+  .ln-top i{width:34px;height:34px;border-radius:50%;display:inline-block}
+  .ln-hero{background:linear-gradient(90deg,#EC4F8A,#F3407A);color:#fff;text-align:center;padding:20px 16px}
+  .ln-hero b{display:block;font:700 26px/1.1 'Bebas Neue',Impact,sans-serif;letter-spacing:.02em;margin:10px 0 6px}
+  .ln-hero p{font-size:15px;margin:0}
+  .ln-hero .ic{width:50px;height:50px;border-radius:10px;background:rgba(0,0,0,.12);margin:0 auto}
+  .ln-bar{display:flex;justify-content:space-between;align-items:center;padding:14px 12px}
+  .ln-bar span{border:1px solid #ccc;border-radius:4px;padding:6px 10px;font-size:14px;color:#777}
+  .ln-bar b{background:#1D84E0;color:#fff;border-radius:4px;padding:9px 14px;font-size:14px;font-weight:600}
+  .ln-mc{text-align:center;font-size:24px;font-weight:600;color:#555;margin:6px 0 10px}
+  .ln-card{margin:0 12px 14px;border:1px solid #ddd;border-radius:10px;overflow:hidden}
+  .ln-ch{background:#f6f6f8;padding:12px;display:flex;gap:10px;align-items:center}
+  .ln-ch i{width:0;height:0;border-left:16px solid transparent;border-right:16px solid transparent;border-bottom:28px solid #3a1f6e}
+  .ln-ch b{display:block;font-size:16px;color:#111} .ln-ch small{font-size:14px;color:#666}
+  .ln-row{display:grid;grid-template-columns:1fr 1fr;gap:6px 10px;padding:8px 12px}
+  .ln-row div{border-left:3px solid #ddd;padding-left:8px;font-size:13px;color:#777}
+  .ln-row div b{display:block;font-weight:500;color:#222;font-size:14.5px}
+  .ln-type{padding:8px 12px 0;color:#1D84E0;font-weight:600;font-size:15px}
+  .ln-price{background:#DDEBF8;text-align:center;font-weight:700;font-size:21px;color:#1D63B8;padding:8px}
+  .ln-warn{text-align:center;color:#E0322D;font-size:13.5px;padding:8px}
+  .ln-yel{background:#FFE100;padding:22px 14px 0}
+  .ln-panel{background:#fff;padding:16px 14px}
+  .ln-panel h3{font:700 24px/1.05 'Bebas Neue',Impact,sans-serif;margin:0 0 4px;letter-spacing:.01em}
+  .ln-panel .sub{font:600 15px 'Bebas Neue',Impact,sans-serif;letter-spacing:.03em;color:#444;margin:0 0 10px}
+  .ln-blue{background:linear-gradient(90deg,#1764C8,#3C8FE6);color:#fff;text-align:center;padding:18px 0 14px}
+  .ln-blue b{display:block;font:700 26px 'Bebas Neue',Impact,sans-serif;margin-top:8px}
+  .ln-steps{display:flex;justify-content:space-around;padding:14px 6px;border-bottom:3px solid #1D84E0;margin:0 10px}
+  .ln-steps span{font:700 12px 'Bebas Neue',Impact,sans-serif;color:#1D84E0;text-align:center}
+  .ln-steps span.on{background:#1D84E0;color:#fff;border-radius:50%;width:46px;height:46px;display:grid;place-items:center}
+  .ln-sign{text-align:center;padding:16px 18px;font-size:19px;font-weight:700;color:#111}
+  .ln-g{margin:8px 18px;background:#eee;border-radius:30px;padding:12px;text-align:center;font-size:16px}
+  .ln-new{margin:10px 18px;background:#24A148;color:#fff;border-radius:30px;padding:12px;text-align:center;font-weight:700}
+
+  /* Learn Welsh improved — the redesign's own system (A3–A5 below) */
+  .lx{background:#fff;min-height:760px;font-family:'Nunito Sans',system-ui,sans-serif;color:#1E1B2E}
+  .lx-top{display:flex;align-items:center;justify-content:space-between;padding:12px 16px;border-bottom:4px solid #E6007E}
+  .lx-top b{font-weight:800;font-size:18px;color:#4B2A7B}
+  .lx-top span{font-size:15px;border:2px solid #4B2A7B;border-radius:4px;padding:2px 8px;color:#4B2A7B;font-weight:700}
+  .lx-in{padding:16px}
+  .lx-in .back{font-size:16px;color:#0A58A8;text-decoration:underline;margin:0 0 10px}
+  .lx-in .cap{font-size:16px;color:#525066;margin:0 0 4px}
+  .lx-in h1{font-size:28px;line-height:1.2;font-weight:800;margin:0 0 12px;color:#1E1B2E}
+  .lx-in p{font-size:18px;line-height:1.5;margin:0 0 12px}
+  .lx-opt{display:flex;gap:12px;align-items:flex-start;border:2px solid #C9C6D6;border-radius:8px;padding:12px 14px;margin:0 0 8px;font-size:18px}
+  .lx-opt.on{border-color:#0A58A8;box-shadow:inset 0 0 0 1px #0A58A8}
+  .lx-opt .rad{width:22px;height:22px;border:2px solid #1E1B2E;border-radius:50%;flex:none;position:relative;margin-top:2px}
+  .lx-opt.on .rad::after{content:"";position:absolute;inset:4px;border-radius:50%;background:#0A58A8}
+  .lx-opt small{display:block;font-size:15.5px;color:#525066;line-height:1.35}
+  .lx-btn{display:block;text-align:center;background:#0A58A8;color:#fff;font-weight:800;font-size:18px;padding:15px;border-radius:6px;margin:10px 0}
+  .lx-lbl{display:block;font-weight:800;font-size:18px;margin:12px 0 6px}
+  .lx-chips{display:flex;gap:8px;flex-wrap:wrap;margin:0 0 6px}
+  .lx-chips i{font-style:normal;font-size:16px;border:2px solid #C9C6D6;border-radius:99px;padding:6px 14px}
+  .lx-chips i.on{border-color:#0A58A8;background:#E8F0FA;font-weight:700}
+  .lx-res{border:1px solid #DAD7E4;border-left:5px solid #4B2A7B;border-radius:6px;padding:10px 12px;margin:0 0 10px}
+  .lx-res b{display:block;font-size:18px;padding-right:56px} .lx-res span{display:block;font-size:16px;color:#1E1B2E;line-height:1.45}
+  .lx-res em{font-style:normal;font-size:15px;color:#525066}
+  .lx-res .pr{float:right;font-weight:800;font-size:18px}
+  .lx-facts{border-top:1px solid #DAD7E4;margin:0 0 12px}
+  .lx-facts div{display:grid;grid-template-columns:96px 1fr;gap:8px;padding:8px 0;border-bottom:1px solid #DAD7E4;font-size:16px}
+  .lx-facts dt{font-weight:800} .lx-facts dd{margin:0}
+  .lx-note{background:#F4F0FA;border-radius:8px;padding:10px 12px;font-size:16px;line-height:1.45;margin:0 0 12px}
+  .lx-steps{display:flex;gap:6px;margin:0 0 14px}
+  .lx-steps span{flex:1;font-size:13.5px;text-align:center;padding:6px 2px;border-bottom:4px solid #DAD7E4;color:#525066}
+  .lx-steps span.on{border-color:#0A58A8;color:#1E1B2E;font-weight:800}
+  .lx-field{height:48px;border:2px solid #1E1B2E;border-radius:4px;font-size:18px;line-height:44px;padding:0 10px;margin:0 0 4px}
+  .lx-done{background:#2D6A3E;color:#fff;border-radius:8px;padding:16px;margin:0 0 12px}
+  .lx-done h1{color:#fff;margin:0 0 6px} .lx-done p{color:#fff;margin:0;font-size:17px}
+  /* tables */
+  table.tb{border-collapse:collapse;width:100%;background:var(--surface);border:1px solid var(--line);border-radius:10px;overflow:hidden;font-size:0.92rem;margin:8px 0 6px}
+  .tb th,.tb td{text-align:left;padding:8px 12px;border-top:1px solid var(--line);vertical-align:top;color:var(--ink-2)}
+  .tb tr:first-child th{border-top:0;font-family:var(--mono);font-size:0.66rem;letter-spacing:.07em;text-transform:uppercase;color:var(--ink-3);background:var(--surface-2,var(--bg))}
+  .tb td:first-child,.tb th[scope=row]{color:var(--ink);font-weight:600}
+  .tb .num{font-family:var(--mono);white-space:nowrap}
+  .tb .up{color:var(--ok);font-weight:700}
+  .tb .sw{display:inline-block;width:14px;height:14px;border-radius:3px;vertical-align:-2px;margin-right:6px;border:1px solid rgba(0,0,0,.15)}
+  .tbw{overflow-x:auto}
+  .fair{background:var(--ok-soft);border:1px solid var(--line);border-radius:10px;padding:12px 16px;margin:12px 0}
+  .fair b{color:var(--ok)}
+  .why{display:grid;gap:10px;grid-template-columns:repeat(auto-fit,minmax(min(300px,100%),1fr));margin:10px 0}
+  .why div{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:12px 14px}
+  .why div b{display:block;margin-bottom:4px;color:var(--ink)}
+  .why div span{font-size:0.9rem;color:var(--ink-2);line-height:1.5}
+  .why code{font-size:.85em}
+  .note{font-size:0.85rem;color:var(--ink-3);margin:8px 0 0}
+
+  .meta{font-family:var(--mono);font-size:0.74rem;color:var(--ink-3);margin:0 0 14px;line-height:1.7}
+  .meta a{color:var(--lec)}
+  .goal{display:grid;gap:10px 28px;grid-template-columns:repeat(auto-fit,minmax(min(240px,100%),1fr));background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:16px 20px;margin:6px 0 4px}
+  .goal div b{display:block;font-family:var(--mono);font-size:0.66rem;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3);margin-bottom:3px}
+  .goal div span{color:var(--ink);line-height:1.5}
+  .goal a{color:var(--lec)}
+  .lv-more{position:absolute;left:0;right:0;bottom:0;padding:12px 16px;background:linear-gradient(rgba(255,255,255,.6),#fff 40%);font:600 14px system-ui,sans-serif;color:#4B5257;text-align:center;border-top:1px dashed #B1B4B6}
+  /* ── walkthrough: one screen at a time, the pane explains every number ── */
+  html,body{height:auto}
+  .wt-bar{position:sticky;top:var(--hdr,57px);z-index:30;background:var(--bg);border-bottom:1px solid var(--line)}
+  .wt-bar .wrap{display:flex;align-items:center;gap:8px;min-height:52px;flex-wrap:wrap;padding-block:6px}
+  .wt-bar b{font-size:0.95rem}
+  .wt-bar .sp{flex:1}
+  .wt-bar .ct{font-family:var(--mono);font-size:0.74rem;color:var(--ink-3)}
+  .tb{font:600 0.85rem var(--sans);background:var(--surface);color:var(--ink-2);border:1px solid var(--line-2);border-radius:8px;min-height:40px;min-width:44px;padding:0 12px;cursor:pointer}
+  .tb:hover:not(:disabled){color:var(--lec);border-color:var(--lec)} .tb:disabled{opacity:.35;cursor:default}
+  .tb:focus-visible,.chip:focus-visible,.wt-nav button:focus-visible{outline:2px solid var(--lec);outline-offset:2px}
+  .wt-nav{display:flex;flex-wrap:wrap;gap:6px;padding:10px 0 4px}
+  .wt-nav .grp{display:flex;gap:4px;align-items:center;flex-wrap:wrap;margin-right:10px}
+  .wt-nav .grp i{font-style:normal;font-family:var(--mono);font-size:0.64rem;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-3);margin-right:4px}
+  .wt-nav button{font:600 0.78rem var(--sans);min-width:34px;min-height:32px;border-radius:7px;border:1px solid var(--line);background:var(--surface);color:var(--ink-2);cursor:pointer;padding:0 8px}
+  .wt-nav button[aria-current="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+  .wt-nav button.now{border-left:3px solid #B3261E} .wt-nav button.new{border-left:3px solid #00703C}
+
+  .ws{display:none;padding:22px 0 40px}
+  .ws.on{display:block}
+  .ws-grid{display:grid;grid-template-columns:auto minmax(0,1fr);gap:clamp(20px,3vw,44px);align-items:start}
+  @media(max-width:900px){.ws-grid{grid-template-columns:1fr}}
+  .stagec{display:flex;justify-content:center;position:sticky;top:calc(var(--hdr,57px) + 120px)}
+  @media(max-width:900px){.stagec{position:static}}
+
+  /* the phone, at a size you can read */
+  .phone{--s:0.94;width:calc(360px * var(--s) + 20px);height:calc(760px * var(--s) + 20px);border:10px solid #1C1A1B;border-radius:34px;overflow:hidden;position:relative;background:#fff;box-shadow:0 10px 34px rgba(0,0,0,.2)}
+  @media(max-width:420px){.phone{--s:0.86}}
+  .scr{width:360px;height:760px;transform:scale(var(--s));transform-origin:top left;font-family:'Atkinson Hyperlegible',system-ui,sans-serif;color:#202427;background:#fff;position:relative;overflow:hidden}
+  .redrawn{position:absolute;top:0;right:0;z-index:9;font-family:var(--mono);font-size:10px;letter-spacing:.08em;text-transform:uppercase;background:#F4EAD3;color:#684604;padding:3px 8px;border-bottom-left-radius:6px}
+
+  /* numbered markers, on the screen and in the pane */
+  .pin{position:absolute;z-index:8;width:32px;height:32px;margin:-16px 0 0 -16px;border-radius:50%;color:#fff;font:700 15px/32px system-ui,sans-serif;text-align:center;box-shadow:0 0 0 3px #fff,0 2px 8px rgba(0,0,0,.3);cursor:pointer;transition:transform .15s}
+  .pin.bad,.dot.bad{background:#B3261E} .pin.good,.dot.good{background:#00703C}
+  .pin.hot{transform:scale(1.35);box-shadow:0 0 0 3px #fff,0 0 0 7px rgba(255,221,0,.95)}
+  .ring{position:absolute;z-index:7;border:3px solid #FFDD00;border-radius:6px;box-shadow:0 0 0 2px #0B0C0C;pointer-events:none;opacity:0;transition:opacity .15s}
+  .ring.hot{opacity:1}
+
+  .pane .ph{font-family:var(--mono);font-size:0.7rem;letter-spacing:.1em;text-transform:uppercase;margin:0 0 6px}
+  .pane .ph.now{color:#B3261E} .pane .ph.new{color:#00703C}
+  .pane h2{margin:0 0 8px;font-size:clamp(1.4rem,2.6vw,1.9rem);letter-spacing:-0.02em;line-height:1.15}
+  .pane > p{color:var(--ink-2);line-height:1.6;margin:0 0 14px;max-width:62ch}
+  .pts{list-style:none;margin:0;padding:0;display:grid;gap:10px}
+  .pts li{display:grid;grid-template-columns:34px 1fr;gap:4px 12px;background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:12px 14px;cursor:default;transition:border-color .15s}
+  .pts li.hot{border-color:#0B0C0C;box-shadow:0 0 0 3px #FFDD00}
+  .dot{width:30px;height:30px;border-radius:50%;color:#fff;font:700 14px/30px system-ui,sans-serif;text-align:center;grid-row:1/4}
+  .pts b{color:var(--ink);line-height:1.35}
+  .pts .tx{color:var(--ink-2);line-height:1.55;font-size:0.94rem}
+  .pts .num{font-family:var(--mono);font-size:0.8rem;color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:4px;padding:0 5px;white-space:nowrap}
+  .chips{display:flex;flex-wrap:wrap;gap:5px;margin-top:4px}
+  .chip{font:600 0.72rem var(--sans);text-decoration:none;color:var(--wsh);background:var(--wsh-soft);border:1px solid var(--line);border-radius:99px;padding:3px 9px;white-space:nowrap}
+  .chip:hover{border-color:var(--wsh)}
+  .chip i{font-style:normal;font-family:var(--mono);font-weight:700;margin-right:4px}
+  .deck{margin:16px 0 0;background:var(--surface);border:1px solid var(--line);border-left:4px solid var(--wsh);border-radius:0 10px 10px 0;padding:12px 16px}
+  .deck b.h{display:block;font-family:var(--mono);font-size:0.68rem;letter-spacing:.1em;text-transform:uppercase;color:var(--wsh);margin-bottom:6px}
+  .deck ul{margin:0;padding-left:18px} .deck li{margin:4px 0;color:var(--ink-2);line-height:1.5}
+  .deck li b{color:var(--ink)}
+  .wide{max-width:1000px}
+  .wide h2{margin:0 0 8px;font-size:clamp(1.4rem,2.6vw,1.9rem);letter-spacing:-0.02em}
+  .wide h3{margin:22px 0 6px;font-size:1.02rem}
+  .wide > p{color:var(--ink-2);line-height:1.6;max-width:74ch}
+  @media (prefers-reduced-motion:reduce){.pin,.ring,.pts li{transition:none}}
+
+  /* THE BAR — one definition, identical on every page (written by navfix; change it
+     everywhere or nowhere). It used to be copied per page and drifted into two heights. */
+  header.sdnav{position:sticky;top:0;z-index:40;background:var(--surface);border-bottom:1px solid var(--line)}
+  header.sdnav .bar{display:flex;align-items:center;gap:10px;min-height:56px;padding-block:8px;flex-wrap:nowrap}
+  header.sdnav .brand{font-weight:680;font-size:1rem;letter-spacing:-0.015em;white-space:nowrap;color:inherit;
+    text-decoration:none;padding:5px 8px;margin-left:-8px;border-radius:6px;order:0}
+  header.sdnav .brand:hover{background:var(--surface-2,var(--bg))}
+  header.sdnav .sp{flex:1;display:block;height:auto;flex-basis:auto;order:0}
+  header.sdnav .sdlinks{display:flex;align-items:center;gap:2px;order:0}
+  header.sdnav .navl{display:inline-block;font-size:0.85rem;line-height:1.3;color:var(--ink-2);text-decoration:none;
+    padding:6px 10px;border-radius:6px;white-space:nowrap;order:0}
+  header.sdnav .navl:hover{background:var(--surface-2,var(--bg));color:var(--ink)}
+  header.sdnav .navl.on{background:var(--lec);color:#fff}
+  html[data-theme="dark"] header.sdnav .navl.on{color:#151314}
+  header.sdnav a:focus-visible,header.sdnav button:focus-visible{outline:2px solid var(--lec);outline-offset:1px}
+  header.sdnav .ctl{order:0;margin-left:4px}
+  header.sdnav .ctl button{font-family:var(--mono);font-size:0.7rem;background:none;color:var(--ink-3);
+    border:1px solid var(--line-2);border-radius:6px;padding:0 9px;cursor:pointer;line-height:1;
+    height:34px;min-height:34px;min-width:34px;display:inline-flex;align-items:center;justify-content:center}
+  header.sdnav .ctl button:hover{border-color:var(--lec);color:var(--lec)}
+  @media(max-width:960px){
+    header.sdnav .bar{flex-wrap:wrap;row-gap:0;padding-block:6px 0;min-height:0}
+    header.sdnav .ctl{order:1;margin-left:auto}
+    header.sdnav .sp{display:none}
+    header.sdnav .sdlinks{order:2;flex-basis:100%;overflow-x:auto;scrollbar-width:none;padding:4px 28px 8px 0;min-height:44px;
+      -webkit-mask-image:linear-gradient(to right,#000 calc(100% - 28px),transparent);mask-image:linear-gradient(to right,#000 calc(100% - 28px),transparent)}
+    header.sdnav .sdlinks::-webkit-scrollbar{display:none}
+    header.sdnav .navl{font-size:0.82rem;padding:6px 9px}
+  }
+</style>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;700;800&family=Bebas+Neue&family=Montserrat:wght@400;600&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<header class="sdnav">
+  <div class="wrap bar">
+    <a class="brand" href="index.html">Screen Design</a>
+    <span class="sp"></span>
+    <nav class="sdlinks" aria-label="Screen Design"><a class="navl" href="weeks.html">Week by week</a><a class="navl" href="assessment.html">Checklist</a><a class="navl on" href="examples.html">Examples</a><a class="navl" href="toolkit.html">Toolkit</a><a class="navl" href="assessment-materials.html">Marking</a></nav>
+    <span class="ctl"><button id="theme" aria-label="Dark mode">◐</button></span>
+  </div>
+</header>
+<script>(function(){var n=document.querySelector(".sdlinks"),o=n&&n.querySelector(".on");if(o&&n.scrollWidth>n.clientWidth)n.scrollLeft=o.offsetLeft-n.offsetLeft-16;})();</script>
+
+<div class="wt-bar" id="wt"><div class="wrap">
+  <b>Finding a Welsh course</b><span class="sp"></span><span class="ct" id="wtct"></span>
+  <button type="button" class="tb" id="wtprev" aria-label="Previous">←</button>
+  <button type="button" class="tb" id="wtnext" aria-label="Next">→</button>
+</div><div class="wrap"><div class="wt-nav" id="wtnav" role="group" aria-label="Slides"></div></div></div>
+
+<div class="wrap">
+
+<section class="ws" data-title="Start" data-short="Start" data-group="">
+  <div class="wide">
+    <p class="meta"><a href="examples.html#before-after">Before and after</a> · case 4</p>
+    <h2 style="font-size:clamp(1.8rem,4vw,2.6rem)">Finding a first Welsh course</h2>
+    <p class="meta">learnwelsh.cymru, the National Centre for Learning Welsh · walked on 22 October 2026 on a phone, from the course search to the first registration step, which asks you to sign in or create an account — the walk stopped there ·
+      the screens are <b>redrawn</b>, because the site licenses nothing · <a href="https://www.learnwelsh.cymru/learning/find-a-course/" target="_blank" rel="noopener">see the live search ↗</a></p>
+    <div class="goal">
+      <div><b>Who</b><span>A parent who has just moved to North Wales and has never learnt any Welsh.</span></div>
+      <div><b>Goal</b><span>Find a beginners’ course they can actually get to, and sign up.</span></div>
+      <div><b>Why this case</b><span>A short course with a lot of facts attached — and a bilingual service, which makes the cross-cultural paragraph easy to see.</span></div>
+    </div>
+    <h3>How to read this</h3>
+    <ul class="pts" style="max-width:760px">
+      <li><span class="dot bad">1</span><b>Red numbers are problems</b><span class="tx">Six screens of finding a course as it is now, each problem measured.</span></li>
+      <li><span class="dot good">1</span><b>Green numbers are decisions</b><span class="tx">Six screens of the same search, improved.</span></li>
+      <li><span class="dot" style="background:var(--wsh)">A2</span><b>Blue tags are your deck</b><span class="tx">Each point links to the section of your portfolio where the same thinking goes.</span></li>
+    </ul>
+    <p class="cx-link">Ratios like “4.5:1” come up throughout this case: <a href="gallery.html#contrast">what a contrast ratio means</a>.</p>
+    <p class="note">Point at a number on the screen or in the list and both light up. Move with ← →.</p>
+  </div>
+</section>
+
+<!-- NOW 1 -->
+<section class="ws" data-title="Now 1 · find a course" data-short="1" data-group="Now" data-kind="now">
+  <div class="ws-grid">
+    <div class="stagec"><div class="phone"><div class="scr"><span class="redrawn">Redrawn</span><div class="ln">
+      <div class="ln-top"><span class="lg"></span><small>dysgucymraeg.cymru<br>learnwelsh.cymru</small><i style="background:#1D84E0"></i><i style="background:#24A148"></i><i style="background:#8a8a8a"></i><i style="background:#4B2A7B"></i></div>
+      <div class="ln-hero" data-t="1"><div class="ic"></div><b>FIND A COURSE</b><p>There are many Learn Welsh courses available. You can search for a course below.</p></div>
+      <div class="ln-mc">Matching Courses</div>
+      <div class="ln-bar"><span>15 ⌄</span><b>Filters</b></div>
+      <div class="ln-card" data-t="2"><div class="ln-ch"><i></i><div><b>Proficiency Course</b><small>Gloywi (Proficiency)</small></div></div>
+        <div class="ln-type">▣ Virtual classroom</div><div class="ln-row"><div>Course reference:<b>PF-RH-GLO-2726</b></div><div>Duration:<b>35 Weeks</b></div></div></div>
+    </div></div></div></div>
+    <div class="pane">
+      <p class="ph now">Now · screen 1 of 6</p>
+      <h2>The search starts with the hardest course</h2>
+      <ol class="pts">
+        <li data-n="1"><span class="dot bad">1</span><b>The heading: 3.4:1</b><span class="tx">White on bright pink. Eight pieces of text on this page measure below <span class="num">4.5:1</span>, the filter placeholders as low as <span class="num">2.85:1</span>.</span><span data-tags="A5 C4"></span></li>
+        <li data-n="2"><span class="dot bad">2</span><b>The first result is for fluent speakers</b><span class="tx">No question about your level comes first, so a complete beginner opens the page to a 35-week Proficiency course at £100.</span><span data-tags="A2 C2"></span></li>
+      </ol>
+      <div class="deck"><b class="h">In your deck</b><ul>
+        <li><b>C2</b> — what does your first screen show to someone who has told you nothing yet?</li></ul></div>
+    </div>
+  </div>
+</section>
+
+<!-- NOW 2 -->
+<section class="ws" data-title="Now 2 · one result" data-short="2" data-group="Now" data-kind="now">
+  <div class="ws-grid">
+    <div class="stagec"><div class="phone"><div class="scr"><span class="redrawn">Redrawn</span><div class="ln">
+      <div class="ln-card" style="margin-top:44px" data-t="3"><div class="ln-ch"><i></i><div><b>Entry Course Part 1 - Welsh at Home</b><small>Mynediad 1 (Entry 1)</small></div></div>
+        <div class="ln-type">👥 Classroom</div>
+        <div class="ln-row"><div>Course reference:<b>d-56912</b></div><div>Duration:<b>1 Weeks</b></div>
+          <div>Start date:<b>27/10/2026</b></div><div>End date:<b>27/10/2026</b></div>
+          <div>Time &amp; Day:<b>13:00 - 15:00 Tuesday</b></div><div data-t="4">Learning stream:<b>Welsh at home</b></div>
+          <div data-t="4">Dialect:<b>North</b></div><div data-t="4">Provider:<b>Dysgu Cymraeg Gogledd Ddwyrain</b></div>
+          <div style="grid-column:1/3">Location:<b>Hwb Pengwern, Trem yr Ysgol, Llangollen, Sir Ddinbych</b></div></div>
+        <div class="ln-price">£0.00</div><div class="ln-warn">16 Remaining spaces · Enrolment closes in 4 days</div></div>
+    </div></div></div></div>
+    <div class="pane">
+      <p class="ph now">Now · screen 2 of 6</p>
+      <h2>Every fact, at the same volume</h2>
+      <ol class="pts">
+        <li data-n="3"><span class="dot bad">3</span><b>23 lines for each course</b><span class="tx">The course reference gets the same weight as the day and time. Each card is about <span class="num">530px</span>; fifteen of them make a page <span class="num">15.7</span> phone screens long.</span><span data-tags="C2 A4"></span></li>
+        <li data-n="4"><span class="dot bad">4</span><b>Words a beginner cannot use yet</b><span class="tx">“Learning stream”, “Dialect: North”, and a provider named only in Welsh. None is explained where it appears.</span><span data-tags="C7 C5"></span></li>
+      </ol>
+      <div class="deck"><b class="h">In your deck</b><ul>
+        <li><b>A4</b> — hierarchy is deciding what is small. Which of your labels could drop a size, or disappear?</li></ul></div>
+    </div>
+  </div>
+</section>
+
+<!-- NOW 3 -->
+<section class="ws" data-title="Now 3 · the filters" data-short="3" data-group="Now" data-kind="now">
+  <div class="ws-grid">
+    <div class="stagec"><div class="phone"><div class="scr"><span class="redrawn">Redrawn</span><div class="ln" style="padding:16px">
+      <b style="font-size:20px;display:block;margin:0 0 12px">Filter your results</b>
+      <div data-t="5"><p style="margin:0 0 6px;font-weight:600">Level</p>
+        <div style="display:flex;flex-wrap:wrap;gap:6px;margin:0 0 14px;font-size:14px">
+          <span style="border:1px solid #ccc;border-radius:4px;padding:5px 9px">All</span><span style="border:1px solid #ccc;border-radius:4px;padding:5px 9px">Entry</span><span style="border:1px solid #ccc;border-radius:4px;padding:5px 9px">Foundation</span><span style="border:1px solid #ccc;border-radius:4px;padding:5px 9px">Intermediate</span><span style="border:1px solid #ccc;border-radius:4px;padding:5px 9px">Advanced</span><span style="border:1px solid #ccc;border-radius:4px;padding:5px 9px">Proficient</span><span style="border:1px solid #ccc;border-radius:4px;padding:5px 9px">Taster</span></div></div>
+      <div data-t="6"><div style="border:1px solid #ccc;border-radius:4px;padding:10px;margin:0 0 8px;color:#9a9a9a;font-size:14px">-- Learning type --</div>
+      <div style="border:1px solid #ccc;border-radius:4px;padding:10px;margin:0 0 8px;color:#9a9a9a;font-size:14px">-- Choose provider region --</div></div>
+      <p style="color:#1D84E0;font-size:14px">Advanced options</p>
+      <div style="display:flex;gap:8px"><span style="flex:1;text-align:center;border:1px solid #ccc;border-radius:4px;padding:10px;color:#9a9a9a">Clear Search</span><span style="flex:1;text-align:center;background:#1D84E0;color:#fff;border-radius:4px;padding:10px">Search</span></div>
+    </div></div></div></div>
+    <div class="pane">
+      <p class="ph now">Now · screen 3 of 6</p>
+      <h2>Filters in the provider’s words</h2>
+      <ol class="pts">
+        <li data-n="5"><span class="dot bad">5</span><b>Seven levels, none called “beginner”</b><span class="tx">“Entry” and “Taster” both suit a first-timer; the screen does not say which, or what the others mean.</span><span data-tags="C5 C1"></span></li>
+        <li data-n="6"><span class="dot bad">6</span><b>Placeholders at 2.85–3.95:1</b><span class="tx">The filter labels sit inside the boxes in pale grey, and disappear once something is chosen.</span><span data-tags="A5 A6"></span></li>
+      </ol>
+      <div class="deck"><b class="h">In your deck</b><ul>
+        <li><b>C1</b> — write your audience in the words <i>they</i> would use. Then check your screens use them too.</li></ul></div>
+    </div>
+  </div>
+</section>
+
+<!-- NOW 4 -->
+<section class="ws" data-title="Now 4 · the course page" data-short="4" data-group="Now" data-kind="now">
+  <div class="ws-grid">
+    <div class="stagec"><div class="phone"><div class="scr"><span class="redrawn">Redrawn</span><div class="ln">
+      <div style="padding:10px 14px;font-size:13px;color:#555;border-bottom:1px solid #eee">Home › Learning › <b style="color:#1D84E0">Course</b></div>
+      <div class="ln-yel"><div class="ln-panel"><h3 data-t="7">ENTRY COURSE PART 1 - WELSH AT HOME</h3><p class="sub">MYNEDIAD 1 (ENTRY 1)</p>
+        <div class="ln-row" style="padding:4px 0"><div>Course reference:<b>d-56912</b></div><div data-t="8">Duration:<b>1 Weeks</b></div>
+          <div>Start date:<b>27/10/2026</b></div><div>End date:<b>27/10/2026</b></div><div>Time &amp; Day:<b>13:00 - 15:00 Tuesday</b></div><div>Dialect:<b>North</b></div></div></div></div>
+      <div class="lv-more" style="background:linear-gradient(rgba(255,255,255,.6),#fff 40%)">↓ further down: “Come and learn a little autumn Welsh with your children this half term!”</div>
+    </div></div></div></div>
+    <div class="pane">
+      <p class="ph now">Now · screen 4 of 6</p>
+      <h2>The title says what it is called, not what it is</h2>
+      <ol class="pts">
+        <li data-n="7"><span class="dot bad">7</span><b>“Entry Course Part 1 — Welsh at Home”</b><span class="tx">It is a two-hour half-term session for parents <i>and their children</i>, with crafts. That is said only in the description, below the facts.</span><span data-tags="C2 C5"></span></li>
+        <li data-n="8"><span class="dot bad">8</span><b>“Duration: 1 Weeks” for a two-hour session</b><span class="tx">A database field shown as it is stored. The real answer — one afternoon — has to be worked out from the start, end and times.</span><span data-tags="C5"></span></li>
+      </ol>
+      <div class="deck"><b class="h">In your deck</b><ul>
+        <li><b>C2</b> — lead with what something is like, then the facts. Your screens should answer “is this for me?” first.</li></ul></div>
+    </div>
+  </div>
+</section>
+
+<!-- NOW 5 -->
+<section class="ws" data-title="Now 5 · register" data-short="5" data-group="Now" data-kind="now">
+  <div class="ws-grid">
+    <div class="stagec"><div class="phone"><div class="scr"><span class="redrawn">Redrawn</span><div class="ln">
+      <div class="ln-blue"><b>REGISTER</b></div>
+      <div class="ln-steps" data-t="10"><span class="on">STEP 1</span><span>STEP 2</span><span>STEP 3</span><span>STEP 4</span><span>STEP 5</span><span>STEP 6</span></div>
+      <div data-t="9"><p class="ln-sign">Please sign in or create an account to register on the course</p>
+      <div class="ln-g">G  Log in with Google</div><div class="ln-g">▦  Log in with Microsoft</div>
+      <div class="ln-new">Create an account</div></div>
+    </div></div></div></div>
+    <div class="pane">
+      <p class="ph now">Now · screen 5 of 6</p>
+      <h2>An account before anything else</h2>
+      <ol class="pts">
+        <li data-n="9"><span class="dot bad">9</span><b>Step 1 of 6 is an account</b><span class="tx">For a free two-hour session, the first thing asked is to sign in or sign up. The walk stopped here.</span><span data-tags="C6 A2"></span></li>
+        <li data-n="10"><span class="dot bad">10</span><b>Six steps with no names</b><span class="tx">“Step 2” to “Step 6”, with small icons. A parent cannot tell how long this will take, or what they will need.</span><span data-tags="C5 B6"></span></li>
+      </ol>
+      <div class="deck"><b class="h">In your deck</b><ul>
+        <li><b>C6</b> — every account you require is data you keep. Say why yours is needed, or when it is not.</li></ul></div>
+    </div>
+  </div>
+</section>
+
+<!-- NOW 6 -->
+<section class="ws" data-title="Now 6 · counted" data-short="6" data-group="Now" data-kind="now">
+  <div class="ws-grid">
+    <div class="stagec"><div class="phone"><div class="scr" style="background:#F3F2F1;display:grid;place-items:center">
+      <div data-t="11" style="padding:28px;font:19px/1.6 system-ui,sans-serif;color:#202427"><b style="font-size:24px">The search, counted</b><br><br>
+        <b>15.7</b> screens for 15 results<br><b>23</b> lines per result<br><b>1st</b> result: the most advanced<br><b>8</b> pieces of text below 4.5:1 contrast<br><b>6</b> registration steps, account first</div>
+    </div></div></div>
+    <div class="pane">
+      <p class="ph now">Now · screen 6 of 6</p>
+      <h2>Counted</h2>
+      <ol class="pts">
+        <li data-n="11"><span class="dot bad">11</span><b>Complete, and not yet useful</b><span class="tx">Every fact is there. None is in the order a beginner needs it.</span><span data-tags="A2 C2"></span></li>
+      </ol>
+      <div class="fair"><b>What already works — keep it.</b> The whole site works in Welsh and English, with a CY switch on every page. Some courses are free — 16 to 25-year-olds learn for free — and course pages list a phone number and an email. The facts are complete and consistent — the redesign reorders them, it does not need new ones.</div>
+    </div>
+  </div>
+</section>
+
+<!-- IMPROVED 1 -->
+<section class="ws" data-title="Improved 1 · where are you starting?" data-short="1" data-group="Improved" data-kind="new">
+  <div class="ws-grid">
+    <div class="stagec"><div class="phone"><div class="scr"><div class="lx">
+      <div class="lx-top"><b>Learn Welsh</b><span>CY</span></div>
+      <div class="lx-in"><p class="cap">Find a course · 1 of 3</p><h1>Have you learnt any Welsh before?</h1>
+        <div data-t="1"><div class="lx-opt on"><span class="rad"></span><span>Never — I am a complete beginner<small>Courses called Mynediad, or Entry</small></span></div>
+        <div class="lx-opt"><span class="rad"></span><span>A little<small>I know some words and phrases</small></span></div>
+        <div class="lx-opt"><span class="rad"></span><span>I can hold a conversation<small>We will suggest a level, and you can change it</small></span></div></div>
+        <span class="lx-btn">Continue</span></div></div>
+    </div></div></div>
+    <div class="pane">
+      <p class="ph new">Improved · screen 1 of 6</p>
+      <h2>Ask the learner, in the learner’s words</h2>
+      <ol class="pts">
+        <li data-n="1"><span class="dot good">1</span><b>Level, asked as a plain question</b><span class="tx">“Never — I am a complete beginner” instead of seven level names. The Welsh name sits underneath, so it is learnt rather than hidden.</span><span data-tags="C1 C7"></span></li>
+      </ol>
+      <div class="deck"><b class="h">In your deck</b><ul>
+        <li><b>C7</b> — a bilingual service can teach as it goes. Showing “Mynediad” beside “Entry” is a cross-cultural decision you can name.</li></ul></div>
+    </div>
+  </div>
+</section>
+
+<!-- IMPROVED 2 -->
+<section class="ws" data-title="Improved 2 · how and when" data-short="2" data-group="Improved" data-kind="new">
+  <div class="ws-grid">
+    <div class="stagec"><div class="phone"><div class="scr"><div class="lx">
+      <div class="lx-top"><b>Learn Welsh</b><span>CY</span></div>
+      <div class="lx-in"><p class="back">‹ Back</p><p class="cap">Find a course · 2 of 3</p><h1>How and when can you learn?</h1>
+        <div data-t="2"><span class="lx-lbl">Where</span><div class="lx-chips"><i>Online, live</i><i class="on">In a classroom near LL20</i><i>On my own, in the app</i></div>
+        <span class="lx-lbl">When</span><div class="lx-chips"><i>Weekday daytime</i><i class="on">Evenings</i><i class="on">Half-term</i></div></div>
+        <div class="lx-opt" data-t="3" style="margin-top:12px"><span class="rad" style="border-radius:4px"></span><span>I would like to bring my children<small>Family sessions, called “Welsh at home”</small></span></div>
+        <span class="lx-btn">Show courses</span></div></div>
+    </div></div></div>
+    <div class="pane">
+      <p class="ph new">Improved · screen 2 of 6</p>
+      <h2>The questions that decide whether you can go</h2>
+      <ol class="pts">
+        <li data-n="2"><span class="dot good">2</span><b>Where and when, as choices</b><span class="tx">Near a postcode, online or self-study; daytime, evenings or half-term. These are what rule a course in or out for a working parent.</span><span data-tags="A2 C5"></span></li>
+        <li data-n="3"><span class="dot good">3</span><b>“Bring my children” is a real option</b><span class="tx">“Learning stream: Welsh at home” becomes a question a parent would recognise.</span><span data-tags="C1 C5"></span></li>
+      </ol>
+      <div class="deck"><b class="h">In your deck</b><ul>
+        <li><b>A2</b> — turn your service’s categories into the questions your user would ask. List both.</li></ul></div>
+    </div>
+  </div>
+</section>
+
+<!-- IMPROVED 3 -->
+<section class="ws" data-title="Improved 3 · results" data-short="3" data-group="Improved" data-kind="new">
+  <div class="ws-grid">
+    <div class="stagec"><div class="phone"><div class="scr"><div class="lx">
+      <div class="lx-top"><b>Learn Welsh</b><span>CY</span></div>
+      <div class="lx-in"><p class="back">‹ Change answers</p><p class="cap">Find a course · 3 of 3</p><h1>3 beginners’ courses near LL20</h1>
+        <div class="lx-res" data-t="4"><span class="pr">Free</span><b>Autumn Welsh fun, with your children</b><span>Tue 27 Oct, 1–3pm · one afternoon</span><span>Hwb Pengwern, Llangollen</span><em>16 places left · book by Mon 26 Oct</em></div>
+        <div class="lx-res"><span class="pr">£45</span><b>Welsh for complete beginners</b><span>Wednesdays 6–8pm · 10 weeks from 4 Nov</span><span>Online, live</span><em>9 places left</em></div>
+        <div class="lx-res" data-t="5"><span class="pr">Free</span><b>Taster: your first hour of Welsh</b><span>Any time · about an hour</span><span>On your own, in the app</span><em>Start now</em></div></div></div>
+    </div></div></div>
+    <div class="pane">
+      <p class="ph new">Improved · screen 3 of 6</p>
+      <h2>Four lines, in the order you decide in</h2>
+      <ol class="pts">
+        <li data-n="4"><span class="dot good">4</span><b>What it is, when, where, and how many places</b><span class="tx">From <span class="num">23</span> lines to <span class="num">4</span>. Course reference, stream and provider move to the course page, where the few who need them can find them.</span><span data-tags="C2 A4"></span></li>
+        <li data-n="5"><span class="dot good">5</span><b>Something to do today</b><span class="tx">If nothing fits the diary, the taster in the app does — so the search never ends empty.</span><span data-tags="C5"></span></li>
+      </ol>
+      <div class="deck"><b class="h">In your deck</b><ul>
+        <li><b>A4</b> — the result title is the one bold line; times and places are body text; the small print is 15px. Three sizes do it.</li></ul></div>
+    </div>
+  </div>
+</section>
+
+<!-- IMPROVED 4 -->
+<section class="ws" data-title="Improved 4 · the course" data-short="4" data-group="Improved" data-kind="new">
+  <div class="ws-grid">
+    <div class="stagec"><div class="phone"><div class="scr"><div class="lx">
+      <div class="lx-top"><b>Learn Welsh</b><span>CY</span></div>
+      <div class="lx-in"><p class="back">‹ Results</p><h1 data-t="6">Autumn Welsh fun, with your children</h1>
+        <p>Two hours of crafts, songs and new words for parents and children, at the start of half-term. No Welsh needed.</p>
+        <dl class="lx-facts"><div><dt>When</dt><dd>Tuesday 27 October, 1–3pm</dd></div><div><dt>Where</dt><dd>Hwb Pengwern, Llangollen LL20 8BB</dd></div><div><dt>Cost</dt><dd>Free</dd></div></dl>
+        <div class="lx-note" data-t="7"><b>North Wales Welsh.</b> A few everyday words differ from the south; either is a good place to start.</div>
+        <span class="lx-btn">Book a place</span></div></div>
+    </div></div></div>
+    <div class="pane">
+      <p class="ph new">Improved · screen 4 of 6</p>
+      <h2>What it is like, then the facts</h2>
+      <ol class="pts">
+        <li data-n="6"><span class="dot good">6</span><b>The title says what happens</b><span class="tx">“With your children” is in the heading, and the description comes before the facts — the answer to “is this for me?” is the first thing read.</span><span data-tags="C2 C5"></span></li>
+        <li data-n="7"><span class="dot good">7</span><b>“Dialect” explained where it appears</b><span class="tx">One sentence turns a label a beginner cannot use into reassurance.</span><span data-tags="C7 C5"></span></li>
+      </ol>
+      <div class="deck"><b class="h">In your deck</b><ul>
+        <li><b>C7</b> — regional language is a real cross-cultural point, and it is right here in Wales.</li></ul></div>
+    </div>
+  </div>
+</section>
+
+<!-- IMPROVED 5 -->
+<section class="ws" data-title="Improved 5 · book a place" data-short="5" data-group="Improved" data-kind="new">
+  <div class="ws-grid">
+    <div class="stagec"><div class="phone"><div class="scr"><div class="lx">
+      <div class="lx-top"><b>Learn Welsh</b><span>CY</span></div>
+      <div class="lx-in"><p class="back">‹ Back</p>
+        <div class="lx-steps" data-t="8"><span class="on">1 · You</span><span>2 · Children</span><span>3 · Done</span></div>
+        <h1>About you</h1>
+        <div data-t="9"><span class="lx-lbl" style="margin-top:0">Your name</span><div class="lx-field">Joe Doe</div>
+        <span class="lx-lbl">Email, for your booking</span><div class="lx-field">joe.doe@example.com</div>
+        <p style="font-size:16px;color:#525066;margin:6px 0 0">We will make you a free account with this email, so you can see and change your bookings.</p></div>
+        <span class="lx-btn">Continue</span>
+        <p style="text-align:center;font-size:16px;color:#0A58A8;text-decoration:underline;margin:0">Or continue with Google</p></div></div>
+    </div></div></div>
+    <div class="pane">
+      <p class="ph new">Improved · screen 5 of 6</p>
+      <h2>Three named steps, and the account comes with the booking</h2>
+      <ol class="pts">
+        <li data-n="8"><span class="dot good">8</span><b>Steps with names</b><span class="tx">From six numbered steps to <span class="num">3</span> named ones: you, your children, done. A parent knows what is coming.</span><span data-tags="C5 B4"></span></li>
+        <li data-n="9"><span class="dot good">9</span><b>The account is made from the booking</b><span class="tx">Name and email are needed for the booking anyway; the account is a by-product, said plainly, not a gate before anything else.</span><span data-tags="C6 A2"></span></li>
+      </ol>
+      <div class="deck"><b class="h">In your deck</b><ul>
+        <li><b>B4</b> — name the steps in your flow diagram the way you name them on screen.</li></ul></div>
+    </div>
+  </div>
+</section>
+
+<!-- IMPROVED 6 -->
+<section class="ws" data-title="Improved 6 · booked" data-short="6" data-group="Improved" data-kind="new">
+  <div class="ws-grid">
+    <div class="stagec"><div class="phone"><div class="scr"><div class="lx">
+      <div class="lx-top"><b>Learn Welsh</b><span>CY</span></div>
+      <div class="lx-in"><div class="lx-done" data-t="10"><h1>Croeso! You’re booked</h1><p>Croeso means welcome.</p></div>
+        <dl class="lx-facts" data-t="11"><div><dt>When</dt><dd>Tue 27 Oct, 1–3pm</dd></div><div><dt>Where</dt><dd>Hwb Pengwern, Llangollen</dd></div><div><dt>Bring</dt><dd>Clothes for the weather — there may be an outdoor activity</dd></div></dl>
+        <span class="lx-btn">Add to my calendar</span></div></div>
+    </div></div></div>
+    <div class="pane">
+      <p class="ph new">Improved · screen 6 of 6</p>
+      <h2>Your first Welsh word, and everything you need for Tuesday</h2>
+      <ol class="pts">
+        <li data-n="10"><span class="dot good">10</span><b>“Croeso”, with its meaning</b><span class="tx">The confirmation starts the learning. A small, specific cross-cultural decision.</span><span data-tags="C7"></span></li>
+        <li data-n="11"><span class="dot good">11</span><b>When, where, what to bring</b><span class="tx">Taken from the course description, which already said to bring clothes for the weather.</span><span data-tags="C5 D3"></span></li>
+      </ol>
+      <div class="deck"><b class="h">In your deck</b><ul>
+        <li><b>D3</b> — pair the old result card with the new one. The 23 lines against the 4 make the argument.</li></ul></div>
+    </div>
+  </div>
+</section>
+
+<!-- THEN -->
+<section class="ws" data-title="Before against after, counted" data-short="Counted" data-group="Then">
+  <div class="wide">
+    <h2>Before against after, counted</h2>
+    <div class="tbw"><table class="tb">
+      <tr><th>Measured</th><th>Now</th><th>Improved</th></tr>
+      <tr><td>Lines per course in the results</td><td class="num">23</td><td class="num up">4</td></tr>
+      <tr><td>Phone screens of results</td><td class="num">15.7 for 15</td><td class="num up">about 1 for 3 that fit</td></tr>
+      <tr><td>Does the first result suit a beginner?</td><td class="num">no — Proficiency</td><td class="num up">yes</td></tr>
+      <tr><td>Pieces of text below the 4.5:1 contrast minimum, on the search page</td><td class="num">8</td><td class="num up">0</td></tr>
+      <tr><td>Registration steps</td><td class="num">6, account first</td><td class="num up">3, account made from the booking</td></tr>
+      <tr><td>Welsh terms explained where they appear</td><td class="num">0</td><td class="num up">3 — Mynediad, Welsh at home, dialect</td></tr>
+    </table></div>
+    <p class="note">Counted on the live search and one course page on 22 October 2026. Registration was walked only as far as its first step.</p>
+    <span data-tags="A2 C5 D3"></span>
+  </div>
+</section>
+
+<section class="ws" data-title="What happened to every step" data-short="Steps" data-group="Then">
+  <div class="wide">
+    <h2>What happened to every step</h2>
+    <div class="tbw"><table class="tb">
+      <tr><th>Step now</th><th>What happened</th><th>Why</th></tr>
+      <tr><td>Find a course: every course, advanced first</td><td>Replaced by three questions</td><td>Level, place and time decide which courses are worth showing</td></tr>
+      <tr><td>Filters in the provider’s terms</td><td>Merged into those questions, in the learner’s words</td><td>“Never learnt any Welsh” instead of “Entry”</td></tr>
+      <tr><td>Result cards of 23 lines</td><td>Cut to 4 lines</td><td>The rest moves to the course page</td></tr>
+      <tr><td>Course page</td><td>Kept; description first; dialect explained</td><td>“Is this for me?” answered before the facts</td></tr>
+      <tr><td>Account before registering</td><td>Moved: made from the booking</td><td>The booking needs name and email anyway</td></tr>
+      <tr><td>Six unnamed steps</td><td>Three named steps</td><td>You know what is coming</td></tr>
+    </table></div>
+    <p class="note">The redesign assumes registration needs no more than name, email and the children’s ages for a family session. The four steps after the account were not walked, so if they ask for more, those questions come back — on named steps.</p>
+    <span data-tags="D2"></span>
+  </div>
+</section>
+
+<section class="ws" data-title="The redesign’s A3, A4 and A5" data-short="A3–A5" data-group="Then">
+  <div class="wide">
+    <h2>The redesign’s A3, A4 and A5</h2>
+    <p>The service’s purple and pink stay — pink as a stripe only, never behind text.</p>
+    <h3>A3 · Layout</h3>
+    <div class="tbw"><table class="tb">
+      <tr><th>Row</th><th>Number</th><th>Why</th></tr>
+      <tr><td>Columns</td><td class="num">4 phone · 12 desktop</td><td>Searching on a phone, booking on either</td></tr>
+      <tr><td>Gutter</td><td class="num">16 px phone · 24 px desktop</td><td>Results go two-up on a tablet</td></tr>
+      <tr><td>Margin</td><td class="num">16 px phone · 32 px desktop</td><td>Full-width choices on a phone</td></tr>
+      <tr><td>Max width</td><td class="num">1,120 px; questions use 6 of 12, results 8 of 12</td><td>Questions stay short; results get room for the price at the right</td></tr>
+      <tr><td>Breakpoints</td><td class="num">720 · 1,024 px</td><td>At 720 results go two-up; at 1,024 a map sits beside them</td></tr>
+      <tr><td>Spacing scale</td><td class="num">4 · 8 · 12 · 16 · 24 · 32</td><td>8 between choices, 10 inside result cards, 24 before a button</td></tr>
+    </table></div>
+    <h3>A4 · Typography</h3>
+    <div class="tbw"><table class="tb">
+      <tr><th>Role</th><th>Face · size / line height</th><th>Why</th></tr>
+      <tr><td>Everything</td><td class="num">Nunito Sans</td><td>Friendly and plain; it carries Welsh letters such as ŵ and ŷ</td></tr>
+      <tr><td>Question (H1)</td><td class="num">ExtraBold 28 / 34</td><td>One question per screen</td></tr>
+      <tr><td>Body and answers</td><td class="num">18 / 27</td><td>Never below 18 on a form</td></tr>
+      <tr><td>Result titles</td><td class="num">Bold 18 / 24</td><td>The one bold line in each result</td></tr>
+      <tr><td>Small print</td><td class="num">15–16 / 22 in #525066</td><td>7.8:1</td></tr>
+    </table></div>
+    <h3>A5 · Colour and contrast</h3>
+    <div class="tbw"><table class="tb">
+      <tr><th>Role</th><th>Colour</th><th>On</th><th>Ratio</th></tr>
+      <tr><td>Text</td><td><span class="sw" style="background:#1E1B2E"></span><code>#1E1B2E</code></td><td>white</td><td class="num">16.8:1</td></tr>
+      <tr><td>Small print</td><td><span class="sw" style="background:#525066"></span><code>#525066</code></td><td>white</td><td class="num">7.8:1</td></tr>
+      <tr><td>Brand, headings in the bar</td><td><span class="sw" style="background:#4B2A7B"></span><code>#4B2A7B</code> purple</td><td>white</td><td class="num">11.0:1</td></tr>
+      <tr><td>Buttons, links, chosen</td><td><span class="sw" style="background:#0A58A8"></span><code>#0A58A8</code></td><td>white text</td><td class="num">7.1:1</td></tr>
+      <tr><td>Stripe only</td><td><span class="sw" style="background:#E6007E"></span><code>#E6007E</code> pink</td><td>never behind text</td><td class="num">—</td></tr>
+      <tr><td>Notes</td><td><span class="sw" style="background:#F4F0FA"></span><code>#F4F0FA</code></td><td>text on it</td><td class="num">14.9:1</td></tr>
+      <tr><td>Booked</td><td><span class="sw" style="background:#2D6A3E"></span><code>#2D6A3E</code></td><td>white text</td><td class="num">6.5:1</td></tr>
+    </table></div>
+    <span data-tags="A3 A4 A5"></span>
+  </div>
+</section>
+
+<section class="ws" data-title="What a marker would credit" data-short="Why" data-group="Then">
+  <div class="wide">
+    <h2>What a marker would credit, and where it goes in your deck</h2>
+    <div class="why">
+      <div><b>The user’s words, not the service’s</b><span>“Never learnt any Welsh” instead of “Entry”; “bring my children” instead of “learning stream”.</span><span data-tags="C1 C5"></span></div>
+      <div><b>A cross-cultural point that teaches</b><span>Welsh terms shown and explained, not hidden; “Croeso” with its meaning; dialect explained.</span><span data-tags="C7"></span></div>
+      <div><b>Hierarchy by cutting</b><span>23 lines to 4: deciding what is small, or elsewhere, is a typography decision.</span><span data-tags="A4 C2 C3"></span></div>
+      <div><b>Colour kept, used safely</b><span>Pink as a stripe, never under text; purple and blue carry the words.</span><span data-tags="A5 C4"></span></div>
+      <div><b>Data asked for a reason</b><span>The account comes from the booking, and says so.</span><span data-tags="C6"></span></div>
+      <div><b>Honest about the walk</b><span>It stopped at the account step; the assumption about later steps is written down.</span><span data-tags="D1 C5"></span></div>
+    </div>
+    <p class="note">The Learn Welsh pages are redrawn for criticism and review. The improved screens are a teaching example, not a National Centre for Learning Welsh design; the second and third results are invented.</p>
+  </div>
+</section>
+
+</div>
+
+<script src="sd-common.js"></script>
+<script src="cases.js"></script>
+<script>
+const root = document.documentElement;
+try { const t = localStorage.getItem('sd-theme'); if (t) root.dataset.theme = t; } catch (e) {}
+if (!root.dataset.theme && matchMedia('(prefers-color-scheme: dark)').matches) root.dataset.theme = 'dark';
+document.getElementById('theme').onclick = () => {
+  root.dataset.theme = root.dataset.theme === 'dark' ? 'light' : 'dark';
+  try { localStorage.setItem('sd-theme', root.dataset.theme); } catch (e) {}
+};
+</script>
+</body>
+</html>

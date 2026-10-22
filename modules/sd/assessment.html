@@ -105,8 +105,6 @@
   .sk-foot{margin:12px 0 0}
   .sk-reset{font-family:var(--mono);font-size:0.72rem;background:none;border:0;color:var(--ink-3);
     text-decoration:underline;cursor:pointer;padding:6px 0}
-  .sk-note{margin:11px 0 0;font-size:0.88rem;color:var(--ink-2)}
-  .sk-note code{background:var(--surface-2);padding:1px 5px;border-radius:4px}
 
   /* The countdown. Big, because it is the only number on this page that moves
      without the student doing anything. */
@@ -191,14 +189,12 @@
   .it.done .it-b b{text-decoration:line-through;text-decoration-thickness:1px;color:var(--ink-3)}
 
   .note{border-left:3px solid var(--lec);background:var(--surface);padding:13px 17px;border-radius:0 9px 9px 0;margin:18px 0}
-  .note h4, .note h3.h4 {font-family:var(--mono);font-size:0.68rem;letter-spacing:0.09em;text-transform:uppercase;
+  .note h4{font-family:var(--mono);font-size:0.68rem;letter-spacing:0.09em;text-transform:uppercase;
            color:var(--lec);margin:0 0 6px}
   .note p{margin:0 0 7px;font-size:0.9rem;color:var(--ink-2)}
   .note p:last-child{margin:0}
   .note.ok{border-left-color:var(--ok)} .note.ok h4{color:var(--ok)}
-  .eg{font-family:var(--mono);font-size:0.8rem;background:var(--surface-2);padding:9px 11px;
-      border-radius:7px;display:block;margin-top:6px;color:var(--ink-2);line-height:1.45}
-  .eg b{color:var(--ok)}
+
   footer{padding:28px 0 46px;color:var(--ink-3);font-size:0.8rem;border-top:1px solid var(--line);margin-top:26px}
 
   /* Narrow screens. The "Done when" chip is a whole sentence, and nowrap made
@@ -215,49 +211,6 @@
     .it-meta .m{white-space:normal;font-size:0.62rem;max-width:100%;min-width:0;overflow-wrap:anywhere}
   }
 
-  /* Said on every page a student might plan against. Content moves; the
-     assessment does not — and being explicit about which is which is what
-     stops a reworded workshop reading as a moved goalpost. */
-  /* the rubric */
-  .rub{margin:30px 0 6px}
-  .rub-h{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;margin-bottom:4px}
-  .rub-h h2{margin:0;font-size:1.28rem;font-weight:690;letter-spacing:-0.02em}
-  .rub-src{font-family:var(--mono);font-size:0.64rem;letter-spacing:0.06em;text-transform:uppercase;color:var(--ink-3)}
-  .rub-note{margin:0 0 14px;font-size:0.9rem;color:var(--ink-2);max-width:74ch}
-  .rub-note b{color:var(--ink)}
-  .wide{overflow-x:auto;border:1px solid var(--line);border-radius:11px;background:var(--surface)}
-  .wide:focus-visible{outline:2px solid var(--lec);outline-offset:2px}
-  table.rubt{width:100%;border-collapse:collapse;font-size:0.82rem;min-width:840px}
-  table.rubt th{font-family:var(--mono);font-size:0.6rem;letter-spacing:0.07em;text-transform:uppercase;
-    color:var(--ink-3);text-align:left;padding:9px 11px;border-bottom:1px solid var(--line);
-    background:var(--surface-2);font-weight:500;vertical-align:bottom}
-  table.rubt th .pc{display:block;color:var(--ink-2);font-size:0.68rem;letter-spacing:0}
-  table.rubt td{padding:11px;border-bottom:1px solid var(--line);vertical-align:top;
-    color:var(--ink-2);line-height:1.45}
-  table.rubt tr:last-child td{border-bottom:0}
-  table.rubt td.crit{color:var(--ink);width:19%}
-  table.rubt td.crit b{display:block;font-size:0.9rem;margin-bottom:4px}
-  table.rubt td.crit span{font-size:0.78rem;color:var(--ink-2)}
-  table.rubt td.fail{background:var(--lec-soft)}
-  table.rubt td.first{background:var(--ok-soft)}
-  .los{margin-top:22px}
-  .lo-h{margin:0 0 10px;font-size:1rem;font-weight:680}
-  .lo-grid{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(min(260px,100%),1fr))}
-  .lo-c{display:flex;flex-direction:column;gap:7px;background:var(--surface);border:1px solid var(--line);
-    border-radius:11px;padding:14px 16px}
-  .lo-id{display:flex;align-items:baseline;gap:8px;font-family:var(--mono);font-size:0.62rem;
-    letter-spacing:0.07em;text-transform:uppercase;color:var(--ink-3)}
-  .lo-id b{font-size:0.76rem;letter-spacing:0;background:var(--ink);color:var(--surface);border-radius:5px;padding:2px 7px}
-  .lo-p{margin:0;font-size:1rem;font-weight:640;line-height:1.35;color:var(--ink)}
-  .lo-off{margin:0;font-size:0.8rem;color:var(--ink-3);line-height:1.45}
-  .lo-off span,.lo-ask span{display:block;font-family:var(--mono);font-size:0.6rem;letter-spacing:0.07em;
-    text-transform:uppercase;color:var(--ink-3)}
-  .lo-secs{display:flex;flex-wrap:wrap;gap:4px}
-  .lo-secs i{font-style:normal;font-family:var(--mono);font-size:0.7rem;font-weight:700;
-    background:var(--surface-2);border:1px solid var(--line);border-radius:5px;padding:1px 6px;color:var(--ink)}
-  .lo-ask{margin:auto 0 0;padding-top:8px;border-top:1px solid var(--line);font-size:0.86rem;color:var(--ink)}
-  .lo-rest{margin:12px 0 0;display:flex;flex-wrap:wrap;gap:8px;align-items:baseline;font-size:0.86rem;color:var(--ink-2)}
-
   .subject{margin:0 0 8px;padding:11px 14px;border-left:3px solid var(--warn,#8A5D05);
     background:var(--warn-soft,#F4EAD3);border-radius:0 8px 8px 0;
     font-size:0.86rem;line-height:1.55;color:var(--ink-2);max-width:78ch}
@@ -272,6 +225,14 @@
     *,*::before,*::after{transition:none!important;animation:none!important;scroll-behavior:auto!important}
   }
   .rst,.sk-reset{min-height:44px}                                           /* 2.5.8: 23 and 26px high */
+
+  .it.flash{outline:3px solid #FFDD00;outline-offset:2px;box-shadow:0 0 0 6px #0B0C0C22}
+  .it{scroll-margin-top:120px}
+
+  .setup{margin:22px 0 18px;scroll-margin-top:70px}
+  .setup h2{font-size:1.2rem;letter-spacing:-0.015em;margin:0 0 4px}
+  .steps1{margin:8px 0 12px;padding-left:22px;line-height:1.6;color:var(--ink-2);max-width:80ch}
+  .steps1 li{margin:0 0 6px}
 
   /* THE BAR — one definition, identical on every page (written by navfix; change it
      everywhere or nowhere). It used to be copied per page and drifted into two heights. */
@@ -310,7 +271,7 @@
   <div class="wrap bar">
     <a class="brand" href="index.html">Screen Design</a>
     <span class="sp"></span>
-    <nav class="sdlinks" aria-label="Screen Design"><a class="navl" href="index.html">Overview</a><a class="navl" href="weeks.html">Week by week</a><a class="navl" href="brief.html">The brief</a><a class="navl on" href="assessment.html" aria-current="page">Checklist</a><a class="navl" href="assessment-materials.html">Marking and examples</a><a class="navl" href="toolkit.html">Toolkit</a><a class="navl" href="ideas.html">Theme ideas</a></nav>
+    <nav class="sdlinks" aria-label="Screen Design"><a class="navl" href="weeks.html">Week by week</a><a class="navl on" href="assessment.html" aria-current="page">Checklist</a><a class="navl" href="examples.html">Examples</a><a class="navl" href="toolkit.html">Toolkit</a><a class="navl" href="assessment-materials.html">Marking</a></nav>
     <span class="ctl"><button id="theme" aria-label="Dark mode">◐</button></span>
   </div>
 </header>
@@ -320,21 +281,25 @@
   <h1>What to hand in</h1>
   <p class="sub">This is the complete list. Nothing else is required.</p>
 
-  <div class="onefile">
-    <span class="n">1</span>
-    <span><b>One deck, filled in over eleven weeks</b>
-      <span>You hand nothing in weekly. In week 1 you make one slide deck with a slide for each
-        section below, keep it in your shared <code>Screen Design</code> folder, and fill in a section or two each week. In January
-        you export it as a PDF and upload that.</span></span>
-  </div>
+  <section class="setup" id="setup">
+    <h2>Set up your deck</h2>
+    <p class="pd">Once, in week 1. Then you fill in a section or two every week; nothing is handed in weekly.</p>
+    <ol class="steps1">
+      <li>In your university OneDrive, make a folder called exactly <code>Screen Design</code>. Everything you make goes in it: the deck, photos of paper work, anything you want a tutor to see.</li>
+      <li>Share it with your tutors and the teaching staff, and leave it shared. Nobody looks in it unless you ask; when you want feedback or help, say so, and that is where we look.</li>
+      <li>Inside it, a PowerPoint deck called <code>screen-design-portfolio</code> (Google Slides is fine too), with a slide for each section: copy the cards below, one per slide.</li>
+      <li>Your student ID goes on the cover, and your name goes nowhere: not the filename, a header or a footer, because marking is anonymous. If your name slips in, nothing happens.</li>
+      <li>Photograph paper work and paste it into the deck the same day. From week 8, every screen gets its own slide; in week 10 you link them, and that is your prototype.</li>
+    </ol>
+  </section>
 
   <!-- One rule replaces every per-section word count (October 2026). The brief's
        own 500–700 words for the rationale stays: it is the brief's only strict limit. -->
   <div class="onefile">
     <span class="n">1</span>
     <span><b>One rule for every piece of text: it fits on one slide</b>
-      <span>No caption, answer or paragraph runs past the slide it is on. Nothing else is counted — except the
-        written rationale in Part C, which comes to about 500–700 words in all, the brief's one strict limit.</span></span>
+      <span>No caption, answer or paragraph runs past the slide it is on. Nothing else is counted, except the
+        written rationale in Part C, which comes to about 500–700 words in all: the brief's one strict limit. There is no limit on the number of slides.</span></span>
   </div>
 
   <!-- Closed by default: students set the deck up once, in week 1, and should not
@@ -347,9 +312,6 @@
           paste it onto its own slide.</span></div>
       <span class="sk-count" id="sk-count" role="status"></span>
     </summary>
-    <p class="sk-note"><b>First:</b> make a OneDrive folder called <code>Screen Design</code> and share it
-      with your tutors and the teaching staff. Inside it, start a new <b>PowerPoint slide deck</b> called
-      <code>screen-design-portfolio</code>, and put your name nowhere in it. Google Slides is fine if that is what you use.</p>
     <div id="sk-cards"></div>
     <p class="sk-foot"><button type="button" id="sk-reset" class="sk-reset">Clear the “copied” marks</button></p>
   </details>
@@ -369,36 +331,16 @@
   <p class="wkf-note" id="wkfnote" role="status"></p>
   <div id="parts"></div>
 
-  <section class="rub" id="rubric">
-    <div class="rub-h"><h2>How it is marked</h2>
-      <span class="rub-src">Reproduced verbatim from the assessment brief · CAF Phase 2</span></div>
-    <p class="rub-note"><b>One overall mark for the portfolio as a whole.</b> The four criteria are not
-      weighted separately — the brief says so, and it means a strong prototype does not offset a
-      rationale that evidences nothing.</p>
-    <p class="rub-note"><a href="rubric.html"><b>The same rubric, blank →</b></a> to mark the week 1
-      example on, or your own deck before you submit. It prints on one landscape page.</p>
-    <div class="wide" tabindex="0" role="region" aria-label="Marking rubric">
-      <table class="rubt" id="rubt"></table>
-    </div>
-    <div class="los" id="los"></div>
+  <section class="setup" id="handin">
+    <h2>Hand in</h2>
+    <p class="pd">One PDF of your deck, uploaded to Moodle by <b id="due"></b>. Late work is subject to the standard MMU late penalty policy.</p>
+    <ol class="steps1">
+      <li>Before you export, duplicate the <code>Screen Design</code> folder. Exports go wrong, and you do not want to rebuild.</li>
+      <li>Export the deck as a PDF, open the PDF, and click every link in it: a link that works in the editor can vanish in the export, and the PDF is what is marked.</li>
+      <li>Upload that one file to Moodle.</li>
+    </ol>
+    <p class="pd">Written feedback comes back within four weeks of the deadline, through Moodle and Turnitin. Grades are provisional until the Assessment Board confirms them, and with anonymous marking the grade and the written feedback can arrive at different times. <a href="assessment-materials.html#how">How it is marked</a>.</p>
   </section>
-
-  <div class="note ok">
-    <h3 class="h4">The one thing that changes your grade</h3>
-    <p>In Part C, every section has to quote a number you wrote in Part A. That is it. It is the
-      difference between a pass and a good mark, and it takes no extra work — the numbers are
-      already in your spec sheet.</p>
-    <span class="eg">✗ &nbsp;"I chose a warm palette because it feels friendly."<br>
-      <b>✓ &nbsp;"I changed body text from #8B8382 to #56504F because the first pair was 2.9:1 and failed AA."</b></span>
-  </div>
-
-  <div class="note">
-    <h3 class="h4">Using AI is fine — just log it</h3>
-    <p>Figma AI, image generators, anything. Nobody is marking whether you used them. Fill in
-      Part A §7: <b>which tool, what it made, what you changed, why.</b> One line per use.</p>
-  </div>
-
-  <p class="subject"><b>The weekly content may change.</b> What is shown in class and how a workshop runs can be adjusted during the term — check the week before you rely on it. <b>The assessment does not change.</b> The <span class="seccount">24</span> sections, the four marking criteria and the deadline are fixed, and anything that did change would be announced, not quietly edited.</p>
 
   <footer>
     <p>Screen Design · Level 4 · 30 credits · <code>1L4Z0045</code>. Your ticks are saved in this
@@ -408,13 +350,12 @@
 
 <script src="sd-common.js"></script>
 <script src="weeks-data.js"></script>
-<script src="rubric-data.js"></script>
 <script>
 /* The list lives in sd-common.js so the hub can read it too — one source, so
    the progress bar there and the ticks here can never disagree. */
 const el = document.getElementById('parts');
 /* the week each section is made in, from the workshops themselves */
-const MADE = {}; WEEKS.forEach(w => w.workshop.out.sec.forEach(s => { MADE[s] = w.n; }));
+const MADE = {}; WEEKS.forEach(w => w.workshop.out.sec.forEach(s => { if (!MADE[s]) MADE[s] = w.n; }));  // the week it starts; dw is when it is final
 /* the sections the toolkit has cards for — each gets a link straight to them */
 const TOOLED = new Set(['A3','A4','A5','A6','B1','B2','B3','B4','B5','B6','B8','C5','C6','C9','D1','D2']);
 const NOW = SD.week();
@@ -423,7 +364,7 @@ el.innerHTML = PARTS.map(p => {
   const rows = p.items.map((x,i) => {
     const key = `sd-${p.id}-${i}`; total++;
     const late = NOW > x.dw && !SD.isDone(key);
-    return `<label class="it ${late ? 'late' : ''}" data-k="${key}" data-week="${MADE[x.sec] || 'any'}">
+    return `<label class="it ${late ? 'late' : ''}" id="${x.sec}" data-k="${key}" data-week="${MADE[x.sec] || 'any'}">
       <input type="checkbox">
       <span class="it-b"><b><span class="secno">${x.sec}</span>${x.t}</b><span class="how">${x.h}</span>
         <span class="it-meta">
@@ -442,6 +383,7 @@ el.innerHTML = PARTS.map(p => {
     <div class="items">${rows}</div></div>`;
 }).join('');
 
+document.getElementById('due').textContent = SD.fmtFull(SD.dead);
 const boxes = [...document.querySelectorAll('.it')];
 const read = SD.read, write = SD.write;
 
@@ -468,6 +410,12 @@ boxes.forEach(b => b.querySelector('input').addEventListener('change', e => {
 }));
 document.getElementById('reset').onclick = () => { write({}); paint(); };
 paint();
+/* A link to one section (assessment.html#C5, from a worked case) lands on its
+   row and marks it, since the rows are drawn after the browser looks for it. */
+function landOn(){ const r = document.getElementById(location.hash.slice(1));
+  if (!r || !r.classList.contains('it')) return;
+  r.scrollIntoView({ block: 'center' }); r.classList.add('flash'); setTimeout(() => r.classList.remove('flash'), 2400); }
+landOn(); addEventListener('hashchange', landOn);
 
 /* ── the week filter ─────────────────────────────────────────────────────
    Toggle any number of weeks; none selected shows everything. The choice is a
@@ -509,36 +457,6 @@ paint();
   apply();
 })();
 
-(function rubric(){
-  const t = document.getElementById('rubt');
-  t.innerHTML =
-    `<thead><tr><th>We look at</th>${BANDS.map(x =>
-      `<th>${x.label}<span class="pc">${x.range}</span></th>`).join('')}</tr></thead>` +
-    `<tbody>${RUBRIC.map(r => `<tr>
-      <td class="crit"><b>${r.n}. ${r.name}</b><span>${r.what}</span></td>
-      ${r.b.map((cell, i) => `<td class="${BANDS[i].k === 'fail' ? 'fail' : BANDS[i].k === 'first' ? 'first' : ''}">${cell}</td>`).join('')}
-    </tr>`).join('')}</tbody>`;
-  /* Each outcome in plain words, where the deck shows it, and a question to
-     put to your own work. The official wording stays, verbatim, under each. */
-  const known = new Set(PARTS.flatMap(p => p.items.map(i => i.sec)));
-  [...OUTCOMES.flatMap(o => o.secs), ...OUTCOME_REST.secs].forEach(x => {
-    if (!known.has(x)) console.warn(`assessment: outcome section ${x} is not in PARTS`);
-  });
-  const chips = a => a.map(x => `<i>${x}</i>`).join('');
-  document.getElementById('los').innerHTML =
-    `<h3 class="lo-h">What the three module outcomes mean for your deck</h3>
-     <div class="lo-grid">${OUTCOMES.map(o => `
-       <div class="lo-c">
-         <span class="lo-id"><b>${o.id}</b>${o.group}</span>
-         <p class="lo-p">${o.plain}</p>
-         <p class="lo-off"><span>Official wording</span>${o.t}</p>
-         <span class="lo-secs">${chips(o.secs)}</span>
-         <p class="lo-ask"><span>Ask your own work</span>${o.ask}</p>
-       </div>`).join('')}</div>
-     <p class="lo-rest"><span class="lo-secs">${chips(OUTCOME_REST.secs)}</span>${OUTCOME_REST.why}</p>
-     <p class="rub-note" style="margin:6px 0 0">Where each outcome shows is our guide, not a weighting —
-       the portfolio gets one overall mark. Outcomes verbatim from the approved module record.</p>`;
-})();
 
 (function structure(){
   /* One card per slide. Students build the deck a slide at a time, so each
