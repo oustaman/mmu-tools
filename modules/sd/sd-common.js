@@ -106,7 +106,7 @@ const PARTS = [
    {sec:"B5", t:"Wireframe set", dw:8, d:"One per screen in A2",
     h:"Every screen of your journey wireframed — boxes and labels on your grid. Paper is fine; any level of finish.", f:["[ paste wireframes ]","Caption (it must fit on the slide):"]},
    {sec:"B6", t:"The finished screens", dw:9, d:"Every screen of the journey",
-    h:"Your journey, one screen per slide. At least \u201capplied spec\u201d: your real grid, type and colour, with labelled boxes for pictures. Decoration earns nothing.", f:["[ paste screens ]","Caption (it must fit on the slide):"]},
+    h:"Your journey, one screen per slide. Wireframes are fine if your style tile (B3) shows your type and colour; \u201capplied spec\u201d \u2014 your real grid, type and colour, labelled boxes for pictures \u2014 is the easiest to see. Decoration earns nothing.", f:["[ paste screens ]","Caption (it must fit on the slide):"]},
    {sec:"B7", t:"Other screen sizes (optional)", dw:9, d:"Only if your project needs them", opt:true,
     h:"Optional. If your journey is used on more than one size of screen, show your key screens at those sizes \u2014 adapted, not shrunk. Improving the flow matters more than making more screens.", f:["[ paste screens at other sizes, if you made any ]","Caption (it must fit on the slide):"]},
    {sec:"B8", t:"Click-through", dw:10, d:"The journey, start to finish",
