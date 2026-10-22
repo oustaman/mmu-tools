@@ -175,6 +175,26 @@
   .spec h3{margin:0 0 6px;font-size:1rem}
   .spec pre{white-space:pre-wrap;font:0.8rem/1.55 var(--mono);color:var(--ink-2);margin:0 0 8px}
   .spec .btn{cursor:pointer;font:640 0.85rem var(--sans);min-height:38px}
+  .opt.bad{border-style:dashed;background:#FFF6F5}
+  .opt.bad:has(input:checked){border-color:#B3261E}
+  .badtag{grid-column:2;font-style:normal;font:700 0.68rem var(--mono);letter-spacing:.06em;text-transform:uppercase;color:#B3261E}
+  /* by eye: each box where it happened to land */
+  .k.eye .in{padding:11px 9px}
+  .k.eye h2{margin:0 0 7px 13px} .k.eye .o:nth-of-type(1){margin:0 6px 13px 3px} .k.eye .o:nth-of-type(2){margin:0 22px 5px 9px;width:auto}
+  .k.eye .o:nth-of-type(3){margin:0 0 17px 0} .k.eye .hint{margin:0 0 19px 26px;text-align:right}
+  .k.eye .btn{margin:31px 40px 0 11px;padding:9px} .k.eye .card:nth-of-type(1){margin:0 14px 11px 0} .k.eye .card:nth-of-type(2){margin:0 0 5px 19px}
+  .k.eye .card:nth-of-type(3){margin:0 30px 22px 7px} .k.eye .done{margin:9px 5px 26px 14px} .k.eye .panel{margin-left:22px}
+  .k.eye .bar{padding:0 7px 0 13px}
+  /* something for everyone */
+  .k.loud h2{text-transform:uppercase;letter-spacing:.08em;text-align:center;line-height:1}
+  .k.loud p{text-align:center} .k.loud .o{font-family:Georgia,serif;font-style:italic;font-size:17px}
+  .k.loud .btn{font-family:'Brush Script MT','Segoe Script',cursive;font-size:26px;font-weight:400;text-transform:none}
+  .k.loud .card b{font-family:'Courier New',monospace;font-size:16px} .k.loud .card span{font-size:9px;color:#B0B0B0}
+  .k.loud .hint{font-size:11px;color:#B0B0B0;text-align:center} .k.loud .bar{font-family:'Brush Script MT','Segoe Script',cursive;font-size:24px;font-weight:400}
+  .k.loud .done h2{font-size:22px}
+  .fixing{background:#FFF6F5;border:1px solid #F1C9C4;border-left:4px solid #B3261E;border-radius:0 12px 12px 0;padding:12px 16px;margin:14px 0 0}
+  .fixing b.h{display:block;font-family:var(--mono);font-size:0.68rem;letter-spacing:.1em;text-transform:uppercase;color:#B3261E;margin-bottom:6px}
+  .fixing ul{margin:0;padding-left:18px} .fixing li{margin:4px 0;color:var(--ink-2);line-height:1.5}
   .ratio-ok{color:var(--ok)} .ratio-bad{color:#B3261E;font-weight:700}
   .ok-msg{font-family:var(--mono);font-size:0.75rem;color:var(--ok);margin-left:8px}
   .why{background:var(--surface);border:1px solid var(--line);border-left:4px solid var(--wsh);border-radius:0 12px 12px 0;padding:12px 16px;margin:18px 0}
@@ -251,9 +271,17 @@
   <div class="viewbar">
     <span class="seg" role="group" aria-label="Fidelity"><button type="button" data-f="full" aria-pressed="true">Finished look</button><button type="button" data-f="wire" aria-pressed="false">Boxes and sketch</button></span>
     <label><input type="checkbox" id="showgrid"> Show the grid</label>
+    <button type="button" class="btn" id="allbad" style="cursor:pointer;font:640 0.82rem var(--sans);min-height:38px">What are we fixing? Show all three wrong</button>
+    <button type="button" class="btn" id="allgood" style="cursor:pointer;font:640 0.82rem var(--sans);min-height:38px">Back to a good set</button>
   </div>
 
   <div class="screens" id="screens"></div>
+
+  <div class="fixing" id="fixing" hidden><b class="h">What are we fixing?</b><ul>
+    <li><b>By eye</b> — eleven different gaps and no two boxes lined up. It looks “nearly fine” on its own; it is why the next screen never matches. <i>A3, C2</i></li>
+    <li><b>Something for everyone</b> — a typeface for every mood and a size for every line, so nothing is more important than anything else. Real small-business sites look like this. <i>A4, C3</i></li>
+    <li><b>Brand first</b> — pale grey text at 3.0:1, white on lemon at 1.4:1, and a green that only says “success” to people who can see green. <i>A5, C4, A6</i></li>
+    <li>Every one of these is a choice someone made on purpose. The fix is not talent: it is <b>deciding once, writing it down, and using it everywhere</b>.</li></ul></div>
 
   <div class="why"><b class="h">Fidelity does not change the decisions</b>
     <p>Press <b>Boxes and sketch</b>: the same grid, the same sizes, the same order — drawn as boxes. Screens built from boxes, wireframes or neat paper sketches are fine for this module.
@@ -280,6 +308,7 @@
     { id: 'm3', n: 'Material Design 3 (Google)', s: '4 · 8 · 12 columns', ph: { c: 4, g: 16, m: 16 }, dk: { c: 12, g: 16, m: 16 }, max: 840, bps: '600 px (8 columns) · 840 px (12 columns)', main: '8 of 12', src: 'Google (no date) Material Design 3: Understanding layout. Available at: https://m3.material.io/foundations/layout/understanding-layout/overview (Accessed: 22 October 2026).' },
     { id: 'carbon', n: 'Carbon (IBM)', s: '4 · 8 · 16 columns', ph: { c: 4, g: 16, m: 16 }, dk: { c: 16, g: 16, m: 16 }, max: 1584, bps: '320 px (4) · 672 px (8) · 1056 px (16)', main: '10 of 16', src: 'IBM (no date) Carbon Design System: 2x Grid. Available at: https://carbondesignsystem.com/elements/2x-grid/overview/ (Accessed: 22 October 2026).' },
     { id: 'uswds', n: 'U.S. Web Design System', s: '4 · 12 columns, 16 px gutters', ph: { c: 4, g: 16, m: 16 }, dk: { c: 12, g: 16, m: 16 }, max: 1024, bps: '320 px (4) · 1024 px (12)', main: '8 of 12', src: 'U.S. General Services Administration (no date) U.S. Web Design System: Layout grid. Available at: https://designsystem.digital.gov/utilities/layout-grid/ (Accessed: 22 October 2026).' },
+    { id: 'eye', bad: true, n: 'By eye — no grid', s: 'What we are fixing: every box placed where it looked right', ph: { c: 0, g: 0, m: 0 }, dk: { c: 0, g: 0, m: 0 }, max: 0, bps: '', main: '', src: '' },
     { id: 'liv', n: 'Liverpool case redesign (this module)', s: '4 · 12 columns, form 6 of 12', ph: { c: 4, g: 16, m: 16 }, dk: { c: 12, g: 24, m: 32 }, max: 1140, bps: '768 px', main: '6 of 12', src: 'Before and after, case 1: Reporting a missed bin. Screen Design, 2026.' },
   ];
   /* TYPE — free faces from Google Fonts, each with a scale written out in px */
@@ -289,6 +318,7 @@
     { id: 'rob', n: 'Roboto', s: 'One neutral face', fh: "'Roboto'", fb: "'Roboto'", hw: 700, h1: 28, body: 18, small: 15, why: 'familiar from Android; wide range of weights', src: 'Google (no date) Roboto. Google Fonts, SIL Open Font Licence. Available at: https://fonts.google.com (Accessed: 22 October 2026).' },
     { id: 'nun', n: 'Nunito Sans', s: 'One friendly, rounded face', fh: "'Nunito Sans'", fb: "'Nunito Sans'", hw: 800, h1: 28, body: 18, small: 15, why: 'friendly without being childish; carries Welsh and most European letters', src: 'Vernon Adams, Manvel Shmavonyan, Jacques Le Bailly (no date) Nunito Sans. Google Fonts, SIL Open Font Licence. Available at: https://fonts.google.com (Accessed: 22 October 2026).' },
     { id: 'plex', n: 'IBM Plex Serif + IBM Plex Sans', s: 'An institutional pair', fh: "'IBM Plex Serif'", fb: "'IBM Plex Sans'", hw: 600, h1: 27, body: 18, small: 15, why: 'one family in two styles, so they always match', src: 'IBM / Bold Monday (no date) IBM Plex. Google Fonts, SIL Open Font Licence. Available at: https://fonts.google.com (Accessed: 22 October 2026).' },
+    { id: 'all', bad: true, n: 'Something for everyone', s: 'What we are fixing: five typefaces, nine sizes, all of them shouting', fh: "Impact,'Arial Black'", fb: "'Comic Neue'", hw: 400, h1: 34, body: 15, small: 11, why: '', src: '' },
     { id: 'merri', n: 'Merriweather + Inter', s: 'A sturdy serif and a screen sans', fh: "'Merriweather'", fb: "'Inter'", hw: 700, h1: 26, body: 17, small: 15, why: 'Inter was drawn for screens; Merriweather stays readable when small', src: 'Sorkin Type (no date) Merriweather; Rasmus Andersson (no date) Inter. Google Fonts, SIL Open Font Licence. Available at: https://fonts.google.com (Accessed: 22 October 2026).' },
   ];
   /* COLOUR — role-based palettes; every ratio below is computed, not typed */
@@ -298,6 +328,7 @@
     { id: 'bakery', n: 'Warm bakery', s: 'The bakery case', ink: '#2B211C', muted: '#5E534C', pri: '#8A3B12', bg: '#FBF6EE', panel: '#F1E4CF', ok: '#2E6B3F', err: '#B3261E', accent: '#C8A27A', src: 'Before and after, case 2.' },
     { id: 'rail', n: 'Orange and navy', s: 'The Railcard case', ink: '#1F2A44', muted: '#4A5468', pri: '#A63F00', bg: '#FFFFFF', panel: '#FDF1E7', ok: '#24653A', err: '#B3261E', accent: '#F07F15', src: 'Before and after, case 3.' },
     { id: 'cymru', n: 'Purple and blue', s: 'The Welsh course case', ink: '#1E1B2E', muted: '#525066', pri: '#0A58A8', bg: '#FFFFFF', panel: '#F4F0FA', ok: '#2D6A3E', err: '#B3261E', accent: '#E6007E', src: 'Before and after, case 4.' },
+    { id: 'brand', bad: true, n: 'Brand first', s: 'What we are fixing: pale, trendy, and unreadable', ink: '#8C8C8C', muted: '#B0B0B0', pri: '#FFD400', bg: '#F2F2F2', panel: '#FFE4E1', ok: '#7ED957', err: '#FF6F61', accent: '#FF4FA3', link: '#6CB4EE', src: '' },
     { id: 'mono', n: 'High-contrast mono', s: 'Black, white and one blue', ink: '#000000', muted: '#3B3B3B', pri: '#1A3D8F', bg: '#FFFFFF', panel: '#EEEEEE', ok: '#1E5631', err: '#A00000', accent: '#000000', src: 'This module’s own example.' },
   ];
 
@@ -311,7 +342,7 @@
   try { Object.assign(state, JSON.parse(localStorage.getItem('sd-kit') || '{}')); } catch (e) {}
 
   function opts(el, list, key, sw) {
-    $(el).innerHTML = list.map(o => `<label class="opt"><input type="radio" name="${key}" value="${o.id}" ${state[key] === o.id ? 'checked' : ''}><b>${esc(o.n)}${sw ? `<span class="sw">${['ink', 'pri', 'accent', 'panel'].map(k => `<i style="background:${o[k]}"></i>`).join('')}</span>` : ''}</b><small>${esc(o.s)}</small></label>`).join('');
+    $(el).innerHTML = list.map(o => `<label class="opt${o.bad ? ' bad' : ''}"><input type="radio" name="${key}" value="${o.id}" ${state[key] === o.id ? 'checked' : ''}><b>${esc(o.n)}${sw ? `<span class="sw">${['ink', 'pri', 'accent', 'panel'].map(k => `<i style="background:${o[k]}"></i>`).join('')}</span>` : ''}</b><small>${esc(o.s)}</small>${o.bad ? '<em class="badtag">Don’t — see why</em>' : ''}</label>`).join('');
     $(el).addEventListener('change', e => { state[key] = e.target.value; draw(); });
   }
   opts('o-grid', GRIDS, 'grid'); opts('o-type', TYPES, 'type'); opts('o-col', COLS, 'col', true);
@@ -328,8 +359,8 @@
       `--m:${G.ph.m}px;--g:${G.ph.g}px;--cols:${G.ph.c};`;
     const w = id => esc($(id).value.trim());
     const answers = $('w-opts').value.split(/[·,|]/).map(s => esc(s.trim())).filter(Boolean).slice(0, 3);
-    const grid = state.grid_on ? `<div class="gridov">${'<span></span>'.repeat(G.ph.c)}</div>` : '';
-    const cls = `k ${state.f === 'wire' ? 'wire' : ''}`;
+    const grid = state.grid_on && G.ph.c ? `<div class="gridov">${'<span></span>'.repeat(G.ph.c)}</div>` : '';
+    const cls = `k ${state.f === 'wire' ? 'wire' : ''} ${G.id === 'eye' ? 'eye' : ''} ${T.id === 'all' ? 'loud' : ''}`;
     const bar = `<div class="bar">${w('w-name')}<span>1 of 3</span></div>`;
     $('screens').innerHTML = `
       <figure class="ph3" style="margin:0"><div class="${cls}" style="${vars}">${grid}${bar}<div class="in">
@@ -344,15 +375,21 @@
         <div class="panel">A note in a panel, in the small size.</div></div></div><span class="cap">A confirmation</span></figure>`;
 
     // the spec, written out from the same choices
-    $('s-a3').textContent = [`Grid: ${G.n}`, `Columns: ${G.dk.c} desktop · ${G.ph.c} phone`, `Gutter: ${G.dk.g} px desktop · ${G.ph.g} px phone`,
+    if (G.bad) $('s-a3').textContent = ['Grid: none — placed by eye', 'Columns: none', 'Gutter: none', 'Margin: “about 10 to 20”, different on every box',
+      'Max width: none', 'Breakpoints: none', 'Spacing: 5, 7, 9, 11, 13, 14, 17, 19, 22, 26 and 31 px — eleven different gaps', '', 'Nothing here can be handed over: the next screen will not match.'].join('\n');
+    else $('s-a3').textContent = [`Grid: ${G.n}`, `Columns: ${G.dk.c} desktop · ${G.ph.c} phone`, `Gutter: ${G.dk.g} px desktop · ${G.ph.g} px phone`,
       `Margin: ${G.dk.m} px desktop · ${G.ph.m} px phone`, `Max width: ${G.max} px; the main content is ${G.main}`, `Breakpoints: ${G.bps}`,
       `Spacing scale: 4 · 8 · 16 · 24 · 32 · 48`].join('\n');
-    $('s-a4').textContent = [`Typefaces: ${T.n} — ${T.why}`, `Headings: ${T.fh.replace(/'/g, '')} ${T.hw}, ${T.h1} / ${Math.round(T.h1 * 1.2)} px`,
+    if (T.bad) $('s-a4').textContent = ['Typefaces: Impact for headings, Comic for body, a script for buttons, italic serif for answers, and whatever was left for small print',
+      'Sizes: 34, 22, 17, 16, 15, 13, 12, 11 and 9 px', 'Body text: 15 px, centred', 'Small print: 11 px, light grey', 'Headings: all capitals, letter-spaced', '',
+      'No role for any size: nobody can tell which size the next heading should be.'].join('\n');
+    else $('s-a4').textContent = [`Typefaces: ${T.n} — ${T.why}`, `Headings: ${T.fh.replace(/'/g, '')} ${T.hw}, ${T.h1} / ${Math.round(T.h1 * 1.2)} px`,
       `Body and answers: ${T.fb.replace(/'/g, '')}, ${T.body} / ${Math.round(T.body * 1.5)} px`, `Labels: ${T.fb.replace(/'/g, '')} bold, ${T.body} px`,
       `Small print and hints: ${T.small} / ${Math.round(T.small * 1.5)} px`, `Measure: at most about 65 characters a line`].join('\n');
-    const rows = [['Text', C.ink, C.bg], ['Hints', C.muted, C.bg], ['Button (white text)', on, C.pri], ['Links', C.pri, C.bg], ['Panel text', C.ink, C.panel], ['Success (white text)', on, C.ok], ['Error', C.err, C.bg]];
+    const rows = [['Text', C.ink, C.bg], ['Hints', C.muted, C.bg], ['Button (white text)', on, C.pri], ['Links', C.link || C.pri, C.bg], ['Panel text', C.ink, C.panel], ['Success (white text)', on, C.ok], ['Error', C.err, C.bg]];
     $('s-a5').textContent = rows.map(([n, f, b]) => { const r = ratio(f, b); return `${n}: ${f} on ${b} — ${r.toFixed(1)}:1 ${r >= 4.5 ? 'passes' : 'FAILS 4.5:1'}`; }).join('\n') + `\nAccent ${C.accent}: decoration only, never behind text`;
-    $('s-c9').textContent = [G.src, T.src, C.src].join('\n');
+    $('s-c9').textContent = [G.src, T.src, C.src].filter(Boolean).join('\n') || 'Nothing to cite: these were not taken from anywhere.';
+    $('fixing').hidden = !(G.bad || T.bad || C.bad);
   }
 
   ['w-name', 'w-q', 'w-opts', 'w-btn', 'w-res', 'w-done'].forEach(id => $(id).addEventListener('input', draw));
@@ -364,6 +401,10 @@
     const m = $('m-' + b.dataset.copy);
     try { await navigator.clipboard.writeText($(b.dataset.copy).textContent); m.textContent = 'Copied'; } catch (err) { m.textContent = 'Select the text and copy it'; }
     setTimeout(() => { m.textContent = ''; }, 2500); });
+  const pickAll = (g, t, c) => { state.grid = g; state.type = t; state.col = c;
+    [['grid', g], ['type', t], ['col', c]].forEach(([k, v]) => { const i = document.querySelector(`input[name=${k}][value=${v}]`); if (i) i.checked = true; }); draw(); };
+  $('allbad').onclick = () => pickAll('eye', 'all', 'brand');
+  $('allgood').onclick = () => pickAll('ex2', 'atk', 'civic');
   draw();
   if (document.fonts) document.fonts.ready.then(draw);
 })();
