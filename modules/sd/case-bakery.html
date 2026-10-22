@@ -175,6 +175,31 @@
   .bk-sum{border-top:1px solid #E6D6BD;margin:0 0 14px}
   .bk-sum div{display:flex;justify-content:space-between;gap:10px;padding:8px 0;border-bottom:1px solid #E6D6BD;font-size:16px}
   .bk-sum dt{font-weight:700} .bk-sum dd{margin:0;text-align:right}
+  /* the painful version: splash, scanned menu, voicemail, story */
+  .sp-page{position:relative;height:760px;background:linear-gradient(170deg,#C9A27A,#7B5A3C);font-family:Georgia,serif;color:#fff;text-align:center;overflow:hidden}
+  .sp-page .logo{padding-top:150px;font:italic 46px/1.05 Georgia,serif;text-shadow:0 2px 8px rgba(0,0,0,.25)}
+  .sp-page .tag{font:14px/1.4 Georgia,serif;letter-spacing:.3em;text-transform:uppercase;margin-top:10px;opacity:.9}
+  .sp-enter{display:inline-block;margin-top:40px;border:1px solid rgba(255,255,255,.7);color:#F7E7C6;padding:12px 34px;letter-spacing:.4em;font:13px Georgia,serif}
+  .sp-music{position:absolute;top:14px;left:14px;font:13px system-ui,sans-serif;background:rgba(0,0,0,.25);padding:5px 10px;border-radius:20px}
+  .sp-cookie{position:absolute;left:0;right:0;bottom:0;background:#fff;color:#444;font:14px/1.45 system-ui,sans-serif;text-align:left;padding:16px 16px 18px;box-shadow:0 -4px 14px rgba(0,0,0,.2)}
+  .sp-cookie b{display:block;font-size:16px;color:#222;margin-bottom:4px}
+  .sp-cookie span{display:block;margin-top:12px;background:#E0A458;color:#fff;text-align:center;padding:12px;border-radius:24px;font-weight:700;letter-spacing:.1em}
+  .pdf{background:#525659;height:760px;font-family:system-ui,sans-serif;position:relative}
+  .pdf-top{background:#323639;color:#eee;font-size:13px;padding:12px 14px;display:flex;justify-content:space-between}
+  .pdf-sheet{position:absolute;left:80px;top:90px;width:200px;height:290px;background:#FBF7EE;writing-mode:vertical-rl;box-shadow:0 2px 10px rgba(0,0,0,.4);padding:14px;font:italic 9px/1.35 Georgia,serif;color:#6b5a48;filter:blur(.3px)}
+  .pdf-sheet span{display:inline-block}
+  .pdf-sheet b{display:block;font-size:13px;margin-bottom:6px}
+  .pdf-note{position:absolute;left:0;right:0;bottom:0;background:#323639;color:#ddd;font-size:13px;padding:12px 14px;text-align:center}
+  .call{height:760px;background:linear-gradient(#2C3E50,#11161c);color:#fff;font-family:system-ui,sans-serif;text-align:center;padding-top:120px}
+  .call .who{font-size:28px;font-weight:300} .call .num{font-size:15px;opacity:.7;margin-top:6px}
+  .call .vm{margin:60px 24px 0;background:rgba(255,255,255,.1);border-radius:14px;padding:16px;font-size:16px;line-height:1.5}
+  .call .end{width:66px;height:66px;border-radius:50%;background:#E5483A;margin:70px auto 0;display:grid;place-items:center;font-size:26px}
+  .story{height:760px;background:linear-gradient(160deg,#3a2c22,#16110d);color:#fff;font-family:system-ui,sans-serif;position:relative}
+  .story-bars{display:flex;gap:4px;padding:10px 10px 0}.story-bars i{flex:1;height:3px;background:rgba(255,255,255,.4);border-radius:2px}.story-bars i:first-child{background:#fff}
+  .story-who{display:flex;align-items:center;gap:8px;padding:10px 12px;font-size:14px}
+  .story-txt{position:absolute;left:24px;right:24px;top:300px;text-align:center;font:700 26px/1.25 system-ui,sans-serif;text-shadow:0 2px 6px rgba(0,0,0,.4)}
+  .story-txt small{display:block;font-weight:400;font-size:16px;margin-top:10px}
+  .story-exp{position:absolute;left:0;right:0;bottom:24px;text-align:center;font-size:13px;opacity:.75}
   /* tables */
   table.tb{border-collapse:collapse;width:100%;background:var(--surface);border:1px solid var(--line);border-radius:10px;overflow:hidden;font-size:0.92rem;margin:8px 0 6px}
   .tb th,.tb td{text-align:left;padding:8px 12px;border-top:1px solid var(--line);vertical-align:top;color:var(--ink-2)}
@@ -199,6 +224,7 @@
   .goal div b{display:block;font-family:var(--mono);font-size:0.66rem;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3);margin-bottom:3px}
   .goal div span{color:var(--ink);line-height:1.5}
   .goal a{color:var(--lec)}
+  .lv-more{position:absolute;left:0;right:0;bottom:0;padding:12px 16px;background:linear-gradient(rgba(255,255,255,.6),#fff 40%);font:600 14px system-ui,sans-serif;color:#4B5257;text-align:center;border-top:1px dashed #B1B4B6}
   /* ── walkthrough: one screen at a time, the pane explains every number ── */
   html,body{height:auto}
   .wt-bar{position:sticky;top:var(--hdr,57px);z-index:30;background:var(--bg);border-bottom:1px solid var(--line)}
@@ -338,157 +364,144 @@
 <!-- NOW 1 -->
 <section class="ws" data-title="Now 1 · the website" data-short="1" data-group="Now" data-kind="now">
   <div class="ws-grid">
-    <div class="stagec"><div class="phone"><div class="scr"><span class="redrawn">Made up</span><div class="bo-site">
-      <div class="bo-hero">Boulangerie<br>Vauclerc<small>Est. 2009</small></div>
-      <div class="bo-pad">
-        <p data-t="2">Fresh bread and pastries every morning. Celebration cakes made to order — please message us for prices and availability.</p>
-        <span class="bo-btn" data-t="1">Order now</span>
-        <p class="bo-small" data-t="3">Order now opens our social page · 7 Mallow Street · 01632 960 412</p>
-      </div></div>
+    <div class="stagec"><div class="phone"><div class="scr"><span class="redrawn">Made up</span><div class="sp-page">
+      <span class="sp-music" data-t="1">♪ Playing — tap to mute</span>
+      <div class="logo">Boulangerie<br>Vauclerc</div><div class="tag">Artisan · Since 2009</div>
+      <span class="sp-enter" data-t="2">ENTER</span>
+      <div class="sp-cookie" data-t="3"><b>We value your privacy</b>We use cookies to give you the best experience. By clicking Accept you agree to our cookies, partners and their partners.<span>ACCEPT ALL</span></div></div>
     </div></div></div>
     <div class="pane">
       <p class="ph now">Now · screen 1 of 6</p>
-      <h2>A front door with nothing behind it</h2>
-      <p>The website looks finished. It answers none of the questions a cake order starts with.</p>
+      <h2>A front door you have to get past</h2>
+      <p>The customer wants a birthday cake for 12 people on Saturday. First, the website.</p>
       <ol class="pts">
-        <li data-n="1"><span class="dot bad">1</span><b>The one button is hard to read</b><span class="tx">White text on pale gold: <span class="num">2.2:1</span>, against the <span class="num">4.5:1</span> minimum.</span><span data-tags="A5 C4"></span></li>
-        <li data-n="2"><span class="dot bad">2</span><b>No prices, sizes or dates</b><span class="tx">“Please message us for prices” — in grey at <span class="num">2.9:1</span>. Every customer has to ask the same three questions.</span><span data-tags="A2 C5"></span></li>
-        <li data-n="3"><span class="dot bad">3</span><b>“Order now” does not order</b><span class="tx">It opens a social media page. The label promises one thing and does another.</span><span data-tags="C2 B6"></span></li>
+        <li data-n="1"><span class="dot bad">1</span><b>Music, on its own</b><span class="tx">An accordion plays as the page opens — in a lunch break, at a desk, on a bus. The mute is a small pale label in the corner.</span><span data-tags="C5 C6"></span></li>
+        <li data-n="2"><span class="dot bad">2</span><b>A splash page that says “ENTER”</b><span class="tx">One extra tap before anything at all, in pale gold letters on a photo — as low as <span class="num">1.9:1</span>.</span><span data-tags="A5 A2"></span></li>
+        <li data-n="3"><span class="dot bad">3</span><b>“Accept all”, and no other button</b><span class="tx">The cookie banner covers half the screen and offers only agreement. That is not a choice — and the UK regulator expects refusing to be as easy as accepting.</span><span data-tags="C6"></span></li>
       </ol>
       <div class="deck"><b class="h">In your deck</b><ul>
-        <li><b>A5</b> — check every text colour against its background, buttons included, and write the ratio down.</li>
-        <li><b>D1</b> — your “before” can start on a website that looks fine. Look at what it does, not how it looks.</li></ul></div>
+        <li><b>C6</b> — a cookie banner with only “Accept” is a ready-made ethics paragraph. Name it if your “before” has one.</li>
+        <li><b>A2</b> — count “ENTER” as a step. Every tap before the task is one.</li></ul></div>
     </div>
   </div>
 </section>
 
 <!-- NOW 2 -->
-<section class="ws" data-title="Now 2 · the social page" data-short="2" data-group="Now" data-kind="now">
+<section class="ws" data-title="Now 2 · the menu" data-short="2" data-group="Now" data-kind="now">
   <div class="ws-grid">
-    <div class="stagec"><div class="phone"><div class="scr"><span class="redrawn">Drawn generically</span><div class="so">
-      <div class="so-cover"></div>
-      <div class="so-top"><span class="so-av">V</span>Boulangerie Vauclerc</div>
-      <div class="so-card"><div class="so-row"><span class="so-btn pri">Message</span><span class="so-btn">Follow</span></div></div>
-      <div class="so-card"><b>Boulangerie Vauclerc</b> · 3 days ago<p>Lemon drizzle is back this weekend 🍋 come early!</p><div class="so-img">photo of loaves</div></div>
-      <div class="so-card" data-t="4"><b>Boulangerie Vauclerc</b> · March<p>Celebration cakes from £24 — message us to order! Sizes and flavours in the photo 👇</p><div class="so-img">photo of a price board</div></div>
-    </div>
+    <div class="stagec"><div class="phone"><div class="scr"><span class="redrawn">Made up</span><div class="pdf">
+      <div class="pdf-top"><span>MENU_FINAL_v3 (2).pdf</span><span>1 / 12</span></div>
+      <div class="pdf-sheet" data-t="4"><b>Boulangerie Vauclerc — Menu</b>Pain de campagne £4.20 · Baguette £1.90 · Croissant £1.60 · Pain au chocolat £1.80 · Brioche £3.40 · Tarte au citron £3.20 · Éclair £2.80 · Mille-feuille £3.10 ...<br><br><b>Celebration cakes</b><span data-t="5">— please ask in store —</span></div>
+      <div class="pdf-note">9.4 MB · scanned · page 1 of 12</div></div>
     </div></div></div>
     <div class="pane">
       <p class="ph now">Now · screen 2 of 6</p>
-      <h2>The facts are in old posts</h2>
+      <h2>A twelve-page scan, on its side</h2>
       <ol class="pts">
-        <li data-n="4"><span class="dot bad">4</span><b>Prices sit in a post from March</b><span class="tx">The newest posts are about bread. The cake prices are further down, in a photo of a board — if the customer scrolls that far, and if they are still right.</span><span data-tags="A2 D1"></span></li>
+        <li data-n="4"><span class="dot bad">4</span><b>The menu is a 9.4 MB scanned PDF, sideways</b><span class="tx">Turn the phone, pinch, scroll twelve pages. Nothing in it can be searched, enlarged cleanly or read aloud by a screen reader.</span><span data-tags="A6 C5"></span></li>
+        <li data-n="5"><span class="dot bad">5</span><b>Cakes: “please ask in store”</b><span class="tx">Twelve pages, and the one thing the customer came for is not on any of them.</span><span data-tags="A2 C2"></span></li>
       </ol>
-      <p>Opening hours, how much notice a cake needs, and whether Saturday is free are on no screen at all. The only way forward is <b>Message</b>.</p>
       <div class="deck"><b class="h">In your deck</b><ul>
-        <li><b>A2</b> — every place a customer has to look is a step. Count this page as one.</li></ul></div>
+        <li><b>A6</b> — text inside a picture or a scan is invisible to a screen reader. Say what replaces it in your design.</li></ul></div>
     </div>
   </div>
 </section>
 
 <!-- NOW 3 -->
-<section class="ws" data-title="Now 3 · the messages begin" data-short="3" data-group="Now" data-kind="now">
+<section class="ws" data-title="Now 3 · phoning" data-short="3" data-group="Now" data-kind="now">
   <div class="ws-grid">
-    <div class="stagec"><div class="phone"><div class="scr"><span class="redrawn">Drawn generically</span><div class="ch">
-      <div class="ch-top"><span class="so-av">V</span><div>Boulangerie Vauclerc<small>Usually replies within a day</small></div></div>
-      <div class="ch-body">
-        <span class="ch-day">MON 19:12</span>
-        <div class="ch-m me">Hi! Do you do birthday cakes? Need one for Saturday</div>
-        <span class="ch-day" data-t="5">TUE 08:40 — 13 hours later</span>
-        <div class="ch-m them">Hi yes we do 😊 how many people?</div>
-        <span class="ch-day">TUE 12:05</span>
-        <div data-t="6" style="display:flex;flex-direction:column;gap:6px">
-          <div class="ch-m me" style="align-self:flex-end">About 12</div>
-          <div class="ch-m me" style="align-self:flex-end">What flavours do you have?</div></div>
-      </div></div>
+    <div class="stagec"><div class="phone"><div class="scr"><span class="redrawn">Made up</span><div class="call">
+      <div class="who">Boulangerie Vauclerc</div><div class="num">01632 960 412 · 0:21</div>
+      <div class="vm" data-t="6">“Bonjour! You’ve reached Vauclerc. We’re busy baking! Please leave a… <b>The mailbox is full and cannot accept new messages.</b>”</div>
+      <div class="end">✆</div></div>
     </div></div></div>
     <div class="pane">
       <p class="ph now">Now · screen 3 of 6</p>
-      <h2>Every answer waits for the owner</h2>
+      <h2>“Ask in store” — so they ring</h2>
       <ol class="pts">
-        <li data-n="5"><span class="dot bad">5</span><b>13 hours to the first reply</b><span class="tx">Not the owner’s fault — she is baking. But each question costs a day, and the customer cannot move on until it is answered.</span><span data-tags="A2 C5"></span></li>
-        <li data-n="6"><span class="dot bad">6</span><b>Questions the page could have answered</b><span class="tx">How many people, which flavours: things every cake order needs, asked one at a time.</span><span data-tags="A2 D2"></span></li>
+        <li data-n="6"><span class="dot bad">6</span><b>The voicemail is full</b><span class="tx">At 12:40 the owner is serving a queue; the phone rings out to a mailbox that cannot take messages. The greeting suggests messaging on social media instead.</span><span data-tags="A2 C5"></span></li>
       </ol>
+      <p>Two channels so far — website and phone — and neither can take an order. The third is a message thread.</p>
       <div class="deck"><b class="h">In your deck</b><ul>
-        <li><b>D1</b> — screenshot the thread with the owner’s permission, and blur every name and number that is not yours.</li>
-        <li><b>A2</b> — a message that waits for a reply is a step. Count them.</li></ul></div>
+        <li><b>A2</b> — your “before” can cross channels: website, phone, social, shop. Each one is a step, and so is each dead end.</li></ul></div>
     </div>
   </div>
 </section>
 
 <!-- NOW 4 -->
-<section class="ws" data-title="Now 4 · price and date" data-short="4" data-group="Now" data-kind="now">
+<section class="ws" data-title="Now 4 · the thread" data-short="4" data-group="Now" data-kind="now">
   <div class="ws-grid">
     <div class="stagec"><div class="phone"><div class="scr"><span class="redrawn">Drawn generically</span><div class="ch">
-      <div class="ch-top"><span class="so-av">V</span><div>Boulangerie Vauclerc<small>Usually replies within a day</small></div></div>
+      <div class="ch-top"><span class="so-av">V</span><div>Boulangerie Vauclerc<small>Usually replies within a few days</small></div></div>
       <div class="ch-body">
-        <span class="ch-day">TUE 18:51</span>
-        <div class="ch-photo" data-t="7">Celebration cakes<br>6" serves 8 — £24<br>8" serves 12 — £32<br>10" ser... — £4?<br>Choc · Lemon · Vanil...<br>(2 days notice pls!)</div>
-        <div class="ch-m them" data-t="8">Saturday is very busy, could you do Friday?</div>
-        <span class="ch-day">TUE 19:30</span>
-        <div class="ch-m me">Friday is fine. Chocolate 8 inch please. Can it say Happy 30th Sam?</div>
+        <span class="ch-day">MON 12:44</span>
+        <div class="ch-m me">Hi! Do you do birthday cakes? For Saturday, 12 people</div>
+        <span class="ch-day" data-t="7">WED 10:51 — 46 hours later</span>
+        <div class="ch-m them">Hiya! Yes we do 😊 what size?</div>
+        <div class="ch-m me">Not sure — for 12 people?</div>
+        <div class="ch-m them">Depends how big the slices are 😂</div>
+        <div class="ch-photo" data-t="8" style="transform:rotate(-7deg);filter:blur(.6px)">Celebration ca...<br>6" — £24 &nbsp;8" — £3?<br>10" — £4? (ask)<br>Choc · Lemon · Va...<br>** 2 days notice **</div>
+        <div class="ch-m them">Sat is fully booked tho, Fri ok?</div>
       </div></div>
     </div></div></div>
     <div class="pane">
       <p class="ph now">Now · screen 4 of 6</p>
-      <h2>A price list as a photo, a date by negotiation</h2>
+      <h2>Forty-six hours to the first question back</h2>
       <ol class="pts">
-        <li data-n="7"><span class="dot bad">7</span><b>The price list is a photo of handwriting</b><span class="tx">It cannot be searched, enlarged cleanly, or read aloud by a screen reader, and the edge is cut off. The two-day notice rule is in brackets at the bottom.</span><span data-tags="A6 C5"></span></li>
-        <li data-n="8"><span class="dot bad">8</span><b>Availability is found out by asking</b><span class="tx">Saturday was the plan. It is only on day two that the customer learns it is full.</span><span data-tags="A2 C5"></span></li>
+        <li data-n="7"><span class="dot bad">7</span><b>Two days before anyone answers</b><span class="tx">The owner is baking, not ignoring anyone. But the order cannot move until she is free, and Saturday has filled up while it waited.</span><span data-tags="A2 C5"></span></li>
+        <li data-n="8"><span class="dot bad">8</span><b>The price list is a tilted, blurred photo</b><span class="tx">The 8-inch price is half cut off. The customer has to ask again — another day.</span><span data-tags="A6 C4"></span></li>
       </ol>
       <div class="deck"><b class="h">In your deck</b><ul>
-        <li><b>A6</b> — text inside a picture is invisible to a screen reader. If your screens use images, say what replaces them.</li></ul></div>
+        <li><b>D1</b> — screenshot a thread with the owner’s permission, blur every name and number that is not yours, and count the waiting as well as the messages.</li></ul></div>
     </div>
   </div>
 </section>
 
 <!-- NOW 5 -->
-<section class="ws" data-title="Now 5 · paying, and hoping" data-short="5" data-group="Now" data-kind="now">
+<section class="ws" data-title="Now 5 · paying, and the name" data-short="5" data-group="Now" data-kind="now">
   <div class="ws-grid">
     <div class="stagec"><div class="phone"><div class="scr"><span class="redrawn">Drawn generically</span><div class="ch">
-      <div class="ch-top"><span class="so-av">V</span><div>Boulangerie Vauclerc<small>Usually replies within a day</small></div></div>
+      <div class="ch-top"><span class="so-av">V</span><div>Boulangerie Vauclerc<small>Usually replies within a few days</small></div></div>
       <div class="ch-body">
-        <span class="ch-day">WED 09:15</span>
-        <div class="ch-m them">Lovely. £32, we need £15 deposit</div>
-        <div class="ch-m them" data-t="9">Sort code 00-00-00, account 00000000, ref your name</div>
-        <span class="ch-day">WED 09:40</span>
-        <div class="ch-m me">Sent! What time can I collect Friday?</div>
-        <span class="ch-day">WED 17:02</span>
-        <div class="ch-m them">Any time after 10</div>
-        <div class="ch-m me">Great thanks. Is it confirmed?</div>
-        <span class="ch-day">THU 08:30</span>
-        <div class="ch-m them" data-t="10">👍</div>
+        <span class="ch-day">THU 21:12</span>
+        <div class="ch-m them" data-t="9">£32, can you send £15 to my personal acc and screenshot it? 00-00-00 · 00000000 · ref CAKE</div>
+        <div class="ch-m me">Done! Can it say Happy 30th Sam?</div>
+        <span class="ch-day">FRI 07:02</span>
+        <div class="ch-m them" data-t="10">Lovely, Happy 30th Pam it is xx</div>
+        <div class="ch-m me">SAM!! S for Sam 😅</div>
+        <div class="ch-m them">Oops sorry!! 👍</div>
       </div></div>
     </div></div></div>
     <div class="pane">
       <p class="ph now">Now · screen 5 of 6</p>
-      <h2>Bank details in a chat, and a thumbs-up for a contract</h2>
+      <h2>Money to a personal account, and a name nearly piped wrong</h2>
       <ol class="pts">
-        <li data-n="9"><span class="dot bad">9</span><b>Bank details typed into a message</b><span class="tx">The customer types them into a banking app by hand — and has no way to know the message really came from the bakery.</span><span data-tags="C6"></span></li>
-        <li data-n="10"><span class="dot bad">10</span><b>Confirmed with an emoji</b><span class="tx">The order is never written back: not the size, not the flavour, not “Happy 30th Sam”. The customer has a 👍, <span class="num">61 hours</span> after the first message.</span><span data-tags="C5 D3"></span></li>
+        <li data-n="9"><span class="dot bad">9</span><b>“Send it to my personal account and screenshot it”</b><span class="tx">Bank details in a chat, a payment with no receipt, and a screenshot as proof. Exactly the pattern scams copy.</span><span data-tags="C6"></span></li>
+        <li data-n="10"><span class="dot bad">10</span><b>“Happy 30th Pam”</b><span class="tx">Caught only because the customer read the reply at seven in the morning. Nothing in the process reads the order back.</span><span data-tags="C5 D3"></span></li>
       </ol>
       <div class="deck"><b class="h">In your deck</b><ul>
-        <li><b>C6</b> — asking customers to send money to a number in a chat is a trust and safety problem: a specific ethics answer.</li></ul></div>
+        <li><b>C6</b> — paying a stranger’s personal account on a screenshot is a real trust and safety problem. Name it plainly.</li></ul></div>
     </div>
   </div>
 </section>
 
 <!-- NOW 6 -->
-<section class="ws" data-title="Now 6 · counted" data-short="6" data-group="Now" data-kind="now">
+<section class="ws" data-title="Now 6 · Friday" data-short="6" data-group="Now" data-kind="now">
   <div class="ws-grid">
-    <div class="stagec"><div class="phone"><div class="scr" style="background:#F3F2F1;display:grid;place-items:center">
-      <div data-t="11" style="padding:28px;font:19px/1.6 system-ui,sans-serif;color:#202427"><b style="font-size:24px">The whole order</b><br><br>
-        <b>14</b> messages, 7 each way<br><b>61</b> hours, first message to 👍<br><b>3</b> places to look before asking<br><b>0</b> questions about allergies<br><b>0</b> times the order is read back</div>
+    <div class="stagec"><div class="phone"><div class="scr"><div class="story">
+      <div class="story-bars"><i></i><i></i></div>
+      <div class="story-who"><span class="so-av">V</span>boulangerie_vauclerc · 6h</div>
+      <div class="story-txt" data-t="11">CLOSED TODAY 😔<small>Oven’s broken!! Cake orders collect tomorrow, sorry everyone xx</small></div>
+      <div class="story-exp" data-t="12">This story disappears in 18 hours</div></div>
     </div></div></div>
     <div class="pane">
       <p class="ph now">Now · screen 6 of 6</p>
-      <h2>What the thread never does</h2>
+      <h2>Friday: closed, announced in a story</h2>
       <ol class="pts">
-        <li data-n="11"><span class="dot bad">11</span><b>Nobody asks about allergies</b><span class="tx">A chocolate cake for 12 people, and no one asks whether any of them has a nut or dairy allergy. The thread is friendly; it is not a process.</span><span data-tags="C5 C6"></span></li>
+        <li data-n="11"><span class="dot bad">11</span><b>The only notice is a 24-hour story</b><span class="tx">Not a message to the people who ordered — a story, seen only by followers who happen to open the app. The customer finds out at the locked door.</span><span data-tags="C5 C6"></span></li>
+        <li data-n="12"><span class="dot bad">12</span><b>Counted</b><span class="tx"><span class="num">4</span> channels tried · <span class="num">23</span> messages · <span class="num">4</span> days from first message to a cake · <span class="num">1</span> name nearly piped wrong · <span class="num">0</span> receipts · <span class="num">0</span> allergy questions · and the party moved to Saturday after all.</span><span data-tags="A2 D2"></span></li>
       </ol>
-      <div class="fair"><b>What already works — keep it.</b> The bakery is warm and personal, the owner knows her customers, and she wants to check each order herself. <b>The redesign keeps all three</b>: it takes the questions out of the chat, not the person.</div>
-      <div class="deck"><b class="h">In your deck</b><ul>
-        <li><b>A2</b> — your “before” list, counted, looks like this. Messages, hours and places to look are all steps.</li></ul></div>
+      <div class="fair"><b>What already works — keep it.</b> The cakes are good, the owner is kind, and customers forgive her a lot. She wants to check every order herself. <b>The redesign keeps all of that</b>: it takes the questions, the money and the news out of the chat — not the person.</div>
     </div>
   </div>
 </section>
@@ -628,7 +641,7 @@
   <div class="ws-grid">
     <div class="stagec"><div class="phone"><div class="scr"><div class="bk">
       <div class="bk-top"><b>Vauclerc</b><span>Done</span></div>
-      <div class="bk-in"><div class="bk-done" data-t="11"><h1>Request sent</h1><p>We will text you to confirm within 24 hours.</p></div>
+      <div class="bk-in"><div class="bk-done" data-t="11"><h1>Request sent</h1><p>We will text you to confirm within 24 hours — and if anything changes.</p></div>
         <dl class="bk-sum" data-t="12"><div><dt>Cake</dt><dd>8 inch chocolate, serves 12</dd></div><div><dt>Says</dt><dd>Happy 30th Sam</dd></div>
           <div><dt>Collect</dt><dd>Fri 30 Oct, 12–2</dd></div><div><dt>Allergy</dt><dd>Yes — we will call</dd></div><div><dt>Paid</dt><dd>£10 of £32</dd></div></dl>
         <p style="font-size:16px">Order VC-1031 · 7 Mallow Street</p></div></div>
@@ -637,7 +650,7 @@
       <p class="ph new">Improved · screen 6 of 6</p>
       <h2>Honest about the person behind it</h2>
       <ol class="pts">
-        <li data-n="11"><span class="dot good">11</span><b>“We will text you to confirm”</b><span class="tx">The owner still checks every order by hand — and the screen says so, with a time. A design does not have to automate everything; it has to be honest about what happens next.</span><span data-tags="C5 C1"></span></li>
+        <li data-n="11"><span class="dot good">11</span><b>“We will text you to confirm”</b><span class="tx">The owner still checks every order by hand — and the screen says so, with a time. If the oven breaks on Friday, everyone who ordered gets a text, not a story. A design does not have to automate everything; it has to be honest about what happens next.</span><span data-tags="C5 C1"></span></li>
         <li data-n="12"><span class="dot good">12</span><b>The whole order, written back</b><span class="tx">Size, message, day, allergy and payment, in one place — what the thumbs-up never gave.</span><span data-tags="D3 C5"></span></li>
       </ol>
       <div class="deck"><b class="h">In your deck</b><ul>
@@ -650,16 +663,17 @@
 <section class="ws" data-title="Before against after, counted" data-short="Counted" data-group="Then">
   <div class="wide">
     <h2>Before against after, counted</h2>
-    <p>This bakery is made up, so the “now” numbers come from the thread drawn here, not a real one. The method is the point: count your own thread the same way.</p>
+    <p>This bakery is made up — deliberately the worst of the four cases — so the “now” numbers come from the screens drawn here, not a real business. Every part of it happens somewhere; all of it at once is the joke. The method is the point: count your own “before” the same way.</p>
     <div class="tbw"><table class="tb">
       <tr><th>Measured</th><th>Now</th><th>Improved</th></tr>
-      <tr><td>Messages to place one order</td><td class="num">14</td><td class="num up">0</td></tr>
-      <tr><td>Hours from first contact to a confirmation</td><td class="num">61</td><td class="num up">within 24, promised on screen</td></tr>
-      <tr><td>Places to look before you can ask</td><td class="num">3</td><td class="num up">1</td></tr>
-      <tr><td>Price visible before asking</td><td class="num">no</td><td class="num up">yes, on the first screen</td></tr>
+      <tr><td>Channels tried before an order is possible</td><td class="num">4 — website, menu, phone, messages</td><td class="num up">1</td></tr>
+      <tr><td>Messages to place one order</td><td class="num">23</td><td class="num up">0</td></tr>
+      <tr><td>Days from first message to a cake</td><td class="num">4, and a day late</td><td class="num up">confirmed within 24 hours</td></tr>
+      <tr><td>Price visible before asking</td><td class="num">no — “ask in store”</td><td class="num up">yes, on the first screen</td></tr>
       <tr><td>Questions about allergies</td><td class="num">0</td><td class="num up">1, required</td></tr>
-      <tr><td>Times the order is read back</td><td class="num">0</td><td class="num up">2 — on the cake, and in the summary</td></tr>
-      <tr><td>Bank details sent by message</td><td class="num">1</td><td class="num up">0</td></tr>
+      <tr><td>Times the order is read back</td><td class="num">0 — one name misheard</td><td class="num up">2 — on the cake, and in the summary</td></tr>
+      <tr><td>Payments with a receipt</td><td class="num">0 — a screenshot</td><td class="num up">1 — card, or pay in the shop</td></tr>
+      <tr><td>Customers told when something changes</td><td class="num">by a 24-hour story</td><td class="num up">by text, each one</td></tr>
     </table></div>
     <span data-tags="A2 C5 D3"></span>
   </div>
@@ -670,13 +684,14 @@
     <h2>What happened to every step</h2>
     <div class="tbw"><table class="tb">
       <tr><th>Step now</th><th>What happened</th><th>Why</th></tr>
-      <tr><td>Website front page</td><td>Kept, and given the price, notice and next free day</td><td>The first screen answers the questions that started every thread</td></tr>
-      <tr><td>Social page</td><td>Removed from the order</td><td>Kept for news and photos; ordering no longer runs through it</td></tr>
-      <tr><td>“How many people?” “Which flavours?”</td><td>Merged into one screen of choices</td><td>Size by people served, flavour with allergens</td></tr>
-      <tr><td>Photo of the price list</td><td>Replaced by text prices on each choice</td><td>Readable, searchable and read aloud by screen readers</td></tr>
-      <tr><td>Negotiating the day</td><td>Replaced by a calendar of free days</td><td>Full days crossed out with the reason in words</td></tr>
-      <tr><td>Bank details by message</td><td>Removed; card or pay in shop</td><td>No account numbers in chats</td></tr>
-      <tr><td>👍</td><td>Replaced by a written summary, and a text from the owner</td><td>The owner still confirms each order — now about a written order</td></tr>
+      <tr><td>Splash page, music, “Accept all”</td><td>Removed; a plain page that opens on the order</td><td>Three taps and a sound before anything useful</td></tr>
+      <tr><td>Scanned PDF menu</td><td>Replaced by text prices on each choice</td><td>Readable, searchable, read aloud by screen readers</td></tr>
+      <tr><td>Phone with a full voicemail</td><td>Kept for questions, no longer needed to order</td><td>The order no longer depends on the owner being free</td></tr>
+      <tr><td>“What size?” “Which flavour?” by message</td><td>Merged into one screen of choices</td><td>Size by people served; flavour with allergens</td></tr>
+      <tr><td>Negotiating the day</td><td>Replaced by a calendar of free days</td><td>Full days crossed out, with the reason in words</td></tr>
+      <tr><td>Bank transfer to a personal account, and a screenshot</td><td>Removed; card or pay in the shop</td><td>A receipt, and no account numbers in chats</td></tr>
+      <tr><td>The name, never read back</td><td>Shown on a cake preview, and in the summary</td><td>“Pam” is caught on screen, not at 7am</td></tr>
+      <tr><td>Closure announced in a story</td><td>Replaced by a text to everyone who ordered</td><td>The people affected are told, not the followers</td></tr>
       <tr><td>(never asked) Allergies</td><td>Added, required</td><td>The one answer that can hurt someone</td></tr>
     </table></div>
     <p class="note">The redesign assumes the bakery can take card payments online, or offer pay-in-shop only. A booking tool the owner checks by hand is enough; nothing here needs a custom system.</p>
