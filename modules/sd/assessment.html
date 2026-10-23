@@ -417,7 +417,7 @@
    the progress bar there and the ticks here can never disagree. */
 const el = document.getElementById('parts');
 /* the week each section is made in, from the workshops themselves */
-const MADE = {}; WEEKS.forEach(w => w.workshop.out.sec.forEach(s => { MADE[s] = w.n; }));
+const MADE = {}; WEEKS.forEach(w => w.workshop.out.sec.forEach(s => { if (!MADE[s]) MADE[s] = w.n; }));  // the week it starts; dw is when it is final
 /* the sections the toolkit has cards for — each gets a link straight to them */
 const TOOLED = new Set(['A3','A4','A5','A6','B1','B2','B3','B4','B5','B6','B8','C5','C6','C9','D1','D2']);
 const NOW = SD.week();

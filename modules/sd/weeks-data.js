@@ -98,7 +98,7 @@ const WEEKS = [
   aim:"Mark the complete example, lock your theme, and put a first piece of work in your deck.",
   goals:["Judge a complete portfolio against the four criteria, and say what stops it being a First.", "Commit to one theme, one audience and one goal.", "Start the work: rough layouts of one screen, on the right slide."],
   los: ["A1","B1"],
-  out:{"sec": ["A1", "C1"], "what": "Theme, audience and goal locked \u2014 and C1 drafted, once the theme is"},
+  out:{"sec": ["A1", "B1", "C1"], "what": "Theme, audience and goal locked, eight thumbnails in B1 \u2014 and C1 drafted, once the theme is"},
   maybe:["D1"],   /* worth starting now if the goal is clear; no week owns the appendices */
   bring:"Laptop \u00b7 A4 paper and a thick marker \u00b7 your three possible themes",
   run:[
@@ -202,37 +202,39 @@ const WEEKS = [
 },
 {
  n:5, title:"The journey: what are we fixing?",
- makes:["The journey before → Part A §2","The before, captured → D1","C7 drafted"],
+ makes:["The journey before → Part A §2","The journey, mapped → B4","The before, captured → D1","C7 drafted"],
  idea:"A better screen is not the point. A shorter, kinder journey is — and you can count it.",
- hand:{keep:["Write the goal, then every step people take now.", "Count the steps, the waits and the dead ends.", "Every problem gets a number, not an adjective."], next:"Screenshot every step of your before, numbered to match A2."},
+ hand:{keep:["Write the goal, then every step people take now.", "Count the steps, the waits and the dead ends.", "Draw it: a map shows where people get stuck.", "Every problem gets a number, not an adjective."], next:"Screenshot every step of your before, numbered to match A2."},
  shown:[
   {core:true, s:"Before and after: the painful one", u:"case-bakery.html", d:"A made-up bakery that takes cake orders by message: a splash page with music, a sideways scanned menu, a full voicemail, 23 messages and a closure announced in a story. Walk the <i>now</i> slides first, then the improved ones.", take:"The before is evidence, even when it is a message thread. Count it — channels, messages, days — and every count becomes a line in C5 and D2."},
   {core:true, s:"Before and after: the okay one", u:"case-missed-bin.html", d:"Liverpool’s missed-bin report: good type and colour, a journey that hides its one rule. Thirteen problems, each measured; thirteen decisions, each explained.", take:"A service can look fine and still fail its users. The problems are in the order of things — which is what A2 and B4 are for."},
   {s:"Before and after: the Railcard", u:"case-railcard.html", d:"Questions in the wrong order, and the requirements announced after you have started.", take:"Ask what decides everything first."},
   {s:"Before and after: a Welsh course", u:"case-short-course.html", d:"Complete facts in the provider’s words. The cross-cultural case.", take:"Use your user’s words; explain the service’s where they appear."},
+  {s:"The Flow maker", u:"flow.html", d:"Type a journey one step per line; the flow draws itself, numbered, with decisions, waits and dead ends marked, and counted. Show the example: the missed-bin report before, then after.", take:"A list hides where people get stuck. A map shows it: the loop back to step 3, the dead end at the phone line."},
   {s:"The same hue, different meanings", d:"Colour associations by place. Walk a few.", u:"https://symbolic.institute/collections/colour-associations/", take:"Same hue, different meaning depending on where you are. That is your cross-cultural consideration, and it is markable."},
   {s:"Traffic colour", d:"How the meaning got fixed, and by whom.", u:"https://symbolic.institute/visual-grammar/traffic-colour/", take:"Colour means different things in different places. Pick one such difference and write it into C7 today — the brief asks for it by name."}
  ],
  three:[
-  {t:"Your journey before, counted", d:"Part A §2: the goal and every step people take now, with the count."},
+  {t:"Your journey before, counted and mapped", d:"Part A §2: the goal and every step people take now, with the count — and the same steps drawn as a flow in B4."},
   {t:"The before, captured", d:"D1: one screenshot or photo per step, numbered to match A2."},
   {t:"C7 drafted", d:"One cross-cultural consideration, specific to your service.", open:true},
  ],
  workshop:{
-  aim:"Find out what your design has to fix: the goal, every step people take now, counted, and captured.",
-  goals:["Read a before-and-after case the way a marker would.", "Write your goal and every step people take now, and count them.", "Capture the before as evidence, and name one cross-cultural consideration."],
+  aim:"Find out what your design has to fix: the goal, every step people take now, counted, mapped and captured.",
+  goals:["Read a before-and-after case the way a marker would.", "Write your goal and every step people take now, count them, and draw them as a flow.", "Capture the before as evidence, and name one cross-cultural consideration."],
   los: ["A1","B2"],
-  out:{"sec": ["A2", "D1", "C7"], "what": "The journey before, counted, the before captured, and the cross-cultural paragraph"},
-  bring:"Laptop · your theme · access to the service you are improving (the website, the app, the chat)",
+  out:{"sec": ["A2", "B4", "D1", "C7"], "what": "The journey before, counted and mapped, the before captured, and the cross-cultural paragraph"},
+  bring:"Laptop · your theme · access to the service you are improving (the website, the app, the chat) · or large paper and a marker for the flow",
   run:[
    {s:"Walk one case, in pairs", d:"Open <a href=\"assessment-materials.html#before-after\">Before and after</a> and walk the bakery’s <i>now</i> slides. For each red number, say what it costs the customer. Then the improved slides: which green number fixes which red one?"},
    {s:"Write the goal, then the before", d:"Your goal: what the person is trying to get done. Then every step people take now — the website, the form, the phone call, the message thread. If nothing like your idea exists yet, the before is how people manage without it. Write it into <code>A2</code>."},
    {s:"Count it", d:"Steps, taps, fields, messages, days waiting, dead ends. Every problem gets a number, not an adjective: “199 words before you can start”, not “too much text”."},
+   {s:"Map it — your flow diagram", d:"Draw the same steps as boxes and arrows for <code>B4</code>. The quickest way is the <a href=\"flow.html\">Flow maker</a>: type one step per line, end a question with <b>?</b> and give it the other way out on the next line, and mark where people get stuck with <b>!</b>. It numbers the steps to match A2 and counts the decisions, waits and dead ends. <b>Download picture for B4</b> and paste it in. Paper and a marker, photographed, is just as good. Then in pairs: where does your partner’s map loop back, or stop?"},
    {s:"Capture it", d:"Screenshot or photograph every step into <code>D1</code>, numbered to match A2. Chats need the owner’s permission and every other person’s name and number blurred."},
    {s:"Write C7 — one cross-cultural consideration", d:"One slide. Pick ONE that is real for your service: colour meaning, reading direction, names and dates, language, icons. The Welsh course case shows several."}
   ],
-  leave:"A2 with your before counted, D1 captured, C7 drafted.",
-  done:"Every step in A2 has a picture in D1, and the before has a count.",
+  leave:"A2 with your before counted, the before mapped in B4, D1 captured, C7 drafted.",
+  done:"Every step in A2 has a box in B4 and a picture in D1, and the before has a count.",
   between:"Finish capturing D1 while you still have access to the before.",
   mistake:"Describing the before instead of counting it.",
   stuck:[["There is no website for my idea","Then the before is how people manage now: the chat, the phone, the paper. The bakery case is exactly that."],
@@ -280,7 +282,7 @@ const WEEKS = [
 },
 {
  n:7, title:"UX basics and screen states",
- makes:["Your screens → Part A §2","Flow diagram","C6 drafted"],
+ makes:["Your screens → Part A §2","Your flow, after → B4","C6 drafted"],
  idea:"The screens you forget to design are the ones people meet on their worst day.",
  hand:{keep:["Every screen has an empty, a loading and an error state.", "Give each screen a job in under ten words.", "Two screens with the same job are one screen."], next:"Nothing — you are ready to wireframe."},
  shown:[
@@ -294,24 +296,24 @@ const WEEKS = [
  ],
  three:[
   {t:"The journey, both ways", d:"Part A §2 \u2014 the goal, the steps people take now, and your screens, counted."},
-  {t:"A flow, and C6", d:"The flow diagram photographed into B4, and the ethics paragraph drafted."},
+  {t:"Your flow beside the before, and C6", d:"Your version drawn next to week 5’s map in B4, and the ethics paragraph drafted."},
   {t:"The two you build first", d:"Decide before week 8, when every screen gets wireframed.", open:true},
  ],
  workshop:{
   aim:"The screens of your version, the states you forgot, and a flow somebody else can follow.",
   goals:["Name the goal, list how people reach it now, and give each of your screens a job in under ten words.", "Find the screens you forgot — empty, loading, error.", "Draw a flow somebody else can follow."],
   los: ["A1","B2"],
-  out:{"sec": ["A2", "B4", "C6"], "what": "The journey before and after, the before captured in an appendix, the flow diagram, and the ethics paragraph"},
-  bring:"Large paper and markers, or a laptop for draw.io · your theme",
+  out:{"sec": ["A2", "B4", "C6"], "what": "The journey before and after, your flow beside the before in B4, and the ethics paragraph"},
+  bring:"Your B4 from week 5 · large paper and markers, or a laptop · your theme",
   run:[
    {s:"Your journey, after", d:"Open <code>A2</code> from week 5: the goal and the before are there. Now the after."},
    {s:"List your screens", d:"Give each of yours a job in under ten words, starting with a verb. Cross out any two that share a job. Do not add features: your count should come in under the before, and the difference is a number you will quote in C5."},
    {s:"The states check", d:"For each screen ask: what does this look like empty? Loading? When it fails? This usually adds one or two screens, and that is the point."},
-   {s:"Draw the flow", d:"Boxes and arrows — on big paper, or in <a href=\"https://app.diagrams.net/\">draw.io</a>, free in the browser with no account. In class we rebuild <a href=\"example-council.html\">Example 2</a>’s B4 in it first: four screens, three decisions. One box per screen, one arrow per way between them, and a diamond for each decision. Where does someone enter? Where can they get stuck? In draw.io, <b>File → Export as → PNG</b> and paste it into <code>B4</code>; save the <code>.drawio</code> file in your OneDrive folder so you can change it later."},
+   {s:"Draw your flow, after", d:"Add your version beside the before you mapped in week 5. In the <a href=\"flow.html\">Flow maker</a>, fill in the <b>After</b> side — one screen per line, states included — and press <b>Download both, side by side</b> for <code>B4</code>. It also counts both, so the difference is ready for C5 and D2. In class we rebuild <a href=\"example-council.html\">Example 2</a>’s B4 first: four screens, three decisions. Prefer more control? <a href=\"https://app.diagrams.net/\">draw.io</a> is free in the browser with no account; save the <code>.drawio</code> file in your OneDrive folder."},
    {s:"Swap flows", d:"Can your partner get from entry to the main task without asking you? If not, an arrow is missing."},
    {s:"Write C6 — ethics or sustainability", d:"Ninety words, one dimension named, required by the brief. You have just worked through empty, loading and error states — the screens people meet on their worst day. <b>That is an ethics answer</b>, and it is the one in front of you. Sustainability is the other route if you prefer it."}
   ],
-  leave:"Part A §2 with both lists counted. Flow in B4 — a photo or a draw.io export — and C6 drafted.",
+  leave:"Part A §2 with both lists counted. B4 shows the before and your version side by side. C6 drafted.",
   done:"Both lists are counted, and each of your screens has a job someone else can read.",
   between:"Nothing. Week 8 needs your inventory and your grid, and you have both.",
   mistake:"Forgetting empty and error screens. They are half of week 9.",
@@ -417,7 +419,7 @@ const WEEKS = [
   aim:"Eight drafted sections turned from description into defence, and a click-through that works.",
   goals:["Cite a value you declared, in every section you write.", "Distinguish describing a design from defending one.", "Assemble and export one file that opens."],
   los: ["A1"],
-  out:{"sec": ["B8"], "what": "The click-through, and eight drafted sections turned from description into defence"},
+  out:{"sec": ["B8", "D2", "D3"], "what": "The click-through, the before and after in D2 and D3, and eight drafted sections turned from description into defence"},
   bring:"Laptop · complete spec sheet · everything from Part B",
   run:[
    {s:"Read two of your own, aloud, to one other person", d:"Not mine \u2014 <b>yours</b>. Pick any two of the eight sections you have already drafted and read them to a partner. Their only job is to say, for each one, whether it <i>describes</i> or <i>defends</i>. They will be right, and it takes a glance per paragraph."},

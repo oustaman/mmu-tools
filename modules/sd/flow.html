@@ -1,0 +1,426 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Flow maker — Screen Design</title>
+<style>
+  :root{
+    --bg:#F5F4F2; --surface:#FFFFFF; --surface-2:#EDEBE8;
+    --ink:#1A1618; --ink-2:#514B4A; --ink-3:#4D4847;
+    --line:#DFDBD7; --line-2:#8E8685;
+    --lec:#8C2437; --lec-soft:#F6E8EA;
+    --wsh:#1A526D; --wsh-soft:#E4EEF3;
+    --ok:#285638; --ok-soft:#E3EFE7;
+    --warn:#684604; --warn-soft:#F4EAD3;
+    --mono:ui-monospace,"SF Mono",Menlo,Consolas,monospace;
+    --sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Inter,Roboto,sans-serif;
+  }
+  html[data-theme="dark"]{
+    --bg:#151314; --surface:#1E1B1C; --surface-2:#262223;
+    --ink:#EDE9E7; --ink-2:#B9B2AF; --ink-3:#B7B2B0;
+    --line:#332E2F; --line-2:#7A7372;
+    --lec:#E69FAD; --lec-soft:#332226;
+    --wsh:#7FBEDC; --wsh-soft:#16262E;
+    --ok:#83C19A; --ok-soft:#1C2A22;
+    --warn:#DCB469; --warn-soft:#2A2417;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);line-height:1.5}
+  .wrap{max-width:1100px;margin:0 auto;padding:0 22px}
+  @media(max-width:420px){.wrap{padding:0 14px}}
+  @media(max-width:340px){.wrap{padding:0 10px}}
+  a{color:var(--lec)}
+
+  /* The bar, identical on every page (see assessment.html). */
+  header{border-bottom:1px solid var(--line);background:var(--surface);position:sticky;top:0;z-index:40}
+  .bar{display:flex;align-items:center;gap:10px;padding-block:11px;flex-wrap:nowrap}
+  .brand{font-weight:680;font-size:1rem;letter-spacing:-0.015em;white-space:nowrap;color:inherit;
+    text-decoration:none;padding:5px 8px;margin-left:-8px;border-radius:6px}
+  .brand:hover{background:var(--surface-2)}
+  .brand:focus-visible{outline:2px solid var(--lec);outline-offset:1px}
+  .sp{flex:1}
+  .navl{font-size:0.85rem;color:var(--ink-2);text-decoration:none;padding:6px 10px;border-radius:6px;white-space:nowrap}
+  .navl:hover{background:var(--surface-2);color:var(--ink)}
+  .ctl button{font-family:var(--mono);font-size:0.7rem;background:none;color:var(--ink-3);
+    border:1px solid var(--line-2);border-radius:5px;padding:5px 8px;cursor:pointer;line-height:1}
+  .ctl button:hover{border-color:var(--lec);color:var(--lec)}
+  @media(max-width:760px){ header .bar{gap:6px} .navl{padding:6px 8px;font-size:0.82rem} }
+  @media(max-width:560px){
+    header .bar{flex-wrap:wrap;row-gap:6px}
+    header .brand{order:0} header .ctl{order:1;margin-left:auto}
+    header .bar > .sp{order:2;flex-basis:100%;height:0}
+    header .navl{order:3;padding:5px 7px;font-size:0.78rem}
+  }
+  @media(max-width:430px){ .brand{font-size:0.9rem} .navl{padding:5px 6px;font-size:0.76rem} }
+
+  .navl.on{background:var(--lec);color:#fff}
+  html[data-theme="dark"] .navl.on{color:#151314}
+  h1{font-size:clamp(1.6rem,4.4vw,2.3rem);line-height:1.1;letter-spacing:-0.028em;margin:24px 0 4px;font-weight:700}
+  h2{font-size:1.2rem;font-weight:690;letter-spacing:-0.015em;margin:34px 0 6px}
+  .sub{color:var(--ink-2);margin:0 0 18px;max-width:70ch}
+  .lede{color:var(--ink-2);margin:0 0 14px;max-width:72ch;font-size:0.95rem}
+
+  .tiles{display:grid;gap:10px;grid-template-columns:repeat(auto-fit,minmax(min(220px,100%),1fr))}
+  .tile{display:block;background:var(--surface);border:1px solid var(--line);border-radius:11px;padding:14px 16px;
+    text-decoration:none;color:inherit}
+  .tile:hover{border-color:var(--lec)}
+  .tile b{display:block;font-size:0.98rem;margin-bottom:3px}
+  .tile span{font-size:0.86rem;color:var(--ink-2)}
+  .tile i{font-style:normal;font-family:var(--mono);font-size:0.68rem;color:var(--ink-3);display:block;margin-top:6px}
+
+  table.steps{width:100%;border-collapse:collapse;background:var(--surface);border:1px solid var(--line);
+    border-radius:11px;overflow:hidden;font-size:0.9rem}
+  .steps th{text-align:left;font-family:var(--mono);font-size:0.62rem;letter-spacing:0.08em;text-transform:uppercase;
+    color:var(--ink-3);padding:9px 12px;background:var(--surface-2);font-weight:500}
+  .steps td{padding:8px 12px;border-top:1px solid var(--line);vertical-align:middle}
+  .steps td.cls{font-weight:640}
+  .steps td.rg{font-family:var(--mono);font-size:0.8rem;color:var(--ink-2);white-space:nowrap}
+  .steps .m{display:inline-block;font-family:var(--mono);font-size:0.82rem;font-weight:700;min-width:34px;
+    text-align:center;padding:2px 6px;margin:2px 3px 2px 0;border-radius:5px;background:var(--bg);border:1px solid var(--line)}
+  .steps tr.first td.cls{color:var(--ok)}
+  .steps tr.fail td.cls{color:var(--lec)}
+
+  .ex{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(min(320px,100%),1fr))}
+  .excard{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:16px 18px;
+    display:flex;flex-direction:column;gap:10px}
+  .exk{font-family:var(--mono);font-size:0.64rem;letter-spacing:0.08em;text-transform:uppercase;color:var(--ink-3)}
+  .excard h3{margin:0;font-size:1.08rem}
+  .excard p{margin:0;font-size:0.9rem;color:var(--ink-2)}
+  .exmark{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap}
+  .exmark .n{font-size:2.2rem;font-weight:740;letter-spacing:-0.03em;color:var(--lec);line-height:1}
+  .exmark .crit{font-family:var(--mono);font-size:0.78rem;color:var(--ink-2)}
+  .exhid{font-size:0.9rem;color:var(--ink-2);background:var(--bg);border:1px dashed var(--line-2);border-radius:8px;padding:10px 12px}
+  .exacts{display:flex;flex-wrap:wrap;gap:8px;margin-top:auto}
+  .btn{display:inline-flex;align-items:center;min-height:42px;padding:0 15px;border-radius:8px;text-decoration:none;
+    font-weight:640;font-size:0.9rem;border:1px solid var(--line-2);color:var(--ink);background:var(--bg)}
+  .btn:hover{border-color:var(--lec);color:var(--lec)}
+  .btn.pri{background:var(--lec);border-color:var(--lec);color:#fff}
+  html[data-theme="dark"] .btn.pri{color:#151314}
+  .btn.off{color:var(--ink-3);border-style:dashed;cursor:default}
+  .faq{display:grid;gap:6px}
+  .faq details{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:0}
+  .faq summary{cursor:pointer;padding:12px 16px;font-weight:600;list-style:none;display:flex;gap:10px;align-items:baseline}
+  .faq summary::-webkit-details-marker{display:none}
+  .faq summary::before{content:"+";font-family:var(--mono);color:var(--ink-3);width:1em;flex:none}
+  .faq details[open] summary::before{content:"\2013"}
+  .faq .a{padding:0 16px 14px 42px;color:var(--ink-2);font-size:0.95rem;line-height:1.6}
+  .faq .a a{color:var(--lec)}
+  .note{font-size:0.82rem;color:var(--ink-3);margin:12px 0 0}
+  footer{padding:24px 0 44px;color:var(--ink-3);font-size:0.8rem;border-top:1px solid var(--line);margin-top:30px}
+  @media(max-width:520px){ .steps td{padding:7px 8px} .steps td.rg{white-space:normal} }
+
+
+  /* the Flow maker: type the journey, get the diagram */
+  .fl-help{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:12px 16px;margin:12px 0;font-size:0.9rem;color:var(--ink-2)}
+  .fl-help summary{cursor:pointer;font-weight:650;color:var(--ink)}
+  .fl-help table{border-collapse:collapse;margin:8px 0 4px;width:100%}
+  .fl-help td{border-top:1px solid var(--line);padding:6px 8px;vertical-align:top}
+  .fl-help td:first-child{font-family:var(--mono);font-size:0.8rem;white-space:pre-wrap;overflow-wrap:anywhere;color:var(--ink);width:44%}
+  .fl-goal{display:flex;flex-wrap:wrap;gap:6px 10px;align-items:center;margin:12px 0}
+  .fl-goal label{font-weight:650;font-size:0.92rem}
+  .fl-goal input{font:inherit;flex:1;min-width:220px;padding:8px 10px;border:1px solid var(--line-2);border-radius:7px;background:var(--surface);color:var(--ink)}
+  .fl-cols{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+  @media(max-width:900px){.fl-cols{grid-template-columns:1fr}}
+  .fl-col{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:12px 14px;min-width:0;display:flex;flex-direction:column;gap:8px}
+  .fl-col h2{margin:0;font-size:1.05rem}
+  .fl-col h2 span{font-weight:400;color:var(--ink-3);font-size:0.85rem}
+  .fl-col textarea{font-family:var(--mono);font-size:0.8rem;line-height:1.55;width:100%;min-height:210px;resize:vertical;padding:10px;border:1px solid var(--line-2);border-radius:8px;background:var(--bg);color:var(--ink);tab-size:2}
+  .fl-col textarea:focus-visible,.fl-goal input:focus-visible{outline:2px solid var(--lec);outline-offset:1px}
+  .fl-count{font-size:0.84rem;color:var(--ink-2);margin:0}
+  .fl-count b{color:var(--ink)}
+  .fl-draw{border:1px solid var(--line);border-radius:8px;background:#fff;overflow:auto;max-height:78vh}
+  .fl-draw svg{display:block;width:100%;height:auto}
+  .fl-draw .empty{color:#4D4847;padding:20px;margin:0}
+  .fl-acts{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+  .fl-acts button{font:inherit;font-size:0.84rem;border-radius:7px;padding:7px 12px;cursor:pointer;border:1px solid var(--line-2);background:var(--surface);color:var(--ink)}
+  .fl-acts button:hover{border-color:var(--lec);color:var(--lec)}
+  .fl-acts button.pri{background:var(--lec);border-color:var(--lec);color:#fff}
+  html[data-theme="dark"] .fl-acts button.pri{color:#151314}
+  .fl-acts button:focus-visible{outline:2px solid var(--lec);outline-offset:2px}
+  .fl-acts .q{margin-left:auto;display:flex;gap:6px}
+  .fl-acts .q button{font-size:0.76rem;padding:5px 9px;color:var(--ink-3)}
+  .msg{font-size:0.8rem;color:var(--ok)}
+  .fl-both{background:var(--surface);border:1px solid var(--line);border-left:4px solid var(--wsh);border-radius:0 12px 12px 0;padding:12px 16px;margin:16px 0;display:flex;flex-wrap:wrap;gap:8px 14px;align-items:center}
+  .fl-both p{margin:0;flex:1;min-width:240px;font-size:0.9rem;color:var(--ink-2)}
+  .fl-both p b{color:var(--ink)}
+
+  /* THE BAR — one definition, identical on every page (written by navfix; change it
+     everywhere or nowhere). It used to be copied per page and drifted into two heights. */
+  header.sdnav{position:sticky;top:0;z-index:40;background:var(--surface);border-bottom:1px solid var(--line)}
+  header.sdnav .bar{display:flex;align-items:center;gap:10px;min-height:56px;padding-block:8px;flex-wrap:nowrap}
+  header.sdnav .brand{font-weight:680;font-size:1rem;letter-spacing:-0.015em;white-space:nowrap;color:inherit;
+    text-decoration:none;padding:5px 8px;margin-left:-8px;border-radius:6px;order:0}
+  header.sdnav .brand:hover{background:var(--surface-2,var(--bg))}
+  header.sdnav .sp{flex:1;display:block;height:auto;flex-basis:auto;order:0}
+  header.sdnav .sdlinks{display:flex;align-items:center;gap:2px;order:0}
+  header.sdnav .navl{display:inline-block;font-size:0.85rem;line-height:1.3;color:var(--ink-2);text-decoration:none;
+    padding:6px 10px;border-radius:6px;white-space:nowrap;order:0}
+  header.sdnav .navl:hover{background:var(--surface-2,var(--bg));color:var(--ink)}
+  header.sdnav .navl.on{background:var(--lec);color:#fff}
+  html[data-theme="dark"] header.sdnav .navl.on{color:#151314}
+  header.sdnav a:focus-visible,header.sdnav button:focus-visible{outline:2px solid var(--lec);outline-offset:1px}
+  header.sdnav .ctl{order:0;margin-left:4px}
+  header.sdnav .ctl button{font-family:var(--mono);font-size:0.7rem;background:none;color:var(--ink-3);
+    border:1px solid var(--line-2);border-radius:6px;padding:0 9px;cursor:pointer;line-height:1;
+    height:34px;min-height:34px;min-width:34px;display:inline-flex;align-items:center;justify-content:center}
+  header.sdnav .ctl button:hover{border-color:var(--lec);color:var(--lec)}
+  @media(max-width:960px){
+    header.sdnav .bar{flex-wrap:wrap;row-gap:0;padding-block:6px 0;min-height:0}
+    header.sdnav .ctl{order:1;margin-left:auto}
+    header.sdnav .sp{display:none}
+    header.sdnav .sdlinks{order:2;flex-basis:100%;overflow-x:auto;scrollbar-width:none;padding:4px 28px 8px 0;min-height:44px;
+      -webkit-mask-image:linear-gradient(to right,#000 calc(100% - 28px),transparent);mask-image:linear-gradient(to right,#000 calc(100% - 28px),transparent)}
+    header.sdnav .sdlinks::-webkit-scrollbar{display:none}
+    header.sdnav .navl{font-size:0.82rem;padding:6px 9px}
+  }
+</style>
+</head>
+<body>
+
+<header class="sdnav">
+  <div class="wrap bar">
+    <a class="brand" href="index.html">Screen Design</a>
+    <span class="sp"></span>
+    <nav class="sdlinks" aria-label="Screen Design"><a class="navl" href="index.html">Overview</a><a class="navl" href="weeks.html">Week by week</a><a class="navl" href="brief.html">The brief</a><a class="navl" href="assessment.html">Checklist</a><a class="navl" href="assessment-materials.html">Marking and examples</a><a class="navl on" href="toolkit.html">Toolkit</a><a class="navl" href="ideas.html">Theme ideas</a></nav>
+    <span class="ctl"><button id="theme" aria-label="Dark mode">◐</button></span>
+  </div>
+</header>
+<script>(function(){var n=document.querySelector(".sdlinks"),o=n&&n.querySelector(".on");if(o&&n.scrollWidth>n.clientWidth)n.scrollLeft=o.offsetLeft-n.offsetLeft-16;})();</script>
+
+<div class="wrap">
+  <h1>Flow maker</h1>
+  <p class="lede">Type the journey, one step on each line, and the flow diagram draws itself. Map <b>how people do it now</b> in week 5 and <b>your version</b> beside it in week 7. Download the picture into <b>B4</b>, and copy the numbered lists into <b>A2</b>. Your text stays in this browser. To keep a copy anywhere else, paste it into your deck’s notes or your OneDrive folder.</p>
+
+  <details class="fl-help" open><summary>How to write a flow</summary>
+    <table>
+      <tr><td>Open the council's bins page — website</td><td>A step. Anything after <b> — </b> is the tool or screen, written smaller underneath.</td></tr>
+      <tr><td>Will you create an account?</td><td>A <b>decision</b>: end the line with <b>?</b> and give it another way out on the next line. The journey carries on underneath as “yes”. A question with no other way out — “Which bin?” — is drawn as an ordinary screen.</td></tr>
+      <tr><td>  no: phone the contact centre !</td><td>The <b>other way out</b> of a decision: start the line with spaces. End it with <b>!</b> if people get stuck there.</td></tr>
+      <tr><td>  no: come back after 5pm -> 3</td><td>A way out that sends people <b>back</b> to step 3.</td></tr>
+      <tr><td>~ 2 working days</td><td>A <b>wait</b>. It is not a step, but it is counted.</td></tr>
+      <tr><td>! Error, form cleared</td><td>A step where people <b>get stuck</b>: start the line with <b>!</b>.</td></tr>
+    </table>
+    The first and last steps are drawn rounded: where people come in, and where they get what they came for. Steps are numbered for you, so they match A2 and D1.
+  </details>
+
+  <div class="fl-goal"><label for="n-goal">Goal</label><input id="n-goal" placeholder="What the person is trying to get done"></div>
+
+  <div class="fl-cols">
+    <section class="fl-col" aria-labelledby="h-before">
+      <h2 id="h-before">Before <span>· how people do it now · week 5</span></h2>
+      <textarea id="t-before" spellcheck="false" aria-label="Before: one step per line"></textarea>
+      <p class="fl-count" id="c-before"></p>
+      <div class="fl-draw" id="d-before"></div>
+      <div class="fl-acts"><button type="button" class="pri" data-act="png" data-k="before">Download picture for B4</button><button type="button" data-act="list" data-k="before">Copy the list for A2</button>
+        <span class="q"><button type="button" data-act="ex" data-k="before">Example</button><button type="button" data-act="clear" data-k="before">Clear</button></span><span class="msg" id="m-before" role="status"></span></div>
+    </section>
+    <section class="fl-col" aria-labelledby="h-after">
+      <h2 id="h-after">After <span>· your version · week 7</span></h2>
+      <textarea id="t-after" spellcheck="false" aria-label="After: one screen per line"></textarea>
+      <p class="fl-count" id="c-after"></p>
+      <div class="fl-draw" id="d-after"></div>
+      <div class="fl-acts"><button type="button" class="pri" data-act="png" data-k="after">Download picture for B4</button><button type="button" data-act="list" data-k="after">Copy the list for A2</button>
+        <span class="q"><button type="button" data-act="ex" data-k="after">Example</button><button type="button" data-act="clear" data-k="after">Clear</button></span><span class="msg" id="m-after" role="status"></span></div>
+    </section>
+  </div>
+
+  <div class="fl-both"><p id="diff"></p><span class="fl-acts"><button type="button" class="pri" data-act="both">Download both, side by side</button><span class="msg" id="m-both" role="status"></span></span></div>
+
+  <p class="note">Prefer to draw? Paper and a thick marker are fine — photograph it into B4. For full control, <a href="https://app.diagrams.net/" target="_blank" rel="noopener">draw.io</a> is free in the browser with no account. The example is a made-up council, drawn from the <a href="case-missed-bin.html">missed bin case</a>.</p>
+
+  <footer><p>Screen Design · Level 4 · 2026–27</p></footer>
+</div>
+
+<script>
+(function () {
+  /* The Flow maker: a journey typed as lines becomes a flow diagram (B4).
+     One line per step. "?" at the end makes a decision. An indented line under a
+     decision is its other way out: "-> 3" sends it back to step 3, "!" marks a dead end.
+     "~" starts a wait, "!" starts a step where people get stuck, " — " adds the tool. */
+  const $ = id => document.getElementById(id);
+  const esc = s => String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+  const EX = {
+    before: `Search "missed bin" — Google
+Open the council's bins page — website
+Read 199 words of rules — website
+Is it after 5pm on collection day?
+  no: come back after 5pm -> 3
+Find "Report a missed bin" — website
+Will you create an account?
+  no: phone the contact centre !
+~ wait for the activation email
+Enter your address — form
+Choose the bin from a list of 9 — form
+! Error: "invalid selection", form cleared
+Submit — form
+~ 2 working days
+Bin collected`,
+    after: `Search "missed bin" — Google
+Report a missed bin — start page
+Your postcode — form
+Which bin was not emptied? — form
+Was it out by 7am?
+  no: what to do next time — advice page
+Check your answers
+Report sent — reference by text
+~ next working day
+Bin collected`,
+  };
+  const KEY = 'sd-flow';
+  let saved = {}; try { saved = JSON.parse(localStorage.getItem(KEY) || '{}'); } catch (e) {}
+  $('t-before').value = saved.before != null ? saved.before : EX.before;
+  $('t-after').value = saved.after != null ? saved.after : EX.after;
+  $('n-goal').value = saved.goal != null ? saved.goal : 'Report a missed bin collection';
+
+  function parse(src) {
+    const nodes = []; let n = 0;
+    src.split('\n').forEach(raw => {
+      if (!raw.trim()) return;
+      const branch = /^\s/.test(raw) && nodes.length && nodes[nodes.length - 1].kind === 'q';
+      let t = raw.trim();
+      if (branch) {
+        const m = t.match(/^([^:]{1,14}):\s*(.*)$/); let label = 'no'; if (m) { label = m[1].trim(); t = m[2]; }
+        const lp = t.match(/(?:->|→)\s*(\d+)\s*$/); let to = 0; if (lp) { to = +lp[1]; t = t.slice(0, lp.index).trim(); }
+        const stuck = /!\s*$/.test(t); t = t.replace(/!\s*$/, '').trim();
+        nodes[nodes.length - 1].br.push({ label, text: t, to, stuck });
+        return;
+      }
+      if (/^~/.test(t)) { nodes.push({ kind: 'wait', text: t.replace(/^~\s*/, '') }); return; }
+      const bad = /^!/.test(t); t = t.replace(/^!\s*/, '');
+      const [main, sub] = t.split(/\s+(?:—|--)\s+/);
+      nodes.push({ kind: /\?\s*$/.test(main) ? 'q' : 'step', text: main, sub: sub || '', bad, br: [], num: ++n });
+    });
+    /* a question with no other way out is a screen that asks something, not a decision */
+    nodes.forEach(x => { if (x.kind === 'q' && !x.br.length) x.kind = 'step'; });
+    return nodes;
+  }
+  const counts = nodes => {
+    const c = { steps: 0, q: 0, waits: 0, stuck: 0, loops: 0, bad: 0 };
+    nodes.forEach(x => { if (x.kind === 'wait') c.waits++; else { c.steps++; if (x.kind === 'q') c.q++; if (x.bad) c.bad++;
+      x.br.forEach(b => { if (b.to) c.loops++; if (b.stuck) c.stuck++; }); } });
+    return c;
+  };
+
+  /* drawing: one column for the journey, loops back on the left, other exits on the right */
+  const wrap = (s, max) => { const out = []; let line = '';
+    s.split(/\s+/).forEach(w => { if ((line + ' ' + w).trim().length > max) { if (line) out.push(line); line = w; } else line = (line + ' ' + w).trim(); });
+    if (line) out.push(line); return out.length ? out : ['']; };
+  const tspans = (lines, x, y, lh) => lines.map((l, i) => `<tspan x="${x}" y="${y + i * lh}">${esc(l)}</tspan>`).join('');
+  const C = { ink: '#1A1618', mute: '#5A5352', line: '#1A1618', box: '#FFFFFF', q: '#FFF4D6', qs: '#8A6100', wait: '#F1EFEC', bad: '#B3261E', badf: '#FCEAE8', end: '#E3EFE7', ends: '#285638', loop: '#1A526D' };
+
+  function svg(nodes, title) {
+    const loops = nodes.reduce((a, x) => a + (x.br || []).filter(b => b.to).length, 0);
+    const L = 150 + Math.max(0, loops - 1) * 14, W = 236, cx = L + W / 2, R = L + W + 54, SW = 180, FW = R + SW + 16;
+    let y = 56; const parts = [], pos = {}, defs = `<defs><marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="${C.line}"/></marker>
+      <marker id="al" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="${C.loop}"/></marker>
+      <marker id="ab" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="${C.bad}"/></marker></defs>`;
+    parts.push(`<text x="16" y="28" font-size="17" font-weight="700" fill="${C.ink}">${esc(title)}</text>`);
+    let lane = 0;
+    nodes.forEach((x, i) => {
+      const first = i === 0, last = i === nodes.length - 1;
+      if (i) { parts.push(`<line x1="${cx}" y1="${y - 26}" x2="${cx}" y2="${y - 2}" stroke="${C.line}" stroke-width="1.6" marker-end="url(#ah)"/>`);
+        if (nodes[i - 1].kind === 'q') parts.push(`<text x="${cx + 8}" y="${y - 11}" font-size="12" fill="${C.mute}">yes</text>`); }
+      if (x.kind === 'wait') {
+        const ls = wrap('⏱ ' + x.text, 30), h = 18 + ls.length * 17;
+        parts.push(`<rect x="${cx - 95}" y="${y}" width="190" height="${h}" rx="6" fill="${C.wait}" stroke="${C.mute}" stroke-dasharray="5 4"/>`,
+          `<text font-size="13.5" font-style="italic" fill="${C.mute}" text-anchor="middle">${tspans(ls, cx, y + 21, 17)}</text>`);
+        pos.y = y; y += h + 30; return;
+      }
+      if (x.kind === 'q') {
+        const ls = wrap(x.text, 22), h = Math.max(92, 46 + ls.length * 17), hw = 118, top = y, mid = y + h / 2;
+        parts.push(`<polygon points="${cx},${top} ${cx + hw},${mid} ${cx},${top + h} ${cx - hw},${mid}" fill="${C.q}" stroke="${C.qs}" stroke-width="1.6"/>`,
+          `<text font-size="13.5" fill="${C.ink}" text-anchor="middle">${tspans(ls, cx, mid - (ls.length - 1) * 8.5 + 5, 17)}</text>`,
+          `<text x="${cx - hw + 4}" y="${top + 14}" font-size="11" font-weight="700" fill="${C.qs}">${x.num}</text>`);
+        let ry = top;
+        x.br.forEach(b => {
+          if (b.to) {
+            const lx = L - 34 - lane * 14; lane++;
+            const tgt = pos[b.to];
+            const ty = tgt != null ? tgt : mid;
+            parts.push(`<path d="M${cx - hw},${mid} H${lx} V${ty} H${L - 2}" fill="none" stroke="${C.loop}" stroke-width="1.6" marker-end="url(#al)"/>`);
+            const ll = wrap(b.label + ': ' + b.text, 17);
+            parts.push(`<text font-size="11.5" fill="${C.loop}" text-anchor="end">${tspans(ll, cx - hw - 8, mid + 16, 14)}</text>`);
+          } else {
+            const ll = wrap(b.text + (b.stuck ? '' : ''), 22), bh = 22 + ll.length * 16 + (b.stuck ? 16 : 0);
+            const by = Math.max(ry, mid - bh / 2);
+            parts.push(`<path d="M${cx + hw},${mid} H${R - 26} V${by + bh / 2} H${R - 2}" fill="none" stroke="${b.stuck ? C.bad : C.line}" stroke-width="1.6" marker-end="url(#${b.stuck ? 'ab' : 'ah'})"/>`,
+              `<text x="${cx + hw + 8}" y="${mid - 7}" font-size="12" fill="${C.mute}">${esc(b.label)}</text>`,
+              `<rect x="${R}" y="${by}" width="${SW}" height="${bh}" rx="${b.stuck ? 4 : 8}" fill="${b.stuck ? C.badf : C.box}" stroke="${b.stuck ? C.bad : C.line}" stroke-width="1.6"/>`,
+              `<text font-size="13" fill="${C.ink}" text-anchor="middle">${tspans(ll, R + SW / 2, by + 20, 16)}</text>`);
+            if (b.stuck) parts.push(`<text x="${R + SW / 2}" y="${by + bh - 9}" font-size="11.5" font-weight="700" fill="${C.bad}" text-anchor="middle">✗ stuck here</text>`);
+            ry = by + bh + 10;
+          }
+        });
+        pos[x.num] = mid; y = Math.max(top + h, ry) + 30; return;
+      }
+      const ls = wrap(x.text, 28), sub = x.sub ? wrap(x.sub, 32) : [], h = 22 + ls.length * 17 + sub.length * 15 + (sub.length ? 3 : 0);
+      const pill = first || last, fill = x.bad ? C.badf : last ? C.end : C.box, stroke = x.bad ? C.bad : last ? C.ends : C.line;
+      parts.push(`<rect x="${L}" y="${y}" width="${W}" height="${h}" rx="${pill ? h / 2 > 22 ? 22 : h / 2 : 6}" fill="${fill}" stroke="${stroke}" stroke-width="${x.bad ? 2.2 : 1.6}"/>`,
+        `<text font-size="14" font-weight="${pill ? 700 : 500}" fill="${C.ink}" text-anchor="middle">${tspans(ls, cx, y + 21, 17)}</text>`,
+        sub.length ? `<text font-size="12" fill="${C.mute}" text-anchor="middle">${tspans(sub, cx, y + 21 + ls.length * 17 + 1, 15)}</text>` : '',
+        `<text x="${L + 7}" y="${y + 14}" font-size="11" font-weight="700" fill="${x.bad ? C.bad : C.mute}">${x.num}</text>`);
+      if (x.bad) parts.push(`<text x="${L + W - 7}" y="${y + 14}" font-size="11" font-weight="700" fill="${C.bad}" text-anchor="end">✗</text>`);
+      pos[x.num] = y + h / 2; y += h + 30;
+    });
+    const H = y + 6;
+    return { w: FW, h: H, s: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${FW} ${H}" width="${FW}" height="${H}" font-family="system-ui,-apple-system,'Segoe UI',Roboto,sans-serif">${defs}<rect width="${FW}" height="${H}" fill="#FFFFFF"/>${parts.join('')}</svg>` };
+  }
+
+  const view = {};
+  function draw() {
+    try { localStorage.setItem(KEY, JSON.stringify({ before: $('t-before').value, after: $('t-after').value, goal: $('n-goal').value })); } catch (e) {}
+    const goal = $('n-goal').value.trim();
+    ['before', 'after'].forEach(k => {
+      const nodes = parse($('t-' + k).value), c = counts(nodes);
+      view[k] = { nodes, c, g: svg(nodes, (k === 'before' ? 'Before — how people do it now' : 'After — your version') + (goal ? ': ' + goal : '')) };
+      $('d-' + k).innerHTML = nodes.length ? view[k].g.s : '<p class="empty">Type a step on each line.</p>';
+      $('c-' + k).innerHTML = `<b>${c.steps}</b> step${c.steps === 1 ? '' : 's'} · <b>${c.q}</b> decision${c.q === 1 ? '' : 's'} · <b>${c.waits}</b> wait${c.waits === 1 ? '' : 's'} · <b>${c.stuck + c.bad}</b> where people get stuck · <b>${c.loops}</b> back to the start`;
+    });
+    const b = view.before.c, a = view.after.c;
+    $('diff').innerHTML = b.steps && a.steps ? `Steps <b>${b.steps} → ${a.steps}</b> · waits <b>${b.waits} → ${a.waits}</b> · stuck <b>${b.stuck + b.bad} → ${a.stuck + a.bad}</b> · loops <b>${b.loops} → ${a.loops}</b>. Quote these in C5 and D2.` : '';
+  }
+
+  /* exports: PNG for the deck, the numbered list for A2 */
+  function png(svgs, name, msg) {
+    const gap = 24, w = svgs.reduce((s, g) => s + g.w, 0) + gap * (svgs.length - 1), h = Math.max(...svgs.map(g => g.h)), k = 2;
+    const cv = document.createElement('canvas'); cv.width = w * k; cv.height = h * k;
+    const ctx = cv.getContext('2d'); ctx.fillStyle = '#fff'; ctx.fillRect(0, 0, cv.width, cv.height); ctx.scale(k, k);
+    let x = 0;
+    const next = i => { if (i >= svgs.length) { cv.toBlob(bl => { const a = document.createElement('a'); a.href = URL.createObjectURL(bl); a.download = name; a.click(); setTimeout(() => URL.revokeObjectURL(a.href), 4000); msg.textContent = 'Downloaded ' + name; }); return; }
+      const img = new Image(); img.onload = () => { ctx.drawImage(img, x, 0, svgs[i].w, svgs[i].h); x += svgs[i].w + gap; next(i + 1); };
+      img.onerror = () => { msg.textContent = 'Could not draw the picture — take a screenshot instead'; };
+      img.src = 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(svgs[i].s); };
+    next(0);
+  }
+  const listFor = k => { const v = view[k]; let out = [];
+    v.nodes.forEach(x => { if (x.kind === 'wait') out.push(`    wait: ${x.text}`); else {
+      out.push(`${(x.num + '.').padEnd(4)}${x.text}${x.sub ? '  —  ' + x.sub : ''}${x.bad ? '  (people get stuck here)' : ''}`);
+      x.br.forEach(b => out.push(`    ${b.label}: ${b.text}${b.to ? ' → back to step ' + b.to : ''}${b.stuck ? ' (dead end)' : ''}`)); } });
+    out.push(`${k === 'before' ? 'Steps before' : 'Screens after'}: ${v.c.steps}${v.c.waits ? ` · waits: ${v.c.waits}` : ''}`);
+    return out.join('\n'); };
+  async function copy(text, msg) { try { await navigator.clipboard.writeText(text); msg.textContent = 'Copied'; } catch (e) { msg.textContent = 'Copy did not work — select the text in the box instead'; } setTimeout(() => { msg.textContent = ''; }, 3000); }
+
+  document.addEventListener('click', e => {
+    const b = e.target.closest('[data-act]'); if (!b) return;
+    const k = b.dataset.k, m = $('m-' + (k || 'both'));
+    if (b.dataset.act === 'png') png([view[k].g], `flow-${k}.png`, m);
+    if (b.dataset.act === 'both') png([view.before.g, view.after.g], 'flow-before-after.png', m);
+    if (b.dataset.act === 'list') copy(listFor(k), m);
+    if (b.dataset.act === 'ex') { $('t-' + k).value = EX[k]; draw(); }
+    if (b.dataset.act === 'clear') { $('t-' + k).value = ''; draw(); $('t-' + k).focus(); }
+  });
+  ['t-before', 't-after', 'n-goal'].forEach(id => $(id).addEventListener('input', draw));
+  draw();
+})();
+
+const root = document.documentElement;
+try { const t = localStorage.getItem('sd-theme'); if (t) root.dataset.theme = t; } catch (e) {}
+if (!root.dataset.theme && matchMedia('(prefers-color-scheme: dark)').matches) root.dataset.theme = 'dark';
+document.getElementById('theme').onclick = () => {
+  root.dataset.theme = root.dataset.theme === 'dark' ? 'light' : 'dark';
+  try { localStorage.setItem('sd-theme', root.dataset.theme); } catch (e) {}
+};
+</script>
+</body>
+</html>
