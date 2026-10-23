@@ -1,0 +1,667 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>What to hand in — Screen Design</title>
+<style>
+  :root{
+    --bg:#F5F4F2; --surface:#FFFFFF; --surface-2:#EDEBE8;
+    --ink:#1A1618; --ink-2:#514B4A; --ink-3:#4D4847;
+    --line:#DFDBD7; --line-2:#8E8685;
+    --lec:#8C2437; --lec-soft:#F6E8EA;
+    --wsh:#1A526D; --wsh-soft:#E4EEF3;
+    --ok:#285638; --ok-soft:#E3EFE7;
+    --mono:ui-monospace,"SF Mono",Menlo,Consolas,monospace;
+    --sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Inter,Roboto,sans-serif;
+  }
+  html[data-theme="dark"]{
+    --bg:#151314; --surface:#1E1B1C; --surface-2:#262223;
+    --ink:#EDE9E7; --ink-2:#B9B2AF; --ink-3:#B7B2B0;
+    --line:#332E2F; --line-2:#7A7372;
+    --lec:#E69FAD; --lec-soft:#332226;
+    --wsh:#7FBEDC; --wsh-soft:#16262E;
+    --ok:#83C19A; --ok-soft:#1C2A22;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);line-height:1.5}
+  .wrap{max-width:1100px;margin:0 auto;padding:0 22px}
+  @media(max-width:420px){.wrap{padding:0 14px}}
+  @media(max-width:340px){.wrap{padding:0 10px}}
+  a{color:var(--lec)}
+
+  /* The bar, identical on every page. Defined once here and pasted into each
+     file rather than shared, because these open from a Moodle download as
+     often as from a server and a missing stylesheet must not cost the nav. */
+  header{border-bottom:1px solid var(--line);background:var(--surface);position:sticky;top:0;z-index:40}
+  .bar{display:flex;align-items:center;gap:10px;padding-block:11px;flex-wrap:nowrap}
+  .brand{font-weight:680;font-size:1rem;letter-spacing:-0.015em;white-space:nowrap;color:inherit;
+    text-decoration:none;padding:5px 8px;margin-left:-8px;border-radius:6px}
+  .brand:hover{background:var(--surface-2)}
+  .brand:focus-visible{outline:2px solid var(--lec);outline-offset:1px}
+  .sp{flex:1}
+  .navl{font-size:0.85rem;color:var(--ink-2);text-decoration:none;padding:6px 10px;border-radius:6px;white-space:nowrap}
+  .navl:hover{background:var(--surface-2);color:var(--ink)}
+  .navl.on{background:var(--lec);color:#fff}
+  html[data-theme="dark"] .navl.on{color:#151314}
+  .ctl button{font-family:var(--mono);font-size:0.7rem;background:none;color:var(--ink-3);
+    border:1px solid var(--line-2);border-radius:5px;padding:5px 8px;cursor:pointer;line-height:1}
+  .ctl button:hover{border-color:var(--lec);color:var(--lec)}
+  /* Links used to be hidden on phones, which left a student on a phone with no
+     way to reach the brief. They wrap to a second row instead. */
+  @media(max-width:760px){ header .bar{gap:6px} .navl{padding:6px 8px;font-size:0.82rem} }
+  @media(max-width:560px){
+    header .bar{flex-wrap:wrap;row-gap:6px}
+    header .brand{order:0} header .ctl{order:1;margin-left:auto}
+    header .bar > .sp{order:2;flex-basis:100%;height:0}
+    header .navl{order:3;padding:5px 7px;font-size:0.78rem}
+  }
+  @media(max-width:430px){ .brand{font-size:0.9rem} .navl{padding:5px 6px;font-size:0.76rem} }
+  h1{font-size:clamp(1.6rem,4.4vw,2.3rem);line-height:1.1;letter-spacing:-0.028em;margin:24px 0 4px;font-weight:700}
+  .sub{color:var(--ink-2);margin:0 0 18px}
+
+  /* ---- one line, one file ---- */
+  .onefile{display:flex;align-items:center;gap:16px;background:var(--surface);border:1px solid var(--line);
+           border-left:4px solid var(--lec);border-radius:11px;padding:16px 20px;margin-bottom:16px;flex-wrap:wrap}
+  .onefile .n{font-size:2rem;font-weight:730;letter-spacing:-0.03em;line-height:1;color:var(--lec)}
+  .onefile b{display:block;font-size:1rem}
+  .onefile span{font-size:0.88rem;color:var(--ink-2)}
+
+  /* min-width:0 so the preformatted block below can scroll inside this box
+     rather than stretching it. Without it the 138-line skeleton — which has
+     lines wider than a phone — made the whole page scroll sideways. */
+  .skel{background:var(--surface);border:1px solid var(--line);border-radius:11px;
+    padding:16px 18px;margin:0 0 18px;min-width:0}
+  .sk-head{display:flex;align-items:flex-start;gap:14px;flex-wrap:wrap;cursor:pointer;list-style:none}
+  .sk-head::-webkit-details-marker{display:none}
+  .sk-head > div{flex:1 1 240px}
+  .skel[open] > .sk-head{margin-bottom:12px}
+  .sk-chev{flex:none;width:10px;height:10px;margin-top:6px;border-right:2px solid var(--ink-2);
+    border-bottom:2px solid var(--ink-2);transform:rotate(-45deg);transition:transform .15s}
+  .skel[open] .sk-chev{transform:rotate(45deg)}
+  .sk-head:focus-visible{outline:2px solid var(--ink);outline-offset:4px;border-radius:4px}
+  .sk-head b{display:block;font-size:1rem}
+  .sk-head span{font-size:0.88rem;color:var(--ink-2)}
+  .sk-count{margin-left:auto;font-family:var(--mono);font-size:0.76rem;color:var(--ink-2);
+    background:var(--surface-2);border-radius:999px;padding:5px 11px;white-space:nowrap}
+  .sk-part{display:flex;align-items:baseline;gap:10px;margin:20px 0 8px;font-size:0.8rem;
+    letter-spacing:0.07em;text-transform:uppercase}
+  .sk-part span{font-family:var(--mono);font-size:0.7rem;letter-spacing:0;text-transform:none;color:var(--ink-3);font-weight:400}
+  .sk-grid{display:grid;gap:10px;grid-template-columns:repeat(auto-fill,minmax(min(250px,100%),1fr))}
+  .sk-card{display:flex;flex-direction:column;gap:8px;background:var(--bg);border:1px solid var(--line);
+    border-radius:10px;padding:12px 13px;min-width:0}
+  .sk-h{display:flex;align-items:baseline;gap:8px}
+  .sk-code{font-family:var(--mono);font-size:0.72rem;font-weight:700;background:var(--ink);color:var(--surface);
+    border-radius:4px;padding:2px 6px;flex:none}
+  .sk-card b{font-size:0.92rem;line-height:1.3}
+  .sk-card pre{margin:0;flex:1;font-family:var(--mono);font-size:0.7rem;line-height:1.5;color:var(--ink-3);
+    white-space:pre-wrap;max-height:120px;overflow:auto;background:var(--surface);border-radius:6px;padding:8px 9px}
+  .sk-btn{align-self:flex-start;min-height:40px;padding:0 16px;border:0;border-radius:8px;cursor:pointer;
+    background:var(--lec);color:#fff;font-family:var(--mono);font-size:0.78rem}
+  html[data-theme="dark"] .sk-btn{color:#151314}
+  .sk-btn:hover{filter:brightness(1.1)}
+  .sk-card.done{border-color:var(--ok);background:var(--ok-soft)}
+  .sk-card.done .sk-btn{background:var(--ok)}
+  .sk-foot{margin:12px 0 0}
+  .sk-reset{font-family:var(--mono);font-size:0.72rem;background:none;border:0;color:var(--ink-3);
+    text-decoration:underline;cursor:pointer;padding:6px 0}
+  .sk-note{margin:11px 0 0;font-size:0.88rem;color:var(--ink-2)}
+  .sk-note code{background:var(--surface-2);padding:1px 5px;border-radius:4px}
+
+  /* The countdown. Big, because it is the only number on this page that moves
+     without the student doing anything. */
+  .dbox{display:flex;align-items:center;gap:20px;background:var(--surface);border:1px solid var(--line);
+    border-left:5px solid var(--lec);border-radius:12px;padding:18px 22px;margin:0 0 18px;flex-wrap:wrap}
+  .dbox.soon{border-left-color:#8A5D05} .dbox.past{border-left-color:var(--ink-3);opacity:.75}
+  .dnum{font-size:3.1rem;font-weight:740;letter-spacing:-0.045em;line-height:0.9;color:var(--lec)}
+  .dbox.soon .dnum{color:#8A5D05} .dbox.past .dnum{color:var(--ink-3);font-size:1.7rem}
+  .dlab{display:flex;flex-direction:column;gap:2px;min-width:0}
+  .dlab .dl1{font-size:1rem;font-weight:660}
+  .dlab .dl2{font-size:0.88rem;color:var(--ink-2)}
+  .dwk{margin-left:auto;text-align:right}
+  .dwk b{display:block;font-family:var(--mono);font-size:0.72rem;letter-spacing:0.08em;
+    text-transform:uppercase;color:var(--wsh)}
+  .dwk span{font-size:0.84rem;color:var(--ink-3)}
+  @media(max-width:520px){.dwk{margin-left:0;text-align:left;width:100%}}
+
+  /* soft deadlines, on each part */
+  .ph .soft{margin-left:auto;display:flex;align-items:baseline;gap:7px;font-size:0.8rem;color:var(--ink-2)}
+  .ph .soft b{font-family:var(--mono);font-size:0.7rem;letter-spacing:0.05em;text-transform:uppercase;
+    color:var(--ink-3);font-weight:500}
+  .ph .soft.done{color:var(--ok)} .ph .soft.over{color:var(--lec)}
+  .ph .cnt{margin-left:0}
+  /* Past its week and not ticked. Not a scold — a sort order you can see. */
+  .it.late{border-left:3px solid var(--lec)}
+  .it.late.done{border-left-color:var(--ok)}
+
+  /* ---- progress ---- */
+  .prog{position:sticky;top:47px;z-index:20;background:var(--bg);padding:12px 0 14px;
+        border-bottom:1px solid var(--line);margin-bottom:22px}
+  .ptop{display:flex;align-items:baseline;gap:10px;margin-bottom:8px}
+  .ptop b{font-size:1.5rem;font-weight:720;letter-spacing:-0.03em;line-height:1}
+  .ptop span{font-size:0.85rem;color:var(--ink-2)}
+  .ptop .rst{margin-left:auto;font-family:var(--mono);font-size:0.68rem;color:var(--ink-3);
+             background:none;border:1px solid var(--line-2);border-radius:5px;padding:4px 8px;cursor:pointer}
+  .track{height:9px;border-radius:99px;background:var(--surface-2);overflow:hidden;border:1px solid var(--line)}
+  .fill{height:100%;background:var(--ok);width:0;transition:width .22s}
+
+  /* ---- parts ---- */
+  .part{margin-bottom:26px}
+  .part.hide,.it.hide{display:none}
+  .wkf{display:flex;flex-wrap:wrap;gap:6px;margin:4px 0 8px}
+  .wb{appearance:none;font:inherit;font-size:0.84rem;min-height:40px;padding:0 12px;border-radius:99px;cursor:pointer;
+    border:1px solid var(--line-2);background:var(--surface);color:var(--ink-2);display:inline-flex;align-items:center;gap:6px}
+  .wb i{font-style:normal;font-family:var(--mono);font-size:0.7rem;color:var(--ink-3);
+    background:var(--surface-2);border-radius:99px;padding:1px 7px}
+  .wb:hover{border-color:var(--ok);color:var(--ink)}
+  .wb.now{border-color:var(--ok);box-shadow:inset 0 -3px 0 var(--ok)}
+  .wb.on{background:var(--ink);color:var(--surface);border-color:var(--ink)}
+  .wb.on i{background:rgba(255,255,255,.18);color:inherit}
+  html[data-theme="dark"] .wb.on i{background:rgba(0,0,0,.2)}
+  .wb:focus-visible{outline:2px solid var(--ok);outline-offset:2px}
+  .wkf-note{margin:0 0 14px;font-size:0.9rem;color:var(--ink-2);min-height:1px}
+  .wkf-note:empty{margin:0}
+  .wkclear{appearance:none;background:none;border:0;padding:0;font:inherit;font-weight:640;color:var(--lec);
+    text-decoration:underline;text-underline-offset:2px;cursor:pointer}
+  @media print{ .wkf,.wkclear{display:none} }   /* print what is on screen: a week, or the lot */
+  .ph{display:flex;align-items:baseline;gap:10px;margin-bottom:3px;flex-wrap:wrap}
+  .ph h2{margin:0;font-size:1.18rem;font-weight:690;letter-spacing:-0.02em}
+  .ph .tag{font-family:var(--mono);font-size:0.66rem;letter-spacing:0.06em;color:var(--ink-3);
+           border:1px solid var(--line-2);border-radius:4px;padding:2px 7px}
+  .ph .cnt{margin-left:auto;font-family:var(--mono);font-size:0.72rem;color:var(--ink-3)}
+  .pd{color:var(--ink-2);font-size:0.9rem;margin:0 0 10px}
+
+  .items{display:grid;gap:7px}
+  .it{display:grid;grid-template-columns:26px minmax(0,1fr);gap:11px;background:var(--surface);
+      border:1px solid var(--line);border-radius:10px;padding:12px 14px;cursor:pointer;
+      align-items:start;user-select:none}
+  .it:hover{border-color:var(--line-2)}
+  .it input{width:19px;height:19px;margin:1px 0 0;accent-color:var(--ok);cursor:pointer}
+  .secno{font-family:var(--mono);font-size:0.7rem;color:var(--lec);
+    border:1px solid var(--lec);border-radius:4px;padding:1px 6px;margin-right:8px;font-weight:400}
+  .it-b b{display:block;font-size:0.96rem;font-weight:640;margin-bottom:2px}
+  .it-b .how{font-size:0.86rem;color:var(--ink-2);margin-bottom:6px}
+  .it-meta{display:flex;flex-wrap:wrap;gap:5px}
+  .m{font-family:var(--mono);font-size:0.64rem;border-radius:4px;padding:2px 7px;white-space:nowrap}
+  .m.wk{background:var(--wsh-soft);color:var(--wsh);border:1px solid var(--wsh)}
+  .m.dn{background:var(--ok-soft);color:var(--ok);border:1px solid var(--ok)}
+  .m.wd{background:var(--surface-2);color:var(--ink-3);border:1px solid var(--line-2)}
+  .m.tl{color:var(--lec);border:1px solid var(--lec);text-decoration:none;background:none}
+  .it.done{background:var(--ok-soft);border-color:var(--ok)}
+  .it.done .it-b b{text-decoration:line-through;text-decoration-thickness:1px;color:var(--ink-3)}
+
+  .note{border-left:3px solid var(--lec);background:var(--surface);padding:13px 17px;border-radius:0 9px 9px 0;margin:18px 0}
+  .note h4, .note h3.h4 {font-family:var(--mono);font-size:0.68rem;letter-spacing:0.09em;text-transform:uppercase;
+           color:var(--lec);margin:0 0 6px}
+  .note p{margin:0 0 7px;font-size:0.9rem;color:var(--ink-2)}
+  .note p:last-child{margin:0}
+  .note.ok{border-left-color:var(--ok)} .note.ok h4{color:var(--ok)}
+  .eg{font-family:var(--mono);font-size:0.8rem;background:var(--surface-2);padding:9px 11px;
+      border-radius:7px;display:block;margin-top:6px;color:var(--ink-2);line-height:1.45}
+  .eg b{color:var(--ok)}
+  footer{padding:28px 0 46px;color:var(--ink-3);font-size:0.8rem;border-top:1px solid var(--line);margin-top:26px}
+
+  /* Narrow screens. The "Done when" chip is a whole sentence, and nowrap made
+     it a sentence that could not be broken — one row ran 59px past its column
+     and the page scrolled sideways because of it. A flex item also will not go
+     below its own min-content unless told, so white-space alone was not enough.
+     
+     Two earlier attempts at this silently did nothing: they replaced anchor
+     text that a previous edit had already changed. Appended here instead, at
+     the end of the sheet, where it cannot miss. */
+  @media(max-width:560px){
+    .it{grid-template-columns:22px minmax(0,1fr);gap:9px}
+    .it-b,.it-meta{min-width:0}
+    .it-meta .m{white-space:normal;font-size:0.62rem;max-width:100%;min-width:0;overflow-wrap:anywhere}
+  }
+
+  /* Said on every page a student might plan against. Content moves; the
+     assessment does not — and being explicit about which is which is what
+     stops a reworded workshop reading as a moved goalpost. */
+  /* the rubric */
+  .rub{margin:30px 0 6px}
+  .rub-h{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;margin-bottom:4px}
+  .rub-h h2{margin:0;font-size:1.28rem;font-weight:690;letter-spacing:-0.02em}
+  .rub-src{font-family:var(--mono);font-size:0.64rem;letter-spacing:0.06em;text-transform:uppercase;color:var(--ink-3)}
+  .rub-note{margin:0 0 14px;font-size:0.9rem;color:var(--ink-2);max-width:74ch}
+  .rub-note b{color:var(--ink)}
+  .wide{overflow-x:auto;border:1px solid var(--line);border-radius:11px;background:var(--surface)}
+  .wide:focus-visible{outline:2px solid var(--lec);outline-offset:2px}
+  table.rubt{width:100%;border-collapse:collapse;font-size:0.82rem;min-width:840px}
+  table.rubt th{font-family:var(--mono);font-size:0.6rem;letter-spacing:0.07em;text-transform:uppercase;
+    color:var(--ink-3);text-align:left;padding:9px 11px;border-bottom:1px solid var(--line);
+    background:var(--surface-2);font-weight:500;vertical-align:bottom}
+  table.rubt th .pc{display:block;color:var(--ink-2);font-size:0.68rem;letter-spacing:0}
+  table.rubt td{padding:11px;border-bottom:1px solid var(--line);vertical-align:top;
+    color:var(--ink-2);line-height:1.45}
+  table.rubt tr:last-child td{border-bottom:0}
+  table.rubt td.crit{color:var(--ink);width:19%}
+  table.rubt td.crit b{display:block;font-size:0.9rem;margin-bottom:4px}
+  table.rubt td.crit span{font-size:0.78rem;color:var(--ink-2)}
+  table.rubt td.fail{background:var(--lec-soft)}
+  table.rubt td.first{background:var(--ok-soft)}
+  .los{margin-top:22px}
+  .lo-h{margin:0 0 10px;font-size:1rem;font-weight:680}
+  .lo-grid{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(min(260px,100%),1fr))}
+  .lo-c{display:flex;flex-direction:column;gap:7px;background:var(--surface);border:1px solid var(--line);
+    border-radius:11px;padding:14px 16px}
+  .lo-id{display:flex;align-items:baseline;gap:8px;font-family:var(--mono);font-size:0.62rem;
+    letter-spacing:0.07em;text-transform:uppercase;color:var(--ink-3)}
+  .lo-id b{font-size:0.76rem;letter-spacing:0;background:var(--ink);color:var(--surface);border-radius:5px;padding:2px 7px}
+  .lo-p{margin:0;font-size:1rem;font-weight:640;line-height:1.35;color:var(--ink)}
+  .lo-off{margin:0;font-size:0.8rem;color:var(--ink-3);line-height:1.45}
+  .lo-off span,.lo-ask span{display:block;font-family:var(--mono);font-size:0.6rem;letter-spacing:0.07em;
+    text-transform:uppercase;color:var(--ink-3)}
+  .lo-secs{display:flex;flex-wrap:wrap;gap:4px}
+  .lo-secs i{font-style:normal;font-family:var(--mono);font-size:0.7rem;font-weight:700;
+    background:var(--surface-2);border:1px solid var(--line);border-radius:5px;padding:1px 6px;color:var(--ink)}
+  .lo-ask{margin:auto 0 0;padding-top:8px;border-top:1px solid var(--line);font-size:0.86rem;color:var(--ink)}
+  .lo-rest{margin:12px 0 0;display:flex;flex-wrap:wrap;gap:8px;align-items:baseline;font-size:0.86rem;color:var(--ink-2)}
+
+  .subject{margin:0 0 8px;padding:11px 14px;border-left:3px solid var(--warn,#8A5D05);
+    background:var(--warn-soft,#F4EAD3);border-radius:0 8px 8px 0;
+    font-size:0.86rem;line-height:1.55;color:var(--ink-2);max-width:78ch}
+  .subject b{color:var(--ink)}
+  html[data-theme="dark"] .subject{background:#2A2417;border-left-color:#DCB469}
+
+  /* Accessibility (WCAG 2.2 audit, September 2026) */
+  .ctl button{min-width:44px;min-height:44px;font-size:.8rem}         /* 2.5.5: the theme button was 25 × 23 */
+  summary{min-height:44px;padding-block:11px}                           /* 2.5.8: a 23px-high row */
+  input[type=checkbox],input[type=radio]{width:24px;height:24px}         /* 2.5.8: 19px boxes */
+  @media (prefers-reduced-motion: reduce){                               /* 2.3.3 */
+    *,*::before,*::after{transition:none!important;animation:none!important;scroll-behavior:auto!important}
+  }
+  .rst,.sk-reset{min-height:44px}                                           /* 2.5.8: 23 and 26px high */
+
+  /* THE BAR — one definition, identical on every page (written by navfix; change it
+     everywhere or nowhere). It used to be copied per page and drifted into two heights. */
+  header.sdnav{position:sticky;top:0;z-index:40;background:var(--surface);border-bottom:1px solid var(--line)}
+  header.sdnav .bar{display:flex;align-items:center;gap:10px;min-height:56px;padding-block:8px;flex-wrap:nowrap}
+  header.sdnav .brand{font-weight:680;font-size:1rem;letter-spacing:-0.015em;white-space:nowrap;color:inherit;
+    text-decoration:none;padding:5px 8px;margin-left:-8px;border-radius:6px;order:0}
+  header.sdnav .brand:hover{background:var(--surface-2,var(--bg))}
+  header.sdnav .sp{flex:1;display:block;height:auto;flex-basis:auto;order:0}
+  header.sdnav .sdlinks{display:flex;align-items:center;gap:2px;order:0}
+  header.sdnav .navl{display:inline-block;font-size:0.85rem;line-height:1.3;color:var(--ink-2);text-decoration:none;
+    padding:6px 10px;border-radius:6px;white-space:nowrap;order:0}
+  header.sdnav .navl:hover{background:var(--surface-2,var(--bg));color:var(--ink)}
+  header.sdnav .navl.on{background:var(--lec);color:#fff}
+  html[data-theme="dark"] header.sdnav .navl.on{color:#151314}
+  header.sdnav a:focus-visible,header.sdnav button:focus-visible{outline:2px solid var(--lec);outline-offset:1px}
+  header.sdnav .ctl{order:0;margin-left:4px}
+  header.sdnav .ctl button{font-family:var(--mono);font-size:0.7rem;background:none;color:var(--ink-3);
+    border:1px solid var(--line-2);border-radius:6px;padding:0 9px;cursor:pointer;line-height:1;
+    height:34px;min-height:34px;min-width:34px;display:inline-flex;align-items:center;justify-content:center}
+  header.sdnav .ctl button:hover{border-color:var(--lec);color:var(--lec)}
+  @media(max-width:960px){
+    header.sdnav .bar{flex-wrap:wrap;row-gap:0;padding-block:6px 0;min-height:0}
+    header.sdnav .ctl{order:1;margin-left:auto}
+    header.sdnav .sp{display:none}
+    header.sdnav .sdlinks{order:2;flex-basis:100%;overflow-x:auto;scrollbar-width:none;padding:4px 28px 8px 0;min-height:44px;
+      -webkit-mask-image:linear-gradient(to right,#000 calc(100% - 28px),transparent);mask-image:linear-gradient(to right,#000 calc(100% - 28px),transparent)}
+    header.sdnav .sdlinks::-webkit-scrollbar{display:none}
+    header.sdnav .navl{font-size:0.82rem;padding:6px 9px}
+  }
+</style>
+</head>
+<body>
+
+<header class="sdnav">
+  <div class="wrap bar">
+    <a class="brand" href="index.html">Screen Design</a>
+    <span class="sp"></span>
+    <nav class="sdlinks" aria-label="Screen Design"><a class="navl" href="index.html">Overview</a><a class="navl" href="weeks.html">Week by week</a><a class="navl" href="brief.html">The brief</a><a class="navl on" href="assessment.html" aria-current="page">Checklist</a><a class="navl" href="assessment-materials.html">Marking and examples</a><a class="navl" href="toolkit.html">Toolkit</a><a class="navl" href="ideas.html">Theme ideas</a></nav>
+    <span class="ctl"><button id="theme" aria-label="Dark mode">◐</button></span>
+  </div>
+</header>
+<script>(function(){var n=document.querySelector(".sdlinks"),o=n&&n.querySelector(".on");if(o&&n.scrollWidth>n.clientWidth)n.scrollLeft=o.offsetLeft-n.offsetLeft-16;})();</script>
+
+<div class="wrap">
+  <h1>What to hand in</h1>
+  <p class="sub">This is the complete list. Nothing else is required.</p>
+
+  <div class="onefile">
+    <span class="n">1</span>
+    <span><b>One deck, filled in over eleven weeks</b>
+      <span>You hand nothing in weekly. In week 1 you make one slide deck with a slide for each
+        section below, keep it in your shared <code>Screen Design</code> folder, and fill in a section or two each week. In January
+        you export it as a PDF and upload that.</span></span>
+  </div>
+
+  <!-- One rule replaces every per-section word count (October 2026). The brief's
+       own 500–700 words for the rationale stays: it is the brief's only strict limit. -->
+  <div class="onefile">
+    <span class="n">1</span>
+    <span><b>One rule for every piece of text: it fits on one slide</b>
+      <span>No caption, answer or paragraph runs past the slide it is on. Nothing else is counted — except the
+        written rationale in Part C, which comes to about 500–700 words in all, the brief's one strict limit.</span></span>
+  </div>
+
+  <!-- Closed by default: students set the deck up once, in week 1, and should not
+       land on 25 cards every time they come back for the checklist. -->
+  <details class="skel">
+    <summary class="sk-head">
+      <span class="sk-chev" aria-hidden="true"></span>
+      <div><b>Your deck, one slide at a time</b>
+        <span>A cover, then a slide for each of the <span class="seccount">24</span> sections. Copy a card,
+          paste it onto its own slide.</span></div>
+      <span class="sk-count" id="sk-count" role="status"></span>
+    </summary>
+    <p class="sk-note"><b>First:</b> make a OneDrive folder called <code>Screen Design</code> and share it
+      with your tutors and the teaching staff. Inside it, start a new <b>PowerPoint slide deck</b> called
+      <code>screen-design-portfolio</code>, and put your name nowhere in it. Google Slides is fine if that is what you use.</p>
+    <div id="sk-cards"></div>
+    <p class="sk-foot"><button type="button" id="sk-reset" class="sk-reset">Clear the “copied” marks</button></p>
+  </details>
+
+  <div class="dbox" id="dbox"></div>
+
+  <div class="prog">
+    <div class="ptop"><b id="pct">0%</b><span id="cnt">0 of 0 done</span>
+      <button class="rst" id="reset">Reset</button></div>
+    <div class="track"><span class="fill" id="fill"></span></div>
+  </div>
+
+  <!-- Show the sections of one week, or several. Students who arrive late, or
+       who want only this week's work, can see just that. Nothing is hidden from
+       the progress bar, which always counts the whole deck. -->
+  <div class="wkf" id="wkf" role="group" aria-label="Show sections by week"></div>
+  <p class="wkf-note" id="wkfnote" role="status"></p>
+  <div id="parts"></div>
+
+  <section class="rub" id="rubric">
+    <div class="rub-h"><h2>How it is marked</h2>
+      <span class="rub-src">Reproduced verbatim from the assessment brief · CAF Phase 2</span></div>
+    <p class="rub-note"><b>One overall mark for the portfolio as a whole.</b> The four criteria are not
+      weighted separately — the brief says so, and it means a strong prototype does not offset a
+      rationale that evidences nothing.</p>
+    <p class="rub-note"><a href="rubric.html"><b>The same rubric, blank →</b></a> to mark the week 1
+      example on, or your own deck before you submit. It prints on one landscape page.</p>
+    <div class="wide" tabindex="0" role="region" aria-label="Marking rubric">
+      <table class="rubt" id="rubt"></table>
+    </div>
+    <div class="los" id="los"></div>
+  </section>
+
+  <div class="note ok">
+    <h3 class="h4">The one thing that changes your grade</h3>
+    <p>In Part C, every section has to quote a number you wrote in Part A. That is it. It is the
+      difference between a pass and a good mark, and it takes no extra work — the numbers are
+      already in your spec sheet.</p>
+    <span class="eg">✗ &nbsp;"I chose a warm palette because it feels friendly."<br>
+      <b>✓ &nbsp;"I changed body text from #8B8382 to #56504F because the first pair was 2.9:1 and failed AA."</b></span>
+  </div>
+
+  <div class="note">
+    <h3 class="h4">Using AI is fine — just log it</h3>
+    <p>Figma AI, image generators, anything. Nobody is marking whether you used them. Fill in
+      Part A §7: <b>which tool, what it made, what you changed, why.</b> One line per use.</p>
+  </div>
+
+  <p class="subject"><b>The weekly content may change.</b> What is shown in class and how a workshop runs can be adjusted during the term — check the week before you rely on it. <b>The assessment does not change.</b> The <span class="seccount">24</span> sections, the four marking criteria and the deadline are fixed, and anything that did change would be announced, not quietly edited.</p>
+
+  <footer>
+    <p>Screen Design · Level 4 · 30 credits · <code>1L4Z0045</code>. Your ticks are saved in this
+      browser only — they are not submitted and nobody else sees them.</p>
+  </footer>
+</div>
+
+<script src="sd-common.js"></script>
+<script src="weeks-data.js"></script>
+<script src="rubric-data.js"></script>
+<script>
+/* The list lives in sd-common.js so the hub can read it too — one source, so
+   the progress bar there and the ticks here can never disagree. */
+const el = document.getElementById('parts');
+/* the week each section is made in, from the workshops themselves */
+const MADE = {}; WEEKS.forEach(w => w.workshop.out.sec.forEach(s => { MADE[s] = w.n; }));
+/* the sections the toolkit has cards for — each gets a link straight to them */
+const TOOLED = new Set(['A3','A4','A5','A6','B1','B2','B3','B4','B5','B6','B8','C5','C6','C9','D1','D2']);
+const NOW = SD.week();
+let total = 0;
+el.innerHTML = PARTS.map(p => {
+  const rows = p.items.map((x,i) => {
+    const key = `sd-${p.id}-${i}`; total++;
+    const late = NOW > x.dw && !SD.isDone(key);
+    return `<label class="it ${late ? 'late' : ''}" data-k="${key}" data-week="${MADE[x.sec] || 'any'}">
+      <input type="checkbox">
+      <span class="it-b"><b><span class="secno">${x.sec}</span>${x.t}</b><span class="how">${x.h}</span>
+        <span class="it-meta">
+          <span class="m wk">${MADE[x.sec] ? `Week ${MADE[x.sec]}${x.dw > MADE[x.sec] ? ` \u00b7 final by week ${x.dw}` : ''}` : 'Any week'}</span>
+          <span class="m dn">Done when: ${x.d}</span>
+          ${x.opt ? '<span class="m wd">Optional</span>' : ''}
+          ${TOOLED.has(x.sec) ? `<a class="m tl" href="toolkit.html#${x.sec}">Tools \u2192</a>` : ''}
+          ${x.wd ? `<span class="m wd">${x.wd}</span>` : ''}
+        </span></span></label>`;
+  }).join('');
+  return `<div class="part">
+    <div class="ph"><h2>Part ${p.id} — ${p.name}</h2><span class="tag">${p.tag}</span>
+      <span class="cnt" data-part="${p.id}"></span>
+      <span class="soft" data-soft="${p.id}"></span></div>
+    <p class="pd">${p.desc}</p>
+    <div class="items">${rows}</div></div>`;
+}).join('');
+
+const boxes = [...document.querySelectorAll('.it')];
+const read = SD.read, write = SD.write;
+
+function paint(){
+  const s = read(); let done = 0;
+  boxes.forEach(b => {
+    const on = !!s[b.dataset.k];
+    b.querySelector('input').checked = on;
+    b.classList.toggle('done', on);
+    if (on) done++;
+  });
+  document.getElementById('pct').textContent = Math.round(done/total*100) + '%';
+  document.getElementById('cnt').textContent = `${done} of ${total} done`;
+  document.getElementById('fill').style.width = (done/total*100) + '%';
+  PARTS.forEach(p => {
+    const n = p.items.filter((_,i) => s[`sd-${p.id}-${i}`]).length;
+    const t = document.querySelector(`[data-part="${p.id}"]`);
+    if (t) t.textContent = `${n}/${p.items.length}`;
+  });
+}
+boxes.forEach(b => b.querySelector('input').addEventListener('change', e => {
+  const s = read(); s[b.dataset.k] = e.target.checked; write(s); paint();
+  if (window.SD_redrawDates) window.SD_redrawDates();
+}));
+document.getElementById('reset').onclick = () => { write({}); paint(); };
+paint();
+
+/* ── the week filter ─────────────────────────────────────────────────────
+   Toggle any number of weeks; none selected shows everything. The choice is a
+   per-browser convenience, so it lives in localStorage and survives a reload. */
+(function weekFilter(){
+  const bar = document.getElementById('wkf'), note = document.getElementById('wkfnote');
+  const KEY = 'sd-checklist-weeks';
+  let sel = new Set();
+  try { (JSON.parse(localStorage.getItem(KEY)) || []).forEach(n => sel.add(+n)); } catch (e) {}
+  const count = n => boxes.filter(b => +b.dataset.week === n).length;
+  bar.innerHTML = `<button type="button" class="wb all" data-w="all">All weeks</button>` +
+    WEEKS.map(w => `<button type="button" class="wb${w.n === NOW ? ' now' : ''}" data-w="${w.n}"
+      title="${w.title}${w.n === NOW ? ' \u2014 this week' : ''}">Week ${w.n}<i>${count(w.n) || '\u2013'}</i></button>`).join('');
+  function apply(){
+    bar.querySelectorAll('.wb').forEach(b => {
+      const on = b.dataset.w === 'all' ? sel.size === 0 : sel.has(+b.dataset.w);
+      b.classList.toggle('on', on); b.setAttribute('aria-pressed', on ? 'true' : 'false');
+    });
+    /* sections no week owns (the appendices) stay in view whatever is chosen */
+    boxes.forEach(b => b.classList.toggle('hide', sel.size > 0 && b.dataset.week !== 'any' && !sel.has(+b.dataset.week)));
+    document.querySelectorAll('#parts .part').forEach(p =>
+      p.classList.toggle('hide', !p.querySelector('.it:not(.hide)')));
+    const shown = boxes.filter(b => !b.classList.contains('hide')).length;
+    const weekly = boxes.filter(b => !b.classList.contains('hide') && b.dataset.week !== 'any').length;
+    const weeks = [...sel].sort((a, b) => a - b);
+    note.innerHTML = !sel.size ? ''
+      : weekly === 0 ? `Week 1 sets the deck up, so it has nothing of its own to tick (the appendices below fit any week): make your <code>Screen Design</code> folder, then a slide for every section with the copy cards above.`
+      : `Showing ${shown} of ${boxes.length} sections \u2014 made in week${weeks.length > 1 ? 's' : ''} ${weeks.join(', ')}, plus the appendices, which fit any week. ` +
+        `<button type="button" class="wkclear">Show all</button>`;
+    try { localStorage.setItem(KEY, JSON.stringify(weeks)); } catch (e) {}
+  }
+  bar.addEventListener('click', e => {
+    const b = e.target.closest('.wb'); if (!b) return;
+    if (b.dataset.w === 'all') sel.clear();
+    else { const n = +b.dataset.w; sel.has(n) ? sel.delete(n) : sel.add(n); }
+    apply();
+  });
+  note.addEventListener('click', e => { if (e.target.closest('.wkclear')) { sel.clear(); apply(); } });
+  apply();
+})();
+
+(function rubric(){
+  const t = document.getElementById('rubt');
+  t.innerHTML =
+    `<thead><tr><th>We look at</th>${BANDS.map(x =>
+      `<th>${x.label}<span class="pc">${x.range}</span></th>`).join('')}</tr></thead>` +
+    `<tbody>${RUBRIC.map(r => `<tr>
+      <td class="crit"><b>${r.n}. ${r.name}</b><span>${r.what}</span></td>
+      ${r.b.map((cell, i) => `<td class="${BANDS[i].k === 'fail' ? 'fail' : BANDS[i].k === 'first' ? 'first' : ''}">${cell}</td>`).join('')}
+    </tr>`).join('')}</tbody>`;
+  /* Each outcome in plain words, where the deck shows it, and a question to
+     put to your own work. The official wording stays, verbatim, under each. */
+  const known = new Set(PARTS.flatMap(p => p.items.map(i => i.sec)));
+  [...OUTCOMES.flatMap(o => o.secs), ...OUTCOME_REST.secs].forEach(x => {
+    if (!known.has(x)) console.warn(`assessment: outcome section ${x} is not in PARTS`);
+  });
+  const chips = a => a.map(x => `<i>${x}</i>`).join('');
+  document.getElementById('los').innerHTML =
+    `<h3 class="lo-h">What the three module outcomes mean for your deck</h3>
+     <div class="lo-grid">${OUTCOMES.map(o => `
+       <div class="lo-c">
+         <span class="lo-id"><b>${o.id}</b>${o.group}</span>
+         <p class="lo-p">${o.plain}</p>
+         <p class="lo-off"><span>Official wording</span>${o.t}</p>
+         <span class="lo-secs">${chips(o.secs)}</span>
+         <p class="lo-ask"><span>Ask your own work</span>${o.ask}</p>
+       </div>`).join('')}</div>
+     <p class="lo-rest"><span class="lo-secs">${chips(OUTCOME_REST.secs)}</span>${OUTCOME_REST.why}</p>
+     <p class="rub-note" style="margin:6px 0 0">Where each outcome shows is our guide, not a weighting —
+       the portfolio gets one overall mark. Outcomes verbatim from the approved module record.</p>`;
+})();
+
+(function structure(){
+  /* One card per slide. Students build the deck a slide at a time, so each
+     section copies on its own; the text comes from SD.slideText, which reads
+     PARTS, so a card cannot say something the tick-list does not. Copied cards
+     stay marked in this browser so it is obvious which slides are made. */
+  const KEY = 'sd-copied';
+  const got = () => { try { return JSON.parse(localStorage.getItem(KEY) || '{}'); } catch (e) { return {}; } };
+  const put = v => { try { localStorage.setItem(KEY, JSON.stringify(v)); } catch (e) {} };
+  const esc = t => String(t).replace(/[<&]/g, c => c === '<' ? '&lt;' : '&amp;');
+  const groups = [{ id: 'cover', name: 'Start here', items: [{ sec: 'cover', t: 'Cover slide' }] }, ...PARTS];
+  const total = groups.reduce((n, g) => n + g.items.length, 0);
+
+  const card = it => {
+    const body = SD.slideText(it.sec).split('\n');
+    const preview = (it.sec === 'cover' ? body : body.slice(2)).join('\n').replace(/^\n+/, '');
+    return `<article class="sk-card" data-sec="${it.sec}">
+      <div class="sk-h">${it.sec === 'cover' ? '' : `<span class="sk-code">${it.sec}</span>`}<b>${esc(it.t)}</b></div>
+      <pre>${esc(preview)}</pre>
+      <button type="button" class="sk-btn" data-copy="${it.sec}">Copy</button></article>`;
+  };
+  document.getElementById('sk-cards').innerHTML = groups.map(g => `
+    <h2 class="sk-part">${g.id === 'cover' ? g.name : `Part ${g.id} — ${esc(g.name)}`}
+      <span>${g.items.length} slide${g.items.length > 1 ? 's' : ''}</span></h2>
+    <div class="sk-grid">${g.items.map(card).join('')}</div>`).join('');
+
+  function paint() {
+    const done = got();
+    document.querySelectorAll('.sk-card').forEach(c => {
+      const on = !!done[c.dataset.sec];
+      c.classList.toggle('done', on);
+      c.querySelector('.sk-btn').textContent = on ? 'Copied ✓' : 'Copy';
+    });
+    const n = Object.keys(done).filter(k => done[k]).length;
+    document.getElementById('sk-count').textContent = `${n} of ${total} copied`;
+  }
+
+  async function copy(txt) {
+    try { await navigator.clipboard.writeText(txt); return true; }
+    catch (e) {
+      /* Older browsers, and any context the Clipboard API refuses: a hidden
+         textarea and execCommand still work on a lab machine. */
+      try {
+        const ta = document.createElement('textarea');
+        ta.value = txt; ta.style.position = 'fixed'; ta.style.opacity = '0';
+        document.body.appendChild(ta); ta.select();
+        const ok = document.execCommand('copy');
+        document.body.removeChild(ta);
+        return ok;
+      } catch (e2) { return false; }
+    }
+  }
+
+  document.getElementById('sk-cards').addEventListener('click', async e => {
+    const b = e.target.closest('[data-copy]'); if (!b) return;
+    const ok = await copy(SD.slideText(b.dataset.copy));
+    if (ok) { const d = got(); d[b.dataset.copy] = true; put(d); paint(); }
+    else { b.textContent = 'Select the text and copy'; }
+  });
+  document.getElementById('sk-reset').onclick = () => { put({}); paint(); };
+  paint();
+})();
+
+/* Redrawn when the calendar day changes, so a tab left open over a weekend does
+   not keep insisting there are three days left. Checked once a minute; the work
+   is a date comparison, and only a changed day repaints anything. */
+(function countdown(){
+  const box = document.getElementById('dbox');
+  let shownDay = null;
+
+  function draw(){
+    const now = new Date();
+    const key = now.toDateString();
+    if (key === shownDay) return;
+    shownDay = key;
+
+    const days = SD.daysToDeadline(now), w = SD.week(now);
+    const cls = days < 0 ? 'past' : days <= 14 ? 'soon' : '';
+    const num = days > 0 ? days : days === 0 ? 'Today' : 'Closed';
+    const l1  = days > 1 ? 'days until the deadline'
+              : days === 1 ? 'day until the deadline'
+              : days === 0 ? 'The deadline is today' : 'The deadline has passed';
+    box.className = 'dbox ' + cls;
+    box.innerHTML =
+      `<span class="dnum">${num}</span>
+       <span class="dlab"><span class="dl1">${l1}</span>
+         <span class="dl2">${SD.fmtFull(SD.dead)}</span></span>
+       <span class="dwk"><b>${w === 0 ? 'Before week 1' : w > SD.WEEKS ? 'Teaching finished' : 'Week ' + w + ' of ' + SD.WEEKS}</b>
+         <span>${w >= 1 && w <= SD.WEEKS ? SD.DAY + ' ' + SD.fmtShort(SD.dateOf(w)) : ''}</span></span>`;
+
+    SD.partDeadlines().forEach(d => {
+      const el = document.querySelector(`[data-soft="${d.id}"]`);
+      if (!el) return;
+      const s = SD.read();
+      const part = SD.all.filter(i => i.part === d.id);
+      const finished = part.every(i => s[i.key]);
+      const over = !finished && w > d.week;
+      el.className = 'soft' + (finished ? ' done' : over ? ' over' : '');
+      el.innerHTML = `<b>${finished ? 'finished' : over ? 'overdue' : 'aim to finish by'}</b>` +
+        `<span>week ${d.week} · ${SD.fmtShort(d.date)}</span>`;
+    });
+  }
+  draw();
+  setInterval(draw, 60000);
+  document.addEventListener('visibilitychange', () => { if (!document.hidden) draw(); });
+  window.SD_redrawDates = () => { shownDay = null; draw(); };
+})();
+
+const root=document.documentElement;
+try{ const t=localStorage.getItem('sd-theme'); if(t) root.dataset.theme=t; }catch(e){}
+if(!root.dataset.theme && matchMedia('(prefers-color-scheme: dark)').matches) root.dataset.theme='dark';
+document.getElementById('theme').onclick=()=>{
+  root.dataset.theme = root.dataset.theme==='dark' ? 'light' : 'dark';
+  try{ localStorage.setItem('sd-theme', root.dataset.theme); }catch(e){}
+};
+</script>
+<script>
+/* The section count is written in prose in one sentence on three pages. It is
+   filled from PARTS so that adding a section cannot leave the sentence behind —
+   which is exactly how "22 sections" survived next to a 23-section list. */
+document.querySelectorAll('.seccount').forEach(el => {
+  el.textContent = PARTS.reduce((n, p) => n + p.items.length, 0);
+});
+</script>
+</body>
+</html>

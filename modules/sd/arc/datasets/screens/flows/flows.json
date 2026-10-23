@@ -1,0 +1,373 @@
+{
+ "schema_version": "1",
+ "dataset_name": "sd-flows",
+ "extraction_date": "2026-09-01",
+ "note": "Multi-step journeys captured step by step. Each step has a viewport image (what a person met) and a full-page image (the record). Companion to screens.json, which holds single screens.",
+ "flows": [
+  {
+   "id": "sd-flow-001",
+   "slug": "gov-rtv",
+   "name": "Register to vote — the full application, up to the summary",
+   "source": "GOV.UK / Register to vote (Ministry of Housing, Communities and Local Government)",
+   "entry_url": "https://www.gov.uk/register-to-vote",
+   "service_host": "registertovote.service.gov.uk",
+   "licence_note": "Crown copyright. All content available under the Open Government Licence v3.0, as stated in the service footer. Captured for closed-module teaching use; not republished.",
+   "walk_note": "Walked to 'Check your answers before sending your application' and STOPPED. 'Accept and send' was never pressed — the page itself warns that knowingly providing false information in a registration application is an offence carrying an unlimited fine and up to 51 weeks' imprisonment. No application was submitted and no record was created.",
+   "test_data": "Name Joe Doe · DOB 1 Jan 1990 · email joe.doe@example.com (IANA-reserved documentation domain, unroutable) · phone 020 7946 0018 (Ofcom drama-reserved range) · National Insurance number NOT invented — the 'I cannot provide' path was used instead.",
+   "point_of_interest": "Postcode E9 7HQ, the westernmost point of Victoria Park, east London (lon -0.05281, lat 51.53508, Regent's Canal towpath corner).",
+   "why": "A long, linear government form with a summary-and-change pattern at the end. One question per page, an exception path on the NI number, a consent decision on the open register, and a session-timeout warning that fires mid-flow.",
+   "captured_date": "2026-09-01",
+   "platform": "web",
+   "viewport": {
+    "width": 1440,
+    "height": 900,
+    "dpr": 2
+   },
+   "steps": [
+    {
+     "n": 1,
+     "label": "start",
+     "viewport_image": "gov-rtv/01-start.webp",
+     "fullpage_image": "gov-rtv/01-start@full.webp"
+    },
+    {
+     "n": 2,
+     "label": "cookies-rejected",
+     "viewport_image": "gov-rtv/02-cookies-rejected.webp",
+     "fullpage_image": "gov-rtv/02-cookies-rejected@full.webp"
+    },
+    {
+     "n": 3,
+     "label": "start-now",
+     "viewport_image": "gov-rtv/03-start-now.webp",
+     "fullpage_image": "gov-rtv/03-start-now@full.webp"
+    },
+    {
+     "n": 4,
+     "label": "service-cookies-rejected",
+     "viewport_image": "gov-rtv/04-service-cookies-rejected.webp",
+     "fullpage_image": "gov-rtv/04-service-cookies-rejected@full.webp"
+    },
+    {
+     "n": 5,
+     "label": "where-do-you-live",
+     "viewport_image": "gov-rtv/05-where-do-you-live.webp",
+     "fullpage_image": "gov-rtv/05-where-do-you-live@full.webp"
+    },
+    {
+     "n": 6,
+     "label": "nationality",
+     "viewport_image": "gov-rtv/06-nationality.webp",
+     "fullpage_image": "gov-rtv/06-nationality@full.webp"
+    },
+    {
+     "n": 7,
+     "label": "nationality-british",
+     "viewport_image": "gov-rtv/07-nationality-british.webp",
+     "fullpage_image": "gov-rtv/07-nationality-british@full.webp"
+    },
+    {
+     "n": 8,
+     "label": "date-of-birth",
+     "viewport_image": "gov-rtv/08-date-of-birth.webp",
+     "fullpage_image": "gov-rtv/08-date-of-birth@full.webp"
+    },
+    {
+     "n": 9,
+     "label": "dob-filled",
+     "viewport_image": "gov-rtv/09-dob-filled.webp",
+     "fullpage_image": "gov-rtv/09-dob-filled@full.webp"
+    },
+    {
+     "n": 10,
+     "label": "name",
+     "viewport_image": "gov-rtv/10-name.webp",
+     "fullpage_image": "gov-rtv/10-name@full.webp"
+    },
+    {
+     "n": 11,
+     "label": "name-filled",
+     "viewport_image": "gov-rtv/11-name-filled.webp",
+     "fullpage_image": "gov-rtv/11-name-filled@full.webp"
+    },
+    {
+     "n": 12,
+     "label": "name-change",
+     "viewport_image": "gov-rtv/12-name-change.webp",
+     "fullpage_image": "gov-rtv/12-name-change@full.webp"
+    },
+    {
+     "n": 13,
+     "label": "name-change-no",
+     "viewport_image": "gov-rtv/13-name-change-no.webp",
+     "fullpage_image": "gov-rtv/13-name-change-no@full.webp"
+    },
+    {
+     "n": 14,
+     "label": "next-after-name-change",
+     "viewport_image": "gov-rtv/14-next-after-name-change.webp",
+     "fullpage_image": "gov-rtv/14-next-after-name-change@full.webp"
+    },
+    {
+     "n": 15,
+     "label": "ni-cannot-provide",
+     "viewport_image": "gov-rtv/15-ni-cannot-provide.webp",
+     "fullpage_image": "gov-rtv/15-ni-cannot-provide@full.webp"
+    },
+    {
+     "n": 16,
+     "label": "ni-reason-filled",
+     "viewport_image": "gov-rtv/16-ni-reason-filled.webp",
+     "fullpage_image": "gov-rtv/16-ni-reason-filled@full.webp"
+    },
+    {
+     "n": 17,
+     "label": "address",
+     "viewport_image": "gov-rtv/17-address.webp",
+     "fullpage_image": "gov-rtv/17-address@full.webp"
+    },
+    {
+     "n": 18,
+     "label": "postcode-filled",
+     "viewport_image": "gov-rtv/18-postcode-filled.webp",
+     "fullpage_image": "gov-rtv/18-postcode-filled@full.webp"
+    },
+    {
+     "n": 19,
+     "label": "address-picker",
+     "viewport_image": "gov-rtv/19-address-picker.webp",
+     "fullpage_image": "gov-rtv/19-address-picker@full.webp"
+    },
+    {
+     "n": 20,
+     "label": "address-selected",
+     "viewport_image": "gov-rtv/20-address-selected.webp",
+     "fullpage_image": "gov-rtv/20-address-selected@full.webp"
+    },
+    {
+     "n": 21,
+     "label": "after-address",
+     "viewport_image": "gov-rtv/21-after-address.webp",
+     "fullpage_image": "gov-rtv/21-after-address@full.webp"
+    },
+    {
+     "n": 22,
+     "label": "second-address-no",
+     "viewport_image": "gov-rtv/22-second-address-no.webp",
+     "fullpage_image": "gov-rtv/22-second-address-no@full.webp"
+    },
+    {
+     "n": 23,
+     "label": "after-second-address",
+     "viewport_image": "gov-rtv/23-after-second-address.webp",
+     "fullpage_image": "gov-rtv/23-after-second-address@full.webp"
+    },
+    {
+     "n": 24,
+     "label": "previous-address-no",
+     "viewport_image": "gov-rtv/24-previous-address-no.webp",
+     "fullpage_image": "gov-rtv/24-previous-address-no@full.webp"
+    },
+    {
+     "n": 25,
+     "label": "after-previous-address",
+     "viewport_image": "gov-rtv/25-after-previous-address.webp",
+     "fullpage_image": "gov-rtv/25-after-previous-address@full.webp"
+    },
+    {
+     "n": 26,
+     "label": "open-register-opt-out",
+     "viewport_image": "gov-rtv/26-open-register-opt-out.webp",
+     "fullpage_image": "gov-rtv/26-open-register-opt-out@full.webp"
+    },
+    {
+     "n": 27,
+     "label": "after-open-register",
+     "viewport_image": "gov-rtv/27-after-open-register.webp",
+     "fullpage_image": "gov-rtv/27-after-open-register@full.webp"
+    },
+    {
+     "n": 28,
+     "label": "after-contact",
+     "viewport_image": "gov-rtv/28-after-contact.webp",
+     "fullpage_image": "gov-rtv/28-after-contact@full.webp"
+    },
+    {
+     "n": 29,
+     "label": "email-filled",
+     "viewport_image": "gov-rtv/29-email-filled.webp",
+     "fullpage_image": "gov-rtv/29-email-filled@full.webp"
+    },
+    {
+     "n": 30,
+     "label": "after-email",
+     "viewport_image": "gov-rtv/30-after-email.webp",
+     "fullpage_image": "gov-rtv/30-after-email@full.webp"
+    },
+    {
+     "n": 31,
+     "label": "phone-filled",
+     "viewport_image": "gov-rtv/31-phone-filled.webp",
+     "fullpage_image": "gov-rtv/31-phone-filled@full.webp"
+    },
+    {
+     "n": 32,
+     "label": "after-phone",
+     "viewport_image": "gov-rtv/32-after-phone.webp",
+     "fullpage_image": "gov-rtv/32-after-phone@full.webp"
+    }
+   ],
+   "step_count": 32,
+   "annotated": false,
+   "annotation_note": "reading_order[] and devices_used[] are null on every step and must stay null until a person fills them — same rule as screens.json.",
+   "images_distributed": true
+  },
+  {
+   "id": "sd-flow-002",
+   "slug": "nhs-gp",
+   "name": "Find a GP — postcode to provider to how to register",
+   "source": "NHS website (NHS England)",
+   "entry_url": "https://www.nhs.uk/service-search/find-a-gp",
+   "service_host": "www.nhs.uk",
+   "licence_note": "© NHS England. Captured for closed-module teaching use; not republished. Check NHS website terms before any onward use.",
+   "walk_note": "Read-only throughout. No account, no login, no form submitted beyond a postcode search.",
+   "test_data": "Postcode E9 7HQ only. No personal data entered.",
+   "point_of_interest": "Same postcode as sd-flow-001 — the westernmost point of Victoria Park, east London.",
+   "why": "A search-to-result-to-detail journey. Carries a live status banner ('This GP surgery is currently closed'), an availability filter, an 'Accepting new patients' state chip, and a results list long enough that a full-page capture runs to 54,000 pixels — which is itself the lesson about capture method.",
+   "captured_date": "2026-09-01",
+   "platform": "web",
+   "viewport": {
+    "width": 1440,
+    "height": 900,
+    "dpr": 2
+   },
+   "steps": [
+    {
+     "n": 1,
+     "label": "start",
+     "viewport_image": "nhs-gp/01-start.webp",
+     "fullpage_image": "nhs-gp/01-start@full.webp"
+    },
+    {
+     "n": 2,
+     "label": "cookies-rejected",
+     "viewport_image": "nhs-gp/02-cookies-rejected.webp",
+     "fullpage_image": "nhs-gp/02-cookies-rejected@full.webp"
+    },
+    {
+     "n": 3,
+     "label": "postcode-filled",
+     "viewport_image": "nhs-gp/03-postcode-filled.webp",
+     "fullpage_image": "nhs-gp/03-postcode-filled@full.webp"
+    },
+    {
+     "n": 4,
+     "label": "results",
+     "viewport_image": "nhs-gp/04-results.webp",
+     "fullpage_image": "nhs-gp/04-results@full.png"
+    },
+    {
+     "n": 5,
+     "label": "provider-detail",
+     "viewport_image": "nhs-gp/05-provider-detail.webp",
+     "fullpage_image": "nhs-gp/05-provider-detail@full.webp"
+    },
+    {
+     "n": 6,
+     "label": "how-to-register",
+     "viewport_image": "nhs-gp/06-how-to-register.webp",
+     "fullpage_image": "nhs-gp/06-how-to-register@full.webp"
+    },
+    {
+     "n": 7,
+     "label": "contact-and-opening-times",
+     "viewport_image": "nhs-gp/07-contact-and-opening-times.webp",
+     "fullpage_image": "nhs-gp/07-contact-and-opening-times@full.webp"
+    }
+   ],
+   "step_count": 7,
+   "annotated": false,
+   "annotation_note": "reading_order[] and devices_used[] are null on every step and must stay null until a person fills them — same rule as screens.json.",
+   "images_distributed": true
+  },
+  {
+   "id": "sd-flow-003",
+   "slug": "news-bbc",
+   "name": "News front page — front page to lead story",
+   "source": "BBC News",
+   "entry_url": "https://www.bbc.co.uk/news",
+   "service_host": "www.bbc.com",
+   "licence_note": "© BBC. All rights reserved. Captured for closed-module teaching use under fair dealing for illustration for instruction; NOT republished and not to be placed on a public webroot.",
+   "walk_note": "Read-only. No account, no login, nothing submitted. Front page captured after a full scroll pass so lazy-loaded images resolved — an unscrolled capture leaves the lead image grey and destroys the hierarchy the page is being read for.",
+   "test_data": "None. No data entered.",
+   "point_of_interest": "—",
+   "why": "The purest hierarchy exercise available: a front page exists to answer 'what is the most important thing today' in one glance. The lead is set by scale, a display serif against the sans body, and top-left position. Note also that the front page carries no h1 — a checkable accessibility finding, not an opinion.",
+   "status": "complete",
+   "captured_date": "2026-09-01",
+   "platform": "web",
+   "viewport": {
+    "width": 1440,
+    "height": 900,
+    "dpr": 2
+   },
+   "steps": [
+    {
+     "n": 1,
+     "label": "start",
+     "viewport_image": "news-bbc/01-start.webp",
+     "fullpage_image": "news-bbc/01-start@full.webp"
+    },
+    {
+     "n": 2,
+     "label": "lead-story",
+     "viewport_image": "news-bbc/02-lead-story.webp",
+     "fullpage_image": "news-bbc/02-lead-story@full.webp"
+    }
+   ],
+   "annotated": false,
+   "annotation_note": "reading_order[] and devices_used[] stay null until a person fills them.",
+   "step_count": 2,
+   "images_distributed": false
+  },
+  {
+   "id": "sd-flow-004",
+   "slug": "shop-screwfix",
+   "name": "Retail checkout — product page (INCOMPLETE)",
+   "source": "Screwfix",
+   "entry_url": "https://www.screwfix.com/p/stanley-fatmax-5m-tape-measure/31529",
+   "service_host": "www.screwfix.com",
+   "licence_note": "© Screwfix Direct Ltd. Captured for closed-module teaching use under fair dealing for illustration for instruction; NOT republished.",
+   "walk_note": "INCOMPLETE. Nothing was added to a basket and no checkout was reached. Of seven UK retailers tested for reachability, six refused an automated request outright (403 or no response); Screwfix answered, but its Collect/Deliver fulfilment control would not accept a scripted click even with the consent overlay dismissed. The product page and the TrustArc consent modal were captured; the basket and checkout screens were not. Finishing this flow needs a hand-driven pass, not a longer script.",
+   "test_data": "None. No basket, no personal data, no payment details — payment screens are out of scope for this corpus in any case.",
+   "point_of_interest": "—",
+   "why": "Kept despite being incomplete because two of its screens already earn their place: a product page that puts a Collect/Deliver decision above the price, and a consent modal that dims the entire page and gives Accept and Reject equal visual weight — which is rarer, and better, than most.",
+   "status": "incomplete",
+   "captured_date": "2026-09-01",
+   "platform": "web",
+   "viewport": {
+    "width": 1440,
+    "height": 900,
+    "dpr": 2
+   },
+   "steps": [
+    {
+     "n": 1,
+     "label": "start",
+     "viewport_image": "shop-screwfix/01-start.webp",
+     "fullpage_image": "shop-screwfix/01-start@full.webp"
+    },
+    {
+     "n": 2,
+     "label": "consent-rejected",
+     "viewport_image": "shop-screwfix/02-consent-rejected.webp",
+     "fullpage_image": "shop-screwfix/02-consent-rejected@full.webp"
+    }
+   ],
+   "annotated": false,
+   "annotation_note": "reading_order[] and devices_used[] stay null until a person fills them.",
+   "step_count": 2,
+   "images_distributed": false
+  }
+ ],
+ "distribution": "The government walks (gov-rtv, nhs-gp) are Open Government Licence v3.0 and their images are distributed with this repository. The commercial walks (news-bbc, shop-screwfix) carry no such licence: their rows stay here because they are part of the record and the census counts them, but their images are not distributed. Nothing in flow-census.json depends on those files — the reduction is already computed — and the two teardown slides that used them are redrawn."
+}

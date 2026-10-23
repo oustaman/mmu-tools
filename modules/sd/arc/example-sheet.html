@@ -1,0 +1,492 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Marking the example — staff sheet</title>
+<style>
+  :root{
+    --bg:#F5F4F2; --surface:#FFFFFF; --surface-2:#EDEBE8; --ink:#1A1618; --ink-2:#514B4A; --ink-3:#4D4847;
+    --line:#DFDBD7; --line-2:#8E8685; --lec:#8C2437; --lec-soft:#F6E8EA;
+    --wsh:#1A526D; --wsh-soft:#E7F0F5; --warn:#684604; --warn-soft:#F4EAD3;
+    --ok:#285638; --ok-soft:#E3EFE7;
+    --mono:ui-monospace,"SF Mono",Menlo,Consolas,monospace;
+    --sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Inter,Roboto,sans-serif;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);line-height:1.5}
+  .wrap{max-width:1100px;margin:0 auto;padding:0 22px}
+  @media(max-width:420px){.wrap{padding:0 14px}}
+  a{color:var(--lec)}
+
+  header{border-bottom:1px solid var(--line);background:var(--surface);position:sticky;top:0;z-index:40}
+  .bar{display:flex;align-items:center;gap:10px;padding-block:11px;flex-wrap:nowrap}
+  .brand{font-weight:680;font-size:1rem;letter-spacing:-0.015em;white-space:nowrap;color:inherit;
+    text-decoration:none;padding:5px 8px;margin-left:-8px;border-radius:6px}
+  .brand:hover{background:var(--surface-2)}
+  .brand:focus-visible{outline:2px solid var(--lec);outline-offset:1px}
+  .sp{flex:1}
+  .navl{font-size:0.85rem;color:var(--ink-2);text-decoration:none;padding:6px 10px;border-radius:6px;white-space:nowrap}
+  .navl:hover{background:#EDEBE8;color:var(--ink)}
+  .navl.on{background:var(--lec);color:#fff}
+  /* Links used to be hidden on phones, which left a student on a phone with no
+     way to reach the brief. They wrap to a second row instead. */
+  @media(max-width:760px){ header .bar{gap:6px} .navl{padding:6px 8px;font-size:0.82rem} }
+  @media(max-width:560px){
+    header .bar{flex-wrap:wrap;row-gap:6px}
+    header .brand{order:0} header .ctl{order:1;margin-left:auto}
+    header .bar > .sp{order:2;flex-basis:100%;height:0}
+    header .navl{order:3;padding:5px 7px;font-size:0.78rem}
+  }
+
+  h1{font-size:clamp(1.5rem,3.6vw,2.1rem);letter-spacing:-0.026em;margin:22px 0 4px;font-weight:700}
+  .sub{color:var(--ink-2);margin:0 0 16px;max-width:74ch}
+  h2{font-size:1.06rem;margin:30px 0 10px;font-weight:680;letter-spacing:-0.012em;
+     padding-bottom:6px;border-bottom:1px solid var(--line)}
+  h2 span{font-family:var(--mono);font-size:0.66rem;color:var(--ink-3);letter-spacing:0.08em;
+     text-transform:uppercase;margin-right:9px}
+
+  .staffbar{display:flex;align-items:flex-start;gap:12px;background:var(--wsh-soft);
+    border:1px solid var(--wsh);border-radius:10px;padding:13px 16px;margin:0 0 18px}
+  .staffbar > b{color:var(--wsh);font-family:var(--mono);font-size:0.66rem;letter-spacing:0.09em;
+    text-transform:uppercase;white-space:nowrap;padding-top:2px}
+  .staffbar .pts{flex:1}
+  @media(max-width:560px){ .staffbar{flex-direction:column;gap:6px} .staffbar > b{white-space:normal} }
+
+  /* the mark */
+  .ms-top{display:flex;align-items:center;gap:18px;background:var(--surface);border:1px solid var(--line);
+    border-left:5px solid var(--lec);border-radius:12px;padding:16px 20px;margin-bottom:12px;flex-wrap:wrap}
+  .ms-n{font-size:2.8rem;font-weight:740;letter-spacing:-0.04em;line-height:1;color:var(--lec)}
+  .ms-t b{display:block;font-size:1rem}
+  .ms-t span{font-size:0.88rem;color:var(--ink-2)}
+  @media(max-width:420px){ .ms-top{gap:12px} .ms-n{font-size:2.1rem} }
+
+  .grid{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(min(270px,100%),1fr))}
+  .card{background:var(--surface);border:1px solid var(--line);border-radius:11px;padding:14px 16px}
+  .card > .h{display:flex;align-items:baseline;gap:9px;margin-bottom:6px}
+  .card > .h i{font-style:normal;font-family:var(--mono);font-size:0.66rem;color:var(--ink-3)}
+  .card > .h b{font-size:0.93rem;flex:1}
+  .card > .h em{font-style:normal;font-family:var(--mono);font-size:1.05rem;font-weight:700;color:var(--lec)}
+  .bd{font-family:var(--mono);font-size:0.62rem;letter-spacing:0.06em;text-transform:uppercase;
+    color:var(--ink-3);display:block;margin-bottom:6px}
+  .card p{margin:0 0 8px;font-size:0.86rem;line-height:1.55;color:var(--ink-2)}
+  .card ul{margin:6px 0 0;padding-left:17px}
+  .card li{font-size:0.82rem;line-height:1.5;color:var(--ink-2);margin-bottom:5px}
+  .card li b{color:var(--ink);font-family:var(--mono);font-size:0.74rem}
+
+  /* the run */
+  table.run{width:100%;border-collapse:collapse;background:var(--surface);
+    border:1px solid var(--line);border-radius:11px;overflow:hidden}
+  table.run th{text-align:left;font-family:var(--mono);font-size:0.62rem;letter-spacing:0.09em;
+    text-transform:uppercase;color:var(--ink-3);padding:9px 12px;background:#EDEBE8;font-weight:500}
+  table.run td{padding:10px 12px;border-bottom:1px solid var(--line);vertical-align:top;
+    font-size:0.87rem;color:var(--ink-2);line-height:1.5}
+  table.run tr:last-child td{border-bottom:0}
+  table.run td.t{font-family:var(--mono);font-size:0.78rem;color:var(--ink);white-space:nowrap;width:1%}
+  table.run td b{color:var(--ink)}
+  .scroller{overflow-x:auto}
+
+  .qa{background:var(--surface);border:1px solid var(--line);border-radius:11px;padding:4px 16px}
+  .qa dt{font-size:0.88rem;font-weight:640;margin:12px 0 3px}
+  .qa dd{margin:0 0 12px;font-size:0.86rem;color:var(--ink-2);line-height:1.55}
+
+  .warnbox{margin:0 0 14px;padding:12px 15px;border-left:3px solid var(--warn);
+    background:var(--warn-soft);border-radius:0 9px 9px 0;font-size:0.88rem;line-height:1.55;color:var(--ink-2)}
+  .warnbox b.k{color:var(--warn);font-family:var(--mono);font-size:0.64rem;letter-spacing:0.08em;
+    text-transform:uppercase;display:block;margin-bottom:4px}
+  .okbox{margin:0 0 14px;padding:12px 15px;border-left:3px solid var(--ok);
+    background:var(--ok-soft);border-radius:0 9px 9px 0;font-size:0.88rem;line-height:1.55;color:var(--ink-2)}
+
+  footer{padding:26px 0 44px;color:var(--ink-3);font-size:0.8rem;border-top:1px solid var(--line);margin-top:30px}
+
+  @media print{
+    header,footer,.navl{display:none}
+    body{background:#fff}
+    .card,.ms-top,table.run,.qa{break-inside:avoid}
+    h2{break-after:avoid}
+  }
+    .wk{font:600 10px/1 var(--mono);letter-spacing:.09em;text-transform:uppercase;color:var(--ink-3);
+        border:1px solid var(--line);border-radius:3px;padding:3px 6px;vertical-align:middle}
+    .twopar{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+    @media(max-width:760px){.twopar{grid-template-columns:1fr}}
+    .par{border:1px solid var(--line);background:var(--surface);padding:14px 16px 16px}
+    .par-def{border-left:3px solid var(--lec)}
+    .parhead{display:flex;justify-content:space-between;align-items:baseline;gap:10px;
+             font:600 11px/1 var(--mono);letter-spacing:.09em;text-transform:uppercase;
+             color:var(--ink);margin-bottom:9px}
+    .parw{font-weight:400;letter-spacing:.04em;color:var(--ink-3)}
+    .par p{margin:0;font-size:14px;line-height:1.62}
+    .moves{margin:0;padding:0 0 0 22px;display:flex;flex-direction:column;gap:9px}
+    .moves li{font-size:14px;line-height:1.55}
+    .moves li b{display:block}
+    .moves li span{color:var(--ink-2)}
+    .tot td{border-top:2px solid var(--ink)}
+  .bank{margin:18px 0 26px}
+  .bank h3{margin:0 0 4px;font-size:0.95rem}
+  .bank .what{margin:0 0 10px;font-size:0.82rem;color:var(--ink-3)}
+  .bank .bd{white-space:nowrap;font-family:var(--mono);font-size:0.72rem;color:var(--ink-2)}
+  .look{margin:12px 0 4px;font-size:0.8rem}
+  .look-l{margin:0;padding-left:20px;font-size:0.85rem;line-height:1.6}
+  .look-l li{margin-bottom:3px}
+
+  /* ── scannable points: a bold line, and a quieter remark under it ── */
+  .pts{list-style:none;margin:0;padding:0;display:grid;gap:8px}
+  .pts > li{position:relative;padding-left:18px;font-size:0.92rem;line-height:1.45}
+  .pts > li::before{content:"";position:absolute;left:3px;top:0.55em;width:7px;height:7px;border-radius:50%;background:var(--lec)}
+  .pts > li > b{display:block;color:var(--ink);font-weight:640}
+  .pts > li > span{display:block;color:var(--ink-2);font-size:0.86rem}
+  .staffbar .pts > li::before{background:var(--wsh)}
+  .qa.pts{background:none;border:0;padding:0;grid-template-columns:repeat(auto-fit,minmax(min(320px,100%),1fr));gap:10px}
+  .qa.pts > li{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:10px 12px 10px 28px}
+  .qa.pts > li::before{left:12px;top:1.05em}
+  .qa.pts > li:first-child{border-color:var(--warn);background:var(--warn-soft)}
+  .qa.pts > li:first-child::before{background:var(--warn)}
+
+  .steps{list-style:none;margin:0;padding:0;display:grid;gap:0}
+  .steps > li{display:grid;grid-template-columns:34px 1fr;gap:14px;position:relative;padding-bottom:16px}
+  .steps > li:not(:last-child)::before{content:"";position:absolute;left:16px;top:34px;bottom:0;width:2px;background:var(--line-2)}
+  .steps .sn{width:34px;height:34px;border-radius:50%;background:var(--wsh);color:#fff;display:grid;place-items:center;
+    font:700 0.9rem var(--mono)}
+  .steps .end .sn{background:var(--ok)}
+  .steps .st{display:block;font-size:1rem;margin:6px 0 6px}
+  .steps .pts > li::before{background:var(--wsh)}
+  .pts .opn{color:var(--warn)}
+
+  .crows{list-style:none;margin:0;padding:0;display:grid;gap:8px}
+  .crows li{display:grid;grid-template-columns:56px minmax(180px,260px) 1fr;gap:14px;align-items:start;
+    background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:10px 14px}
+  .crows .cm{font:740 1.5rem/1 var(--sans);color:var(--lec);letter-spacing:-0.03em;padding-top:2px}
+  .crows .cn{font-weight:640;font-size:0.92rem}
+  .crows .cn i{font-style:normal;font-family:var(--mono);font-size:0.7rem;color:var(--ink-3)}
+  .crows .cn em{display:block;font-style:normal;font-family:var(--mono);font-size:0.66rem;letter-spacing:0.05em;
+    text-transform:uppercase;color:var(--ink-3);margin-top:2px}
+  .crows .cw b{display:block;font-size:0.92rem}
+  .crows .cw span{display:block;font-size:0.84rem;color:var(--ink-2)}
+  @media(max-width:640px){ .crows li{grid-template-columns:44px 1fr} .crows .cw{grid-column:1 / -1} }
+
+  h2.later{margin-top:40px;color:var(--ink-3)}
+  .fold{background:var(--surface);border:1px solid var(--line);border-radius:11px;margin:0 0 10px}
+  .fold > summary{cursor:pointer;padding:13px 16px;font-weight:640;list-style:none;display:flex;gap:10px;
+    align-items:baseline;flex-wrap:wrap}
+  .fold > summary::-webkit-details-marker{display:none}
+  .fold > summary::before{content:"▸";color:var(--ink-3);transition:transform .15s}
+  .fold[open] > summary::before{transform:rotate(90deg)}
+  .fold > summary em{font-style:normal;font-family:var(--mono);font-size:0.7rem;color:var(--ink-3);font-weight:400}
+  .fold > :not(summary){margin-left:16px;margin-right:16px}
+  .fold[open]{padding-bottom:14px}
+  .fold .pts{margin-bottom:14px}
+  @media print{ .fold > :not(summary){display:block} .steps > li,.crows li{break-inside:avoid} }
+
+  /* Accessibility (WCAG 2.2 audit, September 2026) */
+  .ctl button{min-width:44px;min-height:44px;font-size:.8rem}         /* 2.5.5: the theme button was 25 × 23 */
+  summary{min-height:44px;padding-block:11px}                           /* 2.5.8: a 23px-high row */
+  input[type=checkbox],input[type=radio]{width:24px;height:24px}         /* 2.5.8: 19px boxes */
+  @media (prefers-reduced-motion: reduce){                               /* 2.3.3 */
+    *,*::before,*::after{transition:none!important;animation:none!important;scroll-behavior:auto!important}
+  }
+
+  /* THE BAR — one definition, identical on every page (written by navfix; change it
+     everywhere or nowhere). It used to be copied per page and drifted into two heights. */
+  header.sdnav{position:sticky;top:0;z-index:40;background:var(--surface);border-bottom:1px solid var(--line)}
+  header.sdnav .bar{display:flex;align-items:center;gap:10px;min-height:56px;padding-block:8px;flex-wrap:nowrap}
+  header.sdnav .brand{font-weight:680;font-size:1rem;letter-spacing:-0.015em;white-space:nowrap;color:inherit;
+    text-decoration:none;padding:5px 8px;margin-left:-8px;border-radius:6px;order:0}
+  header.sdnav .brand:hover{background:var(--surface-2,var(--bg))}
+  header.sdnav .sp{flex:1;display:block;height:auto;flex-basis:auto;order:0}
+  header.sdnav .sdlinks{display:flex;align-items:center;gap:2px;order:0}
+  header.sdnav .navl{display:inline-block;font-size:0.85rem;line-height:1.3;color:var(--ink-2);text-decoration:none;
+    padding:6px 10px;border-radius:6px;white-space:nowrap;order:0}
+  header.sdnav .navl:hover{background:var(--surface-2,var(--bg));color:var(--ink)}
+  header.sdnav .navl.on{background:var(--lec);color:#fff}
+  html[data-theme="dark"] header.sdnav .navl.on{color:#151314}
+  header.sdnav a:focus-visible,header.sdnav button:focus-visible{outline:2px solid var(--lec);outline-offset:1px}
+  header.sdnav .ctl{order:0;margin-left:4px}
+  header.sdnav .ctl button{font-family:var(--mono);font-size:0.7rem;background:none;color:var(--ink-3);
+    border:1px solid var(--line-2);border-radius:6px;padding:0 9px;cursor:pointer;line-height:1;
+    height:34px;min-height:34px;min-width:34px;display:inline-flex;align-items:center;justify-content:center}
+  header.sdnav .ctl button:hover{border-color:var(--lec);color:var(--lec)}
+  @media(max-width:960px){
+    header.sdnav .bar{flex-wrap:wrap;row-gap:0;padding-block:6px 0;min-height:0}
+    header.sdnav .ctl{order:1;margin-left:auto}
+    header.sdnav .sp{display:none}
+    header.sdnav .sdlinks{order:2;flex-basis:100%;overflow-x:auto;scrollbar-width:none;padding:4px 28px 8px 0;min-height:44px;
+      -webkit-mask-image:linear-gradient(to right,#000 calc(100% - 28px),transparent);mask-image:linear-gradient(to right,#000 calc(100% - 28px),transparent)}
+    header.sdnav .sdlinks::-webkit-scrollbar{display:none}
+    header.sdnav .navl{font-size:0.82rem;padding:6px 9px}
+  }
+</style>
+</head>
+<body>
+
+<header class="sdnav">
+  <div class="wrap bar">
+    <a class="brand" href="index.html">Screen Design</a>
+    <span class="sp"></span>
+    <nav class="sdlinks" aria-label="Screen Design"><a class="navl" href="index.html">Overview</a><a class="navl" href="weeks.html">Week by week</a><a class="navl" href="brief.html">The brief</a><a class="navl" href="assessment.html">Checklist</a><a class="navl on" href="assessment-materials.html">Marking and examples</a><a class="navl" href="toolkit.html">Toolkit</a><a class="navl" href="ideas.html">Theme ideas</a></nav>
+  </div>
+</header>
+<script>(function(){var n=document.querySelector(".sdlinks"),o=n&&n.querySelector(".on");if(o&&n.scrollWidth>n.clientWidth)n.scrollLeft=o.offsetLeft-n.offsetLeft-16;})();</script>
+
+<div class="wrap">
+  <h1>Week 1 · Marking the example</h1>
+  <p class="sub">Staff sheet. The top half is all you need in the room; everything folded at the
+    bottom is for later.</p>
+
+  <div class="staffbar">
+    <b>Staff only</b>
+    <ul class="pts">
+      <li><b>It is not a real student's work.</b><span>We wrote it. Nothing in it is copied from a submission.</span></li>
+      <li><b>Don't reveal the marks early.</b><span>Only once every group has said its numbers out loud.</span></li>
+      <li><b>Have these open in tabs:</b><span><a href="example.html">student copy</a> ·
+        <a href="example-marked.html">marked copy</a> · <a href="rubric.html">blank rubric</a></span></li>
+    </ul>
+  </div>
+
+  <h2><span>01</span>The answer</h2>
+  <div id="mark"></div>
+
+  <h2><span>02</span>Run it</h2>
+  <ol class="steps" id="run"></ol>
+
+  <h2><span>03</span>Expect this</h2>
+  <ul class="pts qa" id="qa"></ul>
+
+  <h2><span>04</span>Why we do it</h2>
+  <ul class="pts" id="why"></ul>
+
+  <h2 class="later"><span>Later</span>Folded away</h2>
+
+  <details class="fold">
+    <summary>All the margin comments <em id="fcount"></em></summary>
+    <div class="scroller"><table class="run" id="faults"></table></div>
+  </details>
+
+  <details class="fold">
+    <summary>Week 10: two paragraphs, same design <em>use it in the week 10 lecture</em></summary>
+    <div id="defended"></div>
+  </details>
+
+  <details class="fold">
+    <summary>Marking real submissions <em>January</em></summary>
+    <ul class="pts" id="combine-lede"></ul>
+    <div class="scroller"><table class="run" id="combine"></table></div>
+    <p class="look" style="margin-top:18px"><b>The evidence test, criterion by criterion.</b> The bands are
+      the rubric's own; the <b>look for</b> list settles each one, so two markers ask the same question.</p>
+    <div id="bank"></div>
+  </details>
+
+  <footer>
+    <p>Screen Design · Level 4 · 30 credits · 2026–27 · staff sheet, not for circulation to students
+      before the exercise.</p>
+  </footer>
+</div>
+
+<script src="example-photos.js"></script>
+<script src="example-art.js"></script>
+<script src="example-data.js"></script>
+<script src="rubric-data.js"></script>
+<script src="weeks-data.js"></script>
+<script>
+const esc = s => String(s).replace(/[<&]/g, c => c === '<' ? '&lt;' : '&amp;');
+const plain = s => String(s).replace(/<[^>]+>/g, '');
+const CRIT = ['', 'Visual Design & Communication', 'User-Centred Thinking',
+              'Technical Craft & Process', 'Critical Reflection'];
+
+/* Every point on this sheet is a bold line plus a short remark, so it can be
+   read in a corridor. Hand-written where it has to be a distillation; marks,
+   bands and step names still come from the data. */
+const pt = (b, r) => `<li><b>${b}</b><span>${r}</span></li>`;
+
+/* 04 — why it exists */
+document.getElementById('why').innerHTML = [
+  ['They can\'t see thin work in their own deck.',
+   'This one has everything present and almost nothing evidenced — the portfolio they will hand in.'],
+  ['The rubric arrives in week 1, not week 10.',
+   '"Where in the deck is that?" is the question for eleven weeks. This is where they first hear it.'],
+  ['Contrast gets real four weeks early.',
+   'A5 records 3.45:1 and 1.75:1 and fixes neither. Week 5 asks for a ratio on every pair.'],
+  ['They mark a broken click-through before they build one.',
+   'B8 stops halfway: three links, and one starts from a control that isn\'t drawn.'],
+].map(c => pt(esc(c[0]), esc(c[1]))).join('');
+
+/* 01 — the answer */
+const WHY = {
+  1: ['Consistent look across five screens, held together by a style tile.',
+      'Kept low by: grid spec incomplete, no type ratio, small screen scaled rather than reflowed.'],
+  2: ['Accessibility is claimed, never shown.',
+      'A6 is blank; contrast recorded at 3.45:1 and 1.75:1 and left as it is.'],
+  3: ['Process is there, but thin.',
+      'Two sketches, unlabelled wireframes, no before to measure against, and a click-through that stops halfway.'],
+  4: ['Descriptive only.',
+      'No principles, none of their own numbers, no references. C6 and C7 are missing.'],
+};
+document.getElementById('mark').innerHTML =
+  `<div class="ms-top"><span class="ms-n">${EXAMPLE.mark.overall}</span>
+     <span class="ms-t"><b>${esc(EXAMPLE.mark.band)}</b>
+     <span>Everything is there; almost nothing is evidenced. Thin, not empty.</span></span></div>
+   <ul class="crows">${EXAMPLE.criteria.map(c => `<li>
+     <span class="cm">${c.mark}</span>
+     <span class="cn"><i>${c.n}</i> ${esc(c.name)}<em>${esc(c.band)}</em></span>
+     <span class="cw"><b>${esc(WHY[c.n][0])}</b><span>${esc(WHY[c.n][1])}</span></span></li>`).join('')}
+   </ul>`;
+
+/* 03 — every margin comment, in document order, grouped as a marker meets them */
+/* A note hangs off whichever block it annotates — a kv table, an image caption,
+   a paragraph — so the section it belongs to is the last heading above it, not
+   anything on the block itself. (b.x is an array on kv blocks.) */
+/* A slide carries its own section code, so the note no longer has to be
+   attributed by walking back to the last heading. */
+const faults = [];
+EXAMPLE.slides.forEach(sl => {
+  sl.blocks.forEach(b => {
+    if (b.note) faults.push({ p: sl.n, sec: sl.sec || '', c: b.note.c, band: b.note.band, s: b.note.s });
+  });
+});
+document.getElementById('fcount').textContent =
+  faults.length + ' comments on ' + new Set(faults.map(f => f.p)).size + ' slides · read two aloud, not all';
+document.getElementById('faults').innerHTML =
+  '<tr><th>Slide</th><th>Section</th><th>Criterion</th><th>Band</th><th>What is wrong</th></tr>' +
+  faults.map(f => `<tr><td class="w">${f.p}</td><td class="t">${esc(f.sec)}</td>
+    <td class="w">${f.c} · ${esc(CRIT[f.c].split(' ')[0])}</td>
+    <td class="w">${esc(f.band)}</td><td>${esc(f.s)}</td></tr>`).join('');
+
+/* 02 — the run. Step names from the week 1 data; the remarks are for staff. */
+const w1 = WEEKS[0].workshop;
+const RUN = [
+  [['Everyone, first, before anything else.', 'OneDrive folder called Screen Design, shared with the teaching staff.'],
+   ['Say how it works.', 'All their work goes in there. We only open it when they ask for feedback or help.']],
+  [['The deck goes inside the folder.', 'One PowerPoint, a slide per section, no name anywhere.'],
+   ['Check as you walk round.', 'Folder shared, deck inside. Nobody moves on without both.']],
+  [['Count off groups of four.', 'Break up friends.'],
+   ['One sentence per criterion.', 'What would a marker have to see for a good mark?'],
+   ['Don\'t help.', 'Rough is fine; that is the point.']],
+  [['Same groups, student copy, blank rubric.', 'A band and a mark for each criterion.'],
+   ['No mark without a sentence of evidence.', 'Your only question: "Where in the deck is that?"']],
+  [['Every group calls out four numbers.', 'Put them all on the board.'],
+   ['Expect high 30s to high 50s.', 'The spread is the lesson, not the average.'],
+   ['Then reveal 42.', 'Read two margin comments aloud, not all of them.']],
+  [['Ask: what separates this from a good one?', 'Let them answer first.'],
+   ['Steer to one sentence.', 'Everything is present; almost none of it is evidenced.']],
+];
+if (RUN.length !== w1.run.length)
+  console.warn(`example-sheet: ${RUN.length} staff notes for ${w1.run.length} workshop steps`);
+document.getElementById('run').innerHTML = w1.run.map((r, i) => `<li>
+  <span class="sn">${i + 1}</span>
+  <div><b class="st">${esc(String(r.s).split(/\s+[—–]\s+/)[0])}</b>
+    <ul class="pts">${(RUN[i] || []).map(x => pt(esc(x[0]), esc(x[1]))).join('')}</ul></div></li>`).join('') +
+  `<li class="end"><span class="sn">→</span><div><b class="st">They leave with three things</b>
+    <ul class="pts">${WEEKS[0].three.map(x => pt(esc(x.t),
+      esc(plain(x.d)) + (x.open ? ' <b class="opn">Open — week 2 opens on it.</b>' : ''))).join('')}</ul></div></li>`;
+
+/* 03 — what goes wrong, and what they ask */
+document.getElementById('qa').innerHTML = [
+  ['They mark on looks.', esc(w1.mistake.replace(/^Marking on how it looks\.\s*/, '')) + ' Ask for the evidence.'],
+  ['"Why is criterion 1 the highest when the colours fail?"',
+   'Colour contrast is marked under criterion 2. Don\'t mark one fault twice.'],
+  ['"Why 42, when the step nearest the average is 45?"',
+   'One overall judgement, not a sum. Two required sections, C6 and C7, are missing entirely.'],
+  ...w1.stuck.map(q => [esc('"' + q[0] + '"'), esc(q[1])]),
+].map(c => pt(c[0], c[1])).join('');
+
+/* 07 — the week 10 pair. The described half is read off the C4 slide rather
+   than restated here, so the two paragraphs cannot drift apart, and the
+   allowance is checked rather than trusted: a rewrite that breaks the brief's
+   own word limit is not a rewrite, it is a longer answer. */
+{
+  const D = EXAMPLE.defended;
+  const slide = EXAMPLE.slides.find(s => s.sec === D.sec);
+  const described = slide.blocks.find(b => b.t === 'p').x;
+  const crit = EXAMPLE.criteria.find(c => c.n === D.criterion);
+  const words = t => t.trim().split(/\s+/).length;
+  if (words(D.defended) > D.allowance) {
+    throw new Error(`example-sheet: the defended ${D.sec} paragraph runs to ` +
+      `${words(D.defended)} words against an allowance of ${D.allowance}.`);
+  }
+  document.getElementById('defended').innerHTML =
+    `<p class="sub" style="margin:0 0 14px">Put these two up together, read both aloud, and say
+      nothing. Wait for someone in the room to say which one is worth more. Only then reveal that
+      <b>the design is identical</b> — same five colours, same screens, same faults.</p>
+     <div class="twopar">
+       <div class="par">
+         <span class="parhead">Described<span class="parw">${words(described)} of ${D.allowance} words</span></span>
+         <p>${esc(described)}</p>
+       </div>
+       <div class="par par-def">
+         <span class="parhead">Defended<span class="parw">${words(D.defended)} of ${D.allowance} words</span></span>
+         <p>${esc(D.defended)}</p>
+       </div>
+     </div>
+     <p class="sub" style="margin:16px 0 8px"><b>What the second one does that the first does not.</b>
+       Five moves, and not one of them is writing better English.</p>
+     <ol class="moves">${D.moves.map(m => `<li><b>${esc(m[0])}</b><span>${esc(m[1])}</span></li>`).join('')}</ol>
+     <p class="okbox" style="margin-top:14px"><b>What did not change.</b> ${esc(D.unchanged)}</p>
+     <p class="warnbox"><b class="k">The reveal</b>${esc(D.reveal)}</p>
+     <p class="sub" style="font-size:13px;margin-top:10px">Criterion ${D.criterion},
+       ${esc(crit.name)} — ${crit.mark}, ${esc(crit.band)}. The described paragraph spent
+       ${words(described)} of its ${D.allowance} words; the defended one spent ${words(D.defended)}.
+       <b>They had the same allowance.</b> Nobody was short of room.</p>`;
+}
+
+/* 08 — how four criteria become one mark.
+   CORRECTED. An earlier version of this section said the criteria were equally
+   weighted and told markers to use the average (43) over the recorded 42. That
+   was wrong: the 2026-27 brief says components are not individually weighted
+   and one overall mark is awarded for the portfolio as a whole, per CAF
+   portfolio policy. The overall is a judgement the criteria inform, not a sum
+   they produce, and 42 is a legitimate one. */
+(function () {
+  var m = EXAMPLE.criteria.map(function (c) { return c.mark; });
+  var lo = Math.min.apply(null, m), hi = Math.max.apply(null, m);
+  var mean = m.reduce(function (a, b) { return a + b; }, 0) / m.length;
+  document.getElementById('combine-lede').innerHTML = [
+    ['One overall mark for the whole portfolio.', 'The criteria are not weighted separately (CAF portfolio policy).'],
+    ['Place each criterion in a band first.', 'Use the look-for list below, so every marker asks the same question.'],
+    ['Then decide one number, and write one sentence why.', 'The average is a sanity check, not the rule.'],
+    ['Outside the range of its own criteria?', 'That needs a sentence explaining why.'],
+  ].map(function (c) { return pt(esc(c[0]), esc(c[1])); }).join('');
+  document.getElementById('combine').innerHTML =
+    '<tr><th>Criterion</th><th>Example</th><th>What decided it</th></tr>' +
+    EXAMPLE.criteria.map(function (c) {
+      return '<tr><td><b>' + c.n + '. ' + esc(c.name) + '</b></td><td class="num">' + c.mark +
+             '</td><td>' + esc(String(c.s).replace(/<[^>]+>/g, '').split('. ')[0]) + '.</td></tr>';
+    }).join('') +
+    '<tr class="tot"><td><b>Overall</b></td><td class="num"><b>' + EXAMPLE.mark.overall + '</b></td><td>' +
+    'A holistic mark. The criteria sit between ' + lo + ' and ' + hi + ', and ' + EXAMPLE.mark.overall +
+    ' sits inside that range, weighted by judgement towards the two criteria where the work is thinnest. ' +
+    'Their average is ' + mean.toFixed(0) + ', and the nearest step to it is ' + nearestStep(mean) + ' — a sanity check, not the rule. <b>An overall outside the ' +
+    'range of its own criteria needs a sentence explaining why.</b></td></tr>';
+
+  var LOOK = {
+    1: ['A3 has all seven numbers, and B6 is visibly built on them',
+        'A4 names a ratio and a measure, not only a list of sizes',
+        'B7 is a reflow \u2014 a different layout, not a scaled copy',
+        'B2 and B3 agree with what B6 actually does'],
+    2: ['A6 is filled in \u2014 not asserted in C5 and left blank in A6',
+        'A5 carries a ratio on every text pair, with nothing under 4.5:1 left standing',
+        'B7 exists at three sizes and the smallest one is usable',
+        'C7 names one cross-cultural consideration rather than a general remark'],
+    3: ['B1, B4 and B5 exist and are legible without the student narrating them',
+        'A2 counts the steps before and the screens after, and the after is shorter',
+        'B8 walks the whole journey, with a way back and a way out, from controls that are actually drawn',
+        'A7 logs every AI use with what was changed afterwards'],
+    4: ['Every C section quotes a number the student produced themselves',
+        'C6 names one dimension \u2014 ethics or sustainability \u2014 and applies it to this work',
+        'C9 lists everything cited, and those citations appear in the text',
+        'Something rejected is named, and something still wrong is admitted']
+  };
+  var BANDS = ['Fail \u00b7 0\u201339', 'Third \u00b7 40\u201349', '2:2 \u00b7 50\u201359',
+               '2:1 \u00b7 60\u201369', 'First \u00b7 70+'];
+  document.getElementById('bank').innerHTML = RUBRIC.map(function (c) {
+    return '<div class="bank"><h3>' + c.n + '. ' + esc(c.name) + '</h3>' +
+      '<p class="what">' + esc(c.what) + '</p>' +
+      '<table class="run"><tr><th>Band</th><th>The rubric says</th></tr>' +
+      c.b.map(function (txt, i) {
+        return '<tr><td class="bd">' + BANDS[i] + '</td><td>' + esc(txt) + '</td></tr>';
+      }).join('') + '</table>' +
+      '<p class="look"><b>Look for, in this order</b></p><ol class="look-l">' +
+      LOOK[c.n].map(function (x) { return '<li>' + esc(x) + '</li>'; }).join('') + '</ol></div>';
+  }).join('');
+})();
+</script>
+</body>
+</html>

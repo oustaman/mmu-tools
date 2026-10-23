@@ -1,0 +1,670 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Week by week — Screen Design</title>
+<style>
+  :root{
+    --bg:#F5F4F2; --surface:#FFFFFF; --surface-2:#EDEBE8;
+    --ink:#1A1618; --ink-2:#514B4A; --ink-3:#4D4847;
+    --line:#DFDBD7; --line-2:#8E8685;
+    --lec:#8C2437; --lec-soft:#F6E8EA;
+    --wsh:#1A526D; --wsh-soft:#E4EEF3;
+    --hnd:#285638; --hnd-soft:#E3EFE7;
+    --warn:#7A5204; --warn-soft:#F4EAD3;
+    --mono:ui-monospace,"SF Mono",Menlo,Consolas,monospace;
+    --sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Inter,Roboto,sans-serif;
+  }
+  html[data-theme="dark"]{
+    --bg:#151314; --surface:#1E1B1C; --surface-2:#262223;
+    --ink:#EDE9E7; --ink-2:#B9B2AF; --ink-3:#B7B2B0;
+    --line:#332E2F; --line-2:#7A7372;
+    --lec:#E69FAD; --lec-soft:#332226;
+    --wsh:#7FBEDC; --wsh-soft:#16262E;
+    --hnd:#83C19A; --hnd-soft:#1C2A22;
+    --warn:#E0BC78; --warn-soft:#2A2417;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);line-height:1.5}
+  .wrap{max-width:1100px;margin:0 auto;padding:0 22px}
+  @media(max-width:420px){.wrap{padding:0 14px}}
+  @media(max-width:340px){.wrap{padding:0 10px}}
+  a{color:var(--lec)}
+
+  /* The bar, identical on every page. Defined once here and pasted into each
+     file rather than shared, because these open from a Moodle download as
+     often as from a server and a missing stylesheet must not cost the nav. */
+  header{border-bottom:1px solid var(--line);background:var(--surface);position:sticky;top:0;z-index:40}
+  .bar{display:flex;align-items:center;gap:10px;padding-block:11px;flex-wrap:nowrap}
+  .brand{font-weight:680;font-size:1rem;letter-spacing:-0.015em;white-space:nowrap;color:inherit;
+    text-decoration:none;padding:5px 8px;margin-left:-8px;border-radius:6px}
+  .brand:hover{background:var(--surface-2)}
+  .brand:focus-visible{outline:2px solid var(--lec);outline-offset:1px}
+  .sp{flex:1}
+  .navl{font-size:0.85rem;color:var(--ink-2);text-decoration:none;padding:6px 10px;border-radius:6px;white-space:nowrap}
+  .navl:hover{background:var(--surface-2);color:var(--ink)}
+  .navl.on{background:var(--lec);color:#fff}
+  html[data-theme="dark"] .navl.on{color:#151314}
+  .ctl button{font-family:var(--mono);font-size:0.7rem;background:none;color:var(--ink-3);
+    border:1px solid var(--line-2);border-radius:5px;padding:5px 8px;cursor:pointer;line-height:1}
+  .ctl button:hover{border-color:var(--lec);color:var(--lec)}
+  /* Links used to be hidden on phones, which left a student on a phone with no
+     way to reach the brief. They wrap to a second row instead. */
+  @media(max-width:760px){ header .bar{gap:6px} .navl{padding:6px 8px;font-size:0.82rem} }
+  @media(max-width:560px){
+    header .bar{flex-wrap:wrap;row-gap:6px}
+    header .brand{order:0} header .ctl{order:1;margin-left:auto}
+    header .bar > .sp{order:2;flex-basis:100%;height:0}
+    header .navl{order:3;padding:5px 7px;font-size:0.78rem}
+  }
+  @media(max-width:430px){ .brand{font-size:0.9rem} .navl{padding:5px 6px;font-size:0.76rem} }
+  .picker{display:flex;gap:5px;flex-wrap:wrap;padding:12px 0 4px}
+  .wbtn{font-family:var(--mono);font-size:0.82rem;min-width:38px;padding:7px 9px;border-radius:7px;
+    border:1px solid var(--line-2);background:var(--surface);color:var(--ink-2);cursor:pointer;line-height:1}
+  .wbtn:hover{border-color:var(--lec);color:var(--lec)}
+  .wbtn.on{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+  .wbtn.dead{opacity:.55}
+  /* This week. A ring rather than a fill, so the selected week stays the
+     darkest thing in the row even when you are looking at a different one. */
+  .wbtn.now{box-shadow:0 0 0 2px var(--wsh);border-color:var(--wsh);color:var(--wsh)}
+  .wbtn.now.on{box-shadow:0 0 0 2px var(--wsh)}
+  .thisweek{font-family:var(--mono);font-size:0.68rem;color:var(--wsh);margin:8px 0 0}
+
+  h1{font-size:clamp(1.4rem,3.6vw,2rem);letter-spacing:-0.026em;margin:14px 0 3px;font-weight:700;line-height:1.12}
+  .wdate{font-family:var(--mono);font-size:0.74rem;color:var(--ink-3);margin:0 0 12px}
+  .wmeta{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:16px}
+  .chip{font-family:var(--mono);font-size:0.66rem;border-radius:4px;padding:3px 8px;
+    background:var(--wsh-soft);color:var(--wsh);border:1px solid var(--wsh)}
+
+  /* tabs */
+  .tabs{display:flex;gap:6px;border-bottom:1px solid var(--line);margin-bottom:0}
+  .tab{font-size:0.9rem;font-weight:600;padding:9px 14px;border:1px solid transparent;border-bottom:0;
+    border-radius:8px 8px 0 0;background:none;color:var(--ink-3);cursor:pointer;position:relative;top:1px}
+  .tab:hover{color:var(--ink)}
+  .tab.on{background:var(--surface);border-color:var(--line);color:var(--ink)}
+  .tab .who{display:block;font-family:var(--mono);font-size:0.6rem;font-weight:400;
+    letter-spacing:0.06em;text-transform:uppercase;color:var(--ink-3);margin-top:1px}
+  .tab.on[data-p="shown"]{box-shadow:inset 0 3px 0 var(--lec)}
+  .tab.on[data-p="workshop"]{box-shadow:inset 0 3px 0 var(--wsh)}
+
+  .panel{background:var(--surface);border:1px solid var(--line);border-top:0;
+    border-radius:0 0 11px 11px;padding:20px 22px 24px}
+  @media(max-width:420px){.panel{padding:16px 14px 20px}}
+  .claim{font-size:1.1rem;line-height:1.42;font-weight:600;margin:0 0 4px;max-width:56ch}
+  .missnote{margin:-10px 0 16px;font-size:0.9rem;color:var(--ink-2)}
+  .pnote{font-family:var(--mono);font-size:0.68rem;letter-spacing:0.05em;color:var(--ink-3);margin:0 0 18px}
+
+  /* running order */
+  .run{display:grid;gap:0}
+  .rrow{display:grid;grid-template-columns:52px 1fr;gap:14px;padding:11px 0;border-top:1px solid var(--line)}
+  .rrow:first-child{border-top:0}
+  .rt{font-family:var(--mono);font-size:0.78rem;color:var(--ink-3);padding-top:1px}
+  .rs{display:block;font-weight:645;font-size:0.97rem;margin-bottom:3px}
+  .rd{display:block}
+  .rd a,.take a{color:var(--lec)}
+  .rd{font-size:0.9rem;color:var(--ink-2)}
+  .rshow{display:inline-block;margin-top:6px;font-family:var(--mono);font-size:0.7rem;
+    background:var(--lec-soft);color:var(--lec);border:1px solid var(--lec);border-radius:5px;
+    padding:3px 8px;text-decoration:none;overflow-wrap:anywhere}
+  .rshow.plain{background:var(--surface-2);color:var(--ink-3);border-color:var(--line-2)}
+  /* The one thing to carry away, for anyone who was not in the room. Present on
+     every item in the lecture hour — a student who misses a Tuesday should be
+     able to catch up from this page alone. */
+  .take{display:block;margin-top:8px;padding:9px 12px;border-left:2px solid var(--hnd);
+    background:var(--hnd-soft);border-radius:0 7px 7px 0;font-size:0.88rem;line-height:1.5;color:var(--ink-2)}
+  .take b{display:block;font-family:var(--mono);font-size:0.62rem;letter-spacing:0.08em;
+    text-transform:uppercase;color:var(--hnd);margin-bottom:3px}
+  /* the workshop as a sequence: numbered nodes on one line, no clock */
+  .seqhint{margin:4px 0 12px;font-family:var(--mono);font-size:0.72rem;color:var(--ink-3)}
+  .three{margin:14px 0 4px}
+  .three-h{margin:0 0 8px;font-family:var(--mono);font-size:0.68rem;letter-spacing:0.09em;
+    text-transform:uppercase;color:var(--ink-3)}
+  .three-l{list-style:none;margin:0;padding:0;display:grid;gap:10px;
+    grid-template-columns:repeat(auto-fit,minmax(min(260px,100%),1fr))}
+  .three-l li{display:grid;grid-template-columns:28px 1fr;gap:11px;background:var(--surface);
+    border:1px solid var(--line);border-radius:11px;padding:12px 14px;align-items:start}
+  .three-l .tn{width:28px;height:28px;border-radius:50%;background:var(--wsh);color:#fff;
+    display:grid;place-items:center;font:700 0.8rem var(--mono)}
+  .three-l .tt b{display:block;font-size:0.95rem;line-height:1.3}
+  .three-l .tt > span{display:block;font-size:0.86rem;color:var(--ink-2);margin-top:3px;line-height:1.45}
+  .three-l li.open{border-color:var(--warn);background:var(--warn-soft)}
+  .three-l li.open .tn{background:var(--warn)}
+  html[data-theme="dark"] .three-l li.open .tn{color:#151314}
+  .topen{display:inline-block;margin-top:7px;font-style:normal;font-family:var(--mono);
+    font-size:0.64rem;letter-spacing:0.07em;text-transform:uppercase;color:var(--warn)}
+  @media print{ .three-l li{break-inside:avoid} }
+  .seq{list-style:none;margin:0;padding:0}
+  .seq-i{position:relative;display:grid;grid-template-columns:34px 1fr;gap:14px;padding:0 0 20px}
+  .seq-i::before{content:"";position:absolute;left:16px;top:34px;bottom:2px;width:2px;
+    background:var(--wsh);opacity:.3;border-radius:1px}
+  .seq-i:last-child{padding-bottom:6px}
+  .seq-i:last-child::before{display:none}
+  .seq-n{width:34px;height:34px;border-radius:50%;background:var(--wsh);color:#fff;
+    display:grid;place-items:center;font:700 0.85rem/1 var(--mono)}
+  html[data-theme="dark"] .seq-n{color:#151314}
+  .seq-i .rs{padding-top:6px}
+
+  .kit{display:flex;flex-wrap:wrap;gap:6px;margin:0 0 18px;padding:12px 14px;
+    background:var(--surface-2);border-radius:9px}
+  .kit b{font-family:var(--mono);font-size:0.64rem;letter-spacing:0.07em;text-transform:uppercase;
+    color:var(--ink-3);width:100%;margin-bottom:3px;font-weight:500}
+  .kit span{font-size:0.84rem;color:var(--ink-2);background:var(--surface);
+    border:1px solid var(--line);border-radius:5px;padding:3px 9px}
+
+  /* goals + output */
+  .goals{display:grid;grid-template-columns:1fr minmax(min(230px,42%),auto);gap:16px;
+    margin:0 0 16px;padding:14px 16px;background:var(--surface-2);border-radius:10px}
+  @media(max-width:640px){.goals{grid-template-columns:1fr}}
+  .gcol b{display:block;font-family:var(--mono);font-size:0.64rem;letter-spacing:0.07em;
+    text-transform:uppercase;color:var(--ink-3);font-weight:500;margin-bottom:7px}
+  .gcol ol{margin:0;padding-left:1.15rem;font-size:0.91rem}
+  .gcol li{margin-bottom:4px}
+  .gout{border-left:1px solid var(--line);padding-left:16px}
+  @media(max-width:640px){.gout{border-left:0;border-top:1px solid var(--line);padding:12px 0 0}}
+  .osecs{display:flex;flex-wrap:wrap;gap:4px;margin-bottom:7px}
+  .osecs i{font-style:normal;font-family:var(--mono);font-size:0.78rem;color:var(--wsh);
+    background:var(--surface);border:1px solid var(--wsh);border-radius:5px;padding:3px 9px}
+  .osecs i.none{color:var(--ink-3);border-color:var(--line-2)}
+  .owhat{display:block;font-size:0.9rem;color:var(--ink)}
+  .ointo{display:block;font-size:0.82rem;color:var(--ink-3);margin-top:3px}
+  .lorow{display:grid;gap:5px;margin:0 0 18px}
+  .lo{font-size:0.82rem;color:var(--ink-2);border-left:2px solid var(--lec);padding-left:10px;line-height:1.45}
+  .lo b{font-family:var(--mono);font-size:0.7rem;color:var(--lec);margin-right:6px}
+
+  .sh2{font-family:var(--mono);font-size:0.66rem;letter-spacing:0.08em;text-transform:uppercase;
+    color:var(--ink-3);margin:22px 0 8px;padding-top:14px;border-top:1px solid var(--line)}
+  .qa{display:grid;grid-template-columns:minmax(min(210px,40%),auto) 1fr;gap:6px 16px;font-size:0.89rem}
+  .qa dt{font-weight:620}
+  .qa dd{margin:0;color:var(--ink-2)}
+
+  ol.steps{margin:0;padding-left:1.3rem;font-size:0.96rem}
+  ol.steps li{margin-bottom:7px}
+  .doneline{display:flex;gap:10px;align-items:baseline;background:var(--hnd-soft);
+    border:1px solid var(--hnd);border-radius:9px;padding:12px 15px;margin:18px 0 10px}
+  .doneline b{font-family:var(--mono);font-size:0.64rem;letter-spacing:0.07em;text-transform:uppercase;
+    color:var(--hnd);white-space:nowrap}
+  .doneline span{font-size:0.94rem}
+  .missline{display:flex;gap:10px;align-items:baseline;border:1px solid var(--lec);
+    background:var(--lec-soft);border-radius:9px;padding:12px 15px}
+  .missline b{font-family:var(--mono);font-size:0.64rem;letter-spacing:0.07em;text-transform:uppercase;
+    color:var(--lec);white-space:nowrap}
+  .missline span{font-size:0.94rem}
+
+  .prow{display:flex;gap:8px;align-items:center;margin:16px 0 0;flex-wrap:wrap}
+  .prow button{font-family:var(--mono);font-size:0.72rem;background:var(--surface);color:var(--ink-2);
+    border:1px solid var(--line-2);border-radius:6px;padding:6px 11px;cursor:pointer}
+  .prow button:hover{border-color:var(--lec);color:var(--lec)}
+  .prow small{font-size:0.76rem;color:var(--ink-3)}
+
+  footer{padding:26px 0 44px;color:var(--ink-3);font-size:0.79rem;border-top:1px solid var(--line);margin-top:26px}
+  code{font-family:var(--mono);font-size:0.88em;overflow-wrap:anywhere}
+
+  @media print{
+    header,.picker,.prow,footer,.ctl,.rules,.jump,.fold,.thisweek,.subject,.items .go,.it > summary::after,.deck small{display:none !important}
+    .it > summary{padding:2px 0 !important;grid-template-columns:20px 1fr !important;gap:7px !important}
+    .items > li{border:0 !important;background:none !important;border-radius:0 !important}
+    .it .n{width:16px !important;height:16px !important;font-size:0.56rem !important}
+    .items{gap:0 2px !important;grid-template-columns:1fr 1fr !important}
+    .it .take{display:none !important}
+    .three-l{grid-template-columns:repeat(3,1fr) !important}
+    .today{grid-template-columns:1fr 1.4fr !important}
+    .blk{margin-top:8px}
+    .bh{margin-bottom:4px}
+    .td,.three-l li{border-color:#999}
+    *{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+    .seqhint,.deck,.lab + .keep{display:none !important}
+    #after .lab{display:none !important}
+    .widea{font-size:10pt;margin-bottom:2px}
+    h1{font-size:16pt}
+    .three{margin:6px 0 0}
+    .three-l li{padding:6px 9px}
+    .three-l .tt > span{font-size:8.5pt}
+    .today{margin:6px 0 0;gap:6px}
+    .td{padding:6px 9px}
+    .tk{min-height:0}
+    .bh h2{font-size:12pt}
+    .it .s b{font-size:9.5pt}
+    .it .take{font-size:8.5pt}
+    .missline,.btwnline{padding:6px 9px !important;font-size:9pt}
+    .claim{font-size:10pt;margin-bottom:2px}
+    body{background:#fff;color:#000;font-size:10.5pt}
+    .wrap{max-width:none;padding:0}
+    .panel{border:0;padding:0;background:#fff;border-radius:0}
+    .rrow,.seq-i{break-inside:avoid} .doneline,.missline,.kit{break-inside:avoid}
+    a{color:#000;text-decoration:none}
+    .rshow::after{content:" — " attr(href);font-size:8pt;color:#555}
+    h1{margin-top:0}
+    .printhead{display:block !important}
+  }
+
+  /* ── the layered week page ─────────────────────────────────────────────── */
+  .widea{font-size:1.08rem;line-height:1.45;color:var(--ink-2);margin:0 0 4px;max-width:62ch}
+  .lab{display:block;font-family:var(--mono);font-size:0.64rem;letter-spacing:0.08em;text-transform:uppercase;
+    color:var(--ink-3);font-weight:500;margin:0 0 6px}
+  .today{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.4fr);gap:12px;margin:12px 0 6px}
+  .td{background:var(--surface);border:1px solid var(--line);border-radius:11px;padding:12px 14px}
+  .bring{display:flex;flex-wrap:wrap;gap:6px}
+  .bring span{font-size:0.84rem;border:1px solid var(--line-2);border-radius:99px;padding:3px 11px;background:var(--bg)}
+  .ticks{display:grid;gap:6px}
+  .tk{display:flex;align-items:center;gap:9px;font-size:0.9rem;cursor:pointer;min-height:32px}
+  .tk input{width:18px;height:18px;accent-color:var(--wsh);flex:none}
+  .tk i{font-style:normal;font-family:var(--mono);font-size:0.72rem;font-weight:700;background:var(--surface-2);
+    border-radius:4px;padding:1px 6px}
+  .tk input:checked ~ span{color:var(--ink-3);text-decoration:line-through}
+  .tk .ifcan{font-style:normal;font-family:var(--mono);font-size:0.64rem;letter-spacing:0.04em;color:var(--ink-3);
+    border:1px dashed var(--line-2);border-radius:99px;padding:1px 7px;margin-left:auto;white-space:nowrap}
+  .deck{display:block;margin-top:10px}
+  .deck-t{display:block;height:6px;border-radius:99px;background:var(--surface-2);overflow:hidden}
+  .deck-t i{display:block;height:100%;background:var(--wsh)}
+  .deck small{display:block;margin-top:4px;font-family:var(--mono);font-size:0.68rem;color:var(--ink-3)}
+  .none{font-size:0.88rem;color:var(--ink-3)}
+  @media(max-width:700px){ .today{grid-template-columns:1fr} }
+
+  .jump{display:flex;flex-wrap:wrap;gap:4px;margin:16px 0 6px;padding:6px 0;border-block:1px solid var(--line)}
+  .jump a{font-size:0.84rem;color:var(--ink-2);text-decoration:none;padding:6px 10px;border-radius:6px}
+  .jump a:hover{background:var(--surface-2);color:var(--ink)}
+
+  .blk,.fold{scroll-margin-top:84px}
+  .blk{margin:22px 0 0}
+  .bh{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;margin:0 0 10px;
+    padding-bottom:6px;border-bottom:2px solid var(--ink)}
+  .bh h2{margin:0;font-size:1.2rem;font-weight:700;letter-spacing:-0.015em}
+  .bh .when{font-family:var(--mono);font-size:0.68rem;letter-spacing:0.04em;color:var(--ink-3)}
+  #class .bh{border-color:var(--lec)} #workshop .bh{border-color:var(--wsh)}
+
+  .items{list-style:none;margin:0;padding:0;display:grid;gap:6px}
+  .items > li.core{border:2px solid var(--lec)}
+  .corebadge{display:inline-block;font-style:normal;font-family:var(--mono);font-size:0.62rem;letter-spacing:0.08em;text-transform:uppercase;
+    background:var(--lec);color:#fff;border-radius:4px;padding:1px 6px;margin:0 8px 0 0;vertical-align:2px}
+  .corehead,.alsohead{margin:4px 0 8px;font-size:0.9rem;color:var(--ink-2)}
+  .alsohead{margin-top:18px;color:var(--ink-3)}
+  .items.also > li{background:var(--surface-2,var(--surface))}
+  .items > li{background:var(--surface);border:1px solid var(--line);border-radius:10px}
+  .it > summary{display:grid;grid-template-columns:28px 1fr 16px;gap:11px;align-items:start;
+    padding:11px 14px;cursor:pointer;list-style:none}
+  .it > summary::-webkit-details-marker{display:none}
+  .it > summary::after{content:"+";font-family:var(--mono);color:var(--ink-3);font-size:1rem;line-height:1.3}
+  .it[open] > summary::after{content:"\2212"}
+  .it > summary:focus-visible{outline:2px solid var(--wsh);outline-offset:-2px;border-radius:10px}
+  .it .n{width:26px;height:26px;border-radius:50%;display:grid;place-items:center;font:700 0.76rem var(--mono);
+    background:var(--lec);color:#fff}
+  .steps .it .n{background:var(--wsh)}
+  html[data-theme="dark"] .it .n{color:#151314}
+  .it .s b{display:block;font-size:0.96rem;font-weight:640;line-height:1.35}
+  .it .take{display:block;font-size:0.86rem;color:var(--ink-2);margin-top:3px;line-height:1.45}
+  .it .more{padding:0 14px 12px 53px;font-size:0.9rem;color:var(--ink-2);line-height:1.55}
+  .it .more p{margin:0}
+  .items .go{padding:0 14px 11px 53px;margin-top:-4px}
+  .items .go .rshow{margin-top:0}
+  .keep{margin:0;padding-left:18px;font-size:0.92rem;color:var(--ink-2);display:grid;gap:4px}
+
+  .fold{background:var(--surface);border:1px solid var(--line);border-radius:11px;margin:12px 0 0}
+  .fold > summary{cursor:pointer;list-style:none;padding:13px 16px;display:flex;gap:10px;align-items:baseline;flex-wrap:wrap}
+  .fold > summary::-webkit-details-marker{display:none}
+  .fold > summary::before{content:"\25B8";color:var(--ink-3)}
+  .fold[open] > summary::before{content:"\25BE"}
+  .fold > summary em{font-style:normal;font-size:0.84rem;color:var(--ink-3)}
+  .fold > :not(summary){margin:0 16px 14px}
+  .fold.tutors > summary b{color:var(--ink-2)}
+  .tgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(260px,100%),1fr));gap:14px;font-size:0.9rem}
+  .tgrid ol{margin:0;padding-left:18px;color:var(--ink-2)}
+  .tgrid p{margin:4px 0 10px;color:var(--ink-2)}
+  .doneline.dn{background:var(--surface-2);border-color:var(--line-2)}
+  .doneline.dn b{color:var(--ink-3)}
+  /* older rules for the two-tab layout share these class names */
+  .it .take{margin:3px 0 0;padding:0;border-left:0;background:none}
+  ol.items.steps{padding-left:0;font-size:inherit}
+  ol.items.steps > li{margin-bottom:0}
+  #after .btwnline{display:block;margin:0 0 12px}
+  .today{align-items:start}
+  .printhead{display:none;font-family:var(--mono);font-size:0.7rem;color:var(--ink-3);
+    border-bottom:1px solid var(--line);padding-bottom:6px;margin-bottom:12px}
+
+  /* The standing rules.
+     
+     Eleven of them now, which is too many for the two-column definition list
+     this used to be — the second column ran to four lines and the keys drifted
+     away from their text. Cards instead, numbered, so a tutor can say "rule
+     three" in a room and be understood.
+     
+     These styles were deleted outright by a regex that was meant to replace
+     only the header block and matched to the next section instead. */
+  .rules{background:var(--surface);border:1px solid var(--line);border-radius:11px;
+    padding:14px 16px;margin:14px 0 2px}
+  .rules summary{cursor:pointer;font-size:0.95rem;color:var(--ink-2);list-style:none;
+    display:flex;align-items:baseline;gap:7px}
+  .rules summary::-webkit-details-marker{display:none}
+  .rules summary::before{content:"▸";color:var(--ink-3);font-size:0.8em}
+  .rules[open] summary::before{content:"▾"}
+  .rules summary b{color:var(--ink)}
+  .rgrid{display:grid;gap:10px;grid-template-columns:repeat(auto-fill,minmax(min(250px,100%),1fr));
+    margin-top:14px;padding-top:14px;border-top:1px solid var(--line)}
+  .rcard{background:var(--surface-2);border-radius:9px;padding:12px 14px;min-width:0}
+  .rnum{display:block;font-family:var(--mono);font-size:0.62rem;letter-spacing:0.09em;
+    color:var(--ink-3);margin-bottom:5px}
+  /* The direct child only. `.rcard b` caught the inline emphasis inside the
+     rule text too, so every bolded phrase became its own line and the
+     sentences came apart mid-clause. */
+  .rcard > b{display:block;font-size:0.92rem;font-weight:650;margin-bottom:4px}
+  .rcard p b{color:var(--ink)}
+  .rcard p{margin:0;font-size:0.86rem;line-height:1.5;color:var(--ink-2)}
+  .rcard code{background:var(--surface);padding:1px 5px;border-radius:4px;
+    font-family:var(--mono);font-size:0.88em;overflow-wrap:anywhere}
+  .rcard a{color:var(--lec);overflow-wrap:anywhere}
+
+  /* Said on every page a student might plan against. Content moves; the
+     assessment does not — and being explicit about which is which is what
+     stops a reworded workshop reading as a moved goalpost. */
+  .subject{margin:0 0 8px;padding:11px 14px;border-left:3px solid var(--warn,#8A5D05);
+    background:var(--warn-soft,#F4EAD3);border-radius:0 8px 8px 0;
+    font-size:0.86rem;line-height:1.55;color:var(--ink-2);max-width:78ch}
+  .subject b{color:var(--ink)}
+  html[data-theme="dark"] .subject{background:#2A2417;border-left-color:#DCB469}
+
+  /* The lecture row is three columns: number, the thing being shown, and the
+     takeaway off to the side.
+     
+     The takeaway used to sit under the description, which made it the last and
+     therefore the loudest thing in the row — a reader's eye finished on it. It
+     is a safety net for someone catching up, not the point of the item, so it
+     moves to a narrow column, drops in size and loses the coloured fill. The
+     content and its link keep the width. */
+  .slide-shown .rrow, .rrow.three-col{grid-template-columns:52px minmax(0,1fr) 250px}
+  #panel .rrow:has(.take){grid-template-columns:52px minmax(0,1fr) 250px;gap:14px}
+  .rmain{min-width:0}
+  .take{display:block;margin:0;padding:0 0 0 13px;border-left:1px solid var(--line-2);
+    background:none;border-radius:0;font-size:0.8rem;line-height:1.5;color:var(--ink-3)}
+  .take b{display:block;font-family:var(--mono);font-size:0.58rem;letter-spacing:0.09em;
+    text-transform:uppercase;color:var(--ink-3);margin-bottom:4px;font-weight:400}
+  @media(max-width:820px){
+    #panel .rrow:has(.take){grid-template-columns:52px minmax(0,1fr)}
+    .take{grid-column:2;margin-top:9px;padding:9px 0 0;border-left:0;border-top:1px dashed var(--line-2)}
+  }
+  .btwnline{display:grid;grid-template-columns:132px 1fr;gap:14px;align-items:baseline;
+    border:1px solid var(--line);border-left:3px solid var(--wsh);background:var(--wsh-soft);
+    padding:11px 14px;margin-top:8px;border-radius:3px}
+  .btwnline>b{font:600 11px/1.4 var(--mono);letter-spacing:.09em;text-transform:uppercase;color:var(--wsh)}
+  .btwnline>span{font-size:14px;line-height:1.55}
+  @media(max-width:640px){.btwnline{grid-template-columns:1fr;gap:4px}}
+    /* The way in to the week 1 staff sheet. It is meant to be invisible: it looks
+     and behaves like the word around it, and it is out of the tab order. */
+  .qlink{color:inherit;text-decoration:none;cursor:text}
+
+  /* Accessibility (WCAG 2.2 audit, September 2026) */
+  .ctl button{min-width:44px;min-height:44px;font-size:.8rem}         /* 2.5.5: the theme button was 25 × 23 */
+  summary{min-height:44px;padding-block:11px}                           /* 2.5.8: a 23px-high row */
+  input[type=checkbox],input[type=radio]{width:24px;height:24px}         /* 2.5.8: 19px boxes */
+  @media (prefers-reduced-motion: reduce){                               /* 2.3.3 */
+    *,*::before,*::after{transition:none!important;animation:none!important;scroll-behavior:auto!important}
+  }
+
+  /* THE BAR — one definition, identical on every page (written by navfix; change it
+     everywhere or nowhere). It used to be copied per page and drifted into two heights. */
+  header.sdnav{position:sticky;top:0;z-index:40;background:var(--surface);border-bottom:1px solid var(--line)}
+  header.sdnav .bar{display:flex;align-items:center;gap:10px;min-height:56px;padding-block:8px;flex-wrap:nowrap}
+  header.sdnav .brand{font-weight:680;font-size:1rem;letter-spacing:-0.015em;white-space:nowrap;color:inherit;
+    text-decoration:none;padding:5px 8px;margin-left:-8px;border-radius:6px;order:0}
+  header.sdnav .brand:hover{background:var(--surface-2,var(--bg))}
+  header.sdnav .sp{flex:1;display:block;height:auto;flex-basis:auto;order:0}
+  header.sdnav .sdlinks{display:flex;align-items:center;gap:2px;order:0}
+  header.sdnav .navl{display:inline-block;font-size:0.85rem;line-height:1.3;color:var(--ink-2);text-decoration:none;
+    padding:6px 10px;border-radius:6px;white-space:nowrap;order:0}
+  header.sdnav .navl:hover{background:var(--surface-2,var(--bg));color:var(--ink)}
+  header.sdnav .navl.on{background:var(--lec);color:#fff}
+  html[data-theme="dark"] header.sdnav .navl.on{color:#151314}
+  header.sdnav a:focus-visible,header.sdnav button:focus-visible{outline:2px solid var(--lec);outline-offset:1px}
+  header.sdnav .ctl{order:0;margin-left:4px}
+  header.sdnav .ctl button{font-family:var(--mono);font-size:0.7rem;background:none;color:var(--ink-3);
+    border:1px solid var(--line-2);border-radius:6px;padding:0 9px;cursor:pointer;line-height:1;
+    height:34px;min-height:34px;min-width:34px;display:inline-flex;align-items:center;justify-content:center}
+  header.sdnav .ctl button:hover{border-color:var(--lec);color:var(--lec)}
+  @media(max-width:960px){
+    header.sdnav .bar{flex-wrap:wrap;row-gap:0;padding-block:6px 0;min-height:0}
+    header.sdnav .ctl{order:1;margin-left:auto}
+    header.sdnav .sp{display:none}
+    header.sdnav .sdlinks{order:2;flex-basis:100%;overflow-x:auto;scrollbar-width:none;padding:4px 28px 8px 0;min-height:44px;
+      -webkit-mask-image:linear-gradient(to right,#000 calc(100% - 28px),transparent);mask-image:linear-gradient(to right,#000 calc(100% - 28px),transparent)}
+    header.sdnav .sdlinks::-webkit-scrollbar{display:none}
+    header.sdnav .navl{font-size:0.82rem;padding:6px 9px}
+  }
+</style>
+</head>
+<body>
+
+<header class="sdnav">
+  <div class="wrap bar">
+    <a class="brand" href="index.html">Screen Design</a>
+    <span class="sp"></span>
+    <nav class="sdlinks" aria-label="Screen Design"><a class="navl" href="index.html">Overview</a><a class="navl on" href="weeks.html" aria-current="page">Week by week</a><a class="navl" href="brief.html">The brief</a><a class="navl" href="assessment.html">Checklist</a><a class="navl" href="assessment-materials.html">Marking and examples</a><a class="navl" href="toolkit.html">Toolkit</a><a class="navl" href="ideas.html">Theme ideas</a></nav>
+    <span class="ctl"><button id="theme" aria-label="Dark mode">◐</button></span>
+  </div>
+</header>
+<script>(function(){var n=document.querySelector(".sdlinks"),o=n&&n.querySelector(".on");if(o&&n.scrollWidth>n.clientWidth)n.scrollLeft=o.offsetLeft-n.offsetLeft-16;})();</script>
+
+<div class="wrap">
+  <details class="rules" id="rules">
+    <summary><b>Before you start</b> — <span id="rulecount"></span> rules that apply every week</summary>
+    <div class="rgrid" id="rulelist"></div>
+  </details>
+
+  <div class="picker" id="picker"></div>
+  <p class="thisweek" id="thisweek"></p>
+  <div class="printhead" id="printhead"></div>
+  <h1 id="wtitle"></h1>
+  <p class="wdate" id="wdate"></p>
+  <p class="widea" id="widea"></p>
+  <div id="three"></div>
+  <div class="today" id="today"></div>
+
+  <nav class="jump" aria-label="On this page">
+    <a href="#class">In class</a><a href="#workshop">Workshop</a><a href="#after">After</a><a href="#stuck">Stuck?</a><a href="#tutors">For tutors</a>
+  </nav>
+
+  <section class="blk" id="class"></section>
+  <section class="blk" id="workshop"></section>
+  <section class="blk" id="after"></section>
+  <details class="fold" id="stuck"></details>
+  <details class="fold tutors" id="tutors"></details>
+
+  <div class="prow">
+    <button id="print">Print this week</button>
+    <small id="printhint"></small>
+  </div>
+
+  <p class="subject"><b>The weekly content may change.</b> What is shown in class and how a workshop runs can be adjusted during the term — check the week before you rely on it. <b>The assessment does not change.</b> The <span class="seccount">24</span> sections, the four marking criteria and the deadline are fixed, and anything that did change would be announced, not quietly <span id="qword">edited</span>.</p>
+
+</div>
+
+<script src="sd-common.js"></script>
+<script src="weeks-data.js"></script>
+<script>
+const $ = s => document.querySelector(s);
+const NOW = SD.week();
+let cur = (NOW >= 1 && NOW <= SD.WEEKS) ? NOW : 1;
+
+
+document.getElementById('rulecount').textContent = RULES.length;
+$('#rulelist').innerHTML = RULES.map((r, i) =>
+  `<div class="rcard"><span class="rnum">${String(i + 1).padStart(2,'0')}</span>
+     <b>${r.k}</b><p>${r.v}</p></div>`).join('');
+
+$('#picker').innerHTML = WEEKS.map(w =>
+  `<button class="wbtn ${w.dead?'dead':''} ${w.n===NOW?'now':''}" data-w="${w.n}"
+     ${w.n===NOW?'title="This week"':''}>${String(w.n).padStart(2,'0')}</button>`).join('');
+
+const esc = s => String(s).replace(/[<&]/g, c => c === '<' ? '&lt;' : '&amp;');
+/* Escape everything, then let four tags back in. The run descriptions name
+   folders and filenames, and `Screen Design` set in the body face reads as a
+   sentence rather than a thing to type. The content of this file is authored
+   here, not submitted by anyone, so a fixed whitelist is the whole risk. */
+const rich = s => esc(s)
+  .replace(/&lt;(\/?)(code|b|i)>/g, '<$1$2>')
+  .replace(/&lt;br>/g, '<br>')
+  /* Links too. The href is matched narrowly — a relative page in this folder,
+     or an https URL — so the whitelist stays a whitelist. Without this the run
+     sheets printed raw <a href="..."> at the reader. */
+  .replace(/&lt;a href="((?:https:\/\/)?[\w.\/?=&#:%-]+)"(?: target="_blank")?>/g,
+           (m, h) => `<a href="${h}"${h.startsWith('http') ? ' target="_blank" rel="noopener"' : ''}>`)
+  .replace(/&lt;\/a>/g, '</a>');
+const show = url => {
+  if (!url) return '';
+  return /^https?:/.test(url)
+    ? `<a class="rshow" href="${url}" target="_blank" rel="noopener">Show → ${url.replace(/^https:\/\//,'')}</a>`
+    : (/\.html$/.test(url)
+        ? `<a class="rshow" href="${url}">Show → ${url}</a>`
+        : `<span class="rshow plain">Show → ${esc(url)}</span>`);
+};
+
+/* Three things to leave with, and on every week but the last one of them is
+   open — it is what week N+1 opens on. Above the tabs, not inside the workshop
+   panel: students land on the lecture tab, and this is the part they need. */
+function paintThree(w){
+  $('#three').innerHTML = `<div class="three"><p class="three-h">Leave with three things</p>
+    <ol class="three-l">${w.three.map((x, i) => `<li class="${x.open ? 'open' : ''}">
+      <span class="tn">${i + 1}</span>
+      <span class="tt"><b>${rich(x.t)}</b><span>${rich(x.d)}</span>
+        ${x.open ? `<em class="topen">Open \u2014 ${w.n < SD.WEEKS ? `carries into week ${w.n + 1}` : 'before the deadline'}</em>` : ''}
+      </span></li>`).join('')}</ol></div>`;
+}
+
+/* One page per week, in layers (first-week feedback, October 2026: the sheets
+   were "too dense"). Nothing was removed; it was re-ordered by who needs it when.
+     first screen — the idea, the three things, what to bring, what to fill in
+     three blocks — class, workshop, after: titles and takeaways visible, each
+                    step's full paragraph one tap away
+     folded       — the questions people ask, and the tutors' notes
+   The workshop handout used to be a modal that repeated most of this; the page
+   is the handout now, and printing it gives the one-page version. */
+const SEC = {}; SD.all.forEach(i => { SEC[i.sec] = i; });
+const madeIn = w => w.workshop.out.sec.filter(x => SEC[x]);
+/* the appendices belong to no week: count them in at the end, so the deck
+   still adds up to every section by the last week */
+const ANYTIME = SD.all.filter(i => !WEEKS.some(w => w.workshop.out.sec.includes(i.sec))).map(i => i.sec);
+const doneBy = n => WEEKS.filter(w => w.n <= n).reduce((a, w) => a + madeIn(w).length, 0) + (n >= SD.WEEKS ? ANYTIME.length : 0);
+const plain = t => String(t).replace(/<[^>]+>/g, '');
+
+function render(){
+  const w = WEEKS.find(x => x.n === cur), k = w.workshop;
+  document.querySelectorAll('.wbtn').forEach(b => b.classList.toggle('on', +b.dataset.w === cur));
+  $('#wtitle').textContent = `Week ${w.n} — ${w.title}`;
+  $('#wdate').textContent = `${SD.DAY} ${SD.fmt(SD.dateOf(w.n))}`;
+  const tw = $('#thisweek');
+  tw.textContent = NOW === 0 ? `Teaching starts ${SD.fmt(SD.mondayOf(1))}`
+    : NOW > SD.WEEKS ? `Teaching finished · ${SD.daysToDeadline()} days to hand in`
+    : (w.n === NOW ? '▶ This is the current week'
+       : `You are looking at week ${w.n} · this week is week ${NOW}`);
+  $('#printhead').textContent = `SCREEN DESIGN · WEEK ${String(w.n).padStart(2,'0')} · ${SD.fmt(SD.dateOf(w.n))}`;
+  $('#printhint').textContent = 'Prints as the one-page handout: the first screen, the step titles, and what comes next.';
+  $('#widea').textContent = w.idea;
+  paintThree(w);
+
+  /* what to bring, and the sections today fills in — ticked here, ticked on
+     the checklist, because it is the same store */
+  const bring = plain(k.bring).split('·').map(x => x.trim()).filter(Boolean);
+  const made = madeIn(w), maybe = (k.maybe || []).filter(x => SEC[x]), st = SD.read(), done = doneBy(w.n);
+  const tk = (x, opt) => { const it = SEC[x]; return `
+        <label class="tk"><input type="checkbox" data-key="${it.key}"${st[it.key] ? ' checked' : ''}>
+          <i>${x}</i><span>${esc(it.t)}</span>${opt ? '<em class="ifcan">if you can</em>' : ''}</label>`; };
+  $('#today').innerHTML = `
+    <div class="td"><b class="lab">Bring</b>
+      <span class="bring">${bring.map(x => `<span>${esc(x)}</span>`).join('')}</span></div>
+    <div class="td"><b class="lab">Fill in today</b>
+      ${made.length || maybe.length ? `<span class="ticks">${made.map(x => tk(x)).join('')}${maybe.map(x => tk(x, true)).join('')}</span>`
+        : `<span class="none">Nothing yet — today sets your deck up.</span>`}
+      <span class="deck"><span class="deck-t"><i style="width:${Math.round(done / SD.total * 100)}%"></i></span>
+        <small>${done} of ${SD.total} sections done after today</small></span></div>`;
+
+  $('#class').innerHTML = `
+    <div class="bh"><h2>In class</h2><span class="when">1h · 09:00–10:00 · GM LT7, Geoffrey Manton · everyone</span></div>
+    ${w.shown.length ? (() => {
+      /* Core first: the one or two links the week is built on, so anyone who
+         missed the class — or a colleague taking it — knows where to start.
+         The rest were shown too, and stay, as further depth. */
+      const core = w.shown.filter(r => r.core), also = w.shown.filter(r => !r.core);
+      const li = (r, i, c) => `<li${c ? ' class="core"' : ''}>
+      <details class="it"><summary><span class="n">${i + 1}</span>
+        <span class="s">${c ? '<em class="corebadge">Core</em>' : ''}<b>${rich(r.s)}</b>${r.take ? `<span class="take">${rich(r.take)}</span>` : ''}</span></summary>
+        <div class="more"><p>${rich(r.d)}</p></div></details>
+      ${r.u ? `<div class="go">${show(r.u)}</div>` : ''}</li>`;
+      return (core.length ? `<p class="corehead"><b>Start here.</b> ${core.length === 1 ? 'This is' : 'These two are'} what the week is built on — study ${core.length === 1 ? 'it' : 'them'} first.</p>
+        <ol class="items">${core.map((r, i) => li(r, i, true)).join('')}</ol>` : '') +
+        (also.length ? `<p class="alsohead"><b>Worth a look</b> — more context and depth. Some of these were shown in class, some were not.</p>
+        <ol class="items also">${also.map((r, i) => li(r, core.length + i, false)).join('')}</ol>` : '');
+    })() : `<p class="none">No lecture this week.</p>`}`;
+
+  $('#workshop').innerHTML = `
+    <div class="bh"><h2>Workshop</h2><span class="when">2h · 10:00–12:00 · your group · three rooms run the same session</span></div>
+    <p class="claim">${esc(k.aim)}</p>
+    <ol class="items steps">${k.run.map((r, i) => `<li>
+      <details class="it"><summary><span class="n">${i + 1}</span><span class="s"><b>${rich(r.s)}</b></span></summary>
+        <div class="more"><p>${rich(r.d)}</p></div></details></li>`).join('')}</ol>
+    <p class="seqhint">In this order — each step takes as long as the room needs. Tap a step for the detail.</p>
+    <div class="missline"><b>Watch out</b><span>${esc(k.mistake)}</span></div>`;
+
+  $('#after').innerHTML = `
+    <div class="bh"><h2>${w.n < SD.WEEKS ? 'Before next week' : 'Before the deadline'}</h2></div>
+    ${k.between ? `<div class="btwnline"><span>${rich(k.between)}</span></div>` : ''}
+    <b class="lab">Keep in mind</b>
+    <ul class="keep">${w.hand.keep.map(x => `<li>${esc(x)}</li>`).join('')}</ul>`;
+
+  $('#stuck').innerHTML = `<summary><b>Stuck?</b><em>${k.stuck.length} questions that come up, with answers</em></summary>
+    <dl class="qa">${k.stuck.map(([q, a]) => `<dt>${esc(q)}</dt><dd>${rich(a)}</dd>`).join('')}</dl>`;
+
+  $('#tutors').innerHTML = `<summary><b>For tutors</b><em>goals, outcomes, what done looks like</em></summary>
+    <div class="tgrid">
+      <div><b class="lab">By the end, students can</b>
+        <ol>${k.goals.map(g => `<li>${rich(g)}</li>`).join('')}</ol></div>
+      <div><b class="lab">Sections filled in</b>
+        <span class="osecs">${k.out.sec.filter(x => x !== '—').map(x => `<i>${esc(x)}</i>`).join('')
+          || '<span class="none">None — this session sets the deck up</span>'}</span>
+        <p>${esc(k.out.what)}</p>
+        <b class="lab">Produces</b><p>${w.makes.map(esc).join(' · ')}</p></div>
+    </div>
+    ${k.los.length ? `<div class="lorow">${k.los.map(x =>
+      `<span class="lo" title="${esc(LOS[x])}"><b>${x}</b> ${esc(LOS[x])}</span>`).join('')}</div>` : ''}
+    <div class="doneline"><b>They leave with</b><span>${rich(k.leave)}</span></div>
+    <div class="doneline dn"><b>Done when</b><span>${rich(k.done)}</span></div>
+    <p class="pnote">~33 per room · three rooms run the same session · the studio hours after are unscheduled</p>`;
+
+  /* Weeks 1 and 2 only: the last word opens the staff sheet for that week's
+     marking exercise — the 42 in week 1, the council example in week 2.
+     Unstyled and out of the tab order, so it reads as plain text. */
+  const STAFF = { 1: 'example-sheet.html', 2: 'example-council-sheet.html' };
+  $('#qword').innerHTML = STAFF[cur]
+    ? `<a class="qlink" href="${STAFF[cur]}" tabindex="-1">edited</a>` : 'edited';
+  try { history.replaceState(null, '', `?w=${cur}${location.hash || ''}`); } catch(e){}
+}
+
+$('#today').addEventListener('change', e => {
+  const c = e.target.closest('input[data-key]'); if (!c) return;
+  const st = SD.read(); st[c.dataset.key] = c.checked; SD.write(st);
+});
+
+$('#picker').onclick = e => { const b = e.target.closest('.wbtn'); if(!b) return; cur = +b.dataset.w;
+  history.replaceState(null, '', `?w=${cur}`); render(); window.scrollTo({ top: 0 }); };
+$('#print').onclick  = () => window.print();
+
+const q = new URLSearchParams(location.search);
+if (q.get('w') && WEEKS.some(w => w.n === +q.get('w'))) cur = +q.get('w');
+render();
+/* Old links still land: ?p=shown and ?p=workshop were the two tabs. */
+const jumpTo = { shown: 'class', workshop: 'workshop' }[q.get('p')];
+if (jumpTo) requestAnimationFrame(() => document.getElementById(jumpTo).scrollIntoView());
+
+const root=document.documentElement;
+try{ const t=localStorage.getItem('sd-theme'); if(t) root.dataset.theme=t; }catch(e){}
+if(!root.dataset.theme && matchMedia('(prefers-color-scheme: dark)').matches) root.dataset.theme='dark';
+$('#theme').onclick=()=>{ root.dataset.theme = root.dataset.theme==='dark'?'light':'dark';
+  try{ localStorage.setItem('sd-theme', root.dataset.theme); }catch(e){} };
+</script>
+<script>
+/* The section count is written in prose in one sentence on three pages. It is
+   filled from PARTS so that adding a section cannot leave the sentence behind —
+   which is exactly how "22 sections" survived next to a 23-section list. */
+document.querySelectorAll('.seccount').forEach(el => {
+  el.textContent = PARTS.reduce((n, p) => n + p.items.length, 0);
+});
+</script>
+</body>
+</html>
