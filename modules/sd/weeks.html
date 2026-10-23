@@ -118,7 +118,7 @@
   code{font-family:var(--mono);font-size:0.88em;overflow-wrap:anywhere}
 
   @media print{
-    header,.picker,.prow,footer,.ctl,.rules,.jump,.fold,.thisweek,.subject,.items .go,.it > summary::after,.deck small{display:none !important}
+    header, .picker, .prow, footer, .ctl, .jump, .fold, .thisweek, .subject, .items .go, .it > summary::after, .deck small{display:none !important}
     .it > summary{padding:2px 0 !important;grid-template-columns:20px 1fr !important;gap:7px !important}
     .items > li{border:0 !important;background:none !important;border-radius:0 !important}
     .it .n{width:16px !important;height:16px !important;font-size:0.56rem !important}
@@ -190,9 +190,7 @@
   .items > li.core{border:2px solid var(--lec)}
   .corebadge{display:inline-block;font-style:normal;font-family:var(--mono);font-size:0.62rem;letter-spacing:0.08em;text-transform:uppercase;
     background:var(--lec);color:#fff;border-radius:4px;padding:1px 6px;margin:0 8px 0 0;vertical-align:2px}
-  .corehead,.alsohead{margin:4px 0 8px;font-size:0.9rem;color:var(--ink-2)}
-  .alsohead{margin-top:18px;color:var(--ink-3)}
-  .items.also > li{background:var(--surface-2,var(--surface))}
+
   .items > li{background:var(--surface);border:1px solid var(--line);border-radius:10px}
   .it > summary{display:grid;grid-template-columns:28px 1fr 16px;gap:11px;align-items:start;
     padding:11px 14px;cursor:pointer;list-style:none}
@@ -228,38 +226,6 @@
   .today{align-items:start}
   .printhead{display:none;font-family:var(--mono);font-size:0.7rem;color:var(--ink-3);
     border-bottom:1px solid var(--line);padding-bottom:6px;margin-bottom:12px}
-
-  /* The standing rules.
-     
-     Eleven of them now, which is too many for the two-column definition list
-     this used to be — the second column ran to four lines and the keys drifted
-     away from their text. Cards instead, numbered, so a tutor can say "rule
-     three" in a room and be understood.
-     
-     These styles were deleted outright by a regex that was meant to replace
-     only the header block and matched to the next section instead. */
-  .rules{background:var(--surface);border:1px solid var(--line);border-radius:11px;
-    padding:14px 16px;margin:14px 0 2px}
-  .rules summary{cursor:pointer;font-size:0.95rem;color:var(--ink-2);list-style:none;
-    display:flex;align-items:baseline;gap:7px}
-  .rules summary::-webkit-details-marker{display:none}
-  .rules summary::before{content:"▸";color:var(--ink-3);font-size:0.8em}
-  .rules[open] summary::before{content:"▾"}
-  .rules summary b{color:var(--ink)}
-  .rgrid{display:grid;gap:10px;grid-template-columns:repeat(auto-fill,minmax(min(250px,100%),1fr));
-    margin-top:14px;padding-top:14px;border-top:1px solid var(--line)}
-  .rcard{background:var(--surface-2);border-radius:9px;padding:12px 14px;min-width:0}
-  .rnum{display:block;font-family:var(--mono);font-size:0.62rem;letter-spacing:0.09em;
-    color:var(--ink-3);margin-bottom:5px}
-  /* The direct child only. `.rcard b` caught the inline emphasis inside the
-     rule text too, so every bolded phrase became its own line and the
-     sentences came apart mid-clause. */
-  .rcard > b{display:block;font-size:0.92rem;font-weight:650;margin-bottom:4px}
-  .rcard p b{color:var(--ink)}
-  .rcard p{margin:0;font-size:0.86rem;line-height:1.5;color:var(--ink-2)}
-  .rcard code{background:var(--surface);padding:1px 5px;border-radius:4px;
-    font-family:var(--mono);font-size:0.88em;overflow-wrap:anywhere}
-  .rcard a{color:var(--lec);overflow-wrap:anywhere}
 
   /* Said on every page a student might plan against. Content moves; the
      assessment does not — and being explicit about which is which is what
@@ -449,18 +415,12 @@ function render(){
   $('#class').innerHTML = `
     <div class="bh"><h2>In class</h2><span class="when">1h · 09:00–10:00 · GM LT7, Geoffrey Manton · everyone</span></div>
     ${w.shown.length ? (() => {
-      /* Core first: the one or two links the week is built on, so anyone who
-         missed the class — or a colleague taking it — knows where to start.
-         The rest were shown too, and stay, as further depth. */
-      const core = w.shown.filter(r => r.core), also = w.shown.filter(r => !r.core);
       const li = (r, i, c) => `<li${c ? ' class="core"' : ''}>
       <div class="it flat"><div class="sum"><span class="n">${i + 1}</span>
         <span class="s">${c ? '<em class="corebadge">Core</em>' : ''}<b>${rich(r.s)}</b>${r.take ? `<span class="take">${rich(r.take)}</span>` : ''}</span></div></div>
       ${r.u ? `<div class="go">${show(r.u)}</div>` : ''}</li>`;
-      return (core.length ? `<p class="corehead"><b>Start here.</b> ${core.length === 1 ? 'This is' : 'These two are'} what the week is built on — study ${core.length === 1 ? 'it' : 'them'} first.</p>
-        <ol class="items">${core.map((r, i) => li(r, i, true)).join('')}</ol>` : '') +
-        (also.length ? `<p class="alsohead"><b>Worth a look</b> — more context and depth. Some of these were shown in class, some were not.</p>
-        <ol class="items also">${also.map((r, i) => li(r, core.length + i, false)).join('')}</ol>` : '');
+      /* Only what the week is built on (24 Oct 2026: "Worth a look" was more load than help). */
+      return `<ol class="items">${w.shown.map((r, i) => li(r, i, false)).join('')}</ol>`;
     })() : `<p class="none">No lecture this week.</p>`}`;
 
   $('#workshop').innerHTML = `
