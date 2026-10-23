@@ -111,39 +111,71 @@
   @media(max-width:520px){ .steps td{padding:7px 8px} .steps td.rg{white-space:normal} }
 
 
-  /* the Flow maker: type the journey, get the diagram */
-  .fl-help{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:12px 16px;margin:12px 0;font-size:0.9rem;color:var(--ink-2)}
-  .fl-help summary{cursor:pointer;font-weight:650;color:var(--ink)}
-  .fl-help table{border-collapse:collapse;margin:8px 0 4px;width:100%}
-  .fl-help td{border-top:1px solid var(--line);padding:6px 8px;vertical-align:top}
-  .fl-help td:first-child{font-family:var(--mono);font-size:0.8rem;white-space:pre-wrap;overflow-wrap:anywhere;color:var(--ink);width:44%}
-  .fl-goal{display:flex;flex-wrap:wrap;gap:6px 10px;align-items:center;margin:12px 0}
-  .fl-goal label{font-weight:650;font-size:0.92rem}
-  .fl-goal input{font:inherit;flex:1;min-width:220px;padding:8px 10px;border:1px solid var(--line-2);border-radius:7px;background:var(--surface);color:var(--ink)}
-  .fl-cols{display:grid;grid-template-columns:1fr 1fr;gap:16px}
-  @media(max-width:900px){.fl-cols{grid-template-columns:1fr}}
-  .fl-col{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:12px 14px;min-width:0;display:flex;flex-direction:column;gap:8px}
-  .fl-col h2{margin:0;font-size:1.05rem}
-  .fl-col h2 span{font-weight:400;color:var(--ink-3);font-size:0.85rem}
-  .fl-col textarea{font-family:var(--mono);font-size:0.8rem;line-height:1.55;width:100%;min-height:210px;resize:vertical;padding:10px;border:1px solid var(--line-2);border-radius:8px;background:var(--bg);color:var(--ink);tab-size:2}
-  .fl-col textarea:focus-visible,.fl-goal input:focus-visible{outline:2px solid var(--lec);outline-offset:1px}
-  .fl-count{font-size:0.84rem;color:var(--ink-2);margin:0}
-  .fl-count b{color:var(--ink)}
-  .fl-draw{border:1px solid var(--line);border-radius:8px;background:#fff;overflow:auto;max-height:78vh}
-  .fl-draw svg{display:block;width:100%;height:auto}
-  .fl-draw .empty{color:#4D4847;padding:20px;margin:0}
-  .fl-acts{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
-  .fl-acts button{font:inherit;font-size:0.84rem;border-radius:7px;padding:7px 12px;cursor:pointer;border:1px solid var(--line-2);background:var(--surface);color:var(--ink)}
-  .fl-acts button:hover{border-color:var(--lec);color:var(--lec)}
-  .fl-acts button.pri{background:var(--lec);border-color:var(--lec);color:#fff}
-  html[data-theme="dark"] .fl-acts button.pri{color:#151314}
-  .fl-acts button:focus-visible{outline:2px solid var(--lec);outline-offset:2px}
-  .fl-acts .q{margin-left:auto;display:flex;gap:6px}
-  .fl-acts .q button{font-size:0.76rem;padding:5px 9px;color:var(--ink-3)}
-  .msg{font-size:0.8rem;color:var(--ok)}
-  .fl-both{background:var(--surface);border:1px solid var(--line);border-left:4px solid var(--wsh);border-radius:0 12px 12px 0;padding:12px 16px;margin:16px 0;display:flex;flex-wrap:wrap;gap:8px 14px;align-items:center}
-  .fl-both p{margin:0;flex:1;min-width:240px;font-size:0.9rem;color:var(--ink-2)}
-  .fl-both p b{color:var(--ink)}
+  /* the Flow maker: rows in, a 16:9 slide out */
+  .fm-goal{display:flex;flex-wrap:wrap;gap:6px 10px;align-items:center;margin:14px 0}
+  .fm-goal label{font-weight:700}
+  .fm-goal input{font:inherit;flex:1;min-width:min(260px,100%);padding:9px 11px;border:1px solid var(--line-2);border-radius:8px;background:var(--surface);color:var(--ink)}
+  .fm-stage{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:12px;margin:0 0 18px}
+  .fm-bar{display:flex;flex-wrap:wrap;gap:8px 14px;align-items:center;margin-bottom:10px}
+  .fm-seg{display:inline-flex;border:1px solid var(--line-2);border-radius:8px;overflow:hidden}
+  .fm-stage .fm-seg button{font:inherit;font-size:0.86rem;border:0;background:var(--surface);color:var(--ink);padding:7px 14px;cursor:pointer}
+  .fm-stage .fm-seg button+button{border-left:1px solid var(--line-2)}
+  .fm-stage .fm-seg button[aria-pressed="true"]{background:var(--lec);color:#fff}
+  html[data-theme="dark"] .fm-stage .fm-seg button[aria-pressed="true"]{color:#151314}
+  .fm-tally{font-size:0.86rem;color:var(--ink-2)} .fm-tally b{color:var(--ink)}
+  .fm-slide{aspect-ratio:16/9;border:1px solid var(--line);border-radius:6px;overflow:hidden;background:#fff}
+  .fm-slide svg{display:block;width:100%;height:100%}
+  .fm-out{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-top:10px}
+  .fm-stage button,.fm-panel button,.fm-add button{font:inherit;font-size:0.85rem;border-radius:7px;padding:6px 11px;cursor:pointer;border:1px solid var(--line-2);background:var(--surface);color:var(--ink)}
+  .fm-stage button:hover,.fm-panel button:hover{border-color:var(--lec);color:var(--lec)}
+  button.pri{background:var(--lec)!important;border-color:var(--lec)!important;color:#fff!important;font-weight:600}
+  html[data-theme="dark"] button.pri{color:#151314!important}
+  button:focus-visible,.fm-panel input:focus-visible,.fm-panel select:focus-visible{outline:2px solid var(--lec);outline-offset:1px}
+  .msg{font-size:0.82rem;color:var(--ok)}
+  .fm-tabs{display:flex;gap:4px;border-bottom:1px solid var(--line-2);margin:6px 0 0;overflow-x:auto}
+  .fm-tabs button{font:inherit;font-size:0.92rem;font-weight:650;border:1px solid transparent;border-bottom:0;border-radius:8px 8px 0 0;background:none;color:var(--ink-2);padding:9px 14px;cursor:pointer;white-space:nowrap}
+  .fm-tabs button span{font-weight:400;font-size:0.76rem;color:var(--ink-3);margin-left:4px}
+  .fm-tabs button[aria-selected="true"]{background:var(--surface);border-color:var(--line-2);color:var(--ink);margin-bottom:-1px}
+  .fm-panel{background:var(--surface);border:1px solid var(--line-2);border-top:0;border-radius:0 0 12px 12px;padding:14px 16px 16px}
+  .fm-how{margin:0 0 12px;color:var(--ink-2);font-size:0.92rem;line-height:1.55;max-width:80ch}
+  .fm-recipe{margin:0 0 14px;padding-left:20px;color:var(--ink-2);font-size:0.92rem;line-height:1.6}
+  .fm-recipe li{margin:0 0 6px}
+  .fm-list{list-style:none;margin:0;padding:0;display:grid;gap:8px}
+  .fm-row{display:grid;grid-template-columns:34px minmax(0,2.2fr) minmax(0,1.3fr) 150px 236px;gap:6px 8px;align-items:center;border:1px solid var(--line);border-radius:9px;padding:8px 10px;background:var(--bg)}
+  .fm-row.bad{border-color:var(--lec);box-shadow:inset 3px 0 0 var(--lec)}
+  .fm-row.k-q{background:color-mix(in srgb,#FFF4D6 45%,var(--bg))}
+  html[data-theme="dark"] .fm-row.k-q{background:#2A2417}
+  .fm-row.k-wait{border-style:dashed}
+  .fm-n{font-family:var(--mono);font-weight:700;font-size:0.85rem;color:var(--ink-3);text-align:center}
+  .fm-row input,.fm-row select,.fm-d2 input{font:inherit;font-size:0.9rem;padding:6px 8px;border:1px solid var(--line-2);border-radius:6px;background:var(--surface);color:var(--ink);min-width:0;width:100%}
+  .fm-row select{width:100%}
+  .fm-tools{display:flex;gap:4px;flex-wrap:wrap;justify-content:flex-end}
+  .fm-panel .fm-tools button{padding:5px 8px;font-size:0.8rem}
+  .fm-tools button:disabled{opacity:.35;cursor:default}
+  .fm-panel .fm-tools .stk.on{background:var(--lec-soft);border-color:var(--lec);color:var(--lec);font-weight:700}
+  .fm-if,.fm-from{grid-column:2 / -1;display:flex;gap:8px;align-items:center;flex-wrap:wrap;font-size:0.85rem;color:var(--ink-2)}
+  .fm-if input{flex:1;min-width:180px;width:auto}
+  .fm-panel .fm-from .chip{font-family:var(--mono);font-size:0.76rem;padding:3px 8px;border-radius:99px}
+  .fm-panel .fm-from .chip.on{background:var(--wsh);border-color:var(--wsh);color:#fff}
+  html[data-theme="dark"] .fm-panel .fm-from .chip.on{color:#151314}
+  .fm-from .new{font-style:normal;font-size:0.76rem;font-weight:700;color:var(--ok)}
+  .fm-add{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap}
+  .fm-empty{color:var(--ink-3);font-size:0.9rem;padding:8px 0}
+  .fm-d2{width:100%;border-collapse:collapse;font-size:0.9rem}
+  .fm-d2 th{text-align:left;font-size:0.78rem;color:var(--ink-3);font-weight:600;border-bottom:1px solid var(--line-2);padding:6px}
+  .fm-d2 td{border-bottom:1px solid var(--line);padding:6px;vertical-align:middle}
+  .fm-d2 td:first-child{width:34%} .fm-d2 td:nth-child(2){width:22%}
+  .fate{font-size:0.8rem;font-weight:700;border-radius:99px;padding:2px 9px;white-space:nowrap;display:inline-block}
+  .fate.kept,.fate.changed{background:var(--ok-soft);color:var(--ok)} .fate.merged,.fate.moved{background:var(--wsh-soft);color:var(--wsh)}
+  .fate.removed{background:var(--surface-2);color:var(--ink-3);text-decoration:line-through} .fate.new{background:var(--ok-soft);color:var(--ok);white-space:normal}
+  .fm-rule{font-size:0.84rem;color:var(--ink-3);margin:10px 0 0}
+  .linkish{font:inherit;background:none;border:0;padding:0;color:var(--lec);text-decoration:underline;cursor:pointer}
+  @media(max-width:760px){
+    .fm-row{grid-template-columns:28px minmax(0,1fr)}
+    .fm-row > input.fm-w,.fm-row > span.fm-w,.fm-row > select,.fm-tools{grid-column:2}
+    .fm-tools{justify-content:flex-start}
+    .fm-d2,.fm-d2 tbody,.fm-d2 tr,.fm-d2 td{display:block;width:auto!important} .fm-d2 thead{display:none} .fm-d2 tr{border-bottom:1px solid var(--line-2);padding:6px 0} .fm-d2 td{border:0;padding:3px 0}
+  }
 
   /* THE BAR — one definition, identical on every page (written by navfix; change it
      everywhere or nowhere). It used to be copied per page and drifted into two heights. */
@@ -190,228 +222,333 @@
 
 <div class="wrap">
   <h1>Flow maker</h1>
-  <p class="lede">Type the journey, one step on each line, and the flow diagram draws itself. Map <b>how people do it now</b> in week 5 and <b>your version</b> beside it in week 7. Download the picture into <b>B4</b>, and copy the numbered lists into <b>A2</b>. Your text stays in this browser. To keep a copy anywhere else, paste it into your deck’s notes or your OneDrive folder.</p>
+  <p class="lede">Your journey as a slide for <b>B4</b>, made in two steps. <b>Week 5:</b> list what a person does <i>now</i>, step by step, and mark where they get stuck. <b>Week 7:</b> make <i>your version</i> from a copy of it. Remove steps, merge them, move them and add screens, and the tool keeps track of what happened to each one. That record is your <b>D2</b>.</p>
 
-  <details class="fl-help" open><summary>How to write a flow</summary>
-    <table>
-      <tr><td>Open the council's bins page — website</td><td>A step. Anything after <b> — </b> is the tool or screen, written smaller underneath.</td></tr>
-      <tr><td>Will you create an account?</td><td>A <b>decision</b>: end the line with <b>?</b> and give it another way out on the next line. The journey carries on underneath as “yes”. A question with no other way out — “Which bin?” — is drawn as an ordinary screen.</td></tr>
-      <tr><td>  no: phone the contact centre !</td><td>The <b>other way out</b> of a decision: start the line with spaces. End it with <b>!</b> if people get stuck there.</td></tr>
-      <tr><td>  no: come back after 5pm -> 3</td><td>A way out that sends people <b>back</b> to step 3.</td></tr>
-      <tr><td>~ 2 working days</td><td>A <b>wait</b>. It is not a step, but it is counted.</td></tr>
-      <tr><td>! Error, form cleared</td><td>A step where people <b>get stuck</b>: start the line with <b>!</b>.</td></tr>
-    </table>
-    The first and last steps are drawn rounded: where people come in, and where they get what they came for. Steps are numbered for you, so they match A2 and D1.
-  </details>
+  <div class="fm-goal"><label for="goal">Goal</label><input id="goal" placeholder="What the person is trying to get done, e.g. Report a missed bin collection"></div>
 
-  <div class="fl-goal"><label for="n-goal">Goal</label><input id="n-goal" placeholder="What the person is trying to get done"></div>
-
-  <div class="fl-cols">
-    <section class="fl-col" aria-labelledby="h-before">
-      <h2 id="h-before">Before <span>· how people do it now · week 5</span></h2>
-      <textarea id="t-before" spellcheck="false" aria-label="Before: one step per line"></textarea>
-      <p class="fl-count" id="c-before"></p>
-      <div class="fl-draw" id="d-before"></div>
-      <div class="fl-acts"><button type="button" class="pri" data-act="png" data-k="before">Download picture for B4</button><button type="button" data-act="list" data-k="before">Copy the list for A2</button>
-        <span class="q"><button type="button" data-act="ex" data-k="before">Example</button><button type="button" data-act="clear" data-k="before">Clear</button></span><span class="msg" id="m-before" role="status"></span></div>
-    </section>
-    <section class="fl-col" aria-labelledby="h-after">
-      <h2 id="h-after">After <span>· your version · week 7</span></h2>
-      <textarea id="t-after" spellcheck="false" aria-label="After: one screen per line"></textarea>
-      <p class="fl-count" id="c-after"></p>
-      <div class="fl-draw" id="d-after"></div>
-      <div class="fl-acts"><button type="button" class="pri" data-act="png" data-k="after">Download picture for B4</button><button type="button" data-act="list" data-k="after">Copy the list for A2</button>
-        <span class="q"><button type="button" data-act="ex" data-k="after">Example</button><button type="button" data-act="clear" data-k="after">Clear</button></span><span class="msg" id="m-after" role="status"></span></div>
-    </section>
+  <div class="fm-stage">
+    <div class="fm-bar">
+      <span class="fm-seg" role="group" aria-label="What the slide shows"><button type="button" data-view="before">Now</button><button type="button" data-view="after">Your version</button><button type="button" data-view="both">Both</button></span>
+      <span class="fm-tally" id="tally"></span>
+    </div>
+    <div class="fm-slide" id="slide" aria-label="The B4 slide, drawn from your steps"></div>
+    <div class="fm-out">
+      <button type="button" class="pri" data-act="png">Download the slide for B4</button>
+      <button type="button" data-act="a2">Copy both lists for A2</button>
+      <button type="button" data-act="d2">Copy “what happened” for D2</button>
+      <span class="msg" id="msg" role="status"></span>
+    </div>
   </div>
 
-  <div class="fl-both"><p id="diff"></p><span class="fl-acts"><button type="button" class="pri" data-act="both">Download both, side by side</button><span class="msg" id="m-both" role="status"></span></span></div>
+  <div class="fm-tabs" role="tablist" aria-label="Steps">
+    <button type="button" role="tab" data-tab="before" id="t-before" aria-controls="p-before">1 · Now <span>week 5</span></button>
+    <button type="button" role="tab" data-tab="after" id="t-after" aria-controls="p-after">2 · Your version <span>week 7</span></button>
+    <button type="button" role="tab" data-tab="d2" id="t-d2" aria-controls="p-d2">3 · What happened <span>D2</span></button>
+  </div>
 
-  <p class="note">Prefer to draw? Paper and a thick marker are fine — photograph it into B4. For full control, <a href="https://app.diagrams.net/" target="_blank" rel="noopener">draw.io</a> is free in the browser with no account. The example is a made-up council, drawn from the <a href="case-missed-bin.html">missed bin case</a>.</p>
+  <section class="fm-panel" role="tabpanel" id="p-before" aria-labelledby="t-before">
+    <p class="fm-how">One row for everything a person does or waits for, in order, from the first search to getting what they came for. If a row is a yes/no question, pick <b>Yes/no question</b> and say what happens if the answer is no. Press <b>✗ stuck</b> wherever people go wrong, and say why. These are the problems your version has to fix.</p>
+    <ol class="fm-list" id="l-before"></ol>
+    <div class="fm-add"><button type="button" data-act="add" data-side="before">+ Add a step</button><button type="button" data-act="add" data-side="before" data-k="wait">+ Add a wait</button></div>
+  </section>
+
+  <section class="fm-panel" role="tabpanel" id="p-after" aria-labelledby="t-after" hidden>
+    <ol class="fm-recipe">
+      <li>Press <button type="button" class="pri" data-act="seed">Start from my “now”</button>. You get a copy to change.</li>
+      <li>Work through it with the problems in front of you. <b>✕</b> removes a step, <b>merge ↓</b> joins a step to the next one, and <b>↑ ↓</b> moves a step. Rename a step to say what your screen does, and <b>+ Add a screen</b> for anything new.</li>
+      <li>The numbers under each row show which steps from <i>now</i> it came from. The slide labels every old step <i>kept</i>, <i>merged</i>, <i>moved</i>, <i>changed</i> or <i>removed</i>.</li>
+    </ol>
+    <ol class="fm-list" id="l-after"></ol>
+    <div class="fm-add"><button type="button" data-act="add" data-side="after">+ Add a screen</button><button type="button" data-act="add" data-side="after" data-k="wait">+ Add a wait</button></div>
+  </section>
+
+  <section class="fm-panel" role="tabpanel" id="p-d2" aria-labelledby="t-d2" hidden>
+    <p class="fm-how">Every step from <i>now</i>, and what happened to it in your version. The tool fills in the middle column. You write the <b>why</b>: that is what makes D2 evidence rather than a list. Then <b>Copy “what happened” for D2</b>.</p>
+    <div id="d2"></div>
+  </section>
+
+  <p class="note">Your work stays in this browser, on this computer. Before you close it, download the slide and copy both lists into your deck. <button type="button" class="linkish" data-act="example">Load the example</button> · <button type="button" class="linkish" data-act="clear">Start again</button>. The example is a made-up council, drawn from the <a href="case-missed-bin.html">missed bin case</a>. Prefer paper? Draw boxes and arrows, left to right, and photograph them into B4.</p>
 
   <footer><p>Screen Design · Level 4 · 2026–27</p></footer>
 </div>
 
 <script>
 (function () {
-  /* The Flow maker: a journey typed as lines becomes a flow diagram (B4).
-     One line per step. "?" at the end makes a decision. An indented line under a
-     decision is its other way out: "-> 3" sends it back to step 3, "!" marks a dead end.
-     "~" starts a wait, "!" starts a step where people get stuck, " — " adds the tool. */
+  /* The Flow maker. Students list the journey as it is now (week 5), then build their version
+     FROM it (week 7): start from a copy, then remove, merge, move, rename and add screens.
+     Every step now ends up kept, merged, moved or removed, which is D2; the drawing is a
+     16:9 slide for B4. Nothing to learn but the buttons. */
   const $ = id => document.getElementById(id);
-  const esc = s => String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
-  const EX = {
-    before: `Search "missed bin" — Google
-Open the council's bins page — website
-Read 199 words of rules — website
-Is it after 5pm on collection day?
-  no: come back after 5pm -> 3
-Find "Report a missed bin" — website
-Will you create an account?
-  no: phone the contact centre !
-~ wait for the activation email
-Enter your address — form
-Choose the bin from a list of 9 — form
-! Error: "invalid selection", form cleared
-Submit — form
-~ 2 working days
-Bin collected`,
-    after: `Search "missed bin" — Google
-Report a missed bin — start page
-Your postcode — form
-Which bin was not emptied? — form
-Was it out by 7am?
-  no: what to do next time — advice page
-Check your answers
-Report sent — reference by text
-~ next working day
-Bin collected`,
-  };
-  const KEY = 'sd-flow';
-  let saved = {}; try { saved = JSON.parse(localStorage.getItem(KEY) || '{}'); } catch (e) {}
-  $('t-before').value = saved.before != null ? saved.before : EX.before;
-  $('t-after').value = saved.after != null ? saved.after : EX.after;
-  $('n-goal').value = saved.goal != null ? saved.goal : 'Report a missed bin collection';
+  const esc = s => String(s == null ? '' : s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+  const KEY = 'sd-flow2';
+  let uid = 1; const nid = p => p + (uid++) + '-' + Date.now().toString(36);
 
-  function parse(src) {
-    const nodes = []; let n = 0;
-    src.split('\n').forEach(raw => {
-      if (!raw.trim()) return;
-      const branch = /^\s/.test(raw) && nodes.length && nodes[nodes.length - 1].kind === 'q';
-      let t = raw.trim();
-      if (branch) {
-        const m = t.match(/^([^:]{1,14}):\s*(.*)$/); let label = 'no'; if (m) { label = m[1].trim(); t = m[2]; }
-        const lp = t.match(/(?:->|→)\s*(\d+)\s*$/); let to = 0; if (lp) { to = +lp[1]; t = t.slice(0, lp.index).trim(); }
-        const stuck = /!\s*$/.test(t); t = t.replace(/!\s*$/, '').trim();
-        nodes[nodes.length - 1].br.push({ label, text: t, to, stuck });
-        return;
-      }
-      if (/^~/.test(t)) { nodes.push({ kind: 'wait', text: t.replace(/^~\s*/, '') }); return; }
-      const bad = /^!/.test(t); t = t.replace(/^!\s*/, '');
-      const [main, sub] = t.split(/\s+(?:—|--)\s+/);
-      nodes.push({ kind: /\?\s*$/.test(main) ? 'q' : 'step', text: main, sub: sub || '', bad, br: [], num: ++n });
+  const EXAMPLE = () => {
+    const B = [
+      ['b1', 'Search “missed bin”', 'Google'],
+      ['b2', 'Read the bins page, 199 words', 'website', 'step', true, 'The one rule that matters is in paragraph 4'],
+      ['b3', 'Is it after 5pm on collection day?', '', 'q', false, '', 'Come back after 5pm', 'back', 'b2'],
+      ['b4', 'Choose your bin from 9 options', 'form', 'step', true, 'Bins are named by the council, not by colour'],
+      ['b5', 'Name, email and phone', 'form'],
+      ['b6', 'Postcode and address', 'form'],
+      ['b7', 'Additional information', 'form'],
+      ['b8', 'Check your answers', 'summary page'],
+      ['b9', 'Finish', 'form', 'step', true, 'Times out after 20 minutes and clears the form'],
+      ['b10', '2 working days', '', 'wait'],
+      ['b11', 'Bin collected', ''],
+    ].map(([id, t, w, k, bad, note, ifnot, go, back]) => ({ id, t, w: w || '', k: k || 'step', bad: !!bad, note: note || '', ifnot: ifnot || '', go: go || 'stuck', back: back || '' }));
+    const A = [
+      ['a1', 'Search “missed bin”', 'Google', ['b1']],
+      ['a2', 'Start: the one rule, in 38 words', 'start page', ['b2', 'b3']],
+      ['a3', 'Your postcode', 'form', ['b6']],
+      ['a4', 'Which bin was not emptied?', 'form, by colour', ['b4']],
+      ['a5', 'How should we update you? (optional)', 'form', ['b5']],
+      ['a6', 'Check your answers', 'summary page', ['b8']],
+      ['a7', 'Report sent — reference by text', 'confirmation', ['b9']],
+      ['a8', 'Next working day', '', ['b10'], 'wait'],
+      ['a9', 'Bin collected', '', ['b11']],
+    ].map(([id, t, w, from, k]) => ({ id, t, w, from, k: k || 'step', bad: false, note: '', ifnot: '', go: 'stuck', back: '' }));
+    return { goal: 'Report a missed bin collection', before: B, after: A, view: 'both', tab: 'before',
+      why: { b2: 'Only the deadline decides whether reporting is any use; the rest is one link away', b3: 'Asked once, on the start page, before anyone types anything',
+        b4: 'Bins named by colour, with the council’s name underneath', b5: 'Nothing in emptying a bin needs a name; one way to send updates is enough',
+        b6: 'Everything else follows from the address, so it comes first', b7: 'Rarely needed — it returns as an optional box on the bin screen',
+        b9: 'The button says what it does, and the next screen says what happens', b10: 'The crew is booked when the report arrives' } };
+  };
+  const EMPTY = () => ({ goal: '', before: [], after: [], why: {}, view: 'before', tab: 'before' });
+  let S; try { S = JSON.parse(localStorage.getItem(KEY) || 'null'); } catch (e) {}
+  if (!S || !Array.isArray(S.before)) S = EXAMPLE();
+  const save = () => { try { localStorage.setItem(KEY, JSON.stringify(S)); } catch (e) {} };
+
+  /* numbers: waits are not steps, so they carry no number */
+  const nums = list => { const m = {}; let n = 0; list.forEach(x => { if (x.k !== 'wait') m[x.id] = ++n; }); return m; };
+  const counts = list => ({ steps: list.filter(x => x.k !== 'wait').length, waits: list.filter(x => x.k === 'wait').length,
+    stuck: list.filter(x => x.bad || (x.k === 'q' && x.ifnot && x.go === 'stuck')).length, loops: list.filter(x => x.k === 'q' && x.ifnot && x.go === 'back').length });
+
+  /* what happened to each step now: the D2 vocabulary */
+  function fates() {
+    const an = nums(S.after), pos = {}; S.after.forEach((a, i) => { pos[a.id] = i; });
+    const out = {}; let maxPos = -1;
+    S.before.forEach(b => {
+      const refs = S.after.filter(a => (a.from || []).includes(b.id));
+      if (!refs.length) { out[b.id] = { kind: 'removed', label: 'Removed' }; return; }
+      const r = refs[0], to = an[r.id] ? `step ${an[r.id]}` : 'a wait';
+      let kind, label;
+      if (r.from.length > 1) { kind = 'merged'; label = `Merged into ${to}`; }
+      else if (r.t.trim() !== b.t.trim() || r.k !== b.k) { kind = 'changed'; label = `Changed → ${to}`; }
+      else { kind = 'kept'; label = `Kept → ${to}`; }
+      if (pos[r.id] < maxPos) { kind = kind === 'kept' ? 'moved' : kind; label += ', moved'; }
+      maxPos = Math.max(maxPos, pos[r.id]);
+      out[b.id] = { kind, label, to: an[r.id] };
     });
-    /* a question with no other way out is a screen that asks something, not a decision */
-    nodes.forEach(x => { if (x.kind === 'q' && !x.br.length) x.kind = 'step'; });
-    return nodes;
+    return out;
   }
-  const counts = nodes => {
-    const c = { steps: 0, q: 0, waits: 0, stuck: 0, loops: 0, bad: 0 };
-    nodes.forEach(x => { if (x.kind === 'wait') c.waits++; else { c.steps++; if (x.kind === 'q') c.q++; if (x.bad) c.bad++;
-      x.br.forEach(b => { if (b.to) c.loops++; if (b.stuck) c.stuck++; }); } });
-    return c;
-  };
 
-  /* drawing: one column for the journey, loops back on the left, other exits on the right */
-  const wrap = (s, max) => { const out = []; let line = '';
-    s.split(/\s+/).forEach(w => { if ((line + ' ' + w).trim().length > max) { if (line) out.push(line); line = w; } else line = (line + ' ' + w).trim(); });
-    if (line) out.push(line); return out.length ? out : ['']; };
-  const tspans = (lines, x, y, lh) => lines.map((l, i) => `<tspan x="${x}" y="${y + i * lh}">${esc(l)}</tspan>`).join('');
-  const C = { ink: '#1A1618', mute: '#5A5352', line: '#1A1618', box: '#FFFFFF', q: '#FFF4D6', qs: '#8A6100', wait: '#F1EFEC', bad: '#B3261E', badf: '#FCEAE8', end: '#E3EFE7', ends: '#285638', loop: '#1A526D' };
+  /* ---------- the editors ---------- */
+  function rowHTML(x, i, list, side, N) {
+    const num = x.k === 'wait' ? '⏱' : N[x.id];
+    const backOpts = list.filter(y => y.k !== 'wait' && y.id !== x.id).map(y => `<option value="${y.id}" ${x.back === y.id ? 'selected' : ''}>back to step ${N[y.id]}</option>`).join('');
+    const from = side === 'after' ? `<div class="fm-from" role="group" aria-label="Comes from these steps now"><span>From now:</span>${S.before.map(b => b.k === 'wait' && false ? '' :
+      `<button type="button" class="chip${(x.from || []).includes(b.id) ? ' on' : ''}" data-act="from" data-b="${b.id}" aria-pressed="${(x.from || []).includes(b.id)}" title="${esc(b.t)}">${b.k === 'wait' ? '⏱' : nums(S.before)[b.id]}</button>`).join('')}${(x.from || []).length ? '' : '<em class="new">new</em>'}</div>` : '';
+    return `<li class="fm-row k-${x.k}${x.bad ? ' bad' : ''}" data-side="${side}" data-id="${x.id}">
+      <span class="fm-n">${num}</span>
+      <input class="fm-t" data-f="t" value="${esc(x.t)}" placeholder="${x.k === 'wait' ? 'How long? e.g. 2 working days' : side === 'before' ? 'What the person does' : 'The screen, or what happens'}" aria-label="Step ${num}">
+      ${x.k === 'wait' ? '<span class="fm-w"></span>' : `<input class="fm-w" data-f="w" value="${esc(x.w)}" placeholder="Where: website, form, phone…" aria-label="Where step ${num} happens">`}
+      <select data-f="k" aria-label="Kind of step ${num}"><option value="step" ${x.k === 'step' ? 'selected' : ''}>Step</option><option value="q" ${x.k === 'q' ? 'selected' : ''}>Yes/no question</option><option value="wait" ${x.k === 'wait' ? 'selected' : ''}>Waiting</option></select>
+      <span class="fm-tools">${x.k === 'wait' ? '' : `<button type="button" class="stk${x.bad ? ' on' : ''}" data-act="bad" aria-pressed="${x.bad}" title="People get stuck here">✗ stuck</button>`}
+        <button type="button" data-act="up" aria-label="Move step up" ${i ? '' : 'disabled'}>↑</button><button type="button" data-act="down" aria-label="Move step down" ${i < list.length - 1 ? '' : 'disabled'}>↓</button>
+        ${side === 'after' && i < list.length - 1 ? '<button type="button" data-act="merge" title="Merge with the next one">merge ↓</button>' : ''}
+        <button type="button" data-act="del" aria-label="Remove step">✕</button></span>
+      ${x.k === 'q' ? `<div class="fm-if"><span>If not:</span><input data-f="ifnot" value="${esc(x.ifnot)}" placeholder="What happens then?" aria-label="If not"><select data-f="goback" aria-label="Where it leads"><option value="stuck" ${x.go !== 'back' ? 'selected' : ''}>and they are stuck</option>${backOpts}</select></div>` : ''}
+      ${x.bad ? `<div class="fm-if"><span>Why:</span><input data-f="note" value="${esc(x.note)}" placeholder="What goes wrong, with a number if you have one" aria-label="Why people get stuck"></div>` : ''}
+      ${from}</li>`;
+  }
+  function renderList(side) {
+    const list = S[side], N = nums(list);
+    $('l-' + side).innerHTML = list.map((x, i) => rowHTML(x, i, list, side, N)).join('') || `<li class="fm-empty">${side === 'before' ? 'No steps yet. Add the first thing a person does.' : 'Nothing yet. Start from your “now”, then change it.'}</li>`;
+  }
+  function renderD2() {
+    const F = fates(), N = nums(S.before), an = nums(S.after);
+    const news = S.after.filter(a => !(a.from || []).length);
+    $('d2').innerHTML = S.before.length ? `<table class="fm-d2"><thead><tr><th>Now</th><th>What happened</th><th>Why</th></tr></thead><tbody>${S.before.map(b => `<tr><td><b>${b.k === 'wait' ? '⏱' : N[b.id]}</b> ${esc(b.t)}</td>
+      <td><span class="fate ${F[b.id].kind}">${esc(F[b.id].label)}</span></td><td><input data-why="${b.id}" value="${esc(S.why[b.id] || '')}" placeholder="${F[b.id].kind === 'kept' ? 'Optional for a kept step' : 'Why?'}" aria-label="Why, for step ${N[b.id] || 'wait'}"></td></tr>`).join('')}
+      ${news.map(a => `<tr><td><em>new</em></td><td><span class="fate new">New: step ${an[a.id] || '⏱'} — ${esc(a.t)}</span></td><td><input data-why="${a.id}" value="${esc(S.why[a.id] || '')}" placeholder="Why add it?" aria-label="Why add ${esc(a.t)}"></td></tr>`).join('')}</tbody></table>
+      <p class="fm-rule">A step the law or a policy requires can move or merge, never disappear.</p>` : '<p class="fm-empty">Fill in your “now” first.</p>';
+  }
+  function renderAll() {
+    renderList('before'); renderList('after'); renderD2();
+    $('goal').value = S.goal;
+    document.querySelectorAll('[data-tab]').forEach(b => { const on = b.dataset.tab === S.tab; b.setAttribute('aria-selected', String(on)); $('p-' + b.dataset.tab).hidden = !on; });
+    document.querySelectorAll('[data-view]').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.view === S.view)));
+    draw();
+  }
 
-  function svg(nodes, title) {
-    const loops = nodes.reduce((a, x) => a + (x.br || []).filter(b => b.to).length, 0);
-    const L = 150 + Math.max(0, loops - 1) * 14, W = 236, cx = L + W / 2, R = L + W + 54, SW = 180, FW = R + SW + 16;
-    let y = 56; const parts = [], pos = {}, defs = `<defs><marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="${C.line}"/></marker>
-      <marker id="al" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="${C.loop}"/></marker>
-      <marker id="ab" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="${C.bad}"/></marker></defs>`;
-    parts.push(`<text x="16" y="28" font-size="17" font-weight="700" fill="${C.ink}">${esc(title)}</text>`);
+  /* ---------- the slide: 1920 × 1080, read left to right ---------- */
+  const W = 1920, H = 1080, M = 72;
+  const wrap = (s, max) => { const out = []; let line = ''; String(s).split(/\s+/).forEach(w => { if ((line + ' ' + w).trim().length > max) { if (line) out.push(line); line = w; } else line = (line + ' ' + w).trim(); }); if (line) out.push(line); return out.length ? out : ['']; };
+  const clip = (lines, n) => lines.length <= n ? lines : [...lines.slice(0, n - 1), lines[n - 1].replace(/[,.;:]?$/, '') + '…'];
+  const T = (lines, x, y, lh, attrs) => `<text ${attrs} text-anchor="middle">${lines.map((l, i) => `<tspan x="${x}" y="${y + i * lh}">${esc(l)}</tspan>`).join('')}</text>`;
+  const COL = { ink: '#1A1618', mute: '#5A5352', box: '#FFFFFF', line: '#1A1618', q: '#FFF4D6', qs: '#8A6100', wait: '#F1EFEC', bad: '#B3261E', badf: '#FCEAE8', ok: '#285638', okf: '#E3EFE7', loop: '#1A526D', rm: '#8E8685' };
+
+  function band(list, x0, y0, bw0, bh0, label, sub, F, one) {
+    const out = [], N = nums(list), items = list;
+    out.push(`<text x="${x0}" y="${y0 + 26}" font-size="24" font-weight="800" letter-spacing="2" fill="${COL.ink}">${esc(label)}</text>`,
+      `<text x="${x0}" y="${y0 + 56}" font-size="19" fill="${COL.mute}">${esc(sub)}</text>`);
+    if (!items.length) { out.push(`<text x="${x0}" y="${y0 + 120}" font-size="22" fill="${COL.mute}">Nothing here yet.</text>`); return out.join(''); }
+    const hasLoop = items.some(x => x.k === 'q' && x.ifnot && x.go === 'back'), top = y0 + 82 + (hasLoop ? 40 : 14), h = bh0 - (top - y0);
+    const units = x => x.k === 'wait' ? 0.72 : x.k === 'q' ? 1.3 : 1;
+    const lim = one ? 11 : 8, per = items.length <= lim ? items.length : items.length <= 2 * lim ? Math.ceil(items.length / 2) : Math.ceil(items.length / 3);
+    const rows = []; for (let i = 0; i < items.length; i += per) rows.push(items.slice(i, i + per));
+    const gap = per > 8 ? 40 : 54, maxU = Math.max(...rows.map(r => r.reduce((s, x) => s + units(x), 0)));
+    const maxN = Math.max(...rows.map(r => r.length));
+    const bw = Math.min(250, (bw0 - (maxN - 1) * gap) / maxU);
+    const rowH = h / rows.length, bh = Math.min(120, rowH - 92), fs = bw < 150 ? 15 : 17, cpl = Math.max(10, Math.floor((bw - 34) / (fs * 0.52)));
+    const P = {}; let prev = null;
+    rows.forEach((r, ri) => {
+      const rw = r.reduce((s, x) => s + units(x) * bw, 0) + (r.length - 1) * gap;
+      let x = x0 + (bw0 - rw) / 2; const y = top + ri * rowH + 6, cy = y + bh / 2;
+      r.forEach(it => {
+        const w = units(it) * bw, cx = x + w / 2;
+        P[it.id] = { x, y, w, cx, cy, top: y, bot: y + bh };
+        if (prev) {
+          if (prev.cy === cy) out.push(`<line x1="${prev.x + prev.w + 4}" y1="${cy}" x2="${x - 4}" y2="${cy}" stroke="${COL.line}" stroke-width="2.5" marker-end="url(#ah)"/>`);
+          else { const mid = y - 18;
+            out.push(`<path d="M${prev.cx},${prev.bot + 4} V${mid} H${cx} V${y - 4}" fill="none" stroke="${COL.line}" stroke-width="2.5" marker-end="url(#ah)"/>`); }
+          if (prev.q) out.push(`<text x="${prev.cy === cy ? prev.x + prev.w + 8 : prev.cx + 8}" y="${prev.cy === cy ? cy - 10 : prev.bot + 22}" font-size="15" fill="${COL.mute}">yes</text>`);
+        }
+        const f = F && F[it.id];
+        if (it.k === 'wait') {
+          out.push(`<rect x="${x}" y="${cy - 34}" width="${w}" height="68" rx="34" fill="${COL.wait}" stroke="${COL.mute}" stroke-width="2" stroke-dasharray="7 6"/>`,
+            T(clip(wrap('⏱ ' + it.t, Math.floor(w / 8)), 2), cx, cy - 2, 18, `font-size="14" font-style="italic" fill="${COL.mute}"`));
+          P[it.id].top = cy - 34; P[it.id].bot = cy + 34;
+        } else if (it.k === 'q') {
+          out.push(`<polygon points="${cx},${y - 8} ${x + w},${cy} ${cx},${y + bh + 8} ${x},${cy}" fill="${COL.q}" stroke="${COL.qs}" stroke-width="2.5"/>`,
+            (() => { const ql = clip(wrap(it.t, Math.max(8, Math.floor(w * 0.62 / ((fs - 1) * 0.52)))), Math.max(2, Math.floor((bh - 10) / 18))); return T(ql, cx, cy - (ql.length - 1) * 9 + 5, 18, `font-size="${fs - 1}" fill="${COL.ink}"`); })(),
+            `<text x="${x + 4}" y="${y + 6}" font-size="15" font-weight="800" fill="${COL.qs}">${N[it.id]}</text>`);
+          P[it.id].q = true; P[it.id].top = y - 8; P[it.id].bot = y + bh + 8;
+        } else {
+          const fit = Math.max(1, Math.floor((bh - (it.w ? 40 : 22)) / (fs + 4))), tl = clip(wrap(it.t, cpl), Math.min(fit, 4)), wl = it.w ? wrap(it.w, cpl + 2).slice(0, 1) : [];
+          const th = tl.length * (fs + 4) + (wl.length ? 20 : 0), ty = cy - th / 2 + fs;
+          out.push(`<rect x="${x}" y="${y}" width="${w}" height="${bh}" rx="10" fill="${it.bad ? COL.badf : f && f.kind === 'removed' ? '#F4F3F1' : COL.box}" stroke="${it.bad ? COL.bad : f && f.kind === 'removed' ? COL.rm : COL.line}" stroke-width="${it.bad ? 3.5 : 2.5}"${f && f.kind === 'removed' ? ' stroke-dasharray="8 6"' : ''}/>`,
+            T(tl, cx, ty, fs + 4, `font-size="${fs}" font-weight="600" fill="${f && f.kind === 'removed' ? COL.rm : COL.ink}"`),
+            wl.length ? T(wl, cx, ty + tl.length * (fs + 4) + 2, 18, `font-size="14" fill="${COL.mute}"`) : '',
+            `<text x="${x + 10}" y="${y + 22}" font-size="15" font-weight="800" fill="${it.bad ? COL.bad : COL.mute}">${N[it.id]}</text>`);
+          if (it.bad) out.push(`<text x="${x + w - 10}" y="${y + bh - 10}" font-size="19" font-weight="800" fill="${COL.bad}" text-anchor="end">✗</text>`);
+        }
+        /* below the box: why people get stuck, or where a "no" leads */
+        const below = P[it.id].bot + 12;
+        if (it.bad && it.note) out.push(T(clip(wrap(it.note, Math.floor((w + 24) / 7.6)), 3), cx, below + 14, 18, `font-size="14.5" fill="${COL.bad}"`));
+        if (it.k === 'q' && it.ifnot && it.go === 'stuck') {
+          const ll = wrap('no: ' + it.ifnot, Math.floor(w / 8)).slice(0, 2);
+          out.push(`<line x1="${cx}" y1="${P[it.id].bot}" x2="${cx}" y2="${below + 4}" stroke="${COL.bad}" stroke-width="2.5"/>`,
+            `<rect x="${x + 6}" y="${below + 4}" width="${w - 12}" height="${ll.length * 18 + 26}" rx="6" fill="${COL.badf}" stroke="${COL.bad}" stroke-width="2"/>`,
+            T(ll.map((l, i) => i === 0 ? '✗ ' + l : l), cx, below + 24, 18, `font-size="14.5" font-weight="600" fill="${COL.bad}"`));
+        }
+        if (f) { const tag = f.kind === 'removed' ? 'removed' : f.kind === 'merged' ? `merged → ${f.to}` : f.kind === 'kept' ? `kept → ${f.to || 'wait'}` : f.kind === 'moved' ? `moved → ${f.to}` : `changed → ${f.to || 'wait'}`;
+          const tw = tag.length * 8.6 + 18, c = f.kind === 'removed' ? COL.rm : f.kind === 'merged' || f.kind === 'moved' ? COL.loop : COL.ok;
+          const tx = it.k === 'q' ? cx - tw / 2 : x + w - tw + 8, ty = it.k === 'q' ? P[it.id].bot - 4 : P[it.id].top - 15;
+          out.push(`<rect x="${tx}" y="${ty}" width="${tw}" height="26" rx="13" fill="#fff" stroke="${c}" stroke-width="2"/>`,
+            `<text x="${tx + tw / 2}" y="${ty + 18}" font-size="14" font-weight="700" fill="${c}" text-anchor="middle">${esc(tag)}</text>`); }
+        prev = P[it.id]; x += w + gap;
+      });
+    });
+    /* loops: a "no" that sends people back goes over the top */
     let lane = 0;
-    nodes.forEach((x, i) => {
-      const first = i === 0, last = i === nodes.length - 1;
-      if (i) { parts.push(`<line x1="${cx}" y1="${y - 26}" x2="${cx}" y2="${y - 2}" stroke="${C.line}" stroke-width="1.6" marker-end="url(#ah)"/>`);
-        if (nodes[i - 1].kind === 'q') parts.push(`<text x="${cx + 8}" y="${y - 11}" font-size="12" fill="${C.mute}">yes</text>`); }
-      if (x.kind === 'wait') {
-        const ls = wrap('⏱ ' + x.text, 30), h = 18 + ls.length * 17;
-        parts.push(`<rect x="${cx - 95}" y="${y}" width="190" height="${h}" rx="6" fill="${C.wait}" stroke="${C.mute}" stroke-dasharray="5 4"/>`,
-          `<text font-size="13.5" font-style="italic" fill="${C.mute}" text-anchor="middle">${tspans(ls, cx, y + 21, 17)}</text>`);
-        pos.y = y; y += h + 30; return;
-      }
-      if (x.kind === 'q') {
-        const ls = wrap(x.text, 22), h = Math.max(92, 46 + ls.length * 17), hw = 118, top = y, mid = y + h / 2;
-        parts.push(`<polygon points="${cx},${top} ${cx + hw},${mid} ${cx},${top + h} ${cx - hw},${mid}" fill="${C.q}" stroke="${C.qs}" stroke-width="1.6"/>`,
-          `<text font-size="13.5" fill="${C.ink}" text-anchor="middle">${tspans(ls, cx, mid - (ls.length - 1) * 8.5 + 5, 17)}</text>`,
-          `<text x="${cx - hw + 4}" y="${top + 14}" font-size="11" font-weight="700" fill="${C.qs}">${x.num}</text>`);
-        let ry = top;
-        x.br.forEach(b => {
-          if (b.to) {
-            const lx = L - 34 - lane * 14; lane++;
-            const tgt = pos[b.to];
-            const ty = tgt != null ? tgt : mid;
-            parts.push(`<path d="M${cx - hw},${mid} H${lx} V${ty} H${L - 2}" fill="none" stroke="${C.loop}" stroke-width="1.6" marker-end="url(#al)"/>`);
-            const ll = wrap(b.label + ': ' + b.text, 17);
-            parts.push(`<text font-size="11.5" fill="${C.loop}" text-anchor="end">${tspans(ll, cx - hw - 8, mid + 16, 14)}</text>`);
-          } else {
-            const ll = wrap(b.text + (b.stuck ? '' : ''), 22), bh = 22 + ll.length * 16 + (b.stuck ? 16 : 0);
-            const by = Math.max(ry, mid - bh / 2);
-            parts.push(`<path d="M${cx + hw},${mid} H${R - 26} V${by + bh / 2} H${R - 2}" fill="none" stroke="${b.stuck ? C.bad : C.line}" stroke-width="1.6" marker-end="url(#${b.stuck ? 'ab' : 'ah'})"/>`,
-              `<text x="${cx + hw + 8}" y="${mid - 7}" font-size="12" fill="${C.mute}">${esc(b.label)}</text>`,
-              `<rect x="${R}" y="${by}" width="${SW}" height="${bh}" rx="${b.stuck ? 4 : 8}" fill="${b.stuck ? C.badf : C.box}" stroke="${b.stuck ? C.bad : C.line}" stroke-width="1.6"/>`,
-              `<text font-size="13" fill="${C.ink}" text-anchor="middle">${tspans(ll, R + SW / 2, by + 20, 16)}</text>`);
-            if (b.stuck) parts.push(`<text x="${R + SW / 2}" y="${by + bh - 9}" font-size="11.5" font-weight="700" fill="${C.bad}" text-anchor="middle">✗ stuck here</text>`);
-            ry = by + bh + 10;
-          }
-        });
-        pos[x.num] = mid; y = Math.max(top + h, ry) + 30; return;
-      }
-      const ls = wrap(x.text, 28), sub = x.sub ? wrap(x.sub, 32) : [], h = 22 + ls.length * 17 + sub.length * 15 + (sub.length ? 3 : 0);
-      const pill = first || last, fill = x.bad ? C.badf : last ? C.end : C.box, stroke = x.bad ? C.bad : last ? C.ends : C.line;
-      parts.push(`<rect x="${L}" y="${y}" width="${W}" height="${h}" rx="${pill ? h / 2 > 22 ? 22 : h / 2 : 6}" fill="${fill}" stroke="${stroke}" stroke-width="${x.bad ? 2.2 : 1.6}"/>`,
-        `<text font-size="14" font-weight="${pill ? 700 : 500}" fill="${C.ink}" text-anchor="middle">${tspans(ls, cx, y + 21, 17)}</text>`,
-        sub.length ? `<text font-size="12" fill="${C.mute}" text-anchor="middle">${tspans(sub, cx, y + 21 + ls.length * 17 + 1, 15)}</text>` : '',
-        `<text x="${L + 7}" y="${y + 14}" font-size="11" font-weight="700" fill="${x.bad ? C.bad : C.mute}">${x.num}</text>`);
-      if (x.bad) parts.push(`<text x="${L + W - 7}" y="${y + 14}" font-size="11" font-weight="700" fill="${C.bad}" text-anchor="end">✗</text>`);
-      pos[x.num] = y + h / 2; y += h + 30;
-    });
-    const H = y + 6;
-    return { w: FW, h: H, s: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${FW} ${H}" width="${FW}" height="${H}" font-family="system-ui,-apple-system,'Segoe UI',Roboto,sans-serif">${defs}<rect width="${FW}" height="${H}" fill="#FFFFFF"/>${parts.join('')}</svg>` };
+    items.forEach(it => { if (it.k !== 'q' || !it.ifnot || it.go !== 'back' || !P[it.back]) return;
+      const a = P[it.id], b = P[it.back], ly = Math.min(a.top, b.top) - 30 - lane * 12; lane++;
+      out.push(`<path d="M${a.cx},${a.top} V${ly} H${b.x + 30} V${b.top - 2}" fill="none" stroke="${COL.loop}" stroke-width="2.5" marker-end="url(#al)"/>`,
+        `<text x="${(a.cx + b.cx) / 2}" y="${ly - 8}" font-size="15" font-weight="600" fill="${COL.loop}" text-anchor="middle">no: ${esc(it.ifnot)} — back to ${N[it.back]}</text>`); });
+    return out.join('');
   }
 
-  const view = {};
+  function slide() {
+    const cb = counts(S.before), ca = counts(S.after), v = S.view, F = v === 'both' ? fates() : null;
+    const head = v === 'before' ? 'How people do it now' : v === 'after' ? 'Your version' : 'Now, and your version';
+    let s = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${W} ${H}" width="${W}" height="${H}" font-family="system-ui,-apple-system,'Segoe UI',Roboto,sans-serif">
+      <defs><marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="${COL.line}"/></marker>
+      <marker id="al" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="${COL.loop}"/></marker></defs>
+      <rect width="${W}" height="${H}" fill="#fff"/>
+      <text x="${M}" y="${M + 22}" font-size="20" font-weight="700" fill="${COL.mute}" letter-spacing="2">B4 · FLOW DIAGRAM</text>
+      <text x="${M}" y="${M + 72}" font-size="44" font-weight="800" fill="${COL.ink}">${esc(S.goal || 'Your goal')}</text>
+      <text x="${W - M}" y="${M + 72}" font-size="22" fill="${COL.mute}" text-anchor="end">${esc(head)}</text>`;
+    const sum = c => `${c.steps} step${c.steps === 1 ? '' : 's'} · ${c.waits} wait${c.waits === 1 ? '' : 's'} · ${c.stuck} where people get stuck${c.loops ? ` · ${c.loops} back to an earlier step` : ''}`;
+    const y0 = M + 120, bw0 = W - 2 * M;
+    if (v === 'both') {
+      const hh = (H - y0 - 40) / 2;
+      s += band(S.before, M, y0, bw0, hh - 10, 'NOW', sum(cb), F, true) + `<line x1="${M}" y1="${y0 + hh}" x2="${W - M}" y2="${y0 + hh}" stroke="#DFDBD7" stroke-width="2"/>` +
+        band(S.after, M, y0 + hh + 14, bw0, hh - 10, 'YOUR VERSION', `${sum(ca)}   (was ${cb.steps} steps, ${cb.stuck} stuck)`, null, true);
+    } else s += band(v === 'before' ? S.before : S.after, M, y0, bw0, H - y0 - 40, v === 'before' ? 'NOW' : 'YOUR VERSION', sum(v === 'before' ? cb : ca), null);
+    return s + '</svg>';
+  }
   function draw() {
-    try { localStorage.setItem(KEY, JSON.stringify({ before: $('t-before').value, after: $('t-after').value, goal: $('n-goal').value })); } catch (e) {}
-    const goal = $('n-goal').value.trim();
-    ['before', 'after'].forEach(k => {
-      const nodes = parse($('t-' + k).value), c = counts(nodes);
-      view[k] = { nodes, c, g: svg(nodes, (k === 'before' ? 'Before — how people do it now' : 'After — your version') + (goal ? ': ' + goal : '')) };
-      $('d-' + k).innerHTML = nodes.length ? view[k].g.s : '<p class="empty">Type a step on each line.</p>';
-      $('c-' + k).innerHTML = `<b>${c.steps}</b> step${c.steps === 1 ? '' : 's'} · <b>${c.q}</b> decision${c.q === 1 ? '' : 's'} · <b>${c.waits}</b> wait${c.waits === 1 ? '' : 's'} · <b>${c.stuck + c.bad}</b> where people get stuck · <b>${c.loops}</b> back to the start`;
-    });
-    const b = view.before.c, a = view.after.c;
-    $('diff').innerHTML = b.steps && a.steps ? `Steps <b>${b.steps} → ${a.steps}</b> · waits <b>${b.waits} → ${a.waits}</b> · stuck <b>${b.stuck + b.bad} → ${a.stuck + a.bad}</b> · loops <b>${b.loops} → ${a.loops}</b>. Quote these in C5 and D2.` : '';
+    save();
+    $('slide').innerHTML = slide();
+    const cb = counts(S.before), ca = counts(S.after);
+    const t = c => `<b>${c.steps}</b> step${c.steps === 1 ? '' : 's'}, <b>${c.waits}</b> wait${c.waits === 1 ? '' : 's'}, <b>${c.stuck}</b> stuck`;
+    $('tally').innerHTML = `Now: ${t(cb)}` + (S.after.length ? ` · Your version: ${t(ca)}` : '');
   }
 
-  /* exports: PNG for the deck, the numbered list for A2 */
-  function png(svgs, name, msg) {
-    const gap = 24, w = svgs.reduce((s, g) => s + g.w, 0) + gap * (svgs.length - 1), h = Math.max(...svgs.map(g => g.h)), k = 2;
-    const cv = document.createElement('canvas'); cv.width = w * k; cv.height = h * k;
-    const ctx = cv.getContext('2d'); ctx.fillStyle = '#fff'; ctx.fillRect(0, 0, cv.width, cv.height); ctx.scale(k, k);
-    let x = 0;
-    const next = i => { if (i >= svgs.length) { cv.toBlob(bl => { const a = document.createElement('a'); a.href = URL.createObjectURL(bl); a.download = name; a.click(); setTimeout(() => URL.revokeObjectURL(a.href), 4000); msg.textContent = 'Downloaded ' + name; }); return; }
-      const img = new Image(); img.onload = () => { ctx.drawImage(img, x, 0, svgs[i].w, svgs[i].h); x += svgs[i].w + gap; next(i + 1); };
-      img.onerror = () => { msg.textContent = 'Could not draw the picture — take a screenshot instead'; };
-      img.src = 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(svgs[i].s); };
-    next(0);
-  }
-  const listFor = k => { const v = view[k]; let out = [];
-    v.nodes.forEach(x => { if (x.kind === 'wait') out.push(`    wait: ${x.text}`); else {
-      out.push(`${(x.num + '.').padEnd(4)}${x.text}${x.sub ? '  —  ' + x.sub : ''}${x.bad ? '  (people get stuck here)' : ''}`);
-      x.br.forEach(b => out.push(`    ${b.label}: ${b.text}${b.to ? ' → back to step ' + b.to : ''}${b.stuck ? ' (dead end)' : ''}`)); } });
-    out.push(`${k === 'before' ? 'Steps before' : 'Screens after'}: ${v.c.steps}${v.c.waits ? ` · waits: ${v.c.waits}` : ''}`);
-    return out.join('\n'); };
-  async function copy(text, msg) { try { await navigator.clipboard.writeText(text); msg.textContent = 'Copied'; } catch (e) { msg.textContent = 'Copy did not work — select the text in the box instead'; } setTimeout(() => { msg.textContent = ''; }, 3000); }
-
-  document.addEventListener('click', e => {
-    const b = e.target.closest('[data-act]'); if (!b) return;
-    const k = b.dataset.k, m = $('m-' + (k || 'both'));
-    if (b.dataset.act === 'png') png([view[k].g], `flow-${k}.png`, m);
-    if (b.dataset.act === 'both') png([view.before.g, view.after.g], 'flow-before-after.png', m);
-    if (b.dataset.act === 'list') copy(listFor(k), m);
-    if (b.dataset.act === 'ex') { $('t-' + k).value = EX[k]; draw(); }
-    if (b.dataset.act === 'clear') { $('t-' + k).value = ''; draw(); $('t-' + k).focus(); }
+  /* ---------- editing ---------- */
+  const listOf = el => S[el.closest('.fm-row').dataset.side];
+  const itemOf = el => { const r = el.closest('.fm-row'); return S[r.dataset.side].find(x => x.id === r.dataset.id); };
+  document.addEventListener('input', e => {
+    const t = e.target;
+    if (t.id === 'goal') { S.goal = t.value; draw(); return; }
+    if (t.dataset.why) { S.why[t.dataset.why] = t.value; save(); return; }
+    const f = t.dataset.f; if (!f || f === 'k' || f === 'goback') return;
+    itemOf(t)[f] = t.value; draw();
+    if (f === 't') renderD2();
   });
-  ['t-before', 't-after', 'n-goal'].forEach(id => $(id).addEventListener('input', draw));
-  draw();
+  document.addEventListener('change', e => {
+    const t = e.target, f = t.dataset.f; if (f !== 'k' && f !== 'goback') return;
+    const x = itemOf(t);
+    if (f === 'k') { x.k = t.value; if (x.k === 'wait') x.bad = false; }
+    else { if (t.value === 'stuck') x.go = 'stuck'; else { x.go = 'back'; x.back = t.value; } }
+    renderAll();
+  });
+  document.addEventListener('click', e => {
+    const b = e.target.closest('button'); if (!b) return;
+    if (b.dataset.tab) { S.tab = b.dataset.tab; if (b.dataset.tab === 'after' && S.view === 'before' && S.after.length) S.view = 'both'; renderAll(); return; }
+    if (b.dataset.view) { S.view = b.dataset.view; renderAll(); return; }
+    const act = b.dataset.act; if (!act) return;
+    const msg = $('msg');
+    if (act === 'add') { const side = b.dataset.side; S[side].push({ id: nid(side[0]), t: '', w: '', k: b.dataset.k || 'step', bad: false, note: '', ifnot: '', go: 'stuck', back: '', from: [] }); renderAll();
+      const rows = $('l-' + side).querySelectorAll('.fm-t'); rows[rows.length - 1].focus(); return; }
+    if (act === 'seed') { if (S.after.length && !confirm('Replace your version with a fresh copy of “now”?')) return;
+      S.after = S.before.map(x => Object.assign({}, x, { id: nid('a'), from: [x.id], bad: false, note: '' })); S.view = 'both'; renderAll(); return; }
+    if (act === 'example') { if (!confirm('Replace everything here with the example?')) return; S = EXAMPLE(); renderAll(); return; }
+    if (act === 'clear') { if (!confirm('Clear everything and start again?')) return; S = EMPTY(); renderAll(); return; }
+    if (act === 'png') return png(msg);
+    if (act === 'a2') return copy(a2Text(), msg);
+    if (act === 'd2') return copy(d2Text(), msg);
+    const list = listOf(b), x = itemOf(b), i = list.indexOf(x);
+    if (act === 'del') list.splice(i, 1);
+    if (act === 'up' && i > 0) [list[i - 1], list[i]] = [list[i], list[i - 1]];
+    if (act === 'down' && i < list.length - 1) [list[i + 1], list[i]] = [list[i], list[i + 1]];
+    if (act === 'bad') x.bad = !x.bad;
+    if (act === 'merge' && list[i + 1]) { const y = list[i + 1]; x.from = [...new Set([...(x.from || []), ...(y.from || [])])]; list.splice(i + 1, 1); }
+    if (act === 'from') { const id = b.dataset.b; x.from = (x.from || []).includes(id) ? x.from.filter(z => z !== id) : [...(x.from || []), id]; }
+    renderAll();
+  });
+
+  /* ---------- out: the slide as a picture, A2 and D2 as text ---------- */
+  function png(msg) {
+    const img = new Image(), cv = document.createElement('canvas'); cv.width = W; cv.height = H;
+    img.onload = () => { const c = cv.getContext('2d'); c.fillStyle = '#fff'; c.fillRect(0, 0, W, H); c.drawImage(img, 0, 0);
+      cv.toBlob(bl => { const a = document.createElement('a'); a.href = URL.createObjectURL(bl); a.download = `B4-flow-${S.view}.png`; a.click(); setTimeout(() => URL.revokeObjectURL(a.href), 4000); say(msg, 'Downloaded — paste it onto your B4 slide'); }); };
+    img.onerror = () => say(msg, 'Could not make the picture — take a screenshot of the slide instead');
+    img.src = 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(slide());
+  }
+  const listText = (list) => { const N = nums(list); return list.map(x => x.k === 'wait' ? `    wait: ${x.t}` : `${(N[x.id] + '.').padEnd(4)}${x.t}${x.w ? '  —  ' + x.w : ''}${x.bad ? `  (people get stuck${x.note ? ': ' + x.note : ''})` : ''}${x.k === 'q' && x.ifnot ? `\n    if not: ${x.ifnot}${x.go === 'back' && N[x.back] ? ' → back to step ' + N[x.back] : ' (stuck)'}` : ''}`).join('\n'); };
+  const a2Text = () => { const cb = counts(S.before), ca = counts(S.after);
+    return `Goal: ${S.goal}\n\nBEFORE — how people do it now\n${listText(S.before)}\nSteps before: ${cb.steps} · waits: ${cb.waits} · places people get stuck: ${cb.stuck}\n\nAFTER — your screens\n${listText(S.after)}\nScreens after: ${ca.steps} · waits: ${ca.waits} · places people get stuck: ${ca.stuck}`; };
+  const d2Text = () => { const F = fates(), N = nums(S.before), an = nums(S.after);
+    const rows = S.before.map(b => `${(N[b.id] ? N[b.id] + '.' : 'wait').padEnd(5)}${b.t}  →  ${F[b.id].label}${S.why[b.id] ? '  —  ' + S.why[b.id] : ''}`);
+    S.after.filter(a => !(a.from || []).length).forEach(a => rows.push(`new  →  step ${an[a.id] || '⏱'}: ${a.t}${S.why[a.id] ? '  —  ' + S.why[a.id] : ''}`));
+    return `BEFORE STEP  →  AFTER  —  what happened, and why\n${rows.join('\n')}\n\nSteps before: ${counts(S.before).steps}        Screens after: ${counts(S.after).steps}`; };
+  async function copy(text, msg) { try { await navigator.clipboard.writeText(text); say(msg, 'Copied — paste it into your deck'); } catch (e) { say(msg, 'Copy did not work in this browser'); } }
+  function say(msg, t) { msg.textContent = t; clearTimeout(say.t); say.t = setTimeout(() => { msg.textContent = ''; }, 3500); }
+
+  renderAll();
 })();
 
 const root = document.documentElement;
