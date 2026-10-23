@@ -304,6 +304,19 @@
     header.sdnav .sdlinks::-webkit-scrollbar{display:none}
     header.sdnav .navl{font-size:0.82rem;padding:6px 9px}
   }
+  /* what a contrast ratio means — the same box on every page that quotes one */
+  .cx-box{background:var(--surface);border:1px solid var(--line);border-left:4px solid var(--wsh);border-radius:0 12px 12px 0;padding:14px 16px;margin:16px 0;max-width:820px}
+  .cx-box > b{display:block;font-size:1rem;margin-bottom:4px}
+  .cx-box p,.cx-box li{color:var(--ink-2);line-height:1.55;font-size:0.92rem;margin:4px 0}
+  .cx-box ul{margin:8px 0 4px;padding-left:18px}
+  .cx-scale{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:6px;margin:10px 0 4px}
+  @media(max-width:560px){.cx-scale{grid-template-columns:repeat(3,minmax(0,1fr))}}
+  .cx-scale div{background:#fff;border:1px solid var(--line);border-radius:8px;padding:8px 6px;text-align:center;font-family:system-ui,sans-serif}
+  .cx-scale div span{display:block;font-size:22px;font-weight:700;line-height:1.1}
+  .cx-scale div small{display:block;font:600 0.72rem var(--mono);color:#333;margin-top:4px}
+  .cx-scale div em{display:block;font-style:normal;font-size:0.68rem;margin-top:2px;font-weight:700}
+  .cx-scale .f em{color:#B3261E} .cx-scale .p em{color:#205C2E}
+  .cx-scale .min{outline:3px solid var(--wsh);outline-offset:1px}
 </style>
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
@@ -346,6 +359,19 @@
       <li><span class="dot good">1</span><b>Green numbers are decisions</b><span class="tx">Six screens of the same purchase, improved.</span></li>
       <li><span class="dot" style="background:var(--wsh)">A2</span><b>Blue tags are your deck</b><span class="tx">Each point links to the section of your portfolio where the same thinking goes.</span></li>
     </ul>
+    <div class="cx-box" id="contrast"><b>What “4.5:1” means</b>
+      <p>Contrast is how different a text colour is from its background, written as a ratio. <b>1:1</b> is text the same colour as its background — invisible. <b>21:1</b> is black on white — the most there is.</p>
+      <div class="cx-scale" aria-hidden="true">
+        <div class="f"><span style="color:#D3D3D3">Aa</span><small>1.5:1</small><em>fails</em></div>
+        <div class="f"><span style="color:#AFAFAF">Aa</span><small>2.2:1</small><em>fails</em></div>
+        <div class="f"><span style="color:#959595">Aa</span><small>3:1</small><em>large text only</em></div>
+        <div class="p min"><span style="color:#767676">Aa</span><small>4.5:1</small><em>the minimum</em></div>
+        <div class="p"><span style="color:#595959">Aa</span><small>7:1</small><em>better</em></div>
+        <div class="p"><span style="color:#000">Aa</span><small>21:1</small><em>the most</em></div></div>
+      <ul><li><b>Aim for 4.5:1 or more</b> for all ordinary text — body text, labels, links and the words on buttons. This is the baseline (WCAG 2.2, success criterion 1.4.3, level AA).</li>
+        <li><b>3:1 is enough only</b> for large text (24px, or about 19px bold) and for icons, borders and focus outlines.</li>
+        <li><b>7:1 or more is better</b> (level AAA) — worth aiming for small text, and for people reading outdoors or with low vision.</li>
+        <li>“8 pieces of text below 4.5:1” means eight bits of wording on that page that fail the minimum. Check any pair with the <a href="https://webaim.org/resources/contrastchecker/">WebAIM contrast checker</a>, and write the ratio into A5.</li></ul></div>
     <p class="note">Point at a number on the screen or in the list and both light up. Move with ← →.</p>
   </div>
 </section>
@@ -476,7 +502,7 @@
   <div class="ws-grid">
     <div class="stagec"><div class="phone"><div class="scr" style="background:#F3F2F1;display:grid;place-items:center">
       <div data-t="12" style="padding:28px;font:19px/1.6 system-ui,sans-serif;color:#202427"><b style="font-size:24px">The purchase, counted</b><br><br>
-        <b>10.4</b> screens of home page<br><b>6</b> things on the first form<br><b>5</b> texts under 4.5:1<br><b>2</b> requirements first heard about mid-purchase<br><b>2</b> sign-ins, website and app</div>
+        <b>10.4</b> screens of home page<br><b>6</b> things on the first form<br><b>5</b> pieces of text below 4.5:1 contrast<br><b>2</b> requirements first heard about mid-purchase<br><b>2</b> sign-ins, website and app</div>
     </div></div></div>
     <div class="pane">
       <p class="ph now">Now · screen 6 of 6</p>
@@ -643,7 +669,7 @@
       <tr><th>Measured</th><th>Now</th><th>Improved</th></tr>
       <tr><td>Phone screens on the home page</td><td class="num">10.4</td><td class="num up">not needed to buy — Buy starts the check</td></tr>
       <tr><td>Things on the first form</td><td class="num">6</td><td class="num up">2 — who, and date of birth</td></tr>
-      <tr><td>Texts under 4.5:1 contrast</td><td class="num">5</td><td class="num up">0</td></tr>
+      <tr><td>Pieces of text below the 4.5:1 contrast minimum</td><td class="num">5</td><td class="num up">0</td></tr>
       <tr><td>Requirements first heard about mid-purchase</td><td class="num">2 (ID, photo)</td><td class="num up">0 — listed on step 3</td></tr>
       <tr><td>Eligibility checked by the form</td><td class="num">no</td><td class="num up">yes, from date of birth</td></tr>
       <tr><td>Sign-ins before the card can be used</td><td class="num">2</td><td class="num up">1 — assumes one shared account</td></tr>
