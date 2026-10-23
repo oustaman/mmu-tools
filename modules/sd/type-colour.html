@@ -190,6 +190,26 @@
   .sl .eg{font-size:clamp(0.95rem,1.4vw,1.1rem);background:var(--surface);border-left:3px solid var(--ok);border-radius:0 10px 10px 0;padding:12px 16px;margin:6px 0 16px;max-width:70ch;color:var(--ink-2)}
   .sl .eg b{color:var(--ink);font-weight:600}
 
+  /* the toy: one confirmation screen, two sets of toggles */
+  .toy{display:grid;grid-template-columns:300px 1fr;gap:28px;align-items:center;margin:6px 0 10px}
+  @media(max-width:760px){.toy{grid-template-columns:1fr;justify-items:center}}
+  .phone{width:300px;border:10px solid #1A1618;border-radius:34px;background:var(--bg);color:var(--ink);overflow:hidden;box-shadow:0 10px 30px rgba(0,0,0,.18);transition:background .2s}
+  .ph-bar{display:flex;justify-content:space-between;padding:10px 16px;background:var(--bar);color:var(--on);font:600 0.8rem system-ui,sans-serif}
+  .ph-in{padding:26px 20px 24px;text-align:center;font-family:var(--f);font-weight:var(--w);font-style:var(--it);text-transform:var(--up)}
+  .ph-tick{width:58px;height:58px;border-radius:50%;margin:0 auto 14px;display:grid;place-items:center;font:700 1.8rem system-ui,sans-serif;color:#fff;background:var(--tick)}
+  .ph-h{font-size:1.6rem;line-height:1.15;margin:0 0 12px}
+  .ph-b{font-size:1rem;line-height:1.45;margin:0 0 20px;font-weight:var(--w)}
+  .ph-btn{display:block;background:var(--btn);color:var(--bt);border-radius:10px;padding:12px;font-size:1.05rem}
+  .toy-ctl{min-width:0}
+  .toy-l{font-family:var(--mono);font-size:0.72rem;letter-spacing:.09em;text-transform:uppercase;color:var(--ink-3);margin:0 0 6px}
+  .seg{display:flex;flex-wrap:wrap;gap:6px;margin:0 0 16px}
+  .seg button{font:inherit;font-size:0.95rem;border:1px solid var(--line-2);background:var(--surface);color:var(--ink);border-radius:99px;padding:7px 14px;cursor:pointer}
+  .seg button:hover{border-color:var(--lec);color:var(--lec)}
+  .seg button[aria-pressed="true"]{background:var(--ink);border-color:var(--ink);color:var(--bg)}
+  .seg button:focus-visible{outline:2px solid var(--lec);outline-offset:2px}
+  .toy-read{font-size:clamp(1rem,1.6vw,1.2rem);line-height:1.5;color:var(--ink-2);margin:4px 0 0;min-height:3.2em}
+  .toy-read b{color:var(--ink)} .toy-read .yes{color:var(--ok);font-weight:700} .toy-read .no{color:var(--lec);font-weight:700}
+
   /* THE BAR — one definition, identical on every page (written by navfix; change it
      everywhere or nowhere). It used to be copied per page and drifted into two heights. */
   header.sdnav{position:sticky;top:0;z-index:40;background:var(--surface);border-bottom:1px solid var(--line)}
@@ -221,7 +241,7 @@
   }
 </style>
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Creepster&family=Fredoka:wght@600&family=Playfair+Display:ital,wght@1,700&family=Public+Sans:wght@600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Comic+Neue:wght@700&family=Creepster&family=Fredoka:wght@600&family=Playfair+Display:ital,wght@1,700&family=Public+Sans:wght@600&display=swap" rel="stylesheet">
 
 </head>
 <body>
@@ -249,7 +269,7 @@
 <section class="sl" data-t="Start"><div class="wrap">
   <p class="ey">Week 4 · Type and colour · A4, A5, C3, C4</p>
   <h2>Colour and type speak first</h2>
-  <p class="lead">Before anyone reads a word, the colours and the typeface have already said something. Four slides on what colours mean <b>here, in Britain</b>, then three on how one sentence changes voice with its typeface.</p>
+  <p class="lead">Before anyone reads a word, the colours and the typeface have already said something. Four slides on what colours mean <b>here, in Britain</b>, then four on how one sentence changes voice with its typeface.</p>
   <p class="try">Move with ← →; <b>Present</b> for the projector.</p>
 </div></section>
 
@@ -302,7 +322,7 @@
 </div></section>
 
 <section class="sl" data-t="Same words"><div class="wrap">
-  <p class="ey">Type · 1 of 3</p>
+  <p class="ey">Type · 1 of 4</p>
   <h2>Same words, four voices</h2>
   <div class="tv">
     <div style="background:#0E0B0B;color:#C1121F;font-family:'Creepster',cursive;font-size:clamp(2rem,5vw,3.4rem)">See you again.<span>a horror poster</span></div>
@@ -314,7 +334,7 @@
 </div></section>
 
 <section class="sl" data-t="Horror or family"><div class="wrap">
-  <p class="ey">Type · 2 of 3</p>
+  <p class="ey">Type · 2 of 4</p>
   <h2>A threat, or a promise?</h2>
   <div class="tv two">
     <div style="background:#0E0B0B;color:#C1121F;font-family:'Creepster',cursive;font-size:clamp(2.6rem,7vw,5rem)">See you again.<span>dripping letters, all the same height, red on black</span></div>
@@ -323,8 +343,31 @@
   <p class="lead">Name what changed: <b>the shape of the letters</b> (sharp or round), <b>the weight</b>, <b>the colour</b>, and <b>the punctuation</b>. Those are the things you choose on purpose, and the things C3 asks you to explain.</p>
 </div></section>
 
+<section class="sl" data-t="Try it"><div class="wrap">
+  <p class="ey">Type · 3 of 4</p>
+  <h2>Same screen. You choose how it feels.</h2>
+  <div class="toy">
+    <div class="phone" id="toy-ph" aria-live="polite">
+      <div class="ph-bar"><span>Bookings</span><span>9:41</span></div>
+      <div class="ph-in">
+        <div class="ph-tick">✓</div>
+        <p class="ph-h">Thank you, see you next time</p>
+        <p class="ph-b">Your table for two is booked for Friday at 19:00. Reference BK-2071.</p>
+        <span class="ph-btn">Done</span>
+      </div>
+    </div>
+    <div class="toy-ctl">
+      <p class="toy-l">The colour says</p>
+      <div class="seg" role="group" aria-label="What the colour says" id="toy-c"></div>
+      <p class="toy-l">The type feels</p>
+      <div class="seg" role="group" aria-label="How the type feels" id="toy-t"></div>
+      <p class="toy-read" id="toy-read"></p>
+    </div>
+  </div>
+</div></section>
+
 <section class="sl" data-t="For A4 and C3"><div class="wrap">
-  <p class="ey">Type · 3 of 3</p>
+  <p class="ey">Type · 4 of 4</p>
   <h2>What this means for A4 and C3</h2>
   <ul class="pts">
     <li><b>Readable first.</b> A service is read in a hurry, on a phone, outdoors: the voice comes second.</li>
@@ -369,6 +412,44 @@
   const n = parseInt((location.hash.match(/^#s(\d+)$/) || [])[1], 10);
   if (new URLSearchParams(location.search).get('view') === 'slides') { root.classList.add('present'); document.getElementById('present').setAttribute('aria-pressed', 'true'); }
   show(n ? n - 1 : 0);
+})();
+
+/* The toy on "Try it": one booking confirmation, two sets of toggles. Colour moods are the ones
+   from the colour slides; type moods are feelings, not typeface names. The line underneath says
+   what the combination reads like, and whether you would book again. */
+(function () {
+  const C = {
+    urgent:  { n: 'Urgent',  bar: '#C8102E', on: '#fff', tick: '#C8102E', btn: '#C8102E', bt: '#fff', bg: '#fff',    ink: '#1A1618', reads: 'an emergency' },
+    trust:   { n: 'Trust',   bar: '#005EB8', on: '#fff', tick: '#005EB8', btn: '#005EB8', bt: '#fff', bg: '#fff',    ink: '#1A1618', reads: 'your bank', ok: 1 },
+    go:      { n: 'Go',      bar: '#00843D', on: '#fff', tick: '#00843D', btn: '#00843D', bt: '#fff', bg: '#fff',    ink: '#1A1618', reads: 'a fire exit', ok: 1 },
+    careful: { n: 'Careful', bar: '#FFD200', on: '#1A1618', tick: '#1A1618', btn: '#FFD200', bt: '#1A1618', bg: '#FFFBE6', ink: '#1A1618', reads: 'a roadworks sign' },
+    calm:    { n: 'Calm',    bar: '#2B211C', on: '#fff', tick: '#2B211C', btn: '#2B211C', bt: '#fff', bg: '#FBF6EE', ink: '#2B211C', reads: 'a quiet bistro', ok: 1 },
+  };
+  const T = {
+    horror:   { n: 'Horror',   f: "'Creepster',cursive", w: 400, up: 0, reads: 'a threat' },
+    friendly: { n: 'Friendly', f: "'Fredoka',sans-serif", w: 600, up: 0, reads: 'a hug', ok: 1 },
+    elegant:  { n: 'Elegant',  f: "'Playfair Display',serif", w: 700, it: 1, up: 0, reads: 'a wedding invitation', ok: 1 },
+    official: { n: 'Official', f: "'Public Sans',sans-serif", w: 600, up: 0, reads: 'a receipt', ok: 1 },
+    shouting: { n: 'Shouting', f: "'Anton',Impact,sans-serif", w: 400, up: 1, reads: 'an argument' },
+    playful:  { n: 'Playful',  f: "'Comic Neue','Comic Sans MS',cursive", w: 700, up: 0, reads: 'a birthday party' },
+  };
+  const st = { c: 'trust', t: 'official' };
+  const $ = id => document.getElementById(id);
+  const seg = (el, set, key) => { el.innerHTML = Object.entries(set).map(([k, v]) =>
+    `<button type="button" data-k="${key}" data-v="${k}" aria-pressed="${st[key] === k}">${v.n}</button>`).join(''); };
+  function paint() {
+    const c = C[st.c], t = T[st.t], ph = $('toy-ph');
+    ph.style.cssText = `--bar:${c.bar};--on:${c.on};--tick:${c.tick};--btn:${c.btn};--bt:${c.bt};--bg:${c.bg};--ink:${c.ink};` +
+      `--f:${t.f};--w:${t.w};--it:${t.it ? 'italic' : 'normal'};--up:${t.up ? 'uppercase' : 'none'}`;
+    document.querySelectorAll('.toy-ctl [data-k]').forEach(b => b.setAttribute('aria-pressed', String(st[b.dataset.k] === b.dataset.v)));
+    const fits = c.ok && t.ok;
+    $('toy-read').innerHTML = `Reads like: <b>${t.reads}, from ${c.reads}</b>.<br>${fits
+      ? '<span class="yes">✓ Believable for a booking.</span> You would come back.'
+      : '<span class="no">✗ Would you book again?</span> The words are the same; the feel is not.'}`;
+  }
+  seg($('toy-c'), C, 'c'); seg($('toy-t'), T, 't');
+  document.querySelector('.toy-ctl').addEventListener('click', e => { const b = e.target.closest('[data-k]'); if (!b) return; st[b.dataset.k] = b.dataset.v; paint(); });
+  paint();
 })();
 
 const root = document.documentElement;
