@@ -123,7 +123,11 @@
   h2 .sec{font-family:var(--mono);font-size:0.75rem;font-weight:500;color:var(--ink-3);border:1px solid var(--line-2);border-radius:5px;padding:2px 6px;margin-left:6px;vertical-align:3px}
   .gal{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(300px,100%),1fr));gap:14px;margin:12px 0 8px}
   .oc{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:14px 16px 12px;display:flex;flex-direction:column;gap:8px;min-width:0}
-  .oc.on{border-color:var(--lec);box-shadow:inset 0 0 0 1px var(--lec)}
+  .oc{cursor:pointer;position:relative}
+  .oc:hover{border-color:var(--line-2)}
+  .oc.on{border-color:var(--lec);box-shadow:inset 0 0 0 2px var(--lec);background:color-mix(in srgb,var(--lec-soft) 45%,var(--surface))}
+  .oc:has(.pk:focus-visible){outline:2px solid var(--lec);outline-offset:2px}
+  .vh{position:absolute;width:1px;height:1px;margin:-1px;padding:0;overflow:hidden;clip:rect(0 0 0 0);border:0}
   .oc h3{font-size:1.02rem;margin:2px 0 0;letter-spacing:-0.01em}
   .oc .sub{margin:0;color:var(--ink-2);font-size:0.88rem;line-height:1.4}
   .oc dl{margin:0;display:grid;grid-template-columns:auto 1fr;gap:2px 12px;font-size:0.84rem}
@@ -131,8 +135,6 @@
   .acts{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-top:auto;padding-top:4px}
   .acts button,.tray button{font:inherit;font-size:0.86rem;border-radius:7px;padding:7px 12px;cursor:pointer;border:1px solid var(--line-2);background:var(--surface);color:var(--ink)}
   .acts button:hover,.tray button:hover{border-color:var(--lec);color:var(--lec)}
-  .acts .pick[aria-pressed="true"]{background:var(--lec);border-color:var(--lec);color:#fff}
-  html[data-theme="dark"] .acts .pick[aria-pressed="true"]{color:#151314}
   .acts button:focus-visible,.tray button:focus-visible,.tray a:focus-visible{outline:2px solid var(--lec);outline-offset:2px}
   .msg{font-size:0.8rem;color:var(--ok)}
   .oc details{font-size:0.82rem}
@@ -179,13 +181,16 @@
   .tray .sel{flex:1;min-width:220px;font-size:0.86rem;color:var(--ink-2);line-height:1.4}
   .tray .sel b{color:var(--ink)}
   .tray .go{font-size:0.86rem;color:var(--lec);white-space:nowrap}
-  .tray #copyall{background:var(--lec);border-color:var(--lec);color:#fff;font-weight:600}
-  html[data-theme="dark"] .tray #copyall{color:#151314}
+  .trayb{display:flex;flex-wrap:wrap;gap:6px}
+  .tray button[data-tray]{background:var(--lec);border-color:var(--lec);color:#fff;font-weight:600}
+  html[data-theme="dark"] .tray button[data-tray]{color:#151314}
+  .tray button[data-tray]:disabled{background:var(--surface-2);border-color:var(--line);color:var(--ink-3);font-weight:500;cursor:not-allowed}
+  .tray .sel .none{color:var(--ink-3)}
   .tray pre{position:absolute;left:-9999px}
   @media(max-width:560px){
     .tray .wrap{gap:6px 10px;padding-block:7px}
     .tray .sel{min-width:100%;font-size:0.76rem;line-height:1.3}
-    .tray button{font-size:0.8rem;padding:6px 10px} .tray .go{font-size:0.8rem} .tray .lg{display:none}
+    .tray button{font-size:0.8rem;padding:6px 10px} .tray .go{font-size:0.8rem}
   }
 
   /* THE BAR — one definition, identical on every page (written by navfix; change it
@@ -235,7 +240,7 @@
 
 <div class="wrap">
   <h1>Gallery: grids, type and colour</h1>
-  <p class="lede">Ready-made options from published design systems and from this module’s own cases. Choose one of each, then copy them into <b>A3</b>, <b>A4</b> and <b>A5</b>, and their sources into <b>C9</b>. Each one says where it came from, so there is nothing to look up. To see your three together on screens, open the <a href="style-kit.html">Style kit</a>: it remembers what you chose here.</p>
+  <p class="lede">Ready-made options from published design systems and from this module’s own cases. Click a card to choose it, then copy it into <b>A3</b>, <b>A4</b> or <b>A5</b>, and the sources into <b>C9</b>. Each one says where it came from, so there is nothing to look up. To see your three together on screens, open the <a href="style-kit.html">Style kit</a>: it remembers what you chose here.</p>
 
   <div class="markbox" id="marks">
     <p><b>Which ones you choose doesn’t change your mark.</b> No grid, typeface or colour earns marks, and none loses them. A marker won’t prefer a serif to a sans, or blue to orange. What is marked is that you <b>decided</b>, <b>wrote it down</b> in A3–A5, <b>used it the same way on every screen</b>, and <b>said why</b> in C2–C4. Your own choices are just as welcome as these.</p>
@@ -263,7 +268,7 @@
 
 <div class="tray" id="tray"><div class="wrap">
   <p class="sel" id="sel"></p>
-  <button type="button" id="copyall">Copy all four<span class="lg">: A3, A4, A5, C9</span></button>
+  <span class="trayb"><button type="button" data-tray="A3">Copy A3</button><button type="button" data-tray="A4">Copy A4</button><button type="button" data-tray="A5">Copy A5</button><button type="button" data-tray="C9">Copy C9</button></span>
   <a class="go" href="style-kit.html">See them on screens →</a>
   <span class="msg" id="m-all" role="status"></span>
 </div></div>
@@ -273,14 +278,18 @@
 (function () {
   const S = window.SDO, $ = id => document.getElementById(id);
   const esc = s => String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
-  /* the same picks as the Style kit, so choosing here shows up there */
-  const state = { grid: 'ex2', type: 'atk', col: 'civic' };
-  try { Object.assign(state, JSON.parse(localStorage.getItem('sd-kit') || '{}')); } catch (e) {}
-  const save = () => { try { const o = JSON.parse(localStorage.getItem('sd-kit') || '{}'); localStorage.setItem('sd-kit', JSON.stringify(Object.assign(o, { grid: state.grid, type: state.type, col: state.col }))); } catch (e) {} };
+  /* What the student has picked here, and nothing else: it starts empty, so the tray's buttons stay
+     grey until a card is clicked. Each pick is also handed to the Style kit (sd-kit), which then
+     shows it on its screens; the kit's own defaults never come back the other way. */
+  const state = {};
+  try { Object.assign(state, JSON.parse(localStorage.getItem('sd-gallery') || '{}')); } catch (e) {}
+  const save = () => { try { localStorage.setItem('sd-gallery', JSON.stringify(state));
+    const o = JSON.parse(localStorage.getItem('sd-kit') || '{}'); localStorage.setItem('sd-kit', JSON.stringify(Object.assign(o, state))); } catch (e) {} };
   const LIST = { grid: S.GRIDS, type: S.TYPES, col: S.COLS }, TEXT = { grid: S.a3, type: S.a4, col: S.a5 }, SEC = { grid: 'A3', type: 'A4', col: 'A5' };
   const srcLink = o => o.url ? `<a href="${esc(o.url)}"${/^https/.test(o.url) ? ' target="_blank" rel="noopener"' : ''}>Source</a>: ` : 'Source: ';
-  const acts = (k, o) => `<div class="acts"><button type="button" class="pick" data-k="${k}" data-id="${o.id}" aria-pressed="false">Choose</button>
-    <button type="button" class="cp" data-k="${k}" data-id="${o.id}">Copy for ${SEC[k]}</button><span class="msg" role="status"></span></div>
+  /* the card is the choice: a click anywhere on it picks it; the hidden radio is the same choice
+     for the keyboard and for screen readers */
+  const acts = (k, o) => `<div class="acts"><button type="button" class="cp" data-k="${k}" data-id="${o.id}">Copy ${esc(o.n)} for ${SEC[k]}</button><span class="msg" role="status"></span></div>
     <details><summary>What gets copied</summary><pre>${esc(TEXT[k](o))}</pre></details>
     <p class="src">${srcLink(o)}${esc(o.src)}</p>`;
 
@@ -290,7 +299,7 @@
     const cols = Array.from({ length: c }, (_, i) => `<i${i < mainN ? ' class="main"' : ''} style="left:${((left + i * (cw + g)) / vw * 100).toFixed(3)}%;width:${(cw / vw * 100).toFixed(3)}%"></i>`).join('');
     return `<div class="dev ${cls}">${cols}</div>`; };
   const gridCard = G => { const mn = +(G.main.match(/^(\d+)/) || [0, 0])[1];
-    return `<article class="oc" data-k="grid" data-id="${G.id}"><div class="viz">
+    return `<article class="oc" data-k="grid" data-id="${G.id}"><input class="pk vh" type="radio" name="pick-grid" value="${G.id}" aria-label="Choose ${esc(G.n)}"><div class="viz">
       <figure>${dev(375, 0, G.ph, G.ph.c, 'ph')}<small>phone</small></figure>
       <figure class="grow">${dev(1280, G.max, G.dk, mn, 'dk')}<small>desktop, 1280 px window</small></figure></div>
       <h3>${esc(G.n)}</h3><p class="sub">${esc(G.s)}</p>
@@ -298,7 +307,7 @@
       <dt>Margin</dt><dd>${G.dk.m === G.ph.m ? G.dk.m : G.dk.m + ' · ' + G.ph.m} px</dd><dt>Max width</dt><dd>${G.max ? G.max + ' px' : 'none — fills the window'}</dd>
       <dt>Main content</dt><dd>${esc(G.main)} columns</dd><dt>Breakpoints</dt><dd>${esc(G.bps)}</dd></dl>${acts('grid', G)}</article>`; };
 
-  const typeCard = T => `<article class="oc" data-k="type" data-id="${T.id}">
+  const typeCard = T => `<article class="oc" data-k="type" data-id="${T.id}"><input class="pk vh" type="radio" name="pick-type" value="${T.id}" aria-label="Choose ${esc(T.n)}">
       <div class="ts"><span class="h" style="font:${T.hw} ${T.h1}px/1.2 ${T.fh},system-ui">Book a collection</span>
       <p style="font:400 ${T.body}px/1.5 ${T.fb},system-ui">Choose a day, and we will text you the evening before.</p>
       <span class="lb" style="font:700 ${T.body}px/1.4 ${T.fb},system-ui">Postcode</span>
@@ -310,7 +319,7 @@
   const colCard = C => { const on = C.on || '#FFFFFF', P = S.pairs(C);
     const fails = P.filter(([n, f, b]) => n !== 'accent on background' && S.ratio(f, b) < 4.5).length;
     const roles = [['text', C.ink], ['quiet', C.muted], ['button', C.pri], ['surface', C.panel], ['background', C.bg], ['success', C.ok], ['error', C.err], ['accent', C.accent]];
-    return `<article class="oc" data-k="col" data-id="${C.id}">
+    return `<article class="oc" data-k="col" data-id="${C.id}"><input class="pk vh" type="radio" name="pick-col" value="${C.id}" aria-label="Choose ${esc(C.n)}">
       <div class="cs" style="background:${C.bg};color:${C.ink}"><b>Which bin was not emptied?</b><span style="color:${C.muted}">Choose one answer</span>
       <span class="pn" style="background:${C.panel}">Collections are on Tuesdays.</span>
       <span class="row"><span class="bt" style="background:${C.pri};color:${on}">Continue</span><span style="color:${C.link || C.pri};text-decoration:underline">Go back</span></span>
@@ -328,25 +337,32 @@
   $('g-grid').insertAdjacentHTML('beforebegin', '<p class="key"><i></i>darker columns: the main content</p>');
 
   const find = (k, id) => LIST[k].find(o => o.id === id) || LIST[k][0];
-  const all = () => { const G = find('grid', state.grid), T = find('type', state.type), C = find('col', state.col);
-    return `A3 — LAYOUT\n${S.a3(G)}\n\nA4 — TYPOGRAPHY\n${S.a4(T)}\n\nA5 — COLOUR AND CONTRAST\n${S.a5(C)}\n\nC9 — REFERENCES\n${S.c9([G, T, C])}`; };
+  const chosen = k => state[k] && LIST[k].find(o => o.id === state[k]);
+  const TRAY = { A3: () => chosen('grid') && S.a3(chosen('grid')), A4: () => chosen('type') && S.a4(chosen('type')),
+    A5: () => chosen('col') && S.a5(chosen('col')), C9: () => ['grid', 'type', 'col'].some(chosen) && S.c9(['grid', 'type', 'col'].map(chosen)) };
   function mark() {
     document.querySelectorAll('.oc').forEach(c => { const on = state[c.dataset.k] === c.dataset.id; c.classList.toggle('on', on);
-      const b = c.querySelector('.pick'); b.setAttribute('aria-pressed', String(on)); b.textContent = on ? 'Chosen ✓' : 'Choose'; });
-    $('sel').innerHTML = `Your choices: <b>${esc(find('grid', state.grid).n)}</b> · <b>${esc(find('type', state.type).n)}</b> · <b>${esc(find('col', state.col).n)}</b>`;
+      c.querySelector('.pk').checked = on; });
+    const name = (k, label) => chosen(k) ? `<b>${esc(chosen(k).n)}</b>` : `<span class="none">no ${label} yet</span>`;
+    $('sel').innerHTML = `Chosen: ${name('grid', 'grid')} · ${name('type', 'typeface')} · ${name('col', 'colours')}`;
+    document.querySelectorAll('[data-tray]').forEach(b => { const t = TRAY[b.dataset.tray](); b.disabled = !t;
+      b.title = t ? '' : b.dataset.tray === 'C9' ? 'Choose something first' : `Choose a ${{ A3: 'grid', A4: 'typeface', A5: 'palette' }[b.dataset.tray]} first`; });
   }
+  const pick = (k, id) => { state[k] = id; save(); mark(); };
   async function copy(text, msg, pre) {
     try { await navigator.clipboard.writeText(text); msg.textContent = 'Copied'; }
     catch (e) { msg.textContent = 'Select the text and copy it'; if (pre) { pre.closest('details').open = true; getSelection().selectAllChildren(pre); } }
     setTimeout(() => { msg.textContent = ''; }, 2500);
   }
   document.addEventListener('click', e => {
-    const b = e.target.closest('.pick, .cp'); if (!b) return;
-    const { k, id } = b.dataset;
-    if (b.classList.contains('pick')) { state[k] = id; save(); mark(); }
-    else copy(TEXT[k](find(k, id)), b.parentNode.querySelector('.msg'), b.closest('.oc').querySelector('pre'));
+    const b = e.target.closest('.cp');
+    if (b) { const { k, id } = b.dataset; pick(k, id); copy(TEXT[k](find(k, id)), b.parentNode.querySelector('.msg'), b.closest('.oc').querySelector('pre')); return; }
+    const t = e.target.closest('[data-tray]');
+    if (t) { const text = TRAY[t.dataset.tray](); if (text) copy(text, $('m-all')); return; }
+    /* anywhere else on a card picks it; its links and the copied-text preview keep their own job */
+    const c = e.target.closest('.oc'); if (c && !e.target.closest('a, summary, pre, input')) pick(c.dataset.k, c.dataset.id);
   });
-  $('copyall').addEventListener('click', () => copy(all(), $('m-all')));
+  document.addEventListener('change', e => { if (e.target.classList.contains('pk')) pick(e.target.name.slice(5), e.target.value); });
   mark();
 })();
 
