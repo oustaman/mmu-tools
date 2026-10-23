@@ -103,7 +103,7 @@ const RUBRIC = [
 /* Sections no outcome owns. The brief asks for each by name, and the Critical
    Reflection criterion marks them, so they are stated rather than left to look
    optional. */
-const OUTCOME_REST = { secs:["A7","C6","C7","C8","C9"],
+const OUTCOME_REST = { secs:["A7","C6","C7","C8","C9","D4"],
   why:"Asked for by name in the brief, and marked under Critical Reflection. No single outcome owns them, and they still count." };
 
 const OUTCOMES = [

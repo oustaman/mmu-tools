@@ -191,7 +191,7 @@ const WEEKS = [
   between:"Finish <code>D1</code> while you can still reach the before.",
   mistake:"Describing the before instead of counting it.",
   stuck:[
-   ["There is no website for my idea", "Then the before is how people manage now: the chat, the phone, the paper. The bakery case is exactly that."],
+   ["There is no website for my idea", "Then the before is how people manage now: <a href=\"toolkit.html#no-service\">When there’s no service yet</a>. The bakery case is exactly that."],
    ["Can I screenshot a real service?", "Yes, for your appendix, credited. Blur anyone’s personal details."],
    ["What counts as a step?", "Anything the person has to do or wait for: a page, a tap, a call, a reply. <a href=\"flow-guide.html#step\">How flows work</a> has more."],
   ]
@@ -218,7 +218,7 @@ const WEEKS = [
   run:[
    {s:"Mood board, fast", d:"Fifteen images on one page: the feeling you are aiming at. Generated images are welcome; each one gets a line in <code>A7</code>."},
    {s:"Style tile", d:"Finish the tile you started in week 4: type scale, palette with roles, spacing, and a button, a field and a card. Every value from your own A3–A5."},
-   {s:"Open the AI log", d:"Start <code>A7</code> today, one line for every AI use. You will not remember them in January."},
+   {s:"Open the AI log", d:"Start <code>A7</code> today, one line for every AI use; you will not remember them in January. Not sure what is allowed? <a href=\"toolkit.html#ai\">Using AI</a>."},
    {s:"Optional: ask for feedback on your deck", d:"Put your name on the feedback list, and Mike will go through the deck in your shared folder. Feedback comes back over the next few weeks, and week 10 is where you act on it."},
    {s:"Write C8", d:"Eighty words on the AI you used: was it any good, whose work is it, and what did you change? If you used none, say why."},
   ],
@@ -384,10 +384,11 @@ const WEEKS = [
  ],
  workshop:{
   aim:"References written, PDF assembled, everyone submits.",
-  out:{"sec": ["C9"]},
+  out:{"sec": ["C9", "D4"]},
   bring:"Your PDF",
   run:[
    {s:"C9, the reference list", d:"List everything you cited in <code>C9</code>. It is the easiest section in Part C, and the one most often missing."},
+   {s:"D4, your AI statement", d:"Say whether you used AI. If you did: which tools, for what, where in the deck, and why. If not, one line: No AI was used. <a href=\"toolkit.html#ai\">Using AI in this module</a>."},
    {s:"Assemble the PDF", d:"Export, open the PDF, and click every link one last time. Then <a href=\"assessment.html#handin\">hand it in</a>."},
    {s:"Drop in, if you need to", d:"No teaching: export problems, Moodle, last read-throughs. If your work is done, submit and go."},
   ],

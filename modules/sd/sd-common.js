@@ -88,7 +88,7 @@ const PARTS = [
     h:"Minimum touch target, focus state, non-colour cues.",
     f:["Minimum touch target:","Focus state:","Non-colour cues:"]},
    {sec:"A7", t:"AI use log", dw:6, d:"Every AI use has a line",
-    h:"Any AI tool is allowed. Log every use as you go, one line each: the tool, what it made, what you changed, and why. You judge it later, in C8. AI-generated text you do not declare is academic misconduct.",
+    h:"Log every AI use as you go, one line each: the tool, what it made, what you changed, and why. You judge it later, in C8. <a href=\"toolkit.html#ai\">Using AI in this module</a>.",
     f:["Tool  |  What it made  |  What I changed  |  Why","1.","2.","3."]}
   ]},
  {id:"B", name:"The work", tag:"images, with a caption each",
@@ -160,7 +160,7 @@ const PARTS = [
     soon as the goal is set, and finishes all three by the deadline, so dw is
     the last week and no workshop lists them in out.sec. Week 2 invites D1. */
  {id:"D", name:"Appendices", tag:"before and after \u2014 no word count",
-  desc:"The evidence that your version is better: the process as it is now, what happened to each step, and two screens side by side. Anything else that helps your case is welcome here too \u2014 competitors, news stories, screenshots from review sites \u2014 if it has no better place in the deck.",
+  desc:"The evidence that your version is better: the process as it is now, what happened to each step, and two screens side by side. Then your AI statement. Anything else that helps your case is welcome here too \u2014 competitors, news stories, screenshots from review sites \u2014 if it has no better place in the deck.",
   items:[
    {sec:"D1", t:"The process before", dw:11, d:"Every step, captured and numbered",
     h:"How people reach the goal now \u2014 screenshots, a photo of the paper form, the WhatsApp chat. One image per step, numbered to match A2. It is evidence, not design: nobody marks how it looks.",
@@ -170,7 +170,10 @@ const PARTS = [
     f:["BEFORE STEP  \u2192  AFTER  \u2014  what happened, and why","1.","2.","3.","4.","5.","6.","","Steps before:        Screens after:"]},
    {sec:"D3", t:"Side by side", dw:11, d:"Two key screens, before and after",
     h:"The two places your change matters most: before on the left, after on the right, and one line under each pair saying what changed.",
-    f:["[ before ]   [ after ]","What changed:","","[ before ]   [ after ]","What changed:"]}
+    f:["[ before ]   [ after ]","What changed:","","[ before ]   [ after ]","What changed:"]},
+   {sec:"D4", t:"AI statement", dw:11, d:"Used or not, said plainly",
+    h:"Whether you used AI. If you did: which tools, for what, where in the deck, and why. If you did not, one line: No AI was used. <a href=\"toolkit.html#ai\">Using AI in this module</a>.",
+    f:["AI used:  yes / no","","If yes, for each use:","  Tool:","  What for:","  Where in the deck (section):","  Why:","","If no:  No AI was used in this portfolio."]}
   ]}
 ];
 

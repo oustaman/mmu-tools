@@ -206,6 +206,8 @@
 </div>
 
 <script src="sd-common.js"></script>
+<script src="example-council-data.js"></script>
+<script>var EXAMPLE2 = EXAMPLE;   /* Example 2, kept before Example 1 loads over it */</script>
 <script src="example-data.js"></script>
 <script>
 (function () {
@@ -237,14 +239,10 @@
         <a class="btn" href="example-council-feedback.html">Its feedback sheet</a>
         <a class="btn" href="rubric.html">Blank rubric</a></div>
     </div>`;
-  /* Example 2's marks, read from its own data. Both data files declare EXAMPLE,
-     so the second is read in its own scope rather than loaded beside the first.
-     Opened to students after the week 2 marking exercise (16 Oct 2026). */
-  fetch('example-council-data.js').then(r => r.text()).then(t => {
-    const E2 = new Function(t + '; return EXAMPLE;')();
-    document.getElementById('ex2mark').innerHTML = `<span class="n">${E2.mark.overall}</span>
-      <span><b>${esc(E2.mark.band)}</b><br><span class="crit">criteria ${E2.criteria.map(c => `${c.n} \u00b7 ${c.mark}`).join('   ')}</span></span>`;
-  }).catch(() => {});
+  /* Example 2's marks, read from its own data (loaded first, as EXAMPLE2). No fetch: it fails
+     when the page is opened straight from the folder. */
+  document.getElementById('ex2mark').innerHTML = `<span class="n">${EXAMPLE2.mark.overall}</span>
+    <span><b>${esc(EXAMPLE2.mark.band)}</b><br><span class="crit">criteria ${EXAMPLE2.criteria.map(c => `${c.n} \u00b7 ${c.mark}`).join('   ')}</span></span>`;
 })();
 
 const root = document.documentElement;

@@ -31,7 +31,7 @@
  *  {n, kind, sec, blocks}: kind is title | divider | section, and a note on a
  *  block is a margin comment shown only in the marked copy.
  */
-const EXAMPLE = {
+var EXAMPLE = {   // var, not const: examples.html loads both example files, one after the other
  "meta": {
   "title": "screen-design-portfolio",
   "student": "",
