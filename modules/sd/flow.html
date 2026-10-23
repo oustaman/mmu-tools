@@ -222,7 +222,7 @@
 
 <div class="wrap">
   <h1>Flow maker</h1>
-  <p class="lede">Your journey as a slide for <b>B4</b>, made in two steps. <b>Week 5:</b> list what a person does <i>now</i>, step by step, and mark where they get stuck. <b>Week 7:</b> make <i>your version</i> from a copy of it. Remove steps, merge them, move them and add screens, and the tool keeps track of what happened to each one. That record is your <b>D2</b>.</p>
+  <p class="lede">Your journey as a slide for <b>B4</b>, made in two steps. New to flows? Read <a href="flow-guide.html">How flows work</a> first: every option, with real examples. <b>Week 5:</b> list what a person does <i>now</i>, step by step, and mark where they get stuck. <b>Week 7:</b> make <i>your version</i> from a copy of it. Remove steps, merge them, move them and add screens, and the tool keeps track of what happened to each one. That record is your <b>D2</b>.</p>
 
   <div class="fm-goal"><label for="goal">Goal</label><input id="goal" placeholder="What the person is trying to get done, e.g. Report a missed bin collection"></div>
 
@@ -256,7 +256,7 @@
     <ol class="fm-recipe">
       <li>Press <button type="button" class="pri" data-act="seed">Start from my “now”</button>. You get a copy to change.</li>
       <li>Work through it with the problems in front of you. <b>✕</b> removes a step, <b>merge ↓</b> joins a step to the next one, and <b>↑ ↓</b> moves a step. Rename a step to say what your screen does, and <b>+ Add a screen</b> for anything new.</li>
-      <li>The numbers under each row show which steps from <i>now</i> it came from. The slide labels every old step <i>kept</i>, <i>merged</i>, <i>moved</i>, <i>changed</i> or <i>removed</i>.</li>
+      <li>The numbers under each row show which steps from <i>now</i> it came from. The slide labels every old step <i>kept</i>, <i>merged</i>, <i>moved</i> or <i>removed</i> — the four words D2 asks for. Renaming a step does not change what it is: one step now, one screen after, is <i>kept</i>. Not sure which is which? <a href="flow-guide.html#after">How flows work</a> shows each with a real example.</li>
     </ol>
     <ol class="fm-list" id="l-after"></ol>
     <div class="fm-add"><button type="button" data-act="add" data-side="after">+ Add a screen</button><button type="button" data-act="add" data-side="after" data-k="wait">+ Add a wait</button></div>
@@ -272,6 +272,7 @@
   <footer><p>Screen Design · Level 4 · 2026–27</p></footer>
 </div>
 
+<script src="flow-draw.js"></script>
 <script>
 (function () {
   /* The Flow maker. Students list the journey as it is now (week 5), then build their version
@@ -279,40 +280,38 @@
      Every step now ends up kept, merged, moved or removed, which is D2; the drawing is a
      16:9 slide for B4. Nothing to learn but the buttons. */
   const $ = id => document.getElementById(id);
-  const esc = s => String(s == null ? '' : s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+  const { esc, nums, counts, fatesOf, COL, band, DEFS, FONT } = window.FD;
+  const fates = () => fatesOf(S.before, S.after);
   const KEY = 'sd-flow2';
   let uid = 1; const nid = p => p + (uid++) + '-' + Date.now().toString(36);
 
+  /* the example is the missed-bin case (case-missed-bin.html): its "now" screens, and its
+     "What happened to every step" table — nothing added that the case does not say */
   const EXAMPLE = () => {
     const B = [
-      ['b1', 'Search “missed bin”', 'Google'],
-      ['b2', 'Read the bins page, 199 words', 'website', 'step', true, 'The one rule that matters is in paragraph 4'],
-      ['b3', 'Is it after 5pm on collection day?', '', 'q', false, '', 'Come back after 5pm', 'back', 'b2'],
-      ['b4', 'Choose your bin from 9 options', 'form', 'step', true, 'Bins are named by the council, not by colour'],
-      ['b5', 'Name, email and phone', 'form'],
-      ['b6', 'Postcode and address', 'form'],
-      ['b7', 'Additional information', 'form'],
-      ['b8', 'Check your answers', 'summary page'],
-      ['b9', 'Finish', 'form', 'step', true, 'Times out after 20 minutes and clears the form'],
-      ['b10', '2 working days', '', 'wait'],
-      ['b11', 'Bin collected', ''],
+      ['b1', 'Read the missed bin information page', 'website', 'step', true, '199 words, 2.6 phone screens, before you can start'],
+      ['b2', 'Choose your bin, and its type', 'form', 'step', true, 'Colours on the page, categories on the form'],
+      ['b3', 'Name, email and phone', 'form'],
+      ['b4', 'Postcode and address', 'form'],
+      ['b5', 'Additional information', 'form'],
+      ['b6', 'Assisted collection', 'form'],
+      ['b7', 'Summary', 'form'],
+      ['b8', 'Finish', 'form', 'step', true, 'Never checks the 2pm deadline, so it cannot say you are too late'],
     ].map(([id, t, w, k, bad, note, ifnot, go, back]) => ({ id, t, w: w || '', k: k || 'step', bad: !!bad, note: note || '', ifnot: ifnot || '', go: go || 'stuck', back: back || '' }));
     const A = [
-      ['a1', 'Search “missed bin”', 'Google', ['b1']],
-      ['a2', 'Start: the one rule, in 38 words', 'start page', ['b2', 'b3']],
-      ['a3', 'Your postcode', 'form', ['b6']],
-      ['a4', 'Which bin was not emptied?', 'form, by colour', ['b4']],
-      ['a5', 'How should we update you? (optional)', 'form', ['b5']],
-      ['a6', 'Check your answers', 'summary page', ['b8']],
-      ['a7', 'Report sent — reference by text', 'confirmation', ['b9']],
-      ['a8', 'Next working day', '', ['b10'], 'wait'],
-      ['a9', 'Bin collected', '', ['b11']],
+      ['a1', 'Start: the one rule, in 38 words', 'start page', ['b1']],
+      ['a2', 'Your postcode and address', 'form', ['b4']],
+      ['a3', 'Which bin was not emptied?', 'by colour', ['b2']],
+      ['a4', 'How should we update you? (optional)', 'form', ['b3']],
+      ['a5', 'Check your answers', 'with Change links', ['b7']],
+      ['a6', 'Report sent', 'date and reference', ['b8']],
     ].map(([id, t, w, from, k]) => ({ id, t, w, from, k: k || 'step', bad: false, note: '', ifnot: '', go: 'stuck', back: '' }));
     return { goal: 'Report a missed bin collection', before: B, after: A, view: 'both', tab: 'before',
-      why: { b2: 'Only the deadline decides whether reporting is any use; the rest is one link away', b3: 'Asked once, on the start page, before anyone types anything',
-        b4: 'Bins named by colour, with the council’s name underneath', b5: 'Nothing in emptying a bin needs a name; one way to send updates is enough',
-        b6: 'Everything else follows from the address, so it comes first', b7: 'Rarely needed — it returns as an optional box on the bin screen',
-        b9: 'The button says what it does, and the next screen says what happens', b10: 'The crew is booked when the report arrives' } };
+      why: { b1: 'Only the deadline decides whether reporting is any use; the other rules are one link away',
+        b2: 'The address tells the council which bins are due and what kind they are', b3: 'Nothing in emptying a bin needs a name; one way to send an update is enough',
+        b4: 'Everything else follows from it', b5: 'Rarely needed; if the council wants it, it returns as an optional box on the bin screen',
+        b6: 'Arranged with the council, so already on file for the address', b7: 'Fixing a mistake should not mean starting again',
+        b8: 'The button says what it does, and the next screen says what happens' } };
   };
   const EMPTY = () => ({ goal: '', before: [], after: [], why: {}, view: 'before', tab: 'before' });
   let S; try { S = JSON.parse(localStorage.getItem(KEY) || 'null'); } catch (e) {}
@@ -320,29 +319,6 @@
   const save = () => { try { localStorage.setItem(KEY, JSON.stringify(S)); } catch (e) {} };
 
   /* numbers: waits are not steps, so they carry no number */
-  const nums = list => { const m = {}; let n = 0; list.forEach(x => { if (x.k !== 'wait') m[x.id] = ++n; }); return m; };
-  const counts = list => ({ steps: list.filter(x => x.k !== 'wait').length, waits: list.filter(x => x.k === 'wait').length,
-    stuck: list.filter(x => x.bad || (x.k === 'q' && x.ifnot && x.go === 'stuck')).length, loops: list.filter(x => x.k === 'q' && x.ifnot && x.go === 'back').length });
-
-  /* what happened to each step now: the D2 vocabulary */
-  function fates() {
-    const an = nums(S.after), pos = {}; S.after.forEach((a, i) => { pos[a.id] = i; });
-    const out = {}; let maxPos = -1;
-    S.before.forEach(b => {
-      const refs = S.after.filter(a => (a.from || []).includes(b.id));
-      if (!refs.length) { out[b.id] = { kind: 'removed', label: 'Removed' }; return; }
-      const r = refs[0], to = an[r.id] ? `step ${an[r.id]}` : 'a wait';
-      let kind, label;
-      if (r.from.length > 1) { kind = 'merged'; label = `Merged into ${to}`; }
-      else if (r.t.trim() !== b.t.trim() || r.k !== b.k) { kind = 'changed'; label = `Changed → ${to}`; }
-      else { kind = 'kept'; label = `Kept → ${to}`; }
-      if (pos[r.id] < maxPos) { kind = kind === 'kept' ? 'moved' : kind; label += ', moved'; }
-      maxPos = Math.max(maxPos, pos[r.id]);
-      out[b.id] = { kind, label, to: an[r.id] };
-    });
-    return out;
-  }
-
   /* ---------- the editors ---------- */
   function rowHTML(x, i, list, side, N) {
     const num = x.k === 'wait' ? '⏱' : N[x.id];
@@ -384,88 +360,11 @@
 
   /* ---------- the slide: 1920 × 1080, read left to right ---------- */
   const W = 1920, H = 1080, M = 72;
-  const wrap = (s, max) => { const out = []; let line = ''; String(s).split(/\s+/).forEach(w => { if ((line + ' ' + w).trim().length > max) { if (line) out.push(line); line = w; } else line = (line + ' ' + w).trim(); }); if (line) out.push(line); return out.length ? out : ['']; };
-  const clip = (lines, n) => lines.length <= n ? lines : [...lines.slice(0, n - 1), lines[n - 1].replace(/[,.;:]?$/, '') + '…'];
-  const T = (lines, x, y, lh, attrs) => `<text ${attrs} text-anchor="middle">${lines.map((l, i) => `<tspan x="${x}" y="${y + i * lh}">${esc(l)}</tspan>`).join('')}</text>`;
-  const COL = { ink: '#1A1618', mute: '#5A5352', box: '#FFFFFF', line: '#1A1618', q: '#FFF4D6', qs: '#8A6100', wait: '#F1EFEC', bad: '#B3261E', badf: '#FCEAE8', ok: '#285638', okf: '#E3EFE7', loop: '#1A526D', rm: '#8E8685' };
-
-  function band(list, x0, y0, bw0, bh0, label, sub, F, one) {
-    const out = [], N = nums(list), items = list;
-    out.push(`<text x="${x0}" y="${y0 + 26}" font-size="24" font-weight="800" letter-spacing="2" fill="${COL.ink}">${esc(label)}</text>`,
-      `<text x="${x0}" y="${y0 + 56}" font-size="19" fill="${COL.mute}">${esc(sub)}</text>`);
-    if (!items.length) { out.push(`<text x="${x0}" y="${y0 + 120}" font-size="22" fill="${COL.mute}">Nothing here yet.</text>`); return out.join(''); }
-    const hasLoop = items.some(x => x.k === 'q' && x.ifnot && x.go === 'back'), top = y0 + 82 + (hasLoop ? 40 : 14), h = bh0 - (top - y0);
-    const units = x => x.k === 'wait' ? 0.72 : x.k === 'q' ? 1.3 : 1;
-    const lim = one ? 11 : 8, per = items.length <= lim ? items.length : items.length <= 2 * lim ? Math.ceil(items.length / 2) : Math.ceil(items.length / 3);
-    const rows = []; for (let i = 0; i < items.length; i += per) rows.push(items.slice(i, i + per));
-    const gap = per > 8 ? 40 : 54, maxU = Math.max(...rows.map(r => r.reduce((s, x) => s + units(x), 0)));
-    const maxN = Math.max(...rows.map(r => r.length));
-    const bw = Math.min(250, (bw0 - (maxN - 1) * gap) / maxU);
-    const rowH = h / rows.length, bh = Math.min(120, rowH - 92), fs = bw < 150 ? 15 : 17, cpl = Math.max(10, Math.floor((bw - 34) / (fs * 0.52)));
-    const P = {}; let prev = null;
-    rows.forEach((r, ri) => {
-      const rw = r.reduce((s, x) => s + units(x) * bw, 0) + (r.length - 1) * gap;
-      let x = x0 + (bw0 - rw) / 2; const y = top + ri * rowH + 6, cy = y + bh / 2;
-      r.forEach(it => {
-        const w = units(it) * bw, cx = x + w / 2;
-        P[it.id] = { x, y, w, cx, cy, top: y, bot: y + bh };
-        if (prev) {
-          if (prev.cy === cy) out.push(`<line x1="${prev.x + prev.w + 4}" y1="${cy}" x2="${x - 4}" y2="${cy}" stroke="${COL.line}" stroke-width="2.5" marker-end="url(#ah)"/>`);
-          else { const mid = y - 18;
-            out.push(`<path d="M${prev.cx},${prev.bot + 4} V${mid} H${cx} V${y - 4}" fill="none" stroke="${COL.line}" stroke-width="2.5" marker-end="url(#ah)"/>`); }
-          if (prev.q) out.push(`<text x="${prev.cy === cy ? prev.x + prev.w + 8 : prev.cx + 8}" y="${prev.cy === cy ? cy - 10 : prev.bot + 22}" font-size="15" fill="${COL.mute}">yes</text>`);
-        }
-        const f = F && F[it.id];
-        if (it.k === 'wait') {
-          out.push(`<rect x="${x}" y="${cy - 34}" width="${w}" height="68" rx="34" fill="${COL.wait}" stroke="${COL.mute}" stroke-width="2" stroke-dasharray="7 6"/>`,
-            T(clip(wrap('⏱ ' + it.t, Math.floor(w / 8)), 2), cx, cy - 2, 18, `font-size="14" font-style="italic" fill="${COL.mute}"`));
-          P[it.id].top = cy - 34; P[it.id].bot = cy + 34;
-        } else if (it.k === 'q') {
-          out.push(`<polygon points="${cx},${y - 8} ${x + w},${cy} ${cx},${y + bh + 8} ${x},${cy}" fill="${COL.q}" stroke="${COL.qs}" stroke-width="2.5"/>`,
-            (() => { const ql = clip(wrap(it.t, Math.max(8, Math.floor(w * 0.62 / ((fs - 1) * 0.52)))), Math.max(2, Math.floor((bh - 10) / 18))); return T(ql, cx, cy - (ql.length - 1) * 9 + 5, 18, `font-size="${fs - 1}" fill="${COL.ink}"`); })(),
-            `<text x="${x + 4}" y="${y + 6}" font-size="15" font-weight="800" fill="${COL.qs}">${N[it.id]}</text>`);
-          P[it.id].q = true; P[it.id].top = y - 8; P[it.id].bot = y + bh + 8;
-        } else {
-          const fit = Math.max(1, Math.floor((bh - (it.w ? 40 : 22)) / (fs + 4))), tl = clip(wrap(it.t, cpl), Math.min(fit, 4)), wl = it.w ? wrap(it.w, cpl + 2).slice(0, 1) : [];
-          const th = tl.length * (fs + 4) + (wl.length ? 20 : 0), ty = cy - th / 2 + fs;
-          out.push(`<rect x="${x}" y="${y}" width="${w}" height="${bh}" rx="10" fill="${it.bad ? COL.badf : f && f.kind === 'removed' ? '#F4F3F1' : COL.box}" stroke="${it.bad ? COL.bad : f && f.kind === 'removed' ? COL.rm : COL.line}" stroke-width="${it.bad ? 3.5 : 2.5}"${f && f.kind === 'removed' ? ' stroke-dasharray="8 6"' : ''}/>`,
-            T(tl, cx, ty, fs + 4, `font-size="${fs}" font-weight="600" fill="${f && f.kind === 'removed' ? COL.rm : COL.ink}"`),
-            wl.length ? T(wl, cx, ty + tl.length * (fs + 4) + 2, 18, `font-size="14" fill="${COL.mute}"`) : '',
-            `<text x="${x + 10}" y="${y + 22}" font-size="15" font-weight="800" fill="${it.bad ? COL.bad : COL.mute}">${N[it.id]}</text>`);
-          if (it.bad) out.push(`<text x="${x + w - 10}" y="${y + bh - 10}" font-size="19" font-weight="800" fill="${COL.bad}" text-anchor="end">✗</text>`);
-        }
-        /* below the box: why people get stuck, or where a "no" leads */
-        const below = P[it.id].bot + 12;
-        if (it.bad && it.note) out.push(T(clip(wrap(it.note, Math.floor((w + 24) / 7.6)), 3), cx, below + 14, 18, `font-size="14.5" fill="${COL.bad}"`));
-        if (it.k === 'q' && it.ifnot && it.go === 'stuck') {
-          const ll = wrap('no: ' + it.ifnot, Math.floor(w / 8)).slice(0, 2);
-          out.push(`<line x1="${cx}" y1="${P[it.id].bot}" x2="${cx}" y2="${below + 4}" stroke="${COL.bad}" stroke-width="2.5"/>`,
-            `<rect x="${x + 6}" y="${below + 4}" width="${w - 12}" height="${ll.length * 18 + 26}" rx="6" fill="${COL.badf}" stroke="${COL.bad}" stroke-width="2"/>`,
-            T(ll.map((l, i) => i === 0 ? '✗ ' + l : l), cx, below + 24, 18, `font-size="14.5" font-weight="600" fill="${COL.bad}"`));
-        }
-        if (f) { const tag = f.kind === 'removed' ? 'removed' : f.kind === 'merged' ? `merged → ${f.to}` : f.kind === 'kept' ? `kept → ${f.to || 'wait'}` : f.kind === 'moved' ? `moved → ${f.to}` : `changed → ${f.to || 'wait'}`;
-          const tw = tag.length * 8.6 + 18, c = f.kind === 'removed' ? COL.rm : f.kind === 'merged' || f.kind === 'moved' ? COL.loop : COL.ok;
-          const tx = it.k === 'q' ? cx - tw / 2 : x + w - tw + 8, ty = it.k === 'q' ? P[it.id].bot - 4 : P[it.id].top - 15;
-          out.push(`<rect x="${tx}" y="${ty}" width="${tw}" height="26" rx="13" fill="#fff" stroke="${c}" stroke-width="2"/>`,
-            `<text x="${tx + tw / 2}" y="${ty + 18}" font-size="14" font-weight="700" fill="${c}" text-anchor="middle">${esc(tag)}</text>`); }
-        prev = P[it.id]; x += w + gap;
-      });
-    });
-    /* loops: a "no" that sends people back goes over the top */
-    let lane = 0;
-    items.forEach(it => { if (it.k !== 'q' || !it.ifnot || it.go !== 'back' || !P[it.back]) return;
-      const a = P[it.id], b = P[it.back], ly = Math.min(a.top, b.top) - 30 - lane * 12; lane++;
-      out.push(`<path d="M${a.cx},${a.top} V${ly} H${b.x + 30} V${b.top - 2}" fill="none" stroke="${COL.loop}" stroke-width="2.5" marker-end="url(#al)"/>`,
-        `<text x="${(a.cx + b.cx) / 2}" y="${ly - 8}" font-size="15" font-weight="600" fill="${COL.loop}" text-anchor="middle">no: ${esc(it.ifnot)} — back to ${N[it.back]}</text>`); });
-    return out.join('');
-  }
-
   function slide() {
     const cb = counts(S.before), ca = counts(S.after), v = S.view, F = v === 'both' ? fates() : null;
     const head = v === 'before' ? 'How people do it now' : v === 'after' ? 'Your version' : 'Now, and your version';
-    let s = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${W} ${H}" width="${W}" height="${H}" font-family="system-ui,-apple-system,'Segoe UI',Roboto,sans-serif">
-      <defs><marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="${COL.line}"/></marker>
-      <marker id="al" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="${COL.loop}"/></marker></defs>
+    let s = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${W} ${H}" width="${W}" height="${H}" font-family="${FONT}">
+      ${DEFS}
       <rect width="${W}" height="${H}" fill="#fff"/>
       <text x="${M}" y="${M + 22}" font-size="20" font-weight="700" fill="${COL.mute}" letter-spacing="2">B4 · FLOW DIAGRAM</text>
       <text x="${M}" y="${M + 72}" font-size="44" font-weight="800" fill="${COL.ink}">${esc(S.goal || 'Your goal')}</text>
