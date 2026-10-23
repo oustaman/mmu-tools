@@ -16,11 +16,7 @@ const WEEKS = [
  makes:["3 teardowns","3 theme ideas"],
  shown:[
   {core:true, s:"The assessment brief", u:"index.html#brief", take:"The whole assessment is one document, and every section of it is listed on the hand-in page. Everything you are told this term is already in that brief."},
-  {s:"The hand-in, in one page", u:"assessment.html", take:"You copy this structure in the workshop today. From then on you are filling it in, not starting it."},
-  {s:"A manuscript page", u:"https://written.institute/atlas/", take:"Margins and columns are not decoration. Every layout choice you make in week 3 was made before, for a reason."},
-  {s:"Sixty-seven published grids", u:"https://interfaces.institute/collections/grids/", take:"A grid is something a publisher writes down. Yours goes in A3 in week 3 — seven numbers, no blanks."},
   {core:true, slides:"Teardowns", s:"Three live teardowns", u:"teardowns.html", take:"Learn to say what you read first and which of five devices did it: scale, weight, colour, space, position. That vocabulary is what C2 is written in."},
-  {s:"Six documented failures", u:"https://interfaces.institute/basement/", take:"A screen fails when nobody can tell what to do next. Yours is marked on whether someone can."},
  ],
  three:[
   {t:"Your shared folder and deck", d:"On OneDrive, shared with us, a slide for every section."},
@@ -51,10 +47,7 @@ const WEEKS = [
  makes:["Example 2 marked","Theme locked","8 thumbnails"],
  shown:[
   {core:true, s:"Scale, weight, space — live", u:"https://interfaces.institute/stairwell/hierarchy/", take:"Changing one thing — size, weight, spacing — changes what gets read first. That is the whole of hierarchy."},
-  {s:"Two focal points", u:"https://interfaces.institute/collections/bank-interfaces/", take:"You get one focal point per screen. Two costs the reader a moment, and that moment is what you write about in C2."},
   {core:true, s:"One app, four layouts", u:"https://interfaces.institute/patterns/four-layouts/", take:"A layout decides whose job comes first, and every other job waits. Say which job your screen puts first, and what it makes wait."},
-  {s:"Recognition over recall", u:"https://interfaces.institute/stairwell/recognition/", take:"Recognising beats remembering. Show the option rather than expecting someone to recall it."},
-  {s:"Affordance", u:"https://interfaces.institute/stairwell/affordance/", take:"If nothing says which parts are clickable, people click the wrong things. Criterion 2 is where that is marked."},
  ],
  three:[
   {t:"Example 2, marked", d:"A band, a mark and a line of evidence for each criterion — sent through the form."},
@@ -90,7 +83,6 @@ const WEEKS = [
  shown:[
   {core:true, s:"One menu, four grids", u:"https://interfaces.institute/patterns/four-grids/", take:"A grid decides how much fits. Choose the grid for your content, not for the look."},
   {core:true, s:"One website, every grid", u:"https://interfaces.institute/patterns/every-grid/", take:"Twelve columns divide by two, three, four and six; sixteen will not take a row of three. Choose a count that divides the way your content does."},
-  {s:"Published layout grids — one page, four stops", u:"https://interfaces.institute/collections/grids/", take:"A grid is a handful of numbers decided once: columns, gutter, margin, max width and a spacing scale. Yours go in A3 today."},
  ],
  three:[
   {t:"Your theme, locked", d:"If it was not already: A1 filled in, and the goal at the top of A2."},
@@ -119,14 +111,9 @@ const WEEKS = [
  n:4, title:"Type, colour and the grid: one visual system",
  makes:["Layout, type and colour → Part A §3–5","A first style tile","C3 and C4 drafted"],
  shown:[
+  {core:true, slides:"Colour and type", s:"Colour and type speak first", u:"type-colour.html", take:"Here red reads as stop and blue as trust; the same words read as a threat or a welcome, depending on the typeface. Choose colours and type for what they say to your audience."},
   {core:true, s:"Gallery: grids, type and colour", u:"gallery.html", take:"Choose one of each, write them down, use them everywhere, and say why."},
   {core:true, s:"One example: the bakery, for type, colour and grid", u:"case-bakery.html#s16", take:"Every number in a spec has a reason, and the reason names a person: who reads it, where, on what. That is what C3 and C4 are made of."},
-  {s:"Style kit — what are we fixing?", u:"style-kit.html", take:"Grid, type and colour are one set of decisions. Made once and written down, they make every screen match — even when the screen is drawn in boxes."},
-  {s:"Contrast, live", u:"https://interfaces.institute/collections/design-tools/#pairs", take:"Anything under 4.5:1 gets changed. That is the one colour rule nobody can argue with."},
-  {s:"What a published scale actually does", u:"https://interfaces.institute/collections/type-scales/", take:"<b>None of the five is geometric</b>: the ratio between steps wanders in every one. Name your sizes and what each is for, rather than claiming a ratio."},
-  {s:"Two paragraphs", u:"https://written.institute/laboratory/#measure", take:"Line length is the problem more often than the font is. If your text is hard to read, the column is too wide."},
-  {s:"Families have jobs", u:"https://written.institute/typologies/", take:"Families have jobs. One for headings, one for reading — and say why in C3."},
-  {s:"What four systems ship, measured", u:"https://interfaces.institute/collections/palettes/", take:"Every colour these systems publish <i>as text</i> passes 4.5:1; <b>six of the sixteen they publish as fills fail</b>. A fill is not a text colour."},
  ],
  three:[
   {t:"Part A §3–5 filled in", d:"Every row a number. A5 has a ratio for every text pair, none under 4.5:1."},
@@ -135,21 +122,17 @@ const WEEKS = [
  ],
  workshop:{
   aim:"See how three redesigns decided their type, colour and grid — then decide yours, write them into Part A §3–5, and see them on your own screens.",
-  out:{"sec": ["A3", "A4", "A5", "B3", "C3", "C4"]},
-  bring:"Paper for the six questions",
+  out:{"sec": ["A4", "A5", "C3", "C4"]},
   run:[
-   {s:"Study one case, in pairs", d:"Your tutor gives each pair one case: <a href=\"case-missed-bin.html#s16\">the missed bin</a>, <a href=\"case-railcard.html#s16\">the Railcard</a> or <a href=\"case-short-course.html#s16\">the Welsh course</a>. Answer <a href=\"examples.html#questions\">the six questions</a> on paper; most answers are on slide 16."},
-   {s:"Check-in: your tutor comes round", d:"One question: <b>show me one row in the redesign’s A4 or A5, and tell me why it is that number.</b>"},
-   {s:"Swap: one pair from each case", d:"Join two pairs who read the other cases. Between you: <b>which change makes the biggest difference, and what number shows it?</b>"},
-   {s:"Choose your three", d:"In the <a href=\"gallery.html\">Gallery</a>, choose a grid, a typeface and a palette for your audience, and <b>Copy all four</b> into A3, A4, A5 and C9. Change any number you like, and write down why."},
-   {s:"A first style tile", d:"The <a href=\"style-kit.html\">Style kit</a> already has what you chose. Type in your own words, screenshot the three screens and paste them into <code>B3</code>."},
-   {s:"Check-in: before you leave", d:"Your tutor looks at A3, A4 and A5: <b>is every row a number, does every text pair pass, and what did you change, and why?</b>"},
-   {s:"Write C3 and C4", d:"One slide each: why this type and these colours suit your audience, quoting numbers from A4 and A5. What you changed from the Gallery, and why, is the strongest line you can write."},
+   {s:"Study one or more cases", d:"Open <a href=\"case-missed-bin.html#s16\">the missed bin</a>, <a href=\"case-railcard.html#s16\">the Railcard</a> or <a href=\"case-short-course.html#s16\">the Welsh course</a>, and answer <a href=\"examples.html#questions\">the six questions</a>; most answers are on slide 16. Time left? Take another."},
+   {s:"Play with the Style kit", d:"Open the <a href=\"style-kit.html\">Style kit</a> and press <b>Show all three wrong</b>. Then try grids, typefaces and palettes on the three screens, with your own service’s words in the boxes."},
+   {s:"Pick your type and colour", d:"Choose a typeface for <code>A4</code> and a palette for <code>A5</code>, in the <a href=\"gallery.html\">Gallery</a> or the Style kit, and copy them in with their sources (C9). Then one slide each for <code>C3</code> and <code>C4</code>:<br>• <b>Who</b> reads it, where, and on what?<br>• <b>Why</b> this typeface and these colours, for them? Name one you rejected.<br>• <b>One number</b> from A4 or A5: a size, a ratio."},
+   {s:"Check-in: your tutor comes round", d:"One question: <b>you made your A5 pick. Why those colours? What is the rationale?</b>"},
   ],
   between:"If any text pair in A5 fails, fix it and copy A5 again.",
   mistake:"Choosing by look alone. Choose for your audience, then check the numbers.",
   stuck:[
-   ["Which case should I study?", "The one your tutor gives your pair. You hear about the other two in the swap."],
+   ["Which case should I study?", "Any of them. One studied properly beats three skimmed."],
    ["I missed weeks 3 and 4", "Start here. The Gallery gives you a complete A3, A4 and A5 in one sitting, with sources."],
    ["Do I have to use the Gallery?", "No. Your own choices and any tool are fine; the Gallery shows what a complete answer looks like."],
    ["My brand colour fails", "Darken it until it passes, or keep it for large text and decoration only."],
@@ -163,12 +146,6 @@ const WEEKS = [
  shown:[
   {core:true, s:"Before and after: the painful one", u:"case-bakery.html", take:"The before is evidence, even when it is a message thread. Count it — channels, messages, days — and every count becomes a line in C5 and D2."},
   {core:true, s:"Before and after: the okay one", u:"case-missed-bin.html", take:"A service can look fine and still fail its users. The problems are in the order of things — which is what A2 and B4 are for."},
-  {s:"Before and after: the Railcard", u:"case-railcard.html", take:"Ask what decides everything first."},
-  {s:"Before and after: a Welsh course", u:"case-short-course.html", take:"Use your user’s words; explain the service’s where they appear."},
-  {s:"The Flow maker", u:"flow.html", take:"A list hides where people get stuck. A map shows it: the loop back to step 3, the dead end at the phone line."},
-  {s:"How flows work", u:"flow-guide.html", take:"A question on a form is a step unless the answer sends people somewhere different. Waits are not steps, but they are counted."},
-  {s:"The same hue, different meanings", u:"https://symbolic.institute/collections/colour-associations/", take:"Same hue, different meaning depending on where you are. That is your cross-cultural consideration, and it is markable."},
-  {s:"Traffic colour", u:"https://symbolic.institute/visual-grammar/traffic-colour/", take:"Colour means different things in different places. Pick one such difference and write it into C7 today — the brief asks for it by name."},
  ],
  three:[
   {t:"Your journey before, counted and mapped", d:"Part A §2: the goal and every step people take now, with the count — and the same steps drawn as a flow in B4."},
@@ -203,8 +180,6 @@ const WEEKS = [
  shown:[
   {core:true, s:"Generate one, live", u:"https://interfaces.institute/collections/generated/", take:"A generator makes something competent in a minute. It cannot decide anything, and the deciding is what is marked."},
   {core:true, s:"Now check it against a spec", u:"https://interfaces.institute/collections/design-tools/#pairs", take:"Generated work still has to obey the numbers you declared in A3–A5. Check it against them."},
-  {s:"Three variants, one prompt", u:"https://interfaces.institute/collections/generated/", take:"Three variants from one prompt is a useful exercise. Judging all three against your own spec is the assessable part."},
-  {s:"What the log looks like", u:"assessment.html", take:"A7 is the record of what you used. C8 is what you make of it — was it any good, whose work is it, what did you change."},
  ],
  three:[
   {t:"Mood board and style tile", d:"B2 and B3, built only from numbers you already declared."},
@@ -235,13 +210,8 @@ const WEEKS = [
  n:7, title:"UX basics and screen states",
  makes:["Your screens → Part A §2","Your flow, after → B4","C6 drafted"],
  shown:[
-  {s:"Empty, and not an error", u:"https://interfaces.institute/patterns/empty-states/", take:"An empty state is a working system with nothing in it yet. It says what goes here and offers the action that puts something there. Some of your screens will have one."},
   {core:true, s:"The five states", u:"https://interfaces.institute/stairwell/state/", take:"Four of the five states look identical when nobody designs them. Empty, loading, error and offline are screens, and they belong in A2."},
-  {s:"Now the good pane", u:"https://interfaces.institute/stairwell/state/", take:"An empty state is not an error and should not apologise. It should offer the action that fills it."},
   {core:true, slides:"PassReady", s:"PassReady: the worst-day screens", u:"passready.html", take:"Not knowing and not being sure are states too. Each needs its own words and a next step, or the screen pretends to a certainty it has not earned."},
-  {s:"Feedback", u:"https://interfaces.institute/stairwell/feedback/", take:"A button that says nothing while it works gets pressed twice. That is a real cost, not a style point."},
-  {s:"A flow, drawn crudely", u:"https://interfaces.institute/collections/flow-census/", take:"Each of your screens gets a job in under ten words. If two share a job, they are one screen — merge them."},
-  {slides:"Room finder", s:"A finder, taken apart", u:"room-finder/index.html", take:"Information architecture is the order people find things in: a hierarchy to browse and a search to jump. Both need an answer for “nothing here”."},
  ],
  three:[
   {t:"The journey, both ways", d:"Part A §2 — the goal, the steps people take now, and your screens, counted."},
@@ -274,8 +244,6 @@ const WEEKS = [
  makes:["A wireframe for every screen","First 2 screens finished"],
  shown:[
   {core:true, s:"One control, drawn eight times", u:"https://interfaces.institute/components/button/", take:"A wireframe is an argument about priority. Boxes and labels only — if you are choosing a font, stop."},
-  {s:"What sixty-three systems ship", u:"https://interfaces.institute/components/button/", take:"Twenty of sixty-three measured design systems use no corner radius at all. Whatever you choose, choose it rather than default to it."},
-  {s:"Nobody agrees what to call anything", u:"https://interfaces.institute/collections/component-census/", take:"Eight influential systems cannot agree what to call a component. Name yours consistently and say so in A2."},
   {core:true, s:"Lorem ipsum versus real content", u:"https://interfaces.institute/collections/flow-census/#placeholder", take:"Real content changes the layout. Wireframe with the words you will actually use."},
  ],
  three:[
@@ -308,10 +276,6 @@ const WEEKS = [
  makes:["Access audit → Part A §6","C5 drafted","Other sizes, if you need them"],
  shown:[
   {core:true, s:"Every size a screen has been", u:"https://interfaces.institute/collections/screen-sizes/", take:"A phone gained twenty times the pixels between 2007 and 2023, but only 1.23 times the room: 320 to 393 CSS pixels. Design in CSS pixels."},
-  {s:"What a breakpoint is for", u:"https://interfaces.institute/collections/grids/#breakpoints", take:"Of 67 published grids, only nine say how they change across sizes: some change the column count, some only the width. Both are decisions."},
-  {s:"Target size, measured", u:"https://interfaces.institute/components/button/", take:"Forty-two of sixty-three shipped buttons are under 44px. Yours has a measured minimum and it goes in A6."},
-  {s:"Fitts, both panes", u:"https://interfaces.institute/stairwell/fitts/", take:"A target that is hard to hit is a design failure you can measure. That measurement belongs in C5."},
-  {s:"Colour is not a cue on its own", u:"https://interfaces.institute/collections/wcag/", take:"Colour on its own is not a cue. Add a shape or a word, and say why in C5."},
   {core:true, s:"Tab through a real page", u:"https://interfaces.institute/collections/keyboard-grammar/#tabstops", take:"Tab through your own screens. If you cannot see where you are, neither can anyone using a keyboard."},
  ],
  three:[
@@ -343,9 +307,7 @@ const WEEKS = [
  makes:["Click-through → Part B §8","Part C rewritten"],
  shown:[
   {core:true, s:"Two paragraphs, same design", take:"Describing a design and defending one are different activities. Only one of them is marked."},
-  {s:"Name the difference", u:"assessment.html", take:"The difference is a number you produced yourself. Every C section quotes one."},
   {core:true, s:"All nine sections", u:"assessment.html", take:"All eight C sections were drafted in the week each decision was made. Today they turn from description into defence."},
-  {s:"A building correcting itself", u:"https://interfaces.institute/updates/", take:"Admitting a limit with evidence is the top band, not a weakness. That is what Criterion 4 rewards."},
  ],
  three:[
   {t:"A click-through that works", d:"B8 — the journey clicks through, start to finish, checked in the PDF."},
@@ -378,9 +340,6 @@ const WEEKS = [
  shown:[
  ],
  three:[
-  {t:"C9, your references", d:"Everything you cited, listed — Cite Them Right Harvard."},
-  {t:"The PDF uploaded", d:"Exported from your deck, with the confirmation saved."},
-  {t:"Nothing carried forward", d:"The quiet week. Submit by Friday 8 January, 21:00, and you are done."},
  ],
  workshop:{
   aim:"References written, PDF assembled, everyone submits.",
