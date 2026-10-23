@@ -333,18 +333,13 @@
   <div class="wrap bar">
     <a class="brand" href="index.html">Screen Design</a>
     <span class="sp"></span>
-    <nav class="sdlinks" aria-label="Screen Design"><a class="navl" href="index.html">Overview</a><a class="navl on" href="weeks.html" aria-current="page">Week by week</a><a class="navl" href="brief.html">The brief</a><a class="navl" href="assessment.html">Checklist</a><a class="navl" href="assessment-materials.html">Marking and examples</a><a class="navl" href="toolkit.html">Toolkit</a><a class="navl" href="ideas.html">Theme ideas</a></nav>
+    <nav class="sdlinks" aria-label="Screen Design"><a class="navl" href="index.html">Overview</a><a class="navl on" href="weeks.html" aria-current="page">Week by week</a><a class="navl" href="assessment.html">Checklist</a><a class="navl" href="assessment-materials.html">Marking and examples</a><a class="navl" href="toolkit.html">Toolkit</a><a class="navl" href="ideas.html">Theme ideas</a></nav>
     <span class="ctl"><button id="theme" aria-label="Dark mode">◐</button></span>
   </div>
 </header>
 <script>(function(){var n=document.querySelector(".sdlinks"),o=n&&n.querySelector(".on");if(o&&n.scrollWidth>n.clientWidth)n.scrollLeft=o.offsetLeft-n.offsetLeft-16;})();</script>
 
 <div class="wrap">
-  <details class="rules" id="rules">
-    <summary><b>Before you start</b> — <span id="rulecount"></span> rules that apply every week</summary>
-    <div class="rgrid" id="rulelist"></div>
-  </details>
-
   <div class="picker" id="picker"></div>
   <p class="thisweek" id="thisweek"></p>
   <div class="printhead" id="printhead"></div>
@@ -377,11 +372,6 @@ const $ = s => document.querySelector(s);
 const NOW = SD.week();
 let cur = (NOW >= 1 && NOW <= SD.WEEKS) ? NOW : 1;
 
-
-document.getElementById('rulecount').textContent = RULES.length;
-$('#rulelist').innerHTML = RULES.map((r, i) =>
-  `<div class="rcard"><span class="rnum">${String(i + 1).padStart(2,'0')}</span>
-     <b>${r.k}</b><p>${r.v}</p></div>`).join('');
 
 $('#picker').innerHTML = WEEKS.map(w =>
   `<button class="wbtn ${w.dead?'dead':''} ${w.n===NOW?'now':''}" data-w="${w.n}"

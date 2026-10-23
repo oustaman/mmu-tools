@@ -10,27 +10,12 @@
  *  Still here only for other pages, until they are reworked: makes, three, aim (the Overview)
  *  and mistake (the week 1 staff sheet). Nothing on the week page shows them.
  */
-const RULES = [
- {k:"Where your work lives", v:"Your <b>university OneDrive</b>, in one folder called <code>Screen Design</code>. Everything you make goes in there, every week: the deck, photos of paper work, anything you want a tutor to see. Not your desktop, not a USB stick, not the studio machine — those get wiped. You set this up in week 1."},
- {k:"Share the folder", v:"Share <code>Screen Design</code> with your tutors and the teaching staff in week 1, and leave it shared. <b>Nobody looks in it unless you ask.</b> When you want feedback or help, tell us and we open your folder — so keep your latest work in there."},
- {k:"Your name goes on nothing", v:"The deck is marked without your name on it. Call it <code>screen-design-portfolio</code> — no name in the filename, no name on the cover, no name in a header or footer. Your student ID only, if you want anything at all. <b>The OneDrive folder identifies you; the document does not.</b>"},
- {k:"One deck, all term", v:"You hand nothing in weekly. There is <b>one slide deck</b> — PowerPoint or Google Slides, whichever you already have — and you fill in a section of it each week. By week 10 it is finished, and in January you export it as a PDF."},
- {k:"One screen per slide", v:"When you build your screens — from week 8 — <b>put each one on its own slide.</b> In week 10 you link them together and that is your prototype \u2014 the assessment asks for a clickable multi-screen prototype, and if your screens are slides you get one by linking them. If they are pasted four to a page, you do not."},
- {k:"Bring every week", v:"Laptop or tablet, your OneDrive folder open, and your spec sheet. The spec sheet is the one thing you use in every single workshop."},
- {k:"Photograph paper work", v:"Weeks 2, 7 and 8 are on paper. Photograph everything before you leave the room and paste it straight into the deck that day. Paper gets lost; it always has."},
- {k:"Referencing", v:"<b>Cite Them Right Harvard.</b> If you quote or borrow anything — a principle, a statistic, an image — cite it in the text and list it at the end. <b>The reference list does not count toward your 500–700 words. In-text citations do.</b> <a href=\"https://libguides.mmu.ac.uk/refguide\" target=\"_blank\">libguides.mmu.ac.uk/refguide</a>"},
- {k:"How you submit", v:"In January, export your deck as a PDF and upload <b>that one file</b> to Moodle. Your slide links carry over into the PDF \u2014 but check that they did: open the PDF and click every one, because that file is what gets marked. Not a link, not a folder, not a zip. Sharing the OneDrive folder is not submitting."},
- {k:"Back up before you export", v:"Before you touch the final PDF in week 11, duplicate the folder. Exports go wrong and you do not want to rebuild."},
- {k:"AI is allowed", v:"Any tool. Treat it like any other source: note it in Part A §7 as you go (tool, what it made, what you changed, why). One line is enough."},
- {k:"If you miss a week", v:"Read that week's two sheets — they are the same ones the tutor used. Then bring the gap to the support hours."}
-];
-
 const WEEKS = [
 {
  n:1, title:"Why screens look the way they do",
  makes:["3 teardowns","3 theme ideas"],
  shown:[
-  {core:true, s:"The assessment brief", u:"brief.html", take:"The whole assessment is one document, and every section of it is listed on the hand-in page. Everything you are told this term is already in that brief."},
+  {core:true, s:"The assessment brief", u:"index.html#brief", take:"The whole assessment is one document, and every section of it is listed on the hand-in page. Everything you are told this term is already in that brief."},
   {s:"The hand-in, in one page", u:"assessment.html", take:"You copy this structure in the workshop today. From then on you are filling it in, not starting it."},
   {s:"A manuscript page", u:"https://written.institute/atlas/", take:"Margins and columns are not decoration. Every layout choice you make in week 3 was made before, for a reason."},
   {s:"Sixty-seven published grids", u:"https://interfaces.institute/collections/grids/", take:"A grid is something a publisher writes down. Yours goes in A3 in week 3 — seven numbers, no blanks."},
@@ -134,7 +119,7 @@ const WEEKS = [
  n:4, title:"Type, colour and the grid: one visual system",
  makes:["Layout, type and colour → Part A §3–5","A first style tile","C3 and C4 drafted"],
  shown:[
-  {core:true, s:"Gallery: grids, type and colour", u:"gallery.html", take:"Choose one of each, write them down, use them everywhere, say why. Nobody gains or loses a mark for blue over orange."},
+  {core:true, s:"Gallery: grids, type and colour", u:"gallery.html", take:"Choose one of each, write them down, use them everywhere, and say why."},
   {core:true, s:"One example: the bakery, for type, colour and grid", u:"case-bakery.html#s16", take:"Every number in a spec has a reason, and the reason names a person: who reads it, where, on what. That is what C3 and C4 are made of."},
   {s:"Style kit — what are we fixing?", u:"style-kit.html", take:"Grid, type and colour are one set of decisions. Made once and written down, they make every screen match — even when the screen is drawn in boxes."},
   {s:"Contrast, live", u:"https://interfaces.institute/collections/design-tools/#pairs", take:"Anything under 4.5:1 gets changed. That is the one colour rule nobody can argue with."},

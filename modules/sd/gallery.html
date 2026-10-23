@@ -112,10 +112,6 @@
 
 
   /* the gallery: three sets of cards, one tray of picks */
-  .markbox{background:var(--surface);border:1px solid var(--line);border-left:4px solid var(--ok);border-radius:0 12px 12px 0;padding:14px 18px;margin:14px 0 6px;max-width:860px}
-  .markbox p{margin:4px 0;line-height:1.55;color:var(--ink-2);font-size:0.95rem}
-  .markbox p b:first-child{color:var(--ink)}
-  .markbox p.exc{border-top:1px solid var(--line);padding-top:8px;margin-top:8px}
   .jumps{display:flex;flex-wrap:wrap;gap:8px;margin:16px 0 0}
   .jumps a{text-decoration:none;color:var(--ink);background:var(--surface);border:1px solid var(--line-2);border-radius:99px;padding:6px 14px;font-size:0.9rem}
   .jumps a:hover{border-color:var(--lec);color:var(--lec)}
@@ -136,7 +132,9 @@
   .acts button,.tray button{font:inherit;font-size:0.86rem;border-radius:7px;padding:7px 12px;cursor:pointer;border:1px solid var(--line-2);background:var(--surface);color:var(--ink)}
   .acts button:hover,.tray button:hover{border-color:var(--lec);color:var(--lec)}
   .acts button:focus-visible,.tray button:focus-visible,.tray a:focus-visible{outline:2px solid var(--lec);outline-offset:2px}
-  .msg{font-size:0.8rem;color:var(--ok)}
+  .acts button.done,.tray button[data-tray].done{background:var(--ok);border-color:var(--ok);color:#fff}
+  html[data-theme="dark"] .acts button.done,html[data-theme="dark"] .tray button[data-tray].done{color:#151314}
+  .acts button.fail{border-color:var(--lec);color:var(--lec)}
   .oc details{font-size:0.82rem}
   .oc summary{cursor:pointer;color:var(--ink-3)}
   .oc pre{white-space:pre-wrap;font-family:var(--mono);font-size:0.74rem;line-height:1.5;background:var(--surface-2);border-radius:8px;padding:10px;margin:6px 0 0;color:var(--ink)}
@@ -192,6 +190,20 @@
     .tray .sel{min-width:100%;font-size:0.76rem;line-height:1.3}
     .tray button{font-size:0.8rem;padding:6px 10px} .tray .go{font-size:0.8rem}
   }
+  /* what a contrast ratio means: the one explainer on the site */
+  .cx-box{background:var(--surface);border:1px solid var(--line);border-left:4px solid var(--wsh);border-radius:0 12px 12px 0;padding:14px 16px;margin:16px 0;max-width:820px}
+  .cx-box > b{display:block;font-size:1rem;margin-bottom:4px}
+  .cx-box p,.cx-box li{color:var(--ink-2);line-height:1.55;font-size:0.92rem;margin:4px 0}
+  .cx-box ul{margin:8px 0 4px;padding-left:18px}
+  .cx-scale{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:6px;margin:10px 0 4px}
+  @media(max-width:560px){.cx-scale{grid-template-columns:repeat(3,minmax(0,1fr))}}
+  .cx-scale div{background:#fff;border:1px solid var(--line);border-radius:8px;padding:8px 6px;text-align:center;font-family:system-ui,sans-serif}
+  .cx-scale div span{display:block;font-size:22px;font-weight:700;line-height:1.1}
+  .cx-scale div small{display:block;font:600 0.72rem var(--mono);color:#333;margin-top:4px}
+  .cx-scale div em{display:block;font-style:normal;font-size:0.68rem;margin-top:2px;font-weight:700}
+  .cx-scale .f em{color:#B3261E} .cx-scale .p em{color:#205C2E}
+  .cx-scale .min{outline:3px solid var(--wsh);outline-offset:1px}
+  .cx-box{scroll-margin-top:70px}
 
   /* THE BAR — one definition, identical on every page (written by navfix; change it
      everywhere or nowhere). It used to be copied per page and drifted into two heights. */
@@ -232,7 +244,7 @@
   <div class="wrap bar">
     <a class="brand" href="index.html">Screen Design</a>
     <span class="sp"></span>
-    <nav class="sdlinks" aria-label="Screen Design"><a class="navl" href="index.html">Overview</a><a class="navl" href="weeks.html">Week by week</a><a class="navl" href="brief.html">The brief</a><a class="navl" href="assessment.html">Checklist</a><a class="navl" href="assessment-materials.html">Marking and examples</a><a class="navl on" href="toolkit.html">Toolkit</a><a class="navl" href="ideas.html">Theme ideas</a></nav>
+    <nav class="sdlinks" aria-label="Screen Design"><a class="navl" href="index.html">Overview</a><a class="navl" href="weeks.html">Week by week</a><a class="navl" href="assessment.html">Checklist</a><a class="navl" href="assessment-materials.html">Marking and examples</a><a class="navl on" href="toolkit.html">Toolkit</a><a class="navl" href="ideas.html">Theme ideas</a></nav>
     <span class="ctl"><button id="theme" aria-label="Dark mode">◐</button></span>
   </div>
 </header>
@@ -240,12 +252,8 @@
 
 <div class="wrap">
   <h1>Gallery: grids, type and colour</h1>
-  <p class="lede">Ready-made options from published design systems and from this module’s own cases. Click a card to choose it, then copy it into <b>A3</b>, <b>A4</b> or <b>A5</b>, and the sources into <b>C9</b>. Each one says where it came from, so there is nothing to look up. To see your three together on screens, open the <a href="style-kit.html">Style kit</a>: it remembers what you chose here.</p>
+  <p class="lede">Ready-made options from published design systems and from this module’s own cases. Click a card to choose it, then copy it into <b>A3</b>, <b>A4</b> or <b>A5</b>, and the sources into <b>C9</b>. Each one says where it came from, so there is nothing to look up. To see your three together on screens, open the <a href="style-kit.html">Style kit</a>: it remembers what you chose here. Does what you choose change your mark? <a href="assessment-materials.html#choices">How marking treats your choices</a>.</p>
 
-  <div class="markbox" id="marks">
-    <p><b>Which ones you choose doesn’t change your mark.</b> No grid, typeface or colour earns marks, and none loses them. A marker won’t prefer a serif to a sans, or blue to orange. What is marked is that you <b>decided</b>, <b>wrote it down</b> in A3–A5, <b>used it the same way on every screen</b>, and <b>said why</b> in C2–C4. Your own choices are just as welcome as these.</p>
-    <p class="exc"><b>The one exception is contrast.</b> Text below <b>4.5:1</b> against its background fails WCAG AA, and that <b>can lose you marks</b>. 3:1 is enough only for large text (24 px, or about 19 px bold), icons and borders. Every palette below shows its ratios, and says so if one fails. <a href="style-kit.html#contrast">What the ratio means</a>.</p>
-  </div>
 
   <nav class="jumps" aria-label="Galleries"><a href="#grids">Grids <span>A3</span></a><a href="#type">Typefaces <span>A4</span></a><a href="#colour">Colours <span>A5</span></a></nav>
 
@@ -258,7 +266,20 @@
   <div class="gal" id="g-type"></div>
 
   <h2 id="colour">Colours <span class="sec">A5</span></h2>
-  <p class="lede">Each palette gives every colour a job: text, quiet text, button, surface, success, error and an accent. Every ratio is worked out on this page with the WCAG formula, not typed in. If you change a colour, check its ratio again: <a href="https://webaim.org/resources/contrastchecker/" target="_blank" rel="noopener">WebAIM’s contrast checker</a> takes two hex codes.</p>
+  <p class="lede">Each palette gives every colour a job: text, quiet text, button, surface, success, error and an accent. Every ratio is worked out on this page with the WCAG formula, not typed in. If you change a colour, check its ratio again.</p>
+  <div class="cx-box" id="contrast"><b>What a contrast ratio means</b>
+      <p>Contrast is how different a text colour is from its background, written as a ratio. <b>1:1</b> is text the same colour as its background — invisible. <b>21:1</b> is black on white — the most there is.</p>
+      <div class="cx-scale" aria-hidden="true">
+        <div class="f"><span style="color:#D3D3D3">Aa</span><small>1.5:1</small><em>fails</em></div>
+        <div class="f"><span style="color:#AFAFAF">Aa</span><small>2.2:1</small><em>fails</em></div>
+        <div class="f"><span style="color:#959595">Aa</span><small>3:1</small><em>large text only</em></div>
+        <div class="p min"><span style="color:#767676">Aa</span><small>4.5:1</small><em>the minimum</em></div>
+        <div class="p"><span style="color:#595959">Aa</span><small>7:1</small><em>better</em></div>
+        <div class="p"><span style="color:#000">Aa</span><small>21:1</small><em>the most</em></div></div>
+      <ul><li><b>Aim for 4.5:1 or more</b> for all ordinary text — body text, labels, links and the words on buttons. This is the baseline (WCAG 2.2, success criterion 1.4.3, level AA).</li>
+        <li><b>3:1 is enough only</b> for large text (24px, or about 19px bold) and for icons, borders and focus outlines.</li>
+        <li><b>7:1 or more is better</b> (level AAA) — worth aiming for small text, and for people reading outdoors or with low vision.</li>
+        <li>“8 pieces of text below 4.5:1” means eight bits of wording on that page that fail the minimum. Check any pair with the <a href="https://webaim.org/resources/contrastchecker/">WebAIM contrast checker</a>, and write the ratio into A5.</li></ul></div>
   <div class="gal" id="g-col"></div>
 
   <p class="note">The grid numbers come from the <a href="https://interfaces.institute/collections/grids/">published grids register</a>, which takes each one from its publisher’s documentation. Example 2 and the case grids and palettes are this module’s own. To see what <i>no</i> decisions look like, press <b>Show all three wrong</b> in the <a href="style-kit.html">Style kit</a>.</p>
@@ -268,9 +289,8 @@
 
 <div class="tray" id="tray"><div class="wrap">
   <p class="sel" id="sel"></p>
-  <span class="trayb"><button type="button" data-tray="A3">Copy A3</button><button type="button" data-tray="A4">Copy A4</button><button type="button" data-tray="A5">Copy A5</button><button type="button" data-tray="C9">Copy C9</button></span>
+  <span class="trayb" aria-live="polite"><button type="button" data-tray="A3">Copy A3</button><button type="button" data-tray="A4">Copy A4</button><button type="button" data-tray="A5">Copy A5</button><button type="button" data-tray="C9">Copy C9</button></span>
   <a class="go" href="style-kit.html">See them on screens →</a>
-  <span class="msg" id="m-all" role="status"></span>
 </div></div>
 
 <script src="sd-options.js"></script>
@@ -289,7 +309,7 @@
   const srcLink = o => o.url ? `<a href="${esc(o.url)}"${/^https/.test(o.url) ? ' target="_blank" rel="noopener"' : ''}>Source</a>: ` : 'Source: ';
   /* the card is the choice: a click anywhere on it picks it; the hidden radio is the same choice
      for the keyboard and for screen readers */
-  const acts = (k, o) => `<div class="acts"><button type="button" class="cp" data-k="${k}" data-id="${o.id}">Copy ${esc(o.n)} for ${SEC[k]}</button><span class="msg" role="status"></span></div>
+  const acts = (k, o) => `<div class="acts" aria-live="polite"><button type="button" class="cp" data-k="${k}" data-id="${o.id}">Copy ${esc(o.n)} for ${SEC[k]}</button></div>
     <details><summary>What gets copied</summary><pre>${esc(TEXT[k](o))}</pre></details>
     <p class="src">${srcLink(o)}${esc(o.src)}</p>`;
 
@@ -349,16 +369,20 @@
       b.title = t ? '' : b.dataset.tray === 'C9' ? 'Choose something first' : `Choose a ${{ A3: 'grid', A4: 'typeface', A5: 'palette' }[b.dataset.tray]} first`; });
   }
   const pick = (k, id) => { state[k] = id; save(); mark(); };
-  async function copy(text, msg, pre) {
-    try { await navigator.clipboard.writeText(text); msg.textContent = 'Copied'; }
-    catch (e) { msg.textContent = 'Select the text and copy it'; if (pre) { pre.closest('details').open = true; getSelection().selectAllChildren(pre); } }
-    setTimeout(() => { msg.textContent = ''; }, 2500);
+  /* the button itself answers: green and "Copied ✓" for a moment, then its own label again */
+  async function copy(text, btn, pre) {
+    const label = btn.dataset.label || (btn.dataset.label = btn.textContent);
+    clearTimeout(btn._t); btn.classList.remove('done', 'fail');
+    try { await navigator.clipboard.writeText(text); btn.classList.add('done'); btn.textContent = 'Copied ✓'; }
+    catch (e) { btn.classList.add('fail'); btn.textContent = 'Copy it from the text below';
+      if (pre) { pre.closest('details').open = true; getSelection().selectAllChildren(pre); } }
+    btn._t = setTimeout(() => { btn.classList.remove('done', 'fail'); btn.textContent = label; }, 2200);
   }
   document.addEventListener('click', e => {
     const b = e.target.closest('.cp');
-    if (b) { const { k, id } = b.dataset; pick(k, id); copy(TEXT[k](find(k, id)), b.parentNode.querySelector('.msg'), b.closest('.oc').querySelector('pre')); return; }
+    if (b) { const { k, id } = b.dataset; pick(k, id); copy(TEXT[k](find(k, id)), b, b.closest('.oc').querySelector('pre')); return; }
     const t = e.target.closest('[data-tray]');
-    if (t) { const text = TRAY[t.dataset.tray](); if (text) copy(text, $('m-all')); return; }
+    if (t) { const text = TRAY[t.dataset.tray](); if (text) copy(text, t); return; }
     /* anywhere else on a card picks it; its links and the copied-text preview keep their own job */
     const c = e.target.closest('.oc'); if (c && !e.target.closest('a, summary, pre, input')) pick(c.dataset.k, c.dataset.id);
   });

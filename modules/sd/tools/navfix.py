@@ -5,11 +5,11 @@ the same names. Pages had drifted into two heights because each carried its
 own copy of the header CSS; this writes one copy into each and lets it win."""
 import re, sys, os
 D = sys.argv[1] if len(sys.argv) > 1 else os.path.join(os.path.dirname(os.path.abspath(__file__)), "..")
-ITEMS = [('index.html', 'Overview'), ('weeks.html', 'Week by week'), ('brief.html', 'The brief'),
+ITEMS = [('index.html', 'Overview'), ('weeks.html', 'Week by week'),
          ('assessment.html', 'Checklist'), ('assessment-materials.html', 'Marking and examples'),
          ('toolkit.html', 'Toolkit'), ('ideas.html', 'Theme ideas')]
 ACTIVE = {'index': 'index.html', 'weeks': 'weeks.html', 'teardowns': 'weeks.html', 'passready': 'weeks.html',
-  'brief': 'brief.html', 'assessment': 'assessment.html', 'assessment-materials': 'assessment-materials.html',
+  'assessment': 'assessment.html', 'assessment-materials': 'assessment-materials.html',
   'rubric': 'assessment-materials.html', 'example': 'assessment-materials.html', 'example-marked': 'assessment-materials.html',
   'example-feedback': 'assessment-materials.html', 'example-council': 'assessment-materials.html',
   'example-council-marked': 'assessment-materials.html', 'example-council-feedback': 'assessment-materials.html',
