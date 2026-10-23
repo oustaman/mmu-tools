@@ -451,8 +451,7 @@ const SLIDES = [
       </ul>
     </div>
   </div>
-  <p class="lead" style="margin-top:16px">You lock it in week 2 and you keep it. Changing in week 7
-    is the single most common way this goes wrong.</p>
+  <p class="lead" style="margin-top:16px">Settle it by week 3. You can change it later, but everything after is built on it, so a later change means more to redo.</p>
 </div>`},
 
 {nav:"The parts", html:`<div class="slide">
@@ -521,19 +520,6 @@ const SLIDES = [
   </ul>
   <p class="lead mk2">These are not extras. Criterion 4 is where they are marked, and leaving them
     out caps that criterion.</p>
-</div>`},
-
-{nav:"The weeks", html:`<div class="slide dense">
-  <div class="eyebrow">You never work on all of it at once</div>
-  <h2>Every workshop fills in one part of it.</h2>
-  <table class="tl">
-    <thead><tr><th>Week</th><th>Date</th><th>You fill in</th></tr></thead>
-    <tbody>${WEEKS.map(w => {
-      const d = SD.dueIn(w.n);
-      return `<tr><td>${String(w.n).padStart(2,'0')}</td><td>${SD.fmtShort(SD.dateOf(w.n))}</td>
-        <td>${d.length ? d.map(i => `<b>${i.sec}</b> ${i.t}`).join(' · ') : '—'}</td></tr>`;
-    }).join('')}</tbody>
-  </table>
 </div>`},
 
 {nav:"Dates", html:`<div class="slide">

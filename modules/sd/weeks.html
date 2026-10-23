@@ -93,7 +93,6 @@
   @media(max-width:420px){.panel{padding:16px 14px 20px}}
   .claim{font-size:1.1rem;line-height:1.42;font-weight:600;margin:0 0 4px;max-width:56ch}
   .missnote{margin:-10px 0 16px;font-size:0.9rem;color:var(--ink-2)}
-  .pnote{font-family:var(--mono);font-size:0.68rem;letter-spacing:0.05em;color:var(--ink-3);margin:0 0 18px}
 
   /* running order */
   .run{display:grid;gap:0}
@@ -168,9 +167,6 @@
   .osecs i.none{color:var(--ink-3);border-color:var(--line-2)}
   .owhat{display:block;font-size:0.9rem;color:var(--ink)}
   .ointo{display:block;font-size:0.82rem;color:var(--ink-3);margin-top:3px}
-  .lorow{display:grid;gap:5px;margin:0 0 18px}
-  .lo{font-size:0.82rem;color:var(--ink-2);border-left:2px solid var(--lec);padding-left:10px;line-height:1.45}
-  .lo b{font-family:var(--mono);font-size:0.7rem;color:var(--lec);margin-right:6px}
 
   .sh2{font-family:var(--mono);font-size:0.66rem;letter-spacing:0.08em;text-transform:uppercase;
     color:var(--ink-3);margin:22px 0 8px;padding-top:14px;border-top:1px solid var(--line)}
@@ -180,11 +176,6 @@
 
   ol.steps{margin:0;padding-left:1.3rem;font-size:0.96rem}
   ol.steps li{margin-bottom:7px}
-  .doneline{display:flex;gap:10px;align-items:baseline;background:var(--hnd-soft);
-    border:1px solid var(--hnd);border-radius:9px;padding:12px 15px;margin:18px 0 10px}
-  .doneline b{font-family:var(--mono);font-size:0.64rem;letter-spacing:0.07em;text-transform:uppercase;
-    color:var(--hnd);white-space:nowrap}
-  .doneline span{font-size:0.94rem}
   .missline{display:flex;gap:10px;align-items:baseline;border:1px solid var(--lec);
     background:var(--lec-soft);border-radius:9px;padding:12px 15px}
   .missline b{font-family:var(--mono);font-size:0.64rem;letter-spacing:0.07em;text-transform:uppercase;
@@ -284,6 +275,7 @@
   .it > summary{display:grid;grid-template-columns:28px 1fr 16px;gap:11px;align-items:start;
     padding:11px 14px;cursor:pointer;list-style:none}
   .it > summary::-webkit-details-marker{display:none}
+  .it.flat > .sum{display:grid;grid-template-columns:28px 1fr;gap:11px;align-items:start;padding:11px 14px}
   .it > summary::after{content:"+";font-family:var(--mono);color:var(--ink-3);font-size:1rem;line-height:1.3}
   .it[open] > summary::after{content:"\2212"}
   .it > summary:focus-visible{outline:2px solid var(--wsh);outline-offset:-2px;border-radius:10px}
@@ -306,14 +298,9 @@
   .fold[open] > summary::before{content:"\25BE"}
   .fold > summary em{font-style:normal;font-size:0.84rem;color:var(--ink-3)}
   .fold > :not(summary){margin:0 16px 14px}
-  .fold.tutors > summary b{color:var(--ink-2)}
-  .tgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(260px,100%),1fr));gap:14px;font-size:0.9rem}
-  .tgrid ol{margin:0;padding-left:18px;color:var(--ink-2)}
-  .tgrid p{margin:4px 0 10px;color:var(--ink-2)}
-  .doneline.dn{background:var(--surface-2);border-color:var(--line-2)}
-  .doneline.dn b{color:var(--ink-3)}
   /* older rules for the two-tab layout share these class names */
   .it .take{margin:3px 0 0;padding:0;border-left:0;background:none}
+  .it .take b{display:inline;font:inherit;font-weight:650;letter-spacing:0;text-transform:none;color:var(--ink)}
   ol.items.steps{padding-left:0;font-size:inherit}
   ol.items.steps > li{margin-bottom:0}
   #after .btwnline{display:block;margin:0 0 12px}
@@ -458,14 +445,13 @@
   <div class="today" id="today"></div>
 
   <nav class="jump" aria-label="On this page">
-    <a href="#class">In class</a><a href="#workshop">Workshop</a><a href="#after">After</a><a href="#stuck">Stuck?</a><a href="#tutors">For tutors</a>
+    <a href="#class">In class</a><a href="#workshop">Workshop</a><a href="#after">After</a><a href="#stuck">Stuck?</a>
   </nav>
 
   <section class="blk" id="class"></section>
   <section class="blk" id="workshop"></section>
   <section class="blk" id="after"></section>
   <details class="fold" id="stuck"></details>
-  <details class="fold tutors" id="tutors"></details>
 
   <div class="prow">
     <button id="print">Print this week</button>
@@ -533,7 +519,7 @@ function paintThree(w){
      first screen — the idea, the three things, what to bring, what to fill in
      three blocks — class, workshop, after: titles and takeaways visible, each
                     step's full paragraph one tap away
-     folded       — the questions people ask, and the tutors' notes
+     folded       — the questions people ask
    The workshop handout used to be a modal that repeated most of this; the page
    is the handout now, and printing it gives the one-page version. */
 const SEC = {}; SD.all.forEach(i => { SEC[i.sec] = i; });
@@ -583,9 +569,8 @@ function render(){
          The rest were shown too, and stay, as further depth. */
       const core = w.shown.filter(r => r.core), also = w.shown.filter(r => !r.core);
       const li = (r, i, c) => `<li${c ? ' class="core"' : ''}>
-      <details class="it"><summary><span class="n">${i + 1}</span>
-        <span class="s">${c ? '<em class="corebadge">Core</em>' : ''}<b>${rich(r.s)}</b>${r.take ? `<span class="take">${rich(r.take)}</span>` : ''}</span></summary>
-        <div class="more"><p>${rich(r.d)}</p></div></details>
+      <div class="it flat"><div class="sum"><span class="n">${i + 1}</span>
+        <span class="s">${c ? '<em class="corebadge">Core</em>' : ''}<b>${rich(r.s)}</b>${r.take ? `<span class="take">${rich(r.take)}</span>` : ''}</span></div></div>
       ${r.u ? `<div class="go">${show(r.u)}</div>` : ''}</li>`;
       return (core.length ? `<p class="corehead"><b>Start here.</b> ${core.length === 1 ? 'This is' : 'These two are'} what the week is built on — study ${core.length === 1 ? 'it' : 'them'} first.</p>
         <ol class="items">${core.map((r, i) => li(r, i, true)).join('')}</ol>` : '') +
@@ -611,21 +596,6 @@ function render(){
   $('#stuck').innerHTML = `<summary><b>Stuck?</b><em>${k.stuck.length} questions that come up, with answers</em></summary>
     <dl class="qa">${k.stuck.map(([q, a]) => `<dt>${esc(q)}</dt><dd>${rich(a)}</dd>`).join('')}</dl>`;
 
-  $('#tutors').innerHTML = `<summary><b>For tutors</b><em>goals, outcomes, what done looks like</em></summary>
-    <div class="tgrid">
-      <div><b class="lab">By the end, students can</b>
-        <ol>${k.goals.map(g => `<li>${rich(g)}</li>`).join('')}</ol></div>
-      <div><b class="lab">Sections filled in</b>
-        <span class="osecs">${k.out.sec.filter(x => x !== '—').map(x => `<i>${esc(x)}</i>`).join('')
-          || '<span class="none">None — this session sets the deck up</span>'}</span>
-        <p>${esc(k.out.what)}</p>
-        <b class="lab">Produces</b><p>${w.makes.map(esc).join(' · ')}</p></div>
-    </div>
-    ${k.los.length ? `<div class="lorow">${k.los.map(x =>
-      `<span class="lo" title="${esc(LOS[x])}"><b>${x}</b> ${esc(LOS[x])}</span>`).join('')}</div>` : ''}
-    <div class="doneline"><b>They leave with</b><span>${rich(k.leave)}</span></div>
-    <div class="doneline dn"><b>Done when</b><span>${rich(k.done)}</span></div>
-    <p class="pnote">~33 per room · three rooms run the same session · the studio hours after are unscheduled</p>`;
 
   /* Weeks 1 and 2 only: the last word opens the staff sheet for that week's
      marking exercise — the 42 in week 1, the council example in week 2.
