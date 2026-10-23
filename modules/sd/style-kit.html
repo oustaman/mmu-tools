@@ -268,6 +268,20 @@
   .why b.h{display:block;font-family:var(--mono);font-size:0.68rem;letter-spacing:.1em;text-transform:uppercase;color:var(--wsh);margin-bottom:6px}
   .why p{margin:4px 0;color:var(--ink-2);line-height:1.55;max-width:80ch}
 
+  /* what a contrast ratio means — the same box on every page that quotes one */
+  .cx-box{background:var(--surface);border:1px solid var(--line);border-left:4px solid var(--wsh);border-radius:0 12px 12px 0;padding:14px 16px;margin:16px 0;max-width:820px}
+  .cx-box > b{display:block;font-size:1rem;margin-bottom:4px}
+  .cx-box p,.cx-box li{color:var(--ink-2);line-height:1.55;font-size:0.92rem;margin:4px 0}
+  .cx-box ul{margin:8px 0 4px;padding-left:18px}
+  .cx-scale{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:6px;margin:10px 0 4px}
+  @media(max-width:560px){.cx-scale{grid-template-columns:repeat(3,minmax(0,1fr))}}
+  .cx-scale div{background:#fff;border:1px solid var(--line);border-radius:8px;padding:8px 6px;text-align:center;font-family:system-ui,sans-serif}
+  .cx-scale div span{display:block;font-size:22px;font-weight:700;line-height:1.1}
+  .cx-scale div small{display:block;font:600 0.72rem var(--mono);color:#333;margin-top:4px}
+  .cx-scale div em{display:block;font-style:normal;font-size:0.68rem;margin-top:2px;font-weight:700}
+  .cx-scale .f em{color:#B3261E} .cx-scale .p em{color:#205C2E}
+  .cx-scale .min{outline:3px solid var(--wsh);outline-offset:1px}
+
   /* THE BAR — one definition, identical on every page (written by navfix; change it
      everywhere or nowhere). It used to be copied per page and drifted into two heights. */
   header.sdnav{position:sticky;top:0;z-index:40;background:var(--surface);border-bottom:1px solid var(--line)}
@@ -297,22 +311,9 @@
     header.sdnav .sdlinks::-webkit-scrollbar{display:none}
     header.sdnav .navl{font-size:0.82rem;padding:6px 9px}
   }
-  /* what a contrast ratio means — the same box on every page that quotes one */
-  .cx-box{background:var(--surface);border:1px solid var(--line);border-left:4px solid var(--wsh);border-radius:0 12px 12px 0;padding:14px 16px;margin:16px 0;max-width:820px}
-  .cx-box > b{display:block;font-size:1rem;margin-bottom:4px}
-  .cx-box p,.cx-box li{color:var(--ink-2);line-height:1.55;font-size:0.92rem;margin:4px 0}
-  .cx-box ul{margin:8px 0 4px;padding-left:18px}
-  .cx-scale{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:6px;margin:10px 0 4px}
-  @media(max-width:560px){.cx-scale{grid-template-columns:repeat(3,minmax(0,1fr))}}
-  .cx-scale div{background:#fff;border:1px solid var(--line);border-radius:8px;padding:8px 6px;text-align:center;font-family:system-ui,sans-serif}
-  .cx-scale div span{display:block;font-size:22px;font-weight:700;line-height:1.1}
-  .cx-scale div small{display:block;font:600 0.72rem var(--mono);color:#333;margin-top:4px}
-  .cx-scale div em{display:block;font-style:normal;font-size:0.68rem;margin-top:2px;font-weight:700}
-  .cx-scale .f em{color:#B3261E} .cx-scale .p em{color:#205C2E}
-  .cx-scale .min{outline:3px solid var(--wsh);outline-offset:1px}
 </style>
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=Fraunces:wght@700&family=Source+Sans+3:wght@400;700&family=Roboto:wght@400;700&family=Nunito+Sans:wght@400;800&family=IBM+Plex+Sans:wght@400;600&family=IBM+Plex+Serif:wght@600&family=Inter:wght@400;700&family=Merriweather:wght@700&family=Comic+Neue:wght@400;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=Fraunces:wght@700&family=Source+Sans+3:wght@400;700&family=Roboto:wght@400;700&family=Nunito+Sans:wght@400;800&family=IBM+Plex+Sans:wght@400;700&family=IBM+Plex+Serif:wght@600&family=Inter:wght@400;700&family=Merriweather:wght@700&family=Lexend:wght@400;700&family=Public+Sans:wght@400;700&family=Noto+Sans:wght@400;700&family=Noto+Serif:wght@700&family=Lora:wght@700&family=Open+Sans:wght@400;700&family=Source+Serif+4:wght@700&family=DM+Sans:wght@400;700&family=DM+Serif+Display&family=Comic+Neue:wght@400;700&display=swap" rel="stylesheet">
 </head>
 <body>
 
@@ -328,7 +329,7 @@
 
 <div class="wrap kitpage">
   <h1>Style kit</h1>
-  <p class="lead" style="margin-bottom:6px">Pick a grid, type and colour from published design systems — the three screens redraw as you go. <b>One set of decisions, applied to every screen.</b></p>
+  <p class="lead" style="margin-bottom:6px">Pick a grid, type and colour from published design systems — the three screens redraw as you go. <b>One set of decisions, applied to every screen.</b> More to choose from in the <a href="gallery.html">Gallery</a>.</p>
   <div class="studio">
     <aside class="panel" aria-label="Settings">
       <div class="tabs" role="tablist" aria-label="Settings">
@@ -366,6 +367,8 @@
     <b>one set of decisions, applied to every screen</b>. That is what A3, A4 and A5 are for: hand them to someone else and the next screen they build will match.</p>
   <p class="lead">Every option says where it comes from, so <b>no AI is needed</b>: cite the source in C9 and say in C3 and C4 why you chose it, and what you changed.
     Type your own words below and the screens become your project — screenshot them for your style tile. Further down: <a href="#fidelity">the same screen at four levels of finish</a>, and which one your finished screens need.</p>
+  <p class="lead"><b>Which ones you choose doesn’t change your mark.</b> No grid, typeface or colour earns marks or loses them: what counts is that you decided, wrote it down, used it on every screen and said why.
+    <b>The one exception is contrast</b> — text below 4.5:1 fails WCAG AA and can lose you marks. <a href="#contrast">What the ratio means</a>.</p>
 
   <h2 id="fidelity" style="margin:30px 0 4px">The same screen, four ways</h2>
   <p class="lead">Your own first screen, drawn at four levels of finish. Every level uses the same grid, the same sizes and the same order — only how much is shown changes.
@@ -397,51 +400,23 @@
   <footer><p>Screen Design · Level 4 · 2026–27</p></footer>
 </div>
 
+<script src="sd-options.js"></script>
 <script>
 (function () {
-  /* GRIDS — numbers from the interfaces.institute register (grids.json), which cites each
-     publisher's documentation; Example 2 and the Liverpool case are this module's own. */
-  const GRIDS = [
-    { id: 'ex2', n: 'Example 2 (this module)', s: '8 · 6 · 4 columns, form 6 of 8', ph: { c: 4, g: 16, m: 16 }, dk: { c: 8, g: 24, m: 40 }, max: 960, bps: '1024 px desktop (8) · 768 px tablet (6) · 375 px phone (4)', main: '6 of 8', src: 'Example 2, Screen Design assessment materials, 2026.' },
-    { id: 'bs5', n: 'Bootstrap 5', s: '12 columns, 24 px gutters', ph: { c: 12, g: 24, m: 12 }, dk: { c: 12, g: 24, m: 12 }, max: 1320, bps: '576 · 768 · 992 · 1200 px (12 columns at every size)', main: '8 of 12', src: 'Bootstrap (no date) Grid system. Available at: https://getbootstrap.com/docs/5.0/layout/grid/ (Accessed: 22 October 2026).' },
-    { id: 'm3', n: 'Material Design 3 (Google)', s: '4 · 8 · 12 columns', ph: { c: 4, g: 16, m: 16 }, dk: { c: 12, g: 16, m: 16 }, max: 840, bps: '600 px (8 columns) · 840 px (12 columns)', main: '8 of 12', src: 'Google (no date) Material Design 3: Understanding layout. Available at: https://m3.material.io/foundations/layout/understanding-layout/overview (Accessed: 22 October 2026).' },
-    { id: 'carbon', n: 'Carbon (IBM)', s: '4 · 8 · 16 columns', ph: { c: 4, g: 16, m: 16 }, dk: { c: 16, g: 16, m: 16 }, max: 1584, bps: '320 px (4) · 672 px (8) · 1056 px (16)', main: '10 of 16', src: 'IBM (no date) Carbon Design System: 2x Grid. Available at: https://carbondesignsystem.com/elements/2x-grid/overview/ (Accessed: 22 October 2026).' },
-    { id: 'uswds', n: 'U.S. Web Design System', s: '4 · 12 columns, 16 px gutters', ph: { c: 4, g: 16, m: 16 }, dk: { c: 12, g: 16, m: 16 }, max: 1024, bps: '320 px (4) · 1024 px (12)', main: '8 of 12', src: 'U.S. General Services Administration (no date) U.S. Web Design System: Layout grid. Available at: https://designsystem.digital.gov/utilities/layout-grid/ (Accessed: 22 October 2026).' },
-    { id: 'eye', bad: true, n: 'By eye — no grid', s: 'What we are fixing: every box placed where it looked right', ph: { c: 0, g: 0, m: 0 }, dk: { c: 0, g: 0, m: 0 }, max: 0, bps: '', main: '', src: '' },
-    { id: 'liv', n: 'Liverpool case redesign (this module)', s: '4 · 12 columns, form 6 of 12', ph: { c: 4, g: 16, m: 16 }, dk: { c: 12, g: 24, m: 32 }, max: 1140, bps: '768 px', main: '6 of 12', src: 'Before and after, case 1: Reporting a missed bin. Screen Design, 2026.' },
-  ];
-  /* TYPE — free faces from Google Fonts, each with a scale written out in px */
-  const TYPES = [
-    { id: 'atk', n: 'Atkinson Hyperlegible', s: 'One face, drawn for low vision', fh: "'Atkinson Hyperlegible'", fb: "'Atkinson Hyperlegible'", hw: 700, h1: 28, body: 18, small: 15, why: 'drawn by the Braille Institute so similar letters cannot be confused', src: 'Braille Institute (no date) Atkinson Hyperlegible. Google Fonts, SIL Open Font Licence. Available at: https://fonts.google.com (Accessed: 22 October 2026).' },
-    { id: 'warm', n: 'Fraunces + Source Sans 3', s: 'A soft serif for headings, a plain sans to read', fh: "'Fraunces'", fb: "'Source Sans 3'", hw: 700, h1: 28, body: 18, small: 15, why: 'the serif carries warmth; the sans carries everything you read', src: 'Undercase Type (no date) Fraunces; Adobe (no date) Source Sans 3. Google Fonts, SIL Open Font Licence. Available at: https://fonts.google.com (Accessed: 22 October 2026).' },
-    { id: 'rob', n: 'Roboto', s: 'One neutral face', fh: "'Roboto'", fb: "'Roboto'", hw: 700, h1: 28, body: 18, small: 15, why: 'familiar from Android; wide range of weights', src: 'Google (no date) Roboto. Google Fonts, SIL Open Font Licence. Available at: https://fonts.google.com (Accessed: 22 October 2026).' },
-    { id: 'nun', n: 'Nunito Sans', s: 'One friendly, rounded face', fh: "'Nunito Sans'", fb: "'Nunito Sans'", hw: 800, h1: 28, body: 18, small: 15, why: 'friendly without being childish; carries Welsh and most European letters', src: 'Vernon Adams, Manvel Shmavonyan, Jacques Le Bailly (no date) Nunito Sans. Google Fonts, SIL Open Font Licence. Available at: https://fonts.google.com (Accessed: 22 October 2026).' },
-    { id: 'plex', n: 'IBM Plex Serif + IBM Plex Sans', s: 'An institutional pair', fh: "'IBM Plex Serif'", fb: "'IBM Plex Sans'", hw: 600, h1: 27, body: 18, small: 15, why: 'one family in two styles, so they always match', src: 'IBM / Bold Monday (no date) IBM Plex. Google Fonts, SIL Open Font Licence. Available at: https://fonts.google.com (Accessed: 22 October 2026).' },
-    { id: 'all', bad: true, n: 'Something for everyone', s: 'What we are fixing: five typefaces, nine sizes, all of them shouting', fh: "Impact,'Arial Black'", fb: "'Comic Neue'", hw: 400, h1: 34, body: 15, small: 11, why: '', src: '' },
-    { id: 'merri', n: 'Merriweather + Inter', s: 'A sturdy serif and a screen sans', fh: "'Merriweather'", fb: "'Inter'", hw: 700, h1: 26, body: 17, small: 15, why: 'Inter was drawn for screens; Merriweather stays readable when small', src: 'Sorkin Type (no date) Merriweather; Rasmus Andersson (no date) Inter. Google Fonts, SIL Open Font Licence. Available at: https://fonts.google.com (Accessed: 22 October 2026).' },
-  ];
-  /* COLOUR — role-based palettes; every ratio below is computed, not typed */
-  const COLS = [
-    { id: 'civic', n: 'Civic blue', s: 'The Liverpool case', ink: '#202427', muted: '#4B5257', pri: '#005DA7', bg: '#FFFFFF', panel: '#F3F2F1', ok: '#00703C', err: '#B3261E', accent: '#663BA3', src: 'Before and after, case 1 (colours kept from Liverpool City Council’s site).' },
-    { id: 'gov', n: 'GOV.UK colours', s: 'Black, blue links, green buttons, yellow focus', ink: '#0B0C0C', muted: '#505A5F', pri: '#00703C', bg: '#FFFFFF', panel: '#F3F2F1', ok: '#00703C', err: '#D4351C', accent: '#1D70B8', src: 'Government Digital Service (no date) GOV.UK Design System: Colour. Available at: https://design-system.service.gov.uk/styles/colour/ (Accessed: 22 October 2026).' },
-    { id: 'bakery', n: 'Warm bakery', s: 'The bakery case', ink: '#2B211C', muted: '#5E534C', pri: '#8A3B12', bg: '#FBF6EE', panel: '#F1E4CF', ok: '#2E6B3F', err: '#B3261E', accent: '#C8A27A', src: 'Before and after, case 2.' },
-    { id: 'rail', n: 'Orange and navy', s: 'The Railcard case', ink: '#1F2A44', muted: '#4A5468', pri: '#A63F00', bg: '#FFFFFF', panel: '#FDF1E7', ok: '#24653A', err: '#B3261E', accent: '#F07F15', src: 'Before and after, case 3.' },
-    { id: 'cymru', n: 'Purple and blue', s: 'The Welsh course case', ink: '#1E1B2E', muted: '#525066', pri: '#0A58A8', bg: '#FFFFFF', panel: '#F4F0FA', ok: '#2D6A3E', err: '#B3261E', accent: '#E6007E', src: 'Before and after, case 4.' },
-    { id: 'brand', bad: true, n: 'Brand first', s: 'What we are fixing: pale, trendy, and unreadable', ink: '#8C8C8C', muted: '#B0B0B0', pri: '#FFD400', bg: '#F2F2F2', panel: '#FFE4E1', ok: '#7ED957', err: '#FF6F61', accent: '#FF4FA3', link: '#6CB4EE', src: '' },
-    { id: 'mono', n: 'High-contrast mono', s: 'Black, white and one blue', ink: '#000000', muted: '#3B3B3B', pri: '#1A3D8F', bg: '#FFFFFF', panel: '#EEEEEE', ok: '#1E5631', err: '#A00000', accent: '#000000', src: 'This module’s own example.' },
-  ];
+  /* the options and the A3–A5 text live in sd-options.js, shared with the Gallery (gallery.html);
+     this panel shows the ones marked kit:true, plus anything chosen in the Gallery */
+  const { GRIDS, TYPES, COLS } = window.SDO;
 
   const $ = id => document.getElementById(id);
   const esc = s => String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
-  const lum = h => { const c = [1, 3, 5].map(i => parseInt(h.slice(i, i + 2), 16) / 255).map(v => v <= 0.03928 ? v / 12.92 : ((v + 0.055) / 1.055) ** 2.4); return 0.2126 * c[0] + 0.7152 * c[1] + 0.0722 * c[2]; };
-  const ratio = (a, b) => { const [x, y] = [lum(a), lum(b)].sort((m, n) => n - m); return (x + 0.05) / (y + 0.05); };
-  const r1 = (a, b) => ratio(a, b).toFixed(1);
 
   const state = { grid: 'ex2', type: 'atk', col: 'civic', f: 'l3', grid_on: false };
   try { Object.assign(state, JSON.parse(localStorage.getItem('sd-kit') || '{}')); } catch (e) {}
   if (!/^l[1-4]$/.test(state.f)) state.f = state.f === 'wire' ? 'l2' : 'l3';
 
-  function opts(key, list, sw) {
+  function opts(key, all, sw) {
+    if (!all.some(o => o.id === state[key])) state[key] = all[0].id;
+    const list = all.filter(o => o.kit || o.id === state[key]);
     $('o-' + key).innerHTML = list.map(o => `<label class="opt${o.bad ? ' bad' : ''}"><input type="radio" name="${key}" value="${o.id}" ${state[key] === o.id ? 'checked' : ''}><b>${esc(o.n)}${sw ? `<span class="sw">${['ink', 'pri', 'accent', 'panel'].map(k => `<i style="background:${o[k]}"></i>`).join('')}</span>` : ''}</b><small>${esc(o.s)}</small>${o.bad ? '<em class="badtag">Don’t — see why</em>' : ''}</label>`).join('');
     $('o-' + key).addEventListener('change', e => { state[key] = e.target.value; draw(); });
   }
@@ -458,7 +433,7 @@
     const G = GRIDS.find(x => x.id === state.grid), T = TYPES.find(x => x.id === state.type), C = COLS.find(x => x.id === state.col);
     ['grid', 'type', 'col'].forEach(k => { const i = document.querySelector(`input[name=${k}][value=${state[k]}]`); if (i) i.checked = true; });
     $('chosen').innerHTML = `Now: <b>${esc(G.n)}</b> · <b>${esc(T.n)}</b> · <b>${esc(C.n)}</b>`;
-    const on = '#FFFFFF';
+    const on = C.on || '#FFFFFF';
     const GREY = { ink: '#333333', muted: '#5F5F5F', pri: '#6E6E6E', bg: '#FFFFFF', panel: '#EEEEEE', ok: '#D9D9D9', err: '#444444', accent: '#9E9E9E' };
     const w = id => esc($(id).value.trim());
     const answers = $('w-opts').value.split(/[·,|]/).map(s => esc(s.trim())).filter(Boolean).slice(0, 3);
@@ -467,7 +442,7 @@
     const varsFor = (lvl) => {
       const P = lvl <= 2 ? GREY : C;
       const fh = lvl === 1 ? "'Comic Neue'" : lvl === 2 ? 'system-ui' : T.fh, fb = lvl === 1 ? "'Comic Neue'" : lvl === 2 ? 'system-ui' : T.fb;
-      return `--ink:${P.ink};--muted:${P.muted};--pri:${P.pri};--on:${on};--bg:${P.bg};--panel:${P.panel};--ok:${P.ok};--err:${P.err};--accent:${P.accent};` +
+      return `--ink:${P.ink};--muted:${P.muted};--pri:${P.pri};--on:${lvl <= 2 ? '#FFFFFF' : on};--bg:${P.bg};--panel:${P.panel};--ok:${P.ok};--err:${P.err};--accent:${P.accent};` +
         `--fh:${fh},system-ui;--fb:${fb},system-ui;--hw:${lvl <= 2 ? 700 : T.hw};--h1:${T.h1}px;--h1l:${Math.round(T.h1 * 1.2)}px;--body:${T.body}px;--bodyl:${Math.round(T.body * 1.5)}px;--small:${T.small}px;--label:${T.body}px;` +
         `--m:${G.ph.m}px;--g:${G.ph.g}px;--cols:${G.ph.c};`; };
     const clsFor = (lvl) => `k l${lvl} ${G.id === 'eye' ? 'eye' : ''} ${T.id === 'all' && lvl >= 3 ? 'loud' : ''}`;
@@ -495,21 +470,9 @@
     $('ladder').innerHTML = RUNGS.map(([n, name, what, kind, use]) => `<div class="rung"><span class="lvl">Level ${n}</span><div class="mini">${scr1(n)}</div>
       <h3>${name}</h3><p>${what}</p><span class="use ${kind}">${use}</span></div>`).join('');
 
-    // the spec, written out from the same choices
-    if (G.bad) $('s-a3').textContent = ['Grid: none — placed by eye', 'Columns: none', 'Gutter: none', 'Margin: “about 10 to 20”, different on every box',
-      'Max width: none', 'Breakpoints: none', 'Spacing: 5, 7, 9, 11, 13, 14, 17, 19, 22, 26 and 31 px — eleven different gaps', '', 'Nothing here can be handed over: the next screen will not match.'].join('\n');
-    else $('s-a3').textContent = [`Grid: ${G.n}`, `Columns: ${G.dk.c} desktop · ${G.ph.c} phone`, `Gutter: ${G.dk.g} px desktop · ${G.ph.g} px phone`,
-      `Margin: ${G.dk.m} px desktop · ${G.ph.m} px phone`, `Max width: ${G.max} px; the main content is ${G.main}`, `Breakpoints: ${G.bps}`,
-      `Spacing scale: 4 · 8 · 16 · 24 · 32 · 48`].join('\n');
-    if (T.bad) $('s-a4').textContent = ['Typefaces: Impact for headings, Comic for body, a script for buttons, italic serif for answers, and whatever was left for small print',
-      'Sizes: 34, 22, 17, 16, 15, 13, 12, 11 and 9 px', 'Body text: 15 px, centred', 'Small print: 11 px, light grey', 'Headings: all capitals, letter-spaced', '',
-      'No role for any size: nobody can tell which size the next heading should be.'].join('\n');
-    else $('s-a4').textContent = [`Typefaces: ${T.n} — ${T.why}`, `Headings: ${T.fh.replace(/'/g, '')} ${T.hw}, ${T.h1} / ${Math.round(T.h1 * 1.2)} px`,
-      `Body and answers: ${T.fb.replace(/'/g, '')}, ${T.body} / ${Math.round(T.body * 1.5)} px`, `Labels: ${T.fb.replace(/'/g, '')} bold, ${T.body} px`,
-      `Small print and hints: ${T.small} / ${Math.round(T.small * 1.5)} px`, `Measure: at most about 65 characters a line`].join('\n');
-    const rows = [['Text', C.ink, C.bg], ['Hints', C.muted, C.bg], ['Button (white text)', on, C.pri], ['Links', C.link || C.pri, C.bg], ['Panel text', C.ink, C.panel], ['Success (white text)', on, C.ok], ['Error', C.err, C.bg]];
-    $('s-a5').textContent = rows.map(([n, f, b]) => { const r = ratio(f, b); return `${n}: ${f} on ${b} — ${r.toFixed(1)}:1 ${r >= 4.5 ? 'passes' : 'FAILS 4.5:1'}`; }).join('\n') + `\nAccent ${C.accent}: decoration only, never behind text`;
-    $('s-c9').textContent = [G.src, T.src, C.src].filter(Boolean).join('\n') || 'Nothing to cite: these were not taken from anywhere.';
+    // the spec, written out from the same choices (sd-options.js, so the Gallery copies the same words)
+    $('s-a3').textContent = SDO.a3(G); $('s-a4').textContent = SDO.a4(T); $('s-a5').textContent = SDO.a5(C);
+    $('s-c9').textContent = SDO.c9([G, T, C]);
     $('fixing').hidden = !(G.bad || T.bad || C.bad);
   };
 
