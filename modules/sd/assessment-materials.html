@@ -110,6 +110,14 @@
   footer{padding:24px 0 44px;color:var(--ink-3);font-size:0.8rem;border-top:1px solid var(--line);margin-top:30px}
   @media(max-width:520px){ .steps td{padding:7px 8px} .steps td.rg{white-space:normal} }
 
+  .cases{display:grid;gap:14px;grid-template-columns:repeat(auto-fill,minmax(min(300px,100%),1fr));margin:18px 0 0}
+  .case{display:flex;flex-direction:column;gap:6px;background:var(--surface);border:1px solid var(--line);border-left:4px solid var(--lec);border-radius:0 12px 12px 0;padding:16px 18px;color:inherit;text-decoration:none}
+  .case:hover,.case:focus-visible{border-color:var(--lec)} .case:focus-visible{outline:2px solid var(--lec);outline-offset:2px}
+  .case .k{font-family:var(--mono);font-size:0.66rem;letter-spacing:.09em;text-transform:uppercase;color:var(--ink-3)}
+  .case b{font-size:1.1rem} .case span{color:var(--ink-2);font-size:0.92rem;line-height:1.5}
+  .case .go{margin-top:6px;font-family:var(--mono);font-size:0.78rem;color:var(--lec)}
+  .how{margin:22px 0 0;padding-left:20px;max-width:72ch} .how li{margin:6px 0;color:var(--ink-2)}
+
   /* THE BAR — one definition, identical on every page (written by navfix; change it
      everywhere or nowhere). It used to be copied per page and drifted into two heights. */
   header.sdnav{position:sticky;top:0;z-index:40;background:var(--surface);border-bottom:1px solid var(--line)}
@@ -155,25 +163,48 @@
 
 <div class="wrap">
   <h1>Marking and examples</h1>
-  <p class="sub">How the portfolio is marked, in one place: the brief, the rubric, the marks we can
-    give, and two example portfolios — one thin, one complete.</p>
+  <p class="sub">How the portfolio is marked, in one place: before-and-after cases that show what earns marks,
+    two example portfolios — one thin, one complete — the marks we can give, and the questions people ask.</p>
 
   <div class="tiles" id="tiles"></div>
 
-  <h2 id="steps">The marks we can give</h2>
-  <p class="lede">Every mark — each criterion, and the overall — is one of these steps. There is no 66:
-    a portfolio between the two is a 65 or a 68. The four criteria inform <b>one overall mark</b>; they
-    are not added up.</p>
-  <table class="steps" id="steptable"></table>
+  <h2 id="before-after">Before and after</h2>
+  <p class="lede">Real services, walked step by step, then improved — and one made up to be painful. Each case shows what is wrong now, measured;
+    the same job redesigned; the A3, A4 and A5 behind the redesign; and what a marker would credit, section by section.
+    <b>They are not portfolios to copy.</b> They show the thinking that earns marks.</p>
+  <ol class="how">
+    <li><b>Now</b> — every screen, with what goes wrong numbered on it.</li>
+    <li><b>Measured</b> — words, taps, fields, contrast: the counts behind each problem.</li>
+    <li><b>Improved</b> — the same job, redesigned, with each decision explained.</li>
+    <li><b>The decisions</b> — the redesign’s own A3, A4 and A5.</li>
+    <li><b>Counted</b> — before against after, and what happened to every step.</li>
+    <li><b>Why it is better</b> — what a marker credits, and which deck section it belongs in.</li>
+  </ol>
+  <div class="cases">
+    <a class="case" href="case-missed-bin.html"><span class="k">Case 1 · a council service</span><b>Reporting a missed bin</b>
+      <span>Liverpool City Council. Good type and colour, a journey that hides its one rule: 199 words before you can start, 10 things to fill in, no check that you are still in time.</span>
+      <span class="go">Open the case →</span></a>
+    <a class="case" href="case-bakery.html"><span class="k">Case 2 · a small business, made up</span><b>Ordering a celebration cake</b>
+      <span>The painful one, on purpose: a splash page with music, a sideways scanned menu, a full voicemail, 23 messages, a misheard name, money to a personal account — and a closure announced in a story. The own-business route, fixed with the owner still confirming by hand.</span>
+      <span class="go">Open the case →</span></a>
+    <a class="case" href="case-railcard.html"><span class="k">Case 3 · a national retailer</span><b>Buying a 16–25 Railcard</b>
+      <span>A confident site whose orange fails behind white text, whose questions come in the wrong order, and whose ID and photo requirements arrive after you have started.</span>
+      <span class="go">Open the case →</span></a>
+    <a class="case" href="case-short-course.html"><span class="k">Case 4 · a bilingual public service</span><b>Finding a first Welsh course</b>
+      <span>Complete facts in the provider’s words: 23 lines per result, the most advanced course first, and an account before anything else. A cross-cultural case.</span>
+      <span class="go">Open the case →</span></a>
+  </div>
 
   <h2>Two example portfolios</h2>
   <p class="lede">Both were written by the module team as teaching examples. Neither is a real student's
     work. Read them the way a marker would.</p>
   <div class="ex" id="examples"></div>
 
-  <h2 id="before-after">Before and after: real services, improved</h2>
-  <p class="lede">What pushes a mark up, shown on a real service rather than a whole portfolio: what is wrong now, measured;
-    the same job redesigned; and what a marker would credit, section by section. <a href="before-after.html">See the cases →</a></p>
+  <h2 id="steps">The marks we can give</h2>
+  <p class="lede">Every mark — each criterion, and the overall — is one of these steps. There is no 66:
+    a portfolio between the two is a 65 or a 68. The four criteria inform <b>one overall mark</b>; they
+    are not added up.</p>
+  <table class="steps" id="steptable"></table>
 
   <h2 id="faq">Questions people ask</h2>
   <p class="lede">Every answer here comes from the official brief or this module's own pages. If yours is not here,

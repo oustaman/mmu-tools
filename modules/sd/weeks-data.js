@@ -225,7 +225,7 @@ const WEEKS = [
   out:{"sec": ["A2", "D1", "C7"], "what": "The journey before, counted, the before captured, and the cross-cultural paragraph"},
   bring:"Laptop · your theme · access to the service you are improving (the website, the app, the chat)",
   run:[
-   {s:"Walk one case, in pairs", d:"Open <a href=\"before-after.html\">Before and after</a> and walk the bakery’s <i>now</i> slides. For each red number, say what it costs the customer. Then the improved slides: which green number fixes which red one?"},
+   {s:"Walk one case, in pairs", d:"Open <a href=\"assessment-materials.html#before-after\">Before and after</a> and walk the bakery’s <i>now</i> slides. For each red number, say what it costs the customer. Then the improved slides: which green number fixes which red one?"},
    {s:"Write the goal, then the before", d:"Your goal: what the person is trying to get done. Then every step people take now — the website, the form, the phone call, the message thread. If nothing like your idea exists yet, the before is how people manage without it. Write it into <code>A2</code>."},
    {s:"Count it", d:"Steps, taps, fields, messages, days waiting, dead ends. Every problem gets a number, not an adjective: “199 words before you can start”, not “too much text”."},
    {s:"Capture it", d:"Screenshot or photograph every step into <code>D1</code>, numbered to match A2. Chats need the owner’s permission and every other person’s name and number blurred."},
