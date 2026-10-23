@@ -136,6 +136,33 @@
   .seg button[aria-pressed="true"]{background:var(--ink);color:var(--bg)}
   .viewbar label{font:600 0.82rem var(--sans);display:inline-flex;gap:6px;align-items:center;color:var(--ink-2)}
 
+  /* settings beside the screens: one viewport, no scrolling between them */
+  .wrap.kitpage{max-width:1380px}
+  .studio{display:grid;grid-template-columns:270px minmax(0,1fr);gap:18px;align-items:start;margin:12px 0 8px}
+  @media(max-width:860px){.studio{grid-template-columns:1fr}}
+  .panel{position:sticky;top:calc(var(--hdr,57px) + 10px);background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:12px;display:grid;gap:10px}
+  @media(max-width:860px){.panel{position:static}}
+  .ctl{display:grid;gap:3px}
+  .ctl label,.ctl .lbl{font:700 0.8rem var(--sans);color:var(--ink)}
+  .ctl label span{font:600 0.62rem var(--mono);color:var(--wsh);background:var(--wsh-soft);border-radius:4px;padding:1px 5px;margin-left:4px}
+  .ctl select{font:500 0.88rem var(--sans);padding:7px 8px;border:1px solid var(--line-2);border-radius:7px;background:var(--bg);color:var(--ink);width:100%}
+  .ctl small{font-size:0.74rem;color:var(--ink-3);line-height:1.35;min-height:1em}
+  .ctl small.badd{color:#B3261E;font-weight:600}
+  .panel .seg{display:grid;grid-template-columns:repeat(4,1fr)} .panel .seg button{padding:0 2px;min-height:34px;font-size:0.72rem}
+  .chk{font:600 0.8rem var(--sans);color:var(--ink-2);display:flex;gap:6px;align-items:center}
+  .btnrow{display:grid;grid-template-columns:1fr auto;gap:6px}
+  .pbtn{font:640 0.78rem var(--sans);min-height:34px;border:1px solid var(--line-2);border-radius:7px;background:var(--bg);color:var(--ink-2);cursor:pointer;padding:0 10px}
+  .pbtn.bad{border-color:#E7B4AE;color:#B3261E;background:#FFF6F5}
+  .pbtn:hover{border-color:var(--lec)}
+  .wordsbox summary{cursor:pointer;font:700 0.8rem var(--sans);color:var(--ink);min-height:30px;display:flex;align-items:center}
+  .wordsbox .words{display:grid;grid-template-columns:1fr;gap:6px;padding:4px 0 0;margin:0;background:none;border:0}
+  .wordsbox .words label{font-size:0.72rem}
+  .wordsbox .words input{font-size:0.82rem;padding:6px 8px}
+  .jump{font:600 0.8rem var(--sans);color:var(--lec)}
+  .stage{min-width:0}
+  .stage .screens{flex-wrap:nowrap;gap:16px;transform-origin:top left}
+  @media(max-width:860px){.stage .screens{overflow-x:auto;padding-bottom:8px}}
+  .stage .fixing{margin-top:10px}
   /* the three screens, drawn from the chosen kit */
   .screens{display:flex;flex-wrap:wrap;gap:22px;align-items:flex-start}
   .ph3{width:300px;border:9px solid #1C1A1B;border-radius:30px;overflow:hidden;background:#fff;box-shadow:0 8px 26px rgba(0,0,0,.18)}
@@ -274,40 +301,38 @@
 
 <div class="wrap kitpage">
   <h1>Style kit</h1>
-  <p class="lead">Pick a grid, a type pairing and a palette from published design systems. The same three screens redraw with whatever you pick —
-    <b>one set of decisions, applied to every screen</b>. That is what A3, A4 and A5 are for: hand them to someone else and the next screen they build will match.</p>
-  <p class="lead">Every option says where it comes from, so <b>no AI is needed</b>: cite the source in C9 and say in C3 and C4 why you chose it, and what you changed.
-    Type your own words below and the screens become your project — screenshot them for your style tile. Further down: <a href="#fidelity">the same screen at four levels of finish</a>, and which one your finished screens need.</p>
-
-  <div class="pick">
-    <fieldset><legend>Grid <span>A3</span></legend><div class="opts" id="o-grid"></div></fieldset>
-    <fieldset><legend>Type <span>A4</span></legend><div class="opts" id="o-type"></div></fieldset>
-    <fieldset><legend>Colour <span>A5</span></legend><div class="opts" id="o-col"></div></fieldset>
-  </div>
-
-  <div class="words">
-    <label>Your service<input id="w-name" value="Castlegate Council"></label>
-    <label>Your main question<input id="w-q" value="Which bin was not emptied?"></label>
-    <label>Three answers<input id="w-opts" value="Blue bin · Food caddy · Purple bin"></label>
-    <label>Your button<input id="w-btn" value="Continue"></label>
-    <label>A result’s title<input id="w-res" value="Blue bin, due today"></label>
-    <label>The done message<input id="w-done" value="Report sent"></label>
-  </div>
-
-  <div class="viewbar">
-    <span class="seg" role="group" aria-label="Fidelity"><button type="button" data-f="l1">1 · Sketch</button><button type="button" data-f="l2">2 · Wireframe</button><button type="button" data-f="l3">3 · Applied spec</button><button type="button" data-f="l4">4 · Decorated</button></span>
-    <label><input type="checkbox" id="showgrid"> Show the grid</label>
-    <button type="button" class="btn" id="allbad" style="cursor:pointer;font:640 0.82rem var(--sans);min-height:38px">What are we fixing? Show all three wrong</button>
-    <button type="button" class="btn" id="allgood" style="cursor:pointer;font:640 0.82rem var(--sans);min-height:38px">Back to a good set</button>
-  </div>
-
-  <div class="screens" id="screens"></div>
-
+  <p class="lead" style="margin-bottom:6px">Pick a grid, type and colour from published design systems — the three screens redraw as you go. <b>One set of decisions, applied to every screen.</b></p>
+  <div class="studio">
+    <aside class="panel" aria-label="Settings">
+      <div class="ctl"><label for="sel-grid">Grid <span>A3</span></label><select id="sel-grid"></select><small id="d-grid"></small></div>
+      <div class="ctl"><label for="sel-type">Type <span>A4</span></label><select id="sel-type"></select><small id="d-type"></small></div>
+      <div class="ctl"><label for="sel-col">Colour <span>A5</span></label><select id="sel-col"></select><small id="d-col"></small></div>
+      <div class="ctl"><span class="lbl">Finish</span><span class="seg" role="group" aria-label="Level of finish"><button type="button" data-f="l1" title="Sketch">1 Sketch</button><button type="button" data-f="l2" title="Wireframe">2 Wire</button><button type="button" data-f="l3" title="Applied spec">3 Applied</button><button type="button" data-f="l4" title="Decorated">4 Decor</button></span></div>
+      <label class="chk"><input type="checkbox" id="showgrid"> Show the grid</label>
+      <div class="btnrow"><button type="button" class="pbtn bad" id="allbad">Show all three wrong</button><button type="button" class="pbtn" id="allgood">Good set</button></div>
+      <details class="wordsbox"><summary>Your words</summary><div class="words">
+        <label>Service<input id="w-name" value="Castlegate Council"></label>
+        <label>Main question<input id="w-q" value="Which bin was not emptied?"></label>
+        <label>Three answers<input id="w-opts" value="Blue bin · Food caddy · Purple bin"></label>
+        <label>Button<input id="w-btn" value="Continue"></label>
+        <label>A result’s title<input id="w-res" value="Blue bin, due today"></label>
+        <label>Done message<input id="w-done" value="Report sent"></label></div></details>
+      <a class="jump" href="#spec">Copy A3, A4, A5 and C9 ↓</a>
+    </aside>
+    <div class="stage" id="stage">
+      <div class="screens" id="screens"></div>
   <div class="fixing" id="fixing" hidden><b class="h">What are we fixing?</b><ul>
     <li><b>By eye</b> — eleven different gaps and no two boxes lined up. It looks “nearly fine” on its own; it is why the next screen never matches. <i>A3, C2</i></li>
     <li><b>Something for everyone</b> — a typeface for every mood and a size for every line, so nothing is more important than anything else. Real small-business sites look like this. <i>A4, C3</i></li>
     <li><b>Brand first</b> — pale grey text at 3.0:1, white on lemon at 1.4:1, and a green that only says “success” to people who can see green. <i>A5, C4, A6</i></li>
     <li>Every one of these is a choice someone made on purpose. The fix is not talent: it is <b>deciding once, writing it down, and using it everywhere</b>.</li></ul></div>
+    </div>
+  </div>
+
+  <p class="lead" style="margin-top:22px">Pick a grid, a type pairing and a palette from published design systems. The same three screens redraw with whatever you pick —
+    <b>one set of decisions, applied to every screen</b>. That is what A3, A4 and A5 are for: hand them to someone else and the next screen they build will match.</p>
+  <p class="lead">Every option says where it comes from, so <b>no AI is needed</b>: cite the source in C9 and say in C3 and C4 why you chose it, and what you changed.
+    Type your own words below and the screens become your project — screenshot them for your style tile. Further down: <a href="#fidelity">the same screen at four levels of finish</a>, and which one your finished screens need.</p>
 
   <h2 id="fidelity" style="margin:30px 0 4px">The same screen, four ways</h2>
   <p class="lead">Your own first screen, drawn at four levels of finish. Every level uses the same grid, the same sizes and the same order — only how much is shown changes.
@@ -315,7 +340,7 @@
   <div class="ladder" id="ladder"></div>
   <p class="note" style="font-size:.85rem;color:var(--ink-3)">“Polished” and “production-quality” in the rubric mean <b>consistent</b> (every screen from the same numbers), <b>complete</b> (every screen of the journey, states included) and <b>working</b> (every link clicks) — not decorated.</p>
 
-  <div class="spec">
+  <div class="spec" id="spec">
     <section><h3>A3 · Layout</h3><pre id="s-a3"></pre><button type="button" class="btn" data-copy="s-a3">Copy for A3</button><span class="ok-msg" id="m-s-a3"></span></section>
     <section><h3>A4 · Typography</h3><pre id="s-a4"></pre><button type="button" class="btn" data-copy="s-a4">Copy for A4</button><span class="ok-msg" id="m-s-a4"></span></section>
     <section><h3>A5 · Colour and contrast</h3><pre id="s-a5"></pre><button type="button" class="btn" data-copy="s-a5">Copy for A5</button><span class="ok-msg" id="m-s-a5"></span></section>
@@ -370,15 +395,22 @@
   try { Object.assign(state, JSON.parse(localStorage.getItem('sd-kit') || '{}')); } catch (e) {}
   if (!/^l[1-4]$/.test(state.f)) state.f = state.f === 'wire' ? 'l2' : 'l3';
 
-  function opts(el, list, key, sw) {
-    $(el).innerHTML = list.map(o => `<label class="opt${o.bad ? ' bad' : ''}"><input type="radio" name="${key}" value="${o.id}" ${state[key] === o.id ? 'checked' : ''}><b>${esc(o.n)}${sw ? `<span class="sw">${['ink', 'pri', 'accent', 'panel'].map(k => `<i style="background:${o[k]}"></i>`).join('')}</span>` : ''}</b><small>${esc(o.s)}</small>${o.bad ? '<em class="badtag">Don’t — see why</em>' : ''}</label>`).join('');
-    $(el).addEventListener('change', e => { state[key] = e.target.value; draw(); });
+  function opts(key, list) {
+    const sel = $('sel-' + key);
+    sel.innerHTML = `<optgroup label="Published and worked examples">${list.filter(o => !o.bad).map(o => `<option value="${o.id}">${esc(o.n)}</option>`).join('')}</optgroup>` +
+      `<optgroup label="What we are fixing">${list.filter(o => o.bad).map(o => `<option value="${o.id}">✗ ${esc(o.n)}</option>`).join('')}</optgroup>`;
+    sel.value = state[key];
+    sel.addEventListener('change', e => { state[key] = e.target.value; draw(); });
   }
-  opts('o-grid', GRIDS, 'grid'); opts('o-type', TYPES, 'type'); opts('o-col', COLS, 'col', true);
+  opts('grid', GRIDS); opts('type', TYPES); opts('col', COLS);
+  const describe = (key, o, sw) => { const d = $('d-' + key); d.className = o.bad ? 'badd' : '';
+    d.innerHTML = esc(o.s) + (sw ? ` <span class="sw">${['ink', 'pri', 'accent', 'panel'].map(k => `<i style="background:${o[k]}"></i>`).join('')}</span>` : ''); };
 
-  function draw() {
+  let draw = function () {
     try { localStorage.setItem('sd-kit', JSON.stringify(state)); } catch (e) {}
     const G = GRIDS.find(x => x.id === state.grid), T = TYPES.find(x => x.id === state.type), C = COLS.find(x => x.id === state.col);
+    describe('grid', G); describe('type', T); describe('col', C, true);
+    ['grid', 'type', 'col'].forEach(k => { $('sel-' + k).value = state[k]; });
     const on = '#FFFFFF';
     const GREY = { ink: '#333333', muted: '#5F5F5F', pri: '#6E6E6E', bg: '#FFFFFF', panel: '#EEEEEE', ok: '#D9D9D9', err: '#444444', accent: '#9E9E9E' };
     const w = id => esc($(id).value.trim());
@@ -432,7 +464,7 @@
     $('s-a5').textContent = rows.map(([n, f, b]) => { const r = ratio(f, b); return `${n}: ${f} on ${b} — ${r.toFixed(1)}:1 ${r >= 4.5 ? 'passes' : 'FAILS 4.5:1'}`; }).join('\n') + `\nAccent ${C.accent}: decoration only, never behind text`;
     $('s-c9').textContent = [G.src, T.src, C.src].filter(Boolean).join('\n') || 'Nothing to cite: these were not taken from anywhere.';
     $('fixing').hidden = !(G.bad || T.bad || C.bad);
-  }
+  };
 
   ['w-name', 'w-q', 'w-opts', 'w-btn', 'w-res', 'w-done'].forEach(id => $(id).addEventListener('input', draw));
   document.querySelector('.seg').addEventListener('click', e => { const b = e.target.closest('[data-f]'); if (!b) return; state.f = b.dataset.f;
@@ -444,9 +476,19 @@
     try { await navigator.clipboard.writeText($(b.dataset.copy).textContent); m.textContent = 'Copied'; } catch (err) { m.textContent = 'Select the text and copy it'; }
     setTimeout(() => { m.textContent = ''; }, 2500); });
   const pickAll = (g, t, c) => { state.grid = g; state.type = t; state.col = c;
-    [['grid', g], ['type', t], ['col', c]].forEach(([k, v]) => { const i = document.querySelector(`input[name=${k}][value=${v}]`); if (i) i.checked = true; }); draw(); };
+    draw(); };
   $('allbad').onclick = () => pickAll('eye', 'all', 'brand');
   $('allgood').onclick = () => pickAll('ex2', 'atk', 'civic');
+  function fit() {
+    const sc = $('screens'), st = $('stage'); sc.style.zoom = 1;
+    if (innerWidth <= 860) return;
+    const w = sc.scrollWidth, h = sc.scrollHeight;
+    /* the screens should end inside the window when the page is at the top */
+    const room = innerHeight - (sc.getBoundingClientRect().top + scrollY) - 16;
+    sc.style.zoom = Math.max(0.55, Math.min(1, st.clientWidth / w, room / h)).toFixed(3);
+  }
+  const _draw = draw; draw = function () { _draw(); fit(); };
+  addEventListener('resize', fit);
   draw();
   if (document.fonts) document.fonts.ready.then(draw);
 })();
