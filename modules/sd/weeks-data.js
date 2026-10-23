@@ -68,7 +68,7 @@ const WEEKS = [
   bring:"A4 paper and a thick marker · your three possible themes",
   run:[
    {s:"Mark Example 2, alone first", d:"Open <a href=\"example-council.html\">the complete example</a> and <a href=\"rubric.html\">the blank rubric</a>. Alone: a band, a mark and one sentence of evidence for each criterion, then one overall mark."},
-   {s:"Send your marks", d:"Through the form on <a href=\"assessment-materials.html\">Marking and examples</a>. The class average goes up beside our marks after the workshop; nobody sees whose is whose."},
+   {s:"Send your marks", d:"Through the form on <a href=\"examples.html#portfolios\">Examples</a>. The class average goes up beside our marks after the workshop; nobody sees whose is whose."},
    {s:"Compare in fours", d:"Read your marks aloud. Wherever you are more than a band apart, find the slide that settles it."},
    {s:"What makes it complete, and what stops it being a First", d:"As a room: what does it have that the week 1 portfolio did not? And why is it not a First?"},
    {s:"Choose your theme", d:"Fill in <code>A1</code>: your theme, your audience, and your goal, the one thing a person is trying to get done. Then <code>C1</code>, while the decision is fresh; and if you can, start <code>D1</code> with screenshots of how people do it today."},
@@ -138,7 +138,7 @@ const WEEKS = [
   out:{"sec": ["A3", "A4", "A5", "B3", "C3", "C4"]},
   bring:"Paper for the six questions",
   run:[
-   {s:"Study one case, in pairs", d:"Your tutor gives each pair one case: <a href=\"case-missed-bin.html#s16\">the missed bin</a>, <a href=\"case-railcard.html#s16\">the Railcard</a> or <a href=\"case-short-course.html#s16\">the Welsh course</a>. Answer <a href=\"assessment-materials.html#questions\">the six questions</a> on paper; most answers are on slide 16."},
+   {s:"Study one case, in pairs", d:"Your tutor gives each pair one case: <a href=\"case-missed-bin.html#s16\">the missed bin</a>, <a href=\"case-railcard.html#s16\">the Railcard</a> or <a href=\"case-short-course.html#s16\">the Welsh course</a>. Answer <a href=\"examples.html#questions\">the six questions</a> on paper; most answers are on slide 16."},
    {s:"Check-in: your tutor comes round", d:"One question: <b>show me one row in the redesign’s A4 or A5, and tell me why it is that number.</b>"},
    {s:"Swap: one pair from each case", d:"Join two pairs who read the other cases. Between you: <b>which change makes the biggest difference, and what number shows it?</b>"},
    {s:"Choose your three", d:"In the <a href=\"gallery.html\">Gallery</a>, choose a grid, a typeface and a palette for your audience, and <b>Copy all four</b> into A3, A4, A5 and C9. Change any number you like, and write down why."},

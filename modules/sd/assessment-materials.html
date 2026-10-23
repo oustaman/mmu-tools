@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Marking and examples — Screen Design</title>
+<title>Marking — Screen Design</title>
 <style>
   :root{
     --bg:#F5F4F2; --surface:#FFFFFF; --surface-2:#EDEBE8;
@@ -81,23 +81,6 @@
   .steps tr.first td.cls{color:var(--ok)}
   .steps tr.fail td.cls{color:var(--lec)}
 
-  .ex{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(min(320px,100%),1fr))}
-  .excard{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:16px 18px;
-    display:flex;flex-direction:column;gap:10px}
-  .exk{font-family:var(--mono);font-size:0.64rem;letter-spacing:0.08em;text-transform:uppercase;color:var(--ink-3)}
-  .excard h3{margin:0;font-size:1.08rem}
-  .excard p{margin:0;font-size:0.9rem;color:var(--ink-2)}
-  .exmark{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap}
-  .exmark .n{font-size:2.2rem;font-weight:740;letter-spacing:-0.03em;color:var(--lec);line-height:1}
-  .exmark .crit{font-family:var(--mono);font-size:0.78rem;color:var(--ink-2)}
-  .exhid{font-size:0.9rem;color:var(--ink-2);background:var(--bg);border:1px dashed var(--line-2);border-radius:8px;padding:10px 12px}
-  .exacts{display:flex;flex-wrap:wrap;gap:8px;margin-top:auto}
-  .btn{display:inline-flex;align-items:center;min-height:42px;padding:0 15px;border-radius:8px;text-decoration:none;
-    font-weight:640;font-size:0.9rem;border:1px solid var(--line-2);color:var(--ink);background:var(--bg)}
-  .btn:hover{border-color:var(--lec);color:var(--lec)}
-  .btn.pri{background:var(--lec);border-color:var(--lec);color:#fff}
-  html[data-theme="dark"] .btn.pri{color:#151314}
-  .btn.off{color:var(--ink-3);border-style:dashed;cursor:default}
   .faq{display:grid;gap:6px}
   .faq details{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:0}
   .faq summary{cursor:pointer;padding:12px 16px;font-weight:600;list-style:none;display:flex;gap:10px;align-items:baseline}
@@ -110,19 +93,12 @@
   footer{padding:24px 0 44px;color:var(--ink-3);font-size:0.8rem;border-top:1px solid var(--line);margin-top:30px}
   @media(max-width:520px){ .steps td{padding:7px 8px} .steps td.rg{white-space:normal} }
 
-  .cases{display:grid;gap:14px;grid-template-columns:repeat(auto-fill,minmax(min(300px,100%),1fr));margin:18px 0 0}
   .case{display:flex;flex-direction:column;gap:6px;background:var(--surface);border:1px solid var(--line);border-left:4px solid var(--lec);border-radius:0 12px 12px 0;padding:16px 18px;color:inherit;text-decoration:none}
   .case:hover,.case:focus-visible{border-color:var(--lec)} .case:focus-visible{outline:2px solid var(--lec);outline-offset:2px}
   .case .k{font-family:var(--mono);font-size:0.66rem;letter-spacing:.09em;text-transform:uppercase;color:var(--ink-3)}
   .case b{font-size:1.1rem} .case span{color:var(--ink-2);font-size:0.92rem;line-height:1.5}
   .case .go{margin-top:6px;font-family:var(--mono);font-size:0.78rem;color:var(--lec)}
   .how{margin:22px 0 0;padding-left:20px;max-width:72ch} .how li{margin:6px 0;color:var(--ink-2)}
-
-  .qbox{background:var(--surface);border:1px solid var(--line);border-left:4px solid var(--wsh);border-radius:0 12px 12px 0;padding:14px 18px;margin:14px 0 16px;max-width:860px}
-  .qbox > b{display:block;font-size:1rem;margin-bottom:4px}
-  .qbox p{margin:0 0 8px;color:var(--ink-2);font-size:0.92rem;line-height:1.55}
-  .qbox ol{margin:0;padding-left:22px;line-height:1.6;font-size:0.95rem}
-  .qbox li{margin:0 0 4px} .qbox li span{color:var(--ink-3);font-size:0.86rem}
 
   /* How it is marked: moved here from the Checklist, 23 October 2026 */
   .mnote{border-left:3px solid var(--lec);background:var(--surface);padding:13px 17px;border-radius:0 9px 9px 0;margin:18px 0}
@@ -135,9 +111,7 @@
   .eg{font-family:var(--mono);font-size:0.8rem;background:var(--surface-2);padding:9px 11px;
       border-radius:7px;display:block;margin-top:6px;color:var(--ink-2);line-height:1.45}
   .eg b{color:var(--ok)}
-  .rub-h{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;margin-bottom:4px}
-  .rub-h h2{margin:0;font-size:1.28rem;font-weight:690;letter-spacing:-0.02em}
-  .rub-src{font-family:var(--mono);font-size:0.64rem;letter-spacing:0.06em;text-transform:uppercase;color:var(--ink-3)}
+
   .rub-note{margin:0 0 14px;font-size:0.9rem;color:var(--ink-2);max-width:74ch}
   .rub-note b{color:var(--ink)}
   .wide{overflow-x:auto;border:1px solid var(--line);border-radius:11px;background:var(--surface)}
@@ -172,7 +146,7 @@
     background:var(--surface-2);border:1px solid var(--line);border-radius:5px;padding:1px 6px;color:var(--ink)}
   .lo-ask{margin:auto 0 0;padding-top:8px;border-top:1px solid var(--line);font-size:0.86rem;color:var(--ink)}
   .lo-rest{margin:12px 0 0;display:flex;flex-wrap:wrap;gap:8px;align-items:baseline;font-size:0.86rem;color:var(--ink-2)}
-  .mark-h3{font-size:1.02rem;margin:22px 0 6px;scroll-margin-top:70px}
+
   h2[id]{scroll-margin-top:70px}
   .qlinks{list-style:none;margin:8px 0 0;padding:0;display:grid;gap:0;border:1px solid var(--line);border-radius:11px;background:var(--surface);overflow:hidden}
   .qlinks li{display:flex;flex-wrap:wrap;justify-content:space-between;gap:2px 14px;padding:10px 14px;border-top:1px solid var(--line)}
@@ -217,15 +191,15 @@
   <div class="wrap bar">
     <a class="brand" href="index.html">Screen Design</a>
     <span class="sp"></span>
-    <nav class="sdlinks" aria-label="Screen Design"><a class="navl" href="index.html">Overview</a><a class="navl" href="weeks.html">Week by week</a><a class="navl" href="assessment.html">Checklist</a><a class="navl on" href="assessment-materials.html" aria-current="page">Marking and examples</a><a class="navl" href="toolkit.html">Toolkit</a><a class="navl" href="ideas.html">Theme ideas</a></nav>
+    <nav class="sdlinks" aria-label="Screen Design"><a class="navl" href="weeks.html">Week by week</a><a class="navl" href="assessment.html">Checklist</a><a class="navl" href="examples.html">Examples</a><a class="navl" href="toolkit.html">Toolkit</a><a class="navl on" href="assessment-materials.html" aria-current="page">Marking</a></nav>
     <span class="ctl"><button id="theme" aria-label="Dark mode">◐</button></span>
   </div>
 </header>
 <script>(function(){var n=document.querySelector(".sdlinks"),o=n&&n.querySelector(".on");if(o&&n.scrollWidth>n.clientWidth)n.scrollLeft=o.offsetLeft-n.offsetLeft-16;})();</script>
 
 <div class="wrap">
-  <h1>Marking and examples</h1>
-  <p class="sub">How the portfolio is marked, and examples of work that earns marks.</p>
+  <h1>Marking</h1>
+  <p class="sub">How the portfolio is marked. To see what earns marks, look at the <a href="examples.html">Examples</a>.</p>
 
   <div class="tiles" id="tiles"></div>
 
@@ -260,46 +234,6 @@
     a portfolio between the two is a 65 or a 68.</p>
   <table class="steps" id="steptable"></table>
 
-  <h2 id="before-after">Before and after</h2>
-  <ol class="how">
-    <li><b>Now</b> — every screen, with what goes wrong numbered on it.</li>
-    <li><b>Measured</b> — words, taps, fields, contrast: the counts behind each problem.</li>
-    <li><b>Improved</b> — the same job, redesigned, with each decision explained.</li>
-    <li><b>The decisions</b> — the redesign’s own A3, A4 and A5.</li>
-    <li><b>Counted</b> — before against after, and what happened to every step.</li>
-    <li><b>Why it is better</b> — what a marker credits, and which deck section it belongs in.</li>
-  </ol>
-  <div class="qbox" id="questions"><b>Six questions for every case</b>
-    <p>Keep these in front of you while you study a case. Write numbers, not adjectives. Most answers are on the case’s slide 16, <i>The redesign’s A3, A4 and A5</i>.</p>
-    <ol>
-      <li><b>Who</b> is it for, and where are they when they use it? <span>(the Start slide)</span></li>
-      <li><b>Type:</b> how many sizes does the redesign use, and what is each one for? Why is the smallest not smaller?</li>
-      <li><b>Colour:</b> what is the lowest ratio any <i>text</i> has in its A5? Which colour is kept away from text, and what is its ratio? <span>(The Railcard and Welsh course cases also count the text that failed 4.5:1 before.)</span></li>
-      <li><b>Grid:</b> how many columns on a phone, and how wide is the main content on a laptop? What reason is given?</li>
-      <li><b>Kept:</b> what did the redesign keep from the original service, and why keep it?</li>
-      <li><b>Yours:</b> which row would you take for your own A3, A4 or A5 — and what would you change for your audience?</li>
-    </ol>
-  </div>
-  <div class="cases">
-    <a class="case" href="case-missed-bin.html"><span class="k">Case 1 · a council service</span><b>Reporting a missed bin</b>
-      <span>Liverpool City Council. Good type and colour, a journey that hides its one rule: 199 words before you can start, 10 things to fill in, no check that you are still in time.</span>
-      <span class="go">Open the case →</span></a>
-    <a class="case" href="case-bakery.html"><span class="k">Case 2 · a small business, made up</span><b>Ordering a celebration cake</b>
-      <span>The painful one, on purpose: a splash page with music, a sideways scanned menu, a full voicemail, 23 messages, a misheard name, money to a personal account — and a closure announced in a story. The own-business route, fixed with the owner still confirming by hand.</span>
-      <span class="go">Open the case →</span></a>
-    <a class="case" href="case-railcard.html"><span class="k">Case 3 · a national retailer</span><b>Buying a 16–25 Railcard</b>
-      <span>A confident site whose orange fails behind white text, whose questions come in the wrong order, and whose ID and photo requirements arrive after you have started.</span>
-      <span class="go">Open the case →</span></a>
-    <a class="case" href="case-short-course.html"><span class="k">Case 4 · a bilingual public service</span><b>Finding a first Welsh course</b>
-      <span>Complete facts in the provider’s words: 23 lines per result, the most advanced course first, and an account before anything else. A cross-cultural case.</span>
-      <span class="go">Open the case →</span></a>
-  </div>
-
-  <h2>Two example portfolios</h2>
-  <p class="lede">Both were written by the module team as teaching examples. Neither is a real student's
-    work. Read them the way a marker would.</p>
-  <div class="ex" id="examples"></div>
-
   <h2 id="faq">Questions people ask</h2>
   <p class="lede">Each question goes to the one place that answers it. If yours is not here, ask in the workshop:
     it is probably someone else's question too.</p>
@@ -308,9 +242,10 @@
   <footer><p>Screen Design · Level 4 · 30 credits · 2026–27</p></footer>
 </div>
 
+<script>/* Before and after, and the two portfolios, moved to examples.html (24 Oct 2026). */
+(function(){ var h = location.hash.slice(1); if (/^(before-after|questions|examples|portfolios)$/.test(h)) location.replace('examples.html#' + (h === 'examples' ? 'portfolios' : h)); })();</script>
 <script src="sd-common.js"></script>
 <script src="rubric-data.js"></script>
-<script src="example-data.js"></script>
 <script>
 (function rubric(){
   const t = document.getElementById('rubt');
@@ -380,41 +315,6 @@
       <td class="cls">${b.cls}</td><td class="rg">${b.range}</td>
       <td>${b.marks.map(m => `<span class="m">${m}</span>`).join('')}</td></tr>`).join('');
 
-  /* Both examples have now been marked in class — Example 1 in week 1, Example 2
-     in week 2 — so both carry their marks, marked copy and feedback sheet here. */
-  const crit = EXAMPLE.criteria.map(c => `${c.n} \u00b7 ${c.mark}`).join('   ');
-  const form = MARKING_FORM.council;
-  document.getElementById('examples').innerHTML = `
-    <div class="excard">
-      <span class="exk">Example 1 \u00b7 marked in week 1</span>
-      <h3>Thin: present, and almost nothing evidenced</h3>
-      <div class="exmark"><span class="n">${EXAMPLE.mark.overall}</span>
-        <span><b>${esc(EXAMPLE.mark.band)}</b><br><span class="crit">criteria ${crit}</span></span></div>
-      <p>Everything the brief asks for is there, and almost none of it is shown. The marked copy has every
-        margin comment.</p>
-      <div class="exacts"><a class="btn" href="example.html">Read it</a>
-        <a class="btn pri" href="example-marked.html">See how we marked it</a>
-        <a class="btn" href="example-feedback.html">Its feedback sheet</a></div>
-    </div>
-    <div class="excard">
-      <span class="exk">Example 2 \u00b7 the week 2 exercise</span>
-      <h3>Complete: council tax for a student house</h3>
-      <p>One journey made shorter, seven steps to four, with the before in the appendices. You marked it
-        in week 2; this is how we did, criterion by criterion.</p>
-      <div class="exmark" id="ex2mark"></div>
-      <div class="exacts"><a class="btn" href="example-council.html">Read it</a>
-        <a class="btn pri" href="example-council-marked.html">See how we marked it</a>
-        <a class="btn" href="example-council-feedback.html">Its feedback sheet</a>
-        <a class="btn" href="rubric.html">Blank rubric</a></div>
-    </div>`;
-  /* Example 2's marks, read from its own data. Both data files declare EXAMPLE,
-     so the second is read in its own scope rather than loaded beside the first.
-     Opened to students after the week 2 marking exercise (16 Oct 2026). */
-  fetch('example-council-data.js').then(r => r.text()).then(t => {
-    const E2 = new Function(t + '; return EXAMPLE;')();
-    document.getElementById('ex2mark').innerHTML = `<span class="n">${E2.mark.overall}</span>
-      <span><b>${esc(E2.mark.band)}</b><br><span class="crit">criteria ${E2.criteria.map(c => `${c.n} \u00b7 ${c.mark}`).join('   ')}</span></span>`;
-  }).catch(() => {});
 })();
 
 const root = document.documentElement;
