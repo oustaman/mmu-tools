@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Paper components — Screen Design</title>
+<link rel="stylesheet" href="paper.css">
+</head>
+<body>
+<div class="toolbar noprint"><b>Paper components</b><span>A4 · print at 100% (actual size), not “fit to page”</span>
+  <button type="button" onclick="print()">Print</button><a href="screens.html">← Paper screens</a></div>
+<main id="pages"></main>
+<script src="paper-kit.js"></script>
+<script>
+/* Cut-outs, drawn by the same functions as the screens, so every piece fits every printed
+   screen. Full-width pieces are 343 px, the width of a phone screen inside its 16 px margins;
+   half-width pieces are 163 px, two to a row with a 16 px gap. */
+const P = window.PAPER, C = P.C, u = P.u;
+const cut = (w, html) => `<div class="cut" style="width:calc(${w} * var(--u) + 3.5mm)"><div style="width:${u(w)}">${html}</div></div>`;
+const many = (n, w, f) => Array.from({ length: n }, () => cut(w, f())).join('');
+const foot = `<div class="foot"><span>Screen Design · Paper components · cut along the dashed lines · print at 100% (actual size) on A4</span>
+  <span class="ruler"><i></i>this line is 5 cm</span></div>`;
+const page = (title, note, body) => `<section class="page"><p class="sec-h">${title}<small>${note}</small></p><div class="cuts">${body}</div>${foot}</section>`;
+const PAGES = [
+  ['Buttons, links and fields', 'the main action is the filled one: one per screen',
+    many(6, 343, () => C.button('')) + many(4, 343, () => C.button('', 'sec')) + many(8, 163, () => C.button('', 'pri', 163)) +
+    many(4, 163, () => C.button('', 'sec', 163)) + many(8, 163, () => C.link('')) + many(4, 343, () => C.field('')) + many(2, 343, () => C.select(''))],
+  ['Choices', 'one answer: round; several answers: square',
+    many(10, 343, () => C.radio(1)) + many(8, 343, () => C.check(1)) + many(4, 343, () => C.toggles(1)) + many(2, 343, () => C.chips(4)) + many(2, 343, () => C.search())],
+  ['Dates, steps and longer text', 'a calendar for choosing a day; progress for where someone is in a form',
+    many(2, 343, () => C.calendar()) + many(2, 343, () => C.slots()) + many(4, 343, () => C.progress('Step _ of _')) + many(4, 163, () => C.dots(3)) + many(2, 343, () => C.area(3))],
+  ['Bars, tabs and messages', 'bars run edge to edge, the full 375 px; messages say what happened, then what to do',
+    many(4, 375, () => C.status() + C.appbar('')) + many(4, 375, () => C.appbar('', true, '')) + many(4, 375, () => C.tabbar(4)) + many(4, 375, () => C.tabs(3)) +
+    many(2, 343, () => C.error()) + many(2, 343, () => C.info()) + many(2, 343, () => C.toast())],
+  ['Pictures and lists', 'a box with a cross means “a picture goes here”: you never need to draw it',
+    many(2, 343, () => C.card(110)) + many(8, 163, () => C.img(110, 163)) + many(8, 343, () => C.rows(1)) + many(8, 72, () => C.avatar(56)) + many(2, 343, () => C.success(''))],
+  ['Overlays, keyboard and chat', 'a dialog sits over the screen; the keyboard covers the bottom 220 px',
+    many(2, 300, () => C.dialog()) + many(2, 375, () => C.keyboard()) + many(2, 343, () => C.bubbles()) + many(4, 72, () => C.spinner()) + many(4, 88, () => C.icon(72))],
+];
+document.getElementById('pages').innerHTML = PAGES.map(([t, n, b]) => page(t, n, b)).join('');
+</script>
+</body>
+</html>
