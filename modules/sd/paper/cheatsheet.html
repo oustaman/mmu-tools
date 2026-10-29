@@ -6,14 +6,14 @@
 <title>Twenty screens, cheatsheet — Screen Design</title>
 <link rel="stylesheet" href="paper.css">
 <style>
-  .cs{display:grid;grid-template-columns:repeat(5,1fr);gap:7mm 5mm}
+  .cs{display:grid;grid-template-columns:repeat(5,1fr);gap:5mm 5mm}
   .cs-i{display:flex;flex-direction:column;gap:1.6mm}
-  .cs-i .mini{--u:0.064mm}
+  .cs-i .mini{--u:0.06mm}
   .cs-i .mini .canvas{border-width:0.35mm;border-radius:2.5mm}
   .cs-k{font-size:6.5pt;letter-spacing:.1em;text-transform:uppercase;color:#7A7372}
   .cs-n{font-size:10pt;font-weight:700;margin:0;line-height:1.15}
   .cs-d{font-size:7.5pt;color:#514B4A;margin:0;line-height:1.35}
-  .cs-r{font-size:6.8pt;color:#7A7372;margin:0;line-height:1.4}
+  .cs-r{font-size:6.8pt;color:#7A7372;margin:0;line-height:1.4} .cs-r b{color:#514B4A;font-weight:700;white-space:nowrap}
   .ix{columns:3;column-gap:8mm;font-size:8pt;line-height:1.45}
   .ix p{margin:0 0 1.6mm;break-inside:avoid} .ix b{color:#1A1618} .ix span{color:#7A7372}
   h1.ch{font-size:16pt;margin:0 0 1mm} p.chs{font-size:8.5pt;color:#514B4A;margin:0 0 5mm;max-width:250mm}
@@ -32,7 +32,7 @@ const { ARCHETYPES: A, BY, O, USED, screen } = window.ORG;
 const foot = `<div class="foot"><span>Screen Design · Twenty screens · a usual recipe, not a rule: swap, add or drop organisms to fit your journey</span><span></span></div>`;
 const card = a => `<div class="cs-i"><span class="cs-k">${a.id}</span><p class="cs-n">${a.name}</p><p class="cs-d">${a.does}</p>
   <div class="mini">${screen(a.recipe, { label: false, slots: false })}</div>
-  <p class="cs-r">${a.recipe.map(id => BY[id].name).join(' · ')} — ${a.rows} of 14 rows</p></div>`;
+  <p class="cs-r">${a.recipe.map(id => `<b>${BY[id].code}</b> ${BY[id].name}`).join(' · ')} — ${a.rows} of 14 rows, ${a.rows * 56} px</p></div>`;
 let html = '';
 for (let i = 0; i < A.length; i += 10)
   html += `<section class="page land">${i === 0 ? `<h1 class="ch">Twenty screens, and what they are made of</h1>
@@ -42,7 +42,7 @@ for (let i = 0; i < A.length; i += 10)
 html += `<section class="page land"><h1 class="ch">Where each organism turns up</h1>
   <p class="chs">The same organism does different jobs on different screens: a list is the whole of a Search, and one part of a Home Tab.</p>
   <div class="ix">${['Top', 'Headings', 'Search', 'Answers', 'Content', 'Feedback', 'Actions'].map(f =>
-    O.filter(o => o.fam === f).map(o => `<p><b>${o.name}</b> <span>(${o.rows} row${o.rows > 1 ? 's' : ''})</span><br>${USED[o.id].length
+    O.filter(o => o.fam === f).map(o => `<p><b>${o.code} ${o.name}</b> <span>${o.size}</span><br>${USED[o.id].length
       ? USED[o.id].map(id => A.find(a => a.id === id).name.replace(/^The /, '')).join(', ') : '<span>Not in a recipe yet: use it where it fits</span>'}</p>`).join('')).join('')}</div>${foot}</section>`;
 document.getElementById('pages').innerHTML = html;
 </script>
