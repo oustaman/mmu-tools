@@ -68,6 +68,7 @@
   .sm-piece:hover .sm-tools,.sm-piece.sel .sm-tools,.sm-piece:focus-within .sm-tools{display:flex}
   .sm-tools button{font:600 13px/1 var(--sans);min-width:28px;height:28px;border-radius:6px;border:1px solid #8E8685;background:#fff;color:#1A1618;cursor:pointer}
   .sm-tools button:hover{border-color:#8C2437;color:#8C2437}
+  .ovl > .sm-tools{display:flex;left:4px;right:auto}
   .sm-drop{position:absolute;left:0;right:0;height:3px;background:#8C2437;z-index:5;pointer-events:none;display:none}
   .sm-empty{position:absolute;inset:0;display:grid;place-items:center;text-align:center;padding:0 40px;color:#9A9393;font-size:13px;pointer-events:none}
   .sm-meter{display:flex;gap:2px;width:calc(375 * var(--u))} .sm-meter i{flex:1;height:8px;border-radius:2px;background:var(--surface-2);border:1px solid var(--line)}
@@ -142,6 +143,7 @@
 <div class="wrap">
   <h1>Screen maker</h1>
   <p class="lede">The paper organisms, on screen. Click an organism to add it under the one you selected, or drag it into place. It snaps into whole rows, top bars stay at the top and a tab bar at the bottom, and a screen is full at 14.
+    Nothing fits? Use a blank piece of the height you need and name it. An overlay, such as a dialog or the keyboard, lies over the screen instead of taking rows.
     Every organism has the code printed on its paper piece, so a screen made on paper can be rebuilt here code by code, or the other way round.
     Make one screen for each step of your <a href="flow.html">flow</a>, then print them or save them as a PDF for <b>B5</b>.</p>
 
@@ -178,6 +180,7 @@
       <label for="f-kind">Kind of screen</label><select id="f-kind"></select>
       <div class="sm-recipe" id="recipe"></div>
       <label for="f-job">Job of this screen</label><input id="f-job" placeholder="The one thing it does for the person">
+      <div id="own" hidden><label for="f-own">Name this blank piece</label><input id="f-own" placeholder="e.g. Camera view, QR scanner, Chart"></div>
       <label for="f-goes">Goes to</label><input id="f-goes" list="names" placeholder="The next screen"><datalist id="names"></datalist>
 
       <p class="sm-h" style="margin-top:22px">From paper</p>
@@ -207,15 +210,18 @@
   /* The Screen maker. A screen is a list of organism ids, top to bottom; organisms.js draws
      them, exactly as on paper. The only rules are the paper ones: every organism is full
      width and whole rows, a screen holds 14 rows, and a tab bar stays at the bottom. */
-  const { O, BY, FAM, ROW, ROWS, W, organism, canvas, screen, ARCHETYPES: A } = window.ORG;
+  const { O, BY, FAM, ROW, ROWS, W, of, named, organism, overlay, canvas, screen, ARCHETYPES: A } = window.ORG;
   const $ = id => document.getElementById(id);
   const esc = s => String(s == null ? '' : s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
   const KEY = 'sd-screens1';
   const AK = Object.fromEntries(A.map(a => [a.id, a]));
   const BYCODE = Object.fromEntries(O.map(o => [o.code, o]));
-  const rowsOf = list => list.reduce((s, id) => s + BY[id].rows, 0);
+  const rowsOf = list => list.reduce((s, id) => s + of(id).rows, 0);
   const uid = () => 's' + Math.random().toString(36).slice(2, 9);
-  const blank = (name = '') => ({ id: uid(), name, kind: '', job: '', goes: '', orgs: [] });
+  const blank = (name = '') => ({ id: uid(), name, kind: '', job: '', goes: '', orgs: [], over: '' });
+  /* a piece's code as written down: a named blank carries its name, OWN-03 (Camera view) */
+  const codeOf = x => of(x).code + (named(x) ? ` (${named(x)})` : '');
+  const codesOf = s => s.orgs.map(codeOf).concat(s.over ? ['+ ' + BY[s.over].code] : []);
   const fromKind = k => ({ ...blank(AK[k].name.replace(/^The /, '')), kind: k, job: AK[k].does, orgs: AK[k].recipe.slice() });
 
   /* the example: the missed bin journey, one screen per step of the Flow maker's example */
@@ -230,7 +236,7 @@
 
   let S; try { S = JSON.parse(localStorage.getItem(KEY) || 'null'); } catch (e) {}
   if (!S || !Array.isArray(S.screens) || !S.screens.length) S = EXAMPLE();
-  S.screens.forEach(s => { s.orgs = (s.orgs || []).filter(id => BY[id]); });
+  S.screens.forEach(s => { s.orgs = (s.orgs || []).filter(id => of(id)); if (!BY[s.over]) s.over = ''; });
   let sel = -1, hist = [], drag = null;
   const cur = () => S.screens[S.cur] || S.screens[0];
   const save = () => { try { localStorage.setItem(KEY, JSON.stringify(S)); } catch (e) {} };
@@ -238,13 +244,14 @@
   function say(t) { $('msg').textContent = t; clearTimeout(say.t); if (t) say.t = setTimeout(() => { $('msg').textContent = ''; }, 5000); }
   /* top bars always sit at the top and a tab bar at the bottom, whatever order things were
      added or dragged in */
-  const settle = list => { const top = list.filter(id => BY[id].fam === 'Top'), end = list.filter(id => BY[id].bottom);
-    return top.concat(list.filter(id => BY[id].fam !== 'Top' && !BY[id].bottom), end); };
-  const fits = (list, id) => rowsOf(list) + BY[id].rows <= ROWS;
+  const settle = list => { const top = list.filter(id => of(id).fam === 'Top'), end = list.filter(id => of(id).bottom);
+    return top.concat(list.filter(id => of(id).fam !== 'Top' && !of(id).bottom), end); };
+  const fits = (list, id) => !!BY[id].over || rowsOf(list) + BY[id].rows <= ROWS;
   const nofit = id => `${BY[id].code} ${BY[id].name} needs ${BY[id].rows} row${BY[id].rows > 1 ? 's' : ''}; this screen has ${ROWS - rowsOf(cur().orgs)} free. Remove something, or start another screen.`;
 
   /* ── palette ── */
-  const FNAME = { Top: 'Top of the screen', Headings: 'Headings', Search: 'Search', Answers: 'Answers', Content: 'Content', Feedback: 'Feedback', Actions: 'Actions' };
+  const FNAME = { Top: 'Top of the screen', Headings: 'Headings', Search: 'Search', Answers: 'Answers', Content: 'Content', Feedback: 'Feedback', Actions: 'Actions',
+    Own: 'Your own: a blank of each height', Overlay: 'Overlays: over the screen, one at a time' };
   $('pal').innerHTML = Object.keys(FAM).map(f => `<p class="sm-fam" data-fam="${f}">${FNAME[f]} <span>${FAM[f]}</span></p>` +
     O.filter(o => o.fam === f).map(o => `<div class="sm-item" role="button" tabindex="0" draggable="true" data-id="${o.id}"
       data-q="${esc((o.code + ' ' + o.name + ' ' + o.does).toLowerCase())}" aria-label="Add ${esc(o.code + ' ' + o.name)}, ${o.rows} row${o.rows > 1 ? 's' : ''}">
@@ -256,15 +263,16 @@
 
   function add(id, at) {
     const s = cur();
+    if (BY[id].over) { snap(); s.over = id; render(); say(`${BY[id].code} ${BY[id].name} lies over this screen. One overlay at a time: a new one replaces it.`); return; }
     if (!fits(s.orgs, id)) { say(nofit(id)); return; }
     snap();
     if (at == null) {
       /* snap into place: a top bar goes to the top, a tab bar to the bottom, anything else
          under the selected organism, or else at the end of the screen */
       const o = BY[id];
-      if (o.fam === 'Top') at = s.orgs.filter(x => BY[x].fam === 'Top').length;
-      else if (sel >= 0 && sel < s.orgs.length && !BY[s.orgs[sel]].bottom) at = sel + 1;
-      else at = s.orgs.filter(x => !BY[x].bottom).length;
+      if (o.fam === 'Top') at = s.orgs.filter(x => of(x).fam === 'Top').length;
+      else if (sel >= 0 && sel < s.orgs.length && !of(s.orgs[sel]).bottom) at = sel + 1;
+      else at = s.orgs.filter(x => !of(x).bottom).length;
     }
     s.orgs.splice(at, 0, id); s.orgs = settle(s.orgs);
     sel = s.orgs.indexOf(id, Math.min(at, s.orgs.length - 1)); if (sel < 0) sel = s.orgs.lastIndexOf(id);
@@ -277,25 +285,27 @@
   /* ── the canvas ── */
   function renderCanvas() {
     const s = cur();
-    const inner = s.orgs.map((id, i) => `<div class="sm-piece${BY[id].bottom ? ' bottom' : ''}${i === sel ? ' sel' : ''}" data-i="${i}" draggable="true" tabindex="0"
-      aria-label="${esc(BY[id].code + ' ' + BY[id].name)}, row ${rowsOf(s.orgs.slice(0, i)) + 1}">${organism(id)}
+    const inner = s.orgs.map((id, i) => `<div class="sm-piece${of(id).bottom ? ' bottom' : ''}${i === sel ? ' sel' : ''}" data-i="${i}" draggable="true" tabindex="0"
+      aria-label="${esc(codeOf(id) + ' ' + of(id).name)}, row ${rowsOf(s.orgs.slice(0, i)) + 1}">${organism(id)}
       <span class="sm-tools"><button type="button" data-do="up" aria-label="Move up">↑</button><button type="button" data-do="down" aria-label="Move down">↓</button><button type="button" data-do="rm" aria-label="Remove">✕</button></span></div>`).join('');
-    $('canvas').innerHTML = canvas(inner + (s.orgs.length ? '' : '<p class="sm-empty">Click an organism to add it, or drag it here.</p>'));
+    $('canvas').innerHTML = canvas(inner + (s.orgs.length ? '' : '<p class="sm-empty">Click an organism to add it, or drag it here.</p>')
+      + overlay(s.over, s.orgs, '<span class="sm-tools"><button type="button" data-do="rm-over" aria-label="Remove the overlay">✕</button></span>'));
     $('canvas').querySelector('.slots').insertAdjacentHTML('beforeend', '<div class="sm-drop" id="drop"></div>');
     const used = rowsOf(s.orgs);
     $('meter').innerHTML = Array.from({ length: ROWS }, (_, i) => `<i class="${i < used ? 'on' : ''}"></i>`).join('');
     $('count').textContent = used >= ROWS ? `Full: ${ROWS} of ${ROWS} rows, ${ROWS * ROW} px` : `${used} of ${ROWS} rows used, ${used * ROW} of ${ROWS * ROW} px · ${ROWS - used} free`;
-    $('codes').textContent = s.orgs.map(id => BY[id].code).join(' · ');
+    $('codes').textContent = codesOf(s).join(' · ');
     document.querySelectorAll('.sm-item').forEach(el => el.classList.toggle('nofit', !fits(s.orgs, el.dataset.id)));
   }
   const move = (i, d) => { const o = cur().orgs, j = i + d; if (j < 0 || j >= o.length) return; snap(); [o[i], o[j]] = [o[j], o[i]]; cur().orgs = settle(o); sel = cur().orgs.indexOf(o[j]) === j ? j : i; render(); };
   $('canvas').addEventListener('click', e => {
-    const p = e.target.closest('.sm-piece'); if (!p) { sel = -1; renderCanvas(); return; }
+    if (e.target.closest('[data-do="rm-over"]')) { snap(); cur().over = ''; render(); return; }
+    const p = e.target.closest('.sm-piece'); if (!p) { sel = -1; renderCanvas(); renderFields(); return; }
     const i = +p.dataset.i, b = e.target.closest('button');
     if (b && b.dataset.do === 'rm') { snap(); cur().orgs.splice(i, 1); sel = -1; render(); }
     else if (b && b.dataset.do === 'up') move(i, -1);
     else if (b && b.dataset.do === 'down') move(i, 1);
-    else { sel = i; renderCanvas(); }
+    else { sel = i; renderCanvas(); renderFields(); }
   });
   $('canvas').addEventListener('keydown', e => { const p = e.target.closest('.sm-piece'); if (!p || e.target.closest('button')) return; const i = +p.dataset.i;
     if (e.key === 'Delete' || e.key === 'Backspace') { e.preventDefault(); snap(); cur().orgs.splice(i, 1); sel = -1; render(); }
@@ -326,6 +336,8 @@
     const s = cur();
     $('f-name').value = s.name; $('f-kind').value = s.kind; $('f-job').value = s.job; $('f-goes').value = s.goes;
     $('names').innerHTML = S.screens.filter(x => x !== s && x.name).map(x => `<option value="${esc(x.name)}">`).join('');
+    const own = sel >= 0 && s.orgs[sel] && of(s.orgs[sel]).own;
+    $('own').hidden = !own; if (own && document.activeElement !== $('f-own')) $('f-own').value = named(s.orgs[sel]);
     const a = AK[s.kind];
     $('recipe').innerHTML = a ? `${esc(a.does)}<br>Usually: ${a.recipe.map(id => `<b>${BY[id].code}</b> ${esc(BY[id].name)}`).join(' · ')}
       ${s.orgs.join() === a.recipe.join() ? '' : ` <button type="button" class="sm-b" data-act="recipe" style="min-height:28px;font-size:0.78rem;margin-top:4px">Use these${s.orgs.length ? ' (replaces this screen)' : ''}</button>`}` : '';
@@ -333,12 +345,15 @@
   [['f-name', 'name'], ['f-job', 'job'], ['f-goes', 'goes']].forEach(([el, k]) => {
     $(el).addEventListener('focus', () => snap());
     $(el).addEventListener('input', () => { cur()[k] = $(el).value; save(); renderStrip(); }); });
+  $('f-own').addEventListener('focus', () => snap());
+  $('f-own').addEventListener('input', () => { const s = cur(); if (sel < 0 || !of(s.orgs[sel]).own) return;
+    const n = $('f-own').value.replace(/[:()]/g, '').trim(); s.orgs[sel] = of(s.orgs[sel]).id + (n ? ':' + n : ''); renderCanvas(); renderStrip(); save(); });
   $('f-kind').onchange = () => { snap(); const s = cur(); s.kind = $('f-kind').value; if (s.kind && !s.orgs.length) { s.orgs = AK[s.kind].recipe.slice(); if (!s.job) s.job = AK[s.kind].does; } render(); };
 
   /* ── the strip of screens ── */
   function renderStrip() {
     $('strip').innerHTML = S.screens.map((s, i) => `<button type="button" class="sm-mini${i === S.cur ? ' on' : ''}" data-s="${i}" aria-label="Screen ${i + 1}: ${esc(s.name || 'no name yet')}"${i === S.cur ? ' aria-current="true"' : ''}>
-      ${screen(s.orgs, { label: false, slots: false })}<span>${i + 1} · ${esc(s.name || 'Screen')}</span></button>`).join('');
+      ${screen(s.orgs, { label: false, slots: false, over: s.over })}<span>${i + 1} · ${esc(s.name || 'Screen')}</span></button>`).join('');
   }
   $('strip').addEventListener('click', e => { const b = e.target.closest('.sm-mini'); if (!b) return; S.cur = +b.dataset.s; sel = -1; render(); });
 
@@ -346,8 +361,8 @@
   function printAll() {
     const foot = `<div class="foot"><span>Screen Design · Screen maker · ${S.screens.length} screen${S.screens.length > 1 ? 's' : ''}</span><span class="ruler"><i></i>this line is 5 cm</span></div>`;
     const sheet = (s, i) => `<div class="sheet"><span class="sh-k">Screen ${i + 1}${s.kind ? ' · ' + s.kind + ' ' + esc(AK[s.kind].name) : ''}</span>
-      <p class="sh-n">${esc(s.name || 'Screen ' + (i + 1))}</p><p class="sh-d">${esc(s.job)}</p>${screen(s.orgs, { slots: !s.orgs.length })}
-      <div class="notes"><span>Organisms: ${s.orgs.map(id => BY[id].code).join(' · ') || '—'}</span><span>Goes to: ${esc(s.goes) || '—'}</span></div></div>`;
+      <p class="sh-n">${esc(s.name || 'Screen ' + (i + 1))}</p><p class="sh-d">${esc(s.job)}</p>${screen(s.orgs, { slots: !s.orgs.length, over: s.over })}
+      <div class="notes"><span>Organisms: ${esc(codesOf(s).join(' · ')) || '—'}</span><span>Goes to: ${esc(s.goes) || '—'}</span></div></div>`;
     let html = '';
     for (let i = 0; i < S.screens.length; i += 2) html += `<section class="page"><div class="pair">${S.screens.slice(i, i + 2).map((s, k) => sheet(s, i + k)).join('')}</div>${foot}</section>`;
     $('print').innerHTML = html;
@@ -366,15 +381,18 @@
     if (a === 'undo') { if (!hist.length) return; S = JSON.parse(hist.pop()); sel = -1; render(); }
     if (a === 'recipe') { snap(); s.orgs = AK[s.kind].recipe.slice(); sel = -1; render(); }
     if (a === 'build') {
-      const codes = ($('f-codes').value.toUpperCase().match(/[A-Z]{3}\s*-?\s*\d{1,2}/g) || []).map(c => c.replace(/\s/g, '').replace(/^([A-Z]{3})-?(\d+)$/, (m, f, n) => `${f}-${n.padStart(2, '0')}`));
-      const bad = codes.filter(c => !BYCODE[c]);
-      if (!codes.length) { say('No codes found. They look like TOP-01, ANS-07, ACT-01.'); return; }
+      const found = [...$('f-codes').value.matchAll(/([a-z]{3})\s*-?\s*(\d{1,2})(?:\s*\(([^)]*)\))?/gi)]
+        .map(m => ({ c: `${m[1].toUpperCase()}-${m[2].padStart(2, '0')}`, n: (m[3] || '').replace(/:/g, '').trim() }));
+      const bad = found.filter(f => !BYCODE[f.c]).map(f => f.c);
+      if (!found.length) { say('No codes found. They look like TOP-01, ANS-07, ACT-01.'); return; }
       if (bad.length) { say(`Not an organism: ${bad.join(', ')}. Check the code on the paper piece.`); return; }
-      const list = codes.map(c => BYCODE[c].id);
+      const overs = found.filter(f => BYCODE[f.c].over), list = found.filter(f => !BYCODE[f.c].over)
+        .map(f => BYCODE[f.c].id + (BYCODE[f.c].own && f.n ? ':' + f.n : ''));
+      if (overs.length > 1) { say('One overlay at a time: put the others on copies of this screen.'); return; }
       if (rowsOf(list) > ROWS) { say(`Those add up to ${rowsOf(list)} rows; a screen holds ${ROWS}. Split them over two screens.`); return; }
-      snap(); s.orgs = settle(list); sel = -1; render(); say(`Built from ${codes.length} codes.`);
+      snap(); s.orgs = settle(list); s.over = overs.length ? BYCODE[overs[0].c].id : ''; sel = -1; render(); say(`Built from ${found.length} codes.`);
     }
-    if (a === 'copy') { const t = s.orgs.map(id => BY[id].code).join(' ');
+    if (a === 'copy') { const t = codesOf(s).join(' ');
       navigator.clipboard.writeText(t).then(() => say('Codes copied: ' + t), () => say(t)); }
     if (a === 'print') printAll();
     if (a === 'example') { snap(); S = EXAMPLE(); sel = -1; render(); say('Example loaded. Undo brings your own screens back.'); }

@@ -14,7 +14,7 @@
   .cs-n{font-size:10pt;font-weight:700;margin:0;line-height:1.15}
   .cs-d{font-size:7.5pt;color:#514B4A;margin:0;line-height:1.35}
   .cs-r{font-size:6.8pt;color:#7A7372;margin:0;line-height:1.4} .cs-r b{color:#514B4A;font-weight:700;white-space:nowrap}
-  .ix{columns:3;column-gap:8mm;font-size:8pt;line-height:1.45}
+  .ix{columns:4;column-gap:7mm;font-size:7.6pt;line-height:1.4}
   .ix p{margin:0 0 1.6mm;break-inside:avoid} .ix b{color:#1A1618} .ix span{color:#7A7372}
   h1.ch{font-size:16pt;margin:0 0 1mm} p.chs{font-size:8.5pt;color:#514B4A;margin:0 0 5mm;max-width:250mm}
 </style>
@@ -40,10 +40,10 @@ for (let i = 0; i < A.length; i += 10)
     It is a starting point: swap, add or drop organisms until the screen does its one job for your user.</p>` : ''}
     <div class="cs">${A.slice(i, i + 10).map(card).join('')}</div>${foot}</section>`;
 html += `<section class="page land"><h1 class="ch">Where each organism turns up</h1>
-  <p class="chs">The same organism does different jobs on different screens: a list is the whole of a Search, and one part of a Home Tab.</p>
-  <div class="ix">${['Top', 'Headings', 'Search', 'Answers', 'Content', 'Feedback', 'Actions'].map(f =>
+  <p class="chs">The same organism does different jobs on different screens: a list is the whole of a Search, and one part of a Home Tab. Nothing fits? Use a blank piece, OWN-01 to OWN-06, one for each height in rows, and name it.</p>
+  <div class="ix">${['Top', 'Headings', 'Search', 'Answers', 'Content', 'Feedback', 'Actions', 'Overlay'].map(f =>
     O.filter(o => o.fam === f).map(o => `<p><b>${o.code} ${o.name}</b> <span>${o.size}</span><br>${USED[o.id].length
-      ? USED[o.id].map(id => A.find(a => a.id === id).name.replace(/^The /, '')).join(', ') : '<span>Not in a recipe yet: use it where it fits</span>'}</p>`).join('')).join('')}</div>${foot}</section>`;
+      ? USED[o.id].map(id => A.find(a => a.id === id).name.replace(/^The /, '')).join(', ') : o.over ? '<span>Over any screen, where it would appear</span>' : '<span>Not in a recipe yet: use it where it fits</span>'}</p>`).join('')).join('')}</div>${foot}</section>`;
 document.getElementById('pages').innerHTML = html;
 </script>
 </body>

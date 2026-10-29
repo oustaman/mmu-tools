@@ -20,6 +20,8 @@
   const stack = (...parts) => `<div class="org-stack">${parts.join('')}</div>`;
   const line = (w = '70%', h = 14) => `<span class="wl" style="flex:none;width:${w};height:${u(h)}"></span>`;
   const head = (t, s = 22) => `<div class="org-h">${T(t, s, 'font-weight:700')}</div>`;
+  /* a blank piece: a dashed box to draw in; once named, the name is written in it */
+  const blank = (t, n) => `<div class="own">${t ? T(t, 16, 'font-weight:600;color:#7A7372') : T('Your own organism', 14)}${t ? '' : `<span class="own-l">${T('What is it?', 11)}<i></i></span>`}</div>`;
   const opt = (shape) => `<div class="opt" style="height:${u(48)}"><i class="${shape}" style="width:${u(22)};height:${u(22)}"></i>${line('60%', 12)}</div>`;
 
   const O = [
@@ -34,6 +36,8 @@
     { id: 'page-title', fam: 'Headings', name: 'Page title', does: 'Says what this screen is, in a few words.', rows: 1, draw: () => head('Page title', 26) },
     { id: 'title-intro', fam: 'Headings', name: 'Title and intro', does: 'Says what this screen is, and the one thing to know first.', rows: 2, draw: () => stack(head('Title', 24), line('95%'), line('70%')) },
     { id: 'question', fam: 'Headings', name: 'Question with hint', does: 'Asks one question, with a hint if it needs one.', rows: 2, draw: () => stack(head('The question?', 24), T('A hint, if it helps', 14)) },
+    { id: 'page-tabs', fam: 'Headings', name: 'Tabs in the page', does: 'Switches between two or three views of the same thing.', rows: 1, draw: () =>
+      `<div class="k tabs" style="height:${u(44)}">${['Upcoming', 'Past'].map((t, i) => `<span class="${i ? '' : 'on'}">${T(t, 14)}</span>`).join('')}</div>` },
     // ── search
     { id: 'search', fam: 'Search', name: 'Search box', does: 'Finds things from a few typed words.', rows: 1, draw: () => C.search() },
     { id: 'search-filters', fam: 'Search', name: 'Search with filters', does: 'Finds things, then narrows the results.', rows: 2, draw: () => stack(C.search(), C.chips(4)) },
@@ -54,6 +58,13 @@
     { id: 'consent', fam: 'Answers', name: 'Agree to terms', does: 'Asks people to agree before they go on.', rows: 2, draw: () => stack(
       `<div class="opt" style="height:${u(56)};align-items:flex-start;padding-top:${u(12)}"><i class="chk" style="width:${u(22)};height:${u(22)}"></i><span class="lt">${line('95%', 12)}${line('60%', 12)}</span></div>`,
       T('Read the terms', 14, 'text-decoration:underline')) },
+    { id: 'payment-card', fam: 'Answers', name: 'Payment card', does: 'Takes card details: number, expiry and security code.', rows: 4, draw: () => stack(
+      C.field('Card number'), `<div class="row2">${['Expiry', 'Security code'].map(t => `<div class="k field" style="width:${u(163)}">${T(t, 16, 'font-weight:600')}<div class="box" style="height:${u(48)}"></div></div>`).join('')}</div>`) },
+    { id: 'sign-in', fam: 'Answers', name: 'Sign-in options', does: 'Offers the ways in: with an email, or with an account people already have.', rows: 3, draw: () => stack(
+      box('full', 44, 'btn pri', T('Continue with email', 15, 'font-weight:600')), box('full', 44, 'btn sec', T('Continue with …', 15, 'font-weight:600')),
+      box('full', 44, 'btn sec', T('Continue with …', 15, 'font-weight:600'))) },
+    { id: 'rating', fam: 'Answers', name: 'Rating', does: 'Asks how something was, on a scale of one to five.', rows: 2, draw: () => stack(T('How was it?', 16, 'font-weight:600'),
+      `<div class="row2" style="justify-content:flex-start">${Array.from({ length: 5 }, () => `<i class="star" style="width:${u(36)};height:${u(36)}"></i>`).join('')}</div>`) },
     // ── content
     { id: 'list', fam: 'Content', name: 'List', does: 'Shows several things of one kind, each leading to more.', rows: 3, draw: () => C.rows(3).replace(/height:calc\(72 \* var\(--u\)\)/g, `height:${u(56)}`) },
     { id: 'card', fam: 'Content', name: 'Card', does: 'Shows one thing with its picture, title and detail.', rows: 4, draw: () => C.card(130) },
@@ -66,23 +77,47 @@
     { id: 'map', fam: 'Content', name: 'Map', does: 'Shows where things are.', rows: 6, edge: 1, draw: () => C.map(6 * ROW) },
     { id: 'player', fam: 'Content', name: 'Media player', does: 'Plays a video or a sound, with its controls.', rows: 6, draw: () => C.media(200) },
     { id: 'chat', fam: 'Content', name: 'Conversation', does: 'Shows a conversation, newest at the bottom.', rows: 6, draw: () => C.bubbles() },
+    { id: 'basket-line', fam: 'Content', name: 'Basket line', does: 'One thing being bought: what it is, how many, and the price.', rows: 2, draw: () =>
+      `<div class="lr" style="height:${u(88)};border:0">${box(64, 64, 'img')}<span class="lt"><span class="wl b"></span>
+        <span class="qty" style="height:${u(32)}"><i>−</i><b>1</b><i>+</i></span></span>${T('£0.00', 16, 'font-weight:700')}</div>` },
+    { id: 'task-list', fam: 'Content', name: 'Task list', does: 'Shows the parts of a long application, and which are done.', rows: 4, draw: () =>
+      `<div class="k rows">${['Done', 'Done', 'Not started', 'Cannot start yet'].map(t => `<div class="sr" style="height:${u(48)}"><span class="wl" style="flex:none;width:45%;height:${u(12)}"></span>
+        <span class="tag">${T(t, 12)}</span></div>`).join('')}</div>` },
+    { id: 'accordion', fam: 'Content', name: 'Expandable sections', does: 'Keeps longer detail folded away until someone asks for it.', rows: 3, draw: () =>
+      `<div class="k rows">${[0, 1, 2].map(() => `<div class="sr" style="height:${u(50)}"><span class="wl" style="flex:none;width:60%;height:${u(13)}"></span>${T('+', 22)}</div>`).join('')}</div>` },
     // ── feedback
     { id: 'error', fam: 'Feedback', name: 'Error summary', does: 'Says what went wrong, and how to fix it.', rows: 2, draw: () => C.error() },
     { id: 'success', fam: 'Feedback', name: 'Success panel', does: 'Says it worked, with a reference to keep.', rows: 3, draw: () => C.success('Done') },
     { id: 'notice', fam: 'Feedback', name: 'Notice', does: 'Gives one piece of information to know before going on.', rows: 2, draw: () => C.info() },
     { id: 'empty', fam: 'Feedback', name: 'Empty state', does: 'Says there is nothing here yet, and how to add something.', rows: 4, draw: () => stack(C.icon(56), head('Nothing here yet', 20), line('80%'), C.button('Add one', 'sec')) },
     { id: 'loading', fam: 'Feedback', name: 'Loading', does: 'Says something is on its way.', rows: 2, draw: () => stack(C.spinner(), `<div style="text-align:center">${T('Loading…', 14)}</div>`) },
+    { id: 'status-tracker', fam: 'Feedback', name: 'Status tracker', does: 'Shows how far something has got: sent, being done, ready.', rows: 3, draw: () =>
+      `<div class="track">${['done', 'now', ''].map(c => `<div class="tk ${c}" style="height:${u(48)}"><i style="width:${u(18)};height:${u(18)}"></i><span class="wl" style="flex:none;width:55%;height:${u(12)}"></span></div>`).join('')}</div>` },
     // ── actions and the bottom of the screen
     { id: 'button', fam: 'Actions', name: 'Main button', does: 'The one main action on the screen.', rows: 1, draw: () => C.button('Continue') },
     { id: 'button-link', fam: 'Actions', name: 'Button and link', does: 'The main action, and a way out.', rows: 2, draw: () => stack(C.button('Continue'), `<div style="text-align:center">${T('Cancel', 15, 'text-decoration:underline')}</div>`) },
     { id: 'two-buttons', fam: 'Actions', name: 'Two buttons', does: 'Back and next, side by side.', rows: 1, draw: () => C.btnrow('Back', 'Next') },
     { id: 'composer', fam: 'Actions', name: 'Message box', does: 'Writes and sends a message.', rows: 1, edge: 1, draw: () => C.inputbar() },
     { id: 'tabbar', fam: 'Actions', name: 'Tab bar', does: 'Moves between the main parts of an app. Always at the bottom.', rows: 1, edge: 1, bottom: 1, draw: () => C.tabbar(4).replace(`height:calc(64 * var(--u))`, `height:${u(56)}`) },
+    // ── your own: a blank piece of each height, for anything the set does not have
+    { id: 'own-1', fam: 'Own', name: 'Blank, 1 row', does: 'Anything the set does not have: draw it, and name it.', rows: 1, own: 1, draw: (t) => blank(t, 1) },
+    { id: 'own-2', fam: 'Own', name: 'Blank, 2 rows', does: 'Anything the set does not have: draw it, and name it.', rows: 2, own: 1, draw: (t) => blank(t, 2) },
+    { id: 'own-3', fam: 'Own', name: 'Blank, 3 rows', does: 'Anything the set does not have: draw it, and name it.', rows: 3, own: 1, draw: (t) => blank(t, 3) },
+    { id: 'own-4', fam: 'Own', name: 'Blank, 4 rows', does: 'Anything the set does not have: draw it, and name it.', rows: 4, own: 1, draw: (t) => blank(t, 4) },
+    { id: 'own-5', fam: 'Own', name: 'Blank, 5 rows', does: 'Anything the set does not have: draw it, and name it.', rows: 5, own: 1, draw: (t) => blank(t, 5) },
+    { id: 'own-6', fam: 'Own', name: 'Blank, 6 rows', does: 'Anything the set does not have: draw it, and name it.', rows: 6, own: 1, draw: (t) => blank(t, 6) },
+    // ── overlays: they cover the screen rather than taking rows, one at a time
+    { id: 'dialog', fam: 'Overlay', name: 'Dialog', does: 'Stops everything to ask one question, such as “Delete this?”', rows: 4, over: 'middle', scrim: 1, draw: () =>
+      `<div style="display:flex;justify-content:center">${C.dialog()}</div>` },
+    { id: 'sheet', fam: 'Overlay', name: 'Bottom sheet', does: 'Slides up from the bottom with a few choices, keeping the screen behind it.', rows: 5, over: 'bottom', scrim: 1, edge: 1, draw: () =>
+      `<div class="k bsheet" style="height:${u(5 * ROW)}"><i class="grab" style="width:${u(40)};height:${u(5)}"></i>${T('Choose one', 17, 'font-weight:700')}${C.rows(2, false)}${C.button('')}</div>` },
+    { id: 'keyboard', fam: 'Overlay', name: 'Keyboard', does: 'Covers the bottom of the screen while someone types.', rows: 4, over: 'bottom', edge: 1, draw: () => C.keyboard().replace(`height:${u(220)}`, `height:${u(4 * ROW)}`) },
+    { id: 'toast', fam: 'Overlay', name: 'Toast', does: 'A short message that comes and goes, such as “Saved”, with one action.', rows: 1, over: 'bottom', lift: 1, draw: () => C.toast() },
   ];
   /* The system: a code from the family (three letters, so it never looks like a deck section
      such as A3 or C4), numbered in order; and the size in px, always 375 wide. The codes and
      sizes are what the snap tool shows, so a paper mock-up can be rebuilt there piece by piece. */
-  const FAM = { Top: 'TOP', Headings: 'HED', Search: 'SRC', Answers: 'ANS', Content: 'CON', Feedback: 'FBK', Actions: 'ACT' };
+  const FAM = { Top: 'TOP', Headings: 'HED', Search: 'SRC', Answers: 'ANS', Content: 'CON', Feedback: 'FBK', Actions: 'ACT', Own: 'OWN', Overlay: 'OVL' };
   const count = {};
   O.forEach(o => {
     count[o.fam] = (count[o.fam] || 0) + 1;
@@ -91,12 +126,22 @@
     o.size = `${W} × ${o.h} px`;
   });
   const BY = Object.fromEntries(O.map(o => [o.id, o]));
+  /* a piece on a screen is an organism id, or a blank with its name: 'own-3:Camera view' */
+  const base = x => String(x).split(':')[0];
+  const named = x => String(x).split(':').slice(1).join(':');
+  const of = x => BY[base(x)];
 
   /* one organism, drawn at its real size; label: the small name and size in the corner */
   function organism(id, opts = {}) {
-    const o = BY[id];
+    const o = of(id), t = named(id);
     const tag = opts.label === false ? '' : `<span class="org-tag"><b>${o.code}</b> ${o.name} · ${o.size}</span>`;
-    return `<div class="org${o.edge ? ' edge' : ''}" data-org="${id}" style="width:${u(W)};height:${u(o.rows * ROW)}">${body(o.draw(), o.rows)}${tag}</div>`;
+    return `<div class="org${o.edge ? ' edge' : ''}${o.over ? ' ov' : ''}" data-org="${o.id}" style="width:${u(W)};height:${u(o.rows * ROW)}">${body(o.draw(t), o.rows)}${tag}</div>`;
+  }
+  /* an overlay lies over the rows: in the middle, or at the bottom (a toast just above a tab bar) */
+  function overlay(id, recipe = [], extra = '', opts = {}) {
+    const o = BY[id]; if (!o || !o.over) return '';
+    const lift = o.lift ? recipe.filter(x => of(x) && of(x).bottom).reduce((s, x) => s + of(x).rows * ROW, 0) : 0;
+    return `<div class="ovl-layer">${o.scrim ? '<i class="scrim"></i>' : ''}<div class="ovl ${o.over}" style="${o.over === 'bottom' ? `bottom:${u(lift)}` : ''}">${organism(id, opts)}${extra}</div></div>`;
   }
 
   /* the screen canvas: a phone, its status bar, and 14 numbered row slots */
@@ -121,7 +166,7 @@
     { id: 'M09', name: 'The Map', does: 'Shows where things are, and how to get there.', recipe: ['appbar-search', 'map', 'list'] },
     { id: 'M10', name: 'The Compose / Create', does: 'Makes something new: a message, a post, a report.', recipe: ['appbar', 'text-field', 'text-field', 'image', 'button'] },
     { id: 'M11', name: 'The Form', does: 'Asks questions, best one at a time.', recipe: ['progress-header', 'radio-question', 'button'] },
-    { id: 'M12', name: 'The Checkout', does: 'Takes payment, showing exactly what for, before anything is committed.', recipe: ['appbar', 'page-title', 'price', 'text-field', 'text-field', 'button'] },
+    { id: 'M12', name: 'The Checkout', does: 'Takes payment, showing exactly what for, before anything is committed.', recipe: ['appbar', 'page-title', 'price', 'payment-card', 'button'] },
     { id: 'M13', name: 'The Chat', does: 'Holds a conversation, newest message at the bottom.', recipe: ['appbar', 'chat', 'composer'] },
     { id: 'M14', name: 'The Search / Discover', does: 'Finds things from a few words.', recipe: ['search-filters', 'results-sort', 'list', 'list', 'tabbar'] },
     { id: 'M15', name: 'The Profile', does: 'Represents one person, place or thing, and what belongs to it.', recipe: ['appbar', 'image', 'detail', 'two-buttons', 'list'] },
@@ -138,7 +183,8 @@
   const USED = Object.fromEntries(O.map(o => [o.id, ARCHETYPES.filter(a => a.recipe.includes(o.id)).map(a => a.id)]));
 
   function screen(recipe, opts = {}) {
-    return canvas(recipe.map(id => organism(id, { label: opts.label }).replace('class="org', `class="org${BY[id].bottom ? ' bottom' : ''}`)).join(''), { slots: opts.slots });
+    return canvas(recipe.map(id => organism(id, { label: opts.label }).replace('class="org', `class="org${of(id).bottom ? ' bottom' : ''}`)).join('')
+      + (opts.over ? overlay(opts.over, recipe, '', { label: opts.label }) : ''), { slots: opts.slots });
   }
-  window.ORG = { ROW, ROWS, W, FAM, O, BY, organism, canvas, screen, ARCHETYPES, USED };
+  window.ORG = { ROW, ROWS, W, FAM, O, BY, base, named, of, organism, overlay, canvas, screen, ARCHETYPES, USED };
 })();

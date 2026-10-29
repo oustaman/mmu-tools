@@ -147,3 +147,21 @@ body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Ari
 .ref td{border-bottom:0.2mm solid #E2DFDC;padding:0.55mm 1.5mm;vertical-align:top}
 .ref td.c{font-weight:700;white-space:nowrap} .ref td.s{white-space:nowrap;font-variant-numeric:tabular-nums}
 .ref tr.fam td{font-weight:700;color:#7A7372;font-size:6.8pt;letter-spacing:.08em;text-transform:uppercase;padding-top:1.8mm;border-bottom:0}
+/* the second set: stars, a quantity, task tags, a tracker, blanks and overlays */
+.star{display:block;position:relative;flex:none;--star:polygon(50% 0,61% 35%,98% 35%,68% 57%,79% 91%,50% 70%,21% 91%,32% 57%,2% 35%,39% 35%)}
+.star::before,.star::after{content:"";position:absolute;inset:0;clip-path:var(--star);background:var(--line)} .star::after{inset:0.5mm;background:#fff}
+.qty{display:inline-flex;align-items:center;border:0.3mm solid var(--line);border-radius:99px;width:max-content;overflow:hidden}
+.qty i,.qty b{font-style:normal;font-size:calc(15 * var(--u));padding:0 calc(12 * var(--u));color:#7A7372} .qty b{font-weight:600;border-left:0.25mm solid var(--pale);border-right:0.25mm solid var(--pale)}
+.sr .tag{margin-left:auto;border:0.3mm solid var(--line);border-radius:calc(4 * var(--u));padding:calc(2 * var(--u)) calc(8 * var(--u))}
+.track{display:flex;flex-direction:column}
+.tk{display:flex;align-items:center;gap:calc(14 * var(--u));position:relative}
+.tk i{display:block;border-radius:50%;border:0.35mm solid var(--line);background:#fff;flex:none;position:relative;z-index:1}
+.tk.done i{background:var(--grey)} .tk.now i{box-shadow:0 0 0 calc(4 * var(--u)) var(--pale)}
+.tk + .tk::before{content:"";position:absolute;left:calc(9 * var(--u) - 0.15mm);bottom:50%;height:100%;border-left:0.3mm solid var(--line)}
+.own{flex:1;margin:calc(6 * var(--u)) 0;border:0.3mm dashed var(--grey);border-radius:calc(6 * var(--u));display:flex;flex-direction:column;align-items:center;justify-content:center;gap:calc(6 * var(--u));min-height:0}
+.own-l{display:flex;align-items:flex-end;gap:calc(6 * var(--u));width:60%} .own-l i{flex:1;border-bottom:0.25mm solid var(--grey);height:calc(12 * var(--u))}
+.org.ov{background:transparent}
+.bsheet .grab{display:block;align-self:center;border-radius:99px;background:var(--pale)}
+.ovl-layer{position:absolute;inset:0;z-index:4;pointer-events:none}
+.ovl-layer .scrim{position:absolute;inset:0;background:rgba(26,22,24,.22)}
+.ovl{position:absolute;left:0;right:0;pointer-events:auto} .ovl.middle{top:50%;transform:translateY(-50%)}
