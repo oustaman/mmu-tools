@@ -231,7 +231,8 @@
         const t = el.textContent.trim(); if (!/[A-Za-z0-9£]/.test(t)) return;
         const k = `${t}#${seen[t] = (seen[t] ?? -1) + 1}`;
         el.dataset.k = k; if (typed[k] != null) el.textContent = typed[k];
-        if (opts.edit) { el.contentEditable = 'plaintext-only'; if (el.contentEditable !== 'plaintext-only') el.contentEditable = 'true'; el.spellcheck = false; }
+        if (opts.edit) { el.contentEditable = 'plaintext-only'; if (el.contentEditable !== 'plaintext-only') el.contentEditable = 'true'; el.spellcheck = false;
+          el.setAttribute('role', 'textbox'); el.setAttribute('aria-label', `${o.name}: “${t}”`); }
       });
     });
   }
