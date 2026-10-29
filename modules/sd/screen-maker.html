@@ -36,7 +36,7 @@
   footer{padding:24px 0 44px;color:var(--ink-3);font-size:0.8rem;border-top:1px solid var(--line);margin-top:30px}
 
   /* ── the Screen maker ── */
-  .sm-grid{display:grid;gap:18px;grid-template-columns:290px auto minmax(250px,1fr);align-items:start}
+  .sm-grid{display:grid;gap:18px;grid-template-columns:minmax(0,2fr) minmax(0,2fr) minmax(220px,1fr);align-items:start}
   .sm-col{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:12px}
   .sm-h{font-family:var(--mono);font-size:0.64rem;letter-spacing:0.08em;text-transform:uppercase;color:var(--ink-3);margin:0 0 8px}
   .sm-grid input:not([type=checkbox]),.sm-grid select,.sm-sel{font:inherit;font-size:0.9rem;width:100%;padding:8px 10px;border:1px solid var(--line-2);border-radius:8px;background:var(--surface);color:var(--ink)}
@@ -54,7 +54,9 @@
   .sm-p{font-size:0.84rem;color:var(--ink-2);margin:4px 0 0}
 
   /* the list of organisms: words first, the picture on hover */
-  .sm-pal{max-height:calc(100vh - 100px);overflow-y:auto;position:sticky;top:70px}
+  .sm-pal{position:sticky;top:70px}
+  .pal2{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:14px;align-items:start}
+  .pal-l{max-height:calc(100vh - 110px);overflow-y:auto;padding-right:4px}
   .sm-fam{border-top:1px solid var(--line)} .sm-fam:first-of-type{border-top:0}
   .sm-fam summary{cursor:pointer;list-style:none;display:flex;gap:8px;align-items:baseline;padding:10px 2px;font-weight:650;font-size:0.9rem}
   .sm-fam summary::-webkit-details-marker{display:none}
@@ -66,9 +68,14 @@
   .sm-item b{font-family:var(--mono);font-size:0.76rem;margin-right:5px}
   .sm-item small{display:block;color:var(--ink-2);font-size:0.76rem;margin-top:2px} .sm-item small.px{font-family:var(--mono);font-size:0.7rem;color:var(--ink-3)}
   .sm-item.nofit{border-style:dashed} .sm-item.nofit small.px::after{content:" · no room left"}
-  #peek{position:fixed;z-index:60;pointer-events:none;--u:0.62px;background:var(--surface);border:1px solid var(--line-2);border-radius:10px;padding:10px;box-shadow:0 8px 28px rgba(0,0,0,.22);display:none}
-  #peek .pk-in{background:#fff;border:1px solid #DFDBD7;line-height:normal}
-  #peek p{margin:6px 0 0;font-size:0.76rem;color:var(--ink-2);max-width:calc(375 * var(--u))}
+  /* the picture of the organism under the pointer, beside the list */
+  .peek{position:sticky;top:0;display:flex;flex-direction:column;gap:8px}
+  .peek .pk-in{background:#fff;border:1px solid #CFC9C5;line-height:normal;align-self:flex-start}
+  .peek .pk-in.ov{background:repeating-linear-gradient(45deg,#EFECE9 0 6px,#F7F5F3 6px 12px)}
+  .peek h3{margin:0;font-size:0.95rem} .peek h3 b{font-family:var(--mono);font-size:0.82rem;margin-right:5px}
+  .peek .px{font-family:var(--mono);font-size:0.72rem;color:var(--ink-3)}
+  .peek p{margin:0;font-size:0.82rem;color:var(--ink-2)}
+  .peek .hint{border:1px dashed var(--line-2);border-radius:10px;padding:16px;color:var(--ink-3);font-size:0.84rem}
 
   /* the canvas, about the size of a phone */
   .sm-stage{--u:min(clamp(0.62px, calc((100vh - 200px) / 812), 1px), calc((100vw - 60px) / 380));display:flex;flex-direction:column;align-items:center;gap:10px}
@@ -94,7 +101,7 @@
   .sm-meter{display:flex;gap:2px;width:calc(375 * var(--u))} .sm-meter i{flex:1;height:8px;border-radius:2px;background:var(--surface-2);border:1px solid var(--line)}
   .sm-meter i.on{background:var(--ink-2);border-color:var(--ink-2)} .sm-meter i.m{background:#1A526D;border-color:#1A526D}
   .sm-count{font-size:0.84rem;color:var(--ink-2);font-variant-numeric:tabular-nums;text-align:center}
-  .sm-codes{font-family:var(--mono);font-size:0.76rem;color:var(--ink-2);text-align:center;max-width:calc(375 * var(--u) + 40px)}
+  .sm-codes{font-family:var(--mono);font-size:0.72rem;color:var(--ink-3);text-align:center;max-width:calc(375 * var(--u) + 40px)}
   @media(max-width:1060px){ .sm-cwrap{margin-right:0} .sm-tools{left:auto;right:6px;flex-direction:row;background:var(--surface);padding:4px;border-radius:9px;box-shadow:0 2px 10px rgba(0,0,0,.2)} }
 
   /* screens strip */
@@ -105,6 +112,13 @@
   .sm-mini .canvas{border-width:1px;border-radius:5px}
   .sm-mini .org-tag,.sm-mini .slot-lines{display:none}
   .sm-mini > span{font-size:0.7rem;max-width:64px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .sm-more{margin-top:22px;border-top:1px solid var(--line);padding-top:10px}
+  .sm-more summary{cursor:pointer;font-size:0.78rem;color:var(--ink-3);list-style:none}
+  .sm-more summary::-webkit-details-marker{display:none}
+  .sm-more summary::before{content:"+ ";font-family:var(--mono)} .sm-more[open] summary::before{content:"\2013\0020"}
+  .sm-more[open] summary{margin-bottom:8px}
+  .sm-code{font:0.74rem/1.5 var(--mono);color:var(--ink-2);background:var(--bg);border:1px solid var(--line);border-radius:6px;padding:5px 8px;margin-top:4px;text-align:left;cursor:copy;width:100%}
+  .sm-code:hover{border-color:var(--line-2)}
   .sm-recipe{font-size:0.82rem;color:var(--ink-2);margin:6px 0 0}
   dialog.sm-dlg{border:1px solid var(--line-2);border-radius:12px;padding:18px 20px;background:var(--surface);color:var(--ink);max-width:420px}
   dialog.sm-dlg::backdrop{background:rgba(0,0,0,.35)}
@@ -112,7 +126,8 @@
   #print{display:none}
   @media(max-width:1060px){
     .sm-grid{grid-template-columns:1fr}
-    .sm-stage{order:0} .sm-side{order:1} .sm-pal{order:2;position:static;max-height:none}
+    .sm-stage{order:0} .sm-side{order:1} .sm-pal{order:2;position:static}
+    .pal-l{max-height:none}
   }
   @media print{
     html,body{background:#fff}
@@ -185,9 +200,12 @@
 
   <div class="sm-grid">
     <aside class="sm-col sm-pal" aria-label="Organisms">
-      <p class="sm-h">Organisms</p>
-      <input id="filter" type="search" placeholder="Find: a code, a name or a job" aria-label="Find an organism">
-      <div id="pal"></div>
+      <div class="pal2">
+        <div class="pal-l"><p class="sm-h">Organisms</p>
+          <input id="filter" type="search" placeholder="Find one" aria-label="Find an organism">
+          <div id="pal"></div></div>
+        <div class="peek" id="peek" aria-live="polite"><p class="hint">Point at an organism to see it here. Click it to add it to the screen, or drag it onto the row you want.</p></div>
+      </div>
     </aside>
 
     <section class="sm-stage" aria-label="The screen">
@@ -212,7 +230,6 @@
   <footer><p>Screen Design · Level 4 · 2026–27</p></footer>
 </div>
 
-<div id="peek" aria-hidden="true"></div>
 <dialog class="sm-dlg" id="confirm"><form method="dialog"><p id="confirm-q"></p>
   <div class="sm-row" style="justify-content:flex-end"><button class="sm-b" value="no">Keep it</button><button class="sm-b pri" value="yes" id="confirm-yes">Delete screen</button></div></form></dialog>
 <div id="print"></div>
@@ -344,21 +361,20 @@
     document.querySelectorAll('.sm-fam').forEach(d => { const any = [...d.querySelectorAll('.sm-item')].some(el => !el.hidden); d.hidden = !!q && !any; d.open = !!q && any; }); };
   $('pal').addEventListener('click', e => { const it = e.target.closest('.sm-item'); if (it) add(it.dataset.id); });
   $('pal').addEventListener('keydown', e => { const it = e.target.closest('.sm-item'); if (it && (e.key === 'Enter' || e.key === ' ')) { e.preventDefault(); add(it.dataset.id); } });
-  /* the picture, on hover or keyboard focus */
+  /* the picture, beside the list: whatever the pointer or keyboard is on, and it stays there */
+  const AN = Object.fromEntries(A.map(a => [a.id, a.name]));
+  let peeked = null;
   function peek(it) {
-    const o = BY[it.dataset.id], pk = $('peek');
-    pk.innerHTML = `<div class="pk-in full">${organism(o.id, { label: false })}</div><p><b>${o.code}</b> ${esc(o.name)} · ${o.size}</p>`;
-    words(pk); pk.style.display = 'block';
-    const r = it.getBoundingClientRect(), h = pk.offsetHeight;
-    pk.style.left = Math.min(r.right + 12, innerWidth - pk.offsetWidth - 8) + 'px';
-    pk.style.top = Math.max(8, Math.min(r.top - 10, innerHeight - h - 8)) + 'px';
+    const o = BY[it.dataset.id], pk = $('peek'); if (peeked === o.id) return; peeked = o.id;
+    pk.innerHTML = `<div class="pk-in full${o.over ? ' ov' : ''}">${organism(o.id, { label: false })}</div>
+      <h3><b>${o.code}</b>${esc(o.name)}</h3><span class="px">${o.size} · ${plural(o.rows, 'row')}</span><p>${esc(o.does)}</p>
+      ${window.ORG.USED[o.id].length ? `<p>Usually on: ${window.ORG.USED[o.id].map(id => esc(AN[id])).join(', ')}</p>` : ''}`;
+    pk.style.setProperty('--u', Math.min(1, (pk.clientWidth - 2) / 375) + 'px');
+    words(pk);
   }
-  const unpeek = () => { $('peek').style.display = 'none'; };
-  $('pal').addEventListener('mouseover', e => { const it = e.target.closest('.sm-item'); if (it) peek(it); else unpeek(); });
-  $('pal').addEventListener('mouseleave', unpeek);
+  const unpeek = () => {};
+  $('pal').addEventListener('mouseover', e => { const it = e.target.closest('.sm-item'); if (it) peek(it); });
   $('pal').addEventListener('focusin', e => { const it = e.target.closest('.sm-item'); if (it) peek(it); });
-  $('pal').addEventListener('focusout', unpeek);
-  $('pal').addEventListener('scroll', unpeek);
 
   /* ── drawing a screen ── */
   const rowPx = () => $('canvas').querySelector('.slots').getBoundingClientRect().height / ROWS;
@@ -496,14 +512,19 @@
   /* ── the side: this screen, or the master ── */
   const kindOpts = k => '<option value="">Not chosen yet</option>' + A.map(a => `<option value="${a.id}"${a.id === k ? ' selected' : ''}>${a.id} · ${esc(a.name)}</option>`).join('');
   $('newFrom').innerHTML = '<option value="">A blank screen</option>' + A.map(a => `<option value="${a.id}">${a.id} · ${esc(a.name)}</option>`).join('');
+  let moreOpen = false;
   function renderSide() {
     const s = cur(), p = s.pieces.find(q => q.u === sel) || fixed(s).find(q => q.u === sel);
     const info = p ? `<p class="sm-h" style="margin-top:20px">Selected</p><p class="sm-p"><b>${BY[p.o].code}</b> ${esc(BY[p.o].name)} · ${BY[p.o].size}<br>${esc(BY[p.o].does)}<br>
       Click its words on the screen to change them.${BY[p.o].own ? ' Write what the missing organism would do.' : ''}</p>` : '';
-    const codes = `<p class="sm-h" style="margin-top:20px">Build from codes</p>
-      <label for="f-codes">Type or paste codes off a paper screen, top to bottom</label>
-      <input id="f-codes" placeholder="e.g. TOP-04 HED-03 ANS-07 ACT-01" autocomplete="off" spellcheck="false">
-      <div class="sm-row" style="margin-top:6px"><button type="button" class="sm-b" data-act="build">Build this screen</button><button type="button" class="sm-b" data-act="copy">Copy its codes</button></div>`;
+    const codes = `<details class="sm-more" id="more"${moreOpen ? ' open' : ''}><summary>Save, move, or build from codes</summary>
+      <p class="sm-p"><b>Carry on somewhere else.</b> Copy a link to all your screens, send it to yourself, and open it on any computer or phone.</p>
+      <button type="button" class="sm-b xs" data-act="link">Copy the link</button>
+      <p class="sm-p" style="margin-top:12px"><b>This screen’s code</b> is its organisms, top to bottom, the same codes as on the paper pieces:</p>
+      <button type="button" class="sm-code" data-act="copy" title="Copy">${esc(codesOf(s).join(' ')) || '—'}</button>
+      <p class="sm-p" style="margin-top:12px"><b>Built one on paper?</b> Type its codes here.</p>
+      <div class="sm-row" style="margin-top:4px;flex-wrap:nowrap"><input id="f-codes" placeholder="TOP-04 HED-03 …" autocomplete="off" spellcheck="false" aria-label="Codes, top to bottom"><button type="button" class="sm-b xs" data-act="build">Build</button></div>
+    </details>`;
     if (isM()) {
       $('side').innerHTML = `<p class="sm-h">The master</p><p class="sm-p">What you put on the master appears on every screen that uses it, in the same rows: an app bar, a tab bar, a service header.
         Change their words on any screen and only that screen changes. A screen can switch the master off, for example a launch screen.</p>
@@ -528,6 +549,7 @@
     $('f-kind').onchange = () => { snap(); s.kind = $('f-kind').value; if (s.kind && !s.pieces.length) { s.pieces = stackUp(AK[s.kind].recipe.filter(id => !fixed(s).some(m => m.o === id)), topEnd(s)); if (!s.job) s.job = AK[s.kind].does; } render(); };
     $('f-master').onchange = () => { snap(); s.useMaster = $('f-master').checked; render(); };
   }
+  $('side').addEventListener('toggle', e => { if (e.target.id === 'more') moreOpen = e.target.open; }, true);
 
   /* ── the strip: the master, then every screen ── */
   function renderStrip() {
@@ -537,6 +559,30 @@
     $('strip').querySelectorAll('.sm-mini').forEach(b => { const i = +b.dataset.s; draw(b.querySelector('.mini-c'), i === -1 ? S.master : S.screens[i], { label: false, slots: false }); });
   }
   $('strip').addEventListener('click', e => { const b = e.target.closest('.sm-mini'); if (!b) return; S.cur = +b.dataset.s; sel = null; render(); });
+
+  /* ── a link to all the screens: squeezed into the address after #, which browsers never send
+     to a server, so the screens go only where the student sends the link ── */
+  const b64 = u8 => btoa(String.fromCharCode(...u8)).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
+  const unb64 = t => Uint8Array.from(atob(t.replace(/-/g, '+').replace(/_/g, '/')), c => c.charCodeAt(0));
+  async function pipe(bytes, stream) { return new Uint8Array(await new Response(new Blob([bytes]).stream().pipeThrough(stream)).arrayBuffer()); }
+  async function linkTo() {
+    const raw = new TextEncoder().encode(JSON.stringify({ v: 2, master: S.master, screens: S.screens }));
+    const code = window.CompressionStream ? 'z' + b64(await pipe(raw, new CompressionStream('deflate-raw'))) : 'j' + b64(raw);
+    return location.href.split('#')[0] + '#w=' + code;
+  }
+  async function fromLink() {
+    const m = location.hash.match(/^#w=([zj])([\w-]+)$/); if (!m) return;
+    history.replaceState(null, '', location.href.split('#')[0]);
+    try {
+      const bytes = unb64(m[2]), raw = m[1] === 'z' ? await pipe(bytes, new DecompressionStream('deflate-raw')) : bytes;
+      const got = JSON.parse(new TextDecoder().decode(raw));
+      if (!got || !Array.isArray(got.screens) || !got.screens.length) throw new Error('empty');
+      if (!await ask(`Open the ${plural(got.screens.length, 'screen')} from this link? They replace the screens in this browser; Undo brings yours back.`, 'Open them')) return;
+      snap(); S = { cur: 0, master: got.master || { pieces: [] }, screens: got.screens };
+      [S.master, ...S.screens].forEach(x => { x.pieces = (x.pieces || []).filter(q => BY[q.o] && !BY[q.o].over); });
+      sel = null; render(); say('Screens opened from the link.');
+    } catch (e) { say('That link did not open: it may have been cut short when it was copied.'); }
+  }
 
   /* ── copy as a picture: the screen alone, without row numbers, labels or selection ── */
   async function copyPic() {
@@ -604,7 +650,8 @@
       if (ps.some(p => end(p) > ROWS) || ps.some((p, i) => ps.some((q, j) => i !== j && overlaps(p, q))) || clashes(test).length) { say('Those do not fit on one screen: split them over two.'); return; }
       snap(); s.pieces = ps; if (!isM()) { s.over = overs.length ? BYCODE[overs[0].c].id : ''; s.overT = {}; } sel = null; render(); say(`Built from ${plural(found.length, 'code')}.`);
     }
-    if (a === 'copy') { const t = codesOf(s).join(' '); navigator.clipboard.writeText(t).then(() => say('Codes copied: ' + t), () => say(t)); }
+    if (a === 'copy') { const t = codesOf(s).join(' '); navigator.clipboard.writeText(t).then(() => say('Code copied.'), () => say(t)); }
+    if (a === 'link') { const url = await linkTo(); navigator.clipboard.writeText(url).then(() => say('Link copied. Open it on another computer or phone to carry on there.'), () => say(url)); }
     if (a === 'copypic') copyPic();
     if (a === 'print') printAll();
     if (a === 'example') { snap(); S = EXAMPLE(); sel = null; render(); say('Example loaded. Undo brings your own screens back.'); }
@@ -629,6 +676,8 @@
     save();
   }
   render();
+  fromLink(); addEventListener('hashchange', fromLink);
+  addEventListener('resize', () => { peeked = null; });
   if (document.fonts) document.fonts.ready.then(() => renderTools());
 })();
 
