@@ -1,0 +1,148 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Organisms — Screen Design</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500&display=swap" rel="stylesheet" crossorigin="anonymous">
+<link rel="stylesheet" href="paper/paper.css">
+<style>
+  :root{
+    --bg:#F5F4F2; --surface:#FFFFFF; --surface-2:#EDEBE8;
+    --ink:#1A1618; --ink-2:#514B4A; --ink-3:#4D4847;
+    --line:#DFDBD7; --line-2:#8E8685;
+    --lec:#8C2437; --lec-soft:#F6E8EA;
+    --mono:ui-monospace,"SF Mono",Menlo,Consolas,monospace;
+    --sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Inter,Roboto,sans-serif;
+  }
+  html[data-theme="dark"]{
+    --bg:#151314; --surface:#1E1B1C; --surface-2:#262223;
+    --ink:#EDE9E7; --ink-2:#B9B2AF; --ink-3:#B7B2B0;
+    --line:#332E2F; --line-2:#7A7372;
+    --lec:#E69FAD; --lec-soft:#332226;
+  }
+  html{background:var(--bg)}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);line-height:1.5}
+  .wrap{max-width:1320px;margin:0 auto;padding:0 22px}
+  @media(max-width:420px){.wrap{padding:0 14px}}
+  a{color:var(--lec)}
+  h1{font-size:clamp(1.6rem,4.4vw,2.3rem);line-height:1.1;letter-spacing:-0.028em;margin:24px 0 4px;font-weight:700}
+  h2{font-size:1.25rem;font-weight:690;letter-spacing:-0.015em;margin:38px 0 4px;scroll-margin-top:80px}
+  h2 span{font-family:var(--mono);font-size:0.8rem;font-weight:400;color:var(--ink-3);margin-left:6px}
+  .lede{color:var(--ink-2);margin:0 0 16px;max-width:80ch;font-size:0.95rem}
+  .fam-n{color:var(--ink-2);margin:0 0 14px;max-width:80ch;font-size:0.9rem}
+  footer{padding:24px 0 44px;color:var(--ink-3);font-size:0.8rem;border-top:1px solid var(--line);margin-top:30px}
+
+  /* the gallery: each organism at full size, and what it is */
+  .jump{display:flex;flex-wrap:wrap;gap:6px;margin:4px 0 8px}
+  .jump a{font-size:0.84rem;text-decoration:none;color:var(--ink);border:1px solid var(--line-2);border-radius:99px;padding:4px 11px;background:var(--surface)}
+  .jump a:hover{border-color:var(--lec);color:var(--lec)}
+  .og{display:grid;gap:16px;grid-template-columns:repeat(auto-fill,minmax(min(100%,600px),1fr));align-items:start}
+  .oc{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:14px;display:flex;flex-wrap:wrap;gap:12px 18px;align-items:flex-start;scroll-margin-top:80px}
+  .oc .tx{flex:1;min-width:190px;display:flex;flex-direction:column;gap:6px}
+  .oc .fr{--u:min(1px, calc((100vw - 76px) / 375));align-self:flex-start;background:#fff;border:1px solid #CFC9C5;line-height:normal;position:relative}
+  .oc .fr.ov{background:repeating-linear-gradient(45deg,#EFECE9 0 6px,#F7F5F3 6px 12px)}
+  .oc h3{margin:0;font-size:1.02rem} .oc h3 b{font-family:var(--mono);font-size:0.9rem;margin-right:6px}
+  .oc .px{font-family:var(--mono);font-size:0.76rem;color:var(--ink-3)}
+  .oc p{margin:0;font-size:0.9rem;color:var(--ink-2)}
+  .oc .on{font-size:0.82rem}
+
+  /* THE BAR — one definition, identical on every page (written by navfix; change it
+     everywhere or nowhere). It used to be copied per page and drifted into two heights. */
+  header.sdnav{position:sticky;top:0;z-index:40;background:var(--surface);border-bottom:1px solid var(--line)}
+  header.sdnav .bar{display:flex;align-items:center;gap:10px;min-height:56px;padding-block:8px;flex-wrap:nowrap}
+  header.sdnav .brand{font-weight:680;font-size:1rem;letter-spacing:-0.015em;white-space:nowrap;color:inherit;
+    text-decoration:none;padding:5px 8px;margin-left:-8px;border-radius:6px;order:0}
+  header.sdnav .brand:hover{background:var(--surface-2,var(--bg))}
+  header.sdnav .sp{flex:1;display:block;height:auto;flex-basis:auto;order:0}
+  header.sdnav .sdlinks{display:flex;align-items:center;gap:2px;order:0}
+  header.sdnav .navl{display:inline-block;font-size:0.85rem;line-height:1.3;color:var(--ink-2);text-decoration:none;
+    padding:6px 10px;border-radius:6px;white-space:nowrap;order:0}
+  header.sdnav .navl:hover{background:var(--surface-2,var(--bg));color:var(--ink)}
+  header.sdnav .navl.on{background:var(--lec);color:#fff}
+  html[data-theme="dark"] header.sdnav .navl.on{color:#151314}
+  header.sdnav a:focus-visible,header.sdnav button:focus-visible{outline:2px solid var(--lec);outline-offset:1px}
+  header.sdnav .ctl{order:0;margin-left:4px}
+  header.sdnav .ctl button{font-family:var(--mono);font-size:0.7rem;background:none;color:var(--ink-3);
+    border:1px solid var(--line-2);border-radius:6px;padding:0 9px;cursor:pointer;line-height:1;
+    height:34px;min-height:34px;min-width:34px;display:inline-flex;align-items:center;justify-content:center}
+  header.sdnav .ctl button:hover{border-color:var(--lec);color:var(--lec)}
+  @media(max-width:960px){
+    header.sdnav .bar{flex-wrap:wrap;row-gap:0;padding-block:6px 0;min-height:0}
+    header.sdnav .ctl{order:1;margin-left:auto}
+    header.sdnav .sp{display:none}
+    header.sdnav .sdlinks{order:2;flex-basis:100%;overflow-x:auto;scrollbar-width:none;padding:4px 28px 8px 0;min-height:44px;
+      -webkit-mask-image:linear-gradient(to right,#000 calc(100% - 28px),transparent);mask-image:linear-gradient(to right,#000 calc(100% - 28px),transparent)}
+    header.sdnav .sdlinks::-webkit-scrollbar{display:none}
+    header.sdnav .navl{font-size:0.82rem;padding:6px 9px}
+  }
+</style>
+</head>
+<body>
+
+<header class="sdnav">
+  <div class="wrap bar">
+    <a class="brand" href="index.html">Screen Design</a>
+    <span class="sp"></span>
+    <nav class="sdlinks" aria-label="Screen Design"><a class="navl" href="weeks.html">Week by week</a><a class="navl" href="assessment.html">Checklist</a><a class="navl" href="examples.html">Examples</a><a class="navl on" href="toolkit.html">Toolkit</a><a class="navl" href="assessment-materials.html">Marking</a></nav>
+    <span class="ctl"><button id="theme" aria-label="Dark mode">◐</button></span>
+  </div>
+</header>
+<script>(function(){var n=document.querySelector(".sdlinks"),o=n&&n.querySelector(".on");if(o&&n.scrollWidth>n.clientWidth)n.scrollLeft=o.offsetLeft-n.offsetLeft-16;})();</script>
+
+<div class="wrap">
+  <h1>Organisms</h1>
+  <p class="lede">Every organism in the set, at full size and with real words. An organism does one job on a screen: a question with its answers, a search with its filters.
+    Every one is 375 px wide, as wide as the screen, and a whole number of 56 px rows tall, so any of them fits under any other. The code is the one printed on its paper piece.
+    Put them together in the <a href="screen-maker.html">Screen maker</a>, or print them from the <a href="paper/paper-organisms.pdf">paper kit</a>.</p>
+  <nav class="jump" id="jump" aria-label="Families"></nav>
+  <div id="fams"></div>
+  <footer><p>Screen Design · Level 4 · 2026–27</p></footer>
+</div>
+
+<script src="paper/paper-kit.js"></script>
+<script src="paper/organisms.js"></script>
+<script>
+(function () {
+  /* Every organism, drawn by organisms.js at full size with words in place of the grey lines
+     (the paper keeps its lines, to write over). Nothing here is typed by hand: names, sizes,
+     jobs and where each one is used all come from organisms.js. */
+  const { O, FAM, ROW, organism, words, ARCHETYPES: A, USED } = window.ORG;
+  const esc = s => String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+  const FNAME = { Top: 'Top of the screen', Headings: 'Headings', Search: 'Search', Answers: 'Answers', Content: 'Content', Feedback: 'Feedback', Actions: 'Actions',
+    Own: 'Your own', Overlay: 'Overlays' };
+  const FNOTE = {
+    Top: 'Bars that sit at the very top of a screen and say where you are. They stay on the top rows.',
+    Headings: 'What the screen is, or the one question it asks.',
+    Search: 'Finding things, and narrowing what was found.',
+    Answers: 'Everything a person types, picks or agrees to.',
+    Content: 'What a person came to see: lists, cards, pictures, details, a summary.',
+    Feedback: 'What the service says back: it worked, it went wrong, there is nothing yet, wait.',
+    Actions: 'Buttons, and the tab bar, which stays on the last row.',
+    Own: 'For an organism the set does not have. On screen it is a note saying what would go there; on paper it is a box to draw in. One for each height, so OWN-03 is 3 rows.',
+    Overlay: 'These lie over a finished screen instead of taking rows, one at a time. Shown here on a striped background, which stands for the screen behind.' };
+  const AN = Object.fromEntries(A.map(a => [a.id, a.name]));
+  document.getElementById('jump').innerHTML = Object.keys(FAM).map(f => `<a href="#f-${f}">${FNAME[f]}</a>`).join('');
+  document.getElementById('fams').innerHTML = Object.keys(FAM).map(f => `<h2 id="f-${f}">${FNAME[f]}<span>${FAM[f]}</span></h2><p class="fam-n">${FNOTE[f]}</p>
+    <div class="og">${O.filter(o => o.fam === f).map(o => `<article class="oc" id="${o.code}">
+      <div class="fr full${o.over ? ' ov' : ''}">${organism(o.id, { label: false })}</div>
+      <div class="tx"><h3><b>${o.code}</b>${esc(o.name)}</h3>
+      <span class="px">${o.size} · ${o.rows} row${o.rows > 1 ? 's' : ''}</span>
+      <p>${esc(o.does)}</p>
+      <p class="on">${USED[o.id].length ? 'Usually on: ' + USED[o.id].map(id => esc(AN[id])).join(', ') : o.over ? 'Over any screen, where it would appear.' : o.own ? 'Anywhere the set has nothing that fits.' : 'Not in one of the twenty usual screens: use it where it fits.'}</p></div>
+    </article>`).join('')}</div>`).join('');
+  words(document.getElementById('fams'));
+})();
+
+const root = document.documentElement;
+try { const t = localStorage.getItem('sd-theme'); if (t) root.dataset.theme = t; } catch (e) {}
+if (!root.dataset.theme && matchMedia('(prefers-color-scheme: dark)').matches) root.dataset.theme = 'dark';
+document.getElementById('theme').onclick = () => {
+  root.dataset.theme = root.dataset.theme === 'dark' ? 'light' : 'dark';
+  try { localStorage.setItem('sd-theme', root.dataset.theme); } catch (e) {}
+};
+</script>
+</body>
+</html>

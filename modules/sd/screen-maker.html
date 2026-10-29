@@ -4,6 +4,9 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Screen maker — Screen Design</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500&display=swap" rel="stylesheet" crossorigin="anonymous">
 <link rel="stylesheet" href="paper/paper.css">
 <style>
   :root{
@@ -24,77 +27,98 @@
   }
   html{background:var(--bg)}
   body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);line-height:1.5}
-  .wrap{max-width:1280px;margin:0 auto;padding:0 22px}
+  .wrap{max-width:1320px;margin:0 auto;padding:0 22px}
   @media(max-width:420px){.wrap{padding:0 14px}}
   a{color:var(--lec)}
   h1{font-size:clamp(1.6rem,4.4vw,2.3rem);line-height:1.1;letter-spacing:-0.028em;margin:24px 0 4px;font-weight:700}
-  .lede{color:var(--ink-2);margin:0 0 16px;max-width:78ch;font-size:0.95rem}
+  .lede{color:var(--ink-2);margin:0 0 16px;max-width:82ch;font-size:0.95rem}
   .note{font-size:0.82rem;color:var(--ink-3);margin:14px 0 0;max-width:90ch}
   footer{padding:24px 0 44px;color:var(--ink-3);font-size:0.8rem;border-top:1px solid var(--line);margin-top:30px}
 
-  /* ── the Screen maker: organisms in, screens out ── */
-  .sm{display:grid;gap:18px;grid-template-columns:300px auto minmax(240px,1fr);align-items:start}
+  /* ── the Screen maker ── */
+  .sm-grid{display:grid;gap:18px;grid-template-columns:290px auto minmax(250px,1fr);align-items:start}
   .sm-col{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:12px}
   .sm-h{font-family:var(--mono);font-size:0.64rem;letter-spacing:0.08em;text-transform:uppercase;color:var(--ink-3);margin:0 0 8px}
-  .sm input,.sm select{font:inherit;font-size:0.9rem;width:100%;padding:8px 10px;border:1px solid var(--line-2);border-radius:8px;background:var(--surface);color:var(--ink)}
-  .sm label{display:block;font-size:0.8rem;font-weight:640;margin:10px 0 3px}
+  .sm-grid input:not([type=checkbox]),.sm-grid select,.sm-sel{font:inherit;font-size:0.9rem;width:100%;padding:8px 10px;border:1px solid var(--line-2);border-radius:8px;background:var(--surface);color:var(--ink)}
+  .sm-grid label{display:block;font-size:0.8rem;font-weight:640;margin:10px 0 3px}
+  .sm-grid label.mchk{display:flex;gap:8px;align-items:center;font-weight:500;font-size:0.86rem}
   .sm-b{font:inherit;font-size:0.84rem;font-weight:600;min-height:36px;padding:0 12px;border-radius:8px;border:1px solid var(--line-2);background:var(--bg);color:var(--ink);cursor:pointer}
   .sm-b:hover{border-color:var(--lec);color:var(--lec)}
   .sm-b.pri{background:var(--lec);border-color:var(--lec);color:#fff}
   html[data-theme="dark"] .sm-b.pri{color:#151314}
-  .sm-b:disabled{opacity:.45;cursor:default;border-color:var(--line-2);color:var(--ink)}
+  .sm-b:disabled{opacity:.5;cursor:default;border-color:var(--line-2);color:var(--ink)}
+  .sm-b.xs{min-height:28px;font-size:0.78rem;padding:0 9px}
   .sm-row{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
-  .sm-msg{font-size:0.82rem;color:var(--warn);min-height:1.3em;margin:6px 0 0}
+  .sm-msg{font-size:0.84rem;color:var(--warn);background:var(--warn-soft);border-radius:8px;padding:8px 10px;margin:8px 0 0}
+  .sm-msg:empty{display:none}
+  .sm-p{font-size:0.84rem;color:var(--ink-2);margin:4px 0 0}
 
-  /* palette */
-  .sm-pal{max-height:calc(100vh - 110px);overflow-y:auto;position:sticky;top:70px}
-  .sm-fam{font-size:0.78rem;font-weight:700;margin:14px 0 6px;color:var(--ink-2)} .sm-fam span{font-family:var(--mono);font-weight:400;color:var(--ink-3)}
-  .sm-item{display:grid;grid-template-columns:auto 1fr;gap:10px;align-items:start;padding:7px;border:1px solid var(--line);border-radius:9px;margin-bottom:6px;cursor:pointer;background:var(--surface)}
+  /* the list of organisms: words first, the picture on hover */
+  .sm-pal{max-height:calc(100vh - 100px);overflow-y:auto;position:sticky;top:70px}
+  .sm-fam{border-top:1px solid var(--line)} .sm-fam:first-of-type{border-top:0}
+  .sm-fam summary{cursor:pointer;list-style:none;display:flex;gap:8px;align-items:baseline;padding:10px 2px;font-weight:650;font-size:0.9rem}
+  .sm-fam summary::-webkit-details-marker{display:none}
+  .sm-fam summary::before{content:"+";font-family:var(--mono);color:var(--ink-3);width:1em;flex:none}
+  .sm-fam[open] summary::before{content:"\2013"}
+  .sm-fam summary span{margin-left:auto;font-family:var(--mono);font-weight:400;font-size:0.72rem;color:var(--ink-3)}
+  .sm-item{display:block;padding:7px 9px;border:1px solid var(--line);border-radius:8px;margin:0 0 6px;cursor:pointer;background:var(--surface);font-size:0.86rem;line-height:1.3}
   .sm-item:hover,.sm-item:focus-visible{border-color:var(--lec);outline:none}
-  .sm-item.nofit{opacity:.45}
-  .sm-thumb{--u:0.28px;background:#fff;border:1px solid var(--line);border-radius:3px;overflow:hidden;line-height:0}
-  .sm-it{font-size:0.82rem;line-height:1.3} .sm-it b{font-family:var(--mono);font-size:0.74rem;margin-right:4px}
-  .sm-it small{display:block;color:var(--ink-3);font-size:0.72rem;margin-top:2px} .sm-it small.px{font-family:var(--mono);font-size:0.68rem}
+  .sm-item b{font-family:var(--mono);font-size:0.76rem;margin-right:5px}
+  .sm-item small{display:block;color:var(--ink-2);font-size:0.76rem;margin-top:2px} .sm-item small.px{font-family:var(--mono);font-size:0.7rem;color:var(--ink-3)}
+  .sm-item.nofit{border-style:dashed} .sm-item.nofit small.px::after{content:" · no room left"}
+  #peek{position:fixed;z-index:60;pointer-events:none;--u:0.62px;background:var(--surface);border:1px solid var(--line-2);border-radius:10px;padding:10px;box-shadow:0 8px 28px rgba(0,0,0,.22);display:none}
+  #peek .pk-in{background:#fff;border:1px solid #DFDBD7;line-height:normal}
+  #peek p{margin:6px 0 0;font-size:0.76rem;color:var(--ink-2);max-width:calc(375 * var(--u))}
 
-  /* the canvas, drawn at about screen size */
+  /* the canvas, about the size of a phone */
   .sm-stage{--u:min(clamp(0.62px, calc((100vh - 200px) / 812), 1px), calc((100vw - 60px) / 380));display:flex;flex-direction:column;align-items:center;gap:10px}
-  .sm-stage .canvas{box-shadow:0 2px 14px rgba(0,0,0,.12)}
-  .sm-stage .org-tag{font-size:8.5px}
-  .sm-stage .slots{position:relative}
-  .sm-piece{position:relative;flex:none;cursor:grab}
-  .sm-piece.bottom{margin-top:auto}
-  .sm-piece:hover > .org,.sm-piece.sel > .org{outline:2px solid #8C2437;outline-offset:-2px}
-  .sm-tools{position:absolute;top:4px;right:4px;display:none;gap:3px;z-index:3}
-  .sm-piece:hover .sm-tools,.sm-piece.sel .sm-tools,.sm-piece:focus-within .sm-tools{display:flex}
-  .sm-tools button{font:600 13px/1 var(--sans);min-width:28px;height:28px;border-radius:6px;border:1px solid #8E8685;background:#fff;color:#1A1618;cursor:pointer}
-  .sm-tools button:hover{border-color:#8C2437;color:#8C2437}
-  .ovl > .sm-tools{display:flex;left:4px;right:auto}
-  .sm-drop{position:absolute;left:0;right:0;height:3px;background:#8C2437;z-index:5;pointer-events:none;display:none}
-  .sm-empty{position:absolute;inset:0;display:grid;place-items:center;text-align:center;padding:0 40px;color:#9A9393;font-size:13px;pointer-events:none}
+  .sm-cwrap{position:relative;margin-right:48px}
+  .sm-cwrap .canvas{box-shadow:0 2px 14px rgba(0,0,0,.12)}
+  .sm-cwrap .slot-fill{display:block}
+  .sm-cwrap .org-tag{font-size:8.5px;display:none} .sm-cwrap .sm-p2:hover .org-tag,.sm-cwrap .sm-p2.sel .org-tag,.sm-cwrap .ovl:hover .org-tag{display:block}
+  .sm-p2{position:absolute;left:0;top:0;width:100%}
+  .sm-p2.s{cursor:grab} .sm-p2.s.drag{opacity:.35}
+  .sm-p2.sel > .org{outline:2px solid #8C2437;outline-offset:-2px}
+  .sm-p2.m > .org::after{content:"";position:absolute;inset:0;border-left:3px solid #1A526D;pointer-events:none}
+  .sm-p2.clash > .org{outline:2px dashed #B3261E;outline-offset:-2px}
+  .sm-cwrap [contenteditable]{cursor:text;border-radius:2px;outline:none}
+  .sm-cwrap [contenteditable]:hover{box-shadow:0 0 0 1px #8E8685}
+  .sm-cwrap [contenteditable]:focus{box-shadow:0 0 0 2px #8C2437;background:#fff}
+  .sm-ghost{position:absolute;left:0;right:0;border:2px dashed #8C2437;background:rgba(140,36,55,.08);pointer-events:none;display:none;z-index:6}
+  .sm-tools{position:absolute;left:calc(100% + 8px);display:none;flex-direction:column;gap:4px;z-index:7}
+  .sm-tools button{font:600 14px/1 var(--sans);width:34px;height:34px;border-radius:8px;border:1px solid var(--line-2);background:var(--surface);color:var(--ink);cursor:pointer}
+  .sm-tools button:hover{border-color:var(--lec);color:var(--lec)} .sm-tools button:disabled{opacity:.4;cursor:default}
+  .sm-tools button.hd{cursor:grab}
+  .sm-ovx{position:absolute;right:6px;top:-36px;z-index:5;font:600 13px/1 var(--sans);width:30px;height:30px;border-radius:7px;border:1px solid #8E8685;background:#fff;color:#1A1618;cursor:pointer}
+  .sm-empty{position:absolute;inset:0;display:grid;place-items:center;text-align:center;padding:0 40px;color:#6B6463;font-size:13px;pointer-events:none}
   .sm-meter{display:flex;gap:2px;width:calc(375 * var(--u))} .sm-meter i{flex:1;height:8px;border-radius:2px;background:var(--surface-2);border:1px solid var(--line)}
-  .sm-meter i.on{background:var(--ink-2);border-color:var(--ink-2)}
-  .sm-count{font-size:0.84rem;color:var(--ink-2);font-variant-numeric:tabular-nums}
+  .sm-meter i.on{background:var(--ink-2);border-color:var(--ink-2)} .sm-meter i.m{background:#1A526D;border-color:#1A526D}
+  .sm-count{font-size:0.84rem;color:var(--ink-2);font-variant-numeric:tabular-nums;text-align:center}
   .sm-codes{font-family:var(--mono);font-size:0.76rem;color:var(--ink-2);text-align:center;max-width:calc(375 * var(--u) + 40px)}
+  @media(max-width:1060px){ .sm-cwrap{margin-right:0} .sm-tools{left:auto;right:6px;flex-direction:row;background:var(--surface);padding:4px;border-radius:9px;box-shadow:0 2px 10px rgba(0,0,0,.2)} }
 
   /* screens strip */
   .sm-strip{display:flex;gap:10px;overflow-x:auto;padding:4px 2px 10px;margin-bottom:6px}
   .sm-mini{flex:none;--u:0.13px;display:flex;flex-direction:column;gap:4px;align-items:center;border:2px solid transparent;border-radius:9px;padding:4px;cursor:pointer;background:none;color:var(--ink);font:inherit}
   .sm-mini.on{border-color:var(--lec)}
+  .sm-mini.ms{border-style:dashed;border-color:var(--line-2)} .sm-mini.ms.on{border-style:solid;border-color:#1A526D}
   .sm-mini .canvas{border-width:1px;border-radius:5px}
-  .sm-mini .org-tag{display:none}
-  .sm-mini span{font-size:0.7rem;max-width:64px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-
+  .sm-mini .org-tag,.sm-mini .slot-lines{display:none}
+  .sm-mini > span{font-size:0.7rem;max-width:64px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
   .sm-recipe{font-size:0.82rem;color:var(--ink-2);margin:6px 0 0}
+  dialog.sm-dlg{border:1px solid var(--line-2);border-radius:12px;padding:18px 20px;background:var(--surface);color:var(--ink);max-width:420px}
+  dialog.sm-dlg::backdrop{background:rgba(0,0,0,.35)}
+  dialog.sm-dlg p{margin:0 0 14px}
   #print{display:none}
   @media(max-width:1060px){
-    .sm{grid-template-columns:1fr}
+    .sm-grid{grid-template-columns:1fr}
     .sm-stage{order:0} .sm-side{order:1} .sm-pal{order:2;position:static;max-height:none}
-    .sm-pal .sm-list{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:0 8px}
   }
   @media print{
     html,body{background:#fff}
     body > :not(#print){display:none!important}
     #print{display:block}
+    #print .slot-lines{display:none}
   }
 
   /* THE BAR — one definition, identical on every page (written by navfix; change it
@@ -142,14 +166,12 @@
 
 <div class="wrap">
   <h1>Screen maker</h1>
-  <p class="lede">The paper organisms, on screen. Click an organism to add it under the one you selected, or drag it into place. It snaps into whole rows, top bars stay at the top and a tab bar at the bottom, and a screen is full at 14.
-    Nothing fits? Use a blank piece of the height you need and name it. An overlay, such as a dialog or the keyboard, lies over the screen instead of taking rows.
-    Every organism has the code printed on its paper piece, so a screen made on paper can be rebuilt here code by code, or the other way round.
-    Make one screen for each step of your <a href="flow.html">flow</a>, then print them or save them as a PDF for <b>B5</b>.</p>
+  <p class="lede">The paper organisms, on screen. Open a family on the left and click an organism to add it, or drag it onto the screen. It snaps to the rows: put it on any row you like, leave rows empty, drag it up or down. Click any words on the screen to change them.
+    Set up the <b>master</b> once with what every screen shares, such as the app bar and tab bar. Make one screen for each step of your <a href="flow.html">flow</a>, then copy each one into your slides or print them all for <b>B5</b>. See every organism at full size on <a href="organisms.html">Organisms</a>.</p>
 
   <div class="sm-strip" id="strip" aria-label="Your screens"></div>
   <div class="sm-row" style="margin-bottom:16px">
-    <select id="newFrom" aria-label="Start a new screen from" style="width:auto;font:inherit;font-size:0.9rem;padding:8px 10px;border:1px solid var(--line-2);border-radius:8px;background:var(--surface);color:var(--ink)"></select>
+    <select id="newFrom" class="sm-sel" aria-label="Start a new screen from" style="width:auto"></select>
     <button type="button" class="sm-b pri" data-act="new">+ New screen</button>
     <button type="button" class="sm-b" data-act="dup">Duplicate</button>
     <button type="button" class="sm-b" data-act="left" aria-label="Move this screen earlier">←</button>
@@ -157,253 +179,457 @@
     <button type="button" class="sm-b" data-act="del">Delete screen</button>
     <span style="flex:1"></span>
     <button type="button" class="sm-b" data-act="undo" id="undo">Undo</button>
+    <button type="button" class="sm-b" data-act="copypic">Copy as a picture</button>
     <button type="button" class="sm-b pri" data-act="print">Print or save as PDF</button>
   </div>
 
-  <div class="sm">
+  <div class="sm-grid">
     <aside class="sm-col sm-pal" aria-label="Organisms">
       <p class="sm-h">Organisms</p>
       <input id="filter" type="search" placeholder="Find: a code, a name or a job" aria-label="Find an organism">
-      <div class="sm-list" id="pal"></div>
+      <div id="pal"></div>
     </aside>
 
     <section class="sm-stage" aria-label="The screen">
-      <div id="canvas"></div>
+      <div class="sm-cwrap" id="cwrap"><div id="canvas"></div><div class="sm-ghost" id="ghost"></div><div class="sm-tools" id="tools"></div></div>
       <div class="sm-meter" id="meter" aria-hidden="true"></div>
       <span class="sm-count" id="count" role="status"></span>
       <span class="sm-codes" id="codes"></span>
     </section>
 
     <aside class="sm-col sm-side" aria-label="About this screen">
-      <p class="sm-h">This screen</p>
-      <label for="f-name">Name</label><input id="f-name" placeholder="e.g. Your postcode and address">
-      <label for="f-kind">Kind of screen</label><select id="f-kind"></select>
-      <div class="sm-recipe" id="recipe"></div>
-      <label for="f-job">Job of this screen</label><input id="f-job" placeholder="The one thing it does for the person">
-      <div id="own" hidden><label for="f-own">Name this blank piece</label><input id="f-own" placeholder="e.g. Camera view, QR scanner, Chart"></div>
-      <label for="f-goes">Goes to</label><input id="f-goes" list="names" placeholder="The next screen"><datalist id="names"></datalist>
-
-      <p class="sm-h" style="margin-top:22px">From paper</p>
-      <label for="f-codes">Type or paste codes, top to bottom</label>
-      <input id="f-codes" placeholder="e.g. TOP-04 HED-03 ANS-07 ACT-01" autocomplete="off" spellcheck="false">
-      <div class="sm-row" style="margin-top:6px"><button type="button" class="sm-b" data-act="build">Build this screen</button>
-        <button type="button" class="sm-b" data-act="copy">Copy its codes</button></div>
+      <div id="side"></div>
       <p class="sm-msg" id="msg" role="status"></p>
     </aside>
   </div>
 
-  <p class="note">Your screens stay in this browser, on this computer. Print them, or save them as a PDF, before you close it.
-    <button type="button" class="sm-b" data-act="example" style="min-height:28px;font-size:0.78rem">Load the example</button>
-    <button type="button" class="sm-b" data-act="clear" style="min-height:28px;font-size:0.78rem">Start again</button>
+  <p class="note">Your screens stay in this browser, on this computer. Copy them into your slides, or print them, before you close it.
+    <button type="button" class="sm-b xs" data-act="example">Load the example</button>
+    <button type="button" class="sm-b xs" data-act="clear">Start again</button>
     The example is the missed bin journey from the <a href="flow.html">Flow maker</a>, one screen per step. Prefer paper?
-    Print the <a href="paper/paper-organisms.pdf">organisms and canvases</a> and the <a href="paper/paper-cheatsheet.pdf">cheatsheet of twenty screens</a>.</p>
+    Print the <a href="paper/paper-organisms.pdf">organisms and canvases</a> and the <a href="paper/paper-cheatsheet.pdf">cheatsheet of twenty screens</a>: every paper piece carries its code, and <b>Build from codes</b> rebuilds a paper screen here.</p>
 
   <footer><p>Screen Design · Level 4 · 2026–27</p></footer>
 </div>
 
+<div id="peek" aria-hidden="true"></div>
+<dialog class="sm-dlg" id="confirm"><form method="dialog"><p id="confirm-q"></p>
+  <div class="sm-row" style="justify-content:flex-end"><button class="sm-b" value="no">Keep it</button><button class="sm-b pri" value="yes" id="confirm-yes">Delete screen</button></div></form></dialog>
 <div id="print"></div>
 
+<script src="https://cdn.jsdelivr.net/npm/html-to-image@1.11.11/dist/html-to-image.js"></script>
 <script src="paper/paper-kit.js"></script>
 <script src="paper/organisms.js"></script>
 <script>
 (function () {
-  /* The Screen maker. A screen is a list of organism ids, top to bottom; organisms.js draws
-     them, exactly as on paper. The only rules are the paper ones: every organism is full
-     width and whole rows, a screen holds 14 rows, and a tab bar stays at the bottom. */
-  const { O, BY, FAM, ROW, ROWS, W, of, named, organism, overlay, canvas, screen, ARCHETYPES: A } = window.ORG;
+  /* The Screen maker. A screen is a set of pieces, each an organism at a row (0 to 13), with
+     whatever words the student typed into it. Pieces never overlap; rows can stay empty.
+     Top bars sit at the top and a tab bar on the last row. The master holds what every screen
+     shares: its pieces appear on each screen that uses it, in the same rows, and their words
+     can still change screen by screen. An overlay (dialog, sheet, keyboard, toast) lies over
+     a screen and takes no rows. */
+  const { O, BY, FAM, ROW, ROWS, organism, overlay, canvas, words, ARCHETYPES: A } = window.ORG;
   const $ = id => document.getElementById(id);
   const esc = s => String(s == null ? '' : s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
-  const KEY = 'sd-screens1';
+  const KEY = 'sd-screens2', OLD = 'sd-screens1';
+  const NOTE = 'What would go here? Write what this organism does.#0';
   const AK = Object.fromEntries(A.map(a => [a.id, a]));
   const BYCODE = Object.fromEntries(O.map(o => [o.code, o]));
-  const rowsOf = list => list.reduce((s, id) => s + of(id).rows, 0);
-  const uid = () => 's' + Math.random().toString(36).slice(2, 9);
-  const blank = (name = '') => ({ id: uid(), name, kind: '', job: '', goes: '', orgs: [], over: '' });
-  /* a piece's code as written down: a named blank carries its name, OWN-03 (Camera view) */
-  const codeOf = x => of(x).code + (named(x) ? ` (${named(x)})` : '');
-  const codesOf = s => s.orgs.map(codeOf).concat(s.over ? ['+ ' + BY[s.over].code] : []);
-  const fromKind = k => ({ ...blank(AK[k].name.replace(/^The /, '')), kind: k, job: AK[k].does, orgs: AK[k].recipe.slice() });
+  const uid = () => Math.random().toString(36).slice(2, 9);
+  const plural = (n, w) => `${n} ${w}${n === 1 ? '' : 's'}`;
+  const pinned = id => BY[id].fam === 'Top' || !!BY[id].bottom;
+  const piece = (o, row, t) => ({ u: uid(), o, row, t: t || {} });
+  const blank = (name = '') => ({ u: uid(), name, kind: '', job: '', goes: '', useMaster: true, pieces: [], over: '', overT: {}, mt: {} });
+
+  /* a list of organism ids, stacked from a row, with a tab bar on the last row */
+  function stackUp(ids, start = 0) {
+    let r = start; const out = [];
+    ids.filter(id => !BY[id].bottom && !BY[id].over).forEach(id => { out.push(piece(id, r)); r += BY[id].rows; });
+    ids.filter(id => BY[id].bottom).forEach(id => out.push(piece(id, ROWS - BY[id].rows)));
+    return out;
+  }
+  const fromKind = k => ({ ...blank(AK[k].name.replace(/^The /, '')), kind: k, job: AK[k].does, pieces: stackUp(AK[k].recipe) });
 
   /* the example: the missed bin journey, one screen per step of the Flow maker's example */
-  const EXAMPLE = () => ({ cur: 0, screens: [
-    ['Start: report a missed bin', 'J1', 'The one rule, in 38 words, and one way in.', ['service-header', 'title-intro', 'notice', 'button']],
-    ['Your postcode and address', 'M11', 'Finds the address, and with it the bins that were due.', ['progress-header', 'question', 'postcode', 'button']],
-    ['Which bin was not emptied?', 'M11', 'Asks which bin, by its colour.', ['progress-header', 'radio-question', 'button']],
-    ['How should we update you? (optional)', 'M11', 'One way to send an update, only if they want one.', ['progress-header', 'question', 'text-field', 'button']],
-    ['Check your answers', 'J2', 'Every answer back, each with a Change link.', ['progress-header', 'page-title', 'summary', 'button']],
-    ['Report sent', 'J3', 'The date and a reference, and what happens next.', ['service-header', 'success', 'title-intro', 'button-link']],
-  ].map(([name, kind, job, orgs], i, all) => ({ id: uid(), name, kind, job, goes: all[i + 1] ? all[i + 1][0] : '', orgs })) });
+  const EXAMPLE = () => ({ cur: 0, master: { pieces: [] }, screens: [
+    ['Start: report a missed bin', 'J1', 'The one rule, in 38 words, and one way in.', [['service-header', 0, { 'Service name#0': 'Bins and recycling' }], ['title-intro', 1, { 'Title#0': 'Report a missed bin collection' }], ['notice', 3], ['button', 6, { 'Continue#0': 'Start now' }]]],
+    ['Your postcode and address', 'M11', 'Finds the address, and with it the bins that were due.', [['progress-header', 0], ['question', 1, { 'The question?#0': 'What is your postcode?', 'A hint, if it helps#0': 'For example, M1 5GD' }], ['postcode', 3], ['button', 6]]],
+    ['Which bin was not emptied?', 'M11', 'Asks which bin, by its colour.', [['progress-header', 0], ['radio-question', 1, { 'The question?#0': 'Which bin was not emptied?', 'An answer#0': 'Grey bin', 'An answer#1': 'Blue bin', 'An answer#2': 'Brown bin' }], ['button', 6]]],
+    ['How should we update you? (optional)', 'M11', 'One way to send an update, only if they want one.', [['progress-header', 0], ['question', 1, { 'The question?#0': 'How should we update you?', 'A hint, if it helps#0': 'Optional' }], ['text-field', 3, { 'Label#0': 'Email address', 'Hint#0': 'We will only use it for this report' }], ['button', 6]]],
+    ['Check your answers', 'J2', 'Every answer back, each with a Change link.', [['progress-header', 0], ['page-title', 1, { 'Page title#0': 'Check your answers' }], ['summary', 2], ['button', 7, { 'Continue#0': 'Send report' }]]],
+    ['Report sent', 'J3', 'The date and a reference, and what happens next.', [['service-header', 0, { 'Service name#0': 'Bins and recycling' }], ['success', 1, { 'Done#0': 'Report sent' }], ['title-intro', 4, { 'Title#0': 'What happens next' }], ['button-link', 7, { 'Continue#0': 'Report another bin', 'Cancel#0': 'Back to bins and recycling' }]]],
+  ].map(([name, kind, job, ps], i, all) => ({ ...blank(name), kind, job, goes: all[i + 1] ? all[i + 1][0] : '', pieces: ps.map(([o, r, t]) => piece(o, r, t)) })) });
 
+  /* load: this version, or the first version's stacked lists, or the example */
   let S; try { S = JSON.parse(localStorage.getItem(KEY) || 'null'); } catch (e) {}
+  if (!S) { try { const v1 = JSON.parse(localStorage.getItem(OLD) || 'null');
+    if (v1 && Array.isArray(v1.screens)) S = { cur: v1.cur || 0, master: { pieces: [] }, screens: v1.screens.map(s => ({ ...blank(s.name), kind: s.kind || '', job: s.job || '', goes: s.goes || '',
+      over: BY[s.over] ? s.over : '', pieces: stackUp((s.orgs || []).map(x => String(x).split(':')[0]).filter(id => BY[id])) })) }; } catch (e) {} }
   if (!S || !Array.isArray(S.screens) || !S.screens.length) S = EXAMPLE();
-  S.screens.forEach(s => { s.orgs = (s.orgs || []).filter(id => of(id)); if (!BY[s.over]) s.over = ''; });
-  let sel = -1, hist = [], drag = null;
-  const cur = () => S.screens[S.cur] || S.screens[0];
-  const save = () => { try { localStorage.setItem(KEY, JSON.stringify(S)); } catch (e) {} };
-  const snap = () => { hist.push(JSON.stringify(S)); if (hist.length > 60) hist.shift(); };
-  function say(t) { $('msg').textContent = t; clearTimeout(say.t); if (t) say.t = setTimeout(() => { $('msg').textContent = ''; }, 5000); }
-  /* top bars always sit at the top and a tab bar at the bottom, whatever order things were
-     added or dragged in */
-  const settle = list => { const top = list.filter(id => of(id).fam === 'Top'), end = list.filter(id => of(id).bottom);
-    return top.concat(list.filter(id => of(id).fam !== 'Top' && !of(id).bottom), end); };
-  const fits = (list, id) => !!BY[id].over || rowsOf(list) + BY[id].rows <= ROWS;
-  const nofit = id => `${BY[id].code} ${BY[id].name} needs ${BY[id].rows} row${BY[id].rows > 1 ? 's' : ''}; this screen has ${ROWS - rowsOf(cur().orgs)} free. Remove something, or start another screen.`;
+  S.master = S.master || { pieces: [] };
+  [S.master, ...S.screens].forEach(s => { s.pieces = (s.pieces || []).filter(p => BY[p.o] && !BY[p.o].over); });
 
-  /* ── palette ── */
-  const FNAME = { Top: 'Top of the screen', Headings: 'Headings', Search: 'Search', Answers: 'Answers', Content: 'Content', Feedback: 'Feedback', Actions: 'Actions',
-    Own: 'Your own: a blank of each height', Overlay: 'Overlays: over the screen, one at a time' };
-  $('pal').innerHTML = Object.keys(FAM).map(f => `<p class="sm-fam" data-fam="${f}">${FNAME[f]} <span>${FAM[f]}</span></p>` +
-    O.filter(o => o.fam === f).map(o => `<div class="sm-item" role="button" tabindex="0" draggable="true" data-id="${o.id}"
-      data-q="${esc((o.code + ' ' + o.name + ' ' + o.does).toLowerCase())}" aria-label="Add ${esc(o.code + ' ' + o.name)}, ${o.rows} row${o.rows > 1 ? 's' : ''}">
-      <span class="sm-thumb">${organism(o.id, { label: false })}</span>
-      <span class="sm-it"><b>${o.code}</b>${o.name}<small class="px">${o.size} · ${o.rows} row${o.rows > 1 ? 's' : ''}</small><small>${o.does}</small></span></div>`).join('')).join('');
-  $('filter').oninput = () => { const q = $('filter').value.trim().toLowerCase();
-    document.querySelectorAll('.sm-item').forEach(el => { el.hidden = !!q && !el.dataset.q.includes(q); });
-    document.querySelectorAll('.sm-fam').forEach(h => { h.hidden = !!q && ![...document.querySelectorAll(`.sm-item`)].some(el => !el.hidden && BY[el.dataset.id].fam === h.dataset.fam); }); };
+  let sel = null, hist = [];
+  const isM = () => S.cur === -1;
+  const cur = () => isM() ? S.master : S.screens[S.cur];
+  const save = () => { try { localStorage.setItem(KEY, JSON.stringify(S)); } catch (e) {} };
+  const snap = () => { hist.push(JSON.stringify(S)); if (hist.length > 80) hist.shift(); $('undo').disabled = false; };
+  function say(t) { $('msg').textContent = t; clearTimeout(say.t); if (t) say.t = setTimeout(() => { $('msg').textContent = ''; }, 6000); }
+
+  /* ── rows ── */
+  const masterOn = s => s !== S.master && s.useMaster !== false;
+  const fixed = s => masterOn(s) ? S.master.pieces : [];
+  const end = p => p.row + BY[p.o].rows;
+  const overlaps = (a, b) => a.row < end(b) && b.row < end(a);
+  const clashes = s => s.pieces.filter(p => fixed(s).some(m => overlaps(p, m)));
+  function rowMap(s) { const m = Array(ROWS).fill(null); fixed(s).concat(s.pieces).forEach(p => { for (let r = p.row; r < end(p) && r < ROWS; r++) m[r] = p; }); return m; }
+  function firstGap(s, rows, from = 0) {
+    const m = rowMap(s);
+    for (let r = from; r + rows <= ROWS; r++) if (m.slice(r, r + rows).every(x => !x)) return r;
+    return -1;
+  }
+  const biggestGap = s => { let best = 0, run = 0; rowMap(s).forEach(x => { run = x ? 0 : run + 1; best = Math.max(best, run); }); return best; };
+  /* put p at row r; anything in the way moves down below it, if there is room */
+  function place(s, p, r) {
+    const rows = BY[p.o].rows; r = Math.max(0, Math.min(r, ROWS - rows));
+    const fx = fixed(s), hit = fx.find(m => overlaps({ ...p, row: r }, m));
+    if (hit) return `Rows ${r + 1}–${r + rows} cross the master's ${BY[hit.o].name}. Choose other rows, or switch the master off for this screen.`;
+    const others = s.pieces.filter(q => q !== p).map(q => ({ q, row: q.row })).sort((a, b) => a.row - b.row);
+    let c = r + rows;
+    for (const x of others) {
+      if (x.row + BY[x.q.o].rows <= r) continue;
+      if (x.row < c) {
+        if (pinned(x.q.o)) return `${BY[x.q.o].code} ${BY[x.q.o].name} stays where it is, so there is no room there. Choose other rows.`;
+        x.row = c;
+        if (fx.some(m => overlaps({ ...x.q, row: x.row }, m))) return `There is no room: ${BY[x.q.o].name} would be pushed into the master's rows.`;
+      }
+      c = x.row + BY[x.q.o].rows;
+      if (c > ROWS) return `There is no room: that would push ${BY[x.q.o].name} past row ${ROWS}. Remove something, or use fewer rows.`;
+    }
+    others.forEach(x => { x.q.row = x.row; }); p.row = r; return '';
+  }
+  const topEnd = s => fixed(s).concat(s.pieces).filter(p => BY[p.o].fam === 'Top').reduce((m, p) => Math.max(m, end(p)), 0);
 
   function add(id, at) {
-    const s = cur();
-    if (BY[id].over) { snap(); s.over = id; render(); say(`${BY[id].code} ${BY[id].name} lies over this screen. One overlay at a time: a new one replaces it.`); return; }
-    if (!fits(s.orgs, id)) { say(nofit(id)); return; }
-    snap();
-    if (at == null) {
-      /* snap into place: a top bar goes to the top, a tab bar to the bottom, anything else
-         under the selected organism, or else at the end of the screen */
-      const o = BY[id];
-      if (o.fam === 'Top') at = s.orgs.filter(x => of(x).fam === 'Top').length;
-      else if (sel >= 0 && sel < s.orgs.length && !of(s.orgs[sel]).bottom) at = sel + 1;
-      else at = s.orgs.filter(x => !of(x).bottom).length;
+    const s = cur(), o = BY[id];
+    if (o.over) {
+      if (isM()) { say('Overlays go on a screen, not on the master.'); return; }
+      snap(); s.over = id; s.overT = {}; render(); say(`${o.code} ${o.name} lies over this screen and takes no rows. One overlay at a time: a new one replaces it.`); return;
     }
-    s.orgs.splice(at, 0, id); s.orgs = settle(s.orgs);
-    sel = s.orgs.indexOf(id, Math.min(at, s.orgs.length - 1)); if (sel < 0) sel = s.orgs.lastIndexOf(id);
-    say(''); render();
+    const before = JSON.stringify(S), p = piece(id, 0); let err = '';
+    if (at != null && !pinned(id)) { s.pieces.push(p); err = place(s, p, at); }
+    else if (o.bottom) { s.pieces.push(p); err = place(s, p, ROWS - o.rows); }
+    else if (o.fam === 'Top') { const r = topEnd(s); s.pieces.push(p); err = place(s, p, r); }
+    else {
+      const sp = s.pieces.find(q => q.u === sel) || fixed(s).find(q => q.u === sel);
+      let r = firstGap(s, o.rows, sp ? end(sp) : topEnd(s)); if (r < 0) r = firstGap(s, o.rows, 0);
+      if (r < 0) err = `${o.code} ${o.name} needs ${plural(o.rows, 'row')}; the biggest gap on this screen is ${plural(biggestGap(s), 'row')}. Remove or move something first.`;
+      else { p.row = r; s.pieces.push(p); }
+    }
+    if (err) { S = JSON.parse(before); say(err); render(); return; }
+    hist.push(before); sel = p.u; say(''); render();
   }
+
+  /* ── the list of organisms ── */
+  const FNAME = { Top: 'Top of the screen', Headings: 'Headings', Search: 'Search', Answers: 'Answers', Content: 'Content', Feedback: 'Feedback', Actions: 'Actions',
+    Own: 'Your own: a note', Overlay: 'Overlays' };
+  $('pal').innerHTML = Object.keys(FAM).map(f => `<details class="sm-fam" data-fam="${f}"><summary>${FNAME[f]}<span>${FAM[f]} · ${O.filter(o => o.fam === f).length}</span></summary>` +
+    (f === 'Own' ? '<p class="sm-p" style="margin:0 0 8px">For an organism the set does not have: a note in its place, saying what it would be. Pick the height you need.</p>' : '') +
+    (f === 'Overlay' ? '<p class="sm-p" style="margin:0 0 8px">These lie over the screen and take no rows, one at a time.</p>' : '') +
+    O.filter(o => o.fam === f).map(o => `<div class="sm-item" role="button" tabindex="0" draggable="true" data-id="${o.id}"
+      data-q="${esc((o.code + ' ' + o.name + ' ' + o.does).toLowerCase())}"><b>${o.code}</b>${esc(o.name)}
+      <small class="px">${o.size} · ${plural(o.rows, 'row')}</small><small>${esc(o.does)}</small></div>`).join('') + '</details>').join('');
+  $('filter').oninput = () => { const q = $('filter').value.trim().toLowerCase();
+    document.querySelectorAll('.sm-item').forEach(el => { el.hidden = !!q && !el.dataset.q.includes(q); });
+    document.querySelectorAll('.sm-fam').forEach(d => { const any = [...d.querySelectorAll('.sm-item')].some(el => !el.hidden); d.hidden = !!q && !any; d.open = !!q && any; }); };
   $('pal').addEventListener('click', e => { const it = e.target.closest('.sm-item'); if (it) add(it.dataset.id); });
   $('pal').addEventListener('keydown', e => { const it = e.target.closest('.sm-item'); if (it && (e.key === 'Enter' || e.key === ' ')) { e.preventDefault(); add(it.dataset.id); } });
-  $('pal').addEventListener('dragstart', e => { const it = e.target.closest('.sm-item'); if (!it) return; drag = { add: it.dataset.id }; e.dataTransfer.setData('text/plain', BY[it.dataset.id].code); e.dataTransfer.effectAllowed = 'copy'; });
+  /* the picture, on hover or keyboard focus */
+  function peek(it) {
+    const o = BY[it.dataset.id], pk = $('peek');
+    pk.innerHTML = `<div class="pk-in full">${organism(o.id, { label: false })}</div><p><b>${o.code}</b> ${esc(o.name)} · ${o.size}</p>`;
+    words(pk); pk.style.display = 'block';
+    const r = it.getBoundingClientRect(), h = pk.offsetHeight;
+    pk.style.left = Math.min(r.right + 12, innerWidth - pk.offsetWidth - 8) + 'px';
+    pk.style.top = Math.max(8, Math.min(r.top - 10, innerHeight - h - 8)) + 'px';
+  }
+  const unpeek = () => { $('peek').style.display = 'none'; };
+  $('pal').addEventListener('mouseover', e => { const it = e.target.closest('.sm-item'); if (it) peek(it); else unpeek(); });
+  $('pal').addEventListener('mouseleave', unpeek);
+  $('pal').addEventListener('focusin', e => { const it = e.target.closest('.sm-item'); if (it) peek(it); });
+  $('pal').addEventListener('focusout', unpeek);
+  $('pal').addEventListener('scroll', unpeek);
 
-  /* ── the canvas ── */
+  /* ── drawing a screen ── */
+  const rowPx = () => $('canvas').querySelector('.slots').getBoundingClientRect().height / ROWS;
+  function screenHTML(s, opts = {}) {
+    const mine = s.pieces, fx = fixed(s), bad = new Set(clashes(s).map(p => p.u));
+    const one = (p, m) => `<div class="sm-p2${m ? ' m' : ' s'}${p.u === sel && opts.edit ? ' sel' : ''}${bad.has(p.u) ? ' clash' : ''}" data-u="${p.u}"${m ? ' data-m="1"' : ''}
+      style="top:calc(${p.row * ROW} * var(--u))">${organism(p.o, { label: opts.label })}</div>`;
+    const inner = fx.map(p => one(p, true)).join('') + mine.map(p => one(p, false)).join('')
+      + (opts.edit && !mine.length && !fx.length ? '<p class="sm-empty">Open a family on the left and click an organism, or drag one here.</p>' : '')
+      + (s.over ? overlay(s.over, fx.concat(mine).filter(p => end(p) === ROWS).map(p => p.o), opts.edit ? '<button type="button" class="sm-ovx" data-do="rm-over" aria-label="Remove the overlay">✕</button>' : '', { label: opts.label }) : '');
+    return canvas(inner, { slots: opts.slots !== false });
+  }
+  /* the words typed into a piece: the master's own, then this screen's changes to them */
+  function typedFor(s) {
+    return org => {
+      const w = org.closest('[data-u]');
+      if (org.closest('.ovl')) return s.overT || {};
+      if (!w) return {};
+      const u = w.dataset.u;
+      if (w.dataset.m) { const mp = S.master.pieces.find(p => p.u === u); return { ...(mp ? mp.t : {}), ...((s.mt || {})[u] || {}) }; }
+      const p = s.pieces.find(p => p.u === u); return p ? p.t : {};
+    };
+  }
+  function draw(el, s, opts) { el.innerHTML = screenHTML(s, opts); el.querySelectorAll('.canvas').forEach(c => c.classList.add('full')); words(el, { edit: opts.edit, text: typedFor(s) }); }
+
+  /* the codes, top to bottom, master pieces included; a note carries its words */
+  function codesOf(s) {
+    const ps = fixed(s).concat(s.pieces).slice().sort((a, b) => a.row - b.row);
+    const note = p => BY[p.o].own && p.t && p.t[NOTE] ? ` (${p.t[NOTE].replace(/[()]/g, '')})` : '';
+    return ps.map(p => `${BY[p.o].code}${note(p)}`).concat(s.over ? ['+ ' + BY[s.over].code] : []);
+  }
   function renderCanvas() {
     const s = cur();
-    const inner = s.orgs.map((id, i) => `<div class="sm-piece${of(id).bottom ? ' bottom' : ''}${i === sel ? ' sel' : ''}" data-i="${i}" draggable="true" tabindex="0"
-      aria-label="${esc(codeOf(id) + ' ' + of(id).name)}, row ${rowsOf(s.orgs.slice(0, i)) + 1}">${organism(id)}
-      <span class="sm-tools"><button type="button" data-do="up" aria-label="Move up">↑</button><button type="button" data-do="down" aria-label="Move down">↓</button><button type="button" data-do="rm" aria-label="Remove">✕</button></span></div>`).join('');
-    $('canvas').innerHTML = canvas(inner + (s.orgs.length ? '' : '<p class="sm-empty">Click an organism to add it, or drag it here.</p>')
-      + overlay(s.over, s.orgs, '<span class="sm-tools"><button type="button" data-do="rm-over" aria-label="Remove the overlay">✕</button></span>'));
-    $('canvas').querySelector('.slots').insertAdjacentHTML('beforeend', '<div class="sm-drop" id="drop"></div>');
-    const used = rowsOf(s.orgs);
-    $('meter').innerHTML = Array.from({ length: ROWS }, (_, i) => `<i class="${i < used ? 'on' : ''}"></i>`).join('');
-    $('count').textContent = used >= ROWS ? `Full: ${ROWS} of ${ROWS} rows, ${ROWS * ROW} px` : `${used} of ${ROWS} rows used, ${used * ROW} of ${ROWS * ROW} px · ${ROWS - used} free`;
+    draw($('canvas'), s, { edit: true });
+    const m = rowMap(s), fxs = new Set(fixed(s));
+    $('meter').innerHTML = m.map(p => `<i class="${p ? (fxs.has(p) ? 'm' : 'on') : ''}"></i>`).join('');
+    const used = m.filter(Boolean).length;
+    $('count').textContent = `${used} of ${ROWS} rows used, ${used * ROW} of ${ROWS * ROW} px · ${ROWS - used} empty`;
     $('codes').textContent = codesOf(s).join(' · ');
-    document.querySelectorAll('.sm-item').forEach(el => el.classList.toggle('nofit', !fits(s.orgs, el.dataset.id)));
+    const big = biggestGap(s);
+    document.querySelectorAll('.sm-item').forEach(el => el.classList.toggle('nofit', !BY[el.dataset.id].over && !pinned(el.dataset.id) && BY[el.dataset.id].rows > big));
+    renderTools();
   }
-  const move = (i, d) => { const o = cur().orgs, j = i + d; if (j < 0 || j >= o.length) return; snap(); [o[i], o[j]] = [o[j], o[i]]; cur().orgs = settle(o); sel = cur().orgs.indexOf(o[j]) === j ? j : i; render(); };
+
+  /* the tools beside the selected piece */
+  function renderTools() {
+    const s = cur(), t = $('tools'), p = s.pieces.find(q => q.u === sel), mp = !p && fixed(s).find(q => q.u === sel);
+    const el = sel && $('canvas').querySelector(`[data-u="${sel}"]`);
+    if ((!p && !mp) || !el) { t.style.display = 'none'; return; }
+    const o = BY[(p || mp).o];
+    t.style.top = (el.getBoundingClientRect().top - $('cwrap').getBoundingClientRect().top) + 'px';
+    t.style.display = 'flex';
+    t.innerHTML = mp ? `        <button type="button" data-do="to-master" aria-label="Go to the master" title="Go to the master">M</button>`
+      : `        <button type="button" class="hd" data-do="drag" aria-label="Drag to move" title="Drag to move"${pinned(p.o) ? ' disabled' : ''}>⠿</button>
+        <button type="button" data-do="up" aria-label="Move up a row" title="Up a row"${pinned(p.o) ? ' disabled' : ''}>↑</button>
+        <button type="button" data-do="down" aria-label="Move down a row" title="Down a row"${pinned(p.o) ? ' disabled' : ''}>↓</button>
+        <button type="button" data-do="rm" aria-label="Remove" title="Remove">✕</button>`;
+  }
+  /* up and down: into an empty row, or past the piece next to it */
+  function nudge(d) {
+    const s = cur(), p = s.pieces.find(q => q.u === sel); if (!p || pinned(p.o)) return;
+    const m = rowMap(s), rows = BY[p.o].rows, nr = p.row + d;
+    if (nr < 0 || nr + rows > ROWS) return;
+    const edge = d < 0 ? m[p.row - 1] : m[end(p)];
+    if (edge && (fixed(s).includes(edge) || pinned(edge.o))) { say(`${BY[edge.o].name} stays where it is.`); return; }
+    snap();
+    if (!edge) p.row = nr;
+    else if (d < 0) { const top = edge.row; edge.row = top + rows; p.row = top; }
+    else { const top = p.row; p.row = top + BY[edge.o].rows; edge.row = top; }
+    render();
+  }
+  const removeSel = () => { const s = cur(), i = s.pieces.findIndex(q => q.u === sel); if (i < 0) return; snap(); s.pieces.splice(i, 1); sel = null; render(); };
+  $('tools').addEventListener('click', e => { const b = e.target.closest('button'); if (!b) return;
+    if (b.dataset.do === 'up') nudge(-1); if (b.dataset.do === 'down') nudge(1); if (b.dataset.do === 'rm') removeSel();
+    if (b.dataset.do === 'to-master') { S.cur = -1; render(); } });
+
+  /* selecting, typing, and the overlay's ✕ */
+  let drag = null, moved = false;
+  function select(u) { sel = u; $('canvas').querySelectorAll('.sm-p2').forEach(x => x.classList.toggle('sel', x.dataset.u === sel)); renderTools(); renderSide(); }
   $('canvas').addEventListener('click', e => {
     if (e.target.closest('[data-do="rm-over"]')) { snap(); cur().over = ''; render(); return; }
-    const p = e.target.closest('.sm-piece'); if (!p) { sel = -1; renderCanvas(); renderFields(); return; }
-    const i = +p.dataset.i, b = e.target.closest('button');
-    if (b && b.dataset.do === 'rm') { snap(); cur().orgs.splice(i, 1); sel = -1; render(); }
-    else if (b && b.dataset.do === 'up') move(i, -1);
-    else if (b && b.dataset.do === 'down') move(i, 1);
-    else { sel = i; renderCanvas(); renderFields(); }
+    if (moved) return;
+    const w = e.target.closest('.sm-p2'), u = w ? w.dataset.u : null;
+    if (u !== sel) select(u);
   });
-  $('canvas').addEventListener('keydown', e => { const p = e.target.closest('.sm-piece'); if (!p || e.target.closest('button')) return; const i = +p.dataset.i;
-    if (e.key === 'Delete' || e.key === 'Backspace') { e.preventDefault(); snap(); cur().orgs.splice(i, 1); sel = -1; render(); }
-    if (e.altKey && (e.key === 'ArrowUp' || e.key === 'ArrowDown')) { e.preventDefault(); move(i, e.key === 'ArrowUp' ? -1 : 1); } });
-  $('canvas').addEventListener('dragstart', e => { const p = e.target.closest('.sm-piece'); if (!p) return; drag = { from: +p.dataset.i }; e.dataTransfer.setData('text/plain', ''); e.dataTransfer.effectAllowed = 'move'; });
-  /* where a drop lands: before the first organism whose middle is below the pointer */
-  function dropAt(y) {
-    const ps = [...$('canvas').querySelectorAll('.sm-piece')];
-    let at = ps.findIndex(p => { const r = p.getBoundingClientRect(); return y < r.top + r.height / 2; });
-    if (at < 0) at = ps.length;
-    const slots = $('canvas').querySelector('.slots').getBoundingClientRect();
-    const edge = at < ps.length ? ps[at].getBoundingClientRect().top : (ps.length ? ps[ps.length - 1].getBoundingClientRect().bottom : slots.top);
-    return { at, top: edge - slots.top - 1 };
-  }
-  $('canvas').addEventListener('dragover', e => { if (!drag) return; e.preventDefault(); const d = dropAt(e.clientY), m = $('drop'); m.style.display = 'block'; m.style.top = d.top + 'px'; });
-  $('canvas').addEventListener('dragleave', e => { if (!$('canvas').contains(e.relatedTarget)) $('drop').style.display = 'none'; });
-  $('canvas').addEventListener('drop', e => {
-    e.preventDefault(); if (!drag) return; const { at } = dropAt(e.clientY), d = drag; drag = null; $('drop').style.display = 'none';
-    if (d.add) add(d.add, at);
-    else { const o = cur().orgs, id = o[d.from]; snap(); o.splice(d.from, 1); const to = at > d.from ? at - 1 : at; o.splice(to, 0, id); cur().orgs = settle(o); sel = cur().orgs.indexOf(id); render(); }
+  $('canvas').addEventListener('focusin', e => { if (e.target.isContentEditable) { snap(); const w = e.target.closest('.sm-p2'); if (w && w.dataset.u !== sel) select(w.dataset.u); } });
+  $('canvas').addEventListener('input', e => {
+    const el = e.target.closest('[data-k]'); if (!el) return;
+    const s = cur(), k = el.dataset.k, txt = el.textContent, w = el.closest('[data-u]');
+    if (el.closest('.ovl')) (s.overT = s.overT || {})[k] = txt;
+    else if (w && w.dataset.m && !isM()) ((s.mt = s.mt || {})[w.dataset.u] = s.mt[w.dataset.u] || {})[k] = txt;
+    else { const p = s.pieces.find(q => q.u === (w && w.dataset.u)); if (p) p.t[k] = txt; }
+    save(); $('codes').textContent = codesOf(s).join(' · ');
   });
-  document.addEventListener('dragend', () => { drag = null; const m = $('drop'); if (m) m.style.display = 'none'; });
+  $('canvas').addEventListener('keydown', e => { if (e.target.isContentEditable && (e.key === 'Enter' || e.key === 'Escape')) { e.preventDefault(); e.target.blur(); } });
+  $('canvas').addEventListener('focusout', e => { if (e.target.isContentEditable) renderStrip(); });
 
-  /* ── this screen's fields ── */
-  $('f-kind').innerHTML = '<option value="">Not chosen yet</option>' + A.map(a => `<option value="${a.id}">${a.id} · ${esc(a.name)}</option>`).join('');
+  /* dragging a piece: by its body (not its words) or by ⠿, snapping to rows */
+  function startDrag(e, p) { drag = { p, y0: e.clientY, row0: p.row, on: false }; moved = false; }
+  $('canvas').addEventListener('pointerdown', e => {
+    if (e.button !== 0 || e.target.isContentEditable || e.target.closest('button')) return;
+    const w = e.target.closest('.sm-p2.s'); if (!w) return;
+    const p = cur().pieces.find(q => q.u === w.dataset.u); if (!p || pinned(p.o)) return;
+    startDrag(e, p);
+  });
+  $('tools').addEventListener('pointerdown', e => { if (!e.target.closest('[data-do="drag"]')) return; const p = cur().pieces.find(q => q.u === sel); if (p) { e.preventDefault(); startDrag(e, p); } });
+  function ghostAt(row, rows) {
+    const g = $('ghost'), top = $('canvas').querySelector('.slots').getBoundingClientRect().top - $('cwrap').getBoundingClientRect().top;
+    g.style.display = 'block'; g.style.top = (top + row * rowPx()) + 'px'; g.style.height = (rows * rowPx()) + 'px';
+  }
+  addEventListener('pointermove', e => {
+    if (!drag) return;
+    const dy = e.clientY - drag.y0; if (!drag.on && Math.abs(dy) < 6) return;
+    if (!drag.on) { drag.on = true; moved = true; const el = $('canvas').querySelector(`[data-u="${drag.p.u}"]`); if (el) el.classList.add('drag'); }
+    const rows = BY[drag.p.o].rows; drag.to = Math.max(0, Math.min(ROWS - rows, drag.row0 + Math.round(dy / rowPx()))); ghostAt(drag.to, rows);
+  });
+  addEventListener('pointerup', () => {
+    if (!drag) return; const d = drag; drag = null; $('ghost').style.display = 'none';
+    if (!d.on) return;
+    setTimeout(() => { moved = false; }, 0);
+    if (d.to === d.row0) { render(); return; }
+    const before = JSON.stringify(S), err = place(cur(), d.p, d.to);
+    if (err) { S = JSON.parse(before); say(err); } else { hist.push(before); sel = d.p.u; say(''); }
+    render();
+  });
+  /* dragging an organism in from the list */
+  let fromPal = null;
+  $('pal').addEventListener('dragstart', e => { const it = e.target.closest('.sm-item'); if (!it) return; fromPal = it.dataset.id; unpeek(); e.dataTransfer.setData('text/plain', BY[fromPal].code); e.dataTransfer.effectAllowed = 'copy'; });
+  const dropRow = (e, rows) => { const sl = $('canvas').querySelector('.slots').getBoundingClientRect(); return Math.max(0, Math.min(ROWS - rows, Math.round((e.clientY - sl.top) / rowPx() - rows / 2))); };
+  $('cwrap').addEventListener('dragover', e => { if (!fromPal) return; e.preventDefault(); const o = BY[fromPal]; if (o.over || pinned(fromPal)) return; ghostAt(dropRow(e, o.rows), o.rows); });
+  $('cwrap').addEventListener('dragleave', e => { if (!$('cwrap').contains(e.relatedTarget)) $('ghost').style.display = 'none'; });
+  $('cwrap').addEventListener('drop', e => { e.preventDefault(); $('ghost').style.display = 'none'; if (!fromPal) return; const id = fromPal; fromPal = null; add(id, BY[id].over || pinned(id) ? null : dropRow(e, BY[id].rows)); });
+  document.addEventListener('dragend', () => { fromPal = null; $('ghost').style.display = 'none'; });
+
+  /* ── the side: this screen, or the master ── */
+  const kindOpts = k => '<option value="">Not chosen yet</option>' + A.map(a => `<option value="${a.id}"${a.id === k ? ' selected' : ''}>${a.id} · ${esc(a.name)}</option>`).join('');
   $('newFrom').innerHTML = '<option value="">A blank screen</option>' + A.map(a => `<option value="${a.id}">${a.id} · ${esc(a.name)}</option>`).join('');
-  function renderFields() {
-    const s = cur();
-    $('f-name').value = s.name; $('f-kind').value = s.kind; $('f-job').value = s.job; $('f-goes').value = s.goes;
-    $('names').innerHTML = S.screens.filter(x => x !== s && x.name).map(x => `<option value="${esc(x.name)}">`).join('');
-    const own = sel >= 0 && s.orgs[sel] && of(s.orgs[sel]).own;
-    $('own').hidden = !own; if (own && document.activeElement !== $('f-own')) $('f-own').value = named(s.orgs[sel]);
-    const a = AK[s.kind];
-    $('recipe').innerHTML = a ? `${esc(a.does)}<br>Usually: ${a.recipe.map(id => `<b>${BY[id].code}</b> ${esc(BY[id].name)}`).join(' · ')}
-      ${s.orgs.join() === a.recipe.join() ? '' : ` <button type="button" class="sm-b" data-act="recipe" style="min-height:28px;font-size:0.78rem;margin-top:4px">Use these${s.orgs.length ? ' (replaces this screen)' : ''}</button>`}` : '';
+  function renderSide() {
+    const s = cur(), p = s.pieces.find(q => q.u === sel) || fixed(s).find(q => q.u === sel);
+    const info = p ? `<p class="sm-h" style="margin-top:20px">Selected</p><p class="sm-p"><b>${BY[p.o].code}</b> ${esc(BY[p.o].name)} · ${BY[p.o].size}<br>${esc(BY[p.o].does)}<br>
+      Click its words on the screen to change them.${BY[p.o].own ? ' Write what the missing organism would do.' : ''}</p>` : '';
+    const codes = `<p class="sm-h" style="margin-top:20px">Build from codes</p>
+      <label for="f-codes">Type or paste codes off a paper screen, top to bottom</label>
+      <input id="f-codes" placeholder="e.g. TOP-04 HED-03 ANS-07 ACT-01" autocomplete="off" spellcheck="false">
+      <div class="sm-row" style="margin-top:6px"><button type="button" class="sm-b" data-act="build">Build this screen</button><button type="button" class="sm-b" data-act="copy">Copy its codes</button></div>`;
+    if (isM()) {
+      $('side').innerHTML = `<p class="sm-h">The master</p><p class="sm-p">What you put on the master appears on every screen that uses it, in the same rows: an app bar, a tab bar, a service header.
+        Change their words on any screen and only that screen changes. A screen can switch the master off, for example a launch screen.</p>
+        <p class="sm-p">${S.screens.filter(masterOn).length} of ${plural(S.screens.length, 'screen')} use the master.</p>${info}${codes}`;
+      return;
+    }
+    const a = AK[s.kind], c = clashes(s).length;
+    $('side').innerHTML = `<p class="sm-h">This screen</p>
+      <label for="f-name">Name</label><input id="f-name" placeholder="e.g. Your postcode and address" value="${esc(s.name)}">
+      <label for="f-kind">Kind of screen</label><select id="f-kind">${kindOpts(s.kind)}</select>
+      <div class="sm-recipe">${a ? `${esc(a.does)}<br>Usually: ${a.recipe.map(id => `<b>${BY[id].code}</b> ${esc(BY[id].name)}`).join(' · ')}
+        <br><button type="button" class="sm-b xs" data-act="recipe" style="margin-top:4px">Use these${s.pieces.length ? ' (replaces this screen)' : ''}</button>` : ''}</div>
+      <label for="f-job">Job of this screen</label><input id="f-job" placeholder="The one thing it does for the person" value="${esc(s.job)}">
+      <label for="f-goes">Goes to</label><input id="f-goes" list="names" placeholder="The next screen" value="${esc(s.goes)}">
+      <datalist id="names">${S.screens.filter(x => x !== s && x.name).map(x => `<option value="${esc(x.name)}">`).join('')}</datalist>
+      <label class="mchk"><input type="checkbox" id="f-master"${masterOn(s) ? ' checked' : ''}> Use the master${S.master.pieces.length ? ` (${S.master.pieces.map(q => BY[q.o].code).join(', ')})` : ', which is empty so far'}</label>
+      ${c ? `<p class="sm-msg">${plural(c, 'piece')} on this screen ${c === 1 ? 'sits' : 'sit'} in rows the master now uses (dashed red). Move ${c === 1 ? 'it' : 'them'}, or switch the master off.</p>` : ''}
+      ${info}${codes}`;
+    [['f-name', 'name'], ['f-job', 'job'], ['f-goes', 'goes']].forEach(([el, k]) => {
+      $(el).addEventListener('focus', () => snap());
+      $(el).addEventListener('input', () => { s[k] = $(el).value; save(); if (k === 'name') renderStrip(); }); });
+    $('f-kind').onchange = () => { snap(); s.kind = $('f-kind').value; if (s.kind && !s.pieces.length) { s.pieces = stackUp(AK[s.kind].recipe.filter(id => !fixed(s).some(m => m.o === id)), topEnd(s)); if (!s.job) s.job = AK[s.kind].does; } render(); };
+    $('f-master').onchange = () => { snap(); s.useMaster = $('f-master').checked; render(); };
   }
-  [['f-name', 'name'], ['f-job', 'job'], ['f-goes', 'goes']].forEach(([el, k]) => {
-    $(el).addEventListener('focus', () => snap());
-    $(el).addEventListener('input', () => { cur()[k] = $(el).value; save(); renderStrip(); }); });
-  $('f-own').addEventListener('focus', () => snap());
-  $('f-own').addEventListener('input', () => { const s = cur(); if (sel < 0 || !of(s.orgs[sel]).own) return;
-    const n = $('f-own').value.replace(/[:()]/g, '').trim(); s.orgs[sel] = of(s.orgs[sel]).id + (n ? ':' + n : ''); renderCanvas(); renderStrip(); save(); });
-  $('f-kind').onchange = () => { snap(); const s = cur(); s.kind = $('f-kind').value; if (s.kind && !s.orgs.length) { s.orgs = AK[s.kind].recipe.slice(); if (!s.job) s.job = AK[s.kind].does; } render(); };
 
-  /* ── the strip of screens ── */
+  /* ── the strip: the master, then every screen ── */
   function renderStrip() {
-    $('strip').innerHTML = S.screens.map((s, i) => `<button type="button" class="sm-mini${i === S.cur ? ' on' : ''}" data-s="${i}" aria-label="Screen ${i + 1}: ${esc(s.name || 'no name yet')}"${i === S.cur ? ' aria-current="true"' : ''}>
-      ${screen(s.orgs, { label: false, slots: false, over: s.over })}<span>${i + 1} · ${esc(s.name || 'Screen')}</span></button>`).join('');
+    const tile = (i, label) => `<button type="button" class="sm-mini${i === -1 ? ' ms' : ''}${i === S.cur ? ' on' : ''}" data-s="${i}" aria-label="${esc(label)}"${i === S.cur ? ' aria-current="true"' : ''}>
+      <span class="mini-c"></span><span>${esc(label)}</span></button>`;
+    $('strip').innerHTML = tile(-1, 'Master') + S.screens.map((s, i) => tile(i, `${i + 1} · ${s.name || 'Screen'}`)).join('');
+    $('strip').querySelectorAll('.sm-mini').forEach(b => { const i = +b.dataset.s; draw(b.querySelector('.mini-c'), i === -1 ? S.master : S.screens[i], { label: false, slots: false }); });
   }
-  $('strip').addEventListener('click', e => { const b = e.target.closest('.sm-mini'); if (!b) return; S.cur = +b.dataset.s; sel = -1; render(); });
+  $('strip').addEventListener('click', e => { const b = e.target.closest('.sm-mini'); if (!b) return; S.cur = +b.dataset.s; sel = null; render(); });
 
-  /* ── print: two screens to an A4 page, with their notes, as the paper canvases ── */
+  /* ── copy as a picture: the screen alone, without row numbers, labels or selection ── */
+  async function copyPic() {
+    const node = $('canvas').querySelector('.canvas'); if (!node) return;
+    if (document.activeElement && document.activeElement.isContentEditable) document.activeElement.blur();
+    if (!window.htmlToImage) { say('Copying a picture needs the internet, to load the copier. Use Print instead.'); return; }
+    const opts = { pixelRatio: 2, backgroundColor: '#ffffff', filter: n => !(n.classList && ['org-tag', 'slot-lines', 'sm-ovx', 'sm-empty'].some(c => n.classList.contains(c))) };
+    node.querySelectorAll('.sel').forEach(x => x.classList.remove('sel'));
+    const name = (isM() ? 'master' : (cur().name || `screen ${S.cur + 1}`)).replace(/[^\w\- ]+/g, '').trim() || 'screen';
+    try {
+      if (!navigator.clipboard || !window.ClipboardItem) throw new Error('no clipboard');
+      await navigator.clipboard.write([new ClipboardItem({ 'image/png': htmlToImage.toBlob(node, opts) })]);
+      say('Copied. Paste it into your slide.');
+    } catch (e) {
+      try { const url = await htmlToImage.toPng(node, opts); const a = document.createElement('a'); a.href = url; a.download = name + '.png'; a.click(); say('This browser would not copy a picture, so it was downloaded instead.'); }
+      catch (e2) { say('The picture did not work in this browser. Use Print, then save as PDF.'); }
+    }
+    renderCanvas();
+  }
+
+  /* ── print: two screens to an A4 page ── */
   function printAll() {
-    const foot = `<div class="foot"><span>Screen Design · Screen maker · ${S.screens.length} screen${S.screens.length > 1 ? 's' : ''}</span><span class="ruler"><i></i>this line is 5 cm</span></div>`;
+    const foot = `<div class="foot"><span>Screen Design · Screen maker · ${plural(S.screens.length, 'screen')}</span><span></span></div>`;
     const sheet = (s, i) => `<div class="sheet"><span class="sh-k">Screen ${i + 1}${s.kind ? ' · ' + s.kind + ' ' + esc(AK[s.kind].name) : ''}</span>
-      <p class="sh-n">${esc(s.name || 'Screen ' + (i + 1))}</p><p class="sh-d">${esc(s.job)}</p>${screen(s.orgs, { slots: !s.orgs.length, over: s.over })}
+      <p class="sh-n">${esc(s.name || 'Screen ' + (i + 1))}</p><p class="sh-d">${esc(s.job)}</p><div class="pc" data-i="${i}"></div>
       <div class="notes"><span>Organisms: ${esc(codesOf(s).join(' · ')) || '—'}</span><span>Goes to: ${esc(s.goes) || '—'}</span></div></div>`;
     let html = '';
     for (let i = 0; i < S.screens.length; i += 2) html += `<section class="page"><div class="pair">${S.screens.slice(i, i + 2).map((s, k) => sheet(s, i + k)).join('')}</div>${foot}</section>`;
     $('print').innerHTML = html;
+    $('print').querySelectorAll('.pc').forEach(el => draw(el, S.screens[+el.dataset.i], { label: true }));
     window.print();
   }
 
   /* ── the buttons ── */
-  document.addEventListener('click', e => {
+  const ask = (q, yes) => new Promise(res => { const d = $('confirm'); $('confirm-q').textContent = q; $('confirm-yes').textContent = yes; d.returnValue = ''; d.showModal(); d.addEventListener('close', () => res(d.returnValue === 'yes'), { once: true }); });
+  document.addEventListener('click', async e => {
     const b = e.target.closest('[data-act]'); if (!b) return;
     const a = b.dataset.act, s = cur();
-    if (a === 'new') { snap(); const k = $('newFrom').value; S.screens.splice(S.cur + 1, 0, k ? fromKind(k) : blank()); S.cur++; sel = -1; render(); $('f-name').focus(); }
-    if (a === 'dup') { snap(); S.screens.splice(S.cur + 1, 0, { ...JSON.parse(JSON.stringify(s)), id: uid(), name: s.name ? s.name + ' (copy)' : '' }); S.cur++; render(); }
-    if (a === 'left' || a === 'right') { const j = S.cur + (a === 'left' ? -1 : 1); if (j < 0 || j >= S.screens.length) return; snap();
+    if (a === 'new') { snap(); const k = $('newFrom').value, n = blank(k ? AK[k].name.replace(/^The /, '') : '');
+      if (k) { n.kind = k; n.job = AK[k].does; n.pieces = stackUp(AK[k].recipe.filter(id => !S.master.pieces.some(m => m.o === id)), topEnd(n)); }
+      const at = isM() ? 0 : S.cur + 1; S.screens.splice(at, 0, n); S.cur = at; sel = null; render(); const f = $('f-name'); if (f) f.focus(); }
+    if (a === 'dup' && !isM()) { snap(); const c = JSON.parse(JSON.stringify(s)); c.u = uid(); c.name = s.name ? s.name + ' (copy)' : ''; c.pieces.forEach(p => { p.u = uid(); });
+      S.screens.splice(S.cur + 1, 0, c); S.cur++; render(); }
+    if ((a === 'left' || a === 'right') && !isM()) { const j = S.cur + (a === 'left' ? -1 : 1); if (j < 0 || j >= S.screens.length) return; snap();
       [S.screens[S.cur], S.screens[j]] = [S.screens[j], S.screens[S.cur]]; S.cur = j; render(); }
-    if (a === 'del') { snap(); S.screens.splice(S.cur, 1); if (!S.screens.length) S.screens.push(blank()); S.cur = Math.min(S.cur, S.screens.length - 1); sel = -1; render(); say('Screen deleted. Undo brings it back.'); }
-    if (a === 'undo') { if (!hist.length) return; S = JSON.parse(hist.pop()); sel = -1; render(); }
-    if (a === 'recipe') { snap(); s.orgs = AK[s.kind].recipe.slice(); sel = -1; render(); }
+    if (a === 'del') {
+      if (isM()) { if (!S.master.pieces.length) return; if (!await ask('Empty the master? Its pieces will leave every screen that uses it. Undo brings them back.', 'Empty the master')) return; snap(); S.master.pieces = []; sel = null; render(); return; }
+      if (!await ask(`Delete screen ${S.cur + 1}${s.name ? ', “' + s.name + '”' : ''}? Undo brings it back.`, 'Delete screen')) return;
+      snap(); S.screens.splice(S.cur, 1); if (!S.screens.length) S.screens.push(blank()); S.cur = Math.min(S.cur, S.screens.length - 1); sel = null; render(); say('Screen deleted. Undo brings it back.'); }
+    if (a === 'undo') { if (!hist.length) return; S = JSON.parse(hist.pop()); sel = null; render(); }
+    if (a === 'recipe') { snap(); s.pieces = stackUp(AK[s.kind].recipe.filter(id => !fixed(s).some(m => m.o === id)), topEnd({ ...s, pieces: [] })); sel = null; render(); }
     if (a === 'build') {
       const found = [...$('f-codes').value.matchAll(/([a-z]{3})\s*-?\s*(\d{1,2})(?:\s*\(([^)]*)\))?/gi)]
-        .map(m => ({ c: `${m[1].toUpperCase()}-${m[2].padStart(2, '0')}`, n: (m[3] || '').replace(/:/g, '').trim() }));
+        .map(m => ({ c: `${m[1].toUpperCase()}-${m[2].padStart(2, '0')}`, n: (m[3] || '').trim() }));
       const bad = found.filter(f => !BYCODE[f.c]).map(f => f.c);
       if (!found.length) { say('No codes found. They look like TOP-01, ANS-07, ACT-01.'); return; }
       if (bad.length) { say(`Not an organism: ${bad.join(', ')}. Check the code on the paper piece.`); return; }
-      const overs = found.filter(f => BYCODE[f.c].over), list = found.filter(f => !BYCODE[f.c].over)
-        .map(f => BYCODE[f.c].id + (BYCODE[f.c].own && f.n ? ':' + f.n : ''));
+      const overs = found.filter(f => BYCODE[f.c].over);
       if (overs.length > 1) { say('One overlay at a time: put the others on copies of this screen.'); return; }
-      if (rowsOf(list) > ROWS) { say(`Those add up to ${rowsOf(list)} rows; a screen holds ${ROWS}. Split them over two screens.`); return; }
-      snap(); s.orgs = settle(list); s.over = overs.length ? BYCODE[overs[0].c].id : ''; sel = -1; render(); say(`Built from ${found.length} codes.`);
+      if (overs.length && isM()) { say('Overlays go on a screen, not on the master.'); return; }
+      const keep = found.filter(f => !BYCODE[f.c].over && !fixed(s).some(m => m.o === BYCODE[f.c].id)), test = { ...s, pieces: [] };
+      const ps = stackUp(keep.map(f => BYCODE[f.c].id), topEnd(test));
+      ps.forEach(p => { const f = keep.find(x => BYCODE[x.c].id === p.o && x.n); if (f && BY[p.o].own) { p.t = { [NOTE]: f.n }; f.n = ''; } });
+      test.pieces = ps;
+      if (ps.some(p => end(p) > ROWS) || ps.some((p, i) => ps.some((q, j) => i !== j && overlaps(p, q))) || clashes(test).length) { say('Those do not fit on one screen: split them over two.'); return; }
+      snap(); s.pieces = ps; if (!isM()) { s.over = overs.length ? BYCODE[overs[0].c].id : ''; s.overT = {}; } sel = null; render(); say(`Built from ${plural(found.length, 'code')}.`);
     }
-    if (a === 'copy') { const t = codesOf(s).join(' ');
-      navigator.clipboard.writeText(t).then(() => say('Codes copied: ' + t), () => say(t)); }
+    if (a === 'copy') { const t = codesOf(s).join(' '); navigator.clipboard.writeText(t).then(() => say('Codes copied: ' + t), () => say(t)); }
+    if (a === 'copypic') copyPic();
     if (a === 'print') printAll();
-    if (a === 'example') { snap(); S = EXAMPLE(); sel = -1; render(); say('Example loaded. Undo brings your own screens back.'); }
-    if (a === 'clear') { snap(); S = { cur: 0, screens: [blank()] }; sel = -1; render(); say('Cleared. Undo brings them back.'); }
+    if (a === 'example') { snap(); S = EXAMPLE(); sel = null; render(); say('Example loaded. Undo brings your own screens back.'); }
+    if (a === 'clear') { if (!await ask('Start again? Every screen and the master will be cleared. Undo brings them back.', 'Start again')) return; snap(); S = { cur: 0, master: { pieces: [] }, screens: [blank()] }; sel = null; render(); }
   });
   document.addEventListener('keydown', e => {
-    if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'z' && !e.shiftKey && !e.target.closest('input,select,textarea')) { e.preventDefault(); $('undo').click(); }
+    if (e.target.closest('input,select,textarea,[contenteditable],dialog')) return;
+    if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'z' && !e.shiftKey) { e.preventDefault(); $('undo').click(); return; }
+    if (!sel) return;
+    if (e.key === 'Delete' || e.key === 'Backspace') { e.preventDefault(); removeSel(); }
+    if (e.key === 'ArrowUp' || e.key === 'ArrowDown') { e.preventDefault(); nudge(e.key === 'ArrowUp' ? -1 : 1); }
+    if (e.key === 'Escape') { select(null); }
   });
+  addEventListener('resize', () => renderTools());
 
-  function render() { S.cur = Math.max(0, Math.min(S.cur, S.screens.length - 1)); renderCanvas(); renderFields(); renderStrip(); $('undo').disabled = !hist.length; save(); }
+  function render() {
+    if (S.cur !== -1) S.cur = Math.max(0, Math.min(S.cur, S.screens.length - 1));
+    renderCanvas(); renderSide(); renderStrip();
+    $('undo').disabled = !hist.length;
+    ['dup', 'left', 'right'].forEach(a => { document.querySelector(`[data-act="${a}"]`).disabled = isM(); });
+    document.querySelector('[data-act="del"]').textContent = isM() ? 'Empty the master' : 'Delete screen';
+    save();
+  }
   render();
+  if (document.fonts) document.fonts.ready.then(() => renderTools());
 })();
 
 const root = document.documentElement;

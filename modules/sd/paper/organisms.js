@@ -100,12 +100,12 @@
     { id: 'composer', fam: 'Actions', name: 'Message box', does: 'Writes and sends a message.', rows: 1, edge: 1, draw: () => C.inputbar() },
     { id: 'tabbar', fam: 'Actions', name: 'Tab bar', does: 'Moves between the main parts of an app. Always at the bottom.', rows: 1, edge: 1, bottom: 1, draw: () => C.tabbar(4).replace(`height:calc(64 * var(--u))`, `height:${u(56)}`) },
     // ── your own: a blank piece of each height, for anything the set does not have
-    { id: 'own-1', fam: 'Own', name: 'Blank, 1 row', does: 'Anything the set does not have: draw it, and name it.', rows: 1, own: 1, draw: (t) => blank(t, 1) },
-    { id: 'own-2', fam: 'Own', name: 'Blank, 2 rows', does: 'Anything the set does not have: draw it, and name it.', rows: 2, own: 1, draw: (t) => blank(t, 2) },
-    { id: 'own-3', fam: 'Own', name: 'Blank, 3 rows', does: 'Anything the set does not have: draw it, and name it.', rows: 3, own: 1, draw: (t) => blank(t, 3) },
-    { id: 'own-4', fam: 'Own', name: 'Blank, 4 rows', does: 'Anything the set does not have: draw it, and name it.', rows: 4, own: 1, draw: (t) => blank(t, 4) },
-    { id: 'own-5', fam: 'Own', name: 'Blank, 5 rows', does: 'Anything the set does not have: draw it, and name it.', rows: 5, own: 1, draw: (t) => blank(t, 5) },
-    { id: 'own-6', fam: 'Own', name: 'Blank, 6 rows', does: 'Anything the set does not have: draw it, and name it.', rows: 6, own: 1, draw: (t) => blank(t, 6) },
+    { id: 'own-1', fam: 'Own', name: 'Your own, 1 row', does: 'An organism the set does not have: write what it would be.', rows: 1, own: 1, draw: (t) => blank(t, 1) },
+    { id: 'own-2', fam: 'Own', name: 'Your own, 2 rows', does: 'An organism the set does not have: write what it would be.', rows: 2, own: 1, draw: (t) => blank(t, 2) },
+    { id: 'own-3', fam: 'Own', name: 'Your own, 3 rows', does: 'An organism the set does not have: write what it would be.', rows: 3, own: 1, draw: (t) => blank(t, 3) },
+    { id: 'own-4', fam: 'Own', name: 'Your own, 4 rows', does: 'An organism the set does not have: write what it would be.', rows: 4, own: 1, draw: (t) => blank(t, 4) },
+    { id: 'own-5', fam: 'Own', name: 'Your own, 5 rows', does: 'An organism the set does not have: write what it would be.', rows: 5, own: 1, draw: (t) => blank(t, 5) },
+    { id: 'own-6', fam: 'Own', name: 'Your own, 6 rows', does: 'An organism the set does not have: write what it would be.', rows: 6, own: 1, draw: (t) => blank(t, 6) },
     // ── overlays: they cover the screen rather than taking rows, one at a time
     { id: 'dialog', fam: 'Overlay', name: 'Dialog', does: 'Stops everything to ask one question, such as “Delete this?”', rows: 4, over: 'middle', scrim: 1, draw: () =>
       `<div style="display:flex;justify-content:center">${C.dialog()}</div>` },
@@ -186,5 +186,54 @@
     return canvas(recipe.map(id => organism(id, { label: opts.label }).replace('class="org', `class="org${of(id).bottom ? ' bottom' : ''}`)).join('')
       + (opts.over ? overlay(opts.over, recipe, '', { label: opts.label }) : ''), { slots: opts.slots });
   }
-  window.ORG = { ROW, ROWS, W, FAM, O, BY, base, named, of, organism, overlay, canvas, screen, ARCHETYPES, USED };
+  /* On screen, the grey lines become words, and every word can be edited (the paper stays pale,
+     to write over in pen). Each piece of text gets a key, its starting words plus which time
+     they occur in the organism ("An answer#2"), so what a student types survives a redraw.
+     text(org) gives the words already typed for that organism; edit makes them editable. */
+  const GENERIC = 'A sentence or two that says what this is for.';
+  function wordFor(w, o, i) {
+    const tk = w.closest('.tk');
+    if (tk) return ['Sent', 'Being dealt with', 'Done'][[...tk.parentElement.children].indexOf(tk)];
+    if (o.id === 'consent') return i ? null : 'I agree to the terms and conditions';
+    if (w.closest('.cardb')) return i ? 'A line of detail' : 'Card title';
+    if (w.closest('.sr') && w.closest('.lt')) return i ? 'Your answer' : 'Question';
+    if (w.closest('.lt')) return i ? 'A line of detail' : 'Item name';
+    if (w.closest('.opt')) return 'An answer';
+    if (w.closest('.sr')) return w.classList.contains('s') ? '£0.00' : { 'task-list': 'Section name', accordion: 'Section heading' }[o.id] || 'Item';
+    const m = w.closest('.msg');
+    if (m) return i ? null : m.classList.contains('err') ? 'Say what went wrong, and how to fix it.' : m.classList.contains('ok') ? 'Your reference: ABC123' : 'Something to know before you start.';
+    if (w.closest('.toast')) return 'Saved';
+    if (w.closest('.dialog')) return i ? null : 'Say what will happen, in one sentence.';
+    return i ? null : GENERIC;
+  }
+  const put = (el, t, size = 14) => { el.innerHTML = `<span class="ph wtxt" style="font-size:${u(size)}">${t}</span>`; el.classList.add('has-t'); };
+  function words(root, opts = {}) {
+    root.querySelectorAll('.org').forEach(org => {
+      const o = BY[org.dataset.org]; if (!o) return;
+      if (o.own) org.querySelector('.org-in').innerHTML = `<div class="hnote"><span class="ph hand">What would go here? Write what this organism does.</span></div>`;
+      /* work out every line's place among its neighbours first, then replace them */
+      const ls = [...org.querySelectorAll('.wl')].map(w => [w, [...w.parentElement.children].filter(x => x.classList.contains('wl')).indexOf(w)]);
+      ls.forEach(([w, i]) => {
+        const t = wordFor(w, o, i);
+        if (t == null) { w.remove(); return; }
+        const sp = document.createElement('span'); sp.className = 'ph wtxt' + (w.classList.contains('b') ? ' b' : '');
+        sp.textContent = t; w.replaceWith(sp);
+      });
+      org.querySelectorAll('.chips > i').forEach((c, i) => put(c, o.id === 'time-slots' ? ['9:00', '9:30', '10:00', '11:30', '14:00', '15:30'][i] || '16:00' : 'Filter'));
+      org.querySelectorAll('.cg > i').forEach((c, i) => { if (i < 31) put(c, String(i + 1), 13); });
+      org.querySelectorAll('.bub > i').forEach(c => put(c, 'Message'));
+      org.querySelectorAll('.k.img, .box.img').forEach(c => { if (!c.children.length) put(c, 'Picture', 15); });
+      org.querySelectorAll('.inbar .box').forEach(c => put(c, 'Write a message'));
+      org.querySelectorAll('.btn').forEach(b => { if (!b.textContent.trim()) put(b, b.classList.contains('pri') ? 'Continue' : 'Cancel', 15); });
+      /* keys, typed words, and editing */
+      const seen = {}, typed = opts.text ? opts.text(org) || {} : {};
+      org.querySelectorAll('.ph').forEach(el => {
+        const t = el.textContent.trim(); if (!/[A-Za-z0-9£]/.test(t)) return;
+        const k = `${t}#${seen[t] = (seen[t] ?? -1) + 1}`;
+        el.dataset.k = k; if (typed[k] != null) el.textContent = typed[k];
+        if (opts.edit) { el.contentEditable = 'plaintext-only'; if (el.contentEditable !== 'plaintext-only') el.contentEditable = 'true'; el.spellcheck = false; }
+      });
+    });
+  }
+  window.ORG = { ROW, ROWS, W, FAM, O, BY, base, named, of, organism, overlay, canvas, screen, words, ARCHETYPES, USED };
 })();
