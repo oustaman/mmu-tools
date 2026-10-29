@@ -124,6 +124,28 @@
   .sm-more[open] summary{margin-bottom:8px}
   .sm-code{font:0.74rem/1.5 var(--mono);color:var(--ink-2);background:var(--bg);border:1px solid var(--line);border-radius:6px;padding:5px 8px;margin-top:4px;text-align:left;cursor:copy;width:100%}
   .sm-code:hover{border-color:var(--line-2)}
+  .sm-top{display:flex;align-items:flex-end;justify-content:space-between;gap:12px;flex-wrap:wrap}
+  .sm-top h1{margin-bottom:4px}
+  .sm-banner{display:flex;flex-wrap:wrap;gap:10px 18px;align-items:center;justify-content:space-between;background:var(--lec-soft);border:1px solid var(--lec);border-radius:12px;padding:12px 16px;margin:0 0 12px}
+  .sm-banner p{margin:0;max-width:70ch;font-size:0.9rem}
+  .sm-banner[hidden]{display:none}
+  h2.sm-h{font-weight:500}
+  .sm-key{display:flex;gap:14px;font-size:0.76rem;color:var(--ink-2)} .sm-key:empty{display:none}
+  .sm-key i{display:inline-block;width:12px;height:8px;border-radius:2px;margin-right:5px;vertical-align:middle}
+  dialog.sm-new{max-width:min(980px,94vw);width:980px}
+  .sm-new-h{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px} .sm-new-h h2{margin:0;font-size:1.2rem}
+  .sm-blank{display:flex;flex-direction:column;align-items:flex-start;gap:2px;width:100%;text-align:left;font:inherit;color:var(--ink);background:var(--bg);border:1px solid var(--line-2);border-radius:10px;padding:12px 14px;cursor:pointer}
+  .sm-blank span{font-size:0.86rem;color:var(--ink-2)}
+  .sm-blank:hover,.sm-blank:focus-visible,.sm-kind:hover,.sm-kind:focus-visible{border-color:var(--lec);outline:2px solid var(--lec);outline-offset:1px}
+  .sm-kinds{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px;margin-top:10px}
+  .sm-kind{display:flex;flex-direction:column;gap:4px;align-items:flex-start;text-align:left;font:inherit;color:var(--ink);background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:10px;cursor:pointer;--u:0.17px}
+  .sm-kind .canvas{border-width:1px;border-radius:6px} .sm-kind .slot-lines,.sm-kind .org-tag{display:none}
+  .sm-kind b{font-size:0.86rem;line-height:1.2} .sm-kind small{font-size:0.74rem;color:var(--ink-2);line-height:1.3}
+  .sm-kind .k-id{font-family:var(--mono);font-size:0.68rem;color:var(--ink-3)}
+  /* where a new piece landed */
+  @keyframes smflash{0%{box-shadow:0 0 0 0 rgba(140,36,55,.6)}100%{box-shadow:0 0 0 14px rgba(140,36,55,0)}}
+  .sm-p2.flash > .org{animation:smflash .8s ease-out 2;outline:2px solid #8C2437;outline-offset:-2px}
+  @media (prefers-reduced-motion: reduce){ .sm-p2.flash > .org{animation:none} }
   .sm-recipe{font-size:0.82rem;color:var(--ink-2);margin:6px 0 0}
   dialog.sm-dlg{border:1px solid var(--line-2);border-radius:12px;padding:18px 20px;background:var(--surface);color:var(--ink);max-width:420px}
   dialog.sm-dlg::backdrop{background:rgba(0,0,0,.35)}
@@ -185,20 +207,24 @@
 <script>(function(){var n=document.querySelector(".sdlinks"),o=n&&n.querySelector(".on");if(o&&n.scrollWidth>n.clientWidth)n.scrollLeft=o.offsetLeft-n.offsetLeft-16;})();</script>
 
 <div class="wrap">
-  <h1>Screen maker</h1>
-  <p class="lede">The paper organisms, on screen. Open a family on the left and click an organism to add it, or drag it onto the screen. It snaps to the rows: put it on any row you like, leave rows empty, drag it up or down. Click any words on the screen to change them.
+  <div class="sm-top"><h1>Screen maker</h1><button type="button" class="sm-b" data-act="example" id="see-ex">See an example</button></div>
+  <p class="lede">The paper organisms, on screen. Click an organism on the left to add it, or drag it onto the screen. It snaps to the rows: put it on any row you like, leave rows empty, drag it up or down. Click any words on the screen to change them.
     Set up the <b>master</b> once with what every screen shares, such as the app bar and tab bar. Make one screen for each step of your <a href="flow.html">flow</a>, then copy each one into your slides or print them all for <b>B5</b>. See every organism at full size on <a href="organisms.html">Organisms</a>.</p>
 
+  <div class="sm-banner" id="banner" hidden role="region" aria-label="Example">
+    <p><b>This is the example:</b> the missed bin journey, one screen per step. Try anything: your own screens are kept safe, and nothing here is saved over them.</p>
+    <span class="sm-row"><button type="button" class="sm-b pri" data-act="mine">Back to my screens</button><button type="button" class="sm-b xs" data-act="exreset">Reset the example</button></span>
+  </div>
   <div class="sm-strip" id="strip" aria-label="Your screens"></div>
   <div class="sm-row" style="margin-bottom:16px">
-    <select id="newFrom" class="sm-sel" aria-label="Start a new screen from" style="width:auto"></select>
-    <button type="button" class="sm-b pri" data-act="new">+ New screen</button>
+    <button type="button" class="sm-b pri" data-act="new" aria-haspopup="dialog">+ New screen</button>
     <button type="button" class="sm-b" data-act="dup">Duplicate</button>
     <button type="button" class="sm-b" data-act="left" aria-label="Move this screen earlier">←</button>
     <button type="button" class="sm-b" data-act="right" aria-label="Move this screen later">→</button>
     <button type="button" class="sm-b" data-act="del">Delete screen</button>
     <span style="flex:1"></span>
-    <button type="button" class="sm-b" data-act="undo" id="undo">Undo</button>
+    <button type="button" class="sm-b" data-act="undo" id="undo" title="Undo (Ctrl or ⌘ Z)">Undo</button>
+    <button type="button" class="sm-b" data-act="redo" id="redo" title="Redo (Ctrl or ⌘ Shift Z)">Redo</button>
     <button type="button" class="sm-b" data-act="copypic">Copy as a picture</button>
     <button type="button" class="sm-b pri" data-act="print">Print or save as PDF</button>
   </div>
@@ -206,16 +232,17 @@
   <div class="sm-grid">
     <aside class="sm-col sm-pal" aria-label="Organisms">
       <div class="pal2">
-        <div class="pal-l"><p class="sm-h">Organisms</p>
+        <div class="pal-l"><h2 class="sm-h">Organisms</h2>
           <input id="filter" type="search" placeholder="Find one" aria-label="Find an organism">
           <div id="pal"></div></div>
-        <div class="peek" id="peek"><p class="hint">Point at an organism to see it here. Click it to add it to the screen, or drag it onto the row you want.</p></div>
+        <div class="peek" id="peek"><p class="hint" id="hint">Point at an organism to see it here. Click it to add it to the screen, or drag it onto the row you want.</p></div>
       </div>
     </aside>
 
     <section class="sm-stage" aria-label="The screen">
       <div class="sm-cwrap" id="cwrap"><div id="canvas"></div><div class="sm-ghost" id="ghost"></div><div class="sm-tools" id="tools"></div></div>
       <div class="sm-meter" id="meter" aria-hidden="true"></div>
+      <span class="sm-key" id="key" aria-hidden="true"></span>
       <span class="sm-count" id="count" role="status"></span>
       <span class="sm-codes" id="codes"></span>
     </section>
@@ -229,9 +256,8 @@
 
   <p class="note">Your screens stay in this browser, on this computer. On a university computer they may be wiped when you log off:
     before you go, open <b>Save, move, or build from codes</b> under the form and copy the link, or print them.
-    <button type="button" class="sm-b xs" data-act="example">Load the example</button>
-    <button type="button" class="sm-b xs" data-act="clear">Start again</button>
-    The example is the missed bin journey from the <a href="flow.html">Flow maker</a>, one screen per step. Prefer paper?
+    <button type="button" class="sm-b xs" data-act="clear" id="clear">Start again</button>
+    Prefer paper?
     Print the <a href="paper/paper-organisms.pdf">organisms and canvases</a> and the <a href="paper/paper-cheatsheet.pdf">cheatsheet of twenty screens</a>: every paper piece carries its code, and <b>Build from codes</b> rebuilds a paper screen here.</p>
 
   <footer><p>Screen Design · Level 4 · 2026–27</p></footer>
@@ -239,6 +265,13 @@
 
 <dialog class="sm-dlg" id="confirm"><form method="dialog"><p id="confirm-q"></p>
   <div class="sm-row" style="justify-content:flex-end"><button class="sm-b" value="no">Keep it</button><button class="sm-b pri" value="yes" id="confirm-yes">Delete screen</button></div></form></dialog>
+<dialog class="sm-dlg sm-new" id="newdlg" aria-labelledby="newdlg-h"><form method="dialog">
+  <div class="sm-new-h"><h2 id="newdlg-h">New screen</h2><button class="sm-b xs" value="cancel" aria-label="Close">✕</button></div>
+  <button type="button" class="sm-blank" data-k="">
+    <b>A blank screen</b><span>Start with nothing and add organisms yourself.</span></button>
+  <p class="sm-p">Or start from one of the twenty kinds of screen, with its usual organisms already in place. You can change anything afterwards.</p>
+  <div class="sm-kinds" id="kinds"></div>
+</form></dialog>
 <div id="print"></div>
 
 <script src="https://cdn.jsdelivr.net/npm/html-to-image@1.11.11/dist/html-to-image.js"></script>
@@ -289,15 +322,23 @@
   if (!S) { try { const v1 = JSON.parse(localStorage.getItem(OLD) || 'null');
     if (v1 && Array.isArray(v1.screens)) S = { cur: v1.cur || 0, master: { pieces: [] }, screens: v1.screens.map(s => ({ ...blank(s.name), kind: s.kind || '', job: s.job || '', goes: s.goes || '',
       over: BY[s.over] ? s.over : '', pieces: stackUp((s.orgs || []).map(x => String(x).split(':')[0]).filter(id => BY[id])) })) }; } catch (e) {} }
-  if (!S || !Array.isArray(S.screens) || !S.screens.length) S = EXAMPLE();
-  S.master = S.master || { pieces: [] };
-  [S.master, ...S.screens].forEach(s => { s.pieces = (s.pieces || []).filter(p => BY[p.o] && !BY[p.o].over); });
+  /* a first visit starts with one blank screen; the example lives apart, under its own key,
+     so trying it never touches the student's own screens */
+  const EXKEY = 'sd-screens2-example', MODE = 'sd-screens2-mode';
+  const fresh = () => ({ cur: 0, master: { pieces: [] }, screens: [blank()] });
+  const tidy = x => { if (!x || !Array.isArray(x.screens) || !x.screens.length) return null; x.master = x.master || { pieces: [] };
+    [x.master, ...x.screens].forEach(s => { s.pieces = (s.pieces || []).filter(p => BY[p.o] && !BY[p.o].over); }); return x; };
+  const load = k => { try { return tidy(JSON.parse(localStorage.getItem(k) || 'null')); } catch (e) { return null; } };
+  S = tidy(S) || fresh();
+  let mode = 'mine'; try { if (localStorage.getItem(MODE) === 'example') { mode = 'example'; S = load(EXKEY) || EXAMPLE(); } } catch (e) {}
 
-  let sel = null, hist = [];
+  let sel = null, hist = [], fut = [], flash = null;
   const isM = () => S.cur === -1;
   const cur = () => isM() ? S.master : S.screens[S.cur];
-  const save = () => { try { localStorage.setItem(KEY, JSON.stringify(S)); } catch (e) {} };
-  const snap = () => { hist.push(JSON.stringify(S)); if (hist.length > 80) hist.shift(); $('undo').disabled = false; };
+  const save = () => { try { localStorage.setItem(mode === 'example' ? EXKEY : KEY, JSON.stringify(S)); localStorage.setItem(MODE, mode); } catch (e) {} };
+  const keep = before => { hist.push(before); if (hist.length > 80) hist.shift(); fut = []; $('undo').disabled = false; $('redo').disabled = true; };
+  const snap = () => keep(JSON.stringify(S));
+  function switchTo(m, state) { save(); mode = m; S = state; hist = []; fut = []; sel = null; render(); }
   function say(t) { $('msg').textContent = t; clearTimeout(say.t); if (t) say.t = setTimeout(() => { $('msg').textContent = ''; }, 6000); }
 
   /* ── rows ── */
@@ -351,21 +392,26 @@
       else { p.row = r; s.pieces.push(p); }
     }
     if (err) { S = JSON.parse(before); say(err); render(); return; }
-    hist.push(before); sel = p.u; say(''); render();
+    keep(before); sel = p.u; flash = p.u; say(''); render(); tell(`${o.name} added: rows ${p.row + 1} to ${end(p)}.`);
   }
 
   /* ── the list of organisms ── */
   const FNAME = { Top: 'Top of the screen', Headings: 'Headings', Search: 'Search', Answers: 'Answers', Content: 'Content', Feedback: 'Feedback', Actions: 'Actions',
     Own: 'Your own: a note', Overlay: 'Overlays' };
-  $('pal').innerHTML = Object.keys(FAM).map(f => `<details class="sm-fam" data-fam="${f}"><summary>${FNAME[f]}<span>${FAM[f]} · ${O.filter(o => o.fam === f).length}</span></summary>` +
+  const STARTERS = ['appbar', 'page-title', 'question', 'text-field', 'radio-question', 'list', 'card', 'notice', 'button', 'tabbar'];
+  const item = o => `<div class="sm-item" role="button" tabindex="0" draggable="true" data-id="${o.id}"
+      data-q="${esc((o.code + ' ' + o.name + ' ' + o.does).toLowerCase())}"><b>${o.code}</b>${esc(o.name)}
+      <small class="px">${o.size} · ${plural(o.rows, 'row')}</small><small>${esc(o.does)}</small></div>`;
+  $('pal').innerHTML = `<details class="sm-fam sm-start" open><summary>Start with these<span>${STARTERS.length}</span></summary>
+    <p class="sm-p" style="margin:0 0 8px">The ones most screens are made of. Everything else is in the groups below.</p>${STARTERS.map(id => item(BY[id])).join('')}</details>` +
+    Object.keys(FAM).map(f => `<details class="sm-fam" data-fam="${f}"><summary>${FNAME[f]}<span>${FAM[f]} · ${O.filter(o => o.fam === f).length}</span></summary>` +
     (f === 'Own' ? '<p class="sm-p" style="margin:0 0 8px">For an organism the set does not have: a note in its place, saying what it would be. Pick the height you need.</p>' : '') +
     (f === 'Overlay' ? '<p class="sm-p" style="margin:0 0 8px">These lie over the screen and take no rows, one at a time.</p>' : '') +
-    O.filter(o => o.fam === f).map(o => `<div class="sm-item" role="button" tabindex="0" draggable="true" data-id="${o.id}"
-      data-q="${esc((o.code + ' ' + o.name + ' ' + o.does).toLowerCase())}"><b>${o.code}</b>${esc(o.name)}
-      <small class="px">${o.size} · ${plural(o.rows, 'row')}</small><small>${esc(o.does)}</small></div>`).join('') + '</details>').join('');
+    O.filter(o => o.fam === f).map(item).join('') + '</details>').join('');
   $('filter').oninput = () => { const q = $('filter').value.trim().toLowerCase();
     document.querySelectorAll('.sm-item').forEach(el => { el.hidden = !!q && !el.dataset.q.includes(q); });
-    document.querySelectorAll('.sm-fam').forEach(d => { const any = [...d.querySelectorAll('.sm-item')].some(el => !el.hidden); d.hidden = !!q && !any; d.open = !!q && any; }); };
+    document.querySelectorAll('.sm-fam').forEach(d => { const any = [...d.querySelectorAll('.sm-item')].some(el => !el.hidden);
+      if (d.classList.contains('sm-start')) { d.hidden = !!q; if (!q) d.open = true; return; } d.hidden = !!q && !any; d.open = !!q && any; }); };
   $('pal').addEventListener('click', e => { const it = e.target.closest('.sm-item'); if (it) add(it.dataset.id); });
   $('pal').addEventListener('keydown', e => { const it = e.target.closest('.sm-item'); if (it && (e.key === 'Enter' || e.key === ' ')) { e.preventDefault(); add(it.dataset.id); } });
   /* the picture, beside the list: whatever the pointer or keyboard is on, and it stays there */
@@ -417,10 +463,14 @@
   function renderCanvas() {
     const s = cur();
     draw($('canvas'), s, { edit: true });
+    if (flash) { const el = $('canvas').querySelector(`[data-u="${flash}"]`); flash = null;
+      if (el) { el.classList.add('flash'); const r = el.getBoundingClientRect();
+        if (r.top < 70 || r.bottom > innerHeight) el.scrollIntoView({ block: 'center', behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' }); } }
     if (refocus) { refocus = false; const el = sel && $('canvas').querySelector(`[data-u="${sel}"]`); if (el) el.focus({ preventScroll: true }); }
     const m = rowMap(s), fxs = new Set(fixed(s));
     $('meter').innerHTML = m.map(p => `<i class="${p ? (fxs.has(p) ? 'm' : 'on') : ''}"></i>`).join('');
     const used = m.filter(Boolean).length;
+    $('key').innerHTML = fxs.size ? '<span><i style="background:var(--ink-2)"></i>this screen</span><span><i style="background:#1A526D"></i>from the master</span>' : '';
     $('count').textContent = `${used} of ${ROWS} rows used, ${used * ROW} of ${ROWS * ROW} px · ${ROWS - used} empty`;
     $('codes').textContent = codesOf(s).join(' · ');
     const big = biggestGap(s);
@@ -512,7 +562,7 @@
     setTimeout(() => { moved = false; }, 0);
     if (d.to === d.row0) { render(); return; }
     const before = JSON.stringify(S), err = place(cur(), d.p, d.to);
-    if (err) { S = JSON.parse(before); say(err); } else { hist.push(before); sel = d.p.u; say(''); }
+    if (err) { S = JSON.parse(before); say(err); } else { keep(before); sel = d.p.u; say(''); }
     render();
   });
   /* dragging an organism in from the list */
@@ -526,11 +576,10 @@
 
   /* ── the side: this screen, or the master ── */
   const kindOpts = k => '<option value="">Not chosen yet</option>' + A.map(a => `<option value="${a.id}"${a.id === k ? ' selected' : ''}>${a.id} · ${esc(a.name)}</option>`).join('');
-  $('newFrom').innerHTML = '<option value="">A blank screen</option>' + A.map(a => `<option value="${a.id}">${a.id} · ${esc(a.name)}</option>`).join('');
   let moreOpen = false;
   function renderSide() {
     const s = cur(), p = s.pieces.find(q => q.u === sel) || fixed(s).find(q => q.u === sel);
-    const info = p ? `<p class="sm-h" style="margin-top:20px">Selected</p><p class="sm-p"><b>${BY[p.o].code}</b> ${esc(BY[p.o].name)} · ${BY[p.o].size}<br>${esc(BY[p.o].does)}<br>
+    const info = p ? `<h2 class="sm-h" style="margin-top:20px">Selected</h2><p class="sm-p"><b>${BY[p.o].code}</b> ${esc(BY[p.o].name)} · ${BY[p.o].size}<br>${esc(BY[p.o].does)}<br>
       Click its words on the screen to change them.${BY[p.o].own ? ' Write what the missing organism would do.' : ''}</p>` : '';
     const codes = `<details class="sm-more" id="more"${moreOpen ? ' open' : ''}><summary>Save, move, or build from codes</summary>
       <p class="sm-p"><b>Carry on somewhere else.</b> Copy a link to all your screens, send it to yourself, and open it on any computer or phone.</p>
@@ -541,13 +590,13 @@
       <div class="sm-row" style="margin-top:4px;flex-wrap:nowrap"><input id="f-codes" placeholder="TOP-04 HED-03 …" autocomplete="off" spellcheck="false" aria-label="Codes, top to bottom"><button type="button" class="sm-b xs" data-act="build">Build</button></div>
     </details>`;
     if (isM()) {
-      $('side').innerHTML = `<p class="sm-h">The master</p><p class="sm-p">What you put on the master appears on every screen that uses it, in the same rows: an app bar, a tab bar, a service header.
+      $('side').innerHTML = `<h2 class="sm-h">The master</h2><p class="sm-p">What you put on the master appears on every screen that uses it, in the same rows: an app bar, a tab bar, a service header.
         Change their words on any screen and only that screen changes. A screen can switch the master off, for example a launch screen.</p>
         <p class="sm-p">${S.screens.filter(masterOn).length} of ${plural(S.screens.length, 'screen')} use the master.</p>${info}${codes}`;
       return;
     }
     const a = AK[s.kind], c = clashes(s).length;
-    $('side').innerHTML = `<p class="sm-h">This screen</p>
+    $('side').innerHTML = `<h2 class="sm-h">This screen</h2>
       <label for="f-name">Name</label><input id="f-name" placeholder="e.g. Your postcode and address" value="${esc(s.name)}">
       <label for="f-kind">Kind of screen</label><select id="f-kind">${kindOpts(s.kind)}</select>
       <div class="sm-recipe">${a ? `${esc(a.does)}<br>Usually: ${a.recipe.map(id => `<b>${BY[id].code}</b> ${esc(BY[id].name)}`).join(' · ')}
@@ -568,7 +617,7 @@
 
   /* ── the strip: the master, then every screen ── */
   function renderStrip() {
-    const tile = (i, label) => `<button type="button" class="sm-mini${i === -1 ? ' ms' : ''}${i === S.cur ? ' on' : ''}" data-s="${i}" aria-label="${esc(label)}"${i === S.cur ? ' aria-current="true"' : ''}>
+    const tile = (i, label) => `<button type="button" class="sm-mini${i === -1 ? ' ms' : ''}${i === S.cur ? ' on' : ''}" data-s="${i}" aria-label="${esc(label)}" title="${esc(label)}"${i === S.cur ? ' aria-current="true"' : ''}>
       <span class="mini-c"></span><span>${esc(label)}</span></button>`;
     $('strip').innerHTML = tile(-1, 'Master') + S.screens.map((s, i) => tile(i, `${i + 1} · ${s.name || 'Screen'}`)).join('');
     $('strip').querySelectorAll('.sm-mini').forEach(b => { const i = +b.dataset.s; draw(b.querySelector('.mini-c'), i === -1 ? S.master : S.screens[i], { label: false, slots: false }); });
@@ -593,9 +642,8 @@
       const got = JSON.parse(new TextDecoder().decode(raw));
       if (!got || !Array.isArray(got.screens) || !got.screens.length) throw new Error('empty');
       if (!await ask(`Open the ${plural(got.screens.length, 'screen')} from this link? They replace the screens in this browser; Undo brings yours back.`, 'Open them')) return;
-      snap(); S = { cur: 0, master: got.master || { pieces: [] }, screens: got.screens };
-      [S.master, ...S.screens].forEach(x => { x.pieces = (x.pieces || []).filter(q => BY[q.o] && !BY[q.o].over); });
-      sel = null; render(); say('Screens opened from the link.');
+      if (mode === 'example') switchTo('mine', load(KEY) || fresh());
+      snap(); S = tidy({ cur: 0, master: got.master || { pieces: [] }, screens: got.screens }); sel = null; render(); say('Screens opened from the link.');
     } catch (e) { say('That link did not open: it may have been cut short when it was copied.'); }
   }
 
@@ -631,14 +679,29 @@
     window.print();
   }
 
+  /* ── the chooser for a new screen: a blank one, or one of the twenty kinds, each drawn small ── */
+  function kinds() {
+    if ($('kinds').children.length) return;
+    $('kinds').innerHTML = A.map(a => `<button type="button" class="sm-kind" data-k="${a.id}"><span class="mini-c"></span>
+      <span class="k-id">${a.id}</span><b>${esc(a.name.replace(/^The /, ''))}</b><small>${esc(a.does)}</small></button>`).join('');
+    $('kinds').querySelectorAll('.sm-kind').forEach(b => draw(b.querySelector('.mini-c'), { ...blank(), useMaster: false, pieces: stackUp(AK[b.dataset.k].recipe) }, { label: false, slots: false }));
+  }
+  $('newdlg').addEventListener('click', e => {
+    const b = e.target.closest('[data-k]'); if (!b) return;
+    const k = b.dataset.k, n = blank(k ? AK[k].name.replace(/^The /, '') : '');
+    $('newdlg').close();
+    snap();
+    if (k) { n.kind = k; n.job = AK[k].does; n.pieces = stackUp(AK[k].recipe.filter(id => !S.master.pieces.some(m => m.o === id)), topEnd(n)); }
+    const at = isM() ? 0 : S.cur + 1; S.screens.splice(at, 0, n); S.cur = at; sel = null; render();
+    tell(`New screen ${at + 1}${k ? ': ' + AK[k].name : ''}.`); const f = $('f-name'); if (f) f.focus();
+  });
+
   /* ── the buttons ── */
   const ask = (q, yes) => new Promise(res => { const d = $('confirm'); $('confirm-q').textContent = q; $('confirm-yes').textContent = yes; d.returnValue = ''; d.showModal(); d.addEventListener('close', () => res(d.returnValue === 'yes'), { once: true }); });
   document.addEventListener('click', async e => {
     const b = e.target.closest('[data-act]'); if (!b) return;
     const a = b.dataset.act, s = cur();
-    if (a === 'new') { snap(); const k = $('newFrom').value, n = blank(k ? AK[k].name.replace(/^The /, '') : '');
-      if (k) { n.kind = k; n.job = AK[k].does; n.pieces = stackUp(AK[k].recipe.filter(id => !S.master.pieces.some(m => m.o === id)), topEnd(n)); }
-      const at = isM() ? 0 : S.cur + 1; S.screens.splice(at, 0, n); S.cur = at; sel = null; render(); const f = $('f-name'); if (f) f.focus(); }
+    if (a === 'new') { kinds(); $('newdlg').showModal(); }
     if (a === 'dup' && !isM()) { snap(); const c = JSON.parse(JSON.stringify(s)); c.u = uid(); c.name = s.name ? s.name + ' (copy)' : ''; c.pieces.forEach(p => { p.u = uid(); });
       S.screens.splice(S.cur + 1, 0, c); S.cur++; render(); }
     if ((a === 'left' || a === 'right') && !isM()) { const j = S.cur + (a === 'left' ? -1 : 1); if (j < 0 || j >= S.screens.length) return; snap();
@@ -647,7 +710,8 @@
       if (isM()) { if (!S.master.pieces.length) return; if (!await ask('Empty the master? Its pieces will leave every screen that uses it. Undo brings them back.', 'Empty the master')) return; snap(); S.master.pieces = []; sel = null; render(); return; }
       if (!await ask(`Delete screen ${S.cur + 1}${s.name ? ', “' + s.name + '”' : ''}? Undo brings it back.`, 'Delete screen')) return;
       snap(); S.screens.splice(S.cur, 1); if (!S.screens.length) S.screens.push(blank()); S.cur = Math.min(S.cur, S.screens.length - 1); sel = null; render(); say('Screen deleted. Undo brings it back.'); }
-    if (a === 'undo') { if (!hist.length) return; S = JSON.parse(hist.pop()); sel = null; render(); }
+    if (a === 'undo') { if (!hist.length) return; fut.push(JSON.stringify(S)); S = JSON.parse(hist.pop()); sel = null; render(); tell('Undone.'); }
+    if (a === 'redo') { if (!fut.length) return; hist.push(JSON.stringify(S)); S = JSON.parse(fut.pop()); sel = null; render(); tell('Redone.'); }
     if (a === 'recipe') { snap(); s.pieces = stackUp(AK[s.kind].recipe.filter(id => !fixed(s).some(m => m.o === id)), topEnd({ ...s, pieces: [] })); sel = null; render(); }
     if (a === 'build') {
       const found = [...$('f-codes').value.matchAll(/([a-z]{3})\s*-?\s*(\d{1,2})(?:\s*\(([^)]*)\))?/gi)]
@@ -669,12 +733,15 @@
     if (a === 'link') { const url = await linkTo(); navigator.clipboard.writeText(url).then(() => say('Link copied. Open it on another computer or phone to carry on there.'), () => say(url)); }
     if (a === 'copypic') copyPic();
     if (a === 'print') printAll();
-    if (a === 'example') { snap(); S = EXAMPLE(); sel = null; render(); say('Example loaded. Undo brings your own screens back.'); }
+    if (a === 'example' && mode !== 'example') { switchTo('example', load(EXKEY) || EXAMPLE()); window.scrollTo({ top: 0 }); }
+    if (a === 'mine' && mode === 'example') { switchTo('mine', load(KEY) || fresh()); say('Back to your own screens.'); }
+    if (a === 'exreset' && mode === 'example') { snap(); S = EXAMPLE(); sel = null; render(); say('The example is as it was. Undo brings your changes back.'); }
     if (a === 'clear') { if (!await ask('Start again? Every screen and the master will be cleared. Undo brings them back.', 'Start again')) return; snap(); S = { cur: 0, master: { pieces: [] }, screens: [blank()] }; sel = null; render(); }
   });
   document.addEventListener('keydown', e => {
     if (e.target.closest('input,select,textarea,[contenteditable],dialog')) return;
-    if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'z' && !e.shiftKey) { e.preventDefault(); $('undo').click(); return; }
+    if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'z') { e.preventDefault(); $(e.shiftKey ? 'redo' : 'undo').click(); return; }
+    if (e.ctrlKey && e.key.toLowerCase() === 'y') { e.preventDefault(); $('redo').click(); return; }
     /* arrows and Delete act on the selected piece only while it, or nothing else, has focus */
     const onPiece = e.target === document.body || (e.target.classList && e.target.classList.contains('sm-p2'));
     if (!sel || !onPiece) return;
@@ -687,11 +754,13 @@
   function render() {
     if (S.cur !== -1) S.cur = Math.max(0, Math.min(S.cur, S.screens.length - 1));
     renderCanvas(); renderSide(); renderStrip();
-    $('undo').disabled = !hist.length;
+    $('undo').disabled = !hist.length; $('redo').disabled = !fut.length;
+    $('banner').hidden = mode !== 'example'; $('see-ex').hidden = mode === 'example'; $('clear').hidden = mode === 'example';
     ['dup', 'left', 'right'].forEach(a => { document.querySelector(`[data-act="${a}"]`).disabled = isM(); });
     document.querySelector('[data-act="del"]').textContent = isM() ? 'Empty the master' : 'Delete screen';
     save();
   }
+  if (matchMedia('(pointer: coarse)').matches) $('hint').textContent = 'Tap an organism to add it to the screen. Then tap the piece, and use ↑ and ↓ beside it to move it.';
   render();
   fromLink(); addEventListener('hashchange', fromLink);
   addEventListener('resize', () => { peeked = null; });
