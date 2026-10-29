@@ -115,3 +115,27 @@ body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Ari
 .intro{font-size:9pt;line-height:1.5;color:#514B4A;max-width:180mm}
 .intro h1{font-size:18pt;color:var(--ink);margin:0 0 3mm;line-height:1.1}
 .intro ol{padding-left:5mm;margin:2mm 0}
+/* ── organisms: full width, whole rows of 56 px ── */
+.org{position:relative;background:#fff;overflow:hidden;flex:none}
+.org-in{display:flex;flex-direction:column;justify-content:center;padding:0 calc(16 * var(--u))}
+.org.edge .org-in{padding:0}
+.org.edge .org-in > .k{width:100%}
+.org-stack{display:flex;flex-direction:column;gap:calc(8 * var(--u))}
+.org-row{display:flex;align-items:center;gap:calc(8 * var(--u));height:100%}
+.org-pad{padding:0 calc(16 * var(--u))}
+.org-h{line-height:1.15}
+.org-tag{position:absolute;right:1.2mm;bottom:0.7mm;font-size:5pt;color:#BDB7B4;letter-spacing:.02em;pointer-events:none}
+.org .card{flex:none} .org .lr,.org .sr{border-bottom-color:#EFEDEB}
+/* ── the screen canvas: status bar, then 14 row slots ── */
+.canvas{border:0.6mm solid var(--ink);border-radius:5mm;overflow:hidden;background:#fff;flex:none}
+.slots{position:relative}
+.slot-lines{position:absolute;inset:0;display:flex;flex-direction:column}
+.slot-lines i{display:block;position:relative;border-bottom:0.25mm dashed #E2DFDC;flex:none}
+.slot-lines i:last-child{border-bottom:0}
+.slot-lines b{position:absolute;left:1.2mm;top:50%;transform:translateY(-50%);font-size:6pt;font-weight:400;color:#C8C3C0}
+.slot-fill{position:relative;height:100%;display:flex;flex-direction:column}
+.slot-fill .org.bottom{margin-top:auto}
+/* ── cut sheets: the dashed line is the organism's own edge ── */
+.ocols{display:grid;grid-template-columns:1fr 1fr;gap:0 6mm;align-items:start}
+.ocol{display:flex;flex-direction:column;gap:3mm}
+.ocut{outline:0.25mm dashed #9A9393;outline-offset:0}
