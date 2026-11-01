@@ -27,11 +27,11 @@
   .sm-item{display:block;padding:5px 8px;border:1px solid var(--line);border-radius:7px;margin:0 0 4px;cursor:pointer;background:var(--surface);font-size:0.82rem;line-height:1.25}
   .sm-item:hover,.sm-item:focus-visible{border-color:var(--lec);outline:none;box-shadow:0 0 0 1px var(--lec)}
   .sm-item b{font-family:var(--mono);font-size:0.72rem;margin-right:5px}
-  .sm-item small{display:none}
+  .sm-item small{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
   .sm-item.nofit{border-style:dashed;color:var(--ink-3)}
   .sm-item[hidden],.sm-fam[hidden]{display:none}
   /* the preview: only while the pointer is on an organism */
-  .peek{position:fixed;z-index:60;display:none;flex-direction:column;gap:7px;width:400px;background:#fff;border:1px solid var(--line-2);border-radius:12px;padding:12px;box-shadow:0 10px 32px rgba(0,0,0,.22);pointer-events:none}
+  .peek{position:fixed;z-index:60;display:none;flex-direction:column;gap:7px;width:400px;background:#fff;border:1px solid var(--line-2);border-radius:12px;padding:12px;box-shadow:0 10px 32px rgba(0,0,0,.22)}
   .peek.on{display:flex}
   .peek .pk-f{background:var(--stage);border-radius:8px;padding:14px;display:flex;justify-content:center;align-items:center;min-height:90px}
   .peek .pk-in{background:#fff;border:1px solid #BDB6B1;line-height:normal;flex:none}
@@ -42,7 +42,7 @@
   /* the canvas: screens at their real size, in a row */
   #world{--u:1px;--z:1;display:flex;gap:56px;align-items:flex-start;padding:56px}
   .ab{flex:none;position:relative}
-  .ab-l{position:absolute;left:0;bottom:calc(100% + 6px);max-width:100%;font:inherit;font-size:calc(13px / var(--z));line-height:1.2;font-weight:600;color:var(--ink-2);background:none;border:0;padding:0;cursor:pointer;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .ab-l{position:absolute;left:0;bottom:calc(100% + 2px / var(--z));max-width:100%;font:inherit;font-size:calc(13px / var(--z));line-height:calc(24px / var(--z));height:calc(24px / var(--z));font-weight:600;color:var(--ink-2);background:none;border:0;padding:0;cursor:pointer;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
   .ab.on .ab-l{color:var(--lec)}
   .ab-c{line-height:normal}
   .ab .canvas{box-shadow:0 2px 14px rgba(0,0,0,.14);cursor:pointer}
@@ -65,6 +65,9 @@
   .ab-c [contenteditable]{cursor:text;border-radius:2px;outline:none}
   .ab-c [contenteditable]:hover{box-shadow:0 0 0 1px #8E8685}
   .ab-c [contenteditable]:focus{box-shadow:0 0 0 2px #8C2437;background:#fff}
+  .ab-c [contenteditable]:empty{display:inline-block;min-width:3em;min-height:1.1em;box-shadow:0 0 0 1px #8E8685}
+  .ab-c [contenteditable]:empty::before{content:"…";color:#6B6463}
+  .sm-p2.toolong > .org{outline:2px dashed #B3261E;outline-offset:-2px}
   .sm-ghost{position:absolute;border:2px dashed #8C2437;background:rgba(140,36,55,.08);pointer-events:none;display:none;z-index:6}
   .sm-tools{position:absolute;display:none;flex-direction:column;gap:3px;z-index:7;background:var(--surface);padding:3px;border-radius:9px;box-shadow:0 2px 10px rgba(0,0,0,.2)}
   .sm-tools.row{flex-direction:row}
@@ -85,7 +88,7 @@
   .acts{display:inline-flex;gap:3px;flex-wrap:wrap}
   .p{font-size:0.8rem;color:var(--ink-2);margin:4px 0 0;line-height:1.35} .p b{color:var(--ink)}
   .warn{font-size:0.8rem;color:var(--warn);background:var(--warn-soft);border-radius:7px;padding:7px 9px;margin:8px 0 0}
-  .pane label.mchk{display:flex;gap:7px;align-items:center;font-weight:500;font-size:0.8rem;margin-top:10px}
+  .pane label.mchk{display:flex;gap:7px;align-items:center;font-weight:500;font-size:0.8rem;margin-top:10px;min-height:24px} .mchk input{width:18px;height:18px;flex:none}
 
   /* dialogs */
   dialog.sm-new{max-width:min(980px,94vw);width:980px}
@@ -144,7 +147,7 @@
     <div id="pal"></div>
   </aside>
 
-  <section class="stage" id="stage" aria-label="Your screens">
+  <main class="stage" id="stage" aria-label="Your screens">
     <div class="world" id="world"></div>
     <div class="sm-ghost" id="ghost"></div>
     <div class="sm-tools" id="tools"></div>
@@ -158,7 +161,7 @@
         <button type="button" data-act="fitone" title="Fit this screen (Ctrl or ⌘ and scroll to zoom)">This screen</button><button type="button" data-act="fitall" title="See every screen (Ctrl or ⌘ 0)">All</button>
       </span>
     </div>
-  </section>
+  </main>
 
   <aside class="pane r" aria-label="About this screen">
     <div class="pane-s"><div id="side"></div><p class="vh" id="sr" aria-live="polite"></p></div>
@@ -282,6 +285,8 @@
   const save = () => { W[W.device] = S; try { localStorage.setItem(mode === 'example' ? EXKEY : KEY, JSON.stringify(W)); localStorage.setItem(MODE, mode); } catch (e) {} };
   const keep = before => { hist.push(before); if (hist.length > 80) hist.shift(); fut = []; $('undo').disabled = false; $('redo').disabled = true; };
   const snap = () => keep(JSON.stringify(S));
+  /* a field or some words have focus: remember how things were, and only count it once something changes */
+  let pend = null; const hold = () => { pend = JSON.stringify(S); }, flush = () => { if (pend) { keep(pend); pend = null; } };
   function switchTo(m, state) { save(); mode = m; W = state; S = W[W.device]; hist = []; fut = []; sel = null; needFit = true; renderPal(); render(); }
   function setDevice(d) { if (d === W.device) return; save(); W.device = d; S = W[d]; hist = []; fut = []; sel = null; peeked = null; needFit = true; renderPal(); render(); tell(d === 'desktop' ? 'Desktop screens.' : 'Phone screens.'); }
   function say(t) { $('msg').textContent = t; $('dmsg').textContent = t; clearTimeout(say.t); if (t) say.t = setTimeout(() => { $('msg').textContent = ''; }, 6000); }
@@ -364,6 +369,8 @@
     (f === 'Overlay' ? '<p class="p" style="margin:0 0 8px">These lie over the screen and take no rows, one at a time.</p>' : '') +
     O.filter(o => o.fam === f && here(o)).map(item).join('') + '</details>').join('');
   }
+  $('pal').addEventListener('toggle', e => { const d = e.target; if (!d.open || !d.matches('.sm-fam') || $('filter').value.trim()) return;
+    document.querySelectorAll('.sm-fam[open]').forEach(x => { if (x !== d) x.open = false; }); }, true);
   $('filter').oninput = () => { const q = $('filter').value.trim().toLowerCase();
     document.querySelectorAll('.sm-item').forEach(el => { el.hidden = !!q && !el.dataset.q.includes(q); });
     document.querySelectorAll('.sm-fam').forEach(d => { const any = [...d.querySelectorAll('.sm-item')].some(el => !el.hidden);
@@ -386,9 +393,14 @@
      and gone the moment it leaves */
   let peekT = null;
   const unpeek = () => { clearTimeout(peekT); $('peek').classList.remove('on'); };
+  /* moving from the list to the card, across the gap, must not lose it */
+  const unpeekSoon = () => { clearTimeout(peekT); peekT = setTimeout(unpeek, 160); };
   $('pal').addEventListener('mouseover', e => { const it = e.target.closest('.sm-item'); clearTimeout(peekT);
-    if (!it) { unpeek(); return; } peekT = setTimeout(() => peek(it), $('peek').classList.contains('on') ? 40 : 220); });
-  $('pal').addEventListener('mouseleave', unpeek);
+    if (!it) { unpeekSoon(); return; } peekT = setTimeout(() => peek(it), $('peek').classList.contains('on') ? 40 : 220); });
+  $('pal').addEventListener('mouseleave', unpeekSoon);
+  $('peek').addEventListener('mouseenter', () => clearTimeout(peekT));
+  $('peek').addEventListener('mouseleave', unpeek);
+  addEventListener('keydown', e => { if (e.key === 'Escape') unpeek(); });
   $('pal').addEventListener('scroll', unpeek);
   $('pal').addEventListener('click', unpeek);
   $('pal').addEventListener('focusin', e => { const it = e.target.closest('.sm-item'); if (it && it.matches(':focus-visible')) peek(it); });
@@ -438,8 +450,9 @@
     const used = m.filter(Boolean).length;
     $('count').textContent = `${used} of ${ROWS} rows used · ${used * ROW} of ${ROWS * ROW} px${fxs.size ? ' · blue edge: from the master' : ''}`;
     $('codes').textContent = codesOf(s).join(' · ');
-    document.querySelectorAll('.sm-item').forEach(el => { const o = BY[el.dataset.id]; el.classList.toggle('nofit', !o.over && !pinned(o.id) && !firstFit(s, o, spanOf(o))); });
-    renderTools();
+    document.querySelectorAll('.sm-item').forEach(el => { const o = BY[el.dataset.id]; const no = !o.over && !pinned(o.id) && !firstFit(s, o, spanOf(o)); el.classList.toggle('nofit', no);
+      if (no) { el.setAttribute('aria-description', 'No room on this screen'); el.title = 'No room on this screen'; } else { el.removeAttribute('aria-description'); el.removeAttribute('title'); } });
+    checkFit(); renderTools();
   }
 
   /* the tools beside the selected piece: to its right on a phone, above it on desktop */
@@ -448,10 +461,11 @@
     const el = sel && cv().querySelector(`[data-u="${sel}"]`);
     if ((!p && !mp) || !el) { t.style.display = 'none'; return; }
     const off = $('stage').getBoundingClientRect(), r = el.getBoundingClientRect();
+    if (r.right < off.left || r.left > off.right || r.bottom < off.top || r.top > off.bottom) { t.style.display = 'none'; return; }
     const b = q => q === false ? '' : ' disabled', pin = p && pinned(p.o);
     t.style.display = 'flex';
-    t.innerHTML = mp ? `<button type="button" data-do="to-master" aria-label="Go to the master" title="Go to the master">M</button>`
-      : `<button type="button" class="hd" data-do="drag" aria-label="Drag to move" title="Drag to move"${b(pin)}>⠿</button>
+    const html = mp ? `<button type="button" data-do="to-master" aria-label="Go to the master" title="Go to the master">M</button>`
+      : `<button type="button" class="hd" data-do="drag" tabindex="-1" aria-hidden="true" title="Drag to move"${b(pin)}>⠿</button>
         <button type="button" data-do="up" aria-label="Move up a row" title="Up a row"${b(pin)}>↑</button>
         <button type="button" data-do="down" aria-label="Move down a row" title="Down a row"${b(pin)}>↓</button>
         ${isD() ? `<button type="button" data-do="left" aria-label="Move a column left" title="A column left"${b(pin)}>←</button>
@@ -459,6 +473,8 @@
         <button type="button" data-do="thin" aria-label="Narrower by a column" title="Narrower"${b(pin)}>−</button>
         <button type="button" data-do="wide" aria-label="Wider by a column" title="Wider"${b(pin)}>+</button>` : ''}
         <button type="button" data-do="rm" aria-label="Remove" title="Remove">✕</button>`;
+    /* only rewrite when something changed: panning redraws this, and focus must survive it */
+    if (t._html !== html) { t.innerHTML = html; t._html = html; }
     t.classList.toggle('row', isD());
     if (isD()) { t.style.left = Math.max(4, r.left - off.left) + 'px'; const above = r.top - off.top - 44; t.style.top = (above >= 4 ? above : r.bottom - off.top + 6) + 'px'; }
     else { const right = r.right - off.left + 8; t.style.left = (right + 44 > off.width ? Math.max(4, r.left - off.left - 44) : right) + 'px'; t.style.top = Math.max(4, r.top - off.top) + 'px'; }
@@ -490,7 +506,7 @@
     snap(); p.col = col; p.span = span; moved2(p);
   }
   const removeSel = () => { const s = cur(), i = s.pieces.findIndex(q => q.u === sel); if (i < 0) return; const name = BY[s.pieces[i].o].name;
-    snap(); s.pieces.splice(i, 1); sel = null; render(); tell(`${name} removed. Undo brings it back.`); };
+    const inTools = document.activeElement && document.activeElement.closest('#tools'); snap(); s.pieces.splice(i, 1); sel = null; render(); tell(`${name} removed. Undo brings it back.`); if (inTools || document.activeElement === document.body) { const l = document.querySelector('.ab.on .ab-l'); if (l) l.focus({ preventScroll: true }); } };
   $('tools').addEventListener('click', e => { const b = e.target.closest('button'); if (!b) return;
     if (b.dataset.do === 'up') nudge(-1); if (b.dataset.do === 'down') nudge(1); if (b.dataset.do === 'rm') removeSel();
     if (b.dataset.do === 'left') sideways(-1, 0); if (b.dataset.do === 'right') sideways(1, 0); if (b.dataset.do === 'thin') sideways(0, -1); if (b.dataset.do === 'wide') sideways(0, 1);
@@ -509,17 +525,25 @@
     const u = ab && w ? w.dataset.u : null;
     if (u !== sel) select(u);
   });
-  $('world').addEventListener('focusin', e => { if (e.target.isContentEditable) { snap(); const w = e.target.closest('.sm-p2'); if (w && w.dataset.u !== sel) select(w.dataset.u); } });
+  $('world').addEventListener('focusin', e => { if (e.target.isContentEditable) { hold(); const w = e.target.closest('.sm-p2'); if (w && w.dataset.u !== sel) select(w.dataset.u); } });
   $('world').addEventListener('input', e => {
     const el = e.target.closest('[data-k]'); if (!el) return;
-    const s = cur(), k = el.dataset.k, txt = el.textContent, w = el.closest('[data-u]');
+    flush(); const s = cur(), k = el.dataset.k, txt = el.textContent, w = el.closest('[data-u]');
     if (el.closest('.ovl')) (s.overT = s.overT || {})[k] = txt;
     else if (w && w.dataset.m && !isM()) ((s.mt = s.mt || {})[w.dataset.u] = s.mt[w.dataset.u] || {})[k] = txt;
     else { const p = s.pieces.find(q => q.u === (w && w.dataset.u)); if (p) p.t[k] = txt; }
-    save(); $('codes').textContent = codesOf(s).join(' · ');
+    save(); $('codes').textContent = codesOf(s).join(' · '); checkFit();
   });
   $('world').addEventListener('keydown', e => { if (e.target.isContentEditable && (e.key === 'Enter' || e.key === 'Escape')) { e.preventDefault(); e.target.blur(); } });
-  $('world').addEventListener('focusout', e => { if (e.target.isContentEditable) renderStrip(); });
+  $('world').addEventListener('focusout', e => { if (e.target.isContentEditable) { renderStrip(); checkFit(true); } });
+  $('stage').addEventListener('click', e => { if ((e.target === $('stage')) && sel) select(null); });
+  /* words that no longer fit their organism are clipped when printed, so say so */
+  function checkFit(tellIt) {
+    let n = 0, name = '';
+    document.querySelectorAll('.ab.on .sm-p2').forEach(p => { const b = p.querySelector('.org-in'), bad = b && b.scrollHeight > b.clientHeight + 2; p.classList.toggle('toolong', !!bad); if (bad) { n++; name = BY[p.querySelector('.org').dataset.org].name; } });
+    if (tellIt && n) say(`Those words do not fit in ${name}. Use fewer words, or an organism with more rows.`);
+    return n;
+  }
 
   /* dragging a piece: by its body (not its words) or by ⠿, snapping to rows and, on desktop,
      columns; by its right edge, to change its width */
@@ -607,8 +631,8 @@
       ${c ? `<p class="warn">${plural(c, 'piece')} on this screen ${c === 1 ? 'sits' : 'sit'} in rows the master now uses (dashed red). Move ${c === 1 ? 'it' : 'them'}, or switch the master off.</p>` : ''}
       ${info}`;
     [['f-name', 'name'], ['f-job', 'job'], ['f-goes', 'goes']].forEach(([el, k]) => {
-      $(el).addEventListener('focus', () => snap());
-      $(el).addEventListener('input', () => { s[k] = $(el).value; save(); if (k === 'name') renderStrip(); }); });
+      $(el).addEventListener('focus', hold);
+      $(el).addEventListener('input', () => { flush(); s[k] = $(el).value; save(); if (k === 'name') renderStrip(); }); });
     $('f-kind').onchange = () => { snap(); s.kind = $('f-kind').value; if (s.kind && !s.pieces.length) { s.pieces = stackUp(AK[s.kind].recipe.filter(id => !fixed(s).some(m => m.o === (isD() ? deskId(id) : id))), topEnd(s)); if (!s.job) s.job = AK[s.kind].does; } render(); };
     $('f-master').onchange = () => { snap(); s.useMaster = $('f-master').checked; render(); };
   }
@@ -616,13 +640,13 @@
   /* ── the world: the master, every screen side by side, and a tile for another ── */
   const nameOf = (i) => i === -1 ? 'Master' : `${i + 1} · ${S.screens[i].name || 'Screen'}`;
   function renderWorld() {
-    const tile = i => `<div class="ab${i === -1 ? ' ms' : ''}${i === S.cur ? ' on' : ''}" data-s="${i}"><button type="button" class="ab-l"${i === S.cur ? ' aria-current="true"' : ''}>${esc(nameOf(i))}</button><div class="ab-c"></div></div>`;
+    const tile = i => `<div class="ab${i === -1 ? ' ms' : ''}${i === S.cur ? ' on' : ''}" data-s="${i}"><button type="button" class="ab-l" title="${esc(nameOf(i))}"${i === S.cur ? ' aria-current="true"' : ''}>${esc(nameOf(i))}</button><div class="ab-c"${i === S.cur ? '' : ' aria-hidden="true"'}></div></div>`;
     $('world').innerHTML = tile(-1) + S.screens.map((_, i) => tile(i)).join('') + `<button type="button" class="ab-new" data-act="new" aria-haspopup="dialog">+ New screen</button>`;
     document.querySelectorAll('.ab:not(.on)').forEach(ab => { const i = +ab.dataset.s; draw(ab.querySelector('.ab-c'), i === -1 ? S.master : S.screens[i], { label: false, slots: false }); });
   }
   /* after typing: the labels, and on the master, every screen that shows its words */
   function renderStrip() {
-    document.querySelectorAll('.ab').forEach(ab => { const i = +ab.dataset.s; ab.querySelector('.ab-l').textContent = nameOf(i);
+    document.querySelectorAll('.ab').forEach(ab => { const i = +ab.dataset.s, l = ab.querySelector('.ab-l'); l.textContent = nameOf(i); l.title = nameOf(i);
       if (isM() && !ab.classList.contains('on')) draw(ab.querySelector('.ab-c'), S.screens[i], { label: false, slots: false }); });
   }
 
@@ -689,7 +713,7 @@
   function kinds() {
     if ($('kinds').children.length && $('kinds').dataset.d === W.device) return;
     $('kinds').dataset.d = W.device;
-    $('kinds').innerHTML = A.map(a => `<button type="button" class="sm-kind" data-k="${a.id}"><span class="mini-c"></span>
+    $('kinds').innerHTML = A.map(a => `<button type="button" class="sm-kind" data-k="${a.id}" aria-label="${esc(a.name.replace(/^The /, ''))}: ${esc(a.does)}"><span class="mini-c"></span>
       <span class="k-id">${a.id}</span><b>${esc(a.name.replace(/^The /, ''))}</b><small>${esc(a.does)}</small></button>`).join('');
     $('kinds').querySelectorAll('.sm-kind').forEach(b => draw(b.querySelector('.mini-c'), { ...blank(), useMaster: false, pieces: stackUp(AK[b.dataset.k].recipe) }, { label: false, slots: false }));
   }
@@ -716,7 +740,7 @@
     if (a === 'del') {
       if (isM()) { if (!S.master.pieces.length) return; if (!await ask('Empty the master? Its pieces will leave every screen that uses it. Undo brings them back.', 'Empty the master')) return; snap(); S.master.pieces = []; sel = null; render(); return; }
       if (!await ask(`Delete screen ${S.cur + 1}${s.name ? ', “' + s.name + '”' : ''}? Undo brings it back.`, 'Delete screen')) return;
-      snap(); S.screens.splice(S.cur, 1); if (!S.screens.length) S.screens.push(blank()); S.cur = Math.min(S.cur, S.screens.length - 1); sel = null; render(); say('Screen deleted. Undo brings it back.'); }
+      snap(); S.screens.splice(S.cur, 1); if (!S.screens.length) S.screens.push(blank()); S.cur = Math.min(S.cur, S.screens.length - 1); sel = null; render(); say('Screen deleted. Undo brings it back.'); const l = document.querySelector('.ab.on .ab-l'); if (l) l.focus({ preventScroll: true }); }
     if (a === 'undo') { if (!hist.length) return; fut.push(JSON.stringify(S)); S = JSON.parse(hist.pop()); sel = null; render(); tell('Undone.'); }
     if (a === 'redo') { if (!fut.length) return; hist.push(JSON.stringify(S)); S = JSON.parse(fut.pop()); sel = null; render(); tell('Redone.'); }
     if (a === 'recipe') { snap(); s.pieces = stackUp(AK[s.kind].recipe.filter(id => !fixed(s).some(m => m.o === (isD() ? deskId(id) : id))), topEnd({ ...s, pieces: [] })); sel = null; render(); }
@@ -779,8 +803,10 @@
     else if (lastCur !== S.cur) view.reveal(on);
     lastCur = S.cur; renderTools();
   }
+  const focusKey = () => { const e = document.activeElement; if (!e || e === document.body) return null; if (e.closest('#tools')) return `#tools [data-do="${e.dataset.do}"]`; if (e.id) return '#' + e.id; if (e.closest('#side') && e.dataset.act) return `#side [data-act="${e.dataset.act}"]`; return null; };
   function render() {
     if (S.cur !== -1) S.cur = Math.max(0, Math.min(S.cur, S.screens.length - 1));
+    const fk = focusKey();
     renderWorld(); renderCanvas(); renderSide();
     $('undo').disabled = !hist.length; $('redo').disabled = !fut.length;
     document.body.classList.toggle('dm', isD()); document.body.classList.toggle('sk', W.look === 'sketch');
@@ -788,6 +814,7 @@
     document.querySelectorAll('[data-act="dev"]').forEach(b => { const on = b.dataset.d === W.device; b.classList.toggle('on', on); b.setAttribute('aria-pressed', String(on)); });
     $('banner').hidden = mode !== 'example'; $('see-ex').hidden = mode === 'example'; $('clear').hidden = mode === 'example';
     save(); afterRender();
+    if (fk) { const back = document.querySelector(fk); if (back && !back.disabled && document.activeElement !== back) back.focus({ preventScroll: true }); else if (fk.startsWith('#tools') && (!back || back.disabled)) { const el = sel && cv().querySelector(`[data-u="${sel}"]`); if (el) el.focus({ preventScroll: true }); else { const l = document.querySelector('.ab.on .ab-l'); if (l) l.focus({ preventScroll: true }); } } }
   }
   renderPal();
   view = window.ToolCanvas($('stage'), $('world'), { label: $('zlabel'), onChange: () => renderTools(), fitAll: () => view.fit($('world'), 16, 1), top: () => mode === 'example' ? 80 : 40,

@@ -36,6 +36,7 @@
   .kseg button{font:inherit;font-size:0.78rem;font-weight:600;min-height:30px;border:0;background:#fff;color:var(--ink);cursor:pointer;padding:0 4px}
   .kseg button + button{border-left:1px solid var(--line-2)}
   .kseg button.on{background:var(--ink);color:#fff}
+  .kseg button:focus-visible{outline:none;box-shadow:inset 0 0 0 2px #fff,inset 0 0 0 4px var(--lec)}
   .sbtn{font:inherit;font-size:0.8rem;font-weight:600;min-height:32px;padding:0 10px;border-radius:7px;border:1px solid var(--line-2);background:#fff;color:var(--ink);cursor:pointer;text-align:left}
   .sbtn:hover:not(:disabled){border-color:var(--lec);color:var(--lec)} .sbtn:disabled{opacity:.4;cursor:default}
   .sbtn.stk.on{background:#FCEAE8;border-color:#B3261E;color:#B3261E}
@@ -110,14 +111,14 @@
     </section>
   </aside>
 
-  <section class="stage" id="stage" aria-label="The slide for B4">
+  <main class="stage" id="stage" aria-label="The slide for B4">
     <div class="world" id="world"><div id="slide" role="group" aria-label="The B4 slide, drawn from your steps. Click anything to change it."></div><textarea id="inl" hidden rows="1" spellcheck="true" aria-label="Edit these words"></textarea></div>
     <p class="t-msg" id="msg" role="status"></p>
     <div class="st-bar">
       <span class="st-info" id="tally"></span>
       <span class="zoom" role="group" aria-label="Zoom"><button type="button" data-act="zout" aria-label="Zoom out">−</button><output id="zlabel">100%</output><button type="button" data-act="zin" aria-label="Zoom in">+</button><button type="button" data-act="fit" title="Fit the slide (Ctrl or ⌘ 0)">Fit</button></span>
     </div>
-  </section>
+  </main>
 </div>
 
 <dialog class="dlg" id="helpdlg" aria-labelledby="helpdlg-h"><form method="dialog">
@@ -143,7 +144,7 @@
      Every step now ends up kept, merged, moved or removed, which is D2; the drawing is a
      16:9 slide for B4. Nothing to learn but the buttons. */
   const $ = id => document.getElementById(id);
-  const { esc, nums, counts, fatesOf, COL, band, DEFS, FONT } = window.FD;
+  const { esc, nums, counts, fatesOf, COL, band, DEFS, FONT, wrap: FD_wrap, clip: FD_clip } = window.FD;
   const fates = () => fatesOf(S.before, S.after);
   const KEY = 'sd-flow2';
   let uid = 1; const nid = p => p + (uid++) + '-' + Date.now().toString(36);
@@ -226,12 +227,18 @@
     S.view = S.tab === 'before' ? 'before' : S.tab === 'after' ? 'after' : 'both';
     $('dl').textContent = S.tab === 'before' ? 'Download “now” for B4' : S.tab === 'after' ? 'Download my version for B4' : 'Download both for B4';
     $('afterhow').innerHTML = S.after.length ? 'Remove, merge, move and rename steps until it answers every ✗. <b>Click anything on the diagram to change it.</b>' : '';
+    const nothing = S.tab === 'after' ? !S.after.length : !S.before.length; $('dl').disabled = nothing; $('dl').title = nothing ? 'Nothing to download yet: add a step first' : '';
     $('reseed').hidden = !S.after.length; $('undo').disabled = !hist.length; $('redo').disabled = !fut.length;
     draw();
   }
 
   /* ---------- the slide: 1920 × 1080, read left to right ---------- */
   const W = 1920, H = 1080, M = 72;
+  /* the goal, on one line at full size, or two lines a little smaller */
+  function goalLines() {
+    const g = S.goal || 'Your goal', big = g.length <= 66, fs = big ? 44 : 34, lines = big ? [g] : FD_clip(FD_wrap(g, 92), 2);
+    return lines.map((l, i) => `<text x="${M}" y="${M + (big ? 72 : 60 + i * 42)}" font-size="${fs}" font-weight="800" fill="${COL.ink}">${esc(l)}</text>`).join('');
+  }
   function slide() {
     const cb = counts(S.before), ca = counts(S.after), v = S.view, F = v === 'both' ? fates() : null;
     const head = v === 'before' ? 'How people do it now' : v === 'after' ? 'Your version' : 'Now, and your version';
@@ -239,8 +246,8 @@
       ${DEFS}
       <rect width="${W}" height="${H}" fill="#fff"/>
       <text x="${M}" y="${M + 22}" font-size="20" font-weight="700" fill="${COL.mute}" letter-spacing="2">B4 · FLOW DIAGRAM</text>
-      <text x="${M}" y="${M + 72}" font-size="44" font-weight="800" fill="${COL.ink}">${esc(S.goal || 'Your goal')}</text>
-      <text x="${W - M}" y="${M + 72}" font-size="22" fill="${COL.mute}" text-anchor="end">${esc(head)}</text>`;
+      ${goalLines()}
+      <text x="${W - M}" y="${M + 22}" font-size="22" fill="${COL.mute}" text-anchor="end">${esc(head)}</text>`;
     const sum = c => `${c.steps} step${c.steps === 1 ? '' : 's'} · ${c.waits} wait${c.waits === 1 ? '' : 's'} · ${c.stuck} where people get stuck${c.loops ? ` · ${c.loops} back to an earlier step` : ''}`;
     const y0 = M + 120, bw0 = W - 2 * M;
     if (v === 'both') {
@@ -261,7 +268,9 @@
   /* history: every change can be undone */
   let hist = [], fut = [];
   const snap = () => { hist.push(JSON.stringify(S)); if (hist.length > 80) hist.shift(); fut = []; $('undo').disabled = false; $('redo').disabled = true; };
-  $('steps').addEventListener('focusin', e => { if (e.target.matches('input')) snap(); });
+  /* a field has focus: remember how things were, and only count it once something changes */
+  let pend = null; const hold = () => { pend = JSON.stringify(S); }, flush = () => { if (pend) { hist.push(pend); pend = null; fut = []; $('undo').disabled = false; $('redo').disabled = true; } };
+  $('steps').addEventListener('focusin', e => { if (e.target.matches('input')) hold(); });
 
   /* the selected step: open in the list, outlined on the diagram. The boxes can be reached by
      keyboard too: Tab to one, Enter to type in it. */
@@ -286,10 +295,10 @@
   }
   function openInl(id, f) {
     const x = stepOf(id); if (!x) return;
-    snap(); open = { id, f }; inl.value = x[f] || ''; inl.hidden = false; placeInl(); inl.focus(); inl.select();
+    hold(); open = { id, f }; inl.value = x[f] || ''; inl.hidden = false; placeInl(); inl.focus(); inl.select();
   }
   function closeInl() { if (!open) return; open = null; inl.hidden = true; }
-  inl.addEventListener('input', () => { if (!open) return; const x = stepOf(open.id); x[open.f] = inl.value.replace(/\n/g, ' ');
+  inl.addEventListener('input', () => { if (!open) return; flush(); const x = stepOf(open.id); x[open.f] = inl.value.replace(/\n/g, ' ');
     const side = document.querySelector(`.fm-row[data-id="${open.id}"] [data-f="${open.f}"]`); if (side) side.value = x[open.f]; if (open.f === 't') renderD2(); draw(); placeInl(); });
   inl.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === 'Escape') { e.preventDefault(); const id = open && open.id; closeInl(); const g = id && document.querySelector(`#slide g[data-step="${id}"]`); if (g) g.focus({ preventScroll: true }); } });
   inl.addEventListener('blur', () => closeInl());
@@ -306,7 +315,16 @@
   $('slide').addEventListener('click', e => { const g = e.target.closest('g[data-step]');
     if (!g) { closeInl(); if (selId) pick(null); return; }
     const t = e.target.closest('[data-f]'); selectStep(g.dataset.step, t ? t.dataset.f : 't'); });
-  $('slide').addEventListener('keydown', e => { const g = e.target.closest('g[data-step]'); if (g && (e.key === 'Enter' || e.key === ' ')) { e.preventDefault(); selectStep(g.dataset.step, 't'); } });
+  $('stage').addEventListener('click', e => { if (e.target === $('stage') || e.target === $('world')) { closeInl(); if (selId) pick(null); } });
+  $('slide').addEventListener('keydown', e => { const g = e.target.closest('g[data-step]'); if (!g) return;
+    if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); selectStep(g.dataset.step, 't'); return; }
+    const id = g.dataset.step, side = S.before.some(x => x.id === id) ? 'before' : 'after', list = S[side], i = list.findIndex(x => x.id === id);
+    if (e.key === 'Delete' || e.key === 'Backspace') { e.preventDefault(); selId = id; if (S.tab !== 'd2') S.tab = side; renderAll(); const del = document.querySelector(`.fm-row[data-id="${id}"] [data-act="del"]`); if (del) del.click(); }
+    if ((e.key === 'ArrowLeft' && i > 0) || (e.key === 'ArrowRight' && i < list.length - 1)) { e.preventDefault(); snap(); const j = i + (e.key === 'ArrowLeft' ? -1 : 1); [list[i], list[j]] = [list[j], list[i]]; selId = id; renderAll(); const n = document.querySelector(`#slide g[data-step="${id}"]`); if (n) n.focus({ preventScroll: true }); }
+  });
+  /* tabs: the arrow keys move between them, as tabs should */
+  document.querySelector('.fm-tabs').addEventListener('keydown', e => { if (e.key !== 'ArrowLeft' && e.key !== 'ArrowRight') return; e.preventDefault();
+    const ts = [...document.querySelectorAll('.fm-tabs [role=tab]')], i = ts.indexOf(document.activeElement), n = ts[(i + (e.key === 'ArrowLeft' ? ts.length - 1 : 1)) % ts.length]; n.focus(); n.click(); });
   addEventListener('keydown', e => { if (e.target.closest('input,textarea,select')) return;
     if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'z') { e.preventDefault(); $(e.shiftKey ? 'redo' : 'undo').click(); }
     if (e.ctrlKey && e.key.toLowerCase() === 'y') { e.preventDefault(); $('redo').click(); } });
@@ -317,6 +335,7 @@
   document.addEventListener('input', e => {
     const t = e.target;
     if (t.id === 'inl') return;
+    flush();
     if (t.id === 'goal') { S.goal = t.value; draw(); return; }
     if (t.dataset.why) { S.why[t.dataset.why] = t.value; save(); const F = fates(), need = S.before.filter(b => F[b.id].kind !== 'kept').concat(S.after.filter(a => !(a.from || []).length)); $('d2n').textContent = need.length ? `${need.filter(x => (S.why[x.id] || '').trim()).length} of ${need.length} changes explained.` : ''; return; }
     const f = t.dataset.f; if (!f || f === 'goback') return;
@@ -352,14 +371,18 @@
     if (act === 'd2') return copy(d2Text(), msg);
     if (!b.closest('.fm-row')) return;
     snap(); const list = listOf(b), x = itemOf(b), i = list.indexOf(x);
-    if (act === 'del') { list.splice(i, 1); selId = null; }
+    if (act === 'del') { const gone = x.id, next = list[i + 1] || list[i - 1]; list.splice(i, 1); selId = next ? next.id : null;
+      [...S.before, ...S.after].forEach(y => { if (y.back === gone) { y.back = ''; y.go = 'stuck'; } if (y.from) y.from = y.from.filter(z => z !== gone); }); delete S.why[gone]; }
     if (act === 'up' && i > 0) [list[i - 1], list[i]] = [list[i], list[i - 1]];
     if (act === 'down' && i < list.length - 1) [list[i + 1], list[i]] = [list[i], list[i + 1]];
     if (act === 'bad') x.bad = !x.bad;
     if (act === 'kind') { x.k = b.dataset.k; if (x.k !== 'step') x.bad = false; }
     if (act === 'merge' && list[i + 1]) { const y = list[i + 1]; x.from = [...new Set([...(x.from || []), ...(y.from || [])])]; list.splice(i + 1, 1); }
     if (act === 'from') { const id = b.dataset.b; x.from = (x.from || []).includes(id) ? x.from.filter(z => z !== id) : [...(x.from || []), id]; }
+    const q = act === 'del' ? `.fm-row[data-id="${selId}"] .fm-t` : `.fm-row[data-id="${x.id}"] [data-act="${act}"]${b.dataset.k ? `[data-k="${b.dataset.k}"]` : ''}${b.dataset.b ? `[data-b="${b.dataset.b}"]` : ''}`;
     renderAll();
+    const back = document.querySelector(q), fall = document.querySelector(`.fm-row[data-id="${selId}"] .fm-t`) || document.querySelector(`#p-${S.tab} [data-act="add"]`);
+    (back && !back.disabled ? back : fall || document.body).focus();
   });
 
   /* ---------- out: the slide as a picture, A2 and D2 as text ---------- */

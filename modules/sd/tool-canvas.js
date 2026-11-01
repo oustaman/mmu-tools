@@ -2,6 +2,10 @@
    transform, so everything inside it keeps measuring correctly with getBoundingClientRect.
    Scroll to pan; pinch, or Ctrl/Cmd and scroll, to zoom at the pointer; drag the empty canvas, or
    hold Space and drag anywhere, to pan; − + and Fit in the corner; Ctrl/Cmd + − 0 on the keyboard. */
+/* the More menu: closes on Esc, on a click elsewhere, and hands focus back */
+addEventListener('click', e => { document.querySelectorAll('details.menu[open]').forEach(m => { if (!m.contains(e.target)) m.open = false; }); });
+addEventListener('keydown', e => { if (e.key !== 'Escape') return; const m = document.querySelector('details.menu[open]'); if (m) { m.open = false; m.querySelector('summary').focus(); } });
+
 window.ToolCanvas = function (stage, world, opts = {}) {
   const MIN = 0.1, MAX = 3;
   const v = { x: 0, y: 0, z: 1 };

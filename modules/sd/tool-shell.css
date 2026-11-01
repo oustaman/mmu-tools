@@ -18,6 +18,9 @@ body{margin:0;color:var(--ink);font-family:var(--sans);line-height:1.4;overflow:
 a{color:var(--lec)}
 button{font-family:inherit}
 :focus-visible{outline:2px solid var(--lec);outline-offset:1px}
+/* inside rounded groups the ring would be clipped, so it sits inside the button */
+.seg button:focus-visible,.zoom button:focus-visible{outline:none;box-shadow:inset 0 0 0 2px #fff,inset 0 0 0 4px var(--lec)}
+::placeholder{color:#6B6463;opacity:1}
 [hidden]{display:none!important}
 
 /* the bar */
