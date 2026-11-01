@@ -141,36 +141,39 @@ const WEEKS = [
  }
 },
 {
- n:5, title:"The journey: what are we fixing?",
- makes:["The journey before → Part A §2","The journey, mapped → B4","The before, captured → D1","C7 drafted"],
+ n:5, title:"The journey, and your first wireframes",
+ makes:["The journey before → Part A §2","The journey, mapped → B4","The before, captured → D1","First wireframes → B5","C7 drafted"],
  shown:[
   {core:true, s:"Before and after: the painful one", u:"case-bakery.html", take:"The before is evidence, even when it is a message thread. Count it — channels, messages, days — and every count becomes a line in C5 and D2."},
-  {core:true, s:"Before and after: the okay one", u:"case-missed-bin.html", take:"A service can look fine and still fail its users. The problems are in the order of things — which is what A2 and B4 are for."},
+  {core:true, slides:"Drawing a flow", s:"Drawing a flow", u:"flow-grammar.html", take:"A flow has six marks, each with one meaning. The ✗ marks matter most: they are the problems your design has to answer."},
+  {core:true, slides:"Thinking in wireframes", s:"Thinking in wireframes: one whole journey", u:"wireframes.html", take:"A wireframe is an argument about priority: what is here, in what order, in what words. If you are choosing a font, stop."},
  ],
  three:[
   {t:"Your journey before, counted and mapped", d:"Part A §2: the goal and every step people take now, with the count — and the same steps drawn as a flow in B4."},
   {t:"The before, captured", d:"D1: one screenshot or photo per step, numbered to match A2."},
-  {t:"C7 drafted", d:"One cross-cultural consideration, specific to your service.", open:true},
+  {t:"First wireframes, and C7 drafted", d:"Two or three screens that answer your worst problem, in B5. One cross-cultural consideration for C7.", open:true},
  ],
  workshop:{
-  aim:"Find out what your design has to fix: the goal, every step people take now, counted, mapped and captured.",
-  out:{"sec": ["A2", "B4", "D1", "C7"]},
-  bring:"Access to the service you are improving · paper and a marker, if you draw your flow by hand",
+  aim:"Find out what your design has to fix, then wireframe the first screens that fix it.",
+  out:{"sec": ["A2", "B4", "D1", "B5", "C7"]},
+  bring:"Access to the service you are improving · paper and a marker, if you sketch",
   run:[
    {s:"Walk one case, in pairs", d:"Walk the <a href=\"case-bakery.html\">bakery’s</a> <i>now</i> slides: for each red number, say what it costs the customer. Then: which green number fixes which red one?"},
    {s:"Write the goal, then the before", d:"Into <code>A2</code>: your goal, then every step people take now, the website, the form, the call, the messages. No service yet? The before is how people manage without one."},
    {s:"Count it", d:"Steps, taps, fields, messages, days waiting, dead ends. A number, not an adjective: “199 words before you can start”, not “too much text”."},
-   {s:"Learn the parts of a flow", d:"Read Part 1 of <a href=\"flow-guide.html#now\">How flows work</a>, and do its first test."},
-   {s:"Map it", d:"Draw the same steps in the <a href=\"flow.html\">Flow maker</a>, mark where people get stuck, and <b>Download the slide for B4</b>. Paper, photographed, is just as good."},
+   {s:"Map it", d:"Draw the same steps in the <a href=\"flow.html\">Flow maker</a> with the six marks from <a href=\"flow-grammar.html\">Drawing a flow</a>, mark where people get stuck, and <b>Download the slide for B4</b>. Paper, photographed, is just as good. More detail, with a test: <a href=\"flow-guide.html#now\">How flows work</a>."},
    {s:"Capture it", d:"Screenshot or photograph every step into <code>D1</code>, numbered to match A2. Chats need the owner’s permission, with everyone else’s name and number blurred."},
-   {s:"Write C7", d:"One slide on one cross-cultural consideration that is real for your service: colour meaning, reading direction, names and dates, language or icons."},
+   {s:"Wireframe your worst ✗", d:"Which ✗ costs people the most? What two or three screens would answer it? Give each a job, then wireframe them, by sketching or in the <a href=\"screen-maker.html\">Screen maker</a>: boxes, labels, real words. <a href=\"wireframes.html\">Thinking in wireframes</a> walks through a whole journey."},
+   {s:"The blind test", d:"Hand your screens to a partner. Can they say what each one is for, and what they would do next? Redraw any they cannot, and put the set in <code>B5</code>."},
   ],
-  between:"Finish <code>D1</code> while you can still reach the before.",
+  between:"Finish <code>D1</code> while you can still reach the before. Write <code>C7</code>: one slide on one cross-cultural consideration that is real for your service, such as colour meaning, reading direction, names and dates, language or icons.",
   mistake:"Describing the before instead of counting it.",
   stuck:[
    ["There is no website for my idea", "Then the before is how people manage now: <a href=\"toolkit.html#no-service\">When there’s no service yet</a>. The bakery case is exactly that."],
    ["Can I screenshot a real service?", "Yes, for your appendix, credited. Blur anyone’s personal details."],
    ["What counts as a step?", "Anything the person has to do or wait for: a page, a tap, a call, a reply. <a href=\"flow-guide.html#step\">How flows work</a> has more."],
+   ["Should I sketch or use the Screen maker?", "Either: both count for B5. Sketch to try ideas quickly, and use the Screen maker when you know what you want."],
+   ["My project is a website for big screens", "Use the Desktop setting in the Screen maker, or sketch it wide."],
   ]
  }
 },
@@ -194,7 +197,7 @@ const WEEKS = [
    {s:"Mood board, fast", d:"Fifteen images on one page: the feeling you are aiming at. Generated images are welcome; each one gets a line in <code>A7</code>."},
    {s:"Style tile", d:"Finish the tile you started in week 4: type scale, palette with roles, spacing, and a button, a field and a card. Every value from your own A3–A5."},
    {s:"Open the AI log", d:"Start <code>A7</code> today, one line for every AI use; you will not remember them in January. Not sure what is allowed? <a href=\"toolkit.html#ai\">Using AI</a>."},
-   {s:"Optional: ask for feedback on your deck", d:"Put your name on the feedback list, and Mike will go through the deck in your shared folder. Feedback comes back over the next few weeks, and week 10 is where you act on it."},
+   {s:"Optional: ask for feedback on your deck", d:"Put your name on the feedback form by the end of week 7, and Mike will go through the deck in your shared folder and leave feedback right in it. It comes back over the following weeks, and week 10 is where you act on it."},
    {s:"Write C8", d:"Eighty words on the AI you used: was it any good, whose work is it, and what did you change? If you used none, say why."},
   ],
   between:"Finish your style tile: week 8 builds from it.",
@@ -208,19 +211,20 @@ const WEEKS = [
 },
 {
  n:7, title:"UX basics and screen states",
- makes:["Your screens → Part A §2","Your flow, after → B4","C6 drafted"],
+ makes:["Your screens → Part A §2","Your flow, after → B4","The rest of your wireframes → B5","C6 drafted"],
  shown:[
   {core:true, s:"The five states", u:"https://interfaces.institute/stairwell/state/", take:"Four of the five states look identical when nobody designs them. Empty, loading, error and offline are screens, and they belong in A2."},
   {core:true, slides:"PassReady", s:"PassReady: the worst-day screens", u:"passready.html", take:"Not knowing and not being sure are states too. Each needs its own words and a next step, or the screen pretends to a certainty it has not earned."},
+  {core:true, slides:"The rest of the organisms", s:"The rest of the organisms", u:"wireframes-2.html", take:"Sort them by what the person needs at that moment. Empty, loading and failed are screens too, and they need wireframes."},
  ],
  three:[
   {t:"The journey, both ways", d:"Part A §2 — the goal, the steps people take now, and your screens, counted."},
   {t:"Your flow beside the before, and C6", d:"Your version drawn next to week 5’s map in B4, and the ethics paragraph drafted."},
-  {t:"The two you build first", d:"Decide before week 8, when every screen gets wireframed.", open:true},
+  {t:"The whole wireframe set", d:"Every screen, states included, sketched or in the Screen maker. Bring it to week 8.", open:true},
  ],
  workshop:{
-  aim:"The screens of your version, the states you forgot, and a flow somebody else can follow.",
-  out:{"sec": ["A2", "B4", "C6"]},
+  aim:"The screens of your version, the states you forgot, a flow somebody else can follow, and wireframes for all of it.",
+  out:{"sec": ["A2", "B4", "B5", "C6"]},
   bring:"Your B4 from week 5",
   run:[
    {s:"Your journey, after", d:"Open <code>A2</code>: the goal and the before are there. Now list the screens of your version."},
@@ -228,9 +232,10 @@ const WEEKS = [
    {s:"The states check", d:"For each screen: what does it look like empty, loading, and when it fails? This usually adds one or two screens."},
    {s:"Make your flow from the before", d:"Read Part 2 of <a href=\"flow-guide.html#after\">How flows work</a>. Then in the <a href=\"flow.html\">Flow maker</a> press <b>Start from my “now”</b>, change it into your version, download <b>Both</b> for <code>B4</code>, and copy <b>What happened</b> into <code>D2</code>."},
    {s:"Swap flows", d:"Can your partner get from the start to the goal without asking you? If not, an arrow is missing."},
+   {s:"Wireframe the rest", d:"Every screen on your list, states included, by sketching or in the <a href=\"screen-maker.html\">Screen maker</a>. Start with the boring screen. <a href=\"wireframes-2.html\">The rest of the organisms</a> shows what to reach for."},
    {s:"Write C6", d:"Ninety words on one dimension, ethics or sustainability. The empty, loading and error screens you just found are an ethics answer."},
   ],
-  between:"Nothing new. Week 8 builds from your screen list and your grid.",
+  between:"Finish the wireframe set for <code>B5</code>, and decide which two screens you will build first: week 8 starts from them.",
   mistake:"Forgetting empty and error screens. They are half of week 9.",
   stuck:[
    ["I only have four screens", "Add the states. Empty, error and done are screens."],
@@ -247,27 +252,27 @@ const WEEKS = [
   {core:true, s:"Lorem ipsum versus real content", u:"https://interfaces.institute/collections/flow-census/#placeholder", take:"Real content changes the layout. Wireframe with the words you will actually use."},
  ],
  three:[
-  {t:"A wireframe for every screen", d:"B5 — drawn against your own grid, one per screen in Part A §2."},
+  {t:"A wireframe for every screen", d:"B5 — sketched or from the Screen maker, one per screen in Part A §2."},
   {t:"Two finished screens", d:"The first two of B6, built for real in the room."},
   {t:"The rest of your screens", d:"Every remaining screen of the journey, finished — the biggest piece of work in the module, due at the start of week 9.", open:true},
  ],
  workshop:{
-  aim:"Every screen wireframed, and the first two built for real.",
+  aim:"Your wireframe set checked, and the first two screens built for real.",
   out:{"sec": ["B5", "B6"]},
-  bring:"Paper printed with your grid · markers · a laptop for the last half hour",
+  bring:"Your wireframes from weeks 5 and 7 · paper and markers · a laptop for the last half hour",
   run:[
-   {s:"Watch one drawn", d:"Your tutor wireframes one screen live: boxes and labels, no colour, no fonts, no icons."},
-   {s:"Wireframe the set", d:"Every screen of your journey on your own grid, quick rather than polished. Start with the boring screen."},
+   {s:"Finish the set", d:"Any screen of your journey without a wireframe yet, do it now: sketched or in the <a href=\"screen-maker.html\">Screen maker</a>, quick rather than polished. Boxes and labels, no colour, no fonts, no icons."},
    {s:"The blind test", d:"Cover your labels and hand the set to a partner. Any screen whose job they cannot name, redraw now."},
    {s:"Build the first two", d:"Turn your two most important wireframes into finished screens from A3, A4, A5 and your style tile: the first two of <code>B6</code>. <a href=\"style-kit.html#fidelity\">Levels of finish</a> shows what finished means."},
-   {s:"Photograph the set", d:"<code>B5</code> complete, and the first two screens of <code>B6</code> in the deck."},
+   {s:"Into the deck", d:"Photograph your sketches, or <b>Copy as a picture</b> from the Screen maker: <code>B5</code> complete, and the first two screens of <code>B6</code> in the deck."},
   ],
   between:"Finish every screen of your journey (<code>B6</code>) before week 9: the whole of week 9 works on them. If your feedback has arrived, read it.",
   mistake:"Decorating. A wireframe that took an hour is a mockup and is worth less here.",
   stuck:[
    ["How detailed?", "Boxes and labels. If you are choosing a font, stop."],
    ["My grid doesn’t fit", "Then fix the grid and update <code>A3</code>. That is allowed, and honest."],
-   ["Can I do it in Figma?", "Paper is faster, and you need a whole set."],
+   ["Can I do it in Figma?", "You can, but a pen or the Screen maker is faster, and you need a whole set."],
+   ["Does the Screen maker use my grid?", "It uses its own rows and columns, and that is fine for B5. Your A3 numbers come back when you finish the screens in B6."],
   ]
  }
 },

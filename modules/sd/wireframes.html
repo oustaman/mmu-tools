@@ -1,0 +1,279 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Thinking in wireframes — Screen Design, week 5</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="paper/paper.css">
+<link rel="stylesheet" href="deck-kit.css">
+<style>
+
+  /* THE BAR — one definition, identical on every page (written by navfix; change it
+     everywhere or nowhere). It used to be copied per page and drifted into two heights. */
+  header.sdnav{position:sticky;top:0;z-index:40;background:var(--surface);border-bottom:1px solid var(--line)}
+  header.sdnav .bar{display:flex;align-items:center;gap:10px;min-height:56px;padding-block:8px;flex-wrap:nowrap}
+  header.sdnav .brand{font-weight:680;font-size:1rem;letter-spacing:-0.015em;white-space:nowrap;color:inherit;
+    text-decoration:none;padding:5px 8px;margin-left:-8px;border-radius:6px;order:0}
+  header.sdnav .brand:hover{background:var(--surface-2,var(--bg))}
+  header.sdnav .sp{flex:1;display:block;height:auto;flex-basis:auto;order:0}
+  header.sdnav .sdlinks{display:flex;align-items:center;gap:2px;order:0}
+  header.sdnav .navl{display:inline-block;font-size:0.85rem;line-height:1.3;color:var(--ink-2);text-decoration:none;
+    padding:6px 10px;border-radius:6px;white-space:nowrap;order:0}
+  header.sdnav .navl:hover{background:var(--surface-2,var(--bg));color:var(--ink)}
+  header.sdnav .navl.on{background:var(--lec);color:#fff}
+  html[data-theme="dark"] header.sdnav .navl.on{color:#151314}
+  header.sdnav a:focus-visible,header.sdnav button:focus-visible{outline:2px solid var(--lec);outline-offset:1px}
+  header.sdnav .ctl{order:0;margin-left:4px}
+  header.sdnav .ctl button{font-family:var(--mono);font-size:0.7rem;background:none;color:var(--ink-3);
+    border:1px solid var(--line-2);border-radius:6px;padding:0 9px;cursor:pointer;line-height:1;
+    height:34px;min-height:34px;min-width:34px;display:inline-flex;align-items:center;justify-content:center}
+  header.sdnav .ctl button:hover{border-color:var(--lec);color:var(--lec)}
+  @media(max-width:960px){
+    header.sdnav .bar{flex-wrap:wrap;row-gap:0;padding-block:6px 0;min-height:0}
+    header.sdnav .ctl{order:1;margin-left:auto}
+    header.sdnav .sp{display:none}
+    header.sdnav .sdlinks{order:2;flex-basis:100%;overflow-x:auto;scrollbar-width:none;padding:4px 28px 8px 0;min-height:44px;
+      -webkit-mask-image:linear-gradient(to right,#000 calc(100% - 28px),transparent);mask-image:linear-gradient(to right,#000 calc(100% - 28px),transparent)}
+    header.sdnav .sdlinks::-webkit-scrollbar{display:none}
+    header.sdnav .navl{font-size:0.82rem;padding:6px 9px}
+  }
+</style>
+</head>
+<body>
+
+<header class="sdnav">
+  <div class="wrap bar">
+    <a class="brand" href="index.html">Screen Design</a>
+    <span class="sp"></span>
+    <nav class="sdlinks" aria-label="Screen Design"><a class="navl on" href="weeks.html?w=5">Week by week</a><a class="navl" href="assessment.html">Checklist</a><a class="navl" href="examples.html">Examples</a><a class="navl" href="toolkit.html">Toolkit</a><a class="navl" href="assessment-materials.html">Marking</a></nav>
+    <span class="ctl"><button id="theme" aria-label="Dark mode">◐</button></span>
+  </div>
+</header>
+<script>(function(){var n=document.querySelector(".sdlinks"),o=n&&n.querySelector(".on");if(o&&n.scrollWidth>n.clientWidth)n.scrollLeft=o.offsetLeft-n.offsetLeft-16;})();</script>
+
+<div class="dtools"><div class="wrap">
+  <b>Thinking in wireframes</b><span class="sp"></span>
+  <select id="jump" aria-label="Go to slide"></select>
+  <button type="button" class="tb" id="prev" aria-label="Previous slide">←</button>
+  <button type="button" class="tb" id="next" aria-label="Next slide">→</button>
+  <button type="button" class="tb" id="present" aria-pressed="false">Present</button>
+</div></div>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><filter id="rough"><feTurbulence type="fractalNoise" baseFrequency="0.018" numOctaves="2" seed="4"/><feDisplacementMap in="SourceGraphic" scale="3.5"/></filter></svg>
+
+<main id="deck">
+
+<section class="sl" data-t="Start"><div class="wrap">
+  <p class="ey">Week 5 · Wireframes · B5</p>
+  <h2>Thinking in wireframes</h2>
+  <p class="lead">Today you start turning problems into screens, before there is any question of how they look. We will wireframe <b>one whole journey</b>, six screens, and meet the first building blocks on the way. The rest of the blocks come in week 7.</p>
+  <p class="try">Move with ← →; <b>Present</b> for the projector.</p>
+</div></section>
+
+<section class="sl" data-t="An argument about priority"><div class="wrap">
+  <p class="ey">The idea</p>
+  <h2>A wireframe is an argument about priority</h2>
+  <div class="two">
+    <div class="dk-row">
+      <div><div class="dk-mid" data-screen="bin:0"></div><p class="dk-cap" style="--u:.62px"><b>Wireframe.</b> What is here, and in what order.</p></div>
+      <div><div class="pol"><div class="hero"><h3>Report a missed bin</h3><p>Use this if your bin was not emptied on its collection day.</p><p>Report it by 2pm on the next working day and we will come back for it.</p></div><div class="bt">Start</div></div><p class="dk-cap" style="--u:.62px"><b>Polished.</b> Same decisions, plus a hundred new ones.</p></div>
+    </div>
+    <div>
+      <p class="lead">It says: <b>this comes first, this comes second, and that does not belong here at all</b>. Put colour and type on it, and people start talking about the colour and type.</p>
+      <p class="ask"><b>Everything on the right that is not on the left</b> was decided without asking whether the screen works. At this stage, that is time spent on the wrong question.</p>
+    </div>
+  </div>
+</div></section>
+
+<section class="sl" data-t="Now, and not yet"><div class="wrap">
+  <p class="ey">The rule</p>
+  <h2>What you decide now, and what can wait</h2>
+  <div class="two">
+    <div><p class="lead"><b>Now</b></p>
+      <ul class="pts"><li>What this screen is for: its <b>job</b></li><li>What is on it, and what is <b>not</b></li><li>What comes <b>first</b></li><li>The real <b>words</b></li><li>Where it <b>goes next</b></li></ul></div>
+    <div><p class="lead"><b>Not yet</b></p>
+      <ul class="pts"><li>Fonts</li><li>Colours</li><li>Icons and photographs</li><li>Shadows, rounded corners, gradients</li><li>Anything you would call “the look”</li></ul></div>
+  </div>
+  <p class="ask"><b>If you are choosing a font, stop.</b> You have left the wireframe. Your type and colour decisions from week 4 come back when you finish the screens.</p>
+</div></section>
+
+<section class="sl" data-t="Sketch or Screen maker"><div class="wrap">
+  <p class="ey">Two ways to do it: both count for B5</p>
+  <h2>A pen, or the Screen maker</h2>
+  <div class="seq" style="grid-template-columns:auto auto minmax(0,1fr)">
+    <div><div class="dk-mid sketch" data-screen="bin:0"></div><p class="dk-cap" style="--u:.62px"><b>Sketch.</b> Pen and paper, then a photo.</p></div>
+    <div><div class="dk-mid" data-screen="bin:0"></div><p class="dk-cap" style="--u:.62px"><b>Screen maker.</b> Blocks that snap into rows.</p></div>
+    <div>
+      <ul class="pts"><li><b>Sketching is faster</b> for trying several versions. Use a marker, so you cannot draw small details.</li>
+        <li><b>The Screen maker is tidier</b>, and the words are easy to change. Copy each screen into your deck as a picture.</li>
+        <li><b>Mix them.</b> Sketch three ideas, then build the one that works.</li></ul>
+      <p class="ask">Boxes and labels either way. A box with a cross through it means “a picture goes here”. You never need to draw the picture.</p>
+    </div>
+  </div>
+</div></section>
+
+<section class="sl" data-t="Organisms"><div class="wrap">
+  <p class="ey">The building blocks</p>
+  <h2>Organisms: one unit, doing one job</h2>
+  <div class="seq">
+    <div class="dk-mid" style="--u:.8px"><div data-one="ANS-02" style="background:#fff;border:1px solid #CFC9C5;line-height:normal"></div></div>
+    <div>
+      <p class="lead">A button on its own does nothing. A question with its answers does a job: <b>it finds out one thing</b>. Brad Frost’s atomic design calls that an <b>organism</b>: small parts working together as one unit.</p>
+      <p class="lead">So you do not build screens from buttons. You build them from organisms. There are <b data-count="all"></b> in the set, and you will meet just thirteen today.</p>
+      <p class="ask">Each has a <b>code</b>, a <b>name</b> and a <b>job</b>. This one is <b>ANS-02, One answer from a few</b>: it asks a question with one answer from a short list.</p>
+    </div>
+  </div>
+</div></section>
+
+<section class="sl" data-t="The budget"><div class="wrap">
+  <p class="ey">The rules of the grid</p>
+  <h2>A screen is a budget of 14 rows</h2>
+  <div class="seq">
+    <div class="dk-big" id="budget"></div>
+    <div>
+      <ul class="pts"><li>A phone screen here is <b>375 px wide</b>, and every organism is that wide.</li>
+        <li>Each organism is a whole number of rows, and a <b>row is 56 px</b>. So any of them fits under any other.</li>
+        <li>Below the status bar there are <b>14 rows</b>: 784 px.</li></ul>
+      <p class="eg"><b>That limit is the point.</b> A screen with room for everything has decided nothing. When the rows run out, something has to go, or it has to move to another screen.</p>
+      <p class="ask">Working on a website for big screens? The Screen maker has a <b>Desktop</b> setting: the same rows, across 12 columns.</p>
+    </div>
+  </div>
+</div></section>
+
+<section class="sl" data-t="From flow to screens"><div class="wrap">
+  <p class="ey">Where the screens come from</p>
+  <h2>Start from the flow: one screen per step</h2>
+  <div data-fig="after" data-alt="The new missed bin journey: six steps, from Start to Report sent"></div>
+  <p class="lead">This is the missed bin case’s new version. Before drawing anything, give each screen a <b>job</b>: under ten words, starting with a verb. Two screens with the same job are one screen.</p>
+  <p class="ask"><b>Which ✗ does each one answer?</b> “199 words before you can start” became a screen with one rule and one button. That is the next slide.</p>
+</div></section>
+
+<section class="sl" data-t="1 Start"><div class="wrap"><div class="seq">
+  <div class="dk-big" data-screen="bin:0"></div>
+  <div><p class="ey">Screen 1 of 6</p><h2>Say the one rule, and let them start</h2>
+    <p class="lead">The old page had 199 words. Only the deadline decides whether reporting is worth it, so that is the rule shown.</p>
+    <ul data-parts="bin:0"></ul></div>
+</div></div></section>
+
+<section class="sl" data-t="2 Address"><div class="wrap"><div class="seq">
+  <div class="dk-big" data-screen="bin:1"></div>
+  <div><p class="ey">Screen 2 of 6</p><h2>Ask the address first</h2>
+    <p class="lead">Once the council knows where, it knows which bins were due and when. <b>The order is the biggest decision here</b>, and a wireframe is exactly where you make it.</p>
+    <ul data-parts="bin:1"></ul></div>
+</div></div></section>
+
+<section class="sl" data-t="3 Which bin"><div class="wrap"><div class="seq">
+  <div class="dk-big" data-screen="bin:2"></div>
+  <div><p class="ey">Screen 3 of 6</p><h2>One question, in words people use</h2>
+    <p class="lead">The form used to say Refuse, Recycling, Garden waste while the street says blue and purple. Colour and name, and only the bins that were due.</p>
+    <ul data-parts="bin:2"></ul>
+    <p class="ask">Most of this screen is <b>empty rows</b>. That is fine. It has one job.</p></div>
+</div></div></section>
+
+<section class="sl" data-t="4 Updates"><div class="wrap"><div class="seq">
+  <div class="dk-big" data-screen="bin:3"></div>
+  <div><p class="ey">Screen 4 of 6</p><h2>The same block, doing a different job</h2>
+    <p class="lead">Name, email and phone become one choice, and “No updates” is allowed. Nothing about emptying a bin needs a name.</p>
+    <ul data-parts="bin:3"></ul>
+    <p class="ask">Nothing new here. <b>Using the same organism again is a good sign</b>: people only have to learn it once.</p></div>
+</div></div></section>
+
+<section class="sl" data-t="5 Check"><div class="wrap"><div class="seq">
+  <div class="dk-big" data-screen="bin:4"></div>
+  <div><p class="ey">Screen 5 of 6</p><h2>Show it back, before it goes</h2>
+    <p class="lead">Every answer, each with a Change link, so fixing a mistake does not mean starting again. The button says what it does: <b>Send report</b>, not Next.</p>
+    <ul data-parts="bin:4"></ul></div>
+</div></div></section>
+
+<section class="sl" data-t="6 Sent"><div class="wrap"><div class="seq">
+  <div class="dk-big" data-screen="bin:5"></div>
+  <div><p class="ey">Screen 6 of 6</p><h2>The screen the old form never showed</h2>
+    <p class="lead">A reference, a date, and what to do if it does not happen. People leave knowing when, and what next.</p>
+    <ul data-parts="bin:5"></ul></div>
+</div></div></section>
+
+<section class="sl" data-t="The whole journey"><div class="wrap">
+  <p class="ey">All six</p>
+  <h2>One journey, thirteen organisms</h2>
+  <div data-strip="bin"></div>
+  <p class="lead" style="margin-top:10px">Six screens, and <b id="uses"></b> organisms placed, but only thirteen different ones. <b>That repetition is a system</b>, and it is what makes a service feel like one thing.</p>
+</div></section>
+
+<section class="sl" data-t="Real words"><div class="wrap">
+  <p class="ey">One habit</p>
+  <h2>Use the real words, not placeholders</h2>
+  <div class="seq">
+    <div class="dk-row"><div class="dk-mid" id="noWords"></div><div class="dk-mid" data-screen="bin:2"></div></div>
+    <div><p class="lead">The left one could be anything. <b>The right one can be wrong</b>, and that is what makes it useful: you can read it and disagree.</p>
+      <p class="ask">Real words change the layout. If an answer will not fit on one line, you want to know now. In the Screen maker, click any words and type. On paper, write them out.</p></div>
+  </div>
+</div></section>
+
+<section class="sl" data-t="The blind test"><div class="wrap">
+  <p class="ey">How to check it</p>
+  <h2>The blind test</h2>
+  <ol class="pts"><li>Hand your screens to a partner, <b>in order</b>.</li><li>For each one, they say what its job is, and what they would do next.</li><li>Any screen they cannot explain, redraw now.</li></ol>
+  <p class="eg"><b>That is all the checking you need today.</b> You are testing whether the screens make sense to someone else. You do not need to find users or run a study.</p>
+</div></section>
+
+<section class="sl" data-t="In the Screen maker"><div class="wrap">
+  <p class="ey">Watch one built</p>
+  <h2>In the Screen maker</h2>
+  <div class="two">
+    <ol class="pts">
+      <li><b>Phone or Desktop</b>, at the top.</li>
+      <li><b>+ New screen</b>: blank, or one of the twenty kinds.</li>
+      <li><b>Click an organism</b> to add it, or drag it onto a row. Leave rows empty if you want to.</li>
+      <li><b>Click any words</b> and type your own.</li>
+      <li><b>Master:</b> whatever every screen shares, such as the top bar.</li>
+      <li>Nothing fits? <b>Your own</b> is a note saying what would go there.</li>
+    </ol>
+    <div><ul class="pts"><li><b>Copy as a picture</b>, then paste it into your deck.</li>
+        <li><b>Print or save as PDF</b> for the whole set.</li>
+        <li><b>On a university computer</b>, your screens may be wiped when you log off. Copy the link first: <b>Save, move, or build from codes</b>, under the form.</li></ul>
+      <p><a class="go" href="screen-maker.html">Open the Screen maker</a></p>
+      <p class="ask">Want to see every block at full size? <a href="organisms.html">Organisms</a>.</p></div>
+  </div>
+</div></section>
+
+<section class="sl" data-t="Your turn"><div class="wrap">
+  <p class="ey">Today</p>
+  <h2>Your turn: answer your worst ✗</h2>
+  <ol class="pts">
+    <li>Look at your flow. <b>Which ✗ costs people the most?</b></li>
+    <li>What two or three screens would answer it? Give each a <b>job</b>.</li>
+    <li><b>Wireframe them</b>, by sketching or in the Screen maker. Quick rather than tidy.</li>
+    <li><b>Blind test</b> them with a partner, and redraw what did not work.</li>
+    <li>Put them in your deck, in <b>B5</b>. That is the start of your set.</li>
+  </ol>
+  <p class="try"><b>Week 7:</b> the rest of the organisms, the states you forgot, and the rest of your screens.</p>
+</div></section>
+
+</main>
+<footer><div class="wrap"><p>Screen Design · Level 4 · 2026–27</p></div></footer>
+
+<script src="flow-draw.js"></script>
+<script src="paper/paper-kit.js"></script>
+<script src="paper/organisms.js"></script>
+<script src="paper/journeys.js"></script>
+<script src="deck-kit.js"></script>
+<script>
+(function () {
+  const { S, figures, draw, start } = DK;
+  const J = window.JOURNEYS.bin;
+  figures({ after: window.FD.mini(J.map(s => S(s.name.replace('Start: report a missed bin', 'Start: the one rule').replace(' (optional)', ''), ''))) });
+  /* the budget: three organisms of 1, 2 and 4 rows, with the rows showing */
+  draw(document.getElementById('budget'), [['progress-header', 0], ['text-field', 1], ['radio-question', 3], ['button', 7]], { slots: true, label: true });
+  /* the same screen, with nothing decided */
+  draw(document.getElementById('noWords'), [['progress-header', 0], ['radio-question', 1], ['button', 5]]);
+  document.getElementById('uses').textContent = J.reduce((n, s) => n + s.pieces.length, 0);
+  start();
+  /* check the claim on the slide: the journey uses exactly the organisms it says */
+  const distinct = new Set(J.flatMap(s => s.pieces.map(p => p[0])));
+  if (distinct.size !== 13) console.warn('wireframes deck says thirteen organisms; the journey has ' + distinct.size);
+})();
+</script>
+</body>
+</html>

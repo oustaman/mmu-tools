@@ -104,7 +104,7 @@ const PARTS = [
    {sec:"B4", t:"Flow diagram", dw:7, d:"Before and after, mapped",
     h:"The journey as boxes and arrows: how people do it now (week 5), and your screens beside it (week 7). The Flow maker draws both and counts them; a photo of paper is just as good.", f:["[ paste flow diagram ]","Caption (it must fit on the slide):"]},
    {sec:"B5", t:"Wireframe set", dw:8, d:"One per screen in A2",
-    h:"Every screen of your journey wireframed: boxes and labels on your grid. Paper is fine.", f:["[ paste wireframes ]","Caption (it must fit on the slide):"]},
+    h:"Every screen of your journey wireframed: boxes and labels, sketched on paper or made in the <a href=\"screen-maker.html\">Screen maker</a>. Either counts.", f:["[ paste wireframes ]","Caption (it must fit on the slide):"]},
    {sec:"B6", t:"The finished screens", dw:9, d:"Every screen of the journey",
     h:"Your journey, one screen per slide, built from A3\u2013A5. Which <a href=\"style-kit.html#fidelity\">level of finish</a> they need.", f:["[ paste screens ]","Caption (it must fit on the slide):"]},
    {sec:"B7", t:"Other screen sizes (optional)", dw:9, d:"Only if your project needs them", opt:true,

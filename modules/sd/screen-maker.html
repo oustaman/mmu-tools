@@ -298,6 +298,7 @@
 <script src="https://cdn.jsdelivr.net/npm/html-to-image@1.11.11/dist/html-to-image.js"></script>
 <script src="paper/paper-kit.js"></script>
 <script src="paper/organisms.js"></script>
+<script src="paper/journeys.js"></script>
 <script>
 (function () {
   /* The Screen maker. A screen is a set of pieces, each an organism at a row (0 to 13), with
@@ -341,15 +342,9 @@
     y.cur = Math.max(0, y.cur); return y;
   }
 
-  /* the example: the missed bin journey, one screen per step of the Flow maker's example */
-  const EXSET = () => ({ cur: 0, master: { pieces: [] }, screens: [
-    ['Start: report a missed bin', 'J1', 'The one rule, in 38 words, and one way in.', [['service-header', 0, { 'Service name#0': 'Bins and recycling' }], ['title-intro', 1, { 'Title#0': 'Report a missed bin collection' }], ['notice', 3], ['button', 6, { 'Continue#0': 'Start now' }]]],
-    ['Your postcode and address', 'M11', 'Finds the address, and with it the bins that were due.', [['progress-header', 0], ['question', 1, { 'The question?#0': 'What is your postcode?', 'A hint, if it helps#0': 'For example, M1 5GD' }], ['postcode', 3], ['button', 6]]],
-    ['Which bin was not emptied?', 'M11', 'Asks which bin, by its colour.', [['progress-header', 0], ['radio-question', 1, { 'The question?#0': 'Which bin was not emptied?', 'An answer#0': 'Grey bin', 'An answer#1': 'Blue bin', 'An answer#2': 'Brown bin' }], ['button', 6]]],
-    ['How should we update you? (optional)', 'M11', 'One way to send an update, only if they want one.', [['progress-header', 0], ['question', 1, { 'The question?#0': 'How should we update you?', 'A hint, if it helps#0': 'Optional' }], ['text-field', 3, { 'Label#0': 'Email address', 'Hint#0': 'We will only use it for this report' }], ['button', 6]]],
-    ['Check your answers', 'J2', 'Every answer back, each with a Change link.', [['progress-header', 0], ['page-title', 1, { 'Page title#0': 'Check your answers' }], ['summary', 2], ['button', 7, { 'Continue#0': 'Send report' }]]],
-    ['Report sent', 'J3', 'The date and a reference, and what happens next.', [['service-header', 0, { 'Service name#0': 'Bins and recycling' }], ['success', 1, { 'Done#0': 'Report sent' }], ['title-intro', 4, { 'Title#0': 'What happens next' }], ['button-link', 7, { 'Continue#0': 'Report another bin', 'Cancel#0': 'Back to bins and recycling' }]]],
-  ].map(([name, kind, job, ps], i, all) => ({ ...blank(name), kind, job, goes: all[i + 1] ? all[i + 1][0] : '', pieces: ps.map(([o, r, t]) => piece(o, r, t)) })) });
+  /* the example: the missed bin journey, as in the deck (paper/journeys.js) */
+  const EXSET = () => ({ cur: 0, master: { pieces: [] }, screens: window.JOURNEYS.bin.map((x, i, all) => ({ ...blank(x.name), kind: x.kind, job: x.job, goes: all[i + 1] ? all[i + 1].name : '',
+    pieces: x.pieces.map(([o, r, t]) => piece(o, r, t ? { ...t } : null)) })) });
   const EXAMPLE = () => { const set = EXSET(); return { device: 'phone', phone: set, desktop: toDesk(set) }; };
 
   /* Two sets of screens, a phone one and a desktop one, each with its own master; S is whichever

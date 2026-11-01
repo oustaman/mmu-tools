@@ -1,0 +1,224 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The rest of the organisms — Screen Design, week 7</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="paper/paper.css">
+<link rel="stylesheet" href="deck-kit.css">
+<style>
+
+  /* THE BAR — one definition, identical on every page (written by navfix; change it
+     everywhere or nowhere). It used to be copied per page and drifted into two heights. */
+  header.sdnav{position:sticky;top:0;z-index:40;background:var(--surface);border-bottom:1px solid var(--line)}
+  header.sdnav .bar{display:flex;align-items:center;gap:10px;min-height:56px;padding-block:8px;flex-wrap:nowrap}
+  header.sdnav .brand{font-weight:680;font-size:1rem;letter-spacing:-0.015em;white-space:nowrap;color:inherit;
+    text-decoration:none;padding:5px 8px;margin-left:-8px;border-radius:6px;order:0}
+  header.sdnav .brand:hover{background:var(--surface-2,var(--bg))}
+  header.sdnav .sp{flex:1;display:block;height:auto;flex-basis:auto;order:0}
+  header.sdnav .sdlinks{display:flex;align-items:center;gap:2px;order:0}
+  header.sdnav .navl{display:inline-block;font-size:0.85rem;line-height:1.3;color:var(--ink-2);text-decoration:none;
+    padding:6px 10px;border-radius:6px;white-space:nowrap;order:0}
+  header.sdnav .navl:hover{background:var(--surface-2,var(--bg));color:var(--ink)}
+  header.sdnav .navl.on{background:var(--lec);color:#fff}
+  html[data-theme="dark"] header.sdnav .navl.on{color:#151314}
+  header.sdnav a:focus-visible,header.sdnav button:focus-visible{outline:2px solid var(--lec);outline-offset:1px}
+  header.sdnav .ctl{order:0;margin-left:4px}
+  header.sdnav .ctl button{font-family:var(--mono);font-size:0.7rem;background:none;color:var(--ink-3);
+    border:1px solid var(--line-2);border-radius:6px;padding:0 9px;cursor:pointer;line-height:1;
+    height:34px;min-height:34px;min-width:34px;display:inline-flex;align-items:center;justify-content:center}
+  header.sdnav .ctl button:hover{border-color:var(--lec);color:var(--lec)}
+  @media(max-width:960px){
+    header.sdnav .bar{flex-wrap:wrap;row-gap:0;padding-block:6px 0;min-height:0}
+    header.sdnav .ctl{order:1;margin-left:auto}
+    header.sdnav .sp{display:none}
+    header.sdnav .sdlinks{order:2;flex-basis:100%;overflow-x:auto;scrollbar-width:none;padding:4px 28px 8px 0;min-height:44px;
+      -webkit-mask-image:linear-gradient(to right,#000 calc(100% - 28px),transparent);mask-image:linear-gradient(to right,#000 calc(100% - 28px),transparent)}
+    header.sdnav .sdlinks::-webkit-scrollbar{display:none}
+    header.sdnav .navl{font-size:0.82rem;padding:6px 9px}
+  }
+</style>
+</head>
+<body>
+
+<header class="sdnav">
+  <div class="wrap bar">
+    <a class="brand" href="index.html">Screen Design</a>
+    <span class="sp"></span>
+    <nav class="sdlinks" aria-label="Screen Design"><a class="navl on" href="weeks.html?w=7">Week by week</a><a class="navl" href="assessment.html">Checklist</a><a class="navl" href="examples.html">Examples</a><a class="navl" href="toolkit.html">Toolkit</a><a class="navl" href="assessment-materials.html">Marking</a></nav>
+    <span class="ctl"><button id="theme" aria-label="Dark mode">◐</button></span>
+  </div>
+</header>
+<script>(function(){var n=document.querySelector(".sdlinks"),o=n&&n.querySelector(".on");if(o&&n.scrollWidth>n.clientWidth)n.scrollLeft=o.offsetLeft-n.offsetLeft-16;})();</script>
+
+<div class="dtools"><div class="wrap">
+  <b>The rest of the organisms</b><span class="sp"></span>
+  <select id="jump" aria-label="Go to slide"></select>
+  <button type="button" class="tb" id="prev" aria-label="Previous slide">←</button>
+  <button type="button" class="tb" id="next" aria-label="Next slide">→</button>
+  <button type="button" class="tb" id="present" aria-pressed="false">Present</button>
+</div></div>
+
+<main id="deck">
+
+<section class="sl" data-t="Start"><div class="wrap">
+  <p class="ey">Week 7 · Wireframes, part 2 · B5</p>
+  <h2>The rest of the organisms</h2>
+  <p class="lead">In week 5 you met thirteen organisms through one journey. Here are the rest, sorted by <b>what the person needs at that moment</b>. Do not learn them. Look through them once, so that you know what to reach for.</p>
+  <p class="try">Move with ← →; <b>Present</b> for the projector.</p>
+</div></section>
+
+<section class="sl" data-t="A second journey"><div class="wrap">
+  <p class="ey">A second whole journey · the bakery’s new version</p>
+  <h2>Six screens, and a few new blocks</h2>
+  <div data-strip="bakery"></div>
+  <p class="lead" style="margin-top:10px">Compare it with the missed bin. The same top bar, title, notice and button, because those jobs are the same. Only the middle changes: <b>the organisms that do this service’s particular job</b>.</p>
+</div></section>
+
+<section class="sl" data-t="Choosing a day"><div class="wrap"><div class="seq">
+  <div class="dk-big" data-screen="bakery:2"></div>
+  <div><p class="ey">Screen 3 of 6</p><h2>A big block earns its rows</h2>
+    <p class="lead">A date picker takes six of the fourteen rows. Here that is right: the day is the whole point of the screen. In the finished screen, full days stay visible and crossed out, so nobody thinks they were overlooked.</p>
+    <ul data-parts="bakery:2"></ul></div>
+</div></div></section>
+
+<section class="sl" data-t="Reading it back"><div class="wrap"><div class="seq">
+  <div class="dk-big" data-screen="bakery:3"></div>
+  <div><p class="ey">Screen 4 of 6</p><h2>A picture box can hold a decision</h2>
+    <p class="lead">“Happy 30th Sam”, shown as it will be piped, so a misspelt name is caught here and not on Friday. And the allergy question is asked every time: it cannot be skipped, because it is the one answer that can hurt someone.</p>
+    <ul data-parts="bakery:3"></ul></div>
+</div></div></section>
+
+<section class="sl" data-t="They need to choose"><div class="wrap">
+  <p class="ey">The person needs to…</p>
+  <h2>…choose</h2>
+  <div class="tight" data-cards="ANS-03,ANS-04,ANS-05,ANS-06,ANS-12"></div>
+  <p class="ask"><b>One answer, or several?</b> Round marks for one, square for several. Only two answers? Yes or no is quicker than a list.</p>
+</div></section>
+
+<section class="sl" data-t="They need to give"><div class="wrap">
+  <p class="ey">The person needs to…</p>
+  <h2>…give you something</h2>
+  <div data-cards="ANS-08,ANS-09,ANS-10,ANS-11"></div>
+  <p class="ask"><b>Ask for as little as you can.</b> Every box is work for them. Name the data you chose not to collect: that is a ready answer for C6.</p>
+</div></section>
+
+<section class="sl" data-t="They need to find"><div class="wrap">
+  <p class="ey">The person needs to…</p>
+  <h2>…find something</h2>
+  <div data-cards="SRC-01,SRC-02,SRC-03,CON-01,TOP-02"></div>
+  <p class="ask"><b>A few things? Just list them.</b> Search earns its place when there are too many to look through.</p>
+</div></section>
+
+<section class="sl" data-t="They need to look"><div class="wrap">
+  <p class="ey">The person needs to…</p>
+  <h2>…look at one thing, or compare a few</h2>
+  <div data-cards="CON-02,CON-03,CON-04,CON-05,CON-07,CON-11"></div>
+</div></section>
+
+<section class="sl" data-t="Bigger jobs"><div class="wrap">
+  <p class="ey">The person needs to…</p>
+  <h2>…do something bigger</h2>
+  <div class="tight" style="grid-template-columns:repeat(auto-fill,minmax(180px,1fr))" data-cards="CON-08,CON-09,CON-10,ACT-04,CON-12,CON-13"></div>
+  <p class="ask">The biggest blocks take six rows, nearly half a phone screen. If one of them is the screen’s job, let it have the room, and take everything else away.</p>
+</div></section>
+
+<section class="sl" data-t="They need to move"><div class="wrap">
+  <p class="ey">The person needs to…</p>
+  <h2>…get around</h2>
+  <div data-cards="TOP-01,HED-04,ACT-03,ACT-05"></div>
+  <p class="ask"><b>A tab bar is for apps with several main parts.</b> A journey with a beginning and an end usually wants a way back and a progress bar instead.</p>
+</div></section>
+
+<section class="sl" data-t="The states"><div class="wrap">
+  <p class="ey">The service answers back · this is today’s real subject</p>
+  <h2>Empty, loading and failed are screens too</h2>
+  <div class="seq">
+    <div class="dk-row"><div class="dk-small" id="stEmpty"></div><div class="dk-small" id="stLoad"></div><div class="dk-small" id="stErr"></div></div>
+    <div><div data-cards="FBK-01,FBK-04,FBK-05,FBK-06" style="--u:.3px;grid-template-columns:repeat(2,minmax(0,1fr))"></div></div>
+  </div>
+  <p class="ask"><b>For every screen on your list, ask:</b> what does it look like empty, loading, and when it fails? This usually adds one or two screens.</p>
+</div></section>
+
+<section class="sl" data-t="Over the screen"><div class="wrap">
+  <p class="ey">The odd ones out</p>
+  <h2>Overlays lie over a screen</h2>
+  <div class="dk-row" style="margin-bottom:14px">
+    <div class="dk-small"><div id="ovD"></div><p class="dk-cap"><b>OVL-01 Dialog</b></p></div><div class="dk-small"><div id="ovS"></div><p class="dk-cap"><b>OVL-02 Bottom sheet</b></p></div><div class="dk-small"><div id="ovK"></div><p class="dk-cap"><b>OVL-03 Keyboard</b></p></div><div class="dk-small"><div id="ovT"></div><p class="dk-cap"><b>OVL-04 Toast</b></p></div>
+  </div>
+  <p class="ask">They take no rows, and you get one at a time. <b>A dialog stops everything,</b> so save it for what cannot be undone. In a wireframe it needs a screen of its own: duplicate the screen, and add the overlay.</p>
+</div></section>
+
+<section class="sl" data-t="Nothing fits"><div class="wrap">
+  <p class="ey">When the set runs out</p>
+  <h2>Nothing fits? Write a note</h2>
+  <div class="seq">
+    <div class="dk-big" id="note"></div>
+    <div><p class="lead">The set will not have everything. A camera view, a QR scanner, a chart: put a note where it would go, the height it would take, and write <b>what it would do</b>. On paper it is a box to draw in. There is one for each height: OWN-01 is one row, OWN-06 is six.</p>
+      <p class="eg">That is a real wireframe decision. You have said what is there and how much room it takes. <b>You do not have to be able to draw it.</b></p></div>
+  </div>
+</div></section>
+
+<section class="sl" data-t="Bigger screens"><div class="wrap">
+  <p class="ey">Desktop · the same rows, across 12 columns</p>
+  <h2>On a big screen, things go side by side</h2>
+  <div class="seq"><div id="desk" style="--u:min(0.68px, calc((100vh - 270px) / 820), calc((100vw - 400px) / 1150))"></div>
+  <div><p class="lead">The same words as “Which cake?”, adapted and not stretched: <b>what goes beside what?</b></p><p class="ask">Only needed if your journey is used on a big screen. A better flow is worth more than more sizes.</p></div></div>
+</div></section>
+
+<section class="sl" data-t="Only on desktop"><div class="wrap">
+  <h2>Only on a big screen</h2>
+  <div data-cards="TOP-05,HED-05,CON-14,CON-15,CON-16,ACT-06" style="--u:min(0.27px, calc((100vh - 470px) / 1300));grid-template-columns:repeat(4,minmax(0,1fr))"></div>
+  <p class="ask" style="margin-bottom:0">The <b>tab bar</b>, <b>app bars</b>, <b>bottom sheet</b> and <b>keyboard</b> stay on the phone.</p>
+</div></section>
+
+<section class="sl" data-t="Your turn"><div class="wrap">
+  <p class="ey">Today, and before week 8</p>
+  <h2>Your turn: the whole set</h2>
+  <ol class="pts">
+    <li>Take your list of screens, and run <b>the states check</b> over it.</li>
+    <li>Wireframe <b>every screen</b>, starting with the boring one. Sketch, or use the Screen maker.</li>
+    <li>Start a new screen from <b>one of the twenty kinds</b> if it helps, then change it. The <a href="paper/paper-cheatsheet.pdf">cheatsheet</a> shows all of them.</li>
+    <li><b>Blind test</b> the set with a partner.</li>
+  </ol>
+  <p class="try"><b>Bring the whole set to week 8.</b> That is B5, and in week 8 you start finishing screens from it.</p>
+  <p style="margin-top:12px"><a class="go" href="screen-maker.html">Open the Screen maker</a> &nbsp; <a href="organisms.html">Every organism, at full size</a></p>
+</div></section>
+
+</main>
+<footer><div class="wrap"><p>Screen Design · Level 4 · 2026–27</p></div></footer>
+
+<script src="paper/paper-kit.js"></script>
+<script src="paper/organisms.js"></script>
+<script src="paper/journeys.js"></script>
+<script src="deck-kit.js"></script>
+<script>
+(function () {
+  const { draw, start } = DK, $ = id => document.getElementById(id), T = 'Title#0';
+  const bar = t => ['appbar', 0, { [T]: t }];
+  draw($('stEmpty'), [bar('Your orders'), ['empty', 3, { 'Nothing here yet#0': 'No orders yet', 'A sentence or two that says what this is for.#0': 'Orders you make will appear here.', 'Add one#0': 'Order a cake' }]]);
+  draw($('stLoad'), [bar('Your orders'), ['loading', 5, { 'Loading…#0': 'Finding your orders…' }]]);
+  draw($('stErr'), [['progress-header', 0, { 'Step _ of _#0': 'Step 2 of 4' }], ['error', 1, { 'Say what went wrong, and how to fix it.#0': 'Choose a day to collect your cake.' }], ['page-title', 3, { 'Page title#0': 'When will you collect it?' }], ['date-picker', 4, { 'Month#0': 'October' }], ['button', 10]]);
+  const under = DK.screenOf('bakery:3').pieces;
+  draw($('ovD'), under, { over: 'dialog' });
+  draw($('ovS'), under, { over: 'sheet' });
+  draw($('ovK'), under, { over: 'keyboard' });
+  draw($('ovT'), under, { over: 'toast' });
+  draw($('note'), [['progress-header', 0, { 'Step _ of _#0': 'Step 2 of 4' }], ['page-title', 1, { 'Page title#0': 'Scan your bin’s tag' }], ['own-6', 2, { 'What would go here? Write what this organism does.#0': 'Camera view, filling the space, with a box to line the tag up in. It reads the tag by itself.' }], ['button-link', 8, { 'Continue#0': 'Type the number instead', 'Cancel#0': 'Where do I find the tag?' }]]);
+  draw($('desk'), [
+    ['site-header', 0, { 'Service name#0': 'Vauclerc', 'Menu item#0': 'Cakes', 'Menu item#1': 'Opening times', 'Menu item#2': 'Find us', 'Sign in#0': 'Your orders' }, 0, 12],
+    ['breadcrumb', 1, { 'Section#0': 'Cakes', 'This page#0': 'Which cake?' }, 0, 8],
+    ['side-menu', 2, { 'Section one#0': '1 Which cake?', 'Section two#0': '2 When', 'Section three#0': '3 What it says', 'Section four#0': '4 Your details', 'Section five#0': 'Check and send' }, 0, 3],
+    ['three-cards', 2, { 'Picture#0': '6 inch', 'Card title#0': '6 inch', 'A line of detail#0': 'Serves 8 · £24', 'Picture#1': '8 inch', 'Card title#1': '8 inch', 'A line of detail#1': 'Serves 12 · £32', 'Picture#2': '10 inch', 'Card title#2': '10 inch', 'A line of detail#2': 'Serves 20 · £48' }, 3, 9],
+    ['radio-question', 6, { 'The question?#0': 'Flavour', 'An answer#0': 'Chocolate: milk, egg, wheat', 'An answer#1': 'Lemon: milk, egg, wheat', 'An answer#2': 'Vanilla: milk, egg, wheat' }, 3, 6],
+    ['button', 10, null, 3, 4],
+    ['footer', 12, { 'Service name#0': 'Vauclerc, 7 Mallow Street' }, 0, 12],
+  ], { desktop: true });
+  start();
+})();
+</script>
+</body>
+</html>

@@ -136,7 +136,7 @@
   const dw = n => n * COLW + (n - 1) * GUT, dx = c => MARGIN + c * (COLW + GUT);
   const PHONE_ONLY = new Set(['appbar', 'appbar-search', 'tabbar', 'keyboard', 'sheet']);
   const SPAN = { Top: 12, Headings: 8, Search: 8, Answers: 6, Content: 6, Feedback: 6, Actions: 4, Own: 6, Overlay: 4 };
-  const WIDE = { map: 8, player: 8, chat: 8, summary: 8, composer: 8, 'task-list': 8, 'date-picker': 6, price: 4, 'two-cards': 6, card: 4 };
+  const WIDE = { footer: 12, map: 8, player: 8, chat: 8, summary: 8, composer: 8, 'task-list': 8, 'date-picker': 6, price: 4, 'two-cards': 6, card: 4 };
   const count = {};
   O.forEach(o => {
     o.phone = PHONE_ONLY.has(o.id); o.dspan = o.span || WIDE[o.id] || SPAN[o.fam];
