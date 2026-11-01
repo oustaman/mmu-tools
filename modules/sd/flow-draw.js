@@ -57,6 +57,7 @@
             out.push(`<path d="M${prev.cx},${prev.bot + 4} V${mid} H${cx} V${y - 4}" fill="none" stroke="${COL.line}" stroke-width="2.5" marker-end="url(#ah)"/>`); }
           if (prev.q) out.push(`<text x="${prev.cy === cy ? prev.x + prev.w + 8 : prev.cx + 8}" y="${prev.cy === cy ? cy - 10 : prev.bot + 22}" font-size="15" fill="${COL.mute}">yes</text>`);
         }
+        out.push(`<g data-step="${esc(it.id)}">`);
         const f = F && F[it.id];
         if (it.k === 'wait') {
           out.push(`<rect x="${x}" y="${cy - 34}" width="${w}" height="68" rx="34" fill="${COL.wait}" stroke="${COL.mute}" stroke-width="2" stroke-dasharray="7 6"/>`,
@@ -90,6 +91,7 @@
           const tx = it.k === 'q' ? cx - tw / 2 : x + w - tw + 8, ty = it.k === 'q' ? P[it.id].bot - 4 : P[it.id].top - 15;
           out.push(`<rect x="${tx}" y="${ty}" width="${tw}" height="26" rx="13" fill="#fff" stroke="${c}" stroke-width="2"/>`,
             `<text x="${tx + tw / 2}" y="${ty + 18}" font-size="14" font-weight="700" fill="${c}" text-anchor="middle">${esc(tag)}</text>`); }
+        out.push('</g>');
         prev = P[it.id]; x += w + gap;
       });
     });

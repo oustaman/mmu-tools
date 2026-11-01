@@ -8,297 +8,191 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500&display=swap" rel="stylesheet" crossorigin="anonymous">
 <link rel="stylesheet" href="paper/paper.css">
+<link rel="stylesheet" href="tool-shell.css">
 <style>
-  :root{
-    --bg:#F5F4F2; --surface:#FFFFFF; --surface-2:#EDEBE8;
-    --ink:#1A1618; --ink-2:#514B4A; --ink-3:#4D4847;
-    --line:#DFDBD7; --line-2:#8E8685;
-    --lec:#8C2437; --lec-soft:#F6E8EA;
-    --ok:#285638; --warn:#684604; --warn-soft:#F4EAD3;
-    --mono:ui-monospace,"SF Mono",Menlo,Consolas,monospace;
-    --sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Inter,Roboto,sans-serif;
-  }
-  html[data-theme="dark"]{
-    --bg:#151314; --surface:#1E1B1C; --surface-2:#262223;
-    --ink:#EDE9E7; --ink-2:#B9B2AF; --ink-3:#B7B2B0;
-    --line:#332E2F; --line-2:#7A7372;
-    --lec:#E69FAD; --lec-soft:#332226;
-    --ok:#83C19A; --warn:#DCB469; --warn-soft:#2A2417;
-  }
-  html{background:var(--bg)}
-  body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);line-height:1.5}
-  .wrap{max-width:1320px;margin:0 auto;padding:0 22px}
-  @media(max-width:420px){.wrap{padding:0 14px}}
-  a{color:var(--lec)}
-  h1{font-size:clamp(1.6rem,4.4vw,2.3rem);line-height:1.1;letter-spacing:-0.028em;margin:24px 0 4px;font-weight:700}
-  .lede{color:var(--ink-2);margin:0 0 16px;max-width:82ch;font-size:0.95rem}
-  .note{font-size:0.82rem;color:var(--ink-3);margin:14px 0 0;max-width:90ch}
-  footer{padding:24px 0 44px;color:var(--ink-3);font-size:0.8rem;border-top:1px solid var(--line);margin-top:30px}
+  /* the Screen maker: the list of organisms, every screen on one canvas, and a form */
+  .tool{grid-template-columns:292px minmax(0,1fr) 264px}
+  @media(max-width:1180px){ .tool{grid-template-columns:250px minmax(0,1fr) 230px} }
 
-  /* ── the Screen maker ── */
-  .sm-grid{display:grid;gap:18px;grid-template-columns:minmax(0,2fr) minmax(0,2fr) minmax(220px,1fr);align-items:start}
-  .sm-col{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:12px}
-  .sm-h{font-family:var(--mono);font-size:0.64rem;letter-spacing:0.08em;text-transform:uppercase;color:var(--ink-3);margin:0 0 8px}
-  .sm-grid input:not([type=checkbox]),.sm-grid select,.sm-sel{font:inherit;font-size:0.9rem;width:100%;padding:8px 10px;border:1px solid var(--line-2);border-radius:8px;background:var(--surface);color:var(--ink)}
-  .sm-grid label{display:block;font-size:0.8rem;font-weight:640;margin:10px 0 3px}
-  .sm-grid label.mchk{display:flex;gap:8px;align-items:center;font-weight:500;font-size:0.86rem}
-  .sm-b{font:inherit;font-size:0.84rem;font-weight:600;min-height:36px;padding:0 12px;border-radius:8px;border:1px solid var(--line-2);background:var(--bg);color:var(--ink);cursor:pointer}
-  .sm-b:hover{border-color:var(--lec);color:var(--lec)}
-  .sm-b.pri{background:var(--lec);border-color:var(--lec);color:#fff}
-  html[data-theme="dark"] .sm-b.pri{color:#151314}
-  .sm-b:disabled{opacity:.5;cursor:default;border-color:var(--line-2);color:var(--ink)}
-  .sm-b.xs{min-height:28px;font-size:0.78rem;padding:0 9px}
-  .sm-row{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
-  .sm-msg{font-size:0.84rem;color:var(--warn);background:var(--warn-soft);border-radius:8px;padding:8px 10px;margin:8px 0 0}
-  .sm-msg:empty{display:none}
-  .sm-p{font-size:0.84rem;color:var(--ink-2);margin:4px 0 0}
-
-  /* the list of organisms: words first, the picture on hover */
-  .sm-pal{position:sticky;top:70px}
-  .pal2{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:14px;align-items:start}
-  .pal-l{max-height:calc(100vh - 110px);overflow-y:auto;padding-right:4px}
+  /* the list: words first, the picture underneath */
+  .pal-top{padding:10px 12px 6px;flex:none}
+  #pal{overflow-y:auto;flex:1;min-height:0;padding:0 12px 8px}
   .sm-fam{border-top:1px solid var(--line)} .sm-fam:first-of-type{border-top:0}
-  .sm-fam summary{cursor:pointer;list-style:none;display:flex;gap:8px;align-items:baseline;padding:10px 2px;font-weight:650;font-size:0.9rem}
+  .sm-fam summary{cursor:pointer;list-style:none;display:flex;gap:6px;align-items:baseline;padding:8px 2px;font-weight:650;font-size:0.84rem}
   .sm-fam summary::-webkit-details-marker{display:none}
   .sm-fam summary::before{content:"+";font-family:var(--mono);color:var(--ink-3);width:1em;flex:none}
   .sm-fam[open] summary::before{content:"\2013"}
-  .sm-fam summary span{margin-left:auto;font-family:var(--mono);font-weight:400;font-size:0.72rem;color:var(--ink-3)}
-  .sm-item{display:block;padding:7px 9px;border:1px solid var(--line);border-radius:8px;margin:0 0 6px;cursor:pointer;background:var(--surface);font-size:0.86rem;line-height:1.3}
-  .sm-item:hover,.sm-item:focus-visible{border-color:var(--lec);outline:none}
-  .sm-item b{font-family:var(--mono);font-size:0.76rem;margin-right:5px}
-  .sm-item small{display:block;color:var(--ink-2);font-size:0.76rem;margin-top:2px} .sm-item small.px{font-family:var(--mono);font-size:0.7rem;color:var(--ink-3)}
+  .sm-fam summary span{margin-left:auto;font-family:var(--mono);font-weight:400;font-size:0.68rem;color:var(--ink-3)}
+  .sm-fam > .p{margin:0 0 6px}
+  .sm-item{display:block;padding:5px 8px;border:1px solid var(--line);border-radius:7px;margin:0 0 4px;cursor:pointer;background:var(--surface);font-size:0.82rem;line-height:1.25}
+  .sm-item:hover,.sm-item:focus-visible{border-color:var(--lec);outline:none;box-shadow:0 0 0 1px var(--lec)}
+  .sm-item b{font-family:var(--mono);font-size:0.72rem;margin-right:5px}
+  .sm-item small{display:none}
+  .sm-item.nofit{border-style:dashed;color:var(--ink-3)}
   .sm-item[hidden],.sm-fam[hidden]{display:none}
-  .sm-item.nofit{border-style:dashed} .sm-item.nofit small.px::after{content:" · no room left"}
-  /* the picture of the organism under the pointer, beside the list */
-  .peek{position:sticky;top:0;display:flex;flex-direction:column;gap:8px}
-  .peek .pk-in{background:#fff;border:1px solid #CFC9C5;line-height:normal;align-self:flex-start}
+  .peek{flex:none;height:252px;border-top:1px solid var(--line);padding:9px 12px;overflow:hidden;display:flex;flex-direction:column;gap:5px;background:var(--bg)}
+  .peek .pk-in{background:#fff;border:1px solid #CFC9C5;line-height:normal;align-self:center;flex:none}
   .peek .pk-in.ov{background:repeating-linear-gradient(45deg,#EFECE9 0 6px,#F7F5F3 6px 12px)}
-  .peek h3{margin:0;font-size:0.95rem} .peek h3 b{font-family:var(--mono);font-size:0.82rem;margin-right:5px}
-  .peek .px{font-family:var(--mono);font-size:0.72rem;color:var(--ink-3)}
-  .peek p{margin:0;font-size:0.82rem;color:var(--ink-2)}
-  .peek .hint{border:1px dashed var(--line-2);border-radius:10px;padding:16px;color:var(--ink-3);font-size:0.84rem}
+  .pk-t{margin:0;font-size:0.8rem;line-height:1.25} .pk-t b{font-family:var(--mono);font-size:0.74rem} .pk-t span{display:block;font-family:var(--mono);font-size:0.68rem;color:var(--ink-3)}
+  .pk-d{margin:0;font-size:0.76rem;color:var(--ink-2);line-height:1.3}
+  .hint{margin:0;font-size:0.8rem;color:var(--ink-3)}
 
-  /* the canvas, about the size of a phone */
-  .sm-stage{--u:min(clamp(0.62px, calc((100vh - 200px) / 812), 1px), calc((100vw - 60px) / 380));display:flex;flex-direction:column;align-items:center;gap:10px}
-  .sm-cwrap{position:relative;margin-right:48px}
-  .sm-cwrap .canvas{box-shadow:0 2px 14px rgba(0,0,0,.12)}
-  .sm-cwrap .slot-fill{display:block}
-  .sm-cwrap .org-tag{font-size:8.5px;display:none} .sm-cwrap .sm-p2:hover .org-tag,.sm-cwrap .sm-p2.sel .org-tag,.sm-cwrap .ovl:hover .org-tag{display:block}
+  /* the canvas: screens at their real size, in a row */
+  #world{--u:1px;--z:1;display:flex;gap:56px;align-items:flex-start;padding:56px}
+  .ab{flex:none;position:relative}
+  .ab-l{position:absolute;left:0;bottom:calc(100% + 6px);max-width:100%;font:inherit;font-size:calc(13px / var(--z));line-height:1.2;font-weight:600;color:var(--ink-2);background:none;border:0;padding:0;cursor:pointer;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .ab.on .ab-l{color:var(--lec)}
+  .ab-c{line-height:normal}
+  .ab .canvas{box-shadow:0 2px 14px rgba(0,0,0,.14);cursor:pointer}
+  .ab.on .canvas{cursor:default;outline:calc(2px / var(--z)) solid var(--lec);outline-offset:calc(3px / var(--z))}
+  .ab.ms .canvas{border-style:dashed}
+  .ab-c .slot-fill{display:block}
+  .ab:not(.on) .sm-rz,.ab:not(.on) .org-tag{display:none}
+  .ab-new{flex:none;width:calc(375px + 1.2mm);height:calc(812px + 1.2mm);font:inherit;font-size:calc(14px / var(--z));font-weight:600;color:var(--ink-2);background:none;border:2px dashed var(--line-2);border-radius:5mm;cursor:pointer}
+  .dm .ab-new{width:300px;height:calc(820px + 1.2mm);border-radius:2.5mm}
+  .ab-new:hover{color:var(--lec);border-color:var(--lec)}
+  .org-tag{font-size:8.5px;display:none}
+  .ab.on .sm-p2:hover .org-tag,.ab.on .sm-p2.sel .org-tag,.ab.on .ovl:hover .org-tag{display:block}
   .sm-p2{position:absolute;left:0;top:0;width:100%}
-  .sm-p2.s{cursor:grab} .sm-p2.s.drag{opacity:.35}
+  .ab.on .sm-p2.s{cursor:grab} .sm-p2.s.drag{opacity:.35}
   .sm-p2.sel > .org{outline:2px solid #8C2437;outline-offset:-2px}
   .sm-p2:focus{outline:none} .sm-p2:focus-visible > .org{outline:3px solid #1A526D;outline-offset:-3px}
-  .sm-cwrap .slot-lines b{color:#6B6463}
-  .sm-tools button.hd{touch-action:none}
-  .vh{position:absolute!important;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
   .sm-p2.m > .org::after{content:"";position:absolute;inset:0;border-left:3px solid #1A526D;pointer-events:none}
   .sm-p2.clash > .org{outline:2px dashed #B3261E;outline-offset:-2px}
-  .sm-cwrap [contenteditable]{cursor:text;border-radius:2px;outline:none}
-  .sm-cwrap [contenteditable]:hover{box-shadow:0 0 0 1px #8E8685}
-  .sm-cwrap [contenteditable]:focus{box-shadow:0 0 0 2px #8C2437;background:#fff}
-  .sm-ghost{position:absolute;left:0;right:0;border:2px dashed #8C2437;background:rgba(140,36,55,.08);pointer-events:none;display:none;z-index:6}
-  .sm-tools{position:absolute;left:calc(100% + 8px);display:none;flex-direction:column;gap:4px;z-index:7}
-  .sm-tools button{font:600 14px/1 var(--sans);width:34px;height:34px;border-radius:8px;border:1px solid var(--line-2);background:var(--surface);color:var(--ink);cursor:pointer}
-  .sm-tools button:hover{border-color:var(--lec);color:var(--lec)} .sm-tools button:disabled{opacity:.4;cursor:default}
-  .sm-tools button.hd{cursor:grab}
+  .ab-c [contenteditable]{cursor:text;border-radius:2px;outline:none}
+  .ab-c [contenteditable]:hover{box-shadow:0 0 0 1px #8E8685}
+  .ab-c [contenteditable]:focus{box-shadow:0 0 0 2px #8C2437;background:#fff}
+  .sm-ghost{position:absolute;border:2px dashed #8C2437;background:rgba(140,36,55,.08);pointer-events:none;display:none;z-index:6}
+  .sm-tools{position:absolute;display:none;flex-direction:column;gap:3px;z-index:7;background:var(--surface);padding:3px;border-radius:9px;box-shadow:0 2px 10px rgba(0,0,0,.2)}
+  .sm-tools.row{flex-direction:row}
+  .sm-tools button{font:600 13px/1 var(--sans);width:30px;height:30px;border-radius:7px;border:1px solid var(--line-2);background:var(--surface);color:var(--ink);cursor:pointer}
+  .sm-tools button:hover:not(:disabled){border-color:var(--lec);color:var(--lec)} .sm-tools button:disabled{opacity:.4;cursor:default}
+  .sm-tools button.hd{cursor:grab;touch-action:none}
+  .sm-rz{position:absolute;right:-4px;top:0;bottom:0;width:9px;cursor:ew-resize;z-index:4;display:none;background:#8C2437;border-radius:3px;opacity:.75}
+  .ab.on .sm-p2.sel .sm-rz,.ab.on .sm-p2:hover .sm-rz{display:block}
   .sm-ovx{position:absolute;right:6px;top:-36px;z-index:5;font:600 13px/1 var(--sans);width:30px;height:30px;border-radius:7px;border:1px solid #8E8685;background:#fff;color:#1A1618;cursor:pointer}
   .sm-empty{position:absolute;inset:0;display:grid;place-items:center;text-align:center;padding:0 40px;color:#6B6463;font-size:13px;pointer-events:none}
-  .sm-meter{display:flex;gap:2px;width:calc(375 * var(--u))} .sm-meter i{flex:1;height:8px;border-radius:2px;background:var(--surface-2);border:1px solid var(--line)}
-  .sm-meter i.on{background:var(--ink-2);border-color:var(--ink-2)} .sm-meter i.m{background:#1A526D;border-color:#1A526D}
-  .sm-count{font-size:0.84rem;color:var(--ink-2);font-variant-numeric:tabular-nums;text-align:center}
-  .sm-codes{font-family:var(--mono);font-size:0.72rem;color:var(--ink-3);text-align:center;max-width:calc(375 * var(--u) + 40px)}
-  @media(max-width:1060px){ .sm-cwrap{margin-right:0} .sm-tools{left:auto;right:6px;flex-direction:row;background:var(--surface);padding:4px;border-radius:9px;box-shadow:0 2px 10px rgba(0,0,0,.2)} }
-
-  /* screens strip */
-  .sm-strip{display:flex;gap:10px;overflow-x:auto;padding:4px 2px 10px;margin-bottom:6px}
-  .sm-mini{flex:none;--u:0.13px;display:flex;flex-direction:column;gap:4px;align-items:center;border:2px solid transparent;border-radius:9px;padding:4px;cursor:pointer;background:none;color:var(--ink);font:inherit}
-  .sm-mini.on{border-color:var(--lec)}
-  .sm-mini.ms{border-style:dashed;border-color:var(--line-2)} .sm-mini.ms.on{border-style:solid;border-color:#1A526D}
-  .sm-mini .canvas{border-width:1px;border-radius:5px}
-  .sm-mini .org-tag,.sm-mini .slot-lines{display:none}
-  .sm-mini > span{font-size:0.7rem;max-width:64px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-  .sm-more{margin-top:22px;border-top:1px solid var(--line);padding-top:10px}
-  .sm-more summary{cursor:pointer;font-size:0.78rem;color:var(--ink-3);list-style:none}
-  .sm-more summary::-webkit-details-marker{display:none}
-  .sm-more summary::before{content:"+ ";font-family:var(--mono)} .sm-more[open] summary::before{content:"\2013\0020"}
-  .sm-more[open] summary{margin-bottom:8px}
-  .sm-code{font:0.74rem/1.5 var(--mono);color:var(--ink-2);background:var(--bg);border:1px solid var(--line);border-radius:6px;padding:5px 8px;margin-top:4px;text-align:left;cursor:copy;width:100%}
-  .sm-code:hover{border-color:var(--line-2)}
-  .sm-top{display:flex;align-items:flex-end;justify-content:space-between;gap:12px;flex-wrap:wrap}
-  .sm-top h1{margin-bottom:4px}
-  .sm-banner{display:flex;flex-wrap:wrap;gap:10px 18px;align-items:center;justify-content:space-between;background:var(--lec-soft);border:1px solid var(--lec);border-radius:12px;padding:12px 16px;margin:0 0 12px}
-  .sm-banner p{margin:0;max-width:70ch;font-size:0.9rem}
-  .sm-banner[hidden]{display:none}
-  h2.sm-h{font-weight:500}
-  .sm-key{display:flex;gap:14px;font-size:0.76rem;color:var(--ink-2)} .sm-key:empty{display:none}
-  .sm-key i{display:inline-block;width:12px;height:8px;border-radius:2px;margin-right:5px;vertical-align:middle}
-  dialog.sm-new{max-width:min(980px,94vw);width:980px}
-  .sm-new-h{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px} .sm-new-h h2{margin:0;font-size:1.2rem}
-  .sm-blank{display:flex;flex-direction:column;align-items:flex-start;gap:2px;width:100%;text-align:left;font:inherit;color:var(--ink);background:var(--bg);border:1px solid var(--line-2);border-radius:10px;padding:12px 14px;cursor:pointer}
-  .sm-blank span{font-size:0.86rem;color:var(--ink-2)}
-  .sm-blank:hover,.sm-blank:focus-visible,.sm-kind:hover,.sm-kind:focus-visible{border-color:var(--lec);outline:2px solid var(--lec);outline-offset:1px}
-  .sm-kinds{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px;margin-top:10px}
-  .sm-kind{display:flex;flex-direction:column;gap:4px;align-items:flex-start;text-align:left;font:inherit;color:var(--ink);background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:10px;cursor:pointer;--u:0.17px}
-  .sm-kind .canvas{border-width:1px;border-radius:6px} .sm-kind .slot-lines,.sm-kind .org-tag{display:none}
-  .sm-kind b{font-size:0.86rem;line-height:1.2} .sm-kind small{font-size:0.74rem;color:var(--ink-2);line-height:1.3}
-  .sm-kind .k-id{font-family:var(--mono);font-size:0.68rem;color:var(--ink-3)}
-  /* where a new piece landed */
   @keyframes smflash{0%{box-shadow:0 0 0 0 rgba(140,36,55,.6)}100%{box-shadow:0 0 0 14px rgba(140,36,55,0)}}
   .sm-p2.flash > .org{animation:smflash .8s ease-out 2;outline:2px solid #8C2437;outline-offset:-2px}
   @media (prefers-reduced-motion: reduce){ .sm-p2.flash > .org{animation:none} }
-  .sm-seg{display:inline-flex;border:1px solid var(--line-2);border-radius:8px;overflow:hidden;margin-right:4px}
-  .sm-seg button{font:inherit;font-size:0.84rem;font-weight:600;min-height:36px;padding:0 13px;border:0;background:var(--bg);color:var(--ink);cursor:pointer}
-  .sm-seg button + button{border-left:1px solid var(--line-2)}
-  .sm-seg button.on{background:var(--ink);color:var(--bg)}
-  .sm-rz{position:absolute;right:-4px;top:0;bottom:0;width:9px;cursor:ew-resize;z-index:4;display:none;background:#8C2437;border-radius:3px;opacity:.75}
-  .sm-p2.sel .sm-rz,.sm-p2:hover .sm-rz{display:block}
-  /* desktop: the window needs the width, so the list narrows, its picture floats, the form goes underneath */
-  .dm .wrap{max-width:1640px}
-  .dm .sm-grid{grid-template-columns:280px minmax(0,1fr)}
-  .dm .pal2{grid-template-columns:minmax(0,1fr)}
-  .dm .peek{position:fixed;z-index:60;width:454px;background:var(--surface);border:1px solid var(--line-2);border-radius:12px;padding:12px;box-shadow:0 8px 28px rgba(0,0,0,.22);pointer-events:none;display:none}
-  .dm .peek.on{display:flex} .dm .peek .hint{display:none}
-  .dm .sm-stage{--u:min(1px, calc((min(100vw, 1640px) - 420px) / 1150))}
-  .dm .sm-cwrap{margin-right:0}
-  .dm .sm-tools{flex-direction:row;background:var(--surface);padding:3px;border-radius:9px;box-shadow:0 2px 10px rgba(0,0,0,.2)}
-  .dm .sm-side{grid-column:2}
-  .dm #side{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0 24px;align-items:start} .dm #side > h2,.dm #side > .sm-p,.dm #side > .mchk,.dm #side > .sm-more{grid-column:1/-1}
-  .dm .sm-mini{--u:0.1px} .dm .sm-kind{--u:0.115px}
-  .dm .sm-mini > span{max-width:100px}
-  @media(max-width:1060px){ .dm .sm-grid{grid-template-columns:1fr} .dm .sm-side{grid-column:auto} .dm #side{display:block} .dm .sm-stage{--u:calc((100vw - 60px) / 1150)} .dm .sm-tools{left:auto;right:6px} }
-  .sm-recipe{font-size:0.82rem;color:var(--ink-2);margin:6px 0 0}
-  dialog.sm-dlg{border:1px solid var(--line-2);border-radius:12px;padding:18px 20px;background:var(--surface);color:var(--ink);max-width:420px}
-  dialog.sm-dlg::backdrop{background:rgba(0,0,0,.35)}
-  dialog.sm-dlg p{margin:0 0 14px}
-  #print{display:none}
-  @media(max-width:1060px){
-    .sm-grid{grid-template-columns:1fr}
-    .sm-stage{order:0} .sm-side{order:1} .sm-pal{order:2;position:static}
-    .pal-l{max-height:none}
-  }
-  @media print{
-    html,body{background:#fff}
-    body > :not(#print){display:none!important}
-    #print{display:block}
-    #print .slot-lines{display:none}
-  }
+  .ban{position:absolute;left:50%;top:10px;transform:translateX(-50%);display:flex;align-items:center;gap:10px;background:var(--lec-soft);border:1px solid var(--lec);border-radius:9px;padding:6px 8px 6px 12px;font-size:0.82rem;z-index:12;white-space:nowrap}
 
-  /* THE BAR — one definition, identical on every page (written by navfix; change it
-     everywhere or nowhere). It used to be copied per page and drifted into two heights. */
-  header.sdnav{position:sticky;top:0;z-index:40;background:var(--surface);border-bottom:1px solid var(--line)}
-  header.sdnav .bar{display:flex;align-items:center;gap:10px;min-height:56px;padding-block:8px;flex-wrap:nowrap}
-  header.sdnav .brand{font-weight:680;font-size:1rem;letter-spacing:-0.015em;white-space:nowrap;color:inherit;
-    text-decoration:none;padding:5px 8px;margin-left:-8px;border-radius:6px;order:0}
-  header.sdnav .brand:hover{background:var(--surface-2,var(--bg))}
-  header.sdnav .sp{flex:1;display:block;height:auto;flex-basis:auto;order:0}
-  header.sdnav .sdlinks{display:flex;align-items:center;gap:2px;order:0}
-  header.sdnav .navl{display:inline-block;font-size:0.85rem;line-height:1.3;color:var(--ink-2);text-decoration:none;
-    padding:6px 10px;border-radius:6px;white-space:nowrap;order:0}
-  header.sdnav .navl:hover{background:var(--surface-2,var(--bg));color:var(--ink)}
-  header.sdnav .navl.on{background:var(--lec);color:#fff}
-  html[data-theme="dark"] header.sdnav .navl.on{color:#151314}
-  header.sdnav a:focus-visible,header.sdnav button:focus-visible{outline:2px solid var(--lec);outline-offset:1px}
-  header.sdnav .ctl{order:0;margin-left:4px}
-  header.sdnav .ctl button{font-family:var(--mono);font-size:0.7rem;background:none;color:var(--ink-3);
-    border:1px solid var(--line-2);border-radius:6px;padding:0 9px;cursor:pointer;line-height:1;
-    height:34px;min-height:34px;min-width:34px;display:inline-flex;align-items:center;justify-content:center}
-  header.sdnav .ctl button:hover{border-color:var(--lec);color:var(--lec)}
-  @media(max-width:960px){
-    header.sdnav .bar{flex-wrap:wrap;row-gap:0;padding-block:6px 0;min-height:0}
-    header.sdnav .ctl{order:1;margin-left:auto}
-    header.sdnav .sp{display:none}
-    header.sdnav .sdlinks{order:2;flex-basis:100%;overflow-x:auto;scrollbar-width:none;padding:4px 28px 8px 0;min-height:44px;
-      -webkit-mask-image:linear-gradient(to right,#000 calc(100% - 28px),transparent);mask-image:linear-gradient(to right,#000 calc(100% - 28px),transparent)}
-    header.sdnav .sdlinks::-webkit-scrollbar{display:none}
-    header.sdnav .navl{font-size:0.82rem;padding:6px 9px}
-  }
+  /* the form */
+  .acts-h{display:flex;align-items:center;justify-content:space-between;gap:6px;flex-wrap:wrap;margin-bottom:2px} .acts-h .h{margin:0}
+  .acts{display:inline-flex;gap:3px;flex-wrap:wrap}
+  .p{font-size:0.8rem;color:var(--ink-2);margin:4px 0 0;line-height:1.35} .p b{color:var(--ink)}
+  .warn{font-size:0.8rem;color:var(--warn);background:var(--warn-soft);border-radius:7px;padding:7px 9px;margin:8px 0 0}
+  .pane label.mchk{display:flex;gap:7px;align-items:center;font-weight:500;font-size:0.8rem;margin-top:10px}
+
+  /* dialogs */
+  dialog.sm-new{max-width:min(980px,94vw);width:980px}
+  .sm-new-h{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px} .sm-new-h h2{margin:0}
+  .sm-blank{display:flex;flex-direction:column;align-items:flex-start;gap:2px;width:100%;text-align:left;font:inherit;color:var(--ink);background:var(--bg);border:1px solid var(--line-2);border-radius:10px;padding:10px 14px;cursor:pointer;margin-bottom:10px}
+  .sm-blank span{font-size:0.84rem;color:var(--ink-2)}
+  .sm-blank:hover,.sm-blank:focus-visible,.sm-kind:hover,.sm-kind:focus-visible{border-color:var(--lec);outline:2px solid var(--lec);outline-offset:1px}
+  .sm-kinds{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px;margin-top:10px}
+  .sm-kind{display:flex;flex-direction:column;gap:4px;align-items:flex-start;text-align:left;font:inherit;color:var(--ink);background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:10px;cursor:pointer;--u:0.17px}
+  .sm-kind .canvas{border-width:1px;border-radius:6px} .sm-kind .slot-fill{display:block}
+  .sm-kind b{font-size:0.86rem;line-height:1.2} .sm-kind small{font-size:0.74rem;color:var(--ink-2);line-height:1.3}
+  .sm-kind .k-id{font-family:var(--mono);font-size:0.68rem;color:var(--ink-3)}
+  .dm .sm-kind{--u:0.115px}
+  .code{display:block;width:100%;font:0.76rem/1.5 var(--mono);color:var(--ink-2);background:var(--bg);border:1px solid var(--line);border-radius:6px;padding:6px 8px;margin:0 0 10px;text-align:left;cursor:copy}
+  #print{display:none}
+  @media print{ body > :not(#print){display:none!important} #print{display:block} #print .slot-lines,#print .colgrid{display:none} #print .slot-fill{display:block} }
 </style>
 </head>
 <body>
 
-<header class="sdnav">
-  <div class="wrap bar">
-    <a class="brand" href="index.html">Screen Design</a>
-    <span class="sp"></span>
-    <nav class="sdlinks" aria-label="Screen Design"><a class="navl" href="weeks.html">Week by week</a><a class="navl" href="assessment.html">Checklist</a><a class="navl" href="examples.html">Examples</a><a class="navl on" href="toolkit.html">Toolkit</a><a class="navl" href="assessment-materials.html">Marking</a></nav>
-    <span class="ctl"><button id="theme" aria-label="Dark mode">◐</button></span>
-  </div>
+<header class="tb-bar">
+  <a class="tb-back" href="toolkit.html">← Toolkit</a>
+  <h1 class="tb-name">Screen maker</h1>
+  <span class="seg" role="group" aria-label="Screen size"><button type="button" data-act="dev" data-d="phone">Phone</button><button type="button" data-act="dev" data-d="desktop">Desktop</button></span>
+  <button type="button" class="tbtn pri" data-act="new" aria-haspopup="dialog">+ New screen</button>
+  <span class="tb-sp"></span>
+  <button type="button" class="tbtn" data-act="undo" id="undo" title="Undo (Ctrl or ⌘ Z)">Undo</button>
+  <button type="button" class="tbtn" data-act="redo" id="redo" title="Redo (Ctrl or ⌘ Shift Z)">Redo</button>
+  <button type="button" class="tbtn" data-act="copypic">Copy as a picture</button>
+  <button type="button" class="tbtn" data-act="print">Print or PDF</button>
+  <details class="menu"><summary class="tbtn">More</summary><div class="menu-in">
+    <button type="button" data-act="save">Save, move, or build from codes</button>
+    <button type="button" data-act="example" id="see-ex">See an example</button>
+    <button type="button" data-act="clear" id="clear">Start again</button>
+  </div></details>
+  <button type="button" class="tbtn" data-act="help" aria-haspopup="dialog">Help</button>
+  <button type="button" class="tbtn ic" id="theme" aria-label="Dark mode">◐</button>
 </header>
-<script>(function(){var n=document.querySelector(".sdlinks"),o=n&&n.querySelector(".on");if(o&&n.scrollWidth>n.clientWidth)n.scrollLeft=o.offsetLeft-n.offsetLeft-16;})();</script>
 
-<div class="wrap">
-  <div class="sm-top"><h1>Screen maker</h1><button type="button" class="sm-b" data-act="example" id="see-ex">See an example</button></div>
-  <p class="lede">The paper organisms, on screen. Click an organism on the left to add it, or drag it onto the screen. It snaps to the rows: put it on any row you like, leave rows empty, drag it up or down. Click any words on the screen to change them.
-    Work at <b>phone</b> or <b>desktop</b> size. Set up the <b>master</b> once with what every screen shares, such as the bars at the top and bottom. Make one screen for each step of your <a href="flow.html">flow</a>, then copy each one into your slides or print them all for <b>B5</b>. See every organism at full size on <a href="organisms.html">Organisms</a>.</p>
+<div class="tool">
+  <aside class="pane l" aria-label="Organisms">
+    <div class="pal-top"><h2 class="h">Organisms</h2><input id="filter" type="search" placeholder="Find one" aria-label="Find an organism"></div>
+    <div id="pal"></div>
+    <div class="peek" id="peek"><p class="hint">Point at an organism to see it here. Click it to add it to the screen, or drag it onto the row you want.</p></div>
+  </aside>
 
-  <div class="sm-banner" id="banner" hidden role="region" aria-label="Example">
-    <p><b>This is the example:</b> the missed bin journey, one screen per step. Try anything: your own screens are kept safe, and nothing here is saved over them.</p>
-    <span class="sm-row"><button type="button" class="sm-b pri" data-act="mine">Back to my screens</button><button type="button" class="sm-b xs" data-act="exreset">Reset the example</button></span>
-  </div>
-  <div class="sm-strip" id="strip" aria-label="Your screens"></div>
-  <div class="sm-row" style="margin-bottom:16px">
-    <span class="sm-seg" role="group" aria-label="Screen size"><button type="button" data-act="dev" data-d="phone">Phone</button><button type="button" data-act="dev" data-d="desktop">Desktop</button></span>
-    <button type="button" class="sm-b pri" data-act="new" aria-haspopup="dialog">+ New screen</button>
-    <button type="button" class="sm-b" data-act="dup">Duplicate</button>
-    <button type="button" class="sm-b" data-act="left" aria-label="Move this screen earlier">←</button>
-    <button type="button" class="sm-b" data-act="right" aria-label="Move this screen later">→</button>
-    <button type="button" class="sm-b" data-act="del">Delete screen</button>
-    <span style="flex:1"></span>
-    <button type="button" class="sm-b" data-act="undo" id="undo" title="Undo (Ctrl or ⌘ Z)">Undo</button>
-    <button type="button" class="sm-b" data-act="redo" id="redo" title="Redo (Ctrl or ⌘ Shift Z)">Redo</button>
-    <button type="button" class="sm-b" data-act="copypic">Copy as a picture</button>
-    <button type="button" class="sm-b pri" data-act="print">Print or save as PDF</button>
-  </div>
+  <section class="stage" id="stage" aria-label="Your screens">
+    <div class="world" id="world"></div>
+    <div class="sm-ghost" id="ghost"></div>
+    <div class="sm-tools" id="tools"></div>
+    <div class="ban" id="banner" hidden role="region" aria-label="Example"><span><b>This is the example.</b> Your own screens are kept safe.</span>
+      <button type="button" class="tbtn xs pri" data-act="mine">Back to my screens</button><button type="button" class="tbtn xs" data-act="exreset">Reset</button></div>
+    <p class="t-msg" id="msg" role="status"></p>
+    <div class="st-bar">
+      <span class="st-info"><span id="count" role="status"></span> &nbsp;·&nbsp; <span class="mono" id="codes"></span></span>
+      <span class="zoom" role="group" aria-label="Zoom">
+        <button type="button" data-act="zout" aria-label="Zoom out">−</button><output id="zlabel">100%</output><button type="button" data-act="zin" aria-label="Zoom in">+</button>
+        <button type="button" data-act="fitone" title="Fit this screen (Ctrl or ⌘ and scroll to zoom)">This screen</button><button type="button" data-act="fitall" title="See every screen (Ctrl or ⌘ 0)">All</button>
+      </span>
+    </div>
+  </section>
 
-  <div class="sm-grid">
-    <aside class="sm-col sm-pal" aria-label="Organisms">
-      <div class="pal2">
-        <div class="pal-l"><h2 class="sm-h">Organisms</h2>
-          <input id="filter" type="search" placeholder="Find one" aria-label="Find an organism">
-          <div id="pal"></div></div>
-        <div class="peek" id="peek"><p class="hint" id="hint">Point at an organism to see it here. Click it to add it to the screen, or drag it onto the row you want.</p></div>
-      </div>
-    </aside>
-
-    <section class="sm-stage" aria-label="The screen">
-      <div class="sm-cwrap" id="cwrap"><div id="canvas"></div><div class="sm-ghost" id="ghost"></div><div class="sm-tools" id="tools"></div></div>
-      <div class="sm-meter" id="meter" aria-hidden="true"></div>
-      <span class="sm-key" id="key" aria-hidden="true"></span>
-      <span class="sm-count" id="count" role="status"></span>
-      <span class="sm-codes" id="codes"></span>
-    </section>
-
-    <aside class="sm-col sm-side" aria-label="About this screen">
-      <div id="side"></div>
-      <p class="sm-msg" id="msg" role="status"></p>
-      <p class="vh" id="sr" aria-live="polite"></p>
-    </aside>
-  </div>
-
-  <p class="note">Your screens stay in this browser, on this computer. On a university computer they may be wiped when you log off:
-    before you go, open <b>Save, move, or build from codes</b> under the form and copy the link, or print them.
-    <button type="button" class="sm-b xs" data-act="clear" id="clear">Start again</button>
-    Prefer paper?
-    Print the <a href="paper/paper-organisms.pdf">organisms and canvases</a> and the <a href="paper/paper-cheatsheet.pdf">cheatsheet of twenty screens</a>: every paper piece carries its code, and <b>Build from codes</b> rebuilds a paper screen here.</p>
-
-  <footer><p>Screen Design · Level 4 · 2026–27</p></footer>
+  <aside class="pane r" aria-label="About this screen">
+    <div class="pane-s"><div id="side"></div><p class="vh" id="sr" aria-live="polite"></p></div>
+  </aside>
 </div>
 
-<dialog class="sm-dlg" id="confirm"><form method="dialog"><p id="confirm-q"></p>
-  <div class="sm-row" style="justify-content:flex-end"><button class="sm-b" value="no">Keep it</button><button class="sm-b pri" value="yes" id="confirm-yes">Delete screen</button></div></form></dialog>
-<dialog class="sm-dlg sm-new" id="newdlg" aria-labelledby="newdlg-h"><form method="dialog">
-  <div class="sm-new-h"><h2 id="newdlg-h">New screen</h2><button class="sm-b xs" value="cancel" aria-label="Close">✕</button></div>
-  <button type="button" class="sm-blank" data-k="">
-    <b>A blank screen</b><span>Start with nothing and add organisms yourself.</span></button>
-  <p class="sm-p">Or start from one of the twenty kinds of screen, with its usual organisms already in place. You can change anything afterwards.</p>
+<dialog class="dlg" id="confirm"><form method="dialog"><p id="confirm-q"></p>
+  <div class="dlg-acts"><button class="tbtn" value="no">Keep it</button><button class="tbtn pri" value="yes" id="confirm-yes">Delete screen</button></div></form></dialog>
+
+<dialog class="dlg sm-new" id="newdlg" aria-labelledby="newdlg-h"><form method="dialog">
+  <div class="sm-new-h"><h2 id="newdlg-h">New screen</h2><button class="tbtn xs" value="cancel" aria-label="Close">✕</button></div>
+  <button type="button" class="sm-blank" data-k=""><b>A blank screen</b><span>Start with nothing and add organisms yourself.</span></button>
+  <p>Or start from one of the twenty kinds of screen, with its usual organisms already in place. You can change anything afterwards.</p>
   <div class="sm-kinds" id="kinds"></div>
 </form></dialog>
+
+<dialog class="dlg" id="savedlg" aria-labelledby="savedlg-h"><form method="dialog">
+  <h2 id="savedlg-h">Save, move, or build from codes</h2>
+  <p><b>Carry on somewhere else.</b> Your screens stay in this browser, and a university computer may wipe them when you log off. Copy a link to all your screens, send it to yourself, and open it on any computer or phone.</p>
+  <p><button type="button" class="tbtn xs pri" data-act="link">Copy the link</button></p>
+  <p><b>This screen’s code</b> is its organisms, top to bottom, the same codes as on the paper pieces:</p>
+  <button type="button" class="code" id="thecode" data-act="copy" title="Copy"></button>
+  <p><b>Built one on paper?</b> Type its codes here.</p>
+  <div style="display:flex;gap:6px"><input id="f-codes" placeholder="TOP-04 HED-03 …" autocomplete="off" spellcheck="false" aria-label="Codes, top to bottom"><button type="button" class="tbtn xs" data-act="build">Build</button></div>
+  <p class="p" id="dmsg" role="status" style="margin-top:6px"></p>
+  <div class="dlg-acts"><button class="tbtn" value="close">Close</button></div>
+</form></dialog>
+
+<dialog class="dlg" id="helpdlg" aria-labelledby="helpdlg-h"><form method="dialog">
+  <h2 id="helpdlg-h">How it works</h2>
+  <ul>
+    <li><b>Add:</b> click an organism on the left, or drag it onto a row. It snaps to the rows, and you can leave rows empty.</li>
+    <li><b>Words:</b> click any words on a screen and type.</li>
+    <li><b>Move:</b> drag a piece, or use the buttons beside it. With the keyboard: Tab to a piece, then the arrow keys; Delete removes it, Enter edits its words.</li>
+    <li><b>Master:</b> what you put on the first tile appears on every screen, such as the bars at the top and bottom.</li>
+    <li><b>The canvas:</b> scroll to move around, pinch or Ctrl/⌘ and scroll to zoom, and drag the empty space to pan. Hold Space and drag from anywhere.</li>
+    <li><b>Your deck:</b> make one screen for each step of your <a href="flow.html">flow</a>, then Copy as a picture into your slides, or print the set for <b>B5</b>.</li>
+  </ul>
+  <p>Every organism at full size: <a href="organisms.html">Organisms</a>. Prefer paper? <a href="paper/paper-organisms.pdf">Organisms and canvases</a> · <a href="paper/paper-cheatsheet.pdf">the twenty screens</a>.</p>
+  <div class="dlg-acts"><button class="tbtn pri" value="close">Got it</button></div>
+</form></dialog>
+
 <div id="print"></div>
 
 <script src="https://cdn.jsdelivr.net/npm/html-to-image@1.11.11/dist/html-to-image.js"></script>
 <script src="paper/paper-kit.js"></script>
 <script src="paper/organisms.js"></script>
 <script src="paper/journeys.js"></script>
+<script src="tool-canvas.js"></script>
 <script>
 (function () {
   /* The Screen maker. A screen is a set of pieces, each an organism at a row (0 to 13), with
@@ -371,9 +265,9 @@
   const save = () => { W[W.device] = S; try { localStorage.setItem(mode === 'example' ? EXKEY : KEY, JSON.stringify(W)); localStorage.setItem(MODE, mode); } catch (e) {} };
   const keep = before => { hist.push(before); if (hist.length > 80) hist.shift(); fut = []; $('undo').disabled = false; $('redo').disabled = true; };
   const snap = () => keep(JSON.stringify(S));
-  function switchTo(m, state) { save(); mode = m; W = state; S = W[W.device]; hist = []; fut = []; sel = null; renderPal(); render(); }
-  function setDevice(d) { if (d === W.device) return; save(); W.device = d; S = W[d]; hist = []; fut = []; sel = null; peeked = null; renderPal(); render(); tell(d === 'desktop' ? 'Desktop screens.' : 'Phone screens.'); }
-  function say(t) { $('msg').textContent = t; clearTimeout(say.t); if (t) say.t = setTimeout(() => { $('msg').textContent = ''; }, 6000); }
+  function switchTo(m, state) { save(); mode = m; W = state; S = W[W.device]; hist = []; fut = []; sel = null; needFit = true; renderPal(); render(); }
+  function setDevice(d) { if (d === W.device) return; save(); W.device = d; S = W[d]; hist = []; fut = []; sel = null; peeked = null; needFit = true; renderPal(); render(); tell(d === 'desktop' ? 'Desktop screens.' : 'Phone screens.'); }
+  function say(t) { $('msg').textContent = t; $('dmsg').textContent = t; clearTimeout(say.t); if (t) say.t = setTimeout(() => { $('msg').textContent = ''; }, 6000); }
 
   /* ── rows and columns ── */
   const masterOn = s => s !== S.master && s.useMaster !== false;
@@ -447,10 +341,10 @@
   function renderPal() {
     const here = o => (isD() ? !o.phone : !o.desk), q = $('filter').value = '';
     $('pal').innerHTML = `<details class="sm-fam sm-start" open><summary>Start with these<span>${STARTERS().length}</span></summary>
-    <p class="sm-p" style="margin:0 0 8px">The ones most screens are made of. Everything else is in the groups below.</p>${STARTERS().map(id => item(BY[id])).join('')}</details>` +
+    <p class="p" style="margin:0 0 8px">The ones most screens are made of. Everything else is in the groups below.</p>${STARTERS().map(id => item(BY[id])).join('')}</details>` +
     Object.keys(FAM).map(f => `<details class="sm-fam" data-fam="${f}"><summary>${FNAME[f]}<span>${FAM[f]} · ${O.filter(o => o.fam === f && here(o)).length}</span></summary>` +
-    (f === 'Own' ? '<p class="sm-p" style="margin:0 0 8px">For an organism the set does not have: a note in its place, saying what it would be. Pick the height you need.</p>' : '') +
-    (f === 'Overlay' ? '<p class="sm-p" style="margin:0 0 8px">These lie over the screen and take no rows, one at a time.</p>' : '') +
+    (f === 'Own' ? '<p class="p" style="margin:0 0 8px">For an organism the set does not have: a note in its place, saying what it would be. Pick the height you need.</p>' : '') +
+    (f === 'Overlay' ? '<p class="p" style="margin:0 0 8px">These lie over the screen and take no rows, one at a time.</p>' : '') +
     O.filter(o => o.fam === f && here(o)).map(item).join('') + '</details>').join('');
   }
   $('filter').oninput = () => { const q = $('filter').value.trim().toLowerCase();
@@ -463,24 +357,21 @@
   const AN = Object.fromEntries(A.map(a => [a.id, a.name]));
   let peeked = null;
   function peek(it) {
-    const o = BY[it.dataset.id], pk = $('peek'), d = isD() && !o.over; if (peeked === o.id) { if (isD()) pk.classList.add('on'); return; } peeked = o.id;
-    pk.classList.add('on');
+    const o = BY[it.dataset.id], pk = $('peek'), d = isD() && !o.over; if (peeked === o.id) return; peeked = o.id;
     const span = d ? spanOf(o) : 0, frame = d ? (bleeds(o) && span === COLS ? DW : dw(span)) : (o.desk ? dw(o.dspan) : 375);
-    const room = isD() ? 430 : pk.clientWidth - 2, un = Math.min(1, room / frame);
+    const un = Math.min(1, (pk.clientWidth - 2) / frame, 150 / (o.rows * ROW));
     pk.innerHTML = `<div class="pk-in full${d ? ' desk' : ''}${o.over ? ' ov' : ''}" style="width:${frame * un + 2}px">${organism(o.id, { label: false, span: d ? span : 0 })}</div>
-      <h3><b>${o.code}</b>${esc(o.name)}</h3><span class="px">${sizeOf(o)} · ${plural(o.rows, 'row')}</span><p>${esc(o.does)}</p>
-      ${window.ORG.USED[o.id].length ? `<p>Usually on: ${window.ORG.USED[o.id].map(id => esc(AN[id])).join(', ')}</p>` : ''}`;
+      <p class="pk-t"><b>${o.code}</b> ${esc(o.name)} <span>${sizeOf(o)} · ${plural(o.rows, 'row')}</span></p><p class="pk-d">${esc(o.does)}</p>`;
     pk.style.setProperty('--u', un + 'px');
     words(pk);
-    if (isD()) { const r = it.getBoundingClientRect(), pr = $('pal').getBoundingClientRect(); pk.style.left = (pr.right + 22) + 'px'; pk.style.top = Math.max(70, Math.min(r.top - 8, innerHeight - pk.offsetHeight - 10)) + 'px'; }
   }
-  const unpeek = () => { if (isD()) { $('peek').classList.remove('on'); peeked = null; } };
+  const unpeek = () => {};
   $('pal').addEventListener('mouseover', e => { const it = e.target.closest('.sm-item'); if (it) peek(it); });
   $('pal').addEventListener('focusin', e => { const it = e.target.closest('.sm-item'); if (it) peek(it); });
-  $('pal').addEventListener('mouseleave', unpeek); $('pal').addEventListener('focusout', unpeek);
 
   /* ── drawing a screen ── */
-  const rowPx = () => $('canvas').querySelector('.slots').getBoundingClientRect().height / ROWS;
+  const cv = () => document.querySelector('.ab.on .ab-c');
+  const rowPx = () => cv().querySelector('.slots').getBoundingClientRect().height / ROWS;
   function screenHTML(s, opts = {}) {
     const mine = s.pieces, fx = fixed(s), bad = new Set(clashes(s).map(p => p.u)), d = isD();
     const lab = (p, m) => `${BY[p.o].code} ${BY[p.o].name}, rows ${p.row + 1} to ${end(p)}${d && !bleeds(BY[p.o]) ? `, columns ${p.col + 1} to ${p.col + p.span}` : ''}${m ? ', from the master' : ''}${bad.has(p.u) ? ', crosses the master' : ''}`;
@@ -513,16 +404,13 @@
   }
   function renderCanvas() {
     const s = cur();
-    draw($('canvas'), s, { edit: true });
-    if (flash) { const el = $('canvas').querySelector(`[data-u="${flash}"]`); flash = null;
-      if (el) { el.classList.add('flash'); const r = el.getBoundingClientRect();
-        if (r.top < 70 || r.bottom > innerHeight) el.scrollIntoView({ block: 'center', behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' }); } }
-    if (refocus) { refocus = false; const el = sel && $('canvas').querySelector(`[data-u="${sel}"]`); if (el) el.focus({ preventScroll: true }); }
+    draw(cv(), s, { edit: true });
+    if (flash) { const el = cv().querySelector(`[data-u="${flash}"]`); flash = null;
+      if (el) { el.classList.add('flash'); if (view) view.reveal(el); } }
+    if (refocus) { refocus = false; const el = sel && cv().querySelector(`[data-u="${sel}"]`); if (el) el.focus({ preventScroll: true }); }
     const m = rowMap(s), fxs = new Set(fixed(s));
-    $('meter').innerHTML = m.map(p => `<i class="${p ? (fxs.has(p) ? 'm' : 'on') : ''}"></i>`).join('');
     const used = m.filter(Boolean).length;
-    $('key').innerHTML = fxs.size ? '<span><i style="background:var(--ink-2)"></i>this screen</span><span><i style="background:#1A526D"></i>from the master</span>' : '';
-    $('count').textContent = `${used} of ${ROWS} rows used, ${used * ROW} of ${ROWS * ROW} px · ${ROWS - used} empty`;
+    $('count').textContent = `${used} of ${ROWS} rows used · ${used * ROW} of ${ROWS * ROW} px${fxs.size ? ' · blue edge: from the master' : ''}`;
     $('codes').textContent = codesOf(s).join(' · ');
     document.querySelectorAll('.sm-item').forEach(el => { const o = BY[el.dataset.id]; el.classList.toggle('nofit', !o.over && !pinned(o.id) && !firstFit(s, o, spanOf(o))); });
     renderTools();
@@ -531,9 +419,9 @@
   /* the tools beside the selected piece: to its right on a phone, above it on desktop */
   function renderTools() {
     const s = cur(), t = $('tools'), p = s.pieces.find(q => q.u === sel), mp = !p && fixed(s).find(q => q.u === sel);
-    const el = sel && $('canvas').querySelector(`[data-u="${sel}"]`);
+    const el = sel && cv().querySelector(`[data-u="${sel}"]`);
     if ((!p && !mp) || !el) { t.style.display = 'none'; return; }
-    const off = $('cwrap').getBoundingClientRect(), r = el.getBoundingClientRect();
+    const off = $('stage').getBoundingClientRect(), r = el.getBoundingClientRect();
     const b = q => q === false ? '' : ' disabled', pin = p && pinned(p.o);
     t.style.display = 'flex';
     t.innerHTML = mp ? `<button type="button" data-do="to-master" aria-label="Go to the master" title="Go to the master">M</button>`
@@ -545,8 +433,9 @@
         <button type="button" data-do="thin" aria-label="Narrower by a column" title="Narrower"${b(pin)}>−</button>
         <button type="button" data-do="wide" aria-label="Wider by a column" title="Wider"${b(pin)}>+</button>` : ''}
         <button type="button" data-do="rm" aria-label="Remove" title="Remove">✕</button>`;
-    if (isD() && innerWidth > 1060) { t.style.left = (r.left - off.left) + 'px'; const above = r.top - off.top - 42; t.style.top = (above >= 0 ? above : r.bottom - off.top + 6) + 'px'; }
-    else { t.style.left = ''; t.style.top = (r.top - off.top) + 'px'; }
+    t.classList.toggle('row', isD());
+    if (isD()) { t.style.left = Math.max(4, r.left - off.left) + 'px'; const above = r.top - off.top - 44; t.style.top = (above >= 4 ? above : r.bottom - off.top + 6) + 'px'; }
+    else { const right = r.right - off.left + 8; t.style.left = (right + 44 > off.width ? Math.max(4, r.left - off.left - 44) : right) + 'px'; t.style.top = Math.max(4, r.top - off.top) + 'px'; }
   }
   /* up and down: into an empty row, or past the piece next to it */
   let refocus = false;
@@ -583,17 +472,19 @@
 
   /* selecting, typing, and the overlay's ✕ */
   let drag = null, moved = false;
-  $('canvas').addEventListener('focusin', e => { const w = e.target.classList && e.target.classList.contains('sm-p2') ? e.target : null; if (w && w.dataset.u !== sel) select(w.dataset.u); });
-  $('canvas').addEventListener('keydown', e => { if (e.key === 'Enter' && e.target.classList.contains('sm-p2')) { e.preventDefault(); const w = e.target.querySelector('[contenteditable]'); if (w) w.focus(); } });
-  function select(u) { sel = u; $('canvas').querySelectorAll('.sm-p2').forEach(x => x.classList.toggle('sel', x.dataset.u === sel)); renderTools(); renderSide(); }
-  $('canvas').addEventListener('click', e => {
+  $('world').addEventListener('focusin', e => { const w = e.target.classList && e.target.classList.contains('sm-p2') ? e.target : null; if (w && w.dataset.u !== sel) select(w.dataset.u); });
+  $('world').addEventListener('keydown', e => { if (e.key === 'Enter' && e.target.classList.contains('sm-p2')) { e.preventDefault(); const w = e.target.querySelector('[contenteditable]'); if (w) w.focus(); } });
+  function select(u) { sel = u; cv().querySelectorAll('.sm-p2').forEach(x => x.classList.toggle('sel', x.dataset.u === sel)); renderTools(); renderSide(); }
+  $('world').addEventListener('click', e => {
     if (e.target.closest('[data-do="rm-over"]')) { snap(); cur().over = ''; render(); return; }
     if (moved) return;
-    const w = e.target.closest('.sm-p2'), u = w ? w.dataset.u : null;
+    const ab = e.target.closest('.ab'), w = e.target.closest('.sm-p2');
+    if (ab && +ab.dataset.s !== S.cur) { S.cur = +ab.dataset.s; sel = w ? w.dataset.u : null; render(); return; }
+    const u = ab && w ? w.dataset.u : null;
     if (u !== sel) select(u);
   });
-  $('canvas').addEventListener('focusin', e => { if (e.target.isContentEditable) { snap(); const w = e.target.closest('.sm-p2'); if (w && w.dataset.u !== sel) select(w.dataset.u); } });
-  $('canvas').addEventListener('input', e => {
+  $('world').addEventListener('focusin', e => { if (e.target.isContentEditable) { snap(); const w = e.target.closest('.sm-p2'); if (w && w.dataset.u !== sel) select(w.dataset.u); } });
+  $('world').addEventListener('input', e => {
     const el = e.target.closest('[data-k]'); if (!el) return;
     const s = cur(), k = el.dataset.k, txt = el.textContent, w = el.closest('[data-u]');
     if (el.closest('.ovl')) (s.overT = s.overT || {})[k] = txt;
@@ -601,31 +492,30 @@
     else { const p = s.pieces.find(q => q.u === (w && w.dataset.u)); if (p) p.t[k] = txt; }
     save(); $('codes').textContent = codesOf(s).join(' · ');
   });
-  $('canvas').addEventListener('keydown', e => { if (e.target.isContentEditable && (e.key === 'Enter' || e.key === 'Escape')) { e.preventDefault(); e.target.blur(); } });
-  $('canvas').addEventListener('focusout', e => { if (e.target.isContentEditable) renderStrip(); });
+  $('world').addEventListener('keydown', e => { if (e.target.isContentEditable && (e.key === 'Enter' || e.key === 'Escape')) { e.preventDefault(); e.target.blur(); } });
+  $('world').addEventListener('focusout', e => { if (e.target.isContentEditable) renderStrip(); });
 
   /* dragging a piece: by its body (not its words) or by ⠿, snapping to rows and, on desktop,
      columns; by its right edge, to change its width */
   function startDrag(e, p, rz) { drag = { p, x0: e.clientX, y0: e.clientY, row0: p.row, col0: p.col, span0: p.span, rz, on: false }; moved = false; }
-  $('canvas').addEventListener('pointerdown', e => {
+  $('world').addEventListener('pointerdown', e => {
     if (e.button !== 0 || e.target.isContentEditable || e.target.closest('button')) return;
-    const w = e.target.closest('.sm-p2.s'); if (!w) return;
+    const w = e.target.closest('.ab.on .sm-p2.s'); if (!w) return;
     const p = cur().pieces.find(q => q.u === w.dataset.u); if (!p || pinned(p.o)) return;
     const rz = e.target.classList.contains('sm-rz'); if (rz) { e.preventDefault(); if (sel !== p.u) select(p.u); }
     startDrag(e, p, rz);
   });
   $('tools').addEventListener('pointerdown', e => { if (!e.target.closest('[data-do="drag"]')) return; const p = cur().pieces.find(q => q.u === sel); if (p) { e.preventDefault(); startDrag(e, p); } });
-  const scale = () => $('canvas').querySelector('.slots').getBoundingClientRect().width / DW;
-  function ghostAt(row, rows, col, span, bleed) {
-    const g = $('ghost'), sl = $('canvas').querySelector('.slots').getBoundingClientRect(), off = $('cwrap').getBoundingClientRect();
-    g.style.display = 'block'; g.style.top = (sl.top - off.top + row * rowPx()) + 'px'; g.style.height = (rows * rowPx()) + 'px';
-    if (isD() && !bleed) { g.style.left = (sl.left - off.left + dx(col) * scale()) + 'px'; g.style.width = (dw(span) * scale()) + 'px'; g.style.right = 'auto'; }
-    else { g.style.left = (sl.left - off.left) + 'px'; g.style.width = sl.width + 'px'; g.style.right = 'auto'; }
+  const scale = () => cv().querySelector('.slots').getBoundingClientRect().width / DW;
+  function ghostAt(row, rows, col, span, ab) {
+    const g = $('ghost'), sl = (ab || document.querySelector('.ab.on')).querySelector('.slots').getBoundingClientRect(), off = $('stage').getBoundingClientRect(), rp = sl.height / ROWS, k = sl.width / DW;
+    g.style.display = 'block'; g.style.top = (sl.top - off.top + row * rp) + 'px'; g.style.height = (rows * rp) + 'px';
+    g.style.left = (sl.left - off.left + (isD() ? dx(col) * k : 0)) + 'px'; g.style.width = (isD() ? dw(span) * k : sl.width) + 'px';
   }
   addEventListener('pointermove', e => {
     if (!drag) return;
     const dx1 = e.clientX - drag.x0, dy = e.clientY - drag.y0; if (!drag.on && Math.abs(dy) < 6 && Math.abs(dx1) < 6) return;
-    if (!drag.on) { drag.on = true; moved = true; const el = $('canvas').querySelector(`[data-u="${drag.p.u}"]`); if (el) el.classList.add('drag'); }
+    if (!drag.on) { drag.on = true; moved = true; const el = cv().querySelector(`[data-u="${drag.p.u}"]`); if (el) el.classList.add('drag'); }
     const rows = BY[drag.p.o].rows, step = isD() ? (COLW + GUT) * scale() : 1;
     if (drag.rz) { drag.span = Math.max(2, Math.min(COLS - drag.col0, drag.span0 + Math.round(dx1 / step))); drag.to = drag.row0; drag.toCol = drag.col0; }
     else { drag.span = drag.span0; drag.to = Math.max(0, Math.min(ROWS - rows, drag.row0 + Math.round(dy / rowPx()))); drag.toCol = isD() ? Math.max(0, Math.min(COLS - drag.span0, drag.col0 + Math.round(dx1 / step))) : 0; }
@@ -644,69 +534,71 @@
   /* dragging an organism in from the list */
   let fromPal = null;
   $('pal').addEventListener('dragstart', e => { const it = e.target.closest('.sm-item'); if (!it) return; fromPal = it.dataset.id; unpeek(); e.dataTransfer.setData('text/plain', BY[fromPal].code); e.dataTransfer.effectAllowed = 'copy'; });
-  const dropAt = (e, o) => { const sl = $('canvas').querySelector('.slots').getBoundingClientRect(), span = spanOf(o);
-    const row = Math.max(0, Math.min(ROWS - o.rows, Math.round((e.clientY - sl.top) / rowPx() - o.rows / 2)));
-    const col = isD() ? Math.max(0, Math.min(COLS - span, Math.round(((e.clientX - sl.left) / scale() - dw(span) / 2 - dx(0)) / (COLW + GUT)))) : 0;
+  /* over whichever screen is under the pointer; it becomes the active one only on the drop */
+  const abUnder = e => { const el = document.elementFromPoint(e.clientX, e.clientY); return el && el.closest('.ab'); };
+  const dropAt = (e, o, ab) => { const sl = ab.querySelector('.slots').getBoundingClientRect(), rp = sl.height / ROWS, k = sl.width / DW, span = spanOf(o);
+    const row = Math.max(0, Math.min(ROWS - o.rows, Math.round((e.clientY - sl.top) / rp - o.rows / 2)));
+    const col = isD() ? Math.max(0, Math.min(COLS - span, Math.round(((e.clientX - sl.left) / k - dw(span) / 2 - dx(0)) / (COLW + GUT)))) : 0;
     return { row, col, span }; };
-  $('cwrap').addEventListener('dragover', e => { if (!fromPal) return; e.preventDefault(); const o = BY[fromPal]; if (o.over || pinned(fromPal)) return; const a = dropAt(e, o); ghostAt(a.row, o.rows, a.col, a.span); });
-  $('cwrap').addEventListener('dragleave', e => { if (!$('cwrap').contains(e.relatedTarget)) $('ghost').style.display = 'none'; });
-  $('cwrap').addEventListener('drop', e => { e.preventDefault(); $('ghost').style.display = 'none'; if (!fromPal) return; const id = fromPal; fromPal = null; const o = BY[id];
-    if (o.over || pinned(id)) add(id); else { const a = dropAt(e, o); add(id, a.row, a.col); } });
+  $('stage').addEventListener('dragover', e => { if (!fromPal) return; e.preventDefault(); const o = BY[fromPal], ab = abUnder(e);
+    if (!ab || o.over || pinned(fromPal)) { $('ghost').style.display = 'none'; return; } const a = dropAt(e, o, ab); ghostAt(a.row, o.rows, a.col, a.span, ab); });
+  $('stage').addEventListener('dragleave', e => { if (!$('stage').contains(e.relatedTarget)) $('ghost').style.display = 'none'; });
+  $('stage').addEventListener('drop', e => { e.preventDefault(); $('ghost').style.display = 'none'; if (!fromPal) return; const id = fromPal, o = BY[id], ab = abUnder(e); fromPal = null;
+    if (ab && +ab.dataset.s !== S.cur) { S.cur = +ab.dataset.s; sel = null; }
+    if (!ab || o.over || pinned(id)) add(id); else { const a = dropAt(e, o, ab); add(id, a.row, a.col); } });
   document.addEventListener('dragend', () => { fromPal = null; $('ghost').style.display = 'none'; });
 
   /* ── the side: this screen, or the master ── */
   const kindOpts = k => '<option value="">Not chosen yet</option>' + A.map(a => `<option value="${a.id}"${a.id === k ? ' selected' : ''}>${a.id} · ${esc(a.name)}</option>`).join('');
-  let moreOpen = false;
   function renderSide() {
     const s = cur(), p = s.pieces.find(q => q.u === sel) || fixed(s).find(q => q.u === sel);
-    const info = p ? `<h2 class="sm-h" style="margin-top:20px">Selected</h2><p class="sm-p"><b>${BY[p.o].code}</b> ${esc(BY[p.o].name)} · ${BY[p.o].size}<br>${esc(BY[p.o].does)}<br>
+    const info = p ? `<h2 class="h" style="margin-top:16px">Selected</h2><p class="p"><b>${BY[p.o].code}</b> ${esc(BY[p.o].name)} · ${isD() ? `${bleeds(BY[p.o]) ? DW : dw(p.span)} × ${BY[p.o].h} px` : BY[p.o].size}<br>${esc(BY[p.o].does)}<br>
       Click its words on the screen to change them.${BY[p.o].own ? ' Write what the missing organism would do.' : ''}</p>` : '';
-    const codes = `<details class="sm-more" id="more"${moreOpen ? ' open' : ''}><summary>Save, move, or build from codes</summary>
-      <p class="sm-p"><b>Carry on somewhere else.</b> Copy a link to all your screens, send it to yourself, and open it on any computer or phone.</p>
-      <button type="button" class="sm-b xs" data-act="link">Copy the link</button>
-      <p class="sm-p" style="margin-top:12px"><b>This screen’s code</b> is its organisms, top to bottom, the same codes as on the paper pieces:</p>
-      <button type="button" class="sm-code" data-act="copy" title="Copy">${esc(codesOf(s).join(' ')) || '—'}</button>
-      <p class="sm-p" style="margin-top:12px"><b>Built one on paper?</b> Type its codes here.</p>
-      <div class="sm-row" style="margin-top:4px;flex-wrap:nowrap"><input id="f-codes" placeholder="TOP-04 HED-03 …" autocomplete="off" spellcheck="false" aria-label="Codes, top to bottom"><button type="button" class="sm-b xs" data-act="build">Build</button></div>
-    </details>`;
     if (isM()) {
-      $('side').innerHTML = `<h2 class="sm-h">The master</h2><p class="sm-p">What you put on the master appears on every screen that uses it, in the same rows: an app bar, a tab bar, a service header.
+      $('side').innerHTML = `<h2 class="h">The master</h2><p class="p">What you put on the master appears on every screen that uses it, in the same rows: an app bar, a tab bar, a service header.
         Change their words on any screen and only that screen changes. A screen can switch the master off, for example a launch screen.</p>
-        <p class="sm-p">${S.screens.filter(masterOn).length} of ${plural(S.screens.length, 'screen')} use the master.</p>${info}${codes}`;
+        <p class="p">${S.screens.filter(masterOn).length} of ${plural(S.screens.length, 'screen')} use the master.</p>
+        <div class="acts"><button type="button" class="tbtn xs" data-act="del"${S.master.pieces.length ? '' : ' disabled'}>Empty the master</button></div>${info}`;
       return;
     }
     const a = AK[s.kind], c = clashes(s).length;
     const empty = x => x.screens.length === 1 && !x.screens[0].pieces.length && !x.master.pieces.length;
-    const fromPhone = isD() && empty(S) && !empty(W.phone) ? `<p class="sm-msg" style="grid-column:1/-1">You have phone screens. Start your desktop set from them? They arrive in a centred column for you to adapt, not just stretched.
-      <br><button type="button" class="sm-b xs" data-act="fromphone" style="margin-top:6px">Start from my phone screens</button></p>` : '';
-    $('side').innerHTML = `<h2 class="sm-h">This screen</h2>
+    const fromPhone = isD() && empty(S) && !empty(W.phone) ? `<p class="warn" style="grid-column:1/-1">You have phone screens. Start your desktop set from them? They arrive in a centred column for you to adapt, not just stretched.
+      <br><button type="button" class="tbtn xs" data-act="fromphone" style="margin-top:6px">Start from my phone screens</button></p>` : '';
+    $('side').innerHTML = `<div class="acts-h"><h2 class="h">Screen ${S.cur + 1}</h2><span class="acts">
+        <button type="button" class="tbtn xs" data-act="left" aria-label="Move this screen earlier" title="Move earlier"${S.cur ? '' : ' disabled'}>←</button>
+        <button type="button" class="tbtn xs" data-act="right" aria-label="Move this screen later" title="Move later"${S.cur < S.screens.length - 1 ? '' : ' disabled'}>→</button>
+        <button type="button" class="tbtn xs" data-act="dup">Duplicate</button><button type="button" class="tbtn xs" data-act="del">Delete</button></span></div>
       ${fromPhone}
       <div class="fg"><label for="f-name">Name</label><input id="f-name" placeholder="e.g. Your postcode and address" value="${esc(s.name)}"></div>
       <div class="fg"><label for="f-job">Job of this screen</label><input id="f-job" placeholder="The one thing it does for the person" value="${esc(s.job)}"></div>
       <div class="fg"><label for="f-kind">Kind of screen</label><select id="f-kind">${kindOpts(s.kind)}</select>
-      <div class="sm-recipe">${a ? `${esc(a.does)}<br>Usually: ${a.recipe.map(id => `<b>${BY[id].code}</b> ${esc(BY[id].name)}`).join(' · ')}
-        <br><button type="button" class="sm-b xs" data-act="recipe" style="margin-top:4px">Use these${s.pieces.length ? ' (replaces this screen)' : ''}</button>` : ''}</div></div>
+      <div class="p">${a ? `${esc(a.does)}<br>Usually: ${a.recipe.map(id => `<b>${BY[id].code}</b> ${esc(BY[id].name)}`).join(' · ')}
+        <br><button type="button" class="tbtn xs" data-act="recipe" style="margin-top:4px">Use these${s.pieces.length ? ' (replaces this screen)' : ''}</button>` : ''}</div></div>
       <div class="fg"><label for="f-goes">Goes to</label><input id="f-goes" list="names" placeholder="The next screen" value="${esc(s.goes)}">
       <datalist id="names">${S.screens.filter(x => x !== s && x.name).map(x => `<option value="${esc(x.name)}">`).join('')}</datalist></div>
       <label class="mchk"><input type="checkbox" id="f-master"${masterOn(s) ? ' checked' : ''}> Use the master${S.master.pieces.length ? ` (${S.master.pieces.map(q => BY[q.o].code).join(', ')})` : ', which is empty so far'}</label>
-      ${c ? `<p class="sm-msg">${plural(c, 'piece')} on this screen ${c === 1 ? 'sits' : 'sit'} in rows the master now uses (dashed red). Move ${c === 1 ? 'it' : 'them'}, or switch the master off.</p>` : ''}
-      ${info}${codes}`;
+      ${c ? `<p class="warn">${plural(c, 'piece')} on this screen ${c === 1 ? 'sits' : 'sit'} in rows the master now uses (dashed red). Move ${c === 1 ? 'it' : 'them'}, or switch the master off.</p>` : ''}
+      ${info}`;
     [['f-name', 'name'], ['f-job', 'job'], ['f-goes', 'goes']].forEach(([el, k]) => {
       $(el).addEventListener('focus', () => snap());
       $(el).addEventListener('input', () => { s[k] = $(el).value; save(); if (k === 'name') renderStrip(); }); });
     $('f-kind').onchange = () => { snap(); s.kind = $('f-kind').value; if (s.kind && !s.pieces.length) { s.pieces = stackUp(AK[s.kind].recipe.filter(id => !fixed(s).some(m => m.o === (isD() ? deskId(id) : id))), topEnd(s)); if (!s.job) s.job = AK[s.kind].does; } render(); };
     $('f-master').onchange = () => { snap(); s.useMaster = $('f-master').checked; render(); };
   }
-  $('side').addEventListener('toggle', e => { if (e.target.id === 'more') moreOpen = e.target.open; }, true);
 
-  /* ── the strip: the master, then every screen ── */
-  function renderStrip() {
-    const tile = (i, label) => `<button type="button" class="sm-mini${i === -1 ? ' ms' : ''}${i === S.cur ? ' on' : ''}" data-s="${i}" aria-label="${esc(label)}" title="${esc(label)}"${i === S.cur ? ' aria-current="true"' : ''}>
-      <span class="mini-c"></span><span>${esc(label)}</span></button>`;
-    $('strip').innerHTML = tile(-1, 'Master') + S.screens.map((s, i) => tile(i, `${i + 1} · ${s.name || 'Screen'}`)).join('');
-    $('strip').querySelectorAll('.sm-mini').forEach(b => { const i = +b.dataset.s; draw(b.querySelector('.mini-c'), i === -1 ? S.master : S.screens[i], { label: false, slots: false }); });
+  /* ── the world: the master, every screen side by side, and a tile for another ── */
+  const nameOf = (i) => i === -1 ? 'Master' : `${i + 1} · ${S.screens[i].name || 'Screen'}`;
+  function renderWorld() {
+    const tile = i => `<div class="ab${i === -1 ? ' ms' : ''}${i === S.cur ? ' on' : ''}" data-s="${i}"><button type="button" class="ab-l"${i === S.cur ? ' aria-current="true"' : ''}>${esc(nameOf(i))}</button><div class="ab-c"></div></div>`;
+    $('world').innerHTML = tile(-1) + S.screens.map((_, i) => tile(i)).join('') + `<button type="button" class="ab-new" data-act="new" aria-haspopup="dialog">+ New screen</button>`;
+    document.querySelectorAll('.ab:not(.on)').forEach(ab => { const i = +ab.dataset.s; draw(ab.querySelector('.ab-c'), i === -1 ? S.master : S.screens[i], { label: false, slots: false }); });
   }
-  $('strip').addEventListener('click', e => { const b = e.target.closest('.sm-mini'); if (!b) return; S.cur = +b.dataset.s; sel = null; render(); });
+  /* after typing: the labels, and on the master, every screen that shows its words */
+  function renderStrip() {
+    document.querySelectorAll('.ab').forEach(ab => { const i = +ab.dataset.s; ab.querySelector('.ab-l').textContent = nameOf(i);
+      if (isM() && !ab.classList.contains('on')) draw(ab.querySelector('.ab-c'), S.screens[i], { label: false, slots: false }); });
+  }
 
   /* ── a link to all the screens: squeezed into the address after #, which browsers never send
      to a server, so the screens go only where the student sends the link ── */
@@ -733,7 +625,7 @@
 
   /* ── copy as a picture: the screen alone, without row numbers, labels or selection ── */
   async function copyPic() {
-    const node = $('canvas').querySelector('.canvas'); if (!node) return;
+    const node = cv().querySelector('.canvas'); if (!node) return;
     if (document.activeElement && document.activeElement.isContentEditable) document.activeElement.blur();
     if (!window.htmlToImage) { say('Copying a picture needs the internet, to load the copier. Use Print instead.'); return; }
     const opts = { pixelRatio: 2, backgroundColor: '#ffffff', filter: n => !(n.classList && ['org-tag', 'slot-lines', 'sm-ovx', 'sm-empty'].some(c => n.classList.contains(c))) };
@@ -815,13 +707,20 @@
       ps.forEach(p => { const f = keep.find(x => BYCODE[x.c].id === p.o && x.n); if (f && BY[p.o].own) { p.t = { [NOTE]: f.n }; f.n = ''; } });
       test.pieces = ps;
       if (ps.some(p => end(p) > ROWS) || ps.some((p, i) => ps.some((q, j) => i !== j && overlaps(p, q))) || clashes(test).length) { say('Those do not fit on one screen: split them over two.'); return; }
-      snap(); s.pieces = ps; if (!isM()) { s.over = overs.length ? BYCODE[overs[0].c].id : ''; s.overT = {}; } sel = null; render(); say(`Built from ${plural(found.length, 'code')}.`);
+      snap(); s.pieces = ps; if (!isM()) { s.over = overs.length ? BYCODE[overs[0].c].id : ''; s.overT = {}; } sel = null; $('savedlg').close(); render(); say(`Built from ${plural(found.length, 'code')}.`);
     }
     if (a === 'copy') { const t = codesOf(s).join(' '); navigator.clipboard.writeText(t).then(() => say('Code copied.'), () => say(t)); }
     if (a === 'link') { const url = await linkTo(); navigator.clipboard.writeText(url).then(() => say('Link copied. Open it on another computer or phone to carry on there.'), () => say(url)); }
     if (a === 'copypic') copyPic();
     if (a === 'print') printAll();
-    if (a === 'example' && mode !== 'example') { switchTo('example', load(EXKEY) || EXAMPLE()); window.scrollTo({ top: 0 }); }
+    if (b.closest('.menu')) b.closest('.menu').open = false;
+    if (a === 'example' && mode !== 'example') { switchTo('example', load(EXKEY) || EXAMPLE()); needFit = true; afterRender(); }
+    if (a === 'save') { $('thecode').textContent = codesOf(s).join(' ') || '—'; $('savedlg').showModal(); }
+    if (a === 'help') $('helpdlg').showModal();
+    if (a === 'fitall') view.fit($('world'), 16, 1);
+    if (a === 'fitone') view.fit(document.querySelector('.ab.on'));
+    if (a === 'zin') view.zoomBy(1.25);
+    if (a === 'zout') view.zoomBy(0.8);
     if (a === 'mine' && mode === 'example') { switchTo('mine', load(KEY) || fresh()); say('Back to your own screens.'); }
     if (a === 'dev') setDevice(b.dataset.d);
     if (a === 'fromphone') { snap(); S = toDesk(W.phone); sel = null; render(); say('Your phone screens, in a centred column. Now adapt them: what goes beside what on a big screen?'); }
@@ -842,24 +741,34 @@
   });
   addEventListener('resize', () => renderTools());
 
+  let view = null, needFit = true, lastCur = null;
+  function afterRender() {
+    if (!view) return;
+    const on = document.querySelector('.ab.on'); if (!on) return;
+    if (needFit) { needFit = false; view.fit(on); }
+    else if (lastCur !== S.cur) view.reveal(on);
+    lastCur = S.cur; renderTools();
+  }
   function render() {
     if (S.cur !== -1) S.cur = Math.max(0, Math.min(S.cur, S.screens.length - 1));
-    renderCanvas(); renderSide(); renderStrip();
+    renderWorld(); renderCanvas(); renderSide();
     $('undo').disabled = !hist.length; $('redo').disabled = !fut.length;
     document.body.classList.toggle('dm', isD());
     document.querySelectorAll('[data-act="dev"]').forEach(b => { const on = b.dataset.d === W.device; b.classList.toggle('on', on); b.setAttribute('aria-pressed', String(on)); });
     $('banner').hidden = mode !== 'example'; $('see-ex').hidden = mode === 'example'; $('clear').hidden = mode === 'example';
-    ['dup', 'left', 'right'].forEach(a => { document.querySelector(`[data-act="${a}"]`).disabled = isM(); });
-    document.querySelector('[data-act="del"]').textContent = isM() ? 'Empty the master' : 'Delete screen';
-    save();
+    save(); afterRender();
   }
   renderPal();
-  if (matchMedia('(pointer: coarse)').matches) $('hint').textContent = 'Tap an organism to add it to the screen. Then tap the piece, and use ↑ and ↓ beside it to move it.';
+  if (matchMedia('(pointer: coarse)').matches) $('peek').querySelector('.hint').textContent = 'Tap an organism to add it to the screen. Then tap the piece, and use ↑ and ↓ beside it to move it.';
+  view = window.ToolCanvas($('stage'), $('world'), { label: $('zlabel'), onChange: () => renderTools(), fitAll: () => view.fit($('world'), 16, 1), top: () => mode === 'example' ? 80 : 40,
+    isBackground: t => t === $('stage') || t === $('world') });
+  $('world').addEventListener('focusin', e => { if (e.target.matches(':focus-visible')) view.reveal(e.target); });
   render();
   fromLink(); addEventListener('hashchange', fromLink);
   addEventListener('resize', () => { peeked = null; });
   if (document.fonts) document.fonts.ready.then(() => renderTools());
 })();
+
 
 const root = document.documentElement;
 try { const t = localStorage.getItem('sd-theme'); if (t) root.dataset.theme = t; } catch (e) {}
