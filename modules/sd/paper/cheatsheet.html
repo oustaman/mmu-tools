@@ -28,7 +28,8 @@
 /* The taxonomy on paper: every kind of screen, what it does, and the organisms it is usually
    built from (drawn small, in order). Then the other way round: where each organism turns up.
    All of it is read from organisms.js. */
-const { ARCHETYPES: A, BY, O, USED, screen } = window.ORG;
+const { ARCHETYPES: A, BY, USED, screen } = window.ORG;
+const O = window.ORG.O.filter(o => !o.desk);
 const foot = `<div class="foot"><span>Screen Design · Twenty screens · a usual recipe, not a rule: swap, add or drop organisms to fit your journey</span><span></span></div>`;
 const card = a => `<div class="cs-i"><span class="cs-k">${a.id}</span><p class="cs-n">${a.name}</p><p class="cs-d">${a.does}</p>
   <div class="mini">${screen(a.recipe, { label: false, slots: false })}</div>

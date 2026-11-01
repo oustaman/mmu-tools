@@ -32,12 +32,16 @@
       `<div class="k appbar" style="height:${u(56)}"><i class="ico" style="width:${u(28)};height:${u(28)};border-radius:${u(6)}"></i>${T('Service name', 17, 'font-weight:700;flex:1')}${T('≡', 24)}</div>` },
     { id: 'progress-header', fam: 'Top', name: 'Progress header', does: 'A way back, and how far through a form you are.', rows: 1, edge: 1, draw: () =>
       `<div class="org-pad org-row">${T('‹ Back', 15, 'text-decoration:underline')}<span style="flex:1"></span>${C.progress('Step _ of _').replace('class="k prog"', `class="k prog" style="width:${u(150)}"`)}</div>` },
+    { id: 'site-header', fam: 'Top', name: 'Site header with menu', does: 'Names the site, and leads to its main parts. On a big screen it replaces the tab bar.', rows: 1, edge: 1, desk: 1, draw: () =>
+      `<div class="k appbar dhead" style="height:${u(56)}"><i class="ico" style="width:${u(28)};height:${u(28)};border-radius:${u(6)}"></i>${T('Service name', 17, 'font-weight:700;flex:1')}${T('Menu item', 15)}${T('Menu item', 15)}${T('Menu item', 15)}${box(110, 38, 'btn sec', T('Sign in', 14, 'font-weight:600'))}</div>` },
     // ── headings
     { id: 'page-title', fam: 'Headings', name: 'Page title', does: 'Says what this screen is, in a few words.', rows: 1, draw: () => head('Page title', 26) },
     { id: 'title-intro', fam: 'Headings', name: 'Title and intro', does: 'Says what this screen is, and the one thing to know first.', rows: 2, draw: () => stack(head('Title', 24), line('95%'), line('70%')) },
     { id: 'question', fam: 'Headings', name: 'Question with hint', does: 'Asks one question, with a hint if it needs one.', rows: 2, draw: () => stack(head('The question?', 24), T('A hint, if it helps', 14)) },
     { id: 'page-tabs', fam: 'Headings', name: 'Tabs in the page', does: 'Switches between two or three views of the same thing.', rows: 1, draw: () =>
       `<div class="k tabs" style="height:${u(44)}">${['Upcoming', 'Past'].map((t, i) => `<span class="${i ? '' : 'on'}">${T(t, 14)}</span>`).join('')}</div>` },
+    { id: 'breadcrumb', fam: 'Headings', name: 'Breadcrumbs', does: 'Shows where this page sits, with a way back up.', rows: 1, desk: 1, draw: () =>
+      `<div class="crumbs">${T('Home', 14, 'text-decoration:underline')}${T('›', 14)}${T('Section', 14, 'text-decoration:underline')}${T('›', 14)}${T('This page', 14)}</div>` },
     // ── search
     { id: 'search', fam: 'Search', name: 'Search box', does: 'Finds things from a few typed words.', rows: 1, draw: () => C.search() },
     { id: 'search-filters', fam: 'Search', name: 'Search with filters', does: 'Finds things, then narrows the results.', rows: 2, draw: () => stack(C.search(), C.chips(4)) },
@@ -85,6 +89,12 @@
         <span class="tag">${T(t, 12)}</span></div>`).join('')}</div>` },
     { id: 'accordion', fam: 'Content', name: 'Expandable sections', does: 'Keeps longer detail folded away until someone asks for it.', rows: 3, draw: () =>
       `<div class="k rows">${[0, 1, 2].map(() => `<div class="sr" style="height:${u(50)}"><span class="wl" style="flex:none;width:60%;height:${u(13)}"></span>${T('+', 22)}</div>`).join('')}</div>` },
+    { id: 'side-menu', fam: 'Content', name: 'Side menu', does: 'Lists the parts of a section, beside the content.', rows: 6, desk: 1, span: 3, draw: () =>
+      `<div class="sidem">${['Section one', 'Section two', 'Section three', 'Section four', 'Section five'].map((t, i) => `<span class="${i ? '' : 'on'}" style="height:${u(48)}">${T(t, 15)}</span>`).join('')}</div>` },
+    { id: 'data-table', fam: 'Content', name: 'Table', does: 'Compares several things across the same few columns.', rows: 4, desk: 1, span: 8, draw: () =>
+      `<table class="dtab"><thead><tr>${['Column', 'Column', 'Column', 'Column'].map(t => `<th style="height:${u(44)}">${T(t, 14, 'font-weight:700')}</th>`).join('')}</tr></thead><tbody>${[0, 1, 2].map(() => `<tr>${['Item', 'Value', 'Value', 'Value'].map(t => `<td style="height:${u(48)}">${T(t, 14)}</td>`).join('')}</tr>`).join('')}</tbody></table>` },
+    { id: 'three-cards', fam: 'Content', name: 'Three cards', does: 'Shows three things side by side.', rows: 4, desk: 1, span: 12, draw: () =>
+      `<div class="row3c">${[0, 1, 2].map(() => `<div class="card">${box('full', 130, 'img')}<div class="cardb"><span class="wl b"></span><span class="wl"></span></div></div>`).join('')}</div>` },
     // ── feedback
     { id: 'error', fam: 'Feedback', name: 'Error summary', does: 'Says what went wrong, and how to fix it.', rows: 2, draw: () => C.error() },
     { id: 'success', fam: 'Feedback', name: 'Success panel', does: 'Says it worked, with a reference to keep.', rows: 3, draw: () => C.success('Done') },
@@ -99,6 +109,8 @@
     { id: 'two-buttons', fam: 'Actions', name: 'Two buttons', does: 'Back and next, side by side.', rows: 1, draw: () => C.btnrow('Back', 'Next') },
     { id: 'composer', fam: 'Actions', name: 'Message box', does: 'Writes and sends a message.', rows: 1, edge: 1, draw: () => C.inputbar() },
     { id: 'tabbar', fam: 'Actions', name: 'Tab bar', does: 'Moves between the main parts of an app. Always at the bottom.', rows: 1, edge: 1, bottom: 1, draw: () => C.tabbar(4).replace(`height:calc(64 * var(--u))`, `height:${u(56)}`) },
+    { id: 'footer', fam: 'Actions', name: 'Footer', does: 'Closes the page: contact, help and the small print.', rows: 2, edge: 1, bottom: 1, desk: 1, draw: () =>
+      `<div class="dfoot">${T('Service name', 15, 'font-weight:700;flex:1')}${T('Help', 14, 'text-decoration:underline')}${T('Contact', 14, 'text-decoration:underline')}${T('Privacy', 14, 'text-decoration:underline')}</div>` },
     // ── your own: a blank piece of each height, for anything the set does not have
     { id: 'own-1', fam: 'Own', name: 'Your own, 1 row', does: 'An organism the set does not have: write what it would be.', rows: 1, own: 1, draw: (t) => blank(t, 1) },
     { id: 'own-2', fam: 'Own', name: 'Your own, 2 rows', does: 'An organism the set does not have: write what it would be.', rows: 2, own: 1, draw: (t) => blank(t, 2) },
@@ -118,8 +130,16 @@
      such as A3 or C4), numbered in order; and the size in px, always 375 wide. The codes and
      sizes are what the snap tool shows, so a paper mock-up can be rebuilt there piece by piece. */
   const FAM = { Top: 'TOP', Headings: 'HED', Search: 'SRC', Answers: 'ANS', Content: 'CON', Feedback: 'FBK', Actions: 'ACT', Own: 'OWN', Overlay: 'OVL' };
+  /* On desktop the same 56 px rows run across a 12-column grid: a column is 69 px, a gutter
+     24 px, a side margin 24 px, so a window is 1140 px. Four columns are 348 px, about a phone. */
+  const COLS = 12, COLW = 69, GUT = 24, MARGIN = 24, DW = 1140;
+  const dw = n => n * COLW + (n - 1) * GUT, dx = c => MARGIN + c * (COLW + GUT);
+  const PHONE_ONLY = new Set(['appbar', 'appbar-search', 'tabbar', 'keyboard', 'sheet']);
+  const SPAN = { Top: 12, Headings: 8, Search: 8, Answers: 6, Content: 6, Feedback: 6, Actions: 4, Own: 6, Overlay: 4 };
+  const WIDE = { map: 8, player: 8, chat: 8, summary: 8, composer: 8, 'task-list': 8, 'date-picker': 6, price: 4, 'two-cards': 6, card: 4 };
   const count = {};
   O.forEach(o => {
+    o.phone = PHONE_ONLY.has(o.id); o.dspan = o.span || WIDE[o.id] || SPAN[o.fam];
     count[o.fam] = (count[o.fam] || 0) + 1;
     o.code = `${FAM[o.fam]}-${String(count[o.fam]).padStart(2, '0')}`;
     o.h = o.rows * ROW;
@@ -134,8 +154,9 @@
   /* one organism, drawn at its real size; label: the small name and size in the corner */
   function organism(id, opts = {}) {
     const o = of(id), t = named(id);
-    const tag = opts.label === false ? '' : `<span class="org-tag"><b>${o.code}</b> ${o.name} · ${o.size}</span>`;
-    return `<div class="org${o.edge ? ' edge' : ''}${o.over ? ' ov' : ''}" data-org="${o.id}" style="width:${u(W)};height:${u(o.rows * ROW)}">${body(o.draw(t), o.rows)}${tag}</div>`;
+    const size = opts.span ? `${o.edge && opts.span === COLS ? DW : dw(opts.span)} × ${o.h} px` : o.size;
+    const tag = opts.label === false ? '' : `<span class="org-tag"><b>${o.code}</b> ${o.name} · ${size}</span>`;
+    return `<div class="org${o.edge ? ' edge' : ''}${o.over ? ' ov' : ''}" data-org="${o.id}" style="width:${opts.span ? '100%' : u(o.desk ? dw(o.dspan) : W)};height:${u(o.rows * ROW)}">${body(o.draw(t), o.rows)}${tag}</div>`;
   }
   /* an overlay lies over the rows: in the middle, or at the bottom (a toast just above a tab bar) */
   function overlay(id, recipe = [], extra = '', opts = {}) {
@@ -151,6 +172,15 @@
     return `<div class="canvas" style="width:calc(${W} * var(--u) + 1.2mm)">
       <div class="k status" style="height:${u(28)}">${T('9:41', 12)}${T('▮▮▮ ▰', 12)}</div>
       <div class="slots" style="height:${u(ROWS * ROW)}">${opts.slots === false ? '' : `<div class="slot-lines">${slots}</div>`}<div class="slot-fill">${inner}</div></div></div>`;
+  }
+
+  /* the desktop window: a browser bar, then the same 14 rows across 12 columns */
+  function desk(inner = '', opts = {}) {
+    const slots = Array.from({ length: ROWS }, (_, i) => `<i style="height:${u(ROW)}"><b>${i + 1}</b></i>`).join('');
+    const grid = Array.from({ length: COLS }, (_, i) => `<i style="left:${u(dx(i))};width:${u(COLW)}"></i>`).join('');
+    return `<div class="canvas desk" style="width:calc(${DW} * var(--u) + 1.2mm)">
+      <div class="dbar2" style="height:${u(36)}"><i></i><i></i><i></i><span></span></div>
+      <div class="slots" style="height:${u(ROWS * ROW)}">${opts.slots === false ? '' : `<div class="colgrid">${grid}</div><div class="slot-lines">${slots}</div>`}<div class="slot-fill">${inner}</div></div></div>`;
   }
 
   /* the kinds of screen, as recipes of organisms, top to bottom (each adds up to 14 rows or fewer) */
@@ -212,6 +242,7 @@
       const o = BY[org.dataset.org]; if (!o) return;
       if (o.own) org.querySelector('.org-in').innerHTML = `<div class="hnote"><span class="ph hand">What would go here? Write what this organism does.</span></div>`;
       /* work out every line's place among its neighbours first, then replace them */
+      /* the words for the three cards are the same as for any card */
       const ls = [...org.querySelectorAll('.wl')].map(w => [w, [...w.parentElement.children].filter(x => x.classList.contains('wl')).indexOf(w)]);
       ls.forEach(([w, i]) => {
         const t = wordFor(w, o, i);
@@ -236,5 +267,5 @@
       });
     });
   }
-  window.ORG = { ROW, ROWS, W, FAM, O, BY, base, named, of, organism, overlay, canvas, screen, words, ARCHETYPES, USED };
+  window.ORG = { ROW, ROWS, W, COLS, COLW, GUT, MARGIN, DW, dw, dx, FAM, O, BY, base, named, of, organism, overlay, canvas, desk, screen, words, ARCHETYPES, USED };
 })();

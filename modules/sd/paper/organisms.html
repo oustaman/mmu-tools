@@ -16,7 +16,8 @@
 /* Print: two screen canvases, then every organism once, packed into two 90 mm columns.
    The dashed line is the organism's own edge, so every piece cuts to the same width and to a
    whole number of rows, and drops into any row of a canvas. */
-const { O, FAM, USED, ARCHETYPES, organism, canvas, ROW, W } = window.ORG;
+const { FAM, USED, ARCHETYPES, organism, canvas, ROW, W } = window.ORG;
+const O = window.ORG.O.filter(o => !o.desk);
 const MM = 0.24, ROWMM = ROW * MM, GAP = 3, CAP = 270;   /* mm: one row, the gap between pieces, a column's height */
 const foot = `<div class="foot"><span>Screen Design · Paper organisms · print at 100% (actual size) on A4</span>
   <span class="ruler"><i></i>this line is 5 cm</span></div>`;

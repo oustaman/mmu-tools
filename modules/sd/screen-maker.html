@@ -146,6 +146,26 @@
   @keyframes smflash{0%{box-shadow:0 0 0 0 rgba(140,36,55,.6)}100%{box-shadow:0 0 0 14px rgba(140,36,55,0)}}
   .sm-p2.flash > .org{animation:smflash .8s ease-out 2;outline:2px solid #8C2437;outline-offset:-2px}
   @media (prefers-reduced-motion: reduce){ .sm-p2.flash > .org{animation:none} }
+  .sm-seg{display:inline-flex;border:1px solid var(--line-2);border-radius:8px;overflow:hidden;margin-right:4px}
+  .sm-seg button{font:inherit;font-size:0.84rem;font-weight:600;min-height:36px;padding:0 13px;border:0;background:var(--bg);color:var(--ink);cursor:pointer}
+  .sm-seg button + button{border-left:1px solid var(--line-2)}
+  .sm-seg button.on{background:var(--ink);color:var(--bg)}
+  .sm-rz{position:absolute;right:-4px;top:0;bottom:0;width:9px;cursor:ew-resize;z-index:4;display:none;background:#8C2437;border-radius:3px;opacity:.75}
+  .sm-p2.sel .sm-rz,.sm-p2:hover .sm-rz{display:block}
+  /* desktop: the window needs the width, so the list narrows, its picture floats, the form goes underneath */
+  .dm .wrap{max-width:1640px}
+  .dm .sm-grid{grid-template-columns:280px minmax(0,1fr)}
+  .dm .pal2{grid-template-columns:minmax(0,1fr)}
+  .dm .peek{position:fixed;z-index:60;width:454px;background:var(--surface);border:1px solid var(--line-2);border-radius:12px;padding:12px;box-shadow:0 8px 28px rgba(0,0,0,.22);pointer-events:none;display:none}
+  .dm .peek.on{display:flex} .dm .peek .hint{display:none}
+  .dm .sm-stage{--u:min(1px, calc((min(100vw, 1640px) - 420px) / 1150))}
+  .dm .sm-cwrap{margin-right:0}
+  .dm .sm-tools{flex-direction:row;background:var(--surface);padding:3px;border-radius:9px;box-shadow:0 2px 10px rgba(0,0,0,.2)}
+  .dm .sm-side{grid-column:2}
+  .dm #side{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0 24px;align-items:start} .dm #side > h2,.dm #side > .sm-p,.dm #side > .mchk,.dm #side > .sm-more{grid-column:1/-1}
+  .dm .sm-mini{--u:0.1px} .dm .sm-kind{--u:0.115px}
+  .dm .sm-mini > span{max-width:100px}
+  @media(max-width:1060px){ .dm .sm-grid{grid-template-columns:1fr} .dm .sm-side{grid-column:auto} .dm #side{display:block} .dm .sm-stage{--u:calc((100vw - 60px) / 1150)} .dm .sm-tools{left:auto;right:6px} }
   .sm-recipe{font-size:0.82rem;color:var(--ink-2);margin:6px 0 0}
   dialog.sm-dlg{border:1px solid var(--line-2);border-radius:12px;padding:18px 20px;background:var(--surface);color:var(--ink);max-width:420px}
   dialog.sm-dlg::backdrop{background:rgba(0,0,0,.35)}
@@ -209,7 +229,7 @@
 <div class="wrap">
   <div class="sm-top"><h1>Screen maker</h1><button type="button" class="sm-b" data-act="example" id="see-ex">See an example</button></div>
   <p class="lede">The paper organisms, on screen. Click an organism on the left to add it, or drag it onto the screen. It snaps to the rows: put it on any row you like, leave rows empty, drag it up or down. Click any words on the screen to change them.
-    Set up the <b>master</b> once with what every screen shares, such as the app bar and tab bar. Make one screen for each step of your <a href="flow.html">flow</a>, then copy each one into your slides or print them all for <b>B5</b>. See every organism at full size on <a href="organisms.html">Organisms</a>.</p>
+    Work at <b>phone</b> or <b>desktop</b> size. Set up the <b>master</b> once with what every screen shares, such as the bars at the top and bottom. Make one screen for each step of your <a href="flow.html">flow</a>, then copy each one into your slides or print them all for <b>B5</b>. See every organism at full size on <a href="organisms.html">Organisms</a>.</p>
 
   <div class="sm-banner" id="banner" hidden role="region" aria-label="Example">
     <p><b>This is the example:</b> the missed bin journey, one screen per step. Try anything: your own screens are kept safe, and nothing here is saved over them.</p>
@@ -217,6 +237,7 @@
   </div>
   <div class="sm-strip" id="strip" aria-label="Your screens"></div>
   <div class="sm-row" style="margin-bottom:16px">
+    <span class="sm-seg" role="group" aria-label="Screen size"><button type="button" data-act="dev" data-d="phone">Phone</button><button type="button" data-act="dev" data-d="desktop">Desktop</button></span>
     <button type="button" class="sm-b pri" data-act="new" aria-haspopup="dialog">+ New screen</button>
     <button type="button" class="sm-b" data-act="dup">Duplicate</button>
     <button type="button" class="sm-b" data-act="left" aria-label="Move this screen earlier">←</button>
@@ -285,30 +306,43 @@
      shares: its pieces appear on each screen that uses it, in the same rows, and their words
      can still change screen by screen. An overlay (dialog, sheet, keyboard, toast) lies over
      a screen and takes no rows. */
-  const { O, BY, FAM, ROW, ROWS, organism, overlay, canvas, words, ARCHETYPES: A } = window.ORG;
+  const { O, BY, FAM, ROW, ROWS, COLS, COLW, GUT, DW, dw, dx, organism, overlay, canvas, desk, words, ARCHETYPES: A } = window.ORG;
   const $ = id => document.getElementById(id);
   const esc = s => String(s == null ? '' : s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
-  const KEY = 'sd-screens2', OLD = 'sd-screens1';
+  const KEY = 'sd-screens3', V2 = 'sd-screens2';
   const NOTE = 'What would go here? Write what this organism does.#0';
   const AK = Object.fromEntries(A.map(a => [a.id, a]));
   const BYCODE = Object.fromEntries(O.map(o => [o.code, o]));
   const uid = () => Math.random().toString(36).slice(2, 9);
   const plural = (n, w) => `${n} ${w}${n === 1 ? '' : 's'}`;
   const pinned = id => BY[id].fam === 'Top' || !!BY[id].bottom;
-  const piece = (o, row, t) => ({ u: uid(), o, row, t: t || {} });
+  const piece = (o, row, t, col = 0, span = 1) => ({ u: uid(), o, row, col, span, t: t || {} });
   const blank = (name = '') => ({ u: uid(), name, kind: '', job: '', goes: '', useMaster: true, pieces: [], over: '', overT: {}, mt: {} });
 
-  /* a list of organism ids, stacked from a row, with a tab bar on the last row */
+  /* a list of organism ids, stacked from a row, with a tab bar or footer on the last rows.
+     On desktop the bars run full width and the rest sits in a centred column of 8: a phone
+     recipe, adapted rather than stretched, for the student to change. */
+  const DESKOF = { appbar: 'site-header', 'appbar-search': 'site-header', tabbar: null, keyboard: null, sheet: 'dialog' };
+  const deskId = id => (id in DESKOF ? DESKOF[id] : id);
+  const bleeds = o => o.fam === 'Top' || !!o.bottom;
   function stackUp(ids, start = 0) {
-    let r = start; const out = [];
-    ids.filter(id => !BY[id].bottom && !BY[id].over).forEach(id => { out.push(piece(id, r)); r += BY[id].rows; });
-    ids.filter(id => BY[id].bottom).forEach(id => out.push(piece(id, ROWS - BY[id].rows)));
+    let r = start; const out = [], d = isD(), list = (d ? ids.map(deskId).filter(Boolean) : ids).filter(id => !BY[id].over);
+    const at = (id, row) => { const o = BY[id], b = bleeds(o); return piece(id, row, null, d && !b ? 2 : 0, d ? (b ? COLS : 8) : 1); };
+    list.filter(id => !BY[id].bottom).forEach(id => { out.push(at(id, r)); r += BY[id].rows; });
+    list.filter(id => BY[id].bottom).forEach(id => out.push(at(id, ROWS - BY[id].rows)));
     return out;
   }
-  const fromKind = k => ({ ...blank(AK[k].name.replace(/^The /, '')), kind: k, job: AK[k].does, pieces: stackUp(AK[k].recipe) });
+  /* a phone set, as a first desktop set */
+  function toDesk(x) {
+    const y = JSON.parse(JSON.stringify(x));
+    const conv = ps => ps.map(q => { const id = deskId(q.o); if (!id || BY[id].over) return null; const b = bleeds(BY[id]); return { ...q, o: id, col: b ? 0 : 2, span: b ? COLS : 8 }; }).filter(Boolean);
+    y.master.pieces = conv(y.master.pieces);
+    y.screens.forEach(k => { k.pieces = conv(k.pieces); if (BY[k.over] && BY[k.over].phone) { k.over = deskId(k.over) || ''; k.overT = {}; } });
+    y.cur = Math.max(0, y.cur); return y;
+  }
 
   /* the example: the missed bin journey, one screen per step of the Flow maker's example */
-  const EXAMPLE = () => ({ cur: 0, master: { pieces: [] }, screens: [
+  const EXSET = () => ({ cur: 0, master: { pieces: [] }, screens: [
     ['Start: report a missed bin', 'J1', 'The one rule, in 38 words, and one way in.', [['service-header', 0, { 'Service name#0': 'Bins and recycling' }], ['title-intro', 1, { 'Title#0': 'Report a missed bin collection' }], ['notice', 3], ['button', 6, { 'Continue#0': 'Start now' }]]],
     ['Your postcode and address', 'M11', 'Finds the address, and with it the bins that were due.', [['progress-header', 0], ['question', 1, { 'The question?#0': 'What is your postcode?', 'A hint, if it helps#0': 'For example, M1 5GD' }], ['postcode', 3], ['button', 6]]],
     ['Which bin was not emptied?', 'M11', 'Asks which bin, by its colour.', [['progress-header', 0], ['radio-question', 1, { 'The question?#0': 'Which bin was not emptied?', 'An answer#0': 'Grey bin', 'An answer#1': 'Blue bin', 'An answer#2': 'Brown bin' }], ['button', 6]]],
@@ -316,80 +350,92 @@
     ['Check your answers', 'J2', 'Every answer back, each with a Change link.', [['progress-header', 0], ['page-title', 1, { 'Page title#0': 'Check your answers' }], ['summary', 2], ['button', 7, { 'Continue#0': 'Send report' }]]],
     ['Report sent', 'J3', 'The date and a reference, and what happens next.', [['service-header', 0, { 'Service name#0': 'Bins and recycling' }], ['success', 1, { 'Done#0': 'Report sent' }], ['title-intro', 4, { 'Title#0': 'What happens next' }], ['button-link', 7, { 'Continue#0': 'Report another bin', 'Cancel#0': 'Back to bins and recycling' }]]],
   ].map(([name, kind, job, ps], i, all) => ({ ...blank(name), kind, job, goes: all[i + 1] ? all[i + 1][0] : '', pieces: ps.map(([o, r, t]) => piece(o, r, t)) })) });
+  const EXAMPLE = () => { const set = EXSET(); return { device: 'phone', phone: set, desktop: toDesk(set) }; };
 
-  /* load: this version, or the first version's stacked lists, or the example */
-  let S; try { S = JSON.parse(localStorage.getItem(KEY) || 'null'); } catch (e) {}
-  if (!S) { try { const v1 = JSON.parse(localStorage.getItem(OLD) || 'null');
-    if (v1 && Array.isArray(v1.screens)) S = { cur: v1.cur || 0, master: { pieces: [] }, screens: v1.screens.map(s => ({ ...blank(s.name), kind: s.kind || '', job: s.job || '', goes: s.goes || '',
-      over: BY[s.over] ? s.over : '', pieces: stackUp((s.orgs || []).map(x => String(x).split(':')[0]).filter(id => BY[id])) })) }; } catch (e) {} }
-  /* a first visit starts with one blank screen; the example lives apart, under its own key,
-     so trying it never touches the student's own screens */
-  const EXKEY = 'sd-screens2-example', MODE = 'sd-screens2-mode';
-  const fresh = () => ({ cur: 0, master: { pieces: [] }, screens: [blank()] });
-  const tidy = x => { if (!x || !Array.isArray(x.screens) || !x.screens.length) return null; x.master = x.master || { pieces: [] };
-    [x.master, ...x.screens].forEach(s => { s.pieces = (s.pieces || []).filter(p => BY[p.o] && !BY[p.o].over); }); return x; };
+  /* Two sets of screens, a phone one and a desktop one, each with its own master; S is whichever
+     is showing. A first visit starts blank. The example lives apart, under its own key, so trying
+     it never touches the student's own screens. */
+  const EXKEY = 'sd-screens3-example', MODE = 'sd-screens3-mode';
+  const freshSet = () => ({ cur: 0, master: { pieces: [] }, screens: [blank()] });
+  const fresh = () => ({ device: 'phone', phone: freshSet(), desktop: freshSet() });
+  const tidySet = (x, d) => { if (!x || !Array.isArray(x.screens) || !x.screens.length) return null; x.master = x.master || { pieces: [] };
+    [x.master, ...x.screens].forEach(k => { k.pieces = (k.pieces || []).filter(q => BY[q.o] && !BY[q.o].over && (d ? !BY[q.o].phone : !BY[q.o].desk));
+      k.pieces.forEach(q => { if (d) { const b = bleeds(BY[q.o]); q.span = b ? COLS : (q.span > 1 ? q.span : BY[q.o].dspan); q.col = b ? 0 : (q.col || 0); } else { q.col = 0; q.span = 1; } }); }); return x; };
+  const tidy = w => { if (!w) return null; if (w.screens) w = { device: 'phone', phone: w };
+    const phone = tidySet(w.phone, false), desktop = tidySet(w.desktop, true); if (!phone && !desktop) return null;
+    return { device: w.device === 'desktop' ? 'desktop' : 'phone', phone: phone || freshSet(), desktop: desktop || freshSet() }; };
   const load = k => { try { return tidy(JSON.parse(localStorage.getItem(k) || 'null')); } catch (e) { return null; } };
-  S = tidy(S) || fresh();
-  let mode = 'mine'; try { if (localStorage.getItem(MODE) === 'example') { mode = 'example'; S = load(EXKEY) || EXAMPLE(); } } catch (e) {}
+  let W = load(KEY) || load(V2) || fresh(), mode = 'mine';
+  try { if (localStorage.getItem(MODE) === 'example') { mode = 'example'; W = load(EXKEY) || EXAMPLE(); } } catch (e) {}
+  let S = W[W.device];
+  function isD() { return W.device === 'desktop'; }
 
   let sel = null, hist = [], fut = [], flash = null;
   const isM = () => S.cur === -1;
   const cur = () => isM() ? S.master : S.screens[S.cur];
-  const save = () => { try { localStorage.setItem(mode === 'example' ? EXKEY : KEY, JSON.stringify(S)); localStorage.setItem(MODE, mode); } catch (e) {} };
+  const save = () => { W[W.device] = S; try { localStorage.setItem(mode === 'example' ? EXKEY : KEY, JSON.stringify(W)); localStorage.setItem(MODE, mode); } catch (e) {} };
   const keep = before => { hist.push(before); if (hist.length > 80) hist.shift(); fut = []; $('undo').disabled = false; $('redo').disabled = true; };
   const snap = () => keep(JSON.stringify(S));
-  function switchTo(m, state) { save(); mode = m; S = state; hist = []; fut = []; sel = null; render(); }
+  function switchTo(m, state) { save(); mode = m; W = state; S = W[W.device]; hist = []; fut = []; sel = null; renderPal(); render(); }
+  function setDevice(d) { if (d === W.device) return; save(); W.device = d; S = W[d]; hist = []; fut = []; sel = null; peeked = null; renderPal(); render(); tell(d === 'desktop' ? 'Desktop screens.' : 'Phone screens.'); }
   function say(t) { $('msg').textContent = t; clearTimeout(say.t); if (t) say.t = setTimeout(() => { $('msg').textContent = ''; }, 6000); }
 
-  /* ── rows ── */
+  /* ── rows and columns ── */
   const masterOn = s => s !== S.master && s.useMaster !== false;
   const fixed = s => masterOn(s) ? S.master.pieces : [];
+  const colsNow = () => isD() ? COLS : 1;
+  const spanOf = o => isD() ? (bleeds(o) ? COLS : o.dspan) : 1;
   const end = p => p.row + BY[p.o].rows;
-  const overlaps = (a, b) => a.row < end(b) && b.row < end(a);
+  const overlaps = (a, b) => a.row < end(b) && b.row < end(a) && a.col < b.col + b.span && b.col < a.col + a.span;
   const clashes = s => s.pieces.filter(p => fixed(s).some(m => overlaps(p, m)));
-  function rowMap(s) { const m = Array(ROWS).fill(null); fixed(s).concat(s.pieces).forEach(p => { for (let r = p.row; r < end(p) && r < ROWS; r++) m[r] = p; }); return m; }
-  function firstGap(s, rows, from = 0) {
-    const m = rowMap(s);
-    for (let r = from; r + rows <= ROWS; r++) if (m.slice(r, r + rows).every(x => !x)) return r;
-    return -1;
-  }
-  const biggestGap = s => { let best = 0, run = 0; rowMap(s).forEach(x => { run = x ? 0 : run + 1; best = Math.max(best, run); }); return best; };
-  /* put p at row r; anything in the way moves down below it, if there is room */
-  function place(s, p, r) {
-    const rows = BY[p.o].rows; r = Math.max(0, Math.min(r, ROWS - rows));
-    const fx = fixed(s), hit = fx.find(m => overlaps({ ...p, row: r }, m));
-    if (hit) return `Rows ${r + 1}–${r + rows} cross the master's ${BY[hit.o].name}. Choose other rows, or switch the master off for this screen.`;
-    const others = s.pieces.filter(q => q !== p).map(q => ({ q, row: q.row })).sort((a, b) => a.row - b.row);
-    let c = r + rows;
-    for (const x of others) {
-      if (x.row + BY[x.q.o].rows <= r) continue;
-      if (x.row < c) {
-        if (pinned(x.q.o)) return `${BY[x.q.o].code} ${BY[x.q.o].name} stays where it is, so there is no room there. Choose other rows.`;
-        x.row = c;
-        if (fx.some(m => overlaps({ ...x.q, row: x.row }, m))) return `There is no room: ${BY[x.q.o].name} would be pushed into the master's rows.`;
-      }
-      c = x.row + BY[x.q.o].rows;
-      if (c > ROWS) return `There is no room: that would push ${BY[x.q.o].name} past row ${ROWS}. Remove something, or use fewer rows.`;
+  const everyPiece = s => fixed(s).concat(s.pieces);
+  /* which rows have anything in them */
+  function rowMap(s) { const m = Array(ROWS).fill(null); everyPiece(s).forEach(p => { for (let r = p.row; r < end(p) && r < ROWS; r++) m[r] = p; }); return m; }
+  const isFree = (s, t, skip) => everyPiece(s).every(q => q === skip || !overlaps(t, q));
+  /* the first place a piece fits, reading down the rows; on desktop, its preferred column first */
+  function firstFit(s, o, span, from = 0, pref = 0) {
+    const rows = o.rows, top = colsNow() - span;
+    for (let r = from; r + rows <= ROWS; r++) for (const c of [pref, ...Array.from({ length: top + 1 }, (_, i) => i)]) {
+      if (c < 0 || c > top) continue;
+      if (isFree(s, { o: o.id, row: r, col: c, span })) return { row: r, col: c };
     }
-    others.forEach(x => { x.q.row = x.row; }); p.row = r; return '';
+    return null;
   }
-  const topEnd = s => fixed(s).concat(s.pieces).filter(p => BY[p.o].fam === 'Top').reduce((m, p) => Math.max(m, end(p)), 0);
+  const allFits = s => s.pieces.every(p => end(p) <= ROWS && p.col + p.span <= colsNow()) && everyPiece(s).every((p, i, a) => a.every((q, j) => j <= i || !overlaps(p, q)));
+  /* put p at a row and column; anything in the way moves down below it, if there is room */
+  function place(s, p, r, c = p.col) {
+    const rows = BY[p.o].rows; r = Math.max(0, Math.min(r, ROWS - rows)); c = Math.max(0, Math.min(c, colsNow() - p.span));
+    const t = { ...p, row: r, col: c }, fx = fixed(s), wall = fx.concat(s.pieces.filter(q => q !== p && pinned(q.o)));
+    const hit = wall.find(m => overlaps(t, m));
+    if (hit) return fx.includes(hit) ? `Those rows cross the master's ${BY[hit.o].name}. Choose other rows, or switch the master off for this screen.`
+      : `${BY[hit.o].code} ${BY[hit.o].name} stays where it is, so there is no room there. Choose other rows.`;
+    const done = wall.concat([t]), moves = [];
+    for (const x of s.pieces.filter(q => q !== p && !pinned(q.o)).map(q => ({ ...q, ref: q })).sort((a, b) => a.row - b.row)) {
+      let h; while ((h = done.find(m => overlaps(x, m)))) x.row = end(h);
+      if (end(x) > ROWS) return `There is no room: that would push ${BY[x.o].name} past row ${ROWS}. Remove something, or choose other rows.`;
+      done.push(x); moves.push(x);
+    }
+    moves.forEach(x => { x.ref.row = x.row; }); p.row = r; p.col = c; return '';
+  }
+  const topEnd = s => everyPiece(s).filter(p => BY[p.o].fam === 'Top').reduce((m, p) => Math.max(m, end(p)), 0);
 
-  function add(id, at) {
+  function add(id, at, atCol) {
     const s = cur(), o = BY[id];
     if (o.over) {
       if (isM()) { say('Overlays go on a screen, not on the master.'); return; }
       snap(); s.over = id; s.overT = {}; render(); say(`${o.code} ${o.name} lies over this screen and takes no rows. One overlay at a time: a new one replaces it.`); return;
     }
-    const before = JSON.stringify(S), p = piece(id, 0); let err = '';
-    if (at != null && !pinned(id)) { s.pieces.push(p); err = place(s, p, at); }
-    else if (o.bottom) { s.pieces.push(p); err = place(s, p, ROWS - o.rows); }
-    else if (o.fam === 'Top') { const r = topEnd(s); s.pieces.push(p); err = place(s, p, r); }
+    const before = JSON.stringify(S), span = spanOf(o), p = piece(id, 0, null, 0, span); let err = '';
+    const centre = Math.floor((colsNow() - span) / 2);
+    if (at != null && !pinned(id)) { p.col = atCol == null ? centre : atCol; s.pieces.push(p); err = place(s, p, at, p.col); }
+    else if (o.bottom) { s.pieces.push(p); err = place(s, p, ROWS - o.rows, 0); }
+    else if (o.fam === 'Top') { const r = topEnd(s); s.pieces.push(p); err = place(s, p, r, 0); }
     else {
       const sp = s.pieces.find(q => q.u === sel) || fixed(s).find(q => q.u === sel);
-      let r = firstGap(s, o.rows, sp ? end(sp) : topEnd(s)); if (r < 0) r = firstGap(s, o.rows, 0);
-      if (r < 0) err = `${o.code} ${o.name} needs ${plural(o.rows, 'row')}; the biggest gap on this screen is ${plural(biggestGap(s), 'row')}. Remove or move something first.`;
-      else { p.row = r; s.pieces.push(p); }
+      const pref = sp && !bleeds(BY[sp.o]) && sp.col + span <= colsNow() ? sp.col : centre;
+      const f = firstFit(s, o, span, sp ? end(sp) : topEnd(s), pref) || firstFit(s, o, span, 0, pref);
+      if (!f) err = `${o.code} ${o.name} needs ${plural(o.rows, 'row')}, and no gap on this screen is that tall${isD() ? ' and wide' : ''}. Remove or move something first.`;
+      else { p.row = f.row; p.col = f.col; s.pieces.push(p); }
     }
     if (err) { S = JSON.parse(before); say(err); render(); return; }
     keep(before); sel = p.u; flash = p.u; say(''); render(); tell(`${o.name} added: rows ${p.row + 1} to ${end(p)}.`);
@@ -398,16 +444,20 @@
   /* ── the list of organisms ── */
   const FNAME = { Top: 'Top of the screen', Headings: 'Headings', Search: 'Search', Answers: 'Answers', Content: 'Content', Feedback: 'Feedback', Actions: 'Actions',
     Own: 'Your own: a note', Overlay: 'Overlays' };
-  const STARTERS = ['appbar', 'page-title', 'question', 'text-field', 'radio-question', 'list', 'card', 'notice', 'button', 'tabbar'];
+  const STARTERS = () => ['appbar', 'page-title', 'question', 'text-field', 'radio-question', 'list', 'card', 'notice', 'button', 'tabbar'].map(id => (isD() ? { appbar: 'site-header', tabbar: 'footer' }[id] || id : id));
+  const sizeOf = o => o.over || !isD() ? o.size : `${bleeds(o) ? DW : dw(o.dspan)} × ${o.h} px`;
   const item = o => `<div class="sm-item" role="button" tabindex="0" draggable="true" data-id="${o.id}"
       data-q="${esc((o.code + ' ' + o.name + ' ' + o.does).toLowerCase())}"><b>${o.code}</b>${esc(o.name)}
-      <small class="px">${o.size} · ${plural(o.rows, 'row')}</small><small>${esc(o.does)}</small></div>`;
-  $('pal').innerHTML = `<details class="sm-fam sm-start" open><summary>Start with these<span>${STARTERS.length}</span></summary>
-    <p class="sm-p" style="margin:0 0 8px">The ones most screens are made of. Everything else is in the groups below.</p>${STARTERS.map(id => item(BY[id])).join('')}</details>` +
-    Object.keys(FAM).map(f => `<details class="sm-fam" data-fam="${f}"><summary>${FNAME[f]}<span>${FAM[f]} · ${O.filter(o => o.fam === f).length}</span></summary>` +
+      <small class="px">${sizeOf(o)} · ${plural(o.rows, 'row')}${isD() && !o.over ? `, ${spanOf(o)} columns` : ''}</small><small>${esc(o.does)}</small></div>`;
+  function renderPal() {
+    const here = o => (isD() ? !o.phone : !o.desk), q = $('filter').value = '';
+    $('pal').innerHTML = `<details class="sm-fam sm-start" open><summary>Start with these<span>${STARTERS().length}</span></summary>
+    <p class="sm-p" style="margin:0 0 8px">The ones most screens are made of. Everything else is in the groups below.</p>${STARTERS().map(id => item(BY[id])).join('')}</details>` +
+    Object.keys(FAM).map(f => `<details class="sm-fam" data-fam="${f}"><summary>${FNAME[f]}<span>${FAM[f]} · ${O.filter(o => o.fam === f && here(o)).length}</span></summary>` +
     (f === 'Own' ? '<p class="sm-p" style="margin:0 0 8px">For an organism the set does not have: a note in its place, saying what it would be. Pick the height you need.</p>' : '') +
     (f === 'Overlay' ? '<p class="sm-p" style="margin:0 0 8px">These lie over the screen and take no rows, one at a time.</p>' : '') +
-    O.filter(o => o.fam === f).map(item).join('') + '</details>').join('');
+    O.filter(o => o.fam === f && here(o)).map(item).join('') + '</details>').join('');
+  }
   $('filter').oninput = () => { const q = $('filter').value.trim().toLowerCase();
     document.querySelectorAll('.sm-item').forEach(el => { el.hidden = !!q && !el.dataset.q.includes(q); });
     document.querySelectorAll('.sm-fam').forEach(d => { const any = [...d.querySelectorAll('.sm-item')].some(el => !el.hidden);
@@ -418,28 +468,34 @@
   const AN = Object.fromEntries(A.map(a => [a.id, a.name]));
   let peeked = null;
   function peek(it) {
-    const o = BY[it.dataset.id], pk = $('peek'); if (peeked === o.id) return; peeked = o.id;
-    pk.innerHTML = `<div class="pk-in full${o.over ? ' ov' : ''}">${organism(o.id, { label: false })}</div>
-      <h3><b>${o.code}</b>${esc(o.name)}</h3><span class="px">${o.size} · ${plural(o.rows, 'row')}</span><p>${esc(o.does)}</p>
+    const o = BY[it.dataset.id], pk = $('peek'), d = isD() && !o.over; if (peeked === o.id) { if (isD()) pk.classList.add('on'); return; } peeked = o.id;
+    pk.classList.add('on');
+    const span = d ? spanOf(o) : 0, frame = d ? (bleeds(o) && span === COLS ? DW : dw(span)) : (o.desk ? dw(o.dspan) : 375);
+    const room = isD() ? 430 : pk.clientWidth - 2, un = Math.min(1, room / frame);
+    pk.innerHTML = `<div class="pk-in full${d ? ' desk' : ''}${o.over ? ' ov' : ''}" style="width:${frame * un + 2}px">${organism(o.id, { label: false, span: d ? span : 0 })}</div>
+      <h3><b>${o.code}</b>${esc(o.name)}</h3><span class="px">${sizeOf(o)} · ${plural(o.rows, 'row')}</span><p>${esc(o.does)}</p>
       ${window.ORG.USED[o.id].length ? `<p>Usually on: ${window.ORG.USED[o.id].map(id => esc(AN[id])).join(', ')}</p>` : ''}`;
-    pk.style.setProperty('--u', Math.min(1, (pk.clientWidth - 2) / 375) + 'px');
+    pk.style.setProperty('--u', un + 'px');
     words(pk);
+    if (isD()) { const r = it.getBoundingClientRect(), pr = $('pal').getBoundingClientRect(); pk.style.left = (pr.right + 22) + 'px'; pk.style.top = Math.max(70, Math.min(r.top - 8, innerHeight - pk.offsetHeight - 10)) + 'px'; }
   }
-  const unpeek = () => {};
+  const unpeek = () => { if (isD()) { $('peek').classList.remove('on'); peeked = null; } };
   $('pal').addEventListener('mouseover', e => { const it = e.target.closest('.sm-item'); if (it) peek(it); });
   $('pal').addEventListener('focusin', e => { const it = e.target.closest('.sm-item'); if (it) peek(it); });
+  $('pal').addEventListener('mouseleave', unpeek); $('pal').addEventListener('focusout', unpeek);
 
   /* ── drawing a screen ── */
   const rowPx = () => $('canvas').querySelector('.slots').getBoundingClientRect().height / ROWS;
   function screenHTML(s, opts = {}) {
-    const mine = s.pieces, fx = fixed(s), bad = new Set(clashes(s).map(p => p.u));
-    const lab = (p, m) => `${BY[p.o].code} ${BY[p.o].name}, rows ${p.row + 1} to ${end(p)}${m ? ', from the master' : ''}${bad.has(p.u) ? ', crosses the master' : ''}`;
+    const mine = s.pieces, fx = fixed(s), bad = new Set(clashes(s).map(p => p.u)), d = isD();
+    const lab = (p, m) => `${BY[p.o].code} ${BY[p.o].name}, rows ${p.row + 1} to ${end(p)}${d && !bleeds(BY[p.o]) ? `, columns ${p.col + 1} to ${p.col + p.span}` : ''}${m ? ', from the master' : ''}${bad.has(p.u) ? ', crosses the master' : ''}`;
+    const where = p => { if (!d) return ''; const b = bleeds(BY[p.o]); return b ? 'left:0;width:100%' : `left:calc(${dx(p.col)} * var(--u));width:calc(${dw(p.span)} * var(--u))`; };
     const one = (p, m) => `<div class="sm-p2${m ? ' m' : ' s'}${p.u === sel && opts.edit ? ' sel' : ''}${bad.has(p.u) ? ' clash' : ''}" data-u="${p.u}"${m ? ' data-m="1"' : ''}
-      ${opts.edit ? `tabindex="0" role="group" aria-label="${esc(lab(p, m))}"` : ''} style="top:calc(${p.row * ROW} * var(--u))">${organism(p.o, { label: opts.label })}</div>`;
+      ${opts.edit ? `tabindex="0" role="group" aria-label="${esc(lab(p, m))}"` : ''} style="top:calc(${p.row * ROW} * var(--u));${where(p)}">${organism(p.o, { label: opts.label, span: d ? (bleeds(BY[p.o]) ? COLS : p.span) : 0 })}${opts.edit && d && !m && !pinned(p.o) ? '<span class="sm-rz" aria-hidden="true" title="Drag to change the width"></span>' : ''}</div>`;
     const inner = fx.map(p => one(p, true)).join('') + mine.map(p => one(p, false)).join('')
-      + (opts.edit && !mine.length && !fx.length ? '<p class="sm-empty">Open a family on the left and click an organism, or drag one here.</p>' : '')
+      + (opts.edit && !mine.length && !fx.length ? '<p class="sm-empty">Click an organism on the left, or drag one here.</p>' : '')
       + (s.over ? overlay(s.over, fx.concat(mine).filter(p => end(p) === ROWS).map(p => p.o), opts.edit ? '<button type="button" class="sm-ovx" data-do="rm-over" aria-label="Remove the overlay">✕</button>' : '', { label: opts.label }) : '');
-    return canvas(inner, { slots: opts.slots !== false });
+    return (d ? desk : canvas)(inner, { slots: opts.slots !== false });
   }
   /* the words typed into a piece: the master's own, then this screen's changes to them */
   function typedFor(s) {
@@ -456,7 +512,7 @@
 
   /* the codes, top to bottom, master pieces included; a note carries its words */
   function codesOf(s) {
-    const ps = fixed(s).concat(s.pieces).slice().sort((a, b) => a.row - b.row);
+    const ps = fixed(s).concat(s.pieces).slice().sort((a, b) => a.row - b.row || a.col - b.col);
     const note = p => BY[p.o].own && p.t && p.t[NOTE] ? ` (${p.t[NOTE].replace(/[()]/g, '')})` : '';
     return ps.map(p => `${BY[p.o].code}${note(p)}`).concat(s.over ? ['+ ' + BY[s.over].code] : []);
   }
@@ -473,45 +529,61 @@
     $('key').innerHTML = fxs.size ? '<span><i style="background:var(--ink-2)"></i>this screen</span><span><i style="background:#1A526D"></i>from the master</span>' : '';
     $('count').textContent = `${used} of ${ROWS} rows used, ${used * ROW} of ${ROWS * ROW} px · ${ROWS - used} empty`;
     $('codes').textContent = codesOf(s).join(' · ');
-    const big = biggestGap(s);
-    document.querySelectorAll('.sm-item').forEach(el => el.classList.toggle('nofit', !BY[el.dataset.id].over && !pinned(el.dataset.id) && BY[el.dataset.id].rows > big));
+    document.querySelectorAll('.sm-item').forEach(el => { const o = BY[el.dataset.id]; el.classList.toggle('nofit', !o.over && !pinned(o.id) && !firstFit(s, o, spanOf(o))); });
     renderTools();
   }
 
-  /* the tools beside the selected piece */
+  /* the tools beside the selected piece: to its right on a phone, above it on desktop */
   function renderTools() {
     const s = cur(), t = $('tools'), p = s.pieces.find(q => q.u === sel), mp = !p && fixed(s).find(q => q.u === sel);
     const el = sel && $('canvas').querySelector(`[data-u="${sel}"]`);
     if ((!p && !mp) || !el) { t.style.display = 'none'; return; }
-    const o = BY[(p || mp).o];
-    t.style.top = (el.getBoundingClientRect().top - $('cwrap').getBoundingClientRect().top) + 'px';
+    const off = $('cwrap').getBoundingClientRect(), r = el.getBoundingClientRect();
+    const b = q => q === false ? '' : ' disabled', pin = p && pinned(p.o);
     t.style.display = 'flex';
-    t.innerHTML = mp ? `        <button type="button" data-do="to-master" aria-label="Go to the master" title="Go to the master">M</button>`
-      : `        <button type="button" class="hd" data-do="drag" aria-label="Drag to move" title="Drag to move"${pinned(p.o) ? ' disabled' : ''}>⠿</button>
-        <button type="button" data-do="up" aria-label="Move up a row" title="Up a row"${pinned(p.o) ? ' disabled' : ''}>↑</button>
-        <button type="button" data-do="down" aria-label="Move down a row" title="Down a row"${pinned(p.o) ? ' disabled' : ''}>↓</button>
+    t.innerHTML = mp ? `<button type="button" data-do="to-master" aria-label="Go to the master" title="Go to the master">M</button>`
+      : `<button type="button" class="hd" data-do="drag" aria-label="Drag to move" title="Drag to move"${b(pin)}>⠿</button>
+        <button type="button" data-do="up" aria-label="Move up a row" title="Up a row"${b(pin)}>↑</button>
+        <button type="button" data-do="down" aria-label="Move down a row" title="Down a row"${b(pin)}>↓</button>
+        ${isD() ? `<button type="button" data-do="left" aria-label="Move a column left" title="A column left"${b(pin)}>←</button>
+        <button type="button" data-do="right" aria-label="Move a column right" title="A column right"${b(pin)}>→</button>
+        <button type="button" data-do="thin" aria-label="Narrower by a column" title="Narrower"${b(pin)}>−</button>
+        <button type="button" data-do="wide" aria-label="Wider by a column" title="Wider"${b(pin)}>+</button>` : ''}
         <button type="button" data-do="rm" aria-label="Remove" title="Remove">✕</button>`;
+    if (isD() && innerWidth > 1060) { t.style.left = (r.left - off.left) + 'px'; const above = r.top - off.top - 42; t.style.top = (above >= 0 ? above : r.bottom - off.top + 6) + 'px'; }
+    else { t.style.left = ''; t.style.top = (r.top - off.top) + 'px'; }
   }
   /* up and down: into an empty row, or past the piece next to it */
   let refocus = false;
   const tell = t => { $('sr').textContent = ''; setTimeout(() => { $('sr').textContent = t; }, 30); };
+  const where = p => isD() && !bleeds(BY[p.o]) ? `rows ${p.row + 1} to ${end(p)}, columns ${p.col + 1} to ${p.col + p.span}` : `rows ${p.row + 1} to ${end(p)}`;
+  const moved2 = p => { refocus = document.activeElement && document.activeElement.classList.contains('sm-p2'); render(); tell(`${BY[p.o].name}: ${where(p)}`); };
   function nudge(d) {
     const s = cur(), p = s.pieces.find(q => q.u === sel); if (!p || pinned(p.o)) return;
-    const m = rowMap(s), rows = BY[p.o].rows, nr = p.row + d;
-    if (nr < 0 || nr + rows > ROWS) return;
-    const edge = d < 0 ? m[p.row - 1] : m[end(p)];
-    if (edge && (fixed(s).includes(edge) || pinned(edge.o))) { say(`${BY[edge.o].name} stays where it is.`); return; }
-    snap();
-    if (!edge) p.row = nr;
-    else if (d < 0) { const top = edge.row; edge.row = top + rows; p.row = top; }
-    else { const top = p.row; p.row = top + BY[edge.o].rows; edge.row = top; }
-    refocus = document.activeElement && document.activeElement.classList.contains('sm-p2');
-    render(); tell(`${BY[p.o].name}: rows ${p.row + 1} to ${end(p)}`);
+    const rows = BY[p.o].rows, nr = p.row + d; if (nr < 0 || nr + rows > ROWS) return;
+    const t = { ...p, row: nr }, hit = everyPiece(s).filter(q => q !== p && overlaps(t, q));
+    const stuck = hit.find(q => fixed(s).includes(q) || pinned(q.o));
+    if (stuck) { say(`${BY[stuck.o].name} stays where it is.`); return; }
+    const before = JSON.stringify(S);
+    if (!hit.length) p.row = nr;
+    else if (d < 0) { const err = place(s, p, Math.min(...hit.map(q => q.row)), p.col); if (err) { S = JSON.parse(before); say(err); render(); return; } }
+    else { const top = p.row, h = Math.max(...hit.map(q => BY[q.o].rows)); hit.forEach(q => { q.row = top; }); p.row = top + h;
+      if (!allFits(s)) { S = JSON.parse(before); const q = cur().pieces.find(x => x.u === sel); const err = place(cur(), q, nr, q.col); if (err) { S = JSON.parse(before); say(err); render(); return; } } }
+    keep(before); moved2(cur().pieces.find(x => x.u === sel));
+  }
+  /* left and right, narrower and wider: desktop only, and only into empty columns */
+  function sideways(dc, ds) {
+    const s = cur(), p = s.pieces.find(q => q.u === sel); if (!isD() || !p || pinned(p.o)) return;
+    const col = p.col + dc, span = p.span + ds;
+    if (col < 0 || span < 2 || col + span > COLS) return;
+    if (!isFree(s, { ...p, col, span }, p)) { say(`Something is in the way. Move it first, or use another row.`); return; }
+    snap(); p.col = col; p.span = span; moved2(p);
   }
   const removeSel = () => { const s = cur(), i = s.pieces.findIndex(q => q.u === sel); if (i < 0) return; const name = BY[s.pieces[i].o].name;
     snap(); s.pieces.splice(i, 1); sel = null; render(); tell(`${name} removed. Undo brings it back.`); };
   $('tools').addEventListener('click', e => { const b = e.target.closest('button'); if (!b) return;
     if (b.dataset.do === 'up') nudge(-1); if (b.dataset.do === 'down') nudge(1); if (b.dataset.do === 'rm') removeSel();
+    if (b.dataset.do === 'left') sideways(-1, 0); if (b.dataset.do === 'right') sideways(1, 0); if (b.dataset.do === 'thin') sideways(0, -1); if (b.dataset.do === 'wide') sideways(0, 1);
     if (b.dataset.do === 'to-master') { S.cur = -1; render(); } });
 
   /* selecting, typing, and the overlay's ✕ */
@@ -537,41 +609,54 @@
   $('canvas').addEventListener('keydown', e => { if (e.target.isContentEditable && (e.key === 'Enter' || e.key === 'Escape')) { e.preventDefault(); e.target.blur(); } });
   $('canvas').addEventListener('focusout', e => { if (e.target.isContentEditable) renderStrip(); });
 
-  /* dragging a piece: by its body (not its words) or by ⠿, snapping to rows */
-  function startDrag(e, p) { drag = { p, y0: e.clientY, row0: p.row, on: false }; moved = false; }
+  /* dragging a piece: by its body (not its words) or by ⠿, snapping to rows and, on desktop,
+     columns; by its right edge, to change its width */
+  function startDrag(e, p, rz) { drag = { p, x0: e.clientX, y0: e.clientY, row0: p.row, col0: p.col, span0: p.span, rz, on: false }; moved = false; }
   $('canvas').addEventListener('pointerdown', e => {
     if (e.button !== 0 || e.target.isContentEditable || e.target.closest('button')) return;
     const w = e.target.closest('.sm-p2.s'); if (!w) return;
     const p = cur().pieces.find(q => q.u === w.dataset.u); if (!p || pinned(p.o)) return;
-    startDrag(e, p);
+    const rz = e.target.classList.contains('sm-rz'); if (rz) { e.preventDefault(); if (sel !== p.u) select(p.u); }
+    startDrag(e, p, rz);
   });
   $('tools').addEventListener('pointerdown', e => { if (!e.target.closest('[data-do="drag"]')) return; const p = cur().pieces.find(q => q.u === sel); if (p) { e.preventDefault(); startDrag(e, p); } });
-  function ghostAt(row, rows) {
-    const g = $('ghost'), top = $('canvas').querySelector('.slots').getBoundingClientRect().top - $('cwrap').getBoundingClientRect().top;
-    g.style.display = 'block'; g.style.top = (top + row * rowPx()) + 'px'; g.style.height = (rows * rowPx()) + 'px';
+  const scale = () => $('canvas').querySelector('.slots').getBoundingClientRect().width / DW;
+  function ghostAt(row, rows, col, span, bleed) {
+    const g = $('ghost'), sl = $('canvas').querySelector('.slots').getBoundingClientRect(), off = $('cwrap').getBoundingClientRect();
+    g.style.display = 'block'; g.style.top = (sl.top - off.top + row * rowPx()) + 'px'; g.style.height = (rows * rowPx()) + 'px';
+    if (isD() && !bleed) { g.style.left = (sl.left - off.left + dx(col) * scale()) + 'px'; g.style.width = (dw(span) * scale()) + 'px'; g.style.right = 'auto'; }
+    else { g.style.left = (sl.left - off.left) + 'px'; g.style.width = sl.width + 'px'; g.style.right = 'auto'; }
   }
   addEventListener('pointermove', e => {
     if (!drag) return;
-    const dy = e.clientY - drag.y0; if (!drag.on && Math.abs(dy) < 6) return;
+    const dx1 = e.clientX - drag.x0, dy = e.clientY - drag.y0; if (!drag.on && Math.abs(dy) < 6 && Math.abs(dx1) < 6) return;
     if (!drag.on) { drag.on = true; moved = true; const el = $('canvas').querySelector(`[data-u="${drag.p.u}"]`); if (el) el.classList.add('drag'); }
-    const rows = BY[drag.p.o].rows; drag.to = Math.max(0, Math.min(ROWS - rows, drag.row0 + Math.round(dy / rowPx()))); ghostAt(drag.to, rows);
+    const rows = BY[drag.p.o].rows, step = isD() ? (COLW + GUT) * scale() : 1;
+    if (drag.rz) { drag.span = Math.max(2, Math.min(COLS - drag.col0, drag.span0 + Math.round(dx1 / step))); drag.to = drag.row0; drag.toCol = drag.col0; }
+    else { drag.span = drag.span0; drag.to = Math.max(0, Math.min(ROWS - rows, drag.row0 + Math.round(dy / rowPx()))); drag.toCol = isD() ? Math.max(0, Math.min(COLS - drag.span0, drag.col0 + Math.round(dx1 / step))) : 0; }
+    ghostAt(drag.to, rows, drag.toCol, drag.span);
   });
   addEventListener('pointerup', () => {
     if (!drag) return; const d = drag; drag = null; $('ghost').style.display = 'none';
     if (!d.on) return;
     setTimeout(() => { moved = false; }, 0);
-    if (d.to === d.row0) { render(); return; }
-    const before = JSON.stringify(S), err = place(cur(), d.p, d.to);
+    if (d.to === d.row0 && d.toCol === d.col0 && d.span === d.span0) { render(); return; }
+    const before = JSON.stringify(S); d.p.span = d.span;
+    const err = place(cur(), d.p, d.to, d.toCol);
     if (err) { S = JSON.parse(before); say(err); } else { keep(before); sel = d.p.u; say(''); }
     render();
   });
   /* dragging an organism in from the list */
   let fromPal = null;
   $('pal').addEventListener('dragstart', e => { const it = e.target.closest('.sm-item'); if (!it) return; fromPal = it.dataset.id; unpeek(); e.dataTransfer.setData('text/plain', BY[fromPal].code); e.dataTransfer.effectAllowed = 'copy'; });
-  const dropRow = (e, rows) => { const sl = $('canvas').querySelector('.slots').getBoundingClientRect(); return Math.max(0, Math.min(ROWS - rows, Math.round((e.clientY - sl.top) / rowPx() - rows / 2))); };
-  $('cwrap').addEventListener('dragover', e => { if (!fromPal) return; e.preventDefault(); const o = BY[fromPal]; if (o.over || pinned(fromPal)) return; ghostAt(dropRow(e, o.rows), o.rows); });
+  const dropAt = (e, o) => { const sl = $('canvas').querySelector('.slots').getBoundingClientRect(), span = spanOf(o);
+    const row = Math.max(0, Math.min(ROWS - o.rows, Math.round((e.clientY - sl.top) / rowPx() - o.rows / 2)));
+    const col = isD() ? Math.max(0, Math.min(COLS - span, Math.round(((e.clientX - sl.left) / scale() - dw(span) / 2 - dx(0)) / (COLW + GUT)))) : 0;
+    return { row, col, span }; };
+  $('cwrap').addEventListener('dragover', e => { if (!fromPal) return; e.preventDefault(); const o = BY[fromPal]; if (o.over || pinned(fromPal)) return; const a = dropAt(e, o); ghostAt(a.row, o.rows, a.col, a.span); });
   $('cwrap').addEventListener('dragleave', e => { if (!$('cwrap').contains(e.relatedTarget)) $('ghost').style.display = 'none'; });
-  $('cwrap').addEventListener('drop', e => { e.preventDefault(); $('ghost').style.display = 'none'; if (!fromPal) return; const id = fromPal; fromPal = null; add(id, BY[id].over || pinned(id) ? null : dropRow(e, BY[id].rows)); });
+  $('cwrap').addEventListener('drop', e => { e.preventDefault(); $('ghost').style.display = 'none'; if (!fromPal) return; const id = fromPal; fromPal = null; const o = BY[id];
+    if (o.over || pinned(id)) add(id); else { const a = dropAt(e, o); add(id, a.row, a.col); } });
   document.addEventListener('dragend', () => { fromPal = null; $('ghost').style.display = 'none'; });
 
   /* ── the side: this screen, or the master ── */
@@ -596,21 +681,25 @@
       return;
     }
     const a = AK[s.kind], c = clashes(s).length;
+    const empty = x => x.screens.length === 1 && !x.screens[0].pieces.length && !x.master.pieces.length;
+    const fromPhone = isD() && empty(S) && !empty(W.phone) ? `<p class="sm-msg" style="grid-column:1/-1">You have phone screens. Start your desktop set from them? They arrive in a centred column for you to adapt, not just stretched.
+      <br><button type="button" class="sm-b xs" data-act="fromphone" style="margin-top:6px">Start from my phone screens</button></p>` : '';
     $('side').innerHTML = `<h2 class="sm-h">This screen</h2>
-      <label for="f-name">Name</label><input id="f-name" placeholder="e.g. Your postcode and address" value="${esc(s.name)}">
-      <label for="f-kind">Kind of screen</label><select id="f-kind">${kindOpts(s.kind)}</select>
+      ${fromPhone}
+      <div class="fg"><label for="f-name">Name</label><input id="f-name" placeholder="e.g. Your postcode and address" value="${esc(s.name)}"></div>
+      <div class="fg"><label for="f-job">Job of this screen</label><input id="f-job" placeholder="The one thing it does for the person" value="${esc(s.job)}"></div>
+      <div class="fg"><label for="f-kind">Kind of screen</label><select id="f-kind">${kindOpts(s.kind)}</select>
       <div class="sm-recipe">${a ? `${esc(a.does)}<br>Usually: ${a.recipe.map(id => `<b>${BY[id].code}</b> ${esc(BY[id].name)}`).join(' · ')}
-        <br><button type="button" class="sm-b xs" data-act="recipe" style="margin-top:4px">Use these${s.pieces.length ? ' (replaces this screen)' : ''}</button>` : ''}</div>
-      <label for="f-job">Job of this screen</label><input id="f-job" placeholder="The one thing it does for the person" value="${esc(s.job)}">
-      <label for="f-goes">Goes to</label><input id="f-goes" list="names" placeholder="The next screen" value="${esc(s.goes)}">
-      <datalist id="names">${S.screens.filter(x => x !== s && x.name).map(x => `<option value="${esc(x.name)}">`).join('')}</datalist>
+        <br><button type="button" class="sm-b xs" data-act="recipe" style="margin-top:4px">Use these${s.pieces.length ? ' (replaces this screen)' : ''}</button>` : ''}</div></div>
+      <div class="fg"><label for="f-goes">Goes to</label><input id="f-goes" list="names" placeholder="The next screen" value="${esc(s.goes)}">
+      <datalist id="names">${S.screens.filter(x => x !== s && x.name).map(x => `<option value="${esc(x.name)}">`).join('')}</datalist></div>
       <label class="mchk"><input type="checkbox" id="f-master"${masterOn(s) ? ' checked' : ''}> Use the master${S.master.pieces.length ? ` (${S.master.pieces.map(q => BY[q.o].code).join(', ')})` : ', which is empty so far'}</label>
       ${c ? `<p class="sm-msg">${plural(c, 'piece')} on this screen ${c === 1 ? 'sits' : 'sit'} in rows the master now uses (dashed red). Move ${c === 1 ? 'it' : 'them'}, or switch the master off.</p>` : ''}
       ${info}${codes}`;
     [['f-name', 'name'], ['f-job', 'job'], ['f-goes', 'goes']].forEach(([el, k]) => {
       $(el).addEventListener('focus', () => snap());
       $(el).addEventListener('input', () => { s[k] = $(el).value; save(); if (k === 'name') renderStrip(); }); });
-    $('f-kind').onchange = () => { snap(); s.kind = $('f-kind').value; if (s.kind && !s.pieces.length) { s.pieces = stackUp(AK[s.kind].recipe.filter(id => !fixed(s).some(m => m.o === id)), topEnd(s)); if (!s.job) s.job = AK[s.kind].does; } render(); };
+    $('f-kind').onchange = () => { snap(); s.kind = $('f-kind').value; if (s.kind && !s.pieces.length) { s.pieces = stackUp(AK[s.kind].recipe.filter(id => !fixed(s).some(m => m.o === (isD() ? deskId(id) : id))), topEnd(s)); if (!s.job) s.job = AK[s.kind].does; } render(); };
     $('f-master').onchange = () => { snap(); s.useMaster = $('f-master').checked; render(); };
   }
   $('side').addEventListener('toggle', e => { if (e.target.id === 'more') moreOpen = e.target.open; }, true);
@@ -630,7 +719,7 @@
   const unb64 = t => Uint8Array.from(atob(t.replace(/-/g, '+').replace(/_/g, '/')), c => c.charCodeAt(0));
   async function pipe(bytes, stream) { return new Uint8Array(await new Response(new Blob([bytes]).stream().pipeThrough(stream)).arrayBuffer()); }
   async function linkTo() {
-    const raw = new TextEncoder().encode(JSON.stringify({ v: 2, master: S.master, screens: S.screens }));
+    save(); const raw = new TextEncoder().encode(JSON.stringify({ v: 3, ...W }));
     const code = window.CompressionStream ? 'z' + b64(await pipe(raw, new CompressionStream('deflate-raw'))) : 'j' + b64(raw);
     return location.href.split('#')[0] + '#w=' + code;
   }
@@ -639,11 +728,11 @@
     history.replaceState(null, '', location.href.split('#')[0]);
     try {
       const bytes = unb64(m[2]), raw = m[1] === 'z' ? await pipe(bytes, new DecompressionStream('deflate-raw')) : bytes;
-      const got = JSON.parse(new TextDecoder().decode(raw));
-      if (!got || !Array.isArray(got.screens) || !got.screens.length) throw new Error('empty');
-      if (!await ask(`Open the ${plural(got.screens.length, 'screen')} from this link? They replace the screens in this browser; Undo brings yours back.`, 'Open them')) return;
-      if (mode === 'example') switchTo('mine', load(KEY) || fresh());
-      snap(); S = tidy({ cur: 0, master: got.master || { pieces: [] }, screens: got.screens }); sel = null; render(); say('Screens opened from the link.');
+      const got = tidy(JSON.parse(new TextDecoder().decode(raw)));
+      if (!got) throw new Error('empty');
+      const n = got.phone.screens.filter(x => x.pieces.length).length + got.desktop.screens.filter(x => x.pieces.length).length;
+      if (!await ask(`Open the ${plural(n, 'screen')} from this link? They replace the screens in this browser.`, 'Open them')) return;
+      switchTo('mine', got); say('Screens opened from the link.');
     } catch (e) { say('That link did not open: it may have been cut short when it was copied.'); }
   }
 
@@ -673,7 +762,8 @@
       <p class="sh-n">${esc(s.name || 'Screen ' + (i + 1))}</p><p class="sh-d">${esc(s.job)}</p><div class="pc" data-i="${i}"></div>
       <div class="notes"><span>Organisms: ${esc(codesOf(s).join(' · ')) || '—'}</span><span>Goes to: ${esc(s.goes) || '—'}</span></div></div>`;
     let html = '';
-    for (let i = 0; i < S.screens.length; i += 2) html += `<section class="page"><div class="pair">${S.screens.slice(i, i + 2).map((s, k) => sheet(s, i + k)).join('')}</div>${foot}</section>`;
+    if (isD()) S.screens.forEach((s, i) => { html += `<section class="page land" style="--u:0.17mm">${sheet(s, i)}${foot}</section>`; });
+    else for (let i = 0; i < S.screens.length; i += 2) html += `<section class="page"><div class="pair">${S.screens.slice(i, i + 2).map((s, k) => sheet(s, i + k)).join('')}</div>${foot}</section>`;
     $('print').innerHTML = html;
     $('print').querySelectorAll('.pc').forEach(el => draw(el, S.screens[+el.dataset.i], { label: true }));
     window.print();
@@ -681,7 +771,8 @@
 
   /* ── the chooser for a new screen: a blank one, or one of the twenty kinds, each drawn small ── */
   function kinds() {
-    if ($('kinds').children.length) return;
+    if ($('kinds').children.length && $('kinds').dataset.d === W.device) return;
+    $('kinds').dataset.d = W.device;
     $('kinds').innerHTML = A.map(a => `<button type="button" class="sm-kind" data-k="${a.id}"><span class="mini-c"></span>
       <span class="k-id">${a.id}</span><b>${esc(a.name.replace(/^The /, ''))}</b><small>${esc(a.does)}</small></button>`).join('');
     $('kinds').querySelectorAll('.sm-kind').forEach(b => draw(b.querySelector('.mini-c'), { ...blank(), useMaster: false, pieces: stackUp(AK[b.dataset.k].recipe) }, { label: false, slots: false }));
@@ -691,7 +782,7 @@
     const k = b.dataset.k, n = blank(k ? AK[k].name.replace(/^The /, '') : '');
     $('newdlg').close();
     snap();
-    if (k) { n.kind = k; n.job = AK[k].does; n.pieces = stackUp(AK[k].recipe.filter(id => !S.master.pieces.some(m => m.o === id)), topEnd(n)); }
+    if (k) { n.kind = k; n.job = AK[k].does; n.pieces = stackUp(AK[k].recipe.filter(id => !S.master.pieces.some(m => m.o === (isD() ? deskId(id) : id))), topEnd(n)); }
     const at = isM() ? 0 : S.cur + 1; S.screens.splice(at, 0, n); S.cur = at; sel = null; render();
     tell(`New screen ${at + 1}${k ? ': ' + AK[k].name : ''}.`); const f = $('f-name'); if (f) f.focus();
   });
@@ -712,13 +803,15 @@
       snap(); S.screens.splice(S.cur, 1); if (!S.screens.length) S.screens.push(blank()); S.cur = Math.min(S.cur, S.screens.length - 1); sel = null; render(); say('Screen deleted. Undo brings it back.'); }
     if (a === 'undo') { if (!hist.length) return; fut.push(JSON.stringify(S)); S = JSON.parse(hist.pop()); sel = null; render(); tell('Undone.'); }
     if (a === 'redo') { if (!fut.length) return; hist.push(JSON.stringify(S)); S = JSON.parse(fut.pop()); sel = null; render(); tell('Redone.'); }
-    if (a === 'recipe') { snap(); s.pieces = stackUp(AK[s.kind].recipe.filter(id => !fixed(s).some(m => m.o === id)), topEnd({ ...s, pieces: [] })); sel = null; render(); }
+    if (a === 'recipe') { snap(); s.pieces = stackUp(AK[s.kind].recipe.filter(id => !fixed(s).some(m => m.o === (isD() ? deskId(id) : id))), topEnd({ ...s, pieces: [] })); sel = null; render(); }
     if (a === 'build') {
       const found = [...$('f-codes').value.matchAll(/([a-z]{3})\s*-?\s*(\d{1,2})(?:\s*\(([^)]*)\))?/gi)]
         .map(m => ({ c: `${m[1].toUpperCase()}-${m[2].padStart(2, '0')}`, n: (m[3] || '').trim() }));
       const bad = found.filter(f => !BYCODE[f.c]).map(f => f.c);
       if (!found.length) { say('No codes found. They look like TOP-01, ANS-07, ACT-01.'); return; }
       if (bad.length) { say(`Not an organism: ${bad.join(', ')}. Check the code on the paper piece.`); return; }
+      const wrong = found.filter(f => isD() ? false : BYCODE[f.c].desk).map(f => f.c);
+      if (wrong.length) { say(`${wrong.join(', ')} ${wrong.length > 1 ? 'are' : 'is'} for desktop screens only. Switch to Desktop at the top, or choose another organism.`); return; }
       const overs = found.filter(f => BYCODE[f.c].over);
       if (overs.length > 1) { say('One overlay at a time: put the others on copies of this screen.'); return; }
       if (overs.length && isM()) { say('Overlays go on a screen, not on the master.'); return; }
@@ -735,8 +828,10 @@
     if (a === 'print') printAll();
     if (a === 'example' && mode !== 'example') { switchTo('example', load(EXKEY) || EXAMPLE()); window.scrollTo({ top: 0 }); }
     if (a === 'mine' && mode === 'example') { switchTo('mine', load(KEY) || fresh()); say('Back to your own screens.'); }
-    if (a === 'exreset' && mode === 'example') { snap(); S = EXAMPLE(); sel = null; render(); say('The example is as it was. Undo brings your changes back.'); }
-    if (a === 'clear') { if (!await ask('Start again? Every screen and the master will be cleared. Undo brings them back.', 'Start again')) return; snap(); S = { cur: 0, master: { pieces: [] }, screens: [blank()] }; sel = null; render(); }
+    if (a === 'dev') setDevice(b.dataset.d);
+    if (a === 'fromphone') { snap(); S = toDesk(W.phone); sel = null; render(); say('Your phone screens, in a centred column. Now adapt them: what goes beside what on a big screen?'); }
+    if (a === 'exreset' && mode === 'example') { snap(); S = EXAMPLE()[W.device]; sel = null; render(); say('The example is as it was. Undo brings your changes back.'); }
+    if (a === 'clear') { if (!await ask(`Start again? Every ${isD() ? 'desktop' : 'phone'} screen and its master will be cleared. Undo brings them back.`, 'Start again')) return; snap(); S = freshSet(); sel = null; render(); }
   });
   document.addEventListener('keydown', e => {
     if (e.target.closest('input,select,textarea,[contenteditable],dialog')) return;
@@ -747,6 +842,7 @@
     if (!sel || !onPiece) return;
     if (e.key === 'Delete' || e.key === 'Backspace') { e.preventDefault(); removeSel(); }
     if (e.key === 'ArrowUp' || e.key === 'ArrowDown') { e.preventDefault(); nudge(e.key === 'ArrowUp' ? -1 : 1); }
+    if (isD() && (e.key === 'ArrowLeft' || e.key === 'ArrowRight')) { e.preventDefault(); const dir = e.key === 'ArrowLeft' ? -1 : 1; if (e.shiftKey) sideways(0, dir); else sideways(dir, 0); }
     if (e.key === 'Escape') { select(null); }
   });
   addEventListener('resize', () => renderTools());
@@ -755,11 +851,14 @@
     if (S.cur !== -1) S.cur = Math.max(0, Math.min(S.cur, S.screens.length - 1));
     renderCanvas(); renderSide(); renderStrip();
     $('undo').disabled = !hist.length; $('redo').disabled = !fut.length;
+    document.body.classList.toggle('dm', isD());
+    document.querySelectorAll('[data-act="dev"]').forEach(b => { const on = b.dataset.d === W.device; b.classList.toggle('on', on); b.setAttribute('aria-pressed', String(on)); });
     $('banner').hidden = mode !== 'example'; $('see-ex').hidden = mode === 'example'; $('clear').hidden = mode === 'example';
     ['dup', 'left', 'right'].forEach(a => { document.querySelector(`[data-act="${a}"]`).disabled = isM(); });
     document.querySelector('[data-act="del"]').textContent = isM() ? 'Empty the master' : 'Delete screen';
     save();
   }
+  renderPal();
   if (matchMedia('(pointer: coarse)').matches) $('hint').textContent = 'Tap an organism to add it to the screen. Then tap the piece, and use ↑ and ↓ beside it to move it.';
   render();
   fromLink(); addEventListener('hashchange', fromLink);

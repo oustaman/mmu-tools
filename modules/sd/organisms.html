@@ -42,8 +42,10 @@
   .og{display:grid;gap:16px;grid-template-columns:repeat(auto-fill,minmax(min(100%,600px),1fr));align-items:start}
   .oc{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:14px;display:flex;flex-wrap:wrap;gap:12px 18px;align-items:flex-start;scroll-margin-top:80px}
   .oc .tx{flex:1;min-width:190px;display:flex;flex-direction:column;gap:6px}
+  .oc.wide{grid-column:1/-1}
   .oc .fr{--u:min(1px, calc((100vw - 76px) / 375));align-self:flex-start;background:#fff;border:1px solid #CFC9C5;line-height:normal;position:relative}
   .oc .fr.ov{background:repeating-linear-gradient(45deg,#EFECE9 0 6px,#F7F5F3 6px 12px)}
+  .oc .fr.desk{--u:min(1px, calc((min(100vw, 1320px) - 76px) / 1092))}
   .oc h3{margin:0;font-size:1.02rem} .oc h3 b{font-family:var(--mono);font-size:0.9rem;margin-right:6px}
   .oc .px{font-family:var(--mono);font-size:0.76rem;color:var(--ink-3)}
   .oc p{margin:0;font-size:0.9rem;color:var(--ink-2)}
@@ -95,7 +97,7 @@
 <div class="wrap">
   <h1>Organisms</h1>
   <p class="lede">Every organism in the set, at full size and with real words. An organism does one job on a screen: a question with its answers, a search with its filters.
-    Every one is 375 px wide, as wide as the screen, and a whole number of 56 px rows tall, so any of them fits under any other. The code is the one printed on its paper piece.
+    On a phone every one is 375 px wide, as wide as the screen, and a whole number of 56 px rows tall, so any of them fits under any other. On desktop the same rows run across 12 columns, and an organism takes as many columns as you give it. The code is the one printed on its paper piece.
     Put them together in the <a href="screen-maker.html">Screen maker</a>, or print them from the <a href="paper/paper-organisms.pdf">paper kit</a>.</p>
   <nav class="jump" id="jump" aria-label="Families"></nav>
   <div id="fams"></div>
@@ -126,11 +128,12 @@
   const AN = Object.fromEntries(A.map(a => [a.id, a.name]));
   document.getElementById('jump').innerHTML = Object.keys(FAM).map(f => `<a href="#f-${f}">${FNAME[f]}</a>`).join('');
   document.getElementById('fams').innerHTML = Object.keys(FAM).map(f => `<h2 id="f-${f}">${FNAME[f]}<span>${FAM[f]}</span></h2><p class="fam-n">${FNOTE[f]}</p>
-    <div class="og">${O.filter(o => o.fam === f).map(o => `<article class="oc" id="${o.code}">
-      <div class="fr full${o.over ? ' ov' : ''}">${organism(o.id, { label: false })}</div>
+    <div class="og">${O.filter(o => o.fam === f).map(o => `<article class="oc${o.desk && o.dspan > 4 ? ' wide' : ''}" id="${o.code}">
+      <div class="fr full${o.over ? ' ov' : ''}${o.desk ? ' desk' : ''}">${organism(o.id, { label: false })}</div>
       <div class="tx"><h3><b>${o.code}</b>${esc(o.name)}</h3>
       <span class="px">${o.size} · ${o.rows} row${o.rows > 1 ? 's' : ''}</span>
       <p>${esc(o.does)}</p>
+      ${o.desk ? '<p class="on"><b>Desktop screens only.</b></p>' : o.phone ? '<p class="on"><b>Phone screens only.</b></p>' : ''}
       <p class="on">${USED[o.id].length ? 'Usually on: ' + USED[o.id].map(id => esc(AN[id])).join(', ') : o.over ? 'Over any screen, where it would appear.' : o.own ? 'Anywhere the set has nothing that fits.' : 'Not in one of the twenty usual screens: use it where it fits.'}</p></div>
     </article>`).join('')}</div>`).join('');
   words(document.getElementById('fams'));
