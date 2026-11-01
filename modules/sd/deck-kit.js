@@ -2,7 +2,7 @@
    comes from organisms.js, journeys.js and flow-draw.js, so a slide cannot disagree with the tools.
    In the page:
      data-screen="bin:0"        one screen of a journey (data-hl="ACT-01,FBK-03" outlines organisms)
-     data-parts="bin:0"         what that screen is made of, with the ones new to this journey marked
+     data-parts="bin:0,bin:1"   what those screens are made of, with the ones new to this journey marked
      data-strip="bin"           the whole journey, small
      data-cards="ANS-03,ANS-04" organisms as cards
      data-one="ANS-02"          one organism on its own
@@ -31,11 +31,11 @@ window.DK = (function () {
     const { BY, O: all, words, organism } = O(), byCode = Object.fromEntries(all.map(o => [o.code, o]));
     $$('[data-screen]').forEach(el => { const s = screenOf(el.dataset.screen);
       draw(el, s.pieces, { hl: (el.dataset.hl || '').split(',').filter(Boolean), slots: el.dataset.slots != null, label: el.dataset.label != null }); });
-    $$('[data-parts]').forEach(el => { const [j, n] = el.dataset.parts.split(':'), seen = new Set();
+    $$('[data-parts]').forEach(el => { const refs = el.dataset.parts.split(',').map(r => r.split(':')), [j, n] = refs[0], seen = new Set();
       J()[j].slice(0, +n).forEach(s => s.pieces.forEach(p => seen.add(p[0])));
-      const here = []; J()[j][+n].pieces.forEach(p => { if (!here.includes(p[0])) here.push(p[0]); });
+      const here = []; refs.forEach(([, m]) => J()[j][+m].pieces.forEach(p => { if (!here.includes(p[0])) here.push(p[0]); }));
       el.classList.add('parts');
-      el.innerHTML = here.map(id => { const o = BY[id]; return `<li><span class="c">${o.code}</span><span class="n">${esc(o.name)}${seen.has(id) ? '' : '<span class="nw">new</span>'}</span><span class="j">${esc(o.does)}</span></li>`; }).join(''); });
+      el.innerHTML = here.map(id => { const o = BY[id]; return `<li><span class="c">${o.code}</span><span class="n">${esc(o.name)}${seen.has(id) ? '' : '<span class="nw">new</span>'}</span>${el.dataset.brief != null ? '' : `<span class="j">${esc(o.does)}</span>`}</li>`; }).join(''); });
     $$('[data-strip]').forEach(el => { const js = J()[el.dataset.strip]; el.classList.add('strip');
       el.innerHTML = js.map((s, i) => `${i ? '<span class="arr" aria-hidden="true">→</span>' : ''}<div><div class="st" data-i2="${i}"></div><p class="nm">${i + 1} · ${esc(s.name)}</p></div>`).join('');
       $$('.st', el).forEach(c => draw(c, js[+c.dataset.i2].pieces)); });

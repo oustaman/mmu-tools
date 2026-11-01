@@ -92,7 +92,13 @@ html[data-theme="dark"] .dk-s .canvas{box-shadow:none}
 
 /* organisms as cards */
 .dk-cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(236px,1fr));gap:12px;--u:min(0.58px, calc((100vh - 420px) / 640));margin:0 0 12px;align-items:start}
+.dk-cards.five{grid-template-columns:repeat(5,minmax(0,1fr));gap:8px} .dk-cards.six{grid-template-columns:repeat(6,minmax(0,1fr));gap:8px}
+.dk-cards.five .fr,.dk-cards.six .fr{max-width:100%}
+@media(max-width:860px){.dk-cards.five,.dk-cards.six{grid-template-columns:repeat(2,minmax(0,1fr))}}
 .dk-cards.tight{--u:min(0.44px, calc((100vh - 470px) / 800))}
+.dk-cards.six{--u:min(0.42px, calc((100vh - 400px) / 900))}
+.dk-cards.five{--u:min(0.47px, calc((100vh - 475px) / 800))}
+.p2{font-size:0.95rem;color:var(--ink-2);margin:0 0 12px} .p2 b{color:var(--ink)}
 .dk-card{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:9px;display:flex;flex-direction:column;gap:6px;min-width:0}
 .dk-card.w2{grid-column:span 2}
 .dk-card .fr{background:#fff;border:1px solid #CFC9C5;line-height:normal;align-self:flex-start;max-width:100%;overflow:hidden}
