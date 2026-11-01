@@ -9,6 +9,9 @@ window.ToolCanvas = function (stage, world, opts = {}) {
   function apply() {
     world.style.transform = `translate(${v.x}px, ${v.y}px) scale(${v.z})`;
     world.style.setProperty('--z', v.z);
+    /* the dots belong to the canvas: they move and scale with it, and thin out when zoomed far out */
+    let d = 22 * v.z; while (d < 16) d *= 2;
+    stage.style.backgroundSize = `${d}px ${d}px`; stage.style.backgroundPosition = `${v.x}px ${v.y}px`;
     if (label) label.textContent = Math.round(v.z * 100) + '%';
     changed();
   }
@@ -59,5 +62,5 @@ window.ToolCanvas = function (stage, world, opts = {}) {
   addEventListener('pointerup', () => { if (pan) { pan = null; stage.classList.remove('panning'); } });
   addEventListener('resize', changed);
   apply();
-  return { v, apply, zoomBy, zoomAt, fit, reveal };
+  return { v, apply, zoomBy, zoomAt, fit, reveal, boxOf };
 };

@@ -8,19 +8,9 @@
   --wsh:#1A526D; --wsh-soft:#E4EEF3;
   --ok:#285638; --ok-soft:#E3EFE7;
   --warn:#684604; --warn-soft:#F4EAD3;
-  --stage:#E7E4E1; --dot:#CFCAC6;
+  --stage:#F3F1EE; --dot:#B7B0AB;
   --mono:ui-monospace,"SF Mono",Menlo,Consolas,monospace;
   --sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Inter,Roboto,sans-serif;
-}
-html[data-theme="dark"]{
-  --bg:#151314; --surface:#1E1B1C; --surface-2:#262223;
-  --ink:#EDE9E7; --ink-2:#B9B2AF; --ink-3:#B7B2B0;
-  --line:#332E2F; --line-2:#7A7372;
-  --lec:#E69FAD; --lec-soft:#332226;
-  --wsh:#7FBEDC; --wsh-soft:#16262E;
-  --ok:#83C19A; --ok-soft:#1C2A22;
-  --warn:#DCB469; --warn-soft:#2A2417;
-  --stage:#0F0E0E; --dot:#2C2829;
 }
 *{box-sizing:border-box}
 html,body{height:100%;background:var(--bg)}
@@ -41,7 +31,6 @@ button{font-family:inherit}
 .tbtn:disabled{opacity:.45;cursor:default}
 .tbtn.pri{background:var(--lec);border-color:var(--lec);color:#fff}
 .tbtn.pri:hover:not(:disabled){color:#fff;filter:brightness(1.1)}
-html[data-theme="dark"] .tbtn.pri,html[data-theme="dark"] .tbtn.pri:hover:not(:disabled){color:#151314}
 .tbtn.xs{min-height:28px;font-size:0.76rem;padding:0 8px;border-radius:6px}
 .tbtn.ic{width:34px;padding:0}
 .seg{display:inline-flex;border:1px solid var(--line-2);border-radius:7px;overflow:hidden;flex:none}
@@ -64,7 +53,7 @@ html[data-theme="dark"] .tbtn.pri,html[data-theme="dark"] .tbtn.pri:hover:not(:d
 .pane label,dialog label{display:block;font-size:0.76rem;font-weight:640;margin:8px 0 2px}
 
 /* the canvas */
-.stage{position:relative;overflow:hidden;min-width:0;min-height:0;background-color:var(--stage);background-image:radial-gradient(var(--dot) 1px,transparent 1px);background-size:22px 22px;cursor:default;touch-action:none;overscroll-behavior:none}
+.stage{position:relative;overflow:hidden;min-width:0;min-height:0;background-color:var(--stage);background-image:radial-gradient(circle,var(--dot) 1.3px,transparent 1.6px);background-size:22px 22px;cursor:default;touch-action:none;overscroll-behavior:none}
 .stage.panning,.stage.spacey{cursor:grab} .stage.panning{cursor:grabbing}
 .world{position:absolute;left:0;top:0;transform-origin:0 0;width:max-content}
 .st-bar{position:absolute;left:8px;right:8px;bottom:8px;display:flex;align-items:center;gap:10px;pointer-events:none;z-index:12}

@@ -10,38 +10,48 @@
   .tool{grid-template-columns:372px minmax(0,1fr)}
   @media(max-width:1180px){ .tool{grid-template-columns:320px minmax(0,1fr)} }
   .fm-head{flex:none;padding:10px 12px 0}
-  .fm-tabs{display:flex;gap:2px;margin-top:9px;border-bottom:1px solid var(--line-2)}
-  .fm-tabs button{flex:1;font:inherit;font-size:0.8rem;font-weight:650;border:1px solid transparent;border-bottom:0;border-radius:7px 7px 0 0;background:none;color:var(--ink-2);padding:7px 4px;cursor:pointer;white-space:nowrap}
-  .fm-tabs button[aria-selected="true"]{background:var(--bg);border-color:var(--line-2);color:var(--ink);margin-bottom:-1px}
-  .fm-how{margin:0 0 8px;color:var(--ink-2);font-size:0.8rem;line-height:1.4}
+  .fm-tabs{display:flex;gap:2px;margin-top:10px;border-bottom:1px solid var(--line-2)}
+  .fm-tabs button{flex:1;font:inherit;font-size:0.84rem;font-weight:650;border:1px solid transparent;border-bottom:0;border-radius:7px 7px 0 0;background:none;color:var(--ink-2);padding:8px 4px;cursor:pointer;white-space:nowrap}
+  .fm-tabs button:hover{color:var(--ink)}
+  .fm-tabs button[aria-selected="true"]{background:#fff;border-color:var(--line-2);color:var(--ink);margin-bottom:-1px}
+  .fm-how{margin:0 0 9px;color:var(--ink-2);font-size:0.82rem;line-height:1.4} .fm-how b{color:var(--ink)}
   .fm-list{list-style:none;margin:0;padding:0;display:grid;gap:4px}
-  .fm-row{border:1px solid var(--line);border-radius:8px;padding:4px 6px;background:var(--surface)}
-  .fm-row.sel{border-color:var(--lec);box-shadow:0 0 0 1px var(--lec)}
-  .fm-row.bad{box-shadow:inset 3px 0 0 var(--lec)} .fm-row.bad.sel{box-shadow:inset 3px 0 0 var(--lec),0 0 0 1px var(--lec)}
-  .fm-row.k-q{background:color-mix(in srgb,#FFF4D6 45%,var(--surface))}
-  html[data-theme="dark"] .fm-row.k-q{background:#2A2417}
+  .fm-row{border:1px solid var(--line);border-radius:8px;background:var(--surface);cursor:pointer}
+  .fm-row:hover{border-color:var(--line-2)}
+  .fm-row.sel{border-color:#1A526D;box-shadow:0 0 0 1px #1A526D;cursor:default}
+  .fm-row.bad .fm-n{color:#B3261E}
   .fm-row.k-wait{border-style:dashed}
-  .fm-top{display:flex;align-items:center;gap:5px}
-  .fm-n{font-family:var(--mono);font-weight:700;font-size:0.78rem;color:var(--ink-3);width:22px;text-align:center;flex:none}
-  .pane .fm-t{border-color:transparent;background:none;padding:4px 5px;flex:1}
-  .pane .fm-t:hover{border-color:var(--line)} .pane .fm-t:focus{border-color:var(--line-2);background:var(--surface)}
-  .fm-det{display:none;padding:4px 0 2px 27px} .fm-row.sel .fm-det{display:grid;gap:4px}
-  .fm-line{display:flex;gap:5px;align-items:center;font-size:0.78rem;color:var(--ink-2);flex-wrap:wrap}
-  .fm-line > input,.fm-line > select{flex:1;min-width:110px;width:auto!important;padding:4px 6px!important;font-size:0.8rem!important}
-  .fm-line > span:first-child{flex:none}
-  .fm-row button{font:inherit;font-size:0.76rem;font-weight:600;min-height:26px;padding:0 8px;border-radius:6px;border:1px solid var(--line-2);background:var(--surface);color:var(--ink);cursor:pointer}
-  .fm-row button.ic{width:26px;padding:0;flex:none}
-  .fm-row button:hover:not(:disabled){border-color:var(--lec);color:var(--lec)} .fm-row button:disabled{opacity:.35;cursor:default}
-  .fm-row .stk{color:var(--ink-3)} .fm-row .stk.on{background:var(--lec-soft);border-color:var(--lec);color:var(--lec);font-weight:800}
-  .fm-row .chip{font-family:var(--mono);min-height:22px;padding:0 6px;border-radius:99px}
-  .fm-row .chip.on{background:var(--wsh);border-color:var(--wsh);color:#fff}
-  html[data-theme="dark"] .fm-row .chip.on{color:#151314}
-  .fm-from .new{font-style:normal;font-size:0.74rem;font-weight:700;color:var(--ok)}
-  .fm-add{flex:none;display:flex;gap:5px;padding:8px 12px;border-top:1px solid var(--line);background:var(--surface);flex-wrap:wrap}
-  .fm-empty{color:var(--ink-3);font-size:0.86rem;padding:6px 2px}
-  .linkish{font:inherit;background:none!important;border:0!important;padding:0!important;min-height:0!important;color:var(--lec)!important;text-decoration:underline;cursor:pointer}
-  .fm-d2{list-style:none;margin:0 0 8px;padding:0;display:grid;gap:6px;font-size:0.82rem}
-  .fm-d2 li{border-bottom:1px solid var(--line);padding-bottom:6px;display:grid;gap:4px;justify-items:start}
+  .fm-top{display:flex;align-items:center;gap:6px;padding:4px 6px}
+  .fm-n{flex:none;width:24px;height:24px;display:grid;place-items:center;font-family:var(--mono);font-weight:700;font-size:0.76rem;color:var(--ink-2);border:1.5px solid var(--line-2);border-radius:5px;background:#fff}
+  .k-q .fm-n{transform:rotate(45deg);width:20px;height:20px;margin:2px;border-color:#8A6100;background:#FFF4D6} .k-q .fm-n > i{transform:rotate(-45deg);font-style:normal}
+  .k-wait .fm-n{border-radius:99px;border-style:dashed}
+  .bad .fm-n{border-color:#B3261E;background:#FCEAE8}
+  .pane .fm-t{border-color:transparent;background:none;padding:4px 5px;flex:1;font-weight:500}
+  .pane .fm-t:hover{border-color:var(--line)} .pane .fm-t:focus{border-color:var(--line-2);background:#fff;font-weight:400}
+  .fm-mark{flex:none;font-size:0.72rem;font-weight:700;color:#B3261E}
+  .fm-det{display:none;padding:2px 10px 10px 36px} .fm-row.sel .fm-det{display:grid;gap:9px}
+  .fm-f{display:grid;gap:3px}
+  .fm-f > label,.fm-f > .lb{margin:0;font-size:0.74rem;font-weight:640;color:var(--ink);display:block}
+  .kseg{display:grid;grid-template-columns:repeat(3,1fr);border:1px solid var(--line-2);border-radius:7px;overflow:hidden}
+  .kseg button{font:inherit;font-size:0.78rem;font-weight:600;min-height:30px;border:0;background:#fff;color:var(--ink);cursor:pointer;padding:0 4px}
+  .kseg button + button{border-left:1px solid var(--line-2)}
+  .kseg button.on{background:var(--ink);color:#fff}
+  .sbtn{font:inherit;font-size:0.8rem;font-weight:600;min-height:32px;padding:0 10px;border-radius:7px;border:1px solid var(--line-2);background:#fff;color:var(--ink);cursor:pointer;text-align:left}
+  .sbtn:hover:not(:disabled){border-color:var(--lec);color:var(--lec)} .sbtn:disabled{opacity:.4;cursor:default}
+  .sbtn.stk.on{background:#FCEAE8;border-color:#B3261E;color:#B3261E}
+  .fm-tools{display:flex;gap:4px;flex-wrap:wrap} .fm-tools .sp{flex:1}
+  .chips{display:flex;gap:4px;flex-wrap:wrap;align-items:center}
+  .chip{font:600 0.74rem var(--mono);min-width:28px;min-height:26px;padding:0 6px;border-radius:99px;border:1px solid var(--line-2);background:#fff;color:var(--ink);cursor:pointer}
+  .chip.on{background:var(--wsh);border-color:var(--wsh);color:#fff}
+  .new{font-style:normal;font-size:0.74rem;font-weight:700;color:var(--ok)}
+  .fm-add{flex:none;display:flex;gap:6px;padding:9px 12px;border-top:1px solid var(--line);background:var(--surface)}
+  .fm-add .tbtn{flex:1}
+  .fm-empty{list-style:none;color:var(--ink-2);font-size:0.86rem;padding:14px 12px;border:1px dashed var(--line-2);border-radius:9px;text-align:center}
+  .fm-empty .tbtn{margin-top:8px}
+  .linkish{font:inherit;background:none;border:0;padding:0;color:var(--lec);text-decoration:underline;cursor:pointer}
+  .fm-d2{list-style:none;margin:0 0 8px;padding:0;display:grid;gap:7px;font-size:0.84rem}
+  .fm-d2 li{border:1px solid var(--line);border-radius:8px;padding:7px 9px;display:grid;gap:5px;justify-items:start}
+  .fm-d2 li.sel{border-color:#1A526D;box-shadow:0 0 0 1px #1A526D}
   .fm-d2 input{width:100%}
   .fate{font-size:0.74rem;font-weight:700;border-radius:99px;padding:1px 8px;display:inline-block}
   .fate.kept,.fate.changed,.fate.new{background:var(--ok-soft);color:var(--ok)} .fate.merged,.fate.moved{background:var(--wsh-soft);color:var(--wsh)}
@@ -49,9 +59,13 @@
   .fm-panel{display:flex;flex-direction:column;min-height:0;flex:1}
   #slide{width:1920px;height:1080px;background:#fff;box-shadow:0 4px 24px rgba(0,0,0,.18);line-height:0}
   #slide svg{display:block;width:100%;height:100%}
-  #slide g[data-step]{cursor:pointer}
-  #slide g[data-step]:hover rect,#slide g[data-step]:hover polygon{stroke-width:4}
-  #slide g.sel rect:first-child,#slide g.sel polygon:first-child{stroke:#1A526D;stroke-width:6}
+  #slide g[data-step]{cursor:pointer;outline:none}
+  #slide g[data-step] text{cursor:text}
+  #slide g[data-step]:hover > rect:first-child,#slide g[data-step]:hover > polygon:first-child{stroke:#1A526D;stroke-width:3.5}
+  #slide g.sel > rect:first-child,#slide g.sel > polygon:first-child{stroke:#1A526D;stroke-width:6}
+  #slide g[data-step]:focus-visible > rect:first-child,#slide g[data-step]:focus-visible > polygon:first-child{stroke:#1A526D;stroke-width:6}
+  #slide{position:relative}
+  #inl{position:absolute;z-index:3;resize:none;overflow:hidden;font-family:system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;font-weight:600;line-height:1.25;text-align:center;color:#1A1618;background:#fff;border:3px solid #1A526D;border-radius:8px;padding:4px 6px;outline:none;box-shadow:0 2px 12px rgba(26,82,109,.3)}
 </style>
 </head>
 <body>
@@ -59,44 +73,45 @@
 <header class="tb-bar">
   <a class="tb-back" href="toolkit.html">← Toolkit</a>
   <h1 class="tb-name">Flow maker</h1>
-  <span class="seg" role="group" aria-label="What the slide shows"><button type="button" data-view="before">Now</button><button type="button" data-view="after">Your version</button><button type="button" data-view="both">Both</button></span>
   <span class="tb-sp"></span>
-  <button type="button" class="tbtn pri" data-act="png">Download the slide for B4</button>
+  <button type="button" class="tbtn" data-act="undo" id="undo" title="Undo (Ctrl or ⌘ Z)">Undo</button>
+  <button type="button" class="tbtn" data-act="redo" id="redo" title="Redo (Ctrl or ⌘ Shift Z)">Redo</button>
+  <button type="button" class="tbtn pri" data-act="png" id="dl">Download this slide</button>
   <details class="menu"><summary class="tbtn">More</summary><div class="menu-in">
     <button type="button" data-act="a2">Copy both lists for A2</button>
     <button type="button" data-act="d2">Copy “what happened” for D2</button>
     <button type="button" data-act="example">See the example</button>
+    <button type="button" data-act="seed" id="reseed">Copy “now” into my version again</button>
     <button type="button" data-act="clear">Start again</button>
   </div></details>
   <button type="button" class="tbtn" data-act="help" aria-haspopup="dialog">Help</button>
-  <button type="button" class="tbtn ic" id="theme" aria-label="Dark mode">◐</button>
 </header>
 
 <div class="tool">
   <aside class="pane l" aria-label="Your steps" id="steps">
     <div class="fm-head">
-      <label for="goal" style="margin-top:0">Goal</label><input id="goal" placeholder="What the person is trying to get done">
+      <label for="goal" style="margin-top:0">What is the person trying to get done?</label><input id="goal" placeholder="e.g. Report a missed bin collection">
       <div class="fm-tabs" role="tablist" aria-label="Steps">
-        <button type="button" role="tab" data-tab="before" id="t-before" aria-controls="p-before">1 · Now</button>
-        <button type="button" role="tab" data-tab="after" id="t-after" aria-controls="p-after">2 · Your version</button>
-        <button type="button" role="tab" data-tab="d2" id="t-d2" aria-controls="p-d2">3 · What happened</button>
+        <button type="button" role="tab" data-tab="before" id="t-before" aria-controls="p-before">Now</button>
+        <button type="button" role="tab" data-tab="after" id="t-after" aria-controls="p-after">Your version</button>
+        <button type="button" role="tab" data-tab="d2" id="t-d2" aria-controls="p-d2">What happened</button>
       </div>
     </div>
     <section class="fm-panel" role="tabpanel" id="p-before" aria-labelledby="t-before">
-      <div class="pane-s"><ol class="fm-list" id="l-before"></ol></div>
-      <div class="fm-add"><button type="button" class="tbtn xs" data-act="add" data-side="before">+ Add a step</button><button type="button" class="tbtn xs" data-act="add" data-side="before" data-k="wait">+ Add a wait</button></div>
+      <div class="pane-s"><p class="fm-how">Everything the person does or waits for, in their order. Mark where they get stuck. <b>Click anything on the diagram to change it.</b></p><ol class="fm-list" id="l-before"></ol></div>
+      <div class="fm-add"><button type="button" class="tbtn" data-act="add" data-side="before">+ Add a step</button><button type="button" class="tbtn" data-act="add" data-side="before" data-k="wait">+ Add a wait</button></div>
     </section>
     <section class="fm-panel" role="tabpanel" id="p-after" aria-labelledby="t-after" hidden>
-      <div class="pane-s"><ol class="fm-list" id="l-after"></ol></div>
-      <div class="fm-add" id="seedrow"><button type="button" class="tbtn xs" data-act="seed" id="seed">Start from my “now”</button><button type="button" class="tbtn xs" data-act="add" data-side="after">+ Add a screen</button><button type="button" class="tbtn xs" data-act="add" data-side="after" data-k="wait">+ Add a wait</button></div>
+      <div class="pane-s"><p class="fm-how" id="afterhow"></p><ol class="fm-list" id="l-after"></ol></div>
+      <div class="fm-add"><button type="button" class="tbtn" data-act="add" data-side="after">+ Add a screen</button><button type="button" class="tbtn" data-act="add" data-side="after" data-k="wait">+ Add a wait</button></div>
     </section>
     <section class="fm-panel" role="tabpanel" id="p-d2" aria-labelledby="t-d2" hidden>
-      <div class="pane-s"><p class="fm-how">Every step from <i>now</i>, and what happened to it. The tool fills that in; you write the <b>why</b>.</p><div id="d2"></div></div>
+      <div class="pane-s"><p class="fm-how">Every step from <i>now</i>, and what happened to it. The tool fills that in; you write the <b>why</b>. <b id="d2n"></b></p><div id="d2"></div></div>
     </section>
   </aside>
 
   <section class="stage" id="stage" aria-label="The slide for B4">
-    <div class="world" id="world"><div id="slide" role="group" aria-label="The B4 slide, drawn from your steps. Click a box to open its step."></div></div>
+    <div class="world" id="world"><div id="slide" role="group" aria-label="The B4 slide, drawn from your steps. Click anything to change it."></div><textarea id="inl" hidden rows="1" spellcheck="true" aria-label="Edit these words"></textarea></div>
     <p class="t-msg" id="msg" role="status"></p>
     <div class="st-bar">
       <span class="st-info" id="tally"></span>
@@ -110,9 +125,9 @@
   <ul>
     <li><b>Week 5, Now:</b> one row for everything a person does or waits for, in order. Press <b>✗</b> wherever people go wrong, and say why. Those are the problems your version has to fix.</li>
     <li><b>A yes/no question</b> is only for when the answer changes where people go next. Say what happens on “no”.</li>
-    <li><b>Week 7, Your version:</b> press <b>Start from my “now”</b> for a copy to change. Remove, merge, move and rename steps, and add screens. The chips under each row show which steps from <i>now</i> it came from.</li>
+    <li><b>Week 7, Your version:</b> press <b>Start from my “now”</b> for a copy to change. Remove, merge, move and rename steps, and add screens. Each step shows which steps from <i>now</i> it came from.</li>
     <li><b>What happened:</b> the tool labels every old step kept, merged, moved or removed. That is your <b>D2</b>; you write why.</li>
-    <li><b>The canvas:</b> click a box to open its step. Scroll to move around, pinch or Ctrl/⌘ and scroll to zoom.</li>
+    <li><b>The diagram follows the tab,</b> and it is what you download. Click any box, diamond or line of words to select it and type. Its settings open on the left. Scroll to move around, pinch or Ctrl/⌘ and scroll to zoom.</li>
     <li><b>Prefer paper?</b> Boxes and arrows, left to right, photographed into B4.</li>
   </ul>
   <p>Your work stays in this browser, on this computer: download the slide and copy both lists before you close it. New to flows? <a href="flow-guide.html">How flows work</a> has every option, with real examples.</p>
@@ -168,45 +183,50 @@
 
   /* numbers: waits are not steps, so they carry no number */
   /* ---------- the editors ---------- */
-  let selId = null;
+  let selId = null, view = null;
   function rowHTML(x, i, list, side, N) {
-    const num = x.k === 'wait' ? '⏱' : N[x.id];
-    const backOpts = list.filter(y => y.k !== 'wait' && y.id !== x.id).map(y => `<option value="${y.id}" ${x.back === y.id ? 'selected' : ''}>back to step ${N[y.id]}</option>`).join('');
-    const from = side === 'after' ? `<div class="fm-line fm-from" role="group" aria-label="Comes from these steps now"><span>From now:</span>${S.before.map(b =>
-      `<button type="button" class="chip${(x.from || []).includes(b.id) ? ' on' : ''}" data-act="from" data-b="${b.id}" aria-pressed="${(x.from || []).includes(b.id)}" title="${esc(b.t)}">${b.k === 'wait' ? '⏱' : nums(S.before)[b.id]}</button>`).join('')}${(x.from || []).length ? '' : '<em class="new">new</em>'}</div>` : '';
+    const num = x.k === 'wait' ? '⏱' : N[x.id], u = x.id;
+    const backOpts = list.filter(y => y.k !== 'wait' && y.id !== x.id).map(y => `<option value="${y.id}" ${x.back === y.id ? 'selected' : ''}>They go back to step ${N[y.id]}</option>`).join('');
+    const chips = side === 'after' ? `<div class="fm-f"><span class="lb">Which steps in “now” did this come from?</span><div class="chips">${S.before.map(b =>
+      `<button type="button" class="chip${(x.from || []).includes(b.id) ? ' on' : ''}" data-act="from" data-b="${b.id}" aria-pressed="${(x.from || []).includes(b.id)}" title="${esc(b.t)}">${b.k === 'wait' ? '⏱' : nums(S.before)[b.id]}</button>`).join('')}${(x.from || []).length ? '' : '<em class="new">None: a new screen</em>'}</div></div>` : '';
     return `<li class="fm-row k-${x.k}${x.bad ? ' bad' : ''}${x.id === selId ? ' sel' : ''}" data-side="${side}" data-id="${x.id}">
-      <div class="fm-top"><span class="fm-n">${num}</span>
-        <input class="fm-t" data-f="t" value="${esc(x.t)}" placeholder="${x.k === 'wait' ? 'How long? e.g. 2 working days' : side === 'before' ? 'What the person does' : 'The screen, or what happens'}" aria-label="Step ${num}">
-        ${x.k === 'wait' ? '' : `<button type="button" class="ic stk${x.bad ? ' on' : ''}" data-act="bad" aria-pressed="${x.bad}" aria-label="People get stuck here" title="People get stuck here">✗</button>`}
-      </div>
+      <div class="fm-top"><span class="fm-n"><i style="font-style:normal">${num}</i></span>
+        <input class="fm-t" data-f="t" value="${esc(x.t)}" placeholder="${x.k === 'wait' ? 'How long? e.g. 2 working days' : side === 'before' ? 'What the person does' : 'The screen, or what happens'}" aria-label="${x.k === 'wait' ? 'How long the wait is' : 'Step ' + num}">
+        ${x.bad ? '<span class="fm-mark" title="People get stuck here">✗</span>' : ''}</div>
       <div class="fm-det">
-        <div class="fm-line">${x.k === 'wait' ? '' : `<input class="fm-w" data-f="w" value="${esc(x.w)}" placeholder="Where: website, form, phone…" aria-label="Where step ${num} happens">`}
-          <select data-f="k" aria-label="Kind of step ${num}"><option value="step" ${x.k === 'step' ? 'selected' : ''}>Step</option><option value="q" ${x.k === 'q' ? 'selected' : ''}>Yes/no question</option><option value="wait" ${x.k === 'wait' ? 'selected' : ''}>Waiting</option></select></div>
-        ${x.k === 'q' ? `<div class="fm-line"><span>If not:</span><input data-f="ifnot" value="${esc(x.ifnot)}" placeholder="What happens then?" aria-label="If not"></div><div class="fm-line"><span>Then:</span><select data-f="goback" aria-label="Where it leads"><option value="stuck" ${x.go !== 'back' ? 'selected' : ''}>they are stuck</option>${backOpts}</select></div>` : ''}
-        ${x.bad ? `<div class="fm-line"><span>Why:</span><input data-f="note" value="${esc(x.note)}" placeholder="What goes wrong, with a number" aria-label="Why people get stuck"></div>` : ''}
-        ${from}
-        <div class="fm-line fm-tools"><button type="button" class="ic" data-act="up" aria-label="Move step up" title="Up" ${i ? '' : 'disabled'}>↑</button><button type="button" class="ic" data-act="down" aria-label="Move step down" title="Down" ${i < list.length - 1 ? '' : 'disabled'}>↓</button>
-          ${side === 'after' && i < list.length - 1 ? '<button type="button" data-act="merge" title="Merge with the next one">Merge ↓</button>' : ''}<span style="flex:1"></span><button type="button" data-act="del">Remove</button></div>
+        <div class="fm-f"><span class="lb">This is a…</span><div class="kseg" role="group" aria-label="Kind of step">${[['step', 'Step'], ['q', 'Question'], ['wait', 'Wait']].map(([k, t]) => `<button type="button" data-act="kind" data-k="${k}" class="${x.k === k ? 'on' : ''}" aria-pressed="${x.k === k}">${t}</button>`).join('')}</div></div>
+        ${x.k !== 'step' ? '' : `<div class="fm-f"><label for="w-${u}">Where it happens</label><input id="w-${u}" data-f="w" value="${esc(x.w)}" placeholder="Website, form, phone, message…"></div>`}
+        ${x.k === 'q' ? `<div class="fm-f"><label for="n-${u}">If the answer is no, what happens?</label><input id="n-${u}" data-f="ifnot" value="${esc(x.ifnot)}" placeholder="e.g. Search again"></div>
+          <div class="fm-f"><label for="g-${u}">And then?</label><select id="g-${u}" data-f="goback"><option value="stuck" ${x.go !== 'back' ? 'selected' : ''}>They are stuck</option>${backOpts}</select></div>` : ''}
+        ${x.k !== 'step' ? '' : `<button type="button" class="sbtn stk${x.bad ? ' on' : ''}" data-act="bad" aria-pressed="${x.bad}">${x.bad ? '✗ People get stuck here' : 'Do people get stuck here? Mark it ✗'}</button>`}
+        ${x.bad && x.k === 'step' ? `<div class="fm-f"><label for="y-${u}">What goes wrong? A fact, with a number if you can</label><input id="y-${u}" data-f="note" value="${esc(x.note)}" placeholder="e.g. 199 words before you can start"></div>` : ''}
+        ${chips}
+        <div class="fm-tools"><button type="button" class="sbtn" data-act="up" aria-label="Move earlier" ${i ? '' : 'disabled'}>← Earlier</button><button type="button" class="sbtn" data-act="down" aria-label="Move later" ${i < list.length - 1 ? '' : 'disabled'}>Later →</button>
+          ${side === 'after' && i < list.length - 1 ? '<button type="button" class="sbtn" data-act="merge" title="Join this with the next one">Merge with next</button>' : ''}<span class="sp"></span><button type="button" class="sbtn" data-act="del">Remove</button></div>
       </div></li>`;
   }
   function renderList(side) {
     const list = S[side], N = nums(list);
-    $('l-' + side).innerHTML = list.map((x, i) => rowHTML(x, i, list, side, N)).join('') || `<li class="fm-empty">${side === 'before' ? 'No steps yet. Add the first thing a person does, or <button type="button" class="linkish" data-act="example">see the example</button>.' : 'Nothing yet.'}</li>`;
+    $('l-' + side).innerHTML = list.map((x, i) => rowHTML(x, i, list, side, N)).join('') || `<li class="fm-empty">${side === 'before' ? 'No steps yet. Add the first thing a person does, or <button type="button" class="linkish" data-act="example">see the example</button>.' : `Your version starts as a copy of <i>now</i>.<br><button type="button" class="tbtn pri" data-act="seed"${S.before.length ? '' : ' disabled'}>Start from my “now”</button>`}</li>`;
   }
   function renderD2() {
     const F = fates(), N = nums(S.before), an = nums(S.after);
     const news = S.after.filter(a => !(a.from || []).length);
-    $('d2').innerHTML = S.before.length ? `<ul class="fm-d2">${S.before.map(b => `<li><div><b>${b.k === 'wait' ? '⏱' : N[b.id]}</b> ${esc(b.t)}</div><span class="fate ${F[b.id].kind}">${esc(F[b.id].label)}</span>
+    const need = S.before.filter(b => F[b.id].kind !== 'kept').concat(news), done = need.filter(x => (S.why[x.id] || '').trim()).length;
+    $('d2n').textContent = need.length ? `${done} of ${need.length} changes explained.` : '';
+    $('d2').innerHTML = S.before.length ? `<ul class="fm-d2">${S.before.map(b => `<li data-id="${b.id}"${b.id === selId ? ' class="sel"' : ''}><div><b>${b.k === 'wait' ? '⏱' : N[b.id]}</b> ${esc(b.t)}</div><span class="fate ${F[b.id].kind}">${esc(F[b.id].label)}</span>
       <input data-why="${b.id}" value="${esc(S.why[b.id] || '')}" placeholder="${F[b.id].kind === 'kept' ? 'Why? (optional for a kept step)' : 'Why?'}" aria-label="Why, for step ${N[b.id] || 'wait'}"></li>`).join('')}
-      ${news.map(a => `<li><div><em>new</em> ${esc(a.t)}</div><span class="fate new">New: step ${an[a.id] || '⏱'}</span><input data-why="${a.id}" value="${esc(S.why[a.id] || '')}" placeholder="Why add it?" aria-label="Why add ${esc(a.t)}"></li>`).join('')}</ul>
+      ${news.map(a => `<li data-id="${a.id}"${a.id === selId ? ' class="sel"' : ''}><div><em>new</em> ${esc(a.t)}</div><span class="fate new">New: step ${an[a.id] || '⏱'}</span><input data-why="${a.id}" value="${esc(S.why[a.id] || '')}" placeholder="Why add it?" aria-label="Why add ${esc(a.t)}"></li>`).join('')}</ul>
       <p class="fm-how">A step the law or a policy requires can move or merge, never disappear.</p>` : '<p class="fm-empty">Fill in your “now” first.</p>';
   }
   function renderAll() {
     renderList('before'); renderList('after'); renderD2();
     $('goal').value = S.goal;
     document.querySelectorAll('[data-tab]').forEach(b => { const on = b.dataset.tab === S.tab; b.setAttribute('aria-selected', String(on)); $('p-' + b.dataset.tab).hidden = !on; });
-    document.querySelectorAll('[data-view]').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.view === S.view)));
-    $('seedrow').hidden = false; $('seed').textContent = S.after.length ? 'Start again from “now”' : 'Start from my “now”'; $('seed').classList.toggle('pri', !S.after.length);
+    S.view = S.tab === 'before' ? 'before' : S.tab === 'after' ? 'after' : 'both';
+    $('dl').textContent = S.tab === 'before' ? 'Download “now” for B4' : S.tab === 'after' ? 'Download my version for B4' : 'Download both for B4';
+    $('afterhow').innerHTML = S.after.length ? 'Remove, merge, move and rename steps until it answers every ✗. <b>Click anything on the diagram to change it.</b>' : '';
+    $('reseed').hidden = !S.after.length; $('undo').disabled = !hist.length; $('redo').disabled = !fut.length;
     draw();
   }
 
@@ -238,32 +258,75 @@
     $('tally').innerHTML = `Now: ${t(cb)}` + (S.after.length ? ` · Your version: ${t(ca)}` : '');
   }
 
-  /* the selected step: open in the list, outlined on the slide */
-  function mark() { document.querySelectorAll('#slide g[data-step]').forEach(g => g.classList.toggle('sel', g.dataset.step === selId)); }
-  function pick(id) { selId = id; document.querySelectorAll('.fm-row').forEach(r => r.classList.toggle('sel', r.dataset.id === id)); mark(); }
-  $('steps').addEventListener('focusin', e => { const r = e.target.closest('.fm-row'); if (r && r.dataset.id !== selId) pick(r.dataset.id); });
+  /* history: every change can be undone */
+  let hist = [], fut = [];
+  const snap = () => { hist.push(JSON.stringify(S)); if (hist.length > 80) hist.shift(); fut = []; $('undo').disabled = false; $('redo').disabled = true; };
+  $('steps').addEventListener('focusin', e => { if (e.target.matches('input')) snap(); });
+
+  /* the selected step: open in the list, outlined on the diagram. The boxes can be reached by
+     keyboard too: Tab to one, Enter to type in it. */
+  function mark() { document.querySelectorAll('#slide g[data-step]').forEach(g => { g.classList.toggle('sel', g.dataset.step === selId);
+    if (g.querySelector('[data-f="t"]') && !g.hasAttribute('tabindex')) { g.setAttribute('tabindex', '0'); g.setAttribute('role', 'button'); const st = stepOf(g.dataset.step); g.setAttribute('aria-label', 'Edit: ' + (st ? st.t : '')); } }); }
+  function pick(id) { selId = id; document.querySelectorAll('.fm-row,.fm-d2 li').forEach(r => r.classList.toggle('sel', r.dataset.id === id)); mark(); }
+  $('steps').addEventListener('focusin', e => { const r = e.target.closest('.fm-row,.fm-d2 li'); if (r && r.dataset.id !== selId) pick(r.dataset.id); });
   $('steps').addEventListener('click', e => { const r = e.target.closest('.fm-row'); if (r && r.dataset.id !== selId) pick(r.dataset.id); });
-  /* a box on the slide opens its row */
-  $('slide').addEventListener('click', e => { const g = e.target.closest('g[data-step]'); if (!g) return; const id = g.dataset.step, side = S.before.some(x => x.id === id) ? 'before' : 'after';
-    selId = id; if (S.tab !== side) S.tab = side; renderAll();
-    const r = document.querySelector(`.fm-row[data-id="${id}"]`); if (r) { r.scrollIntoView({ block: 'nearest' }); const i = r.querySelector('.fm-t'); if (i) i.focus(); } });
+  const stepOf = id => S.before.find(x => x.id === id) || S.after.find(x => x.id === id);
+
+  /* typing on the diagram: a box of words laid exactly over what you clicked, inside the canvas so
+     it zooms with it. It writes to the same step as the list, and the diagram redraws under it. */
+  const inl = $('inl'); let open = null;
+  function placeInl() {
+    if (!open) return;
+    const g = [...document.querySelectorAll(`#slide g[data-step="${open.id}"]`)].find(x => x.querySelector(`[data-f="${open.f}"]`)) || document.querySelector(`#slide g[data-step="${open.id}"]`); if (!g) { closeInl(); return; }
+    const txt = g.querySelector(`[data-f="${open.f}"]`), shape = g.querySelector('rect,polygon'), fs = txt ? +txt.getAttribute('font-size') : 17;
+    let b;
+    if (open.f === 't' && shape) { b = view.boxOf(shape); if (shape.tagName === 'polygon') { const w = b.w * .68, h = b.h * .6; b = { x: b.x + (b.w - w) / 2, y: b.y + (b.h - h) / 2, w, h }; } }
+    else { const m = txt ? view.boxOf(txt) : view.boxOf(g); const w = Math.max(m.w + 30, 200); b = { x: m.x + m.w / 2 - w / 2, y: m.y - 6, w, h: Math.max(m.h + 14, 38) }; }
+    inl.style.left = b.x + 'px'; inl.style.top = b.y + 'px'; inl.style.width = b.w + 'px'; inl.style.height = Math.max(b.h, 34) + 'px'; inl.style.fontSize = fs + 'px';
+  }
+  function openInl(id, f) {
+    const x = stepOf(id); if (!x) return;
+    snap(); open = { id, f }; inl.value = x[f] || ''; inl.hidden = false; placeInl(); inl.focus(); inl.select();
+  }
+  function closeInl() { if (!open) return; open = null; inl.hidden = true; }
+  inl.addEventListener('input', () => { if (!open) return; const x = stepOf(open.id); x[open.f] = inl.value.replace(/\n/g, ' ');
+    const side = document.querySelector(`.fm-row[data-id="${open.id}"] [data-f="${open.f}"]`); if (side) side.value = x[open.f]; if (open.f === 't') renderD2(); draw(); placeInl(); });
+  inl.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === 'Escape') { e.preventDefault(); const id = open && open.id; closeInl(); const g = id && document.querySelector(`#slide g[data-step="${id}"]`); if (g) g.focus({ preventScroll: true }); } });
+  inl.addEventListener('blur', () => closeInl());
+
+  /* a click: select it, open its settings, and start typing in whichever words were clicked */
+  function selectStep(id, f) {
+    const side = S.before.some(x => x.id === id) ? 'before' : 'after';
+    closeInl(); selId = id;
+    if (S.tab !== 'd2' && S.tab !== side) S.tab = side;
+    renderAll();
+    const r = document.querySelector(S.tab === 'd2' ? `.fm-d2 li[data-id="${id}"]` : `.fm-row[data-id="${id}"]`); if (r) r.scrollIntoView({ block: 'nearest' });
+    openInl(id, f || 't');
+  }
+  $('slide').addEventListener('click', e => { const g = e.target.closest('g[data-step]');
+    if (!g) { closeInl(); if (selId) pick(null); return; }
+    const t = e.target.closest('[data-f]'); selectStep(g.dataset.step, t ? t.dataset.f : 't'); });
+  $('slide').addEventListener('keydown', e => { const g = e.target.closest('g[data-step]'); if (g && (e.key === 'Enter' || e.key === ' ')) { e.preventDefault(); selectStep(g.dataset.step, 't'); } });
+  addEventListener('keydown', e => { if (e.target.closest('input,textarea,select')) return;
+    if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'z') { e.preventDefault(); $(e.shiftKey ? 'redo' : 'undo').click(); }
+    if (e.ctrlKey && e.key.toLowerCase() === 'y') { e.preventDefault(); $('redo').click(); } });
 
   /* ---------- editing ---------- */
   const listOf = el => S[el.closest('.fm-row').dataset.side];
   const itemOf = el => { const r = el.closest('.fm-row'); return S[r.dataset.side].find(x => x.id === r.dataset.id); };
   document.addEventListener('input', e => {
     const t = e.target;
+    if (t.id === 'inl') return;
     if (t.id === 'goal') { S.goal = t.value; draw(); return; }
-    if (t.dataset.why) { S.why[t.dataset.why] = t.value; save(); return; }
-    const f = t.dataset.f; if (!f || f === 'k' || f === 'goback') return;
+    if (t.dataset.why) { S.why[t.dataset.why] = t.value; save(); const F = fates(), need = S.before.filter(b => F[b.id].kind !== 'kept').concat(S.after.filter(a => !(a.from || []).length)); $('d2n').textContent = need.length ? `${need.filter(x => (S.why[x.id] || '').trim()).length} of ${need.length} changes explained.` : ''; return; }
+    const f = t.dataset.f; if (!f || f === 'goback') return;
     itemOf(t)[f] = t.value; draw();
     if (f === 't') renderD2();
   });
   document.addEventListener('change', e => {
-    const t = e.target, f = t.dataset.f; if (f !== 'k' && f !== 'goback') return;
-    const x = itemOf(t);
-    if (f === 'k') { x.k = t.value; if (x.k === 'wait') x.bad = false; }
-    else { if (t.value === 'stuck') x.go = 'stuck'; else { x.go = 'back'; x.back = t.value; } }
+    const t = e.target, f = t.dataset.f; if (f !== 'goback') return;
+    snap(); const x = itemOf(t);
+    if (t.value === 'stuck') x.go = 'stuck'; else { x.go = 'back'; x.back = t.value; }
     renderAll();
   });
   document.addEventListener('click', e => {
@@ -273,24 +336,27 @@
     if (b.dataset.act === 'zin') return view.zoomBy(1.25);
     if (b.dataset.act === 'zout') return view.zoomBy(0.8);
     if (b.dataset.act === 'fit') return view.fit($('slide'), 18, 2);
-    if (b.dataset.tab) { S.tab = b.dataset.tab; if (b.dataset.tab === 'after' && S.view === 'before' && S.after.length) S.view = 'both'; renderAll(); return; }
-    if (b.dataset.view) { S.view = b.dataset.view; renderAll(); return; }
+    if (b.dataset.tab) { closeInl(); S.tab = b.dataset.tab; renderAll(); return; }
     const act = b.dataset.act; if (!act) return;
     const msg = $('msg');
-    if (act === 'add') { const side = b.dataset.side; const nx = { id: nid(side[0]), t: '', w: '', k: b.dataset.k || 'step', bad: false, note: '', ifnot: '', go: 'stuck', back: '', from: [] }; S[side].push(nx); selId = nx.id; renderAll();
-      const rows = $('l-' + side).querySelectorAll('.fm-t'); rows[rows.length - 1].scrollIntoView({ block: 'nearest' }); rows[rows.length - 1].focus(); return; }
+    if (act === 'add') { snap(); const side = b.dataset.side; const nx = { id: nid(side[0]), t: '', w: '', k: b.dataset.k || 'step', bad: false, note: '', ifnot: '', go: 'stuck', back: '', from: [] }; const at = S[side].findIndex(x => x.id === selId); S[side].splice(at < 0 ? S[side].length : at + 1, 0, nx); selId = nx.id; renderAll();
+      const nr = document.querySelector(`.fm-row[data-id="${nx.id}"] .fm-t`); nr.scrollIntoView({ block: 'nearest' }); nr.focus(); return; }
     if (act === 'seed') { if (S.after.length && !confirm('Replace your version with a fresh copy of “now”?')) return;
-      S.after = S.before.map(x => Object.assign({}, x, { id: nid('a'), from: [x.id], bad: false, note: '' })); S.view = 'both'; renderAll(); return; }
-    if (act === 'example') { if (!confirm('Replace everything here with the example?')) return; S = EXAMPLE(); renderAll(); return; }
-    if (act === 'clear') { if (!confirm('Clear everything and start again?')) return; S = EMPTY(); renderAll(); return; }
+      snap(); S.after = S.before.map(x => Object.assign({}, x, { id: nid('a'), from: [x.id], bad: false, note: '' })); S.tab = 'after'; renderAll(); return; }
+    if (act === 'undo') { if (!hist.length) return; closeInl(); fut.push(JSON.stringify(S)); S = JSON.parse(hist.pop()); renderAll(); return; }
+    if (act === 'redo') { if (!fut.length) return; closeInl(); hist.push(JSON.stringify(S)); S = JSON.parse(fut.pop()); renderAll(); return; }
+    if (act === 'example') { if (S.before.length && !confirm('Replace everything here with the example? Undo brings it back.')) return; snap(); S = EXAMPLE(); selId = null; renderAll(); return; }
+    if (act === 'clear') { if (!confirm('Clear everything and start again? Undo brings it back.')) return; snap(); S = EMPTY(); selId = null; renderAll(); return; }
     if (act === 'png') return png(msg);
     if (act === 'a2') return copy(a2Text(), msg);
     if (act === 'd2') return copy(d2Text(), msg);
-    const list = listOf(b), x = itemOf(b), i = list.indexOf(x);
+    if (!b.closest('.fm-row')) return;
+    snap(); const list = listOf(b), x = itemOf(b), i = list.indexOf(x);
     if (act === 'del') { list.splice(i, 1); selId = null; }
     if (act === 'up' && i > 0) [list[i - 1], list[i]] = [list[i], list[i - 1]];
     if (act === 'down' && i < list.length - 1) [list[i + 1], list[i]] = [list[i], list[i + 1]];
     if (act === 'bad') x.bad = !x.bad;
+    if (act === 'kind') { x.k = b.dataset.k; if (x.k !== 'step') x.bad = false; }
     if (act === 'merge' && list[i + 1]) { const y = list[i + 1]; x.from = [...new Set([...(x.from || []), ...(y.from || [])])]; list.splice(i + 1, 1); }
     if (act === 'from') { const id = b.dataset.b; x.from = (x.from || []).includes(id) ? x.from.filter(z => z !== id) : [...(x.from || []), id]; }
     renderAll();
@@ -314,20 +380,12 @@
   async function copy(text, msg) { try { await navigator.clipboard.writeText(text); say(msg, 'Copied — paste it into your deck'); } catch (e) { say(msg, 'Copy did not work in this browser'); } }
   function say(msg, t) { msg.textContent = t; clearTimeout(say.t); say.t = setTimeout(() => { msg.textContent = ''; }, 3500); }
 
-  const view = window.ToolCanvas($('stage'), $('world'), { label: $('zlabel'), fitAll: () => view.fit($('slide'), 18, 2), isBackground: t => t === $('stage') || t === $('world') });
+  view = window.ToolCanvas($('stage'), $('world'), { label: $('zlabel'), fitAll: () => view.fit($('slide'), 18, 2), isBackground: t => t === $('stage') || t === $('world') || (t.closest('#slide') && !t.closest('g[data-step]')) });
   renderAll();
   view.fit($('slide'), 18, 2);
-  addEventListener('resize', () => {});
 })();
 
 
-const root = document.documentElement;
-try { const t = localStorage.getItem('sd-theme'); if (t) root.dataset.theme = t; } catch (e) {}
-if (!root.dataset.theme && matchMedia('(prefers-color-scheme: dark)').matches) root.dataset.theme = 'dark';
-document.getElementById('theme').onclick = () => {
-  root.dataset.theme = root.dataset.theme === 'dark' ? 'light' : 'dark';
-  try { localStorage.setItem('sd-theme', root.dataset.theme); } catch (e) {}
-};
 </script>
 </body>
 </html>

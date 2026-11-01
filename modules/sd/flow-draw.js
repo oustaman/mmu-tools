@@ -61,30 +61,30 @@
         const f = F && F[it.id];
         if (it.k === 'wait') {
           out.push(`<rect x="${x}" y="${cy - 34}" width="${w}" height="68" rx="34" fill="${COL.wait}" stroke="${COL.mute}" stroke-width="2" stroke-dasharray="7 6"/>`,
-            T(clip(wrap('⏱ ' + it.t, Math.floor(w / 8)), 2), cx, cy - 2, 18, `font-size="14" font-style="italic" fill="${COL.mute}"`));
+            T(clip(wrap('⏱ ' + it.t, Math.floor(w / 8)), 2), cx, cy - 2, 18, `data-f="t" font-size="14" font-style="italic" fill="${COL.mute}"`));
           P[it.id].top = cy - 34; P[it.id].bot = cy + 34;
         } else if (it.k === 'q') {
           out.push(`<polygon points="${cx},${y - 8} ${x + w},${cy} ${cx},${y + bh + 8} ${x},${cy}" fill="${COL.q}" stroke="${COL.qs}" stroke-width="2.5"/>`,
-            (() => { const ql = clip(wrap(it.t, Math.max(8, Math.floor(w * 0.62 / ((fs - 1) * 0.52)))), Math.max(2, Math.floor((bh - 10) / 18))); return T(ql, cx, cy - (ql.length - 1) * 9 + 5, 18, `font-size="${fs - 1}" fill="${COL.ink}"`); })(),
+            (() => { const ql = clip(wrap(it.t, Math.max(8, Math.floor(w * 0.62 / ((fs - 1) * 0.52)))), Math.max(2, Math.floor((bh - 10) / 18))); return T(ql, cx, cy - (ql.length - 1) * 9 + 5, 18, `data-f="t" font-size="${fs - 1}" fill="${COL.ink}"`); })(),
             `<text x="${x + 4}" y="${y + 6}" font-size="15" font-weight="800" fill="${COL.qs}">${N[it.id]}</text>`);
           P[it.id].q = true; P[it.id].top = y - 8; P[it.id].bot = y + bh + 8;
         } else {
           const fit = Math.max(1, Math.floor((bh - (it.w ? 40 : 22)) / (fs + 4))), tl = clip(wrap(it.t, cpl), Math.min(fit, 4)), wl = it.w ? clip(wrap(it.w, cpl + 2), 1) : [];
           const th = tl.length * (fs + 4) + (wl.length ? 20 : 0), ty = cy - th / 2 + fs;
           out.push(`<rect x="${x}" y="${y}" width="${w}" height="${bh}" rx="10" fill="${it.bad ? COL.badf : f && f.kind === 'removed' ? '#F4F3F1' : COL.box}" stroke="${it.bad ? COL.bad : f && f.kind === 'removed' ? COL.rm : COL.line}" stroke-width="${it.bad ? 3.5 : 2.5}"${f && f.kind === 'removed' ? ' stroke-dasharray="8 6"' : ''}/>`,
-            T(tl, cx, ty, fs + 4, `font-size="${fs}" font-weight="600" fill="${f && f.kind === 'removed' ? COL.rm : COL.ink}"`),
-            wl.length ? T(wl, cx, ty + tl.length * (fs + 4) + 2, 18, `font-size="14" fill="${COL.mute}"`) : '',
+            T(tl, cx, ty, fs + 4, `data-f="t" font-size="${fs}" font-weight="600" fill="${f && f.kind === 'removed' ? COL.rm : COL.ink}"`),
+            wl.length ? T(wl, cx, ty + tl.length * (fs + 4) + 2, 18, `data-f="w" font-size="14" fill="${COL.mute}"`) : '',
             `<text x="${x + 10}" y="${y + 22}" font-size="15" font-weight="800" fill="${it.bad ? COL.bad : COL.mute}">${N[it.id]}</text>`);
           if (it.bad) out.push(`<text x="${x + w - 10}" y="${y + bh - 10}" font-size="19" font-weight="800" fill="${COL.bad}" text-anchor="end">✗</text>`);
         }
         /* below the box: why people get stuck, or where a "no" leads */
         const below = P[it.id].bot + 12;
-        if (it.bad && it.note) out.push(T(clip(wrap(it.note, Math.floor((w + 24) / 7.6)), 3), cx, below + 14, 18, `font-size="14.5" fill="${COL.bad}"`));
+        if (it.bad && it.note) out.push(T(clip(wrap(it.note, Math.floor((w + 24) / 7.6)), 3), cx, below + 14, 18, `data-f="note" font-size="14.5" fill="${COL.bad}"`));
         if (it.k === 'q' && it.ifnot && it.go === 'stuck') {
           const ll = wrap('no: ' + it.ifnot, Math.floor(w / 8)).slice(0, 2);
           out.push(`<line x1="${cx}" y1="${P[it.id].bot}" x2="${cx}" y2="${below + 4}" stroke="${COL.bad}" stroke-width="2.5"/>`,
             `<rect x="${x + 6}" y="${below + 4}" width="${w - 12}" height="${ll.length * 18 + 26}" rx="6" fill="${COL.badf}" stroke="${COL.bad}" stroke-width="2"/>`,
-            T(ll.map((l, i) => i === 0 ? '✗ ' + l : l), cx, below + 24, 18, `font-size="14.5" font-weight="600" fill="${COL.bad}"`));
+            T(ll.map((l, i) => i === 0 ? '✗ ' + l : l), cx, below + 24, 18, `data-f="ifnot" font-size="14.5" font-weight="600" fill="${COL.bad}"`));
         }
         if (f) { const tag = f.kind === 'removed' ? 'removed' : `${f.kind} → ${f.to || 'wait'}`;
           const tw = tag.length * 8.6 + 18, c = f.kind === 'removed' ? COL.rm : f.kind === 'merged' || f.kind === 'moved' ? COL.loop : COL.ok;
@@ -100,7 +100,7 @@
     items.forEach(it => { if (it.k !== 'q' || !it.ifnot || it.go !== 'back' || !P[it.back]) return;
       const a = P[it.id], b = P[it.back], ly = Math.min(a.top, b.top) - 30 - lane * 12; lane++;
       out.push(`<path d="M${a.cx},${a.top} V${ly} H${b.x + 30} V${b.top - 2}" fill="none" stroke="${COL.loop}" stroke-width="2.5" marker-end="url(#al)"/>`,
-        `<text x="${(a.cx + b.cx) / 2}" y="${ly - 8}" font-size="15" font-weight="600" fill="${COL.loop}" text-anchor="middle">no: ${esc(it.ifnot)} — back to ${N[it.back]}</text>`); });
+        `<g data-step="${esc(it.id)}"><text data-f="ifnot" x="${(a.cx + b.cx) / 2}" y="${ly - 8}" font-size="15" font-weight="600" fill="${COL.loop}" text-anchor="middle">no: ${esc(it.ifnot)} — back to ${N[it.back]}</text></g>`); });
     return out.join('');
   }
 

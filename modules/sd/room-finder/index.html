@@ -1303,7 +1303,7 @@ function applyTheme(t) {
   if (t === 'dark') document.documentElement.dataset.theme = 'dark'; else delete document.documentElement.dataset.theme;
   $('themeBtn').setAttribute('aria-pressed', t === 'dark');
 }
-try { applyTheme(localStorage.getItem(themeKey) || (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light')); } catch (e) {}
+try { applyTheme(localStorage.getItem(themeKey) || 'light'); } catch (e) {}
 $('themeBtn').onclick = () => { const t = document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark'; applyTheme(t); try { localStorage.setItem(themeKey, t); } catch (e) {} };
 document.addEventListener('keydown', e => {
   if ($('pm').classList.contains('open')) {

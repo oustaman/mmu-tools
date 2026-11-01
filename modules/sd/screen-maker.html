@@ -6,7 +6,7 @@
 <title>Screen maker — Screen Design</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500&display=swap" rel="stylesheet" crossorigin="anonymous">
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500&family=Patrick+Hand&display=swap" rel="stylesheet" crossorigin="anonymous">
 <link rel="stylesheet" href="paper/paper.css">
 <link rel="stylesheet" href="tool-shell.css">
 <style>
@@ -30,12 +30,14 @@
   .sm-item small{display:none}
   .sm-item.nofit{border-style:dashed;color:var(--ink-3)}
   .sm-item[hidden],.sm-fam[hidden]{display:none}
-  .peek{flex:none;height:252px;border-top:1px solid var(--line);padding:9px 12px;overflow:hidden;display:flex;flex-direction:column;gap:5px;background:var(--bg)}
-  .peek .pk-in{background:#fff;border:1px solid #CFC9C5;line-height:normal;align-self:center;flex:none}
+  /* the preview: only while the pointer is on an organism */
+  .peek{position:fixed;z-index:60;display:none;flex-direction:column;gap:7px;width:400px;background:#fff;border:1px solid var(--line-2);border-radius:12px;padding:12px;box-shadow:0 10px 32px rgba(0,0,0,.22);pointer-events:none}
+  .peek.on{display:flex}
+  .peek .pk-f{background:var(--stage);border-radius:8px;padding:14px;display:flex;justify-content:center;align-items:center;min-height:90px}
+  .peek .pk-in{background:#fff;border:1px solid #BDB6B1;line-height:normal;flex:none}
   .peek .pk-in.ov{background:repeating-linear-gradient(45deg,#EFECE9 0 6px,#F7F5F3 6px 12px)}
-  .pk-t{margin:0;font-size:0.8rem;line-height:1.25} .pk-t b{font-family:var(--mono);font-size:0.74rem} .pk-t span{display:block;font-family:var(--mono);font-size:0.68rem;color:var(--ink-3)}
-  .pk-d{margin:0;font-size:0.76rem;color:var(--ink-2);line-height:1.3}
-  .hint{margin:0;font-size:0.8rem;color:var(--ink-3)}
+  .pk-t{margin:0;font-size:0.92rem;line-height:1.25;font-weight:600} .pk-t b{font-family:var(--mono);font-size:0.8rem;margin-right:5px} .pk-t span{display:block;font-weight:400;font-family:var(--mono);font-size:0.72rem;color:var(--ink-3);margin-top:2px}
+  .pk-d{margin:0;font-size:0.84rem;color:var(--ink-2);line-height:1.35}
 
   /* the canvas: screens at their real size, in a row */
   #world{--u:1px;--z:1;display:flex;gap:56px;align-items:flex-start;padding:56px}
@@ -46,6 +48,7 @@
   .ab .canvas{box-shadow:0 2px 14px rgba(0,0,0,.14);cursor:pointer}
   .ab.on .canvas{cursor:default;outline:calc(2px / var(--z)) solid var(--lec);outline-offset:calc(3px / var(--z))}
   .ab.ms .canvas{border-style:dashed}
+  .copying .ab.on .canvas{outline:none}
   .ab-c .slot-fill{display:block}
   .ab:not(.on) .sm-rz,.ab:not(.on) .org-tag{display:none}
   .ab-new{flex:none;width:calc(375px + 1.2mm);height:calc(812px + 1.2mm);font:inherit;font-size:calc(14px / var(--z));font-weight:600;color:var(--ink-2);background:none;border:2px dashed var(--line-2);border-radius:5mm;cursor:pointer}
@@ -97,8 +100,21 @@
   .sm-kind .k-id{font-family:var(--mono);font-size:0.68rem;color:var(--ink-3)}
   .dm .sm-kind{--u:0.115px}
   .code{display:block;width:100%;font:0.76rem/1.5 var(--mono);color:var(--ink-2);background:var(--bg);border:1px solid var(--line);border-radius:6px;padding:6px 8px;margin:0 0 10px;text-align:left;cursor:copy}
+  /* the sketch look: pencil lines and a legible handwritten face, on the same organisms */
+  .defs{position:absolute;width:0;height:0}
+  .sk .full{--line:#34302E;--pale:#BDB6B1;--grey:#6E6764;--faint:#F7F5F0}
+  .sk .ab .canvas,.sk .sm-kind .canvas,.sk #print .canvas,.sk .pk-in{filter:url(#rough)}
+  .sk .canvas{background:#FDFCF8;border-color:#34302E;border-radius:26px 20px 28px 18px / 20px 28px 18px 26px}
+  .sk .full .org,.sk .pk-in .org{background:transparent}
+  .sk .full .ph{font-family:"Patrick Hand","Segoe Print","Bradley Hand",cursive;color:#2A2725!important;font-size-adjust:0.52;letter-spacing:.01em}
+  .sk .full .box,.sk .full .btn,.sk .full .opt,.sk .full .card,.sk .full .msg,.sk .full .search,.sk .full .img,.sk .full .ico,.sk .full .chk,.sk .full .sidem,.sk .full .dialog,.sk .full .chips i,.sk .full .cg i,.sk .full .toast,.sk .full .bsheet,.sk .full .qty{border-radius:255px 18px 225px 18px / 18px 225px 18px 255px}
+  .sk .full .box,.sk .full .btn.sec,.sk .full .opt,.sk .full .card,.sk .full .msg,.sk .full .img,.sk .full .sidem{background-color:transparent}
+  .sk .full .btn.pri,.sk .full .toast{background:repeating-linear-gradient(-55deg,#34302E 0 1.2px,transparent 1.2px 6px);border:1.6px solid #34302E}
+  .sk .full .btn.pri .ph,.sk .full .toast .ph{color:#1A1618!important;background:#FDFCF8;padding:0 .35em;border-radius:6px}
+  .sk .full .msg.ok{background:transparent}
+  .sk .full .appbar,.sk .full .tabs,.sk .dbar2,.sk .dfoot{background:transparent}
   #print{display:none}
-  @media print{ body > :not(#print){display:none!important} #print{display:block} #print .slot-lines,#print .colgrid{display:none} #print .slot-fill{display:block} }
+  @media print{ body > :not(#print):not(.defs){display:none!important} #print{display:block} #print .slot-lines,#print .colgrid{display:none} #print .slot-fill{display:block} }
 </style>
 </head>
 <body>
@@ -106,6 +122,7 @@
 <header class="tb-bar">
   <a class="tb-back" href="toolkit.html">← Toolkit</a>
   <h1 class="tb-name">Screen maker</h1>
+  <span class="seg" role="group" aria-label="Look"><button type="button" data-act="look" data-l="wire">Wireframe</button><button type="button" data-act="look" data-l="sketch">Sketch</button></span>
   <span class="seg" role="group" aria-label="Screen size"><button type="button" data-act="dev" data-d="phone">Phone</button><button type="button" data-act="dev" data-d="desktop">Desktop</button></span>
   <button type="button" class="tbtn pri" data-act="new" aria-haspopup="dialog">+ New screen</button>
   <span class="tb-sp"></span>
@@ -119,14 +136,12 @@
     <button type="button" data-act="clear" id="clear">Start again</button>
   </div></details>
   <button type="button" class="tbtn" data-act="help" aria-haspopup="dialog">Help</button>
-  <button type="button" class="tbtn ic" id="theme" aria-label="Dark mode">◐</button>
-</header>
+  </header>
 
 <div class="tool">
   <aside class="pane l" aria-label="Organisms">
-    <div class="pal-top"><h2 class="h">Organisms</h2><input id="filter" type="search" placeholder="Find one" aria-label="Find an organism"></div>
+    <div class="pal-top"><h2 class="h">Organisms</h2><input id="filter" type="search" placeholder="Find one" aria-label="Find an organism"><p class="p">Hover to preview. Click to add, or drag onto a row.</p></div>
     <div id="pal"></div>
-    <div class="peek" id="peek"><p class="hint">Point at an organism to see it here. Click it to add it to the screen, or drag it onto the row you want.</p></div>
   </aside>
 
   <section class="stage" id="stage" aria-label="Your screens">
@@ -186,6 +201,8 @@
   <div class="dlg-acts"><button class="tbtn pri" value="close">Got it</button></div>
 </form></dialog>
 
+<div class="peek" id="peek" aria-hidden="true"></div>
+<svg class="defs" width="0" height="0" aria-hidden="true"><filter id="rough" x="-2%" y="-2%" width="104%" height="104%"><feTurbulence type="fractalNoise" baseFrequency="0.02" numOctaves="2" seed="7"/><feDisplacementMap in="SourceGraphic" scale="2.6"/></filter></svg>
 <div id="print"></div>
 
 <script src="https://cdn.jsdelivr.net/npm/html-to-image@1.11.11/dist/html-to-image.js"></script>
@@ -246,13 +263,13 @@
      it never touches the student's own screens. */
   const EXKEY = 'sd-screens3-example', MODE = 'sd-screens3-mode';
   const freshSet = () => ({ cur: 0, master: { pieces: [] }, screens: [blank()] });
-  const fresh = () => ({ device: 'phone', phone: freshSet(), desktop: freshSet() });
+  const fresh = () => ({ device: 'phone', look: 'wire', phone: freshSet(), desktop: freshSet() });
   const tidySet = (x, d) => { if (!x || !Array.isArray(x.screens) || !x.screens.length) return null; x.master = x.master || { pieces: [] };
     [x.master, ...x.screens].forEach(k => { k.pieces = (k.pieces || []).filter(q => BY[q.o] && !BY[q.o].over && (d ? !BY[q.o].phone : !BY[q.o].desk));
       k.pieces.forEach(q => { if (d) { const b = bleeds(BY[q.o]); q.span = b ? COLS : (q.span > 1 ? q.span : BY[q.o].dspan); q.col = b ? 0 : (q.col || 0); } else { q.col = 0; q.span = 1; } }); }); return x; };
   const tidy = w => { if (!w) return null; if (w.screens) w = { device: 'phone', phone: w };
     const phone = tidySet(w.phone, false), desktop = tidySet(w.desktop, true); if (!phone && !desktop) return null;
-    return { device: w.device === 'desktop' ? 'desktop' : 'phone', phone: phone || freshSet(), desktop: desktop || freshSet() }; };
+    return { device: w.device === 'desktop' ? 'desktop' : 'phone', look: w.look === 'sketch' ? 'sketch' : 'wire', phone: phone || freshSet(), desktop: desktop || freshSet() }; };
   const load = k => { try { return tidy(JSON.parse(localStorage.getItem(k) || 'null')); } catch (e) { return null; } };
   let W = load(KEY) || load(V2) || fresh(), mode = 'mine';
   try { if (localStorage.getItem(MODE) === 'example') { mode = 'example'; W = load(EXKEY) || EXAMPLE(); } } catch (e) {}
@@ -354,20 +371,29 @@
   $('pal').addEventListener('click', e => { const it = e.target.closest('.sm-item'); if (it) add(it.dataset.id); });
   $('pal').addEventListener('keydown', e => { const it = e.target.closest('.sm-item'); if (it && (e.key === 'Enter' || e.key === ' ')) { e.preventDefault(); add(it.dataset.id); } });
   /* the picture, beside the list: whatever the pointer or keyboard is on, and it stays there */
-  const AN = Object.fromEntries(A.map(a => [a.id, a.name]));
   let peeked = null;
   function peek(it) {
-    const o = BY[it.dataset.id], pk = $('peek'), d = isD() && !o.over; if (peeked === o.id) return; peeked = o.id;
+    const o = BY[it.dataset.id], pk = $('peek'), d = isD() && !o.over;
     const span = d ? spanOf(o) : 0, frame = d ? (bleeds(o) && span === COLS ? DW : dw(span)) : (o.desk ? dw(o.dspan) : 375);
-    const un = Math.min(1, (pk.clientWidth - 2) / frame, 150 / (o.rows * ROW));
-    pk.innerHTML = `<div class="pk-in full${d ? ' desk' : ''}${o.over ? ' ov' : ''}" style="width:${frame * un + 2}px">${organism(o.id, { label: false, span: d ? span : 0 })}</div>
-      <p class="pk-t"><b>${o.code}</b> ${esc(o.name)} <span>${sizeOf(o)} · ${plural(o.rows, 'row')}</span></p><p class="pk-d">${esc(o.does)}</p>`;
-    pk.style.setProperty('--u', un + 'px');
-    words(pk);
+    const un = Math.min(1, 346 / frame, 300 / (o.rows * ROW));
+    pk.innerHTML = `<p class="h" style="margin:0">Preview</p><div class="pk-f"><div class="pk-in full${d ? ' desk' : ''}${o.over ? ' ov' : ''}" style="width:${frame * un + 2}px">${organism(o.id, { label: false, span: d ? span : 0 })}</div></div>
+      <p class="pk-t"><b>${o.code}</b>${esc(o.name)}<span>${sizeOf(o)} · ${plural(o.rows, 'row')}</span></p><p class="pk-d">${esc(o.does)}</p>`;
+    pk.style.setProperty('--u', un + 'px'); words(pk); pk.classList.add('on');
+    const r = it.getBoundingClientRect(), pane = $('pal').getBoundingClientRect();
+    pk.style.left = (pane.right + 14) + 'px'; pk.style.top = Math.max(56, Math.min(r.top - 12, innerHeight - pk.offsetHeight - 10)) + 'px';
   }
-  const unpeek = () => {};
-  $('pal').addEventListener('mouseover', e => { const it = e.target.closest('.sm-item'); if (it) peek(it); });
-  $('pal').addEventListener('focusin', e => { const it = e.target.closest('.sm-item'); if (it) peek(it); });
+  /* only while the pointer stays on an organism: a short pause, so passing over the list does nothing,
+     and gone the moment it leaves */
+  let peekT = null;
+  const unpeek = () => { clearTimeout(peekT); $('peek').classList.remove('on'); };
+  $('pal').addEventListener('mouseover', e => { const it = e.target.closest('.sm-item'); clearTimeout(peekT);
+    if (!it) { unpeek(); return; } peekT = setTimeout(() => peek(it), $('peek').classList.contains('on') ? 40 : 220); });
+  $('pal').addEventListener('mouseleave', unpeek);
+  $('pal').addEventListener('scroll', unpeek);
+  $('pal').addEventListener('click', unpeek);
+  $('pal').addEventListener('focusin', e => { const it = e.target.closest('.sm-item'); if (it && it.matches(':focus-visible')) peek(it); });
+  $('pal').addEventListener('focusout', unpeek);
+  addEventListener('blur', unpeek);
 
   /* ── drawing a screen ── */
   const cv = () => document.querySelector('.ab.on .ab-c');
@@ -630,6 +656,9 @@
     if (!window.htmlToImage) { say('Copying a picture needs the internet, to load the copier. Use Print instead.'); return; }
     const opts = { pixelRatio: 2, backgroundColor: '#ffffff', filter: n => !(n.classList && ['org-tag', 'slot-lines', 'sm-ovx', 'sm-empty'].some(c => n.classList.contains(c))) };
     node.querySelectorAll('.sel').forEach(x => x.classList.remove('sel'));
+    /* no selection ring in the picture; and the pencil filter travels with the copy */
+    document.body.classList.add('copying'); const fx = W.look === 'sketch' ? document.querySelector('.defs').cloneNode(true) : null; if (fx) node.appendChild(fx);
+    const done = () => { document.body.classList.remove('copying'); if (fx) fx.remove(); };
     const name = (isM() ? 'master' : (cur().name || `screen ${S.cur + 1}`)).replace(/[^\w\- ]+/g, '').trim() || 'screen';
     try {
       if (!navigator.clipboard || !window.ClipboardItem) throw new Error('no clipboard');
@@ -639,7 +668,7 @@
       try { const url = await htmlToImage.toPng(node, opts); const a = document.createElement('a'); a.href = url; a.download = name + '.png'; a.click(); say('This browser would not copy a picture, so it was downloaded instead.'); }
       catch (e2) { say('The picture did not work in this browser. Use Print, then save as PDF.'); }
     }
-    renderCanvas();
+    done(); renderCanvas();
   }
 
   /* ── print: two screens to an A4 page ── */
@@ -723,6 +752,7 @@
     if (a === 'zout') view.zoomBy(0.8);
     if (a === 'mine' && mode === 'example') { switchTo('mine', load(KEY) || fresh()); say('Back to your own screens.'); }
     if (a === 'dev') setDevice(b.dataset.d);
+    if (a === 'look') { W.look = b.dataset.l; peeked = null; render(); tell(W.look === 'sketch' ? 'Sketch look.' : 'Wireframe look.'); }
     if (a === 'fromphone') { snap(); S = toDesk(W.phone); sel = null; render(); say('Your phone screens, in a centred column. Now adapt them: what goes beside what on a big screen?'); }
     if (a === 'exreset' && mode === 'example') { snap(); S = EXAMPLE()[W.device]; sel = null; render(); say('The example is as it was. Undo brings your changes back.'); }
     if (a === 'clear') { if (!await ask(`Start again? Every ${isD() ? 'desktop' : 'phone'} screen and its master will be cleared. Undo brings them back.`, 'Start again')) return; snap(); S = freshSet(); sel = null; render(); }
@@ -753,13 +783,13 @@
     if (S.cur !== -1) S.cur = Math.max(0, Math.min(S.cur, S.screens.length - 1));
     renderWorld(); renderCanvas(); renderSide();
     $('undo').disabled = !hist.length; $('redo').disabled = !fut.length;
-    document.body.classList.toggle('dm', isD());
+    document.body.classList.toggle('dm', isD()); document.body.classList.toggle('sk', W.look === 'sketch');
+    document.querySelectorAll('[data-act="look"]').forEach(b => { const on = b.dataset.l === W.look; b.classList.toggle('on', on); b.setAttribute('aria-pressed', String(on)); });
     document.querySelectorAll('[data-act="dev"]').forEach(b => { const on = b.dataset.d === W.device; b.classList.toggle('on', on); b.setAttribute('aria-pressed', String(on)); });
     $('banner').hidden = mode !== 'example'; $('see-ex').hidden = mode === 'example'; $('clear').hidden = mode === 'example';
     save(); afterRender();
   }
   renderPal();
-  if (matchMedia('(pointer: coarse)').matches) $('peek').querySelector('.hint').textContent = 'Tap an organism to add it to the screen. Then tap the piece, and use ↑ and ↓ beside it to move it.';
   view = window.ToolCanvas($('stage'), $('world'), { label: $('zlabel'), onChange: () => renderTools(), fitAll: () => view.fit($('world'), 16, 1), top: () => mode === 'example' ? 80 : 40,
     isBackground: t => t === $('stage') || t === $('world') });
   $('world').addEventListener('focusin', e => { if (e.target.matches(':focus-visible')) view.reveal(e.target); });
@@ -770,13 +800,6 @@
 })();
 
 
-const root = document.documentElement;
-try { const t = localStorage.getItem('sd-theme'); if (t) root.dataset.theme = t; } catch (e) {}
-if (!root.dataset.theme && matchMedia('(prefers-color-scheme: dark)').matches) root.dataset.theme = 'dark';
-document.getElementById('theme').onclick = () => {
-  root.dataset.theme = root.dataset.theme === 'dark' ? 'light' : 'dark';
-  try { localStorage.setItem('sd-theme', root.dataset.theme); } catch (e) {}
-};
 </script>
 </body>
 </html>

@@ -98,7 +98,6 @@ window.DK = (function () {
   function theme() {
     const root = document.documentElement;
     try { const t = localStorage.getItem('sd-theme'); if (t) root.dataset.theme = t; } catch (e) {}
-    if (!root.dataset.theme && matchMedia('(prefers-color-scheme: dark)').matches) root.dataset.theme = 'dark';
     document.getElementById('theme').onclick = () => { root.dataset.theme = root.dataset.theme === 'dark' ? 'light' : 'dark'; try { localStorage.setItem('sd-theme', root.dataset.theme); } catch (e) {} };
   }
   /* call after any data-* the page adds of its own */
