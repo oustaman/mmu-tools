@@ -192,8 +192,8 @@
   <footer><p>Screen Design · Level 4 · 30 credits · 2026–27</p></footer>
 </div>
 
-<script src="sd-common.js"></script>
-<script src="rubric-data.js"></script>
+<script src="sd-common.js?v=202611021441"></script>
+<script src="rubric-data.js?v=202611021441"></script>
 <script src="example-council-data.js"></script>
 <script>
 (function () {
@@ -231,7 +231,6 @@
 
 const root = document.documentElement;
 try { const t = localStorage.getItem('sd-theme'); if (t) root.dataset.theme = t; } catch (e) {}
-if (!root.dataset.theme && matchMedia('(prefers-color-scheme: dark)').matches) root.dataset.theme = 'dark';
 document.getElementById('theme').onclick = () => {
   root.dataset.theme = root.dataset.theme === 'dark' ? 'light' : 'dark';
   try { localStorage.setItem('sd-theme', root.dataset.theme); } catch (e) {}

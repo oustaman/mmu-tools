@@ -360,11 +360,11 @@
     o += arrow(150, 192, 196, 192) + box(200, 160, 170, '1  Start', 'all students?');
     o += arrow(370, 192, 426, 192) + dia(500, 192, 'Everyone?');
     o += arrow(574, 192, 626, 192, 'yes', 600, 182) + box(630, 160, 170, '2  Your home', 'address + people');
-    o += arrow(800, 192, 846, 192) + dia(920, 192, 'Proof?');
-    o += arrow(920, 236, 920, 290, 'university', 966, 268) + box(840, 294, 160, 'University', 'confirms', '#FFFFFF');
-    o += arrow(994, 192, 1040, 192, 'upload', 1018, 182) + box(1044, 160, 136, 'Upload', 'certificate', '#FFFFFF');
-    o += arrow(920, 358, 920, 404) + arrow(1112, 224, 1000, 404) + box(840, 408, 160, '3  Send', 'declaration');
-    o += arrow(840, 440, 760, 440) + box(560, 408, 200, '4  Sent', 'reference CT-…', '#E3F0E8');
+    o += arrow(800, 192, 846, 192) + box(850, 160, 170, '3  Proof', 'declaration + send');
+    o += arrow(935, 224, 935, 252) + dia(935, 300, 'Which?');
+    o += arrow(861, 300, 790, 300, 'upload', 826, 290) + box(650, 268, 136, 'Upload', 'certificate', '#FFFFFF');
+    o += arrow(1009, 300, 1040, 300, 'university', 1024, 262) + box(1044, 268, 136, 'University', 'confirms', '#FFFFFF');
+    o += arrow(718, 332, 832, 428) + arrow(1112, 332, 1038, 428) + box(835, 408, 200, '4  Sent', 'reference CT-…', '#E3F0E8');
     o += arrow(500, 236, 500, 290, "no", 518, 268) + box(410, 294, 180, 'Other discounts', '25% single person …', '#FFFFFF');
     o += arrow(426, 192, 426, 192);
     o += arrow(470, 166, 330, 96) + r(160, 60, 200, 48, 8, '#FFFFFF', P.quiet, 1.5) + t(260, 90, "Not sure → talk to a person", { s: 14, a: 'middle' });

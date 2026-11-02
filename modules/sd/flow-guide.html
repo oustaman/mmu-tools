@@ -299,7 +299,7 @@
     <div class="fig" data-fig="new"></div>
   </section>
 
-  <h2 id="checks">Six checks before you download</h2>
+  <h2 id="checks">Six checks before you copy it</h2>
   <ol class="fg-checks">
     <li><b>Every yes/no question says what happens on “no”.</b> A diamond with one way out is a step.</li>
     <li><b>Every loop goes back to something that will be different the second time.</b> Otherwise it is a trap.</li>
@@ -317,11 +317,11 @@
   <div class="quiz" id="q2"></div>
   <p class="score" id="score" role="status"></p>
 
-  <p class="note">Ready? Open the <a href="flow.html">Flow maker</a>. <b>Load the example</b> there to see the whole missed-bin case drawn this way.</p>
+  <p class="note">Ready? Open the <a href="flow.html">Flow maker</a>. Choose <b>More</b>, then <b>See the example</b>, to see the whole missed-bin case drawn this way.</p>
   <footer><p>Screen Design · Level 4 · 2026–27</p></footer>
 </div>
 
-<script src="flow-draw.js"></script>
+<script src="flow-draw.js?v=202611021441"></script>
 <script>
 (function () {
   /* How flows work: every example is a row from one of the four cases, drawn by the same
@@ -390,7 +390,6 @@
 
 const root = document.documentElement;
 try { const t = localStorage.getItem('sd-theme'); if (t) root.dataset.theme = t; } catch (e) {}
-if (!root.dataset.theme && matchMedia('(prefers-color-scheme: dark)').matches) root.dataset.theme = 'dark';
 document.getElementById('theme').onclick = () => {
   root.dataset.theme = root.dataset.theme === 'dark' ? 'light' : 'dark';
   try { localStorage.setItem('sd-theme', root.dataset.theme); } catch (e) {}

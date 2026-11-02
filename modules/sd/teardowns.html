@@ -499,7 +499,6 @@ document.getElementById('print').onclick = () => print();
 
 /* the same theme memory as every other page */
 try { const t = localStorage.getItem('sd-theme'); if (t) root.setAttribute('data-theme', t); } catch(e){}
-if (!root.getAttribute('data-theme') && matchMedia('(prefers-color-scheme: dark)').matches) root.setAttribute('data-theme', 'dark');
 document.getElementById('theme').onclick = () => {
   const d = root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
   root.setAttribute('data-theme', d);

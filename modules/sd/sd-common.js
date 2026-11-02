@@ -104,7 +104,7 @@ const PARTS = [
    {sec:"B4", t:"Flow diagram", dw:7, d:"Before and after, mapped",
     h:"The journey as boxes and arrows: how people do it now (week 5), and your screens beside it (week 7). The Flow maker draws both and counts them; a photo of paper is just as good.", f:["[ paste flow diagram ]","Caption (it must fit on the slide):"]},
    {sec:"B5", t:"Wireframe set", dw:8, d:"One per screen in A2",
-    h:"Every screen of your journey wireframed: boxes and labels on your grid. Paper is fine.", f:["[ paste wireframes ]","Caption (it must fit on the slide):"]},
+    h:"Every screen of your journey wireframed: boxes and labels, sketched on paper or made in the <a href=\"screen-maker.html\">Screen maker</a>. Either counts.", f:["[ paste wireframes ]","Caption (it must fit on the slide):"]},
    {sec:"B6", t:"The finished screens", dw:9, d:"Every screen of the journey",
     h:"Your journey, one screen per slide, built from A3\u2013A5. Which <a href=\"style-kit.html#fidelity\">level of finish</a> they need.", f:["[ paste screens ]","Caption (it must fit on the slide):"]},
    {sec:"B7", t:"Other screen sizes (optional)", dw:9, d:"Only if your project needs them", opt:true,
@@ -163,7 +163,7 @@ const PARTS = [
   desc:"The evidence that your version is better: the process as it is now, what happened to each step, and two screens side by side. Then your AI statement. Anything else that helps your case is welcome here too \u2014 competitors, news stories, screenshots from review sites \u2014 if it has no better place in the deck.",
   items:[
    {sec:"D1", t:"The process before", dw:11, d:"Every step, captured and numbered",
-    h:"How people reach the goal now \u2014 screenshots, a photo of the paper form, the WhatsApp chat. One image per step, numbered to match A2. It is evidence, not design: nobody marks how it looks.",
+    h:"How people reach the goal now \u2014 screenshots, a photo of the paper form, the WhatsApp chat. One image per step, numbered to match A2, with the wireframe you stripped back from your worst step beside its screenshot. It is evidence, not design: nobody marks how it looks.",
     f:["[ one image per step, numbered to match A2 ]","1.","2.","3.","4.","","Steps before (from A2):"]},
    {sec:"D2", t:"Before \u2192 after, mapped", dw:11, d:"What happened to every step",
     h:"Each step before, and what happened to it: kept, merged, moved or removed \u2014 with a reason. A step the law or a policy requires can move or merge, never disappear.",

@@ -1,0 +1,188 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Drawing a flow — Screen Design, week 5</title>
+<link rel="stylesheet" href="deck-kit.css?v=202611021441">
+<style>
+
+  /* THE BAR — one definition, identical on every page (written by navfix; change it
+     everywhere or nowhere). It used to be copied per page and drifted into two heights. */
+  header.sdnav{position:sticky;top:0;z-index:40;background:var(--surface);border-bottom:1px solid var(--line)}
+  header.sdnav .bar{display:flex;align-items:center;gap:10px;min-height:56px;padding-block:8px;flex-wrap:nowrap}
+  header.sdnav .brand{font-weight:680;font-size:1rem;letter-spacing:-0.015em;white-space:nowrap;color:inherit;
+    text-decoration:none;padding:5px 8px;margin-left:-8px;border-radius:6px;order:0}
+  header.sdnav .brand:hover{background:var(--surface-2,var(--bg))}
+  header.sdnav .sp{flex:1;display:block;height:auto;flex-basis:auto;order:0}
+  header.sdnav .sdlinks{display:flex;align-items:center;gap:2px;order:0}
+  header.sdnav .navl{display:inline-block;font-size:0.85rem;line-height:1.3;color:var(--ink-2);text-decoration:none;
+    padding:6px 10px;border-radius:6px;white-space:nowrap;order:0}
+  header.sdnav .navl:hover{background:var(--surface-2,var(--bg));color:var(--ink)}
+  header.sdnav .navl.on{background:var(--lec);color:#fff}
+  html[data-theme="dark"] header.sdnav .navl.on{color:#151314}
+  header.sdnav a:focus-visible,header.sdnav button:focus-visible{outline:2px solid var(--lec);outline-offset:1px}
+  header.sdnav .ctl{order:0;margin-left:4px}
+  header.sdnav .ctl button{font-family:var(--mono);font-size:0.7rem;background:none;color:var(--ink-3);
+    border:1px solid var(--line-2);border-radius:6px;padding:0 9px;cursor:pointer;line-height:1;
+    height:34px;min-height:34px;min-width:34px;display:inline-flex;align-items:center;justify-content:center}
+  header.sdnav .ctl button:hover{border-color:var(--lec);color:var(--lec)}
+  @media(max-width:960px){
+    header.sdnav .bar{flex-wrap:wrap;row-gap:0;padding-block:6px 0;min-height:0}
+    header.sdnav .ctl{order:1;margin-left:auto}
+    header.sdnav .sp{display:none}
+    header.sdnav .sdlinks{order:2;flex-basis:100%;overflow-x:auto;scrollbar-width:none;padding:4px 28px 8px 0;min-height:44px;
+      -webkit-mask-image:linear-gradient(to right,#000 calc(100% - 28px),transparent);mask-image:linear-gradient(to right,#000 calc(100% - 28px),transparent)}
+    header.sdnav .sdlinks::-webkit-scrollbar{display:none}
+    header.sdnav .navl{font-size:0.82rem;padding:6px 9px}
+  }
+</style>
+</head>
+<body>
+
+<header class="sdnav">
+  <div class="wrap bar">
+    <a class="brand" href="index.html">Screen Design</a>
+    <span class="sp"></span>
+    <nav class="sdlinks" aria-label="Screen Design"><a class="navl on" href="weeks.html?w=5">Week by week</a><a class="navl" href="assessment.html">Checklist</a><a class="navl" href="examples.html">Examples</a><a class="navl" href="toolkit.html">Toolkit</a><a class="navl" href="assessment-materials.html">Marking</a></nav>
+    <span class="ctl"><button id="theme" aria-label="Dark mode">◐</button></span>
+  </div>
+</header>
+<script>(function(){var n=document.querySelector(".sdlinks"),o=n&&n.querySelector(".on");if(o&&n.scrollWidth>n.clientWidth)n.scrollLeft=o.offsetLeft-n.offsetLeft-16;})();</script>
+
+<div class="dtools"><div class="wrap">
+  <b>Drawing a flow</b><span class="sp"></span>
+  <select id="jump" aria-label="Go to slide"></select>
+  <button type="button" class="tb" id="prev" aria-label="Previous slide">←</button>
+  <button type="button" class="tb" id="next" aria-label="Next slide">→</button>
+  <button type="button" class="tb" id="present" aria-pressed="false">Present</button>
+</div></div>
+
+<main id="deck">
+
+<section class="sl" data-t="What a flow is"><div class="wrap">
+  <p class="ey">Week 5 · A2, B4</p>
+  <h2>What a flow is</h2>
+  <p class="lead">A flow shows what one person does, step by step, to get one thing done. There are six marks to learn.</p>
+  <div data-fig="idea" class="narrow" data-alt="Three steps in a row: read the information page, choose your bin, your details"></div>
+</div></section>
+
+<section class="sl" data-t="Step and where"><div class="wrap">
+  <p class="ey">Marks 1 and 2 of 6</p>
+  <h2>Step, and where it happens</h2>
+  <div data-fig="where" data-alt="Four steps on four channels: website, scanned PDF, phone, message thread"></div>
+  <p class="lead">Each step gets a numbered box, with where it happens underneath. Make one box for each page, call or message.</p>
+  <p class="lead">You’ll also hear the word <b>touchpoint</b>. It means any moment a person comes into contact with a service, like the bakery’s website, menu, phone and messages.</p>
+</div></section>
+
+<section class="sl" data-t="Wait"><div class="wrap">
+  <p class="ey">Mark 3 of 6</p>
+  <h2>Wait</h2>
+  <div data-fig="wait" class="narrow" data-alt="A message, a wait of 46 hours, then a reply"></div>
+  <p class="lead">A wait doesn’t get a number, since the person can’t do anything, but do count it. The bakery’s first reply took 46 hours.</p>
+</div></section>
+
+<section class="sl" data-t="Stuck"><div class="wrap">
+  <p class="ey">Mark 4 of 6</p>
+  <h2>✗ Stuck</h2>
+  <div data-fig="stuck" class="narrow" data-alt="Three steps, the second marked stuck because the colours on the page do not match the form"></div>
+  <p class="lead">Mark the places where people go wrong. These are the problems your design has to fix, so write down what actually happens, like “199 words before you can start”.</p>
+</div></section>
+
+<section class="sl" data-t="Diamond and arrow back"><div class="wrap">
+  <p class="ey">Marks 5 and 6 of 6</p>
+  <h2>Diamond and arrow back</h2>
+  <div data-fig="loop" data-alt="A search, then a diamond: is the first result right for a beginner? No goes back to the search"></div>
+  <p class="lead">Use a diamond when the answer changes where someone goes next. “Which bin was not emptied?” is a step, since every answer leads to the same screen.</p>
+  <p class="lead">If “no” sends people back, ask whether anything will be different the second time.</p>
+</div></section>
+
+<section class="sl" data-t="Branches"><div class="wrap">
+  <p class="ey">Beyond the six marks</p>
+  <h2>Branches that join up</h2>
+  <div data-fig="branches" class="half" data-alt="The council tax example. Search, then screen 1, then the question Everyone? Yes goes on to screen 2 and screen 3, no goes to other discounts. A second question, Which?, splits into upload and university, and both join at screen 4, Sent."></div>
+  <p class="lead">A question can have any number of answers, each with its own name. A branch can stop, or join the main path again, as these two do at Sent.</p>
+  <p class="lead">Pills mark the start and the end, and only your own screens get a number. Colours mean what you decide, so add a key: here, blue is a screen and green is the end.</p>
+</div></section>
+
+<section class="sl" data-t="Try it"><div class="wrap">
+  <p class="ey">Real rows from the four cases</p>
+  <h2>Step, question or wait?</h2>
+  <div id="quiz"></div>
+</div></section>
+
+<section class="sl" data-t="A whole flow"><div class="wrap">
+  <p class="ey">The missed bin, as it is now</p>
+  <h2>The whole thing</h2>
+  <div data-fig="whole1" class="half" data-alt="The missed bin report as it is now, steps 1 to 4, with two steps marked stuck"></div>
+  <div data-fig="whole2" class="half" data-alt="Steps 5 to 8, with the last marked stuck"></div>
+  <p class="lead" style="margin-bottom:0">Eight steps, and people get stuck at three of them.</p>
+</div></section>
+
+<section class="sl" data-t="Your turn"><div class="wrap">
+  <h2>Your turn</h2>
+  <div class="two">
+    <div>
+      <ol class="pts">
+        <li>Go through the real service and write down what actually happens.</li>
+        <li>Add a row for everything the person does or waits for.</li>
+        <li>Mark where people go wrong, and say why.</li>
+        <li>Copy the slide and paste it into B4. A photo of paper is fine too.</li>
+      </ol>
+      <p><a class="go" href="flow.html">Open the Flow maker</a></p>
+    </div>
+    <div>
+      <p class="ask">Before you copy it, check that every diamond says what happens on “no”, and that a partner can follow it without asking you.</p>
+      <p class="ask">There’s more detail in <a href="flow-guide.html">How flows work</a>.</p>
+    </div>
+  </div>
+  <p class="try">Next, pick your worst ✗. We’ll start the wireframes from there.</p>
+</div></section>
+
+</main>
+<footer><div class="wrap"><p>Screen Design · Level 4 · 2026–27</p></div></footer>
+
+<script src="flow-draw.js?v=202611021441"></script>
+<script src="deck-kit.js?v=202611021441"></script>
+<script>
+(function () {
+  /* The rows are the ones in How flows work (flow-guide.html) and the Flow maker's example, all from the four cases. */
+  const { S, Q, Wt, figures, quiz, start } = DK, FD = window.FD;
+  const b1 = S('Read the missed bin information page', 'website', { bad: true, note: '199 words, 2.6 phone screens, before you can start' }),
+    b2 = S('Choose your bin, and its type', 'form', { bad: true, note: 'Colours on the page, categories on the form' }),
+    b3 = S('Name, email and phone', 'form'), b4 = S('Postcode and address', 'form'), b5 = S('Additional information', 'form'), b6 = S('Assisted collection', 'form'), b7 = S('Summary', 'form'),
+    b8 = S('Finish', 'form', { bad: true, note: 'Never checks the 2pm deadline, so it cannot say you are too late' });
+  const s1 = S('Search for a course', 'every course, advanced first');
+  figures({
+    idea: FD.mini([S('Read the information page', 'website'), S('Choose your bin', 'form'), S('Your details', 'form')]),
+    where: FD.mini([S('Open the website', 'website'), S('Read the menu', 'scanned PDF'), S('Ring the bakery', 'phone'), S('Ask by message', 'message thread')]),
+    wait: FD.mini([S('“Do you do birthday cakes?”', 'message, Monday 12:44'), Wt('46 hours'), S('Reply: “what size?”', 'message, Wednesday')]),
+    stuck: FD.mini([S('Read the missed bin information page', 'website'), S('Choose your bin', 'form', { bad: true, note: 'Colours on the page, categories on the form; Next will not press, and nothing says why' }), S('Your details', 'form')]),
+    loop: FD.mini([s1, Q('Is the first result right for a beginner?', 'Search again', { go: 'back', back: s1.id }), S('Open the course page', 'website'), S('Register: account first', 'website')]),
+    whole1: FD.mini([b1, b2, b3, b4]),
+    whole2: FD.mini([b5, b6, b7, b8]),
+    /* the council tax example (Examples), as the Flow maker draws it */
+    branches: FD.sheet([
+      { id: 's', t: 'Search', k: 'end', p: { c: 0, r: 0 } }, { id: 'n1', t: 'Start', w: 'all students?', k: 'step', c: 'blue', p: { c: 1, r: 0 } },
+      { id: 'q1', t: 'Everyone?', k: 'q', off: true, ans: [{ t: 'yes', to: '' }, { t: 'no', to: 'o' }], p: { c: 2, r: 0 } },
+      { id: 'n2', t: 'Your home', w: 'address + people', k: 'step', c: 'blue', p: { c: 3, r: 0 } }, { id: 'n3', t: 'Proof', w: 'declaration + send', k: 'step', c: 'blue', p: { c: 4, r: 0 } },
+      { id: 'q2', t: 'Which?', k: 'q', off: true, ans: [{ t: 'upload', to: '' }, { t: 'university', to: 'u' }], p: { c: 4, r: 1 } },
+      { id: 'up', t: 'Upload', w: 'certificate', k: 'step', off: true, p: { c: 3, r: 1 } }, { id: 'n4', t: 'Sent', w: 'reference CT-…', k: 'step', c: 'green', p: { c: 4, r: 2 } },
+      { id: 'u', t: 'University', w: 'confirms', k: 'step', off: true, br: true, to: 'n4', p: { c: 5, r: 1 } }, { id: 'o', t: 'Other discounts', w: '25% single person …', k: 'step', off: true, br: true, p: { c: 2, r: 1 } },
+    ], 1560, 500),
+  });
+  /* the second row of the whole flow carries on from step 4 */
+  const w2 = document.querySelector('[data-fig="whole2"] svg');
+  if (w2) w2.querySelectorAll('text').forEach(t => { if (/^[1-4]$/.test(t.textContent.trim())) t.textContent = String(+t.textContent + 4); });
+  quiz(document.getElementById('quiz'), [
+    ['Read the missed bin information page', 's', 'The person does it, and it moves them on: “then I read the page”.'],
+    ['46 hours until the first reply to a message', 'w', 'There is nothing to do but wait, so it has no number. But count it.'],
+    ['“Which bin was not emptied?”', 's', 'It ends in a question mark, but every answer leads to the same next screen.'],
+    ['“Got your ID and a photo with you?”, asked three steps in', 'q', 'The answer changes where you go next: on, or off to find them.'],
+    ['Ring the bakery, and reach a full voicemail', 's', 'A step, and a ✗: the person did something, and it got them nowhere. Say why.'],
+  ], { s: 'Step', q: 'Yes/no question', w: 'Wait' });
+  start();
+})();
+</script>
+</body>
+</html>
