@@ -213,6 +213,8 @@
   <p class="sub">Tools and websites for the fundamentals — layout, type, colour, access — and for collecting the exact
     numbers your deck asks for. Each card says which section of the deck it helps you fill.</p>
 
+  <div id="tk-build"></div>
+
   <details class="howto tk-guide" id="project">
     <summary><b>Is my idea a good project?</b></summary>
     <p>Any theme can work, from any place or community, and your own project is welcome: a family business, a club you run,
@@ -312,9 +314,13 @@
      check (test what you made) · make (produce the artefact). sec: the deck sections it helps fill. */
   const II = 'https://interfaces.institute';
   const GROUPS = [
-    { id: 'layout', h: 'Layout and grids', sub: 'For A3 — columns, gutter, margin, max width, spacing scale.', items: [
-      ['Gallery: grids, type and colour', 'gallery.html', 'make', ['A3', 'A4', 'A5', 'C9'], 'Grids, typefaces and palettes from published design systems, each with its numbers and its source. Click one of each and copy A3, A4, A5 and the references.', true],
+    { id: 'build', h: 'Use these tools to build your assessment', sub: 'Each one makes something you can copy straight into your deck.', items: [
+      ['Flow maker', 'flow.html', 'make', ['B4', 'A2', 'D2'], 'Your journey as a 16:9 slide for B4. List what people do now and mark where they get stuck (week 5). Then make your version from a copy: remove, merge, move, rename and add screens (week 7). It labels what happened to every step, which is your D2, and counts both journeys.', true],
+      ['Screen maker', 'screen-maker.html', 'make', ['B5', 'B6', 'B7'], 'Wireframes from ready-made blocks that snap into rows, at phone or desktop size. Type your own words, share what every screen has in common, then copy each screen into your deck or print the set. Sketching counts just the same.', true],
       ['Style kit', 'style-kit.html', 'make', ['A3', 'A4', 'A5', 'B3', 'C9'], 'Pick a grid, type and colour from published systems, see them on three screens in your own words, and copy A3, A4, A5 and the references. Includes what bad choices look like.', true],
+      ['Gallery: grids, type and colour', 'gallery.html', 'make', ['A3', 'A4', 'A5', 'C9'], 'Grids, typefaces and palettes from published design systems, each with its numbers and its source. Click one of each and copy A3, A4, A5 and the references.', true],
+    ]},
+    { id: 'layout', h: 'Layout and grids', sub: 'For A3 — columns, gutter, margin, max width, spacing scale.', items: [
       ['A grid in seven numbers', 'grid-numbers.html', 'explore', ['A3'], 'What columns, gutter, margin, max width, breakpoints and a spacing scale mean, each with a live screen. The last slide sets your own and copies them for A3.', true],
       ['GOV.UK Design System: Layout', 'https://design-system.service.gov.uk/styles/layout/', 'collect', ['A3'], 'A published grid in plain words — two-thirds and one-third columns, a fixed max width — behind most council and government services.'],
       ['Bootstrap: Grid', 'https://getbootstrap.com/docs/5.3/layout/grid/', 'collect', ['A3'], 'The grid behind a large share of commercial websites: twelve columns and a breakpoint table to compare with what you measure.'],
@@ -362,8 +368,6 @@
       ['Canva', 'https://www.canva.com/education/', 'make', ['B2', 'B3'], 'Quick mood boards and style tiles from templates, free for students.'],
       ['Excalidraw', 'https://excalidraw.com/', 'make', ['B4', 'B5'], 'Hand-drawn-looking flows and wireframes in the browser. Free, no account.'],
       ['How flows work', 'flow-guide.html', 'explore', ['B4', 'D2'], 'What each part of a flow means, with a real example from the four cases: step, wait, stuck, yes/no question, back to a step; then kept, merged, moved, removed and new. Two short self-tests. Read it before the Flow maker.'],
-      ['Flow maker', 'flow.html', 'make', ['B4', 'A2', 'D2'], 'Your journey as a 16:9 slide for B4. List what people do now and mark where they get stuck (week 5). Then make your version from a copy: remove, merge, move, rename and add screens (week 7). It labels what happened to every step, which is your D2, and counts both journeys.', true],
-      ['Screen maker', 'screen-maker.html', 'make', ['B5', 'B6', 'B7'], 'Wireframes from ready-made blocks that snap into rows, at phone or desktop size. Type your own words, share what every screen has in common, then copy each screen into your deck or print the set. Sketching counts just the same.', true],
       ['Organisms', 'organisms.html', 'explore', ['B5'], 'Every block in the Screen maker at full size, with its code, size, job and the screens it usually turns up on.'],
       ['Paper organisms', 'paper/paper-organisms.pdf', 'make', ['B5'], 'The same blocks to print, cut out and stick onto a screen. A4, at 100%: each piece carries its code, so a paper screen can be rebuilt in the Screen maker.'],
       ['Twenty kinds of screen', 'paper/paper-cheatsheet.pdf', 'explore', ['A2', 'B5'], 'A cheatsheet: what each kind of screen does, and the organisms it is usually made of. A good place to start when you have a job but no layout.'],
@@ -397,12 +401,16 @@
   function paint() {
     document.getElementById('tkf').innerHTML = `<button type="button" data-s="" aria-pressed="${!only}">All</button>` +
       secs.map(s => `<button type="button" data-s="${s}" aria-pressed="${only === s}">${s}</button>`).join('');
-    document.getElementById('tk').innerHTML = GROUPS.map(g => {
-      const items = g.items.filter(i => !only || i[3].includes(only)); if (!items.length) return '';
-      return `<section class="tk-group" id="${g.id}"><h2>${g.h}</h2><p class="gsub">${g.sub}</p><div class="tk-grid">${items.map(([n, u, k, s, d, ours]) =>
+    /* the top section always shows all of its tools; with a filter on, the ones that match also join the list below */
+    const section = (g, items, id) => `<section class="tk-group" id="${id}"><h2>${g.h}</h2><p class="gsub">${g.sub}</p><div class="tk-grid">${items.map(([n, u, k, s, d, ours]) =>
         `<a class="tk${ours ? ' ours' : ''}" href="${u}"${u.startsWith('http') ? ' target="_blank" rel="noopener"' : ''}>
           <span class="top"><b>${n}</b><span class="kind ${k}">${KIND[k]}</span></span><p>${d}</p>
           <span class="foot">${s.map(x => `<span class="sec">${x}</span>`).join('')}<span class="host">${host(u)} ↗</span></span></a>`).join('')}</div></section>`;
+    document.getElementById('tk-build').innerHTML = section(GROUPS[0], GROUPS[0].items, 'build');
+    document.getElementById('tk').innerHTML = GROUPS.map((g, i) => {
+      if (!i && !only) return '';
+      const items = g.items.filter(x => !only || x[3].includes(only)); if (!items.length) return '';
+      return section(g, items, i ? g.id : 'build-match');
     }).join('') || '<p class="sub">No tools for that section yet.</p>';
   }
   document.getElementById('tkf').addEventListener('click', e => { const b = e.target.closest('[data-s]'); if (!b) return;
