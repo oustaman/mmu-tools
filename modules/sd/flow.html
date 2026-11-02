@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Flow maker — Screen Design</title>
-<link rel="stylesheet" href="tool-shell.css">
+<link rel="stylesheet" href="tool-shell.css?v=202611020945">
 <style>
   /* the Flow maker: the steps on the left, the slide they draw on a canvas */
   .tool{grid-template-columns:372px minmax(0,1fr)}
@@ -63,7 +63,7 @@
   #slide g[data-step]{cursor:pointer;outline:none}
   #slide g[data-step] text{cursor:text}
   #slide g[data-step]:hover > rect:first-child,#slide g[data-step]:hover > polygon:first-child{stroke:#1A526D;stroke-width:3.5}
-  #slide g.sel > rect:first-child,#slide g.sel > polygon:first-child{stroke:#1A526D;stroke-width:6}
+  #slide g.sel > rect:first-child,#slide g.sel > polygon:first-child{stroke:#1A526D;stroke-width:6;filter:drop-shadow(0 0 12px rgba(26,82,109,.65))}
   #slide g[data-step]:focus-visible > rect:first-child,#slide g[data-step]:focus-visible > polygon:first-child{stroke:#1A526D;stroke-width:6}
   #slide{position:relative}
   #inl{position:absolute;z-index:3;resize:none;overflow:hidden;font-family:system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;font-weight:600;line-height:1.25;text-align:center;color:#1A1618;background:#fff;border:3px solid #1A526D;border-radius:8px;padding:4px 6px;outline:none;box-shadow:0 2px 12px rgba(26,82,109,.3)}
@@ -99,7 +99,7 @@
       </div>
     </div>
     <section class="fm-panel" role="tabpanel" id="p-before" aria-labelledby="t-before">
-      <div class="pane-s"><p class="fm-how">Everything the person does or waits for, in their order. Mark where they get stuck. <b>Click anything on the diagram to change it.</b></p><ol class="fm-list" id="l-before"></ol></div>
+      <div class="pane-s"><p class="fm-how">Everything the person does or waits for, in their order. Mark where they get stuck. <b>Click a step here or on the diagram to change it.</b></p><ol class="fm-list" id="l-before"></ol></div>
       <div class="fm-add"><button type="button" class="tbtn" data-act="add" data-side="before">+ Add a step</button><button type="button" class="tbtn" data-act="add" data-side="before" data-k="wait">+ Add a wait</button></div>
     </section>
     <section class="fm-panel" role="tabpanel" id="p-after" aria-labelledby="t-after" hidden>
@@ -135,8 +135,8 @@
   <div class="dlg-acts"><button class="tbtn pri" value="close">Got it</button></div>
 </form></dialog>
 
-<script src="flow-draw.js"></script>
-<script src="tool-canvas.js"></script>
+<script src="flow-draw.js?v=202611020945"></script>
+<script src="tool-canvas.js?v=202611020945"></script>
 <script>
 (function () {
   /* The Flow maker. Students list the journey as it is now (week 5), then build their version
@@ -226,7 +226,7 @@
     document.querySelectorAll('[data-tab]').forEach(b => { const on = b.dataset.tab === S.tab; b.setAttribute('aria-selected', String(on)); $('p-' + b.dataset.tab).hidden = !on; });
     S.view = S.tab === 'before' ? 'before' : S.tab === 'after' ? 'after' : 'both';
     $('dl').textContent = S.tab === 'before' ? 'Download “now” for B4' : S.tab === 'after' ? 'Download my version for B4' : 'Download both for B4';
-    $('afterhow').innerHTML = S.after.length ? 'Remove, merge, move and rename steps until it answers every ✗. <b>Click anything on the diagram to change it.</b>' : '';
+    $('afterhow').innerHTML = S.after.length ? 'Remove, merge, move and rename steps until it answers every ✗. <b>Click a step here or on the diagram to change it.</b>' : '';
     const nothing = S.tab === 'after' ? !S.after.length : !S.before.length; $('dl').disabled = nothing; $('dl').title = nothing ? 'Nothing to download yet: add a step first' : '';
     $('reseed').hidden = !S.after.length; $('undo').disabled = !hist.length; $('redo').disabled = !fut.length;
     draw();
@@ -278,7 +278,20 @@
     if (g.querySelector('[data-f="t"]') && !g.hasAttribute('tabindex')) { g.setAttribute('tabindex', '0'); g.setAttribute('role', 'button'); const st = stepOf(g.dataset.step); g.setAttribute('aria-label', 'Edit: ' + (st ? st.t : '')); } }); }
   function pick(id) { selId = id; document.querySelectorAll('.fm-row,.fm-d2 li').forEach(r => r.classList.toggle('sel', r.dataset.id === id)); mark(); }
   $('steps').addEventListener('focusin', e => { const r = e.target.closest('.fm-row,.fm-d2 li'); if (r && r.dataset.id !== selId) pick(r.dataset.id); });
-  $('steps').addEventListener('click', e => { const r = e.target.closest('.fm-row'); if (r && r.dataset.id !== selId) pick(r.dataset.id); });
+  /* a click on a step in the list: it lights up on the diagram, comes into view, and you can type
+     straight there. (Tab only highlights it, so the keyboard stays in the list.) Controls in an open
+     row keep working as usual, and a second click in its words edits them in the list. */
+  let wasSel = null;
+  $('steps').addEventListener('pointerdown', e => { const r = e.target.closest('.fm-row,.fm-d2 li'); wasSel = r ? r.dataset.id === selId : null; }, true);
+  $('steps').addEventListener('click', e => {
+    const r = e.target.closest('.fm-row'), d = e.target.closest('.fm-d2 li');
+    if (d) { pick(d.dataset.id); const g = document.querySelector(`#slide g[data-step="${d.dataset.id}"]`); if (g) view.reveal(g); return; }
+    if (!r) return;
+    if (r.dataset.id !== selId) pick(r.dataset.id);
+    if (wasSel || e.target.closest('.fm-det,button,select') || e.detail === 0) return;
+    const g = document.querySelector(`#slide g[data-step="${r.dataset.id}"]`); if (g) view.reveal(g);
+    openInl(r.dataset.id, 't');
+  });
   const stepOf = id => S.before.find(x => x.id === id) || S.after.find(x => x.id === id);
 
   /* typing on the diagram: a box of words laid exactly over what you clicked, inside the canvas so
@@ -292,6 +305,7 @@
     if (open.f === 't' && shape) { b = view.boxOf(shape); if (shape.tagName === 'polygon') { const w = b.w * .68, h = b.h * .6; b = { x: b.x + (b.w - w) / 2, y: b.y + (b.h - h) / 2, w, h }; } }
     else { const m = txt ? view.boxOf(txt) : view.boxOf(g); const w = Math.max(m.w + 30, 200); b = { x: m.x + m.w / 2 - w / 2, y: m.y - 6, w, h: Math.max(m.h + 14, 38) }; }
     inl.style.left = b.x + 'px'; inl.style.top = b.y + 'px'; inl.style.width = b.w + 'px'; inl.style.height = Math.max(b.h, 34) + 'px'; inl.style.fontSize = fs + 'px';
+    const lines = Math.max(1, Math.ceil((inl.value.length || 1) * fs * 0.52 / Math.max(40, b.w - 18))); inl.style.paddingTop = Math.max(3, (Math.max(b.h, 34) - lines * fs * 1.25) / 2 - 3) + 'px';
   }
   function openInl(id, f) {
     const x = stepOf(id); if (!x) return;

@@ -23,6 +23,7 @@ git rm -rq --ignore-unmatch modules/sd
 git checkout "$SRC" -- modules/sd
 for f in "${OFF[@]}"; do git rm -q --cached --ignore-unmatch "modules/sd/$f"; rm -f "modules/sd/$f"; done
 git checkout origin/main -- modules/sd/.DS_Store 2>/dev/null || true
+python3 modules/sd/tools/stamp_assets.py modules/sd
 git add -A modules/sd
 if git diff --cached --quiet; then echo "Nothing to publish."; exit 0; fi
 git commit -q -m "$MSG

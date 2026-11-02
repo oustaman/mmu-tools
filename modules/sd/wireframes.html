@@ -6,9 +6,9 @@
 <title>Thinking in wireframes — Screen Design, week 5</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="paper/paper.css">
-<link rel="stylesheet" href="deck-kit.css">
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500&family=Source+Sans+3:wght@400;700&family=Source+Serif+4:opsz,wght@8..60,700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="paper/paper.css?v=202611020945">
+<link rel="stylesheet" href="deck-kit.css?v=202611020945">
 <style>
 
   /* THE BAR — one definition, identical on every page (written by navfix; change it
@@ -65,123 +65,161 @@
 
 <main id="deck">
 
-<section class="sl" data-t="An argument about priority"><div class="wrap">
+<section class="sl" data-t="What a wireframe is for"><div class="wrap">
   <div class="seq" style="grid-template-columns:auto minmax(0,1fr)">
     <div class="dk-row">
       <div><div class="dk-mid" data-screen="bin:0"></div><p class="dk-cap" style="--u:.5px"><b>Wireframe</b></p></div>
       <div><div class="pol"><div class="hero"><h3>Report a missed bin</h3><p>Use this if your bin was not emptied on its collection day.</p><p>Report it by 2pm on the next working day and we will come back for it.</p></div><div class="bt">Start</div></div><p class="dk-cap" style="--u:.5px"><b>Polished</b></p></div>
     </div>
     <div>
-      <p class="ey">Week 5 · Wireframes · B5</p>
-      <h2>A wireframe is an argument about priority</h2>
-      <p class="lead"><b>Decide now:</b> the screen’s job, what is on it, what comes first, the real words, where it goes next.</p>
-      <p class="lead"><b>Not yet:</b> fonts, colours, icons, photographs. Everything on the right that is not on the left was decided without asking whether the screen works.</p>
-      <p class="ask"><b>If you are choosing a font, stop.</b> Your week 4 decisions come back when you finish the screens.</p>
+      <p class="ey">Week 5 · B5</p>
+      <h2>What a wireframe is for</h2>
+      <p class="lead">A wireframe is where you decide what goes on a screen, in what order, and in what words.</p>
+      <p class="lead">Leave fonts, colours, icons and photos for later. Your choices from week 4 come back when you finish the screens.</p>
     </div>
   </div>
 </div></section>
 
-<section class="sl" data-t="A pen, or the Screen maker"><div class="wrap">
-  <p class="ey">Two ways to do it: both count for B5</p>
-  <h2>A pen, or the Screen maker</h2>
+<section class="sl" data-t="Sketch or Screen maker"><div class="wrap">
+  <p class="ey">Both count for B5</p>
+  <h2>Sketch it, or use the Screen maker</h2>
   <div class="seq" style="grid-template-columns:auto auto minmax(0,1fr)">
-    <div><div class="dk-mid sketch" data-screen="bin:0"></div><p class="dk-cap" style="--u:.5px"><b>Sketch,</b> then a photo</p></div>
+    <div><div class="dk-mid sketch" data-screen="bin:0"></div><p class="dk-cap" style="--u:.5px"><b>Sketch</b></p></div>
     <div><div class="dk-mid" data-screen="bin:0"></div><p class="dk-cap" style="--u:.5px"><b>Screen maker</b></p></div>
-    <ul class="pts"><li><b>Sketching is faster</b> for trying several versions. A marker stops you drawing small details.</li>
-      <li><b>The Screen maker is tidier</b>, and the words are easy to change.</li>
-      <li><b>Mix them:</b> sketch three ideas, then build the one that works.</li>
-      <li>Boxes and labels either way. A box with a cross means “a picture goes here”.</li></ul>
+    <ul class="pts"><li>Sketching is quicker when you’re trying out ideas, and a thick marker stops you fiddling with details.</li>
+      <li>The Screen maker is tidier, and it’s easy to change the words.</li>
+      <li>A box with a cross means a picture goes there.</li></ul>
   </div>
 </div></section>
 
-<section class="sl" data-t="Organisms and the budget"><div class="wrap">
+<section class="sl" data-t="Atomic design"><div class="wrap">
+  <p class="ey">Where the building blocks come from</p>
+  <h2>Atomic design</h2>
+  <p class="lead">Brad Frost took this idea from chemistry. Small parts combine into bigger ones, all the way up to a full page. Here it is on a newspaper’s front page.</p>
+  <div class="ad">
+    <div class="ad-c"><h3>Atoms</h3><div class="ad-d ad-gap"><strong class="ad-word">Headline</strong><span class="ad-btn">Search</span></div><p>Single parts.</p></div>
+    <div class="ad-c"><h3>Molecules</h3><div class="ad-d ad-gap"><div><em>Local</em><strong>Bus fares to rise</strong></div><div class="ad-search"><span></span><span class="ad-btn">Search</span></div></div><p>A few parts working together.</p></div>
+    <div class="ad-c on"><h3>Organisms</h3><div class="ad-d"><div class="ad-o ad-hd"><b>The Daily</b><div class="ad-search"><span></span><span class="ad-btn">Search</span></div></div><div class="ad-o ad-st"><i></i><em>Local</em><strong>Bus fares to rise</strong></div></div><p><b>What we use in class.</b> A section that does one job.</p></div>
+    <div class="ad-c"><h3>Templates</h3><div class="ad-d"><div class="ad-page tpl">
+          <div class="ad-o ad-hd"><u></u></div>
+          <div class="ad-o ad-st"><i></i><u></u><u></u></div>
+          <div class="ad-o ad-st"><i></i><u></u><u></u></div>
+        </div></div><p>Organisms on a page.</p></div>
+    <div class="ad-c"><h3>Pages</h3><div class="ad-d"><div class="ad-page">
+          <div class="ad-o ad-hd"><b>The Daily</b></div>
+          <div class="ad-o ad-st"><i></i><em>Local</em><strong>Bus fares to rise in spring</strong></div>
+          <div class="ad-o ad-st"><i></i><em>Sport</em><strong>New pitch for town club</strong></div>
+        </div></div><p>The same, with real content.</p></div>
+  </div>
+</div></section>
+
+<section class="sl" data-t="On The Guardian"><div class="wrap">
+  <p class="ey">Credit: The Guardian, theguardian.com</p>
+  <h2>The same idea, on The Guardian</h2>
+  <p class="lead">Here are the same five stages in The Guardian’s colours, so you can see the small parts turning up again in the finished page.</p>
+  <div class="ad gd">
+    <div class="ad-c"><h3>Atoms</h3><div class="ad-d ad-gap"><strong class="gd-h">Headline</strong><span class="gd-btn">Support us</span></div></div>
+    <div class="ad-c"><h3>Molecules</h3><div class="ad-d ad-gap"><div><em>News</em><strong class="gd-h">A headline goes here</strong></div><div class="gd-nav"><span>News</span><span>Opinion</span><span>Sport</span></div></div></div>
+    <div class="ad-c on"><h3>Organisms</h3><div class="ad-d"><div class="gd-mast"><b>The Guardian</b><span>News Opinion Sport</span></div><div class="gd-st"><i></i><em>News</em><strong>A headline goes here</strong><small>A line of detail</small></div></div></div>
+    <div class="ad-c"><h3>Templates</h3><div class="ad-d"><div class="gd-page tpl">
+          <div class="gd-mast"><u></u></div>
+          <div class="gd-st"><i></i><u></u><u></u></div>
+          <div class="gd-st"><i></i><u></u><u></u></div>
+        </div></div></div>
+    <div class="ad-c"><h3>Pages</h3><div class="ad-d"><div class="gd-page">
+          <div class="gd-mast"><b>The Guardian</b><span>News Opinion Sport</span></div>
+          <div class="gd-st"><i></i><em>News</em><strong>A headline goes here</strong><small>A line of detail</small></div>
+          <div class="gd-st"><i></i><em>Sport</em><strong>A headline goes here</strong><small>A line of detail</small></div>
+        </div></div></div>
+  </div>
+  <p class="ad-note">The Guardian’s own typefaces are licensed only for its own sites and apps, so the type here is a close free match, Source Serif and Source Sans. See the real thing at <a href="https://www.theguardian.com/uk">theguardian.com</a>.</p>
+</div></section>
+
+<section class="sl" data-t="Organisms"><div class="wrap">
   <div class="seq">
     <div class="dk-big" id="budget"></div>
     <div>
       <p class="ey">The building blocks</p>
-      <h2>Organisms, and a budget of 14 rows</h2>
-      <p class="lead">A button alone does nothing. A question with its answers does a job. Brad Frost’s atomic design calls that an <b>organism</b>: small parts working as one unit. Each has a <b>code</b>, a <b>name</b> and a <b>job</b>.</p>
-      <ul class="pts"><li>Every organism is <b>375 px wide</b>, and a whole number of <b>56 px rows</b>, so any fits under any other.</li>
-        <li>A screen has <b>14 rows</b>. When they run out, something has to go, or move to another screen. That limit is the point.</li>
-        <li>Big-screen project? <b>Desktop</b> has the same rows, across 12 columns.</li></ul>
+      <h2>Organisms</h2>
+      <p class="lead"><b>375 px wide. 56 px rows. 14 rows to a screen.</b></p>
+      <p class="lead">Each organism does one job, like a question with its answers.</p>
+      <p class="lead">When you run out of rows, something has to go or move to another screen. On desktop you get the same rows across 12 columns.</p>
     </div>
   </div>
 </div></section>
 
 <section class="sl" data-t="One whole journey"><div class="wrap">
-  <p class="ey">One whole journey · the missed bin’s new version</p>
-  <h2>One screen per step, one job per screen</h2>
+  <p class="ey">The missed bin’s new version</p>
+  <h2>One whole journey</h2>
   <div data-strip="bin"></div>
-  <p class="lead" style="margin:10px 0 0">Give each screen a <b>job</b>: under ten words, starting with a verb. Six screens, <b id="uses"></b> organisms placed, but only thirteen different ones. <b>That repetition is a system.</b></p>
+  <p class="lead" style="margin:10px 0 0">There’s one screen for each step. Try describing each screen’s job in under ten words. It uses <b id="uses"></b> organisms across six screens, but only thirteen different ones.</p>
 </div></section>
 
 <section class="sl" data-t="Screen 1"><div class="wrap"><div class="seq">
   <div class="dk-big" data-screen="bin:0"></div>
-  <div><p class="ey">Screen 1 of 6</p><h2>Say the one rule, and let them start</h2>
-    <p class="lead">The old page had 199 words. Only the deadline decides whether reporting is worth it, so that is the rule shown.</p>
+  <div><p class="ey">Screen 1 of 6</p><h2>The start</h2>
+    <p class="lead">The old page had 199 words. The deadline is the only rule that decides whether it’s worth reporting, so that’s the one we show.</p>
     <ul data-parts="bin:0"></ul></div>
 </div></div></section>
 
 <section class="sl" data-t="Screen 2"><div class="wrap"><div class="seq">
   <div class="dk-big" data-screen="bin:1"></div>
-  <div><p class="ey">Screen 2 of 6</p><h2>Ask the address first</h2>
-    <p class="lead">Once the council knows where, it knows which bins were due. <b>The order is the biggest decision here</b>, and a wireframe is exactly where you make it.</p>
+  <div><p class="ey">Screen 2 of 6</p><h2>Address first</h2>
+    <p class="lead">Once the council knows the address, it knows which bins were due. That’s why this comes first.</p>
     <ul data-parts="bin:1"></ul></div>
 </div></div></section>
 
 <section class="sl" data-t="Screens 3 and 4"><div class="wrap"><div class="seq">
   <div class="dk-row"><div class="dk-mid" data-screen="bin:2"></div><div class="dk-mid" data-screen="bin:3"></div></div>
-  <div><p class="ey">Screens 3 and 4 of 6</p><h2>The same block, doing a different job</h2>
+  <div><p class="ey">Screens 3 and 4 of 6</p><h2>The same organism twice</h2>
     <ul data-parts="bin:2"></ul>
-    <p class="ask"><b>Using an organism again is a good sign:</b> people only learn it once. Empty rows are fine too.</p>
-    <p class="ask"><b>Use the real words.</b> “Blue bin: recycling, due today” can be wrong, so you can read it and disagree. “An answer” cannot.</p></div>
+    <p class="lead">Both screens use the same block for different questions, so people only have to learn it once.</p>
+    <p class="lead">Use real words from the start. You can read “Blue bin: recycling, due today” and disagree with it, which you can’t do with “An answer”.</p></div>
 </div></div></section>
 
 <section class="sl" data-t="Screens 5 and 6"><div class="wrap"><div class="seq">
   <div class="dk-row"><div class="dk-mid" data-screen="bin:4"></div><div class="dk-mid" data-screen="bin:5"></div></div>
-  <div><p class="ey">Screens 5 and 6 of 6</p><h2>Show it back, then say what happens next</h2>
-    <p class="lead">Every answer with a Change link, and a button that says what it does. Then the screen the old form never showed: a reference, a date, and what to do if it does not happen.</p>
+  <div><p class="ey">Screens 5 and 6 of 6</p><h2>Checking, and finishing</h2>
+    <p class="lead">People can change any answer before sending it. The last screen gives them a reference, a date, and what to do if nothing happens. The old form had no screen like this.</p>
     <ul data-parts="bin:4,bin:5" data-brief></ul></div>
 </div></div></section>
 
 <section class="sl" data-t="In the Screen maker"><div class="wrap">
-  <p class="ey">Watch one built</p>
   <h2>In the Screen maker</h2>
   <div class="two">
     <ol class="pts">
-      <li><b>Click an organism</b>, or drag it onto a row.</li>
-      <li><b>Click any words</b> and type your own.</li>
-      <li><b>Drag a piece</b> to move it. Rows can stay empty.</li>
-      <li><b>+ New screen:</b> blank, or one of the twenty kinds.</li>
-      <li><b>Master:</b> what every screen shares, such as the top bar.</li>
+      <li>Click an organism to add it, or drag it onto a row.</li>
+      <li>Click any words to change them.</li>
+      <li>Drag a piece to move it. Rows can stay empty.</li>
+      <li><b>+ New screen</b> gives you a blank screen or one of the twenty kinds.</li>
+      <li>Anything every screen shares, like the top bar, goes on the master.</li>
     </ol>
-    <div><ul class="pts"><li><b>Copy as a picture</b> into your deck, or <b>print</b> the set.</li>
-        <li>Nothing fits? <b>Your own</b> is a note saying what would go there.</li>
-        <li><b>On a university computer</b>, copy your link before logging off: <b>More</b>, then <b>Save</b>.</li></ul>
+    <div><ul class="pts"><li>Copy each screen into your deck as a picture, or print the set.</li>
+        <li>If nothing fits, use a note to say what would go there.</li>
+        <li>On a university computer, copy your link before you log off (More, then Save).</li></ul>
       <p><a class="go" href="screen-maker.html">Open the Screen maker</a></p></div>
   </div>
 </div></section>
 
 <section class="sl" data-t="Your turn"><div class="wrap">
-  <p class="ey">Today</p>
-  <h2>Your turn: answer your worst ✗</h2>
+  <h2>Your turn</h2>
   <ol class="pts">
-    <li><b>Which ✗ on your flow costs people the most?</b></li>
-    <li>What two or three screens would answer it? Give each a <b>job</b>.</li>
-    <li><b>Wireframe them</b>, sketched or in the Screen maker. Quick rather than tidy.</li>
-    <li><b>The blind test:</b> hand them to a partner, in order. Can they say what each one is for, and what they would do next? Redraw any they cannot.</li>
-    <li>Put them in <b>B5</b>. That is the start of your set.</li>
+    <li>Pick the ✗ on your flow that costs people the most.</li>
+    <li>Work out which two or three screens would fix it, and give each one a job.</li>
+    <li>Wireframe them, sketched or in the Screen maker. Keep it quick.</li>
+    <li>Give them to a partner, in order. If they can’t say what a screen is for or what they’d do next, redraw it.</li>
+    <li>Put them in B5.</li>
   </ol>
-  <p class="try"><b>Week 7:</b> the rest of the organisms, the states you forgot, and the rest of your screens.</p>
+  <p class="try">In week 7 we’ll look at the rest of the organisms and wireframe the rest of your screens.</p>
 </div></section>
 
 </main>
 <footer><div class="wrap"><p>Screen Design · Level 4 · 2026–27</p></div></footer>
 
-<script src="paper/paper-kit.js"></script>
-<script src="paper/organisms.js"></script>
-<script src="paper/journeys.js"></script>
-<script src="deck-kit.js"></script>
+<script src="paper/paper-kit.js?v=202611020945"></script>
+<script src="paper/organisms.js?v=202611020945"></script>
+<script src="paper/journeys.js?v=202611020945"></script>
+<script src="deck-kit.js?v=202611020945"></script>
 <script>
 (function () {
   const { draw, start } = DK;

@@ -145,8 +145,8 @@ const WEEKS = [
  makes:["The journey before → Part A §2","The journey, mapped → B4","The before, captured → D1","First wireframes → B5","C7 drafted"],
  shown:[
   {core:true, s:"Before and after: the painful one", u:"case-bakery.html", take:"The before is evidence, even when it is a message thread. Count it — channels, messages, days — and every count becomes a line in C5 and D2."},
-  {core:true, slides:"Drawing a flow", s:"Drawing a flow", u:"flow-grammar.html", take:"A flow has six marks, each with one meaning. The ✗ marks matter most: they are the problems your design has to answer."},
-  {core:true, slides:"Thinking in wireframes", s:"Thinking in wireframes: one whole journey", u:"wireframes.html", take:"A wireframe is an argument about priority: what is here, in what order, in what words. If you are choosing a font, stop."},
+  {core:true, slides:"Drawing a flow", s:"Drawing a flow", u:"flow-grammar.html", take:"A flow has six marks to learn. The ✗ marks show the problems your design has to fix."},
+  {core:true, slides:"Thinking in wireframes", s:"Thinking in wireframes: one whole journey", u:"wireframes.html", take:"Decide what goes on the screen, in what order and in what words. Fonts and colours can wait."},
  ],
  three:[
   {t:"Your journey before, counted and mapped", d:"Part A §2: the goal and every step people take now, with the count — and the same steps drawn as a flow in B4."},
@@ -215,7 +215,7 @@ const WEEKS = [
  shown:[
   {core:true, s:"The five states", u:"https://interfaces.institute/stairwell/state/", take:"Four of the five states look identical when nobody designs them. Empty, loading, error and offline are screens, and they belong in A2."},
   {core:true, slides:"PassReady", s:"PassReady: the worst-day screens", u:"passready.html", take:"Not knowing and not being sure are states too. Each needs its own words and a next step, or the screen pretends to a certainty it has not earned."},
-  {core:true, slides:"The rest of the organisms", s:"The rest of the organisms", u:"wireframes-2.html", take:"Sort them by what the person needs at that moment. Empty, loading and failed are screens too, and they need wireframes."},
+  {core:true, slides:"The rest of the organisms", s:"The rest of the organisms", u:"wireframes-2.html", take:"Look through the rest of the set once. Empty, loading and failed are screens too, so they need wireframes."},
  ],
  three:[
   {t:"The journey, both ways", d:"Part A §2 — the goal, the steps people take now, and your screens, counted."},
