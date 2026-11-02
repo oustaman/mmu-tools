@@ -7,8 +7,8 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500&family=Patrick+Hand&display=swap" rel="stylesheet" crossorigin="anonymous">
-<link rel="stylesheet" href="paper/paper.css?v=202611021401">
-<link rel="stylesheet" href="tool-shell.css?v=202611021401">
+<link rel="stylesheet" href="paper/paper.css?v=202611021441">
+<link rel="stylesheet" href="tool-shell.css?v=202611021441">
 <style>
   /* the Screen maker: the list of organisms, every screen on one canvas, and a form */
   .tool{grid-template-columns:292px minmax(0,1fr) 264px}
@@ -141,6 +141,8 @@
   .sh-t .pin-n{width:28px;height:28px;line-height:28px;font-size:15px}
   #print{display:none}
   @media print{ body > :not(#print):not(.defs){display:none!important} #print{display:block} #print .slot-lines,#print .colgrid{display:none} #print .slot-fill{display:block} }
+  .tb-bar{gap:4px}
+  dialog textarea{width:100%;font:0.76rem/1.45 var(--mono);padding:7px 9px;border:1px solid var(--line-2);border-radius:6px;background:#fff;color:var(--ink);resize:vertical;word-break:break-all}
 </style>
 </head>
 <body>
@@ -155,15 +157,17 @@
   <span class="tb-sp"></span>
   <button type="button" class="tbtn" data-act="undo" id="undo" title="Undo (Ctrl or ⌘ Z)">Undo</button>
   <button type="button" class="tbtn" data-act="redo" id="redo" title="Redo (Ctrl or ⌘ Shift Z)">Redo</button>
+  <button type="button" class="tbtn" data-act="savebox" aria-haspopup="dialog">Save</button>
   <button type="button" class="tbtn" data-act="copypic">Copy as a picture</button>
-  <button type="button" class="tbtn" data-act="print">Print or PDF</button>
   <details class="menu"><summary class="tbtn">More</summary><div class="menu-in">
     <button type="button" data-act="copyplain" id="plainb">Copy the picture without notes</button>
-    <button type="button" data-act="save">Save, move, or build from codes</button>
+    <button type="button" data-act="print">Print or PDF</button>
+    <button type="button" data-act="codes">Build from codes</button>
     <button type="button" data-act="example" id="see-ex">See an example</button>
     <button type="button" data-act="clear" id="clear">Start again</button>
   </div></details>
   <button type="button" class="tbtn" data-act="help" aria-haspopup="dialog">Help</button>
+  <button type="button" class="tbtn" data-act="tour">Walkthrough</button>
   </header>
 
 <div class="tool">
@@ -204,9 +208,19 @@
 </form></dialog>
 
 <dialog class="dlg" id="savedlg" aria-labelledby="savedlg-h"><form method="dialog">
-  <h2 id="savedlg-h">Save, move, or build from codes</h2>
-  <p><b>Carry on somewhere else.</b> Your screens stay in this browser, and a university computer may wipe them when you log off. Copy a link to all your screens, send it to yourself, and open it on any computer or phone.</p>
-  <p><button type="button" class="tbtn xs pri" data-act="link">Copy the link</button></p>
+  <h2 id="savedlg-h">Save your work as text</h2>
+  <p>Your screens stay in this browser, and a university computer may wipe them when you log off. Copy this text and keep it anywhere, like a note or an email to yourself.</p>
+  <textarea id="savecode" rows="4" readonly aria-label="Your work, as text"></textarea>
+  <p><button type="button" class="tbtn xs pri" data-act="savecopy">Copy the text</button></p>
+  <p><label for="loadcode"><b>Carrying on?</b> Paste your saved text here.</label></p>
+  <textarea id="loadcode" rows="3" spellcheck="false" placeholder="SCREENS1…"></textarea>
+  <p><button type="button" class="tbtn xs" data-act="loadcode">Bring it back</button></p>
+  <p class="p" id="savemsg" role="status"></p>
+  <div class="dlg-acts"><button class="tbtn" value="close">Close</button></div>
+</form></dialog>
+
+<dialog class="dlg" id="codedlg" aria-labelledby="codedlg-h"><form method="dialog">
+  <h2 id="codedlg-h">Build from codes</h2>
   <p><b>This screen’s code</b> is its organisms, top to bottom, the same codes as on the paper pieces:</p>
   <button type="button" class="code" id="thecode" data-act="copy" title="Copy"></button>
   <p><b>Built one on paper?</b> Type its codes here.</p>
@@ -224,6 +238,7 @@
     <li><b>Master:</b> what you put on the first tile appears on every screen, such as the bars at the top and bottom.</li>
     <li><b>The canvas:</b> scroll to move around, pinch or Ctrl/⌘ and scroll to zoom, and drag the empty space to pan. Hold Space and drag from anywhere.</li>
     <li><b>Notes:</b> press <b>Annotate</b>, click on or beside a screen to drop a number, and say what it points at. Copy as a picture then brings the screen, the numbers and the notes together.</li>
+    <li><b>Save:</b> your screens stay in this browser. Press <b>Save</b> to keep them as text, and paste it back to carry on anywhere.</li>
     <li><b>Your deck:</b> make one screen for each step of your <a href="flow.html">flow</a>, then Copy as a picture into your slides, or print the set for <b>B5</b>.</li>
   </ul>
   <p>Every organism at full size: <a href="organisms.html">Organisms</a>. Prefer paper? <a href="paper/paper-organisms.pdf">Organisms and canvases</a> · <a href="paper/paper-cheatsheet.pdf">the twenty screens</a>.</p>
@@ -236,10 +251,11 @@
 <div id="shot" aria-hidden="true"></div>
 
 <script src="https://cdn.jsdelivr.net/npm/html-to-image@1.11.11/dist/html-to-image.js"></script>
-<script src="paper/paper-kit.js?v=202611021401"></script>
-<script src="paper/organisms.js?v=202611021401"></script>
-<script src="paper/journeys.js?v=202611021401"></script>
-<script src="tool-canvas.js?v=202611021401"></script>
+<script src="paper/paper-kit.js?v=202611021441"></script>
+<script src="paper/organisms.js?v=202611021441"></script>
+<script src="paper/journeys.js?v=202611021441"></script>
+<script src="tool-canvas.js?v=202611021441"></script>
+<script src="tool-tour.js?v=202611021441"></script>
 <script>
 (function () {
   /* The Screen maker. A screen is a set of pieces, each an organism at a row (0 to 13), with
@@ -692,27 +708,23 @@
       if (isM() && !ab.classList.contains('on')) draw(ab.querySelector('.ab-c'), S.screens[i], { label: false, slots: false }); });
   }
 
-  /* ── a link to all the screens: squeezed into the address after #, which browsers never send
-     to a server, so the screens go only where the student sends the link ── */
+  /* ── saving as text: everything squeezed into a line the student can keep anywhere and paste back ── */
   const b64 = u8 => btoa(String.fromCharCode(...u8)).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
   const unb64 = t => Uint8Array.from(atob(t.replace(/-/g, '+').replace(/_/g, '/')), c => c.charCodeAt(0));
   async function pipe(bytes, stream) { return new Uint8Array(await new Response(new Blob([bytes]).stream().pipeThrough(stream)).arrayBuffer()); }
-  async function linkTo() {
-    save(); const raw = new TextEncoder().encode(JSON.stringify({ v: 3, ...W }));
-    const code = window.CompressionStream ? 'z' + b64(await pipe(raw, new CompressionStream('deflate-raw'))) : 'j' + b64(raw);
-    return location.href.split('#')[0] + '#w=' + code;
+  async function saveText() {
+    save(); const raw = new TextEncoder().encode(JSON.stringify({ v: 3, ...(mode === 'example' ? load(KEY) || fresh() : W) }));
+    return window.CompressionStream ? 'SCREENS1z' + b64(await pipe(raw, new CompressionStream('deflate-raw'))) : 'SCREENS1j' + b64(raw);
   }
-  async function fromLink() {
-    const m = location.hash.match(/^#w=([zj])([\w-]+)$/); if (!m) return;
-    history.replaceState(null, '', location.href.split('#')[0]);
-    try {
-      const bytes = unb64(m[2]), raw = m[1] === 'z' ? await pipe(bytes, new DecompressionStream('deflate-raw')) : bytes;
-      const got = tidy(JSON.parse(new TextDecoder().decode(raw)));
-      if (!got) throw new Error('empty');
-      const n = got.phone.screens.filter(x => x.pieces.length).length + got.desktop.screens.filter(x => x.pieces.length).length;
-      if (!await ask(`Open the ${plural(n, 'screen')} from this link? They replace the screens in this browser.`, 'Open them')) return;
-      switchTo('mine', got); say('Screens opened from the link.');
-    } catch (e) { say('That link did not open: it may have been cut short when it was copied.'); }
+  async function loadText(text) {
+    const m = String(text).replace(/\s+/g, '').match(/SCREENS1([zj])([\w-]+)/), tellS = t => { $('savemsg').textContent = t; };
+    if (!m) { tellS('That doesn’t look like saved text. It starts with SCREENS1.'); return; }
+    let got = null;
+    try { const bytes = unb64(m[2]), raw = m[1] === 'z' ? await pipe(bytes, new DecompressionStream('deflate-raw')) : bytes; got = tidy(JSON.parse(new TextDecoder().decode(raw))); } catch (e) {}
+    if (!got) { tellS('That text didn’t open. Part of it may have been cut off when it was copied.'); return; }
+    const mine = mode === 'example' ? load(KEY) : W, used = w => w && [w.phone, w.desktop].some(x => x.screens.some(k => k.pieces.length));
+    if (used(mine) && !await ask('Replace the screens in this browser with the ones you saved?', 'Replace them')) return;
+    $('savedlg').close(); switchTo('mine', got); say('Your work is back.');
   }
 
   /* ── copy as a picture: the screen alone, without row numbers, labels or selection ── */
@@ -813,10 +825,9 @@
       ps.forEach(p => { const f = keep.find(x => BYCODE[x.c].id === p.o && x.n); if (f && BY[p.o].own) { p.t = { [NOTE]: f.n }; f.n = ''; } });
       test.pieces = ps;
       if (ps.some(p => end(p) > ROWS) || ps.some((p, i) => ps.some((q, j) => i !== j && overlaps(p, q))) || clashes(test).length) { say('Those do not fit on one screen: split them over two.'); return; }
-      snap(); s.pieces = ps; if (!isM()) { s.over = overs.length ? BYCODE[overs[0].c].id : ''; s.overT = {}; } sel = null; $('savedlg').close(); render(); say(`Built from ${plural(found.length, 'code')}.`);
+      snap(); s.pieces = ps; if (!isM()) { s.over = overs.length ? BYCODE[overs[0].c].id : ''; s.overT = {}; } sel = null; $('codedlg').close(); render(); say(`Built from ${plural(found.length, 'code')}.`);
     }
     if (a === 'copy') { const t = codesOf(s).join(' '); navigator.clipboard.writeText(t).then(() => say('Code copied.'), () => say(t)); }
-    if (a === 'link') { const url = await linkTo(); navigator.clipboard.writeText(url).then(() => say('Link copied. Open it on another computer or phone to carry on there.'), () => say(url)); }
     if (a === 'copypic') copyPic();
     if (a === 'copyplain') copyPic(true);
     if (a === 'anno') setAnno(!anno);
@@ -826,7 +837,11 @@
     if (a === 'print') printAll();
     if (b.closest('.menu')) b.closest('.menu').open = false;
     if (a === 'example' && mode !== 'example') { switchTo('example', load(EXKEY) || EXAMPLE()); needFit = true; afterRender(); }
-    if (a === 'save') { $('thecode').textContent = codesOf(s).join(' ') || '—'; $('savedlg').showModal(); }
+    if (a === 'codes') { $('thecode').textContent = codesOf(s).join(' ') || '—'; $('codedlg').showModal(); }
+    if (a === 'savebox') { $('savemsg').textContent = ''; $('loadcode').value = ''; $('savecode').value = await saveText(); $('savedlg').showModal(); }
+    if (a === 'savecopy') { const t = $('savecode').value; navigator.clipboard.writeText(t).then(() => { $('savemsg').textContent = 'Copied. Keep it somewhere safe.'; }, () => { $('savecode').select(); $('savemsg').textContent = 'Press Ctrl or ⌘ C to copy it.'; }); }
+    if (a === 'loadcode') loadText($('loadcode').value);
+    if (a === 'tour') tour.start();
     if (a === 'help') $('helpdlg').showModal();
     if (a === 'fitall') view.fit($('world'), 16, 1);
     if (a === 'fitone') view.fit(document.querySelector('.ab.on'));
@@ -912,7 +927,15 @@
     isBackground: t => t === $('stage') || t === $('world') });
   $('world').addEventListener('focusin', e => { if (e.target.matches(':focus-visible')) view.reveal(e.target); });
   render();
-  fromLink(); addEventListener('hashchange', fromLink);
+  /* a first look round, once; the Walkthrough button brings it back */
+  const tour = window.ToolTour('sd-screen-tour', [
+    { at: '.pane.l', side: 'right', text: 'Click an organism to add it to your screen, or drag it onto a row.' },
+    { at: '.ab.on .canvas', side: 'right', text: 'Click any words to change them, and drag a piece to move it. Make one screen for each step of your flow.' },
+    { at: '[data-act="new"]', side: 'below', text: '<b>+ New screen</b> gives you a blank screen, or one of the twenty kinds with its usual organisms in place.' },
+    { at: '#annob', side: 'below', text: '<b>Annotate</b> drops numbered notes on or beside a screen. <b>Copy as a picture</b> brings the screen and its notes into your slides.' },
+    { at: '[data-act="savebox"]', side: 'below', text: 'Your work stays in this browser, and a university computer may wipe it. <b>Save</b> gives you text to keep. Paste it back later and carry on from where you stopped.' },
+  ]);
+  tour.first();
   addEventListener('resize', () => { peeked = null; });
   if (document.fonts) document.fonts.ready.then(() => renderTools());
 })();

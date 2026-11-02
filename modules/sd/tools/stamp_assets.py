@@ -6,7 +6,7 @@ show its words with none of its drawing. Run before looking at changes; publish_
 import glob, os, re, sys, time
 root = sys.argv[1] if len(sys.argv) > 1 else os.path.join(os.path.dirname(os.path.abspath(__file__)), '..')
 v = time.strftime('%Y%m%d%H%M')
-ASSETS = r'(?:deck-kit\.(?:css|js)|tool-shell\.css|tool-canvas\.js|flow-draw\.js|weeks-data\.js|sd-common\.js|rubric-data\.js|paper/(?:paper\.css|paper-kit\.js|organisms\.js|journeys\.js)|paper\.css|paper-kit\.js|organisms\.js|journeys\.js)'
+ASSETS = r'(?:deck-kit\.(?:css|js)|tool-shell\.css|tool-canvas\.js|tool-tour\.js|flow-draw\.js|weeks-data\.js|sd-common\.js|rubric-data\.js|paper/(?:paper\.css|paper-kit\.js|organisms\.js|journeys\.js)|paper\.css|paper-kit\.js|organisms\.js|journeys\.js)'
 pat = re.compile(r'((?:href|src)=")(' + ASSETS + r')(?:\?v=\d+)?(")')
 n = 0
 for f in glob.glob(os.path.join(root, '*.html')) + glob.glob(os.path.join(root, 'paper', '*.html')):

@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Flow maker — Screen Design</title>
-<link rel="stylesheet" href="tool-shell.css?v=202611021401">
+<link rel="stylesheet" href="tool-shell.css?v=202611021441">
 <style>
   /* the Flow maker: the slide on a canvas, and on the right the steps that draw it */
   .tool{grid-template-columns:minmax(0,1fr) 372px;grid-template-rows:minmax(0,1fr)}
@@ -116,6 +116,7 @@
     <button type="button" data-act="clear">Start again</button>
   </div></details>
   <button type="button" class="tbtn" data-act="help" aria-haspopup="dialog">Help</button>
+  <button type="button" class="tbtn" data-act="tour">Walkthrough</button>
   <button type="button" class="tbtn ic" data-act="shapes" aria-haspopup="dialog" aria-label="What the shapes mean" title="What the shapes mean">?</button>
 </header>
 
@@ -192,12 +193,12 @@
     <li><b>Prefer paper?</b> Boxes and arrows, left to right, photographed into B4.</li>
   </ul>
   <p>Your work stays in this browser, on this computer: press <b>Save</b> to keep it as text and carry on anywhere. New to flows? <a href="flow-guide.html">How flows work</a> has every option, with real examples.</p>
-  <div class="dlg-acts"><button type="button" class="tbtn" data-act="tour">Show me around</button><button class="tbtn pri" value="close">Got it</button></div>
+  <div class="dlg-acts"><button class="tbtn pri" value="close">Got it</button></div>
 </form></dialog>
 
-<script src="flow-draw.js?v=202611021401"></script>
-<script src="tool-tour.js"></script>
-<script src="tool-canvas.js?v=202611021401"></script>
+<script src="flow-draw.js?v=202611021441"></script>
+<script src="tool-tour.js?v=202611021441"></script>
+<script src="tool-canvas.js?v=202611021441"></script>
 <script>
 (function () {
   /* The Flow maker. Students list the journey as it is now (week 5), then build their version
@@ -545,7 +546,7 @@
     if (b.closest('.menu')) b.closest('.menu').open = false;
     if (b.dataset.act === 'help') { $('helpdlg').showModal(); return; }
     if (b.dataset.act === 'shapes') { $('shapesdlg').showModal(); return; }
-    if (b.dataset.act === 'tour') { $('helpdlg').close(); tour.start(); return; }
+    if (b.dataset.act === 'tour') { tour.start(); return; }
     if (b.dataset.act === 'dock') { setDock(!dockOpen); return; }
     if (b.dataset.act === 'tidy') { snap(); S.before.concat(S.after).forEach(x => { if (S.tab === 'd2' || sideOf(x.id) === S.tab) delete x.p; }); renderAll(); return; }
     if (b.dataset.act === 'savebox') { $('savemsg').textContent = ''; $('loadcode').value = ''; saveText().then(t => { $('savecode').value = t; }); $('savedlg').showModal(); return; }
@@ -669,7 +670,7 @@
     [box({ x: 4, y: 4, w: 50, h: 18, rx: 4, stroke: COL.mute }) + `<line x1="40" y1="22" x2="62" y2="40" stroke="${COL.mute}" stroke-width="2"/>`, 'Side note'],
     [box({ x: 6, w: 28, fill: PAL.blue[0], stroke: PAL.blue[1] }) + box({ x: 40, w: 28, fill: PAL.green[0], stroke: PAL.green[1] }), 'What your key says'],
   ].map(([g, t]) => `<li><svg viewBox="0 0 76 44" aria-hidden="true">${g}</svg><span>${t}</span></li>`).join('');
-  /* a first look round, once; Help brings it back */
+  /* a first look round, once; the Walkthrough button brings it back */
   const tour = window.ToolTour('sd-flow-tour', [
     { at: '.fm-tabs', side: 'left', text: 'Work through these in order. <b>Now</b> is how people do it today, <b>Your version</b> is your redesign, and <b>What happened</b> fills in the table for D2.' },
     { at: '.fm-panel:not([hidden]) .fm-add', side: 'left', text: 'Add a row for everything the person does or waits for. Click a row to open its settings.' },
