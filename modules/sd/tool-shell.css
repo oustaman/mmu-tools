@@ -56,7 +56,7 @@ button{font-family:inherit}
 .pane label,dialog label{display:block;font-size:0.76rem;font-weight:640;margin:8px 0 2px}
 
 /* the canvas */
-.stage{position:relative;overflow:hidden;min-width:0;min-height:0;background-color:var(--stage);background-image:radial-gradient(circle,var(--dot) 1.3px,transparent 1.6px);background-size:22px 22px;cursor:default;touch-action:none;overscroll-behavior:none}
+.stage{position:relative;overflow:hidden;min-width:0;min-height:0;background-color:var(--stage);background-image:radial-gradient(circle,var(--dot) var(--dr,1.3px),transparent calc(var(--dr,1.3px) + .4px));background-size:22px 22px;cursor:default;touch-action:none;overscroll-behavior:none}
 .stage.panning,.stage.spacey{cursor:grab} .stage.panning{cursor:grabbing}
 .world{position:absolute;left:0;top:0;transform-origin:0 0;width:max-content}
 .st-bar{position:absolute;left:8px;right:8px;bottom:8px;display:flex;align-items:center;gap:10px;pointer-events:none;z-index:12}
@@ -86,3 +86,9 @@ dialog.dlg p{margin:0 0 10px} dialog.dlg ul,dialog.dlg ol{margin:0 0 10px;paddin
   .tool{display:block} .stage{height:72vh} .pane{border:0;border-top:1px solid var(--line)} .pane-s{overflow:visible}
 }
 @media print{ html,body{height:auto;overflow:visible;display:block;background:#fff} }
+
+/* the first look round */
+.tt-ring{position:fixed;z-index:70;border:3px solid #1A526D;border-radius:9px;pointer-events:none;box-shadow:0 0 0 3px rgba(255,255,255,.75)}
+.tt-card{position:fixed;z-index:71;width:290px;background:var(--surface);border:1px solid var(--line-2);border-radius:11px;padding:12px 14px;box-shadow:0 10px 30px rgba(0,0,0,.22);font-size:0.86rem;line-height:1.4;color:var(--ink)}
+.tt-card p{margin:0 0 10px}
+.tt-row{display:flex;align-items:center;gap:6px} .tt-row span{margin-right:auto;font-size:0.76rem;color:var(--ink-2)}

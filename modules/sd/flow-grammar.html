@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Drawing a flow — Screen Design, week 5</title>
-<link rel="stylesheet" href="deck-kit.css?v=202611020945">
+<link rel="stylesheet" href="deck-kit.css?v=202611021401">
 <style>
 
   /* THE BAR — one definition, identical on every page (written by navfix; change it
@@ -97,6 +97,14 @@
   <p class="lead">If “no” sends people back, ask whether anything will be different the second time.</p>
 </div></section>
 
+<section class="sl" data-t="Branches"><div class="wrap">
+  <p class="ey">Beyond the six marks</p>
+  <h2>Branches that join up</h2>
+  <div data-fig="branches" class="half" data-alt="The council tax example. Search, then screen 1, then the question Everyone? Yes goes on to screen 2 and screen 3, no goes to other discounts. A second question, Which?, splits into upload and university, and both join at screen 4, Sent."></div>
+  <p class="lead">A question can have any number of answers, each with its own name. A branch can stop, or join the main path again, as these two do at Sent.</p>
+  <p class="lead">Pills mark the start and the end, and only your own screens get a number. Colours mean what you decide, so add a key: here, blue is a screen and green is the end.</p>
+</div></section>
+
 <section class="sl" data-t="Try it"><div class="wrap">
   <p class="ey">Real rows from the four cases</p>
   <h2>Step, question or wait?</h2>
@@ -119,12 +127,12 @@
         <li>Go through the real service and write down what actually happens.</li>
         <li>Add a row for everything the person does or waits for.</li>
         <li>Mark where people go wrong, and say why.</li>
-        <li>Download the slide for B4. A photo of paper is fine too.</li>
+        <li>Copy the slide and paste it into B4. A photo of paper is fine too.</li>
       </ol>
       <p><a class="go" href="flow.html">Open the Flow maker</a></p>
     </div>
     <div>
-      <p class="ask">Before you download, check that every diamond says what happens on “no”, and that a partner can follow it without asking you.</p>
+      <p class="ask">Before you copy it, check that every diamond says what happens on “no”, and that a partner can follow it without asking you.</p>
       <p class="ask">There’s more detail in <a href="flow-guide.html">How flows work</a>.</p>
     </div>
   </div>
@@ -134,8 +142,8 @@
 </main>
 <footer><div class="wrap"><p>Screen Design · Level 4 · 2026–27</p></div></footer>
 
-<script src="flow-draw.js?v=202611020945"></script>
-<script src="deck-kit.js?v=202611020945"></script>
+<script src="flow-draw.js?v=202611021401"></script>
+<script src="deck-kit.js?v=202611021401"></script>
 <script>
 (function () {
   /* The rows are the ones in How flows work (flow-guide.html) and the Flow maker's example, all from the four cases. */
@@ -153,6 +161,15 @@
     loop: FD.mini([s1, Q('Is the first result right for a beginner?', 'Search again', { go: 'back', back: s1.id }), S('Open the course page', 'website'), S('Register: account first', 'website')]),
     whole1: FD.mini([b1, b2, b3, b4]),
     whole2: FD.mini([b5, b6, b7, b8]),
+    /* the council tax example (Examples), as the Flow maker draws it */
+    branches: FD.sheet([
+      { id: 's', t: 'Search', k: 'end', p: { c: 0, r: 0 } }, { id: 'n1', t: 'Start', w: 'all students?', k: 'step', c: 'blue', p: { c: 1, r: 0 } },
+      { id: 'q1', t: 'Everyone?', k: 'q', off: true, ans: [{ t: 'yes', to: '' }, { t: 'no', to: 'o' }], p: { c: 2, r: 0 } },
+      { id: 'n2', t: 'Your home', w: 'address + people', k: 'step', c: 'blue', p: { c: 3, r: 0 } }, { id: 'n3', t: 'Proof', w: 'declaration + send', k: 'step', c: 'blue', p: { c: 4, r: 0 } },
+      { id: 'q2', t: 'Which?', k: 'q', off: true, ans: [{ t: 'upload', to: '' }, { t: 'university', to: 'u' }], p: { c: 4, r: 1 } },
+      { id: 'up', t: 'Upload', w: 'certificate', k: 'step', off: true, p: { c: 3, r: 1 } }, { id: 'n4', t: 'Sent', w: 'reference CT-…', k: 'step', c: 'green', p: { c: 4, r: 2 } },
+      { id: 'u', t: 'University', w: 'confirms', k: 'step', off: true, br: true, to: 'n4', p: { c: 5, r: 1 } }, { id: 'o', t: 'Other discounts', w: '25% single person …', k: 'step', off: true, br: true, p: { c: 2, r: 1 } },
+    ], 1560, 500),
   });
   /* the second row of the whole flow carries on from step 4 */
   const w2 = document.querySelector('[data-fig="whole2"] svg');

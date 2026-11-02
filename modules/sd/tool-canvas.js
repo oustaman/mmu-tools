@@ -14,8 +14,9 @@ window.ToolCanvas = function (stage, world, opts = {}) {
     world.style.transform = `translate(${v.x}px, ${v.y}px) scale(${v.z})`;
     world.style.setProperty('--z', v.z);
     /* the dots belong to the canvas: they move and scale with it, and thin out when zoomed far out */
-    let d = 22 * v.z; while (d < 16) d *= 2;
-    stage.style.backgroundSize = `${d}px ${d}px`; stage.style.backgroundPosition = `${v.x}px ${v.y}px`;
+    let d = 22 * v.z; while (d < 16) d *= 2; while (d > 88) d /= 2;
+    stage.style.backgroundSize = `${d}px ${d}px`; stage.style.backgroundPosition = `${v.x - d / 2}px ${v.y - d / 2}px`;
+    stage.style.setProperty('--dr', Math.max(0.9, Math.min(3.2, 1.3 * Math.sqrt(v.z))).toFixed(2) + 'px');
     if (label) label.textContent = Math.round(v.z * 100) + '%';
     changed();
   }

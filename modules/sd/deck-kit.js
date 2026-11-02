@@ -35,7 +35,7 @@ window.DK = (function () {
       J()[j].slice(0, +n).forEach(s => s.pieces.forEach(p => seen.add(p[0])));
       const here = []; refs.forEach(([, m]) => J()[j][+m].pieces.forEach(p => { if (!here.includes(p[0])) here.push(p[0]); }));
       el.classList.add('parts');
-      el.innerHTML = here.map(id => { const o = BY[id]; return `<li><span class="c">${o.code}</span><span class="n">${esc(o.name)}${seen.has(id) ? '' : '<span class="nw">new</span>'}</span>${el.dataset.brief != null ? '' : `<span class="j">${esc(o.does)}</span>`}</li>`; }).join(''); });
+      el.innerHTML = here.map(id => { const o = BY[id]; return `<li><span class="c">${o.code}</span><span class="n">${esc(o.name)}${seen.has(id) ? '' : '<span class="nw">first use</span>'}</span>${el.dataset.brief != null ? '' : `<span class="j">${esc(o.does)}</span>`}</li>`; }).join(''); });
     $$('[data-strip]').forEach(el => { const js = J()[el.dataset.strip]; el.classList.add('strip');
       el.innerHTML = js.map((s, i) => `${i ? '<span class="arr" aria-hidden="true">→</span>' : ''}<div><div class="st" data-i2="${i}"></div><p class="nm">${i + 1} · ${esc(s.name)}</p></div>`).join('');
       $$('.st', el).forEach(c => draw(c, js[+c.dataset.i2].pieces)); });
@@ -53,7 +53,8 @@ window.DK = (function () {
   const S = (t, w, o) => Object.assign({ id: 'x' + (++n), t, w: w || '', k: 'step', bad: false, note: '', ifnot: '', go: 'stuck', back: '', from: [] }, o || {});
   const Q = (t, ifnot, o) => S(t, '', Object.assign({ k: 'q', ifnot }, o || {}));
   const Wt = t => S(t, '', { k: 'wait' });
-  function figures(f) { $$('[data-fig]').forEach(el => { el.classList.add('fig'); el.innerHTML = f[el.dataset.fig] || ''; const svg = el.querySelector('svg'); if (svg) svg.setAttribute('aria-label', el.dataset.alt || 'A flow diagram'); }); }
+  /* each figure gets its own arrowheads: in Present, the slide holding a shared one is hidden, and they all vanish */
+  function figures(f) { $$('[data-fig]').forEach((el, n) => { el.classList.add('fig'); el.innerHTML = (f[el.dataset.fig] || '').replace(/id="(ah|al)"/g, `id="$1-${n}"`).replace(/url\(#(ah|al)\)/g, `url(#$1-${n})`); const svg = el.querySelector('svg'); if (svg) svg.setAttribute('aria-label', el.dataset.alt || 'A flow diagram'); }); }
 
   /* try it: a row, three answers, and the reason */
   function quiz(el, rows, labels) {
