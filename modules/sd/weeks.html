@@ -222,6 +222,12 @@
   .it .take b{display:inline;font:inherit;font-weight:650;letter-spacing:0;text-transform:none;color:var(--ink)}
   ol.items.steps{padding-left:0;font-size:inherit}
   ol.items.steps > li{margin-bottom:0}
+  .wk-code{display:flex;flex-wrap:wrap;gap:6px 8px;align-items:flex-start;margin-top:8px}
+  .wk-code textarea{flex:1 1 240px;min-width:0;font:0.72rem/1.4 var(--mono);padding:6px 8px;border:1px solid var(--line-2);border-radius:6px;background:var(--surface);color:var(--ink);resize:vertical;word-break:break-all}
+  .wk-code button{font:600 0.82rem inherit;font-family:inherit;min-height:44px;padding:0 12px;border:1px solid var(--line-2);border-radius:7px;background:var(--surface);color:var(--ink);cursor:pointer}
+  .wk-code button:hover{border-color:var(--ink)} .wk-code button:focus-visible,.wk-code textarea:focus-visible{outline:2px solid var(--wsh);outline-offset:2px}
+  .wk-said{flex-basis:100%;font-size:0.82rem;color:var(--ink-2)} .wk-said:empty{display:none}
+  @media print{.wk-code button{display:none}}
   #after .btwnline{display:block;margin:0 0 12px}
   .today{align-items:start}
   .printhead{display:none;font-family:var(--mono);font-size:0.7rem;color:var(--ink-3);
@@ -331,8 +337,8 @@
 
 </div>
 
-<script src="sd-common.js?v=202611021441"></script>
-<script src="weeks-data.js?v=202611021441"></script>
+<script src="sd-common.js?v=202611030851"></script>
+<script src="weeks-data.js?v=202611030851"></script>
 <script>
 const $ = s => document.querySelector(s);
 const NOW = SD.week();
@@ -426,7 +432,7 @@ function render(){
   $('#workshop').innerHTML = `
     <div class="bh"><h2>Workshop</h2><span class="when">2h · 10:00–12:00 · your group · three rooms run the same session</span></div>
     <ol class="items steps">${k.run.map((r, i) => `<li>
-      <div class="it flat"><div class="sum"><span class="n">${i + 1}</span><span class="s"><b>${rich(r.s)}</b><span class="take">${rich(r.d)}</span></span></div></div></li>`).join('')}</ol>`;
+      <div class="it flat"><div class="sum"><span class="n">${i + 1}</span><span class="s"><b>${rich(r.s)}</b><span class="take">${rich(r.d)}</span>${r.code ? `<span class="wk-code"><textarea readonly rows="2" aria-label="The save code for this example flow">${esc(r.code)}</textarea><button type="button" data-copycode>Copy the code</button><span class="wk-said" role="status"></span></span>` : ''}</span></div></div></li>`).join('')}</ol>`;
 
   $('#after').innerHTML = `
     <div class="bh"><h2>${w.n < SD.WEEKS ? 'Before next week' : 'Before the deadline'}</h2></div>
@@ -444,6 +450,11 @@ function render(){
     ? `<a class="qlink" href="${STAFF[cur]}" tabindex="-1">edited</a>` : 'edited';
   try { history.replaceState(null, '', `?w=${cur}${location.hash || ''}`); } catch(e){}
 }
+
+$('#workshop').addEventListener('click', e => { const b = e.target.closest('[data-copycode]'); if (!b) return;
+  const box = b.parentElement, f = box.querySelector('textarea'), said = box.querySelector('.wk-said');
+  navigator.clipboard.writeText(f.value).then(() => { said.textContent = 'Copied. Now paste it into the Flow maker.'; }, () => { f.select(); said.textContent = 'Press Ctrl or ⌘ C to copy it.'; });
+});
 
 $('#today').addEventListener('change', e => {
   const c = e.target.closest('input[data-key]'); if (!c) return;

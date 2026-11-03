@@ -209,7 +209,7 @@
       } else if (x.k === 'wait' || x.k === 'end') { const tl = clip(wrap((x.k === 'wait' ? '⏱ ' : '') + x.t, Math.floor((ww - 30) / (fs * 0.52))), 2);
         out.push(`<rect x="${l}" y="${ty}" width="${ww}" height="${hh}" rx="${hh / 2}" fill="${fill}" stroke="${edge}" stroke-width="${x.k === 'end' ? 3 : 2}"${x.k === 'wait' ? ' stroke-dasharray="7 6"' : ''}/>`,
           T(tl, cx, cy - (tl.length - 1) * (fs + 2) / 2 + fs * 0.35, fs + 2, `data-f="t" font-size="${x.k === 'wait' ? fs - 2 : fs}" font-weight="${x.k === 'end' ? 700 : 400}"${x.k === 'wait' ? ' font-style="italic"' : ''} fill="${x.k === 'wait' ? COL.mute : ink}"`));
-      } else { const sub = x.w ? clip(wrap(x.w, cpl + 2), 1) : [], fit = Math.max(1, Math.floor((hh - (sub.length ? fs + 8 : 10)) / (fs + 4))), tl = clip(wrap(x.t, cpl), Math.min(fit, 4)), th = tl.length * (fs + 4) + (sub.length ? fs + 2 : 0), y1 = cy - th / 2 + fs * 0.9;
+      } else { const sub = x.w ? clip(wrap(x.w, cpl + 2), 2) : [], more = Math.max(0, sub.length - 1) * 18, fit = Math.max(1, Math.floor((hh - (sub.length ? fs + 8 + more : 10)) / (fs + 4))), tl = clip(wrap(x.t, cpl), Math.min(fit, 4)), th = tl.length * (fs + 4) + (sub.length ? fs + 2 + more : 0), y1 = cy - th / 2 + fs * 0.9;
         out.push(`<rect x="${l}" y="${ty}" width="${ww}" height="${hh}" rx="11" fill="${fill}" stroke="${edge}" stroke-width="${x.bad ? 3.5 : 2.5}"${rm ? ' stroke-dasharray="8 6"' : ''}/>`,
           T(tl, cx, y1, fs + 4, `data-f="t" font-size="${fs}" font-weight="700" fill="${ink}"`),
           sub.length ? T(sub, cx, y1 + tl.length * (fs + 4) + 1, 18, `data-f="w" font-size="${fs - 3}" fill="${COL.mute}"`) : '',
