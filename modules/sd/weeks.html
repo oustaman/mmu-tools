@@ -223,6 +223,7 @@
   .it .take b{display:inline;font:inherit;font-weight:650;letter-spacing:0;text-transform:none;color:var(--ink)}
   ol.items.steps{padding-left:0;font-size:inherit}
   ol.items.steps > li{margin-bottom:0}
+  .wk-slides{margin:0 0 10px}
   .wk-code{display:flex;flex-wrap:wrap;gap:6px 8px;align-items:flex-start;margin-top:8px}
   .wk-code textarea{flex:1 1 240px;min-width:0;font:0.72rem/1.4 var(--mono);padding:6px 8px;border:1px solid var(--line-2);border-radius:6px;background:var(--surface);color:var(--ink);resize:vertical;word-break:break-all}
   .wk-code button{font:600 0.82rem inherit;font-family:inherit;min-height:44px;padding:0 12px;border:1px solid var(--line-2);border-radius:7px;background:var(--surface);color:var(--ink);cursor:pointer}
@@ -302,6 +303,8 @@
 </head>
 <body>
 
+<div class="oldv" role="note" style="background:#F4EAD3;color:#3D2C00;font:14px/1.4 -apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;padding:9px 16px;text-align:center;border-bottom:1px solid #D9C79E">You are looking at the older version of this site. <a id="oldv-go" href="../screen-design/index.html" style="color:#3D2C00;font-weight:700">Go to the current site</a></div>
+<script>(function(){var f=location.pathname.split('/').pop()||'index.html',a=document.getElementById('oldv-go');if(a)a.href='../screen-design/'+f+location.search+location.hash;})();</script>
 <header class="sdnav">
   <div class="wrap bar">
     <a class="brand" href="index.html">Screen Design</a>
@@ -338,8 +341,8 @@
 
 </div>
 
-<script src="sd-common.js?v=202611030854"></script>
-<script src="weeks-data.js?v=202611030854"></script>
+<script src="sd-common.js?v=202611091945"></script>
+<script src="weeks-data.js?v=202611091945"></script>
 <script>
 const $ = s => document.querySelector(s);
 const NOW = SD.week();
@@ -364,6 +367,8 @@ const rich = s => esc(s)
   .replace(/&lt;a href="((?:https:\/\/)?[\w.\/?=&#:%-]+)"(?: target="_blank")?>/g,
            (m, h) => `<a href="${h}"${h.startsWith('http') ? ' target="_blank" rel="noopener"' : ''}>`)
   .replace(/&lt;\/a>/g, '</a>');
+/* [[form7]] and [[form9]] in a step become the feedback form's link, or a note until it exists */
+const forms = s => s.replace(/\[\[form([79])\]\]/g, (m, n) => FEEDBACK_FORM['w' + n] ? `<a href="${FEEDBACK_FORM['w' + n]}" target="_blank" rel="noopener">the feedback form</a>` : 'the feedback form (the link comes in class)');
 const show = url => {
   if (!url) return '';
   return /^https?:/.test(url)
@@ -431,9 +436,10 @@ function render(){
     })() : `<p class="none">No lecture this week.</p>`}`;
 
   $('#workshop').innerHTML = `
-    <div class="bh"><h2>Workshop</h2><span class="when">2h · 10:00–12:00 · your group · three rooms run the same session</span></div>
+    <div class="bh"><h2>Workshop</h2><span class="when">${esc(k.when || '2h · 10:00–12:00 · your group · three rooms run the same session')}</span></div>
+    ${k.slides ? `<p class="wk-slides"><a class="rshow" href="workshop.html?w=${w.n}">Workshop slides</a></p>` : ''}
     <ol class="items steps">${k.run.map((r, i) => `<li>
-      <div class="it flat"><div class="sum"><span class="n">${i + 1}</span><span class="s"><b>${rich(r.s)}</b><span class="take">${rich(r.d)}</span>${r.code ? `<span class="wk-code"><textarea readonly rows="2" aria-label="The save code for this example flow">${esc(r.code)}</textarea><button type="button" data-copycode>Copy the code</button><span class="wk-said" role="status"></span></span>` : ''}</span></div></div></li>`).join('')}</ol>`;
+      <div class="it flat"><div class="sum"><span class="n">${i + 1}</span><span class="s"><b>${rich(r.s)}</b><span class="take">${forms(rich(r.d))}</span>${r.code ? `<span class="wk-code"><textarea readonly rows="2" aria-label="The save code for this example flow">${esc(r.code)}</textarea><button type="button" data-copycode>Copy the code</button><span class="wk-said" role="status"></span></span>` : ''}</span></div></div></li>`).join('')}</ol>`;
 
   $('#after').innerHTML = `
     <div class="bh"><h2>${w.n < SD.WEEKS ? 'Before next week' : 'Before the deadline'}</h2></div>

@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Paper screens — Screen Design</title>
+<link rel="stylesheet" href="paper.css?v=202611091945">
+</head>
+<body>
+<div class="toolbar noprint"><b>Paper screens</b><span>A4 · print at 100% (actual size), not “fit to page”</span>
+  <button type="button" onclick="print()">Print</button><a href="components.html">Components to cut out →</a></div>
+<main id="pages"></main>
+<script src="paper-kit.js?v=202611091945"></script>
+<script>
+/* The screens a journey is built from: the seventeen mobile archetypes of "There Are Only
+   Seventeen Screens", and three the module's cases lean on. Each is a starting point drawn
+   in pale grey, on the 4-column grid: write your own words over it, or ignore what you
+   do not need. */
+const P = window.PAPER;
+const S = [
+  ['M01', 'The Launch', 'The moment while the app opens: who it is, before anything else.',
+    ['status', ['gap', 220], ['icon', 96], ['h', 'App name', 28], 'spinner']],
+  ['M02', 'The Gate', 'Signing in, or making an account, before the app lets you in.',
+    ['status', ['gap', 24], ['icon', 64], ['h', 'Sign in'], ['field', 'Email'], ['field', 'Password'], ['button', 'Sign in'], ['link', 'Forgot your password?'], ['button', 'Create an account', 'sec']]],
+  ['M03', 'The Permission Request', 'The app asks for your location, camera or notifications, and says why.',
+    ['status', ['gap', 60], ['icon', 96], ['h', 'Allow …?'], ['lines', 3], ['button', 'Allow'], ['button', 'Not now', 'sec']]],
+  ['M04', 'The Walkthrough', 'Three or four panels that explain the app before you start.',
+    ['status', ['img', 300], ['h', 'Heading'], ['lines', 2], ['dots', 3], ['button', 'Next'], ['link', 'Skip']]],
+  ['M05', 'The Home Tab', 'Where the app opens every time: the way to everything else.',
+    ['status', ['appbar', 'Home', false], 'search', ['h', 'Section', 18], 'cards2', ['rows', 2], ['tabbar', 4]]],
+  ['M06', 'The List / Stream', 'Many things of one kind, one under another, to scroll through.',
+    ['status', ['appbar', 'Title', false], ['chips', 4], ['rows', 6], ['tabbar', 4]]],
+  ['M07', 'The Detail', 'Everything about one thing, and what you can do with it.',
+    ['status', ['appbar', ''], ['img', 200], ['h', 'Name of the thing', 22], ['cap', 'Price · place · date'], ['lines', 4], ['button', 'Action']]],
+  ['M08', 'The Player', 'Watching or listening, and staying in control of it.',
+    ['status', ['appbar', 'Now playing'], ['gap', 20], ['media', 300], ['h', 'Title', 20], ['cap', 'Who made it']]],
+  ['M09', 'The Map', 'Where things are, how far away, and how to get there.',
+    ['status', 'search', ['map', 440], ['sheet', P.C.rows(1, false) + P.C.button('Directions')]]],
+  ['M10', 'The Compose / Create', 'Making something new: a message, a post, a report.',
+    ['status', ['appbar', 'New', true, 'Send'], ['field', 'Title'], ['area', 5], ['chips', 3], 'keyboard']],
+  ['M11', 'The Form', 'Questions to answer, best asked one at a time.',
+    ['status', ['appbar', ''], 'progress', ['h', 'The question?'], ['cap', 'A hint, if it helps'], ['radio', 3], ['button', 'Continue']]],
+  ['M12', 'The Checkout', 'Paying, and seeing exactly what for, before you commit.',
+    ['status', ['appbar', 'Checkout'], ['h', 'Your order', 22], ['keyvals', 3], ['field', 'Card number'], ['field', 'Name on card'], ['button', 'Pay £0.00']]],
+  ['M13', 'The Chat', 'A conversation, with the newest message at the bottom.',
+    ['status', ['appbar', 'Name'], 'bubbles', 'inputbar']],
+  ['M14', 'The Search / Discover', 'A search box, and what it finds.',
+    ['status', ['gap', 4], 'search', ['chips', 3], ['cap', '12 results'], ['rows', 5, false]]],
+  ['M15', 'The Profile', 'One person, place or thing, and what belongs to it.',
+    ['status', ['appbar', ''], ['avatar', 88], ['h', 'Name', 22], ['cap', 'A line about them'], ['btnrow', 'Message', 'Follow'], ['rows', 3, false]]],
+  ['M16', 'The Settings', 'Choices about how the app behaves, grouped.',
+    ['status', ['appbar', 'Settings'], ['cap', 'Section'], ['toggles', 3], ['cap', 'Section'], ['rows', 3, false]]],
+  ['M17', 'The System State', 'When there is nothing to show: empty, loading, offline or broken.',
+    ['status', ['appbar', ''], ['gap', 80], ['icon', 80], ['h', 'Nothing here yet'], ['lines', 2], ['button', 'Try again']]],
+  ['J1', 'The Start Page', 'The first page of a service: what it does, who it is for, and one way in.',
+    ['status', ['appbar', 'Service name', false], ['h', 'Do the one thing'], ['lines', 4], 'info', ['button', 'Start now']]],
+  ['J2', 'Check Your Answers', 'Every answer shown back, each with a Change link, before anything is sent.',
+    ['status', ['appbar', ''], ['h', 'Check your answers'], ['summary', 4], ['button', 'Send']]],
+  ['J3', 'Done', 'It worked: a reference to keep, and what happens next.',
+    ['status', ['appbar', '', false], ['success', 'Sent'], ['h', 'What happens next', 20], ['lines', 3], ['link', 'Back to the start']]],
+];
+const foot = `<div class="foot"><span>Screen Design · Paper screens · print at 100% (actual size) on A4</span>
+  <span class="ruler"><i></i>this line is 5 cm</span></div>`;
+const notes = `<div class="notes"><span>No. <i style="flex:0 0 12mm"></i> Job of this screen <i></i></span><span>Goes to <i></i></span></div>`;
+const sheet = (k, n, d, blocks) => `<div class="sheet"><span class="sh-k">${k === 'blank' ? 'Blank' : k.startsWith('J') ? 'Journey · ' + k : 'Archetype · ' + k}</span>
+  <p class="sh-n">${n}</p><p class="sh-d">${d}</p>${blocks ? P.phone(blocks) : P.phone([], { grid: true })}${notes}</div>`;
+let html = `<section class="page"><div class="intro">
+  <h1>Paper screens</h1>
+  <p>Twenty kinds of screen, drawn in pale grey on a 4-column grid, with blank phones and a blank desktop window at the end.
+    Most journeys need four to six of them. They come from <i>There Are Only Seventeen Screens</i> (M01–M17) and the module’s
+    own cases (J1–J3).</p>
+  <ol>
+    <li><b>Print at 100%</b> (“actual size”) on A4. The line at the bottom of each page should measure 5 cm.</li>
+    <li><b>Pick the screens your journey needs.</b> Write your own words over the grey, cross out what you do not need, add what is missing.</li>
+    <li><b>Cut out components</b> from the components sheets: they are drawn to the same size, so they fit these screens.</li>
+    <li><b>Lay them out in order</b> on a table. Number each screen and write where it goes next: that is your flow (B4).</li>
+    <li><b>Photograph them</b> into your deck: rough ones in B1, a full set in B5.</li>
+  </ol></div>${foot}</section>`;
+for (let i = 0; i < S.length; i += 2)
+  html += `<section class="page"><div class="pair">${S.slice(i, i + 2).map(s => sheet(...s)).join('')}</div>${foot}</section>`;
+html += `<section class="page"><div class="pair">${sheet('blank', 'A blank phone', 'Any screen the twenty do not cover.')}${sheet('blank', 'A blank phone', 'Any screen the twenty do not cover.')}</div>${foot}</section>`;
+html += `<section class="page land"><div class="sheet"><span class="sh-k">Blank</span><p class="sh-n">A blank desktop window</p>
+  <p class="sh-d">1140 px wide, with a 12-column grid. Only if your journey is used on a bigger screen too (B7 is optional).</p>${P.desktop()}</div>${foot}</section>`;
+document.getElementById('pages').innerHTML = html;
+</script>
+</body>
+</html>

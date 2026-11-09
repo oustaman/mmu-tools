@@ -1,0 +1,277 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>All pages · Screen Design</title>
+<style>
+  :root{
+    --bg:#F5F4F2; --surface:#FFFFFF; --surface-2:#EDEBE8;
+    --ink:#1A1618; --ink-2:#514B4A; --ink-3:#4D4847;
+    --line:#DFDBD7; --line-2:#8E8685;
+    --lec:#8C2437; --lec-soft:#F6E8EA;
+    --wsh:#1A526D; --wsh-soft:#E4EEF3;
+    --ok:#285638; --ok-soft:#E3EFE7;
+    --warn:#684604; --warn-soft:#F4EAD3;
+    --mono:ui-monospace,"SF Mono",Menlo,Consolas,monospace;
+    --sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Inter,Roboto,sans-serif;
+  }
+  html[data-theme="dark"]{
+    --bg:#151314; --surface:#1E1B1C; --surface-2:#262223;
+    --ink:#EDE9E7; --ink-2:#B9B2AF; --ink-3:#B7B2B0;
+    --line:#332E2F; --line-2:#7A7372;
+    --lec:#E69FAD; --lec-soft:#332226;
+    --wsh:#7FBEDC; --wsh-soft:#16262E;
+    --ok:#83C19A; --ok-soft:#1C2A22;
+    --warn:#DCB469; --warn-soft:#2A2417;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);line-height:1.5}
+  .wrap{max-width:1100px;margin:0 auto;padding:0 22px}
+  @media(max-width:420px){.wrap{padding:0 14px}}
+  @media(max-width:340px){.wrap{padding:0 10px}}
+  a{color:var(--lec)}
+
+  /* The bar, identical on every page (see assessment.html). */
+  header{border-bottom:1px solid var(--line);background:var(--surface);position:sticky;top:0;z-index:40}
+  .bar{display:flex;align-items:center;gap:10px;padding-block:11px;flex-wrap:nowrap}
+  .brand{font-weight:680;font-size:1rem;letter-spacing:-0.015em;white-space:nowrap;color:inherit;
+    text-decoration:none;padding:5px 8px;margin-left:-8px;border-radius:6px}
+  .brand:hover{background:var(--surface-2)}
+  .brand:focus-visible{outline:2px solid var(--lec);outline-offset:1px}
+  .sp{flex:1}
+  .navl{font-size:0.85rem;color:var(--ink-2);text-decoration:none;padding:6px 10px;border-radius:6px;white-space:nowrap}
+  .navl:hover{background:var(--surface-2);color:var(--ink)}
+  .ctl button{font-family:var(--mono);font-size:0.7rem;background:none;color:var(--ink-3);
+    border:1px solid var(--line-2);border-radius:5px;padding:5px 8px;cursor:pointer;line-height:1}
+  .ctl button:hover{border-color:var(--lec);color:var(--lec)}
+  @media(max-width:760px){ header .bar{gap:6px} .navl{padding:6px 8px;font-size:0.82rem} }
+  @media(max-width:560px){
+    header .bar{flex-wrap:wrap;row-gap:6px}
+    header .brand{order:0} header .ctl{order:1;margin-left:auto}
+    header .bar > .sp{order:2;flex-basis:100%;height:0}
+    header .navl{order:3;padding:5px 7px;font-size:0.78rem}
+  }
+  @media(max-width:430px){ .brand{font-size:0.9rem} .navl{padding:5px 6px;font-size:0.76rem} }
+
+  .navl.on{background:var(--lec);color:#fff}
+  html[data-theme="dark"] .navl.on{color:#151314}
+  h1{font-size:clamp(1.6rem,4.4vw,2.3rem);line-height:1.1;letter-spacing:-0.028em;margin:24px 0 4px;font-weight:700}
+  h2{font-size:1.2rem;font-weight:690;letter-spacing:-0.015em;margin:34px 0 6px}
+  .sub{color:var(--ink-2);margin:0 0 18px;max-width:70ch}
+  .lede{color:var(--ink-2);margin:0 0 14px;max-width:72ch;font-size:0.95rem}
+
+  .tiles{display:grid;gap:10px;grid-template-columns:repeat(auto-fit,minmax(min(220px,100%),1fr))}
+  .tile{display:block;background:var(--surface);border:1px solid var(--line);border-radius:11px;padding:14px 16px;
+    text-decoration:none;color:inherit}
+  .tile:hover{border-color:var(--lec)}
+  .tile b{display:block;font-size:0.98rem;margin-bottom:3px}
+  .tile span{font-size:0.86rem;color:var(--ink-2)}
+  .tile i{font-style:normal;font-family:var(--mono);font-size:0.68rem;color:var(--ink-3);display:block;margin-top:6px}
+
+  table.steps{width:100%;border-collapse:collapse;background:var(--surface);border:1px solid var(--line);
+    border-radius:11px;overflow:hidden;font-size:0.9rem}
+  .steps th{text-align:left;font-family:var(--mono);font-size:0.62rem;letter-spacing:0.08em;text-transform:uppercase;
+    color:var(--ink-3);padding:9px 12px;background:var(--surface-2);font-weight:500}
+  .steps td{padding:8px 12px;border-top:1px solid var(--line);vertical-align:middle}
+  .steps td.cls{font-weight:640}
+  .steps td.rg{font-family:var(--mono);font-size:0.8rem;color:var(--ink-2);white-space:nowrap}
+  .steps .m{display:inline-block;font-family:var(--mono);font-size:0.82rem;font-weight:700;min-width:34px;
+    text-align:center;padding:2px 6px;margin:2px 3px 2px 0;border-radius:5px;background:var(--bg);border:1px solid var(--line)}
+  .steps tr.first td.cls{color:var(--ok)}
+  .steps tr.fail td.cls{color:var(--lec)}
+
+  .ex{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(min(320px,100%),1fr))}
+  .excard{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:16px 18px;
+    display:flex;flex-direction:column;gap:10px}
+  .exk{font-family:var(--mono);font-size:0.64rem;letter-spacing:0.08em;text-transform:uppercase;color:var(--ink-3)}
+  .excard h3{margin:0;font-size:1.08rem}
+  .excard p{margin:0;font-size:0.9rem;color:var(--ink-2)}
+  .exmark{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap}
+  .exmark .n{font-size:2.2rem;font-weight:740;letter-spacing:-0.03em;color:var(--lec);line-height:1}
+  .exmark .crit{font-family:var(--mono);font-size:0.78rem;color:var(--ink-2)}
+  .exhid{font-size:0.9rem;color:var(--ink-2);background:var(--bg);border:1px dashed var(--line-2);border-radius:8px;padding:10px 12px}
+  .exacts{display:flex;flex-wrap:wrap;gap:8px;margin-top:auto}
+  .btn{display:inline-flex;align-items:center;min-height:42px;padding:0 15px;border-radius:8px;text-decoration:none;
+    font-weight:640;font-size:0.9rem;border:1px solid var(--line-2);color:var(--ink);background:var(--bg)}
+  .btn:hover{border-color:var(--lec);color:var(--lec)}
+  .btn.pri{background:var(--lec);border-color:var(--lec);color:#fff}
+  html[data-theme="dark"] .btn.pri{color:#151314}
+  .btn.off{color:var(--ink-3);border-style:dashed;cursor:default}
+  .faq{display:grid;gap:6px}
+  .faq details{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:0}
+  .faq summary{cursor:pointer;padding:12px 16px;font-weight:600;list-style:none;display:flex;gap:10px;align-items:baseline}
+  .faq summary::-webkit-details-marker{display:none}
+  .faq summary::before{content:"+";font-family:var(--mono);color:var(--ink-3);width:1em;flex:none}
+  .faq details[open] summary::before{content:"\2013"}
+  .faq .a{padding:0 16px 14px 42px;color:var(--ink-2);font-size:0.95rem;line-height:1.6}
+  .faq .a a{color:var(--lec)}
+  .note{font-size:0.82rem;color:var(--ink-3);margin:12px 0 0}
+  footer{padding:24px 0 44px;color:var(--ink-3);font-size:0.8rem;border-top:1px solid var(--line);margin-top:30px}
+  @media(max-width:520px){ .steps td{padding:7px 8px} .steps td.rg{white-space:normal} }
+
+  /* the toolkit: cards, filtered by the deck section each one helps fill */
+  .tk-filter{display:flex;flex-wrap:wrap;gap:6px;margin:6px 0 16px}
+  .tk-filter button{appearance:none;border:1px solid var(--line);background:var(--surface);color:var(--ink-2);border-radius:99px;padding:6px 12px;min-height:36px;font:600 0.82rem var(--sans,inherit);cursor:pointer}
+  .tk-filter button[aria-pressed="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+  .tk-group{margin:0 0 26px;scroll-margin-top:80px}
+  .tk-group h2{margin:0 0 4px}
+  .tk-group .gsub{margin:0 0 10px;color:var(--ink-3);font-size:0.9rem}
+  .tk-grid{display:grid;gap:10px;grid-template-columns:repeat(auto-fill,minmax(min(270px,100%),1fr))}
+  .tk{display:flex;flex-direction:column;gap:6px;background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:14px 16px;color:inherit;text-decoration:none;transition:border-color .15s,transform .15s}
+  .tk:hover,.tk:focus-visible{border-color:var(--lec);transform:translateY(-1px)}
+  .tk:focus-visible{outline:2px solid var(--lec);outline-offset:2px}
+  @media (prefers-reduced-motion:reduce){.tk{transition:none}.tk:hover{transform:none}}
+  .tk .top{display:flex;justify-content:space-between;gap:8px;align-items:baseline}
+  .tk b{font-size:1rem}
+  .tk .kind{font-family:var(--mono);font-size:0.62rem;letter-spacing:0.08em;text-transform:uppercase;border-radius:4px;padding:2px 6px;white-space:nowrap;border:1px solid currentColor}
+  .tk .kind.explore{color:var(--lec)} .tk .kind.collect{color:#1E6B3A} .tk .kind.check{color:#8F2E1B} .tk .kind.make{color:#6A4B00}
+  .tk p{margin:0;color:var(--ink-2);font-size:0.9rem;line-height:1.5;flex:1}
+  .tk .foot{display:flex;flex-wrap:wrap;gap:5px;align-items:center;font-family:var(--mono);font-size:0.68rem;color:var(--ink-3)}
+  .tk .sec{background:var(--bg);border:1px solid var(--line);border-radius:4px;padding:1px 5px;color:var(--ink-2)}
+  .tk .host{margin-left:auto}
+  .tk.ours{border-color:var(--lec)}
+  .howto{background:var(--surface);border:1px solid var(--line);border-left:3px solid var(--lec);border-radius:0 12px 12px 0;padding:14px 18px;margin:0 0 26px}
+  .howto ol{margin:6px 0 0;padding-left:20px} .howto li{margin:4px 0;color:var(--ink-2)}
+  .howto code{font-size:0.86em}
+  .howto{scroll-margin-top:80px}
+  details.howto{padding:0}
+  details.howto > summary{cursor:pointer;list-style:none;display:flex;align-items:center;gap:10px;min-height:48px;padding:12px 18px}
+  details.howto > summary::-webkit-details-marker{display:none}
+  details.howto > summary::after{content:"+";margin-left:auto;font-family:var(--mono);font-size:1.1rem;color:var(--ink-3)}
+  details.howto[open] > summary::after{content:"\2013"}
+  details.howto > summary:hover b{color:var(--lec)}
+  details.howto > summary:focus-visible{outline:2px solid var(--lec);outline-offset:2px;border-radius:0 12px 12px 0}
+  details.howto > :not(summary){margin-left:18px;margin-right:18px}
+  details.howto[open]{padding-bottom:14px}
+  details.howto + details.howto{margin-top:-14px}
+  table.mt{width:100%;border-collapse:collapse;margin:10px 0 4px;font-size:0.88rem;background:var(--bg);border-radius:8px;overflow:hidden}
+  .mt th,.mt td{text-align:left;vertical-align:top;padding:8px 10px;border-top:1px solid var(--line);color:var(--ink-2)}
+  .mt tr:first-child th{border-top:0;font-family:var(--mono);font-size:0.66rem;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-3);font-weight:600}
+  .mt th{color:var(--ink);font-weight:640;white-space:nowrap}
+  .mt kbd{font-family:var(--mono);font-size:0.8em;border:1px solid var(--line-2);border-bottom-width:2px;border-radius:4px;padding:0 4px;background:var(--surface)}
+  .mtn{margin:8px 0 0;font-size:0.85rem;color:var(--ink-3)}
+  @media(max-width:700px){ .mt,.mt tbody,.mt tr,.mt th,.mt td{display:block} .mt tr:first-child{display:none} .mt tr{border-top:1px solid var(--line);padding:6px 0} .mt th,.mt td{border:0;padding:3px 10px} .mt th{white-space:normal} }
+
+  .tk-guide p{margin:8px 0;color:var(--ink-2);line-height:1.55;max-width:82ch}
+  .tk-guide p b,.tk-guide li b{color:var(--ink)}
+  .tk-guide ol,.tk-guide ul{margin:6px 0;padding-left:22px;color:var(--ink-2);line-height:1.55;max-width:82ch}
+  .tk-guide li{margin:4px 0}
+  .tk-guide h3{font-size:0.95rem;margin:4px 0}
+  .tk-cols{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(280px,100%),1fr));gap:4px 24px;margin:8px 0}
+  .tk-warn{border-left:3px solid var(--lec);padding-left:12px}
+  details.howto{margin:0 0 10px}
+  details.howto[open]{padding-bottom:10px}
+  details.howto > p{margin:8px 18px;color:var(--ink-2);line-height:1.55;max-width:82ch}
+  details.howto + :not(details){margin-top:22px}
+
+
+  /* the three things the submission shows: the same words here and on the checklist */
+  .three{background:var(--surface);border:1px solid var(--line);border-left:3px solid var(--lec);border-radius:0 12px 12px 0;padding:14px 18px;margin:0 0 8px}
+  .three h2{margin:0 0 8px;font-size:1.02rem}
+  .three ol{margin:0;padding-left:20px;color:var(--ink-2);line-height:1.5}
+  .three li{margin:0 0 6px} .three li b{color:var(--ink)}
+  .tile em{font-style:normal;font-family:var(--mono);font-size:0.66rem;color:var(--lec);border:1px solid var(--line-2);border-radius:4px;padding:1px 6px;margin-left:6px;white-space:nowrap}
+  .weeklist{display:grid;gap:6px;grid-template-columns:repeat(auto-fill,minmax(min(260px,100%),1fr));list-style:none;padding:0;margin:0}
+  .weeklist a{display:flex;gap:10px;align-items:baseline;background:var(--surface);border:1px solid var(--line);border-radius:9px;padding:9px 12px;text-decoration:none;color:inherit}
+  .weeklist a:hover{border-color:var(--lec)} .weeklist i{font-style:normal;font-family:var(--mono);font-size:0.72rem;color:var(--ink-3);white-space:nowrap}
+
+  /* THE BAR — one definition, identical on every page (written by navfix; change it
+     everywhere or nowhere). It used to be copied per page and drifted into two heights. */
+  header.sdnav{position:sticky;top:0;z-index:40;background:var(--surface);border-bottom:1px solid var(--line)}
+  header.sdnav .bar{display:flex;align-items:center;gap:10px;min-height:56px;padding-block:8px;flex-wrap:nowrap}
+  header.sdnav .brand{font-weight:680;font-size:1rem;letter-spacing:-0.015em;white-space:nowrap;color:inherit;
+    text-decoration:none;padding:5px 8px;margin-left:-8px;border-radius:6px;order:0}
+  header.sdnav .brand:hover{background:var(--surface-2,var(--bg))}
+  header.sdnav .sp{flex:1;display:block;height:auto;flex-basis:auto;order:0}
+  header.sdnav .sdlinks{display:flex;align-items:center;gap:2px;order:0}
+  header.sdnav .navl{display:inline-block;font-size:0.85rem;line-height:1.3;color:var(--ink-2);text-decoration:none;
+    padding:6px 10px;border-radius:6px;white-space:nowrap;order:0}
+  header.sdnav .navl:hover{background:var(--surface-2,var(--bg));color:var(--ink)}
+  header.sdnav .navl.on{background:var(--lec);color:#fff}
+  html[data-theme="dark"] header.sdnav .navl.on{color:#151314}
+  header.sdnav a:focus-visible,header.sdnav button:focus-visible{outline:2px solid var(--lec);outline-offset:1px}
+  header.sdnav .ctl{order:0;margin-left:4px}
+  header.sdnav .ctl button{font-family:var(--mono);font-size:0.7rem;background:none;color:var(--ink-3);
+    border:1px solid var(--line-2);border-radius:6px;padding:0 9px;cursor:pointer;line-height:1;
+    height:34px;min-height:34px;min-width:34px;display:inline-flex;align-items:center;justify-content:center}
+  header.sdnav .ctl button:hover{border-color:var(--lec);color:var(--lec)}
+  @media(max-width:960px){
+    header.sdnav .bar{flex-wrap:wrap;row-gap:0;padding-block:6px 0;min-height:0}
+    header.sdnav .ctl{order:1;margin-left:auto}
+    header.sdnav .sp{display:none}
+    header.sdnav .sdlinks{order:2;flex-basis:100%;overflow-x:auto;scrollbar-width:none;padding:4px 28px 8px 0;min-height:44px;
+      -webkit-mask-image:linear-gradient(to right,#000 calc(100% - 28px),transparent);mask-image:linear-gradient(to right,#000 calc(100% - 28px),transparent)}
+    header.sdnav .sdlinks::-webkit-scrollbar{display:none}
+    header.sdnav .navl{font-size:0.82rem;padding:6px 9px}
+  }
+</style>
+</head>
+<body>
+
+<header class="sdnav">
+  <div class="wrap bar">
+    <a class="brand" href="index.html">Screen Design</a>
+    <span class="sp"></span>
+    <nav class="sdlinks" aria-label="Screen Design"><a class="navl" href="start.html">Start here</a><a class="navl" href="weeks.html">Week by week</a><a class="navl" href="assessment.html">Checklist</a><a class="navl" href="examples.html">Examples</a><a class="navl" href="toolkit.html">Toolkit</a><a class="navl" href="assessment-materials.html">Marking</a><a class="navl on" href="all.html" aria-current="page">All pages</a></nav>
+    <span class="ctl"><button id="theme" aria-label="Dark mode">◐</button></span>
+  </div>
+</header>
+<script>(function(){var n=document.querySelector(".sdlinks"),o=n&&n.querySelector(".on");if(o&&n.scrollWidth>n.clientWidth)n.scrollLeft=o.offsetLeft-n.offsetLeft-16;})();</script>
+
+<div class="wrap">
+  <h1>All pages</h1>
+  <p class="sub">Everything on this site, on one page. From any page, <b>All pages</b> at the top brings you back here.</p>
+
+  <section class="three" aria-labelledby="three-h">
+    <h2 id="three-h">The submission needs to show</h2>
+    <ol>
+      <li data-f="1"><b>A clickable prototype:</b> the screens, at one or more sizes. Add clicks to your PowerPoint and you’re done.</li>
+      <li data-f="2"><b>Process work:</b> sketches, wireframes, mood board and style tiles. Sketches on paper or in design software: both count. The appendices count here too.</li>
+      <li data-f="3"><b>A rationale of 500–700 words,</b> covering layout, type, colour, users, accessibility, AI, one ethics or sustainability point and one cross-cultural point.</li>
+    </ol>
+  </section>
+
+  <h2>What you hand in</h2>
+  <div class="tiles"><a class="tile" href="start.html"><b>Start here</b><span>The module in one page: a bad experience, the same job improved, and what you do.</span></a><a class="tile" href="assessment.html"><b>Checklist</b><span>Every section of your deck, what each one needs, and what it feeds into.</span></a><a class="tile" href="index.html"><b>Overview</b><span>The module on one page: dates, the brief in plain words, and what is due when.</span></a><a class="tile" href="rubric.html"><b>Marking rubric</b><span>How the work is marked, criterion by criterion.</span></a><a class="tile" href="assessment-materials.html"><b>Marking</b><span>How marking works, and the questions people ask.</span></a><a class="tile" href="Screen_Design_Assessment_Brief_CAF_2026-27.docx"><b>The brief, as issued</b><span>The official assessment brief, as a Word file.</span></a></div>
+
+  <h2>Week by week</h2>
+  <ul class="weeklist" id="weeklist"></ul>
+
+  <h2>Slides from class</h2>
+  <div class="tiles"><a class="tile" href="teardowns.html"><b>Three teardowns</b><span>Week 1. What you read first on a screen, and why.</span></a><a class="tile" href="grid-numbers.html"><b>A grid in seven numbers</b><span>Week 3. Columns, gutter, margin and the rest, each with a live screen.</span></a><a class="tile" href="type-colour.html"><b>Colour and type speak first</b><span>Week 4. The same words read differently in different colours and type.</span></a><a class="tile" href="flow-grammar.html"><b>Drawing a flow</b><span>Week 5. The marks a flow uses, and how to draw yours.</span></a><a class="tile" href="wireframes.html"><b>Thinking in wireframes</b><span>Week 5. One whole journey, screen by screen.</span></a><a class="tile" href="passready.html"><b>PassReady: the worst-day screens</b><span>Week 7. Screens for when things go wrong.</span></a><a class="tile" href="wireframes-2.html"><b>The rest of the organisms</b><span>Week 7. The pieces you have not used yet, including empty, loading and error.</span></a></div>
+  <div class="tiles" id="workshops" style="margin-top:10px"></div>
+
+  <h2>Tools that build your hand-in</h2>
+  <div class="tiles"><a class="tile" href="flow.html"><b>Flow maker<em>2</em></b><span>Your journey before and after, as a slide for B4, and the D2 table.</span></a><a class="tile" href="screen-maker.html"><b>Screen maker<em>2</em></b><span>Wireframes from ready-made blocks, at phone or desktop size.</span></a><a class="tile" href="style-kit.html"><b>Style kit<em>2</em></b><span>A grid, type and colour from published systems, ready to copy into A3 to A5.</span></a><a class="tile" href="gallery.html"><b>Gallery<em>2</em></b><span>Grids, typefaces and palettes with their numbers and sources.</span></a><a class="tile" href="toolkit.html"><b>Toolkit</b><span>Every tool and website we recommend, by what it helps you fill.</span></a></div>
+
+  <h2>Guides</h2>
+  <div class="tiles"><a class="tile" href="flow-guide.html"><b>How flows work</b><span>Every part of a flow, with a real example and two short self-tests.</span></a><a class="tile" href="organisms.html"><b>Organisms</b><span>Every block in the Screen maker at full size, with what it does.</span></a><a class="tile" href="ideas.html"><b>Theme ideas</b><span>Starting points if you have not picked a project yet.</span></a></div>
+
+  <h2>Examples</h2>
+  <div class="tiles"><a class="tile" href="examples.html"><b>Examples</b><span>All the examples in one place, and what to take from each.</span></a><a class="tile" href="example.html"><b>Example portfolio 1</b><span>A thin portfolio, so you can see what is missing.</span></a><a class="tile" href="example-marked.html"><b>Example 1, marked</b><span>The same portfolio, with a marker’s notes.</span></a><a class="tile" href="example-feedback.html"><b>Example 1, feedback sheet</b><span>The feedback it got.</span></a><a class="tile" href="example-council.html"><b>Example portfolio 2</b><span>A complete portfolio: a solid 2:1.</span></a><a class="tile" href="example-council-marked.html"><b>Example 2, marked</b><span>The same portfolio, with a marker’s notes.</span></a><a class="tile" href="example-council-feedback.html"><b>Example 2, feedback sheet</b><span>The feedback it got.</span></a><a class="tile" href="case-missed-bin.html"><b>Before and after: a missed bin</b><span>A council website, measured and improved.</span></a><a class="tile" href="case-bakery.html"><b>Before and after: a cake order</b><span>A business with no website yet.</span></a><a class="tile" href="case-railcard.html"><b>Before and after: a Railcard</b><span>Buying a 16–25 Railcard.</span></a><a class="tile" href="case-short-course.html"><b>Before and after: a Welsh course</b><span>Finding a first course, in two languages.</span></a></div>
+
+  <h2>The older version</h2>
+  <p class="sub">The site as it was before November 2026 is still there, if you prefer it: <a href="../sd/index.html">browse the older version</a>. Your ticks and saved work are the same on both.</p>
+
+  <footer><p>Screen Design · Level 4 · 30 credits · 2026–27</p></footer>
+</div>
+
+<script src="sd-common.js?v=202611091945"></script>
+<script src="weeks-data.js?v=202611091945"></script>
+<script>
+/* the weeks and the workshop slides come from the same data as the week pages */
+(function () {
+  const esc = s => String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+  document.getElementById('weeklist').innerHTML = WEEKS.map(w => `<li><a href="weeks.html?w=${w.n}"><i>Week ${w.n} · ${SD.fmtShort ? SD.fmtShort(SD.dateOf(w.n)) : ''}</i><span>${esc(w.title)}</span></a></li>`).join('');
+  document.getElementById('workshops').innerHTML = WEEKS.filter(w => w.workshop.slides).map(w => `<a class="tile" href="workshop.html?w=${w.n}"><b>Week ${w.n} workshop slides</b><span>${esc(w.title)}: what you make today, and what the finished thing looks like.</span></a>`).join('');
+})();
+const root = document.documentElement;
+try { const t = localStorage.getItem('sd-theme'); if (t) root.dataset.theme = t; } catch (e) {}
+document.getElementById('theme').onclick = () => {
+  root.dataset.theme = root.dataset.theme === 'dark' ? 'light' : 'dark';
+  try { localStorage.setItem('sd-theme', root.dataset.theme); } catch (e) {}
+};
+</script>
+</body>
+</html>

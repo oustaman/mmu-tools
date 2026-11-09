@@ -1,0 +1,376 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Thinking in wireframes — Screen Design, week 5</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500&family=Source+Sans+3:wght@400;700&family=Source+Serif+4:opsz,wght@8..60,700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="paper/paper.css?v=202611091945">
+<link rel="stylesheet" href="deck-kit.css?v=202611091945">
+<style>
+
+
+  /* the workshop's goal: the capture, its wireframe and what goes wrong, side by side */
+  .wk{--u:calc(var(--k, .6) * 1px);display:grid;grid-template-columns:auto auto minmax(0,1fr);gap:clamp(14px,2vw,28px);align-items:center}
+  @media(max-width:860px){.wk{grid-template-columns:minmax(0,1fr)}}
+  .fig.wk-half{max-width:min(860px, calc((100vh - 400px) * 2.1))}
+  .wk-lb{font-family:var(--mono);font-size:0.72rem;color:var(--ink-3);margin:0 0 6px}
+  .wk-w{position:relative;width:max-content}
+  .wk-pin{position:absolute;width:26px;height:26px;margin:-13px 0 0 -13px;border-radius:50%;background:#8C2437;color:#fff;font:700 13px/26px var(--sans);text-align:center;box-shadow:0 0 0 2px #fff,0 1px 5px rgba(0,0,0,.35)}
+  .wk-notes{list-style:none;margin:0 0 14px;padding:0;font-size:clamp(0.95rem,1.35vw,1.06rem);color:var(--ink-2);line-height:1.4}
+  .wk-notes li{display:grid;grid-template-columns:26px minmax(0,1fr);gap:10px;margin-bottom:8px}
+  .wk-notes .wk-n{width:26px;height:26px;border-radius:50%;background:#8C2437;color:#fff;font:700 13px/26px var(--sans);text-align:center}
+  html[data-theme="dark"] .wk-notes .wk-n{background:#B5475C}
+  /* the capture: the case decks' drawing of it, shrunk to the same size as the wireframe */
+  .shot{position:relative;width:calc(375 * var(--u));height:calc(812 * var(--u));overflow:hidden;background:#fff;box-shadow:0 2px 14px rgba(0,0,0,.12)}
+  .shot-in{position:relative;width:375px;height:812px;transform:scale(var(--k, .6));transform-origin:0 0;color:#202427;font-family:Arial,sans-serif;line-height:1.3}
+  .shot .lv-top{background:#202427;color:#fff;padding:14px 16px;font-weight:700;font-size:18px}
+  .shot .lv-search{background:#202427;padding:0 16px 14px;display:flex}
+  .shot .lv-search span{flex:1;height:40px;background:#fff;border-radius:3px 0 0 3px}
+  .shot .lv-search b{background:#3E4141;color:#fff;padding:0 14px;line-height:40px;font-size:16px;border-radius:0 3px 3px 0}
+  .shot .lv-ban{background:#663BA3;color:#fff;font-size:26px;padding:26px 16px}
+  .shot .lv-bc{font-size:13px;padding:12px 12px 0;color:#0E5D8B;text-decoration:underline}
+  .shot .lv-h1{font-size:29px;margin:10px 12px 12px}
+  .shot .lv-p{font-size:20px;line-height:1.5;margin:0 12px 14px}
+  .shot .lv-box{background:#F8F8F8;border-left:6px solid #663BA3;margin:0 12px 14px;padding:12px 14px}
+  .shot .lv-box h4{font-size:22px;font-weight:400;margin:0 0 8px}
+  .shot .lv-box ul{padding-left:18px;margin:0}
+  .shot .lv-box li{font-size:16px;line-height:1.5;margin:0 0 8px}
+  .shot .lv-box a{color:#0E5D8B;text-decoration:underline}
+  .shot .lv-chat{position:absolute;right:14px;top:440px;width:54px;height:54px;border-radius:50%;background:#1E7B34;display:grid;place-items:center;color:#fff;font-size:22px;font-weight:700}
+  .shot .lv-more{position:absolute;left:0;right:0;bottom:0;padding:12px 16px;background:linear-gradient(rgba(255,255,255,.6),#fff 40%);font:600 14px system-ui,sans-serif;color:#4B5257;text-align:center;border-top:1px dashed #B1B4B6}
+  .shot .ch{font-family:system-ui,sans-serif;color:#111}
+  .shot .ch-top{padding:12px 14px;display:flex;align-items:center;gap:10px;border-bottom:1px solid #e5e5e5;font-weight:700;font-size:16px}
+  .shot .ch-top small{display:block;font-weight:400;font-size:12px;color:#65676B}
+  .shot .so-av{width:38px;height:38px;border-radius:50%;background:#C8A27A;flex:none;display:grid;place-items:center;color:#fff;font:700 16px Georgia,serif}
+  .shot .ch-body{padding:10px 12px;display:flex;flex-direction:column;gap:6px}
+  .shot .ch-day{align-self:center;font-size:11px;color:#65676B;margin:8px 0 2px}
+  .shot .ch-m{max-width:78%;padding:8px 12px;border-radius:18px;font-size:14.5px;line-height:1.4}
+  .shot .ch-m.me{align-self:flex-end;background:#2563EB;color:#fff;border-bottom-right-radius:5px}
+  .shot .ch-m.them{align-self:flex-start;background:#E9E9EB;color:#111;border-bottom-left-radius:5px}
+  .shot .ch-photo{align-self:flex-start;width:190px;height:150px;border-radius:14px;background:#f6efe3;border:1px solid #e5d9c5;padding:10px;font:italic 12px/1.35 'Comic Sans MS','Segoe Print',cursive;color:#6b5a48;transform:rotate(-7deg);filter:blur(.6px);margin:8px 0}
+
+  /* THE BAR — one definition, identical on every page (written by navfix; change it
+     everywhere or nowhere). It used to be copied per page and drifted into two heights. */
+  header.sdnav{position:sticky;top:0;z-index:40;background:var(--surface);border-bottom:1px solid var(--line)}
+  header.sdnav .bar{display:flex;align-items:center;gap:10px;min-height:56px;padding-block:8px;flex-wrap:nowrap}
+  header.sdnav .brand{font-weight:680;font-size:1rem;letter-spacing:-0.015em;white-space:nowrap;color:inherit;
+    text-decoration:none;padding:5px 8px;margin-left:-8px;border-radius:6px;order:0}
+  header.sdnav .brand:hover{background:var(--surface-2,var(--bg))}
+  header.sdnav .sp{flex:1;display:block;height:auto;flex-basis:auto;order:0}
+  header.sdnav .sdlinks{display:flex;align-items:center;gap:2px;order:0}
+  header.sdnav .navl{display:inline-block;font-size:0.85rem;line-height:1.3;color:var(--ink-2);text-decoration:none;
+    padding:6px 10px;border-radius:6px;white-space:nowrap;order:0}
+  header.sdnav .navl:hover{background:var(--surface-2,var(--bg));color:var(--ink)}
+  header.sdnav .navl.on{background:var(--lec);color:#fff}
+  html[data-theme="dark"] header.sdnav .navl.on{color:#151314}
+  header.sdnav a:focus-visible,header.sdnav button:focus-visible{outline:2px solid var(--lec);outline-offset:1px}
+  header.sdnav .ctl{order:0;margin-left:4px}
+  header.sdnav .ctl button{font-family:var(--mono);font-size:0.7rem;background:none;color:var(--ink-3);
+    border:1px solid var(--line-2);border-radius:6px;padding:0 9px;cursor:pointer;line-height:1;
+    height:34px;min-height:34px;min-width:34px;display:inline-flex;align-items:center;justify-content:center}
+  header.sdnav .ctl button:hover{border-color:var(--lec);color:var(--lec)}
+  @media(max-width:960px){
+    header.sdnav .bar{flex-wrap:wrap;row-gap:0;padding-block:6px 0;min-height:0}
+    header.sdnav .ctl{order:1;margin-left:auto}
+    header.sdnav .sp{display:none}
+    header.sdnav .sdlinks{order:2;flex-basis:100%;overflow-x:auto;scrollbar-width:none;padding:4px 28px 8px 0;min-height:44px;
+      -webkit-mask-image:linear-gradient(to right,#000 calc(100% - 28px),transparent);mask-image:linear-gradient(to right,#000 calc(100% - 28px),transparent)}
+    header.sdnav .sdlinks::-webkit-scrollbar{display:none}
+    header.sdnav .navl{font-size:0.82rem;padding:6px 9px}
+  }
+</style>
+</head>
+<body>
+
+<header class="sdnav">
+  <div class="wrap bar">
+    <a class="brand" href="index.html">Screen Design</a>
+    <span class="sp"></span>
+    <nav class="sdlinks" aria-label="Screen Design"><a class="navl" href="start.html">Start here</a><a class="navl on" href="weeks.html?w=5">Week by week</a><a class="navl" href="assessment.html">Checklist</a><a class="navl" href="examples.html">Examples</a><a class="navl" href="toolkit.html">Toolkit</a><a class="navl" href="assessment-materials.html">Marking</a><a class="navl" href="all.html">All pages</a></nav>
+    <span class="ctl"><button id="theme" aria-label="Dark mode">◐</button></span>
+  </div>
+</header>
+<script>(function(){var n=document.querySelector(".sdlinks"),o=n&&n.querySelector(".on");if(o&&n.scrollWidth>n.clientWidth)n.scrollLeft=o.offsetLeft-n.offsetLeft-16;})();</script>
+
+<div class="dtools"><div class="wrap">
+  <b>Thinking in wireframes</b><span class="sp"></span>
+  <select id="jump" aria-label="Go to slide"></select>
+  <button type="button" class="tb" id="prev" aria-label="Previous slide">←</button>
+  <button type="button" class="tb" id="next" aria-label="Next slide">→</button>
+  <button type="button" class="tb" id="present" aria-pressed="false">Present</button>
+</div></div>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><filter id="rough"><feTurbulence type="fractalNoise" baseFrequency="0.018" numOctaves="2" seed="4"/><feDisplacementMap in="SourceGraphic" scale="3.5"/></filter></svg>
+
+<main id="deck">
+
+<section class="sl" data-t="What a wireframe is for"><div class="wrap">
+  <div class="seq" style="grid-template-columns:auto minmax(0,1fr)">
+    <div class="dk-row">
+      <div><div class="dk-mid" data-screen="bin:0"></div><p class="dk-cap" style="--u:.5px"><b>Wireframe</b></p></div>
+      <div><div class="pol"><div class="hero"><h3>Report a missed bin</h3><p>Use this if your bin was not emptied on its collection day.</p><p>Report it by 2pm on the next working day and we will come back for it.</p></div><div class="bt">Start</div></div><p class="dk-cap" style="--u:.5px"><b>Polished</b></p></div>
+    </div>
+    <div>
+      <p class="ey">Week 5 · B5</p>
+      <h2>What a wireframe is for</h2>
+      <p class="lead">A wireframe is where you decide what goes on a screen, in what order, and in what words.</p>
+      <p class="lead">Leave fonts, colours, icons and photos for later. Your choices from week 4 come back when you finish the screens.</p>
+    </div>
+  </div>
+</div></section>
+
+<section class="sl" data-t="Sketch or Screen maker"><div class="wrap">
+  <p class="ey">Both count for B5</p>
+  <h2>Sketch it, or use the Screen maker</h2>
+  <div class="seq" style="grid-template-columns:auto auto minmax(0,1fr)">
+    <div><div class="dk-mid sketch" data-screen="bin:0"></div><p class="dk-cap" style="--u:.5px"><b>Sketch</b></p></div>
+    <div><div class="dk-mid" data-screen="bin:0"></div><p class="dk-cap" style="--u:.5px"><b>Screen maker</b></p></div>
+    <ul class="pts"><li>Sketching is quicker when you’re trying out ideas, and a thick marker stops you fiddling with details.</li>
+      <li>The Screen maker is tidier, and it’s easy to change the words.</li>
+      <li>A box with a cross means a picture goes there.</li></ul>
+  </div>
+</div></section>
+
+<section class="sl" data-t="Atomic design"><div class="wrap">
+  <p class="ey">Where the building blocks come from</p>
+  <h2>Atomic design</h2>
+  <p class="lead">Brad Frost took this idea from chemistry. Small parts combine into bigger ones, all the way up to a full page. Here it is on a newspaper’s front page.</p>
+  <div class="ad">
+    <div class="ad-c"><h3>Atoms</h3><div class="ad-d ad-gap"><strong class="ad-word">Headline</strong><span class="ad-btn">Search</span></div><p>Single parts.</p></div>
+    <div class="ad-c"><h3>Molecules</h3><div class="ad-d ad-gap"><div><em>Local</em><strong>Bus fares to rise</strong></div><div class="ad-search"><span></span><span class="ad-btn">Search</span></div></div><p>A few parts working together.</p></div>
+    <div class="ad-c on"><h3>Organisms</h3><div class="ad-d"><div class="ad-o ad-hd"><b>The Daily</b><div class="ad-search"><span></span><span class="ad-btn">Search</span></div></div><div class="ad-o ad-st"><i></i><em>Local</em><strong>Bus fares to rise</strong></div></div><p><b>What we use in class.</b> A section that does one job.</p></div>
+    <div class="ad-c"><h3>Templates</h3><div class="ad-d"><div class="ad-page tpl">
+          <div class="ad-o ad-hd"><u></u></div>
+          <div class="ad-o ad-st"><i></i><u></u><u></u></div>
+          <div class="ad-o ad-st"><i></i><u></u><u></u></div>
+        </div></div><p>Organisms on a page.</p></div>
+    <div class="ad-c"><h3>Pages</h3><div class="ad-d"><div class="ad-page">
+          <div class="ad-o ad-hd"><b>The Daily</b></div>
+          <div class="ad-o ad-st"><i></i><em>Local</em><strong>Bus fares to rise in spring</strong></div>
+          <div class="ad-o ad-st"><i></i><em>Sport</em><strong>New pitch for town club</strong></div>
+        </div></div><p>The same, with real content.</p></div>
+  </div>
+</div></section>
+
+<section class="sl" data-t="On The Guardian"><div class="wrap">
+  <p class="ey">Credit: The Guardian, theguardian.com</p>
+  <h2>The same idea, on The Guardian</h2>
+  <p class="lead">Here are the same five stages in The Guardian’s colours, so you can see the small parts turning up again in the finished page.</p>
+  <div class="ad gd">
+    <div class="ad-c"><h3>Atoms</h3><div class="ad-d ad-gap"><strong class="gd-h">Headline</strong><span class="gd-btn">Support us</span></div></div>
+    <div class="ad-c"><h3>Molecules</h3><div class="ad-d ad-gap"><div><em>News</em><strong class="gd-h">A headline goes here</strong></div><div class="gd-nav"><span>News</span><span>Opinion</span><span>Sport</span></div></div></div>
+    <div class="ad-c on"><h3>Organisms</h3><div class="ad-d"><div class="gd-mast"><b>The Guardian</b><span>News Opinion Sport</span></div><div class="gd-st"><i></i><em>News</em><strong>A headline goes here</strong><small>A line of detail</small></div></div></div>
+    <div class="ad-c"><h3>Templates</h3><div class="ad-d"><div class="gd-page tpl">
+          <div class="gd-mast"><u></u></div>
+          <div class="gd-st"><i></i><u></u><u></u></div>
+          <div class="gd-st"><i></i><u></u><u></u></div>
+        </div></div></div>
+    <div class="ad-c"><h3>Pages</h3><div class="ad-d"><div class="gd-page">
+          <div class="gd-mast"><b>The Guardian</b><span>News Opinion Sport</span></div>
+          <div class="gd-st"><i></i><em>News</em><strong>A headline goes here</strong><small>A line of detail</small></div>
+          <div class="gd-st"><i></i><em>Sport</em><strong>A headline goes here</strong><small>A line of detail</small></div>
+        </div></div></div>
+  </div>
+  <p class="ad-note">The Guardian’s own typefaces are licensed only for its own sites and apps, so the type here is a close free match, Source Serif and Source Sans. See the real thing at theguardian.com.</p>
+</div></section>
+
+<section class="sl" data-t="Organisms"><div class="wrap">
+  <div class="seq">
+    <div class="dk-big" id="budget"></div>
+    <div>
+      <p class="ey">The building blocks</p>
+      <h2>Organisms</h2>
+      <p class="lead"><b>375 px wide. 56 px rows. 14 rows to a screen.</b></p>
+      <p class="lead">Each organism does one job, like a question with its answers.</p>
+      <p class="lead">When you run out of rows, something has to go or move to another screen. On desktop you get the same rows across 12 columns.</p>
+    </div>
+  </div>
+</div></section>
+
+<section class="sl" data-t="One whole journey"><div class="wrap">
+  <p class="ey">The missed bin’s new version</p>
+  <h2>One whole journey</h2>
+  <div data-strip="bin"></div>
+  <p class="lead" style="margin:10px 0 0">There’s one screen for each step. Try describing each screen’s job in under ten words. It uses <b id="uses"></b> organisms across six screens, but only thirteen different ones.</p>
+</div></section>
+
+<section class="sl" data-t="Screen 1"><div class="wrap"><div class="seq">
+  <div class="dk-big" data-screen="bin:0"></div>
+  <div><p class="ey">Screen 1 of 6</p><h2>The start</h2>
+    <p class="lead">The old page had 199 words. The deadline is the only rule that decides whether it’s worth reporting, so that’s the one we show.</p>
+    <ul data-parts="bin:0"></ul>
+    <p class="ask">“First use” marks an organism this journey hasn’t used yet. On the screens that follow, you’ll see how few new ones each screen needs.</p></div>
+</div></div></section>
+
+<section class="sl" data-t="Screen 2"><div class="wrap"><div class="seq">
+  <div class="dk-big" data-screen="bin:1"></div>
+  <div><p class="ey">Screen 2 of 6</p><h2>Address first</h2>
+    <p class="lead">Once the council knows the address, it knows which bins were due. That’s why this comes first.</p>
+    <ul data-parts="bin:1"></ul></div>
+</div></div></section>
+
+<section class="sl" data-t="Screens 3 and 4"><div class="wrap"><div class="seq">
+  <div class="dk-row"><div class="dk-mid" data-screen="bin:2"></div><div class="dk-mid" data-screen="bin:3"></div></div>
+  <div><p class="ey">Screens 3 and 4 of 6</p><h2>The same organism twice</h2>
+    <ul data-parts="bin:2"></ul>
+    <p class="lead">Both screens use the same block for different questions, so people only have to learn it once.</p>
+    <p class="lead">Use real words from the start. You can read “Blue bin: recycling, due today” and disagree with it, which you can’t do with “An answer”.</p></div>
+</div></div></section>
+
+<section class="sl" data-t="Screens 5 and 6"><div class="wrap"><div class="seq">
+  <div class="dk-row"><div class="dk-mid" data-screen="bin:4"></div><div class="dk-mid" data-screen="bin:5"></div></div>
+  <div><p class="ey">Screens 5 and 6 of 6</p><h2>Checking, and finishing</h2>
+    <p class="lead">People can change any answer before sending it. The last screen gives them a reference, a date, and what to do if nothing happens. The old form had no screen like this.</p>
+    <ul data-parts="bin:4,bin:5" data-brief></ul></div>
+</div></div></section>
+
+<section class="sl" data-t="In the Screen maker"><div class="wrap">
+  <h2>In the Screen maker</h2>
+  <div class="two">
+    <ol class="pts">
+      <li>Click an organism to add it, or drag it onto a row.</li>
+      <li>Click any words to change them.</li>
+      <li>Drag a piece to move it. Rows can stay empty.</li>
+      <li><b>+ New screen</b> gives you a blank screen or one of the twenty kinds.</li>
+      <li>Anything every screen shares, like the top bar, goes on the master.</li>
+    </ol>
+    <div><ul class="pts"><li>Copy each screen into your deck as a picture, or print the set.</li>
+        <li><b>Annotate</b> adds numbered notes around a screen, and they copy with the picture.</li>
+        <li>If nothing fits, use a note to say what would go there.</li>
+        <li>On a university computer, press <b>Save</b> and keep the text before you log off.</li></ul>
+      <p><a class="go" href="screen-maker.html">Open the Screen maker</a></p></div>
+  </div>
+</div></section>
+
+<section class="sl" data-t="Today: map it"><div class="wrap">
+  <p class="ey">Today’s workshop · first</p>
+  <h2>Map how it works today</h2>
+  <p class="lead">Draw every step people take now, in the Flow maker or on paper, and mark each ✗ where they get stuck. This is your B4.</p>
+  <div data-fig="now1" class="half wk-half" data-alt="The missed bin report as it is now, steps 1 to 4, with two steps marked stuck"></div>
+  <div data-fig="now2" class="half wk-half" data-alt="Steps 5 to 8, with the last marked stuck"></div>
+  <p class="try">Then pick the ✗ that costs people the most. That’s the screen you take apart next.</p>
+</div></section>
+
+<section class="sl" data-t="Today: strip it back"><div class="wrap"><div class="wk">
+  <div><p class="wk-lb">Screenshot (redrawn here)</p><div class="shot"><div class="shot-in">
+    <div class="lv-top">Liverpool City Council</div>
+    <div class="lv-search"><span></span><b>Search</b></div>
+    <div class="lv-ban">Bins and recycling</div>
+    <div class="lv-bc">Home › Bins and recycling</div>
+    <div class="lv-h1">Missed bin collection</div>
+    <div class="lv-p">Find out about bins we don't collect and when you can report a missed bin collection.</div>
+    <div class="lv-box"><h4>Bins we won't collect</h4><ul>
+      <li>We <b>will not</b> collect bins if they are too heavy or contain incorrect materials — please check <a>what can go in each bin</a>.</li>
+      <li>A yellow sticker means your bin contains <b>incorrect items</b>. Please remove the incorrect items and present the bin again on the <a>next scheduled collection date</a>.</li>
+      <li>We <b>do not</b> collect <a>side waste</a> — extra bags of general waste or recycling left next to your bin.</li>
+    </ul></div>
+    <div class="lv-more">↓ 2.6 screens further down: the report link, and only then the deadline</div>
+    <div class="lv-chat" aria-hidden="true">…</div>
+  </div></div></div>
+  <div><p class="wk-lb">Your wireframe</p><div class="wk-w" id="wk-bin"></div></div>
+  <div>
+    <p class="ey">Today’s workshop · second</p>
+    <h2>Strip that screen back to a wireframe</h2>
+    <p class="lead">Draw what’s there, problems included, and leave the fixing for later. Then press <b>Annotate</b> and number what goes wrong. With the screenshot beside it, this goes in D1.</p>
+    <ol class="wk-notes">
+      <li><span class="wk-n">1</span><span>199 words before the link to report</span></li>
+      <li><span class="wk-n">2</span><span>The chat button covers the first rule</span></li>
+      <li><span class="wk-n">3</span><span>The deadline comes after the link</span></li>
+    </ol>
+  </div>
+</div></div></section>
+
+<section class="sl" data-t="No app yet?"><div class="wrap"><div class="wk">
+  <div><p class="wk-lb">Screenshot (drawn generically)</p><div class="shot"><div class="shot-in"><div class="ch">
+    <div class="ch-top"><span class="so-av">V</span><div>Boulangerie Vauclerc<small>Usually replies within a few days</small></div></div>
+    <div class="ch-body">
+      <span class="ch-day">MON 12:44</span>
+      <div class="ch-m me">Hi! Do you do birthday cakes? For Saturday, 12 people</div>
+      <span class="ch-day">WED 10:51 — 46 hours later</span>
+      <div class="ch-m them">Hiya! Yes we do 😊 what size?</div>
+      <div class="ch-m me">Not sure — for 12 people?</div>
+      <div class="ch-m them">Depends how big the slices are 😂</div>
+      <div class="ch-photo">Celebration ca...<br>6" — £24 &nbsp;8" — £3?<br>10" — £4? (ask)<br>Choc · Lemon · Va...<br>** 2 days notice **</div>
+      <div class="ch-m them">Sat is fully booked tho, Fri ok?</div>
+    </div>
+  </div></div></div></div>
+  <div><p class="wk-lb">Your wireframe</p><div class="wk-w" id="wk-chat"></div></div>
+  <div>
+    <p class="ey">No app or website yet?</p>
+    <h2>Use whatever people use now</h2>
+    <p class="lead">A message thread, a paper form, a diary or a spreadsheet works the same way. Ask the owner first, and blur everyone else’s details.</p>
+    <ol class="wk-notes">
+      <li><span class="wk-n">1</span><span>46 hours before anyone answers</span></li>
+      <li><span class="wk-n">2</span><span>The price list is a tilted photo, with the 8-inch price cut off</span></li>
+      <li><span class="wk-n">3</span><span>Saturday has filled up while it waited</span></li>
+    </ol>
+    <p class="ask">A phone call is still a step on your flow, but pick something you can draw for this part. Nothing to capture? Ask someone how they manage today and recreate it with made-up names, saying so in the caption.</p>
+  </div>
+</div></div></section>
+
+<section class="sl" data-t="Your turn"><div class="wrap">
+  <h2>Your turn</h2>
+  <ol class="pts">
+    <li>Map the journey as it is today, and mark each ✗.</li>
+    <li>Screenshot or photograph every step for D1.</li>
+    <li>Pick the ✗ that costs people the most, and wireframe that screen just as it is.</li>
+    <li>Number what goes wrong, and put it beside the screenshot.</li>
+    <li>Duplicate your wireframe, clear the numbers, and change it until the ✗ has gone. That’s your first screen for B5.</li>
+  </ol>
+  <p class="try">In week 7 we’ll look at the rest of the organisms and wireframe the rest of your screens.</p>
+</div></section>
+
+</main>
+<footer><div class="wrap"><p>Screen Design · Level 4 · 2026–27</p></div></footer>
+
+<script src="paper/paper-kit.js?v=202611091945"></script>
+<script src="paper/organisms.js?v=202611091945"></script>
+<script src="paper/journeys.js?v=202611091945"></script>
+<script src="flow-draw.js?v=202611091945"></script>
+<script src="deck-kit.js?v=202611091945"></script>
+<script>
+(function () {
+  const { draw, start, S, figures } = DK, FD = window.FD;
+  const J = window.JOURNEYS.bin;
+  /* the workshop's goal: the same size as the capture beside it */
+  const fit = () => document.documentElement.style.setProperty('--k', Math.max(0.3, Math.min(0.84, (innerHeight - 300) / 812)).toFixed(4));
+  addEventListener('resize', fit); fit();
+  figures({
+    now1: FD.mini([S('Read the missed bin information page', 'website', { bad: true, note: '199 words, 2.6 phone screens, before you can start' }), S('Choose your bin, and its type', 'form', { bad: true, note: 'Colours on the page, categories on the form' }), S('Name, email and phone', 'form'), S('Postcode and address', 'form')]),
+    now2: FD.mini([S('Additional information', 'form'), S('Assisted collection', 'form'), S('Summary', 'form'), S('Finish', 'form', { bad: true, note: 'Never checks the 2pm deadline, so it cannot say you are too late' })]),
+  });
+  const w2 = document.querySelector('[data-fig="now2"] svg');
+  if (w2) w2.querySelectorAll('text').forEach(t => { if (/^[1-4]$/.test(t.textContent.trim())) t.textContent = String(+t.textContent + 4); });
+  /* a wireframe of what is there now, with its numbers on top */
+  const before = (id, pieces, pins) => { const el = document.getElementById(id), c = document.createElement('div'); draw(c, pieces); el.appendChild(c);
+    pins.forEach(([x, row], i) => { const p = document.createElement('span'); p.className = 'wk-pin'; p.textContent = i + 1; p.style.left = `calc(${x} * var(--u))`; p.style.top = `calc(${row * 56 + 34} * var(--u))`; el.appendChild(p); }); };
+  before('wk-bin', [
+    ['service-header', 0, { 'Service name#0': 'Liverpool City Council' }],
+    ['search', 1],
+    ['breadcrumb', 2, { 'Section#0': 'Bins and recycling', 'This page#0': 'Missed bin' }],
+    ['title-intro', 3, { 'Title#0': 'Missed bin collection', 'A sentence or two that says what this is for.#0': 'Find out about bins we don’t collect and when you can report a missed bin.' }],
+    ['notice', 5, { 'Something to know before you start.#0': 'Bins we won’t collect' }],
+    ['notice', 7, { 'Something to know before you start.#0': 'More rules, 2.6 phone screens of them' }],
+    ['button', 9, { 'Continue#0': 'Report a missed bin' }],
+    ['notice', 10, { 'Something to know before you start.#0': 'Report by 2pm on the next working day' }],
+  ], [[350, 3.5], [350, 5.5], [350, 10.5]]);
+  before('wk-chat', [
+    ['service-header', 0, { 'Service name#0': 'Boulangerie Vauclerc' }],
+    ['chat', 1],
+    ['image', 7],
+    ['notice', 10, { 'Something to know before you start.#0': 'Sat is fully booked, Fri ok?' }],
+    ['composer', 13],
+  ], [[350, 2], [350, 8.5], [350, 10.5]]);
+  /* the budget: three organisms of 1, 2 and 4 rows, with the rows showing */
+  draw(document.getElementById('budget'), [['progress-header', 0], ['text-field', 1], ['radio-question', 3], ['button', 7]], { slots: true, label: true });
+  document.getElementById('uses').textContent = J.reduce((n, s) => n + s.pieces.length, 0);
+  start();
+  /* check the claim on the slide: the journey uses exactly the organisms it says */
+  const distinct = new Set(J.flatMap(s => s.pieces.map(p => p[0])));
+  if (distinct.size !== 13) console.warn('wireframes deck says thirteen organisms; the journey has ' + distinct.size);
+})();
+</script>
+</body>
+</html>

@@ -194,10 +194,14 @@
     header.sdnav .sdlinks::-webkit-scrollbar{display:none}
     header.sdnav .navl{font-size:0.82rem;padding:6px 9px}
   }
+  .ai-h{font-size:0.95rem;margin:14px 0 4px;scroll-margin-top:80px}
+  .ai-log{font:0.74rem/1.5 var(--mono,monospace);background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:10px 12px;overflow-x:auto;white-space:pre;margin:6px 0 10px}
 </style>
 </head>
 <body>
 
+<div class="oldv" role="note" style="background:#F4EAD3;color:#3D2C00;font:14px/1.4 -apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;padding:9px 16px;text-align:center;border-bottom:1px solid #D9C79E">You are looking at the older version of this site. <a id="oldv-go" href="../screen-design/index.html" style="color:#3D2C00;font-weight:700">Go to the current site</a></div>
+<script>(function(){var f=location.pathname.split('/').pop()||'index.html',a=document.getElementById('oldv-go');if(a)a.href='../screen-design/'+f+location.search+location.hash;})();</script>
 <header class="sdnav">
   <div class="wrap bar">
     <a class="brand" href="index.html">Screen Design</a>
@@ -260,6 +264,19 @@
           <li>The submission: a screen can start from an AI-generated layout, as long as you rework it and the whole deck follows the brief.</li>
           <li>The argument in your rationale. AI may tidy its language; it does not make your case for you.</li></ul></div>
     </div>
+    <h3 class="ai-h">Your AI log, in A7</h3>
+    <p>One line every time you use AI, on the day you use it. Copy the A7 slide from the <a href="assessment.html#A7">checklist</a>; it has these columns:</p>
+    <pre class="ai-log">Date  |  Tool  |  What I asked for  |  What it made  |  What I kept or changed  |  Where it went
+10 Nov  |  ChatGPT  |  three colour palettes for a bakery  |  three palettes  |  kept none; took the idea of warm neutrals  |  A5</pre>
+    <p>Tools with AI built in count too: Copilot, PowerPoint Designer, Canva’s Magic tools, Grammarly’s rewrites. If you accept a suggestion from one, log it. Not sure whether something counts? Log it.</p>
+    <h3 class="ai-h" id="no-ai">If you choose not to use AI</h3>
+    <ul>
+      <li><b>A7:</b> one line, <i>No AI used</i>. Keep it true: if that changes, start logging.</li>
+      <li><b>C8:</b> about eighty words on why you chose not to, and what you did instead. The brief asks for exactly this, and it counts the same as reflecting on AI you used.</li>
+      <li><b>D4:</b> one line, <i>No AI was used in this portfolio.</i></li>
+      <li><b>Mood board:</b> your own photos, or images you are allowed to reuse, each credited in C9.</li>
+      <li><b>Built-in AI:</b> turn off the suggestions in the tools above, or leave them unaccepted.</li>
+    </ul>
     <p><b>Say where you used it.</b> Log each use in <a href="assessment.html#A7">A7</a> as you go. Judge it in <a href="assessment.html#C8">C8</a>:
       was it any good, whose work is it, what did you change? Then <a href="assessment.html#D4">D4</a>, your AI statement: if you used it, how, where and why;
       if not, one line: <i>No AI was used.</i></p>
@@ -420,8 +437,8 @@
 })();
 
 /* A link to a guide (toolkit.html#measure) opens it; on their own they stay closed. */
-function openGuide(){ const d = document.getElementById(location.hash.slice(1));
-  if (d && d.tagName === 'DETAILS') { d.open = true; d.scrollIntoView({ block: 'start' }); } }
+function openGuide(){ const el = location.hash.length > 1 && document.getElementById(location.hash.slice(1)), d = el && el.closest('details');
+  if (d) { d.open = true; el.scrollIntoView({ block: 'start' }); } }
 openGuide(); addEventListener('hashchange', openGuide);
 
 const root = document.documentElement;

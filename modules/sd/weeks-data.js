@@ -192,14 +192,15 @@ const WEEKS = [
   {t:"The style tile finished", d:"Everything you build in week 8 comes out of it.", open:true},
  ],
  workshop:{
+  slides:true,
   aim:"A style tile that obeys your own numbers, and your AI log opened.",
   out:{"sec": ["A7", "B2", "B3", "C8"]},
   bring:"Whatever AI tools you use",
   run:[
-   {s:"Mood board, fast", d:"Fifteen images on one page: the feeling you are aiming at. Generated images are welcome; each one gets a line in <code>A7</code>."},
+   {s:"Mood board, fast", d:"Fifteen images on one page: the feeling you are aiming at. Generated images are welcome, and each one gets a line in <code>A7</code>; so are your own photos."},
    {s:"Style tile", d:"Finish the tile you started in week 4: type scale, palette with roles, spacing, and a button, a field and a card. Every value from your own A3–A5."},
-   {s:"Open the AI log", d:"Start <code>A7</code> today, one line for every AI use; you will not remember them in January. Not sure what is allowed? <a href=\"toolkit.html#ai\">Using AI</a>."},
-   {s:"Optional: ask for feedback on your deck", d:"Put your name on the feedback form by the end of week 7, and Mike will go through the deck in your shared folder and leave feedback right in it. It comes back over the following weeks, and week 10 is where you act on it."},
+   {s:"Open the AI log", d:"Start <code>A7</code> today, one line for every AI use; you will not remember them in January. Not using AI? One line, <i>No AI used</i>, and say why in C8. What is allowed, and what to do if you would rather not: <a href=\"toolkit.html#ai\">Using AI</a>."},
+   {s:"Next week is a checkpoint", d:"In week 7 you share your deck with Mike and fill in a short form, and he leaves feedback right in your deck. Make sure your deck is in your shared folder by then."},
    {s:"Write C8", d:"Eighty words on the AI you used: was it any good, whose work is it, and what did you change? If you used none, say why."},
   ],
   between:"Finish your style tile: week 8 builds from it.",
@@ -215,9 +216,7 @@ const WEEKS = [
  n:7, title:"UX basics and screen states",
  makes:["Your screens → Part A §2","Your flow, after → B4","The rest of your wireframes → B5","C6 drafted"],
  shown:[
-  {core:true, s:"The five states", u:"https://interfaces.institute/stairwell/state/", take:"Four of the five states look identical when nobody designs them. Empty, loading, error and offline are screens, and they belong in A2."},
-  {core:true, slides:"PassReady", s:"PassReady: the worst-day screens", u:"passready.html", take:"Not knowing and not being sure are states too. Each needs its own words and a next step, or the screen pretends to a certainty it has not earned."},
-  {core:true, slides:"The rest of the organisms", s:"The rest of the organisms", u:"wireframes-2.html", take:"Look through the rest of the set once. Empty, loading and failed are screens too, so they need wireframes."},
+  {s:"Mike works on his own deck, live"},
  ],
  three:[
   {t:"The journey, both ways", d:"Part A §2 — the goal, the steps people take now, and your screens, counted."},
@@ -225,6 +224,7 @@ const WEEKS = [
   {t:"The whole wireframe set", d:"Every screen, states included, sketched or in the Screen maker. Bring it to week 8.", open:true},
  ],
  workshop:{
+  slides:true,
   aim:"The screens of your version, the states you forgot, a flow somebody else can follow, and wireframes for all of it.",
   out:{"sec": ["A2", "B4", "B5", "C6"]},
   bring:"Your B4 from week 5",
@@ -236,6 +236,7 @@ const WEEKS = [
    {s:"Swap flows", d:"Can your partner get from the start to the goal without asking you? If not, an arrow is missing."},
    {s:"Wireframe the rest", d:"Every screen on your list, states included, by sketching or in the <a href=\"screen-maker.html\">Screen maker</a>. Start with the boring screen. <a href=\"wireframes-2.html\">The rest of the organisms</a> shows what to reach for."},
    {s:"Write C6", d:"Ninety words on one dimension, ethics or sustainability. The empty, loading and error screens you just found are an ethics answer."},
+   {s:"Checkpoint: ask for feedback", d:"Before you leave, share your deck with Mike and fill in [[form7]]. He leaves feedback right in your deck."},
   ],
   between:"Finish the wireframe set for <code>B5</code>, and decide which two screens you will build first: week 8 starts from them.",
   mistake:"Forgetting empty and error screens. They are half of week 9.",
@@ -250,8 +251,7 @@ const WEEKS = [
  n:8, title:"Wireframe to screen",
  makes:["A wireframe for every screen","First 2 screens finished"],
  shown:[
-  {core:true, s:"One control, drawn eight times", u:"https://interfaces.institute/components/button/", take:"A wireframe is an argument about priority. Boxes and labels only — if you are choosing a font, stop."},
-  {core:true, s:"Lorem ipsum versus real content", u:"https://interfaces.institute/collections/flow-census/#placeholder", take:"Real content changes the layout. Wireframe with the words you will actually use."},
+  {s:"Mike works on his own deck, live"},
  ],
  three:[
   {t:"A wireframe for every screen", d:"B5 — sketched or from the Screen maker, one per screen in Part A §2."},
@@ -259,6 +259,7 @@ const WEEKS = [
   {t:"The rest of your screens", d:"Every remaining screen of the journey, finished — the biggest piece of work in the module, due at the start of week 9.", open:true},
  ],
  workshop:{
+  slides:true,
   aim:"Your wireframe set checked, and the first two screens built for real.",
   out:{"sec": ["B5", "B6"]},
   bring:"Your wireframes from weeks 5 and 7 · paper and markers · a laptop for the last half hour",
@@ -282,8 +283,7 @@ const WEEKS = [
  n:9, title:"Adaptation and access",
  makes:["Access audit → Part A §6","C5 drafted","Other sizes, if you need them"],
  shown:[
-  {core:true, s:"Every size a screen has been", u:"https://interfaces.institute/collections/screen-sizes/", take:"A phone gained twenty times the pixels between 2007 and 2023, but only 1.23 times the room: 320 to 393 CSS pixels. Design in CSS pixels."},
-  {core:true, s:"Tab through a real page", u:"https://interfaces.institute/collections/keyboard-grammar/#tabstops", take:"Tab through your own screens. If you cannot see where you are, neither can anyone using a keyboard."},
+  {s:"Mike works on his own deck, live"},
  ],
  three:[
   {t:"Other sizes, only if you need them", d:"B7 is optional. A better flow is worth more than more screens."},
@@ -291,6 +291,7 @@ const WEEKS = [
   {t:"The fixes, and the log", d:"Fix what the audit found and log each fix. The log is what is marked.", open:true},
  ],
  workshop:{
+  slides:true,
   aim:"Six images and an honest audit — on screens that arrived finished.",
   out:{"sec": ["A6", "B7", "C5"]},
   bring:"Every finished screen of your journey",
@@ -298,7 +299,8 @@ const WEEKS = [
    {s:"Screens out, first thing", d:"Every screen of your journey, finished, in front of you: this is <code>B6</code>, and today works on it."},
    {s:"Other sizes, only if you need them", d:"Only if your journey is used on more than one size of screen. At the smaller size, decide what to remove, not what to shrink."},
    {s:"Run the checklist over everything", d:"Contrast, target size, focus and non-colour cues, on every screen. Write down every failure you find, fixed or not."},
-   {s:"Fill in A6", d:"Your minimum touch target, focus state and non-colour cues, taken from your own screens."},
+   {s:"Fill in A6", d:"Who might find your design hard to use, and why? Describe a few people and situations, such as poor eyesight, a second language, or being tired after five minutes on a phone, and what your design does for each. Touch targets, focus and cues that don’t rely on colour are good places to start."},
+   {s:"Optional: a second round of feedback", d:"Want Mike to look again? Fill in [[form9]] this week, and check your deck is still shared with him."},
   ],
   between:"Fix what the audit found, and log each fix.",
   mistake:"Fixing failures without logging them. The log is what is marked.",
@@ -313,8 +315,7 @@ const WEEKS = [
  n:10, title:"Justifying a decision",
  makes:["Click-through → Part B §8","Part C rewritten"],
  shown:[
-  {core:true, s:"Two paragraphs, same design", take:"Describing a design and defending one are different activities. Only one of them is marked."},
-  {core:true, s:"All nine sections", u:"assessment.html", take:"All eight C sections were drafted in the week each decision was made. Today they turn from description into defence."},
+  {s:"Mike works on his own deck, live"},
  ],
  three:[
   {t:"A click-through that works", d:"B8 — the journey clicks through, start to finish, checked in the PDF."},
@@ -322,11 +323,12 @@ const WEEKS = [
   {t:"One read-aloud pass", d:"Before week 11: a sentence with no number in it is costing you marks.", open:true},
  ],
  workshop:{
+  slides:true,
   aim:"Eight drafted sections turned from description into defence, and a click-through that works.",
   out:{"sec": ["B8", "D2", "D3"]},
   run:[
    {s:"Mark your own deck", d:"Mark it on <a href=\"rubric.html\">the blank rubric</a>, the way you marked the examples. Your lowest criterion is where today goes."},
-   {s:"Act on your feedback", d:"Had feedback from week 6? Go through it point by point: fix what you agree with, and say what you changed in the section it belongs to. No feedback? Use your own rubric marks the same way."},
+   {s:"Act on your feedback", d:"Had feedback in week 7 or 9? Go through it point by point: fix what you agree with, and say what you changed in the section it belongs to. No feedback? Use your own rubric marks the same way."},
    {s:"Read two sections aloud", d:"Read two of your C sections to a partner. Their only job: does each one describe, or defend?"},
    {s:"Turn description into defence", d:"Rewrite <code>C1</code>–<code>C8</code> so each quotes a number from Part A, names what you rejected, and says what is still wrong. Not more words: different ones."},
    {s:"Link your screens: your prototype", d:"Link every step to the next, plus a way back and a way out. PowerPoint: <b>Insert › Link › Place in This Document</b>; Google Slides: <b>Insert › Link › Slides in this presentation</b>. Over a pasted picture, link a rectangle with no fill and no outline, and put a <b>Start the prototype →</b> link on <code>B8</code>."},
@@ -349,7 +351,8 @@ const WEEKS = [
  three:[
  ],
  workshop:{
-  aim:"References written, PDF assembled, everyone submits.",
+  aim:"No class this week. Mike is in the room to help anyone who comes: polish, check and submit.",
+  when:"No class · drop in at the usual time, and Mike will help",
   out:{"sec": ["C9", "D4"]},
   bring:"Your PDF",
   run:[

@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Paper organisms — Screen Design</title>
+<link rel="stylesheet" href="paper.css?v=202611091945">
+</head>
+<body>
+<div class="toolbar noprint"><b>Paper organisms</b><span>A4 · print at 100% (actual size), not “fit to page”</span>
+  <button type="button" onclick="print()">Print</button></div>
+<main id="pages"></main>
+<script src="paper-kit.js?v=202611091945"></script>
+<script src="organisms.js?v=202611091945"></script>
+<script>
+/* Print: two screen canvases, then every organism once, packed into two 90 mm columns.
+   The dashed line is the organism's own edge, so every piece cuts to the same width and to a
+   whole number of rows, and drops into any row of a canvas. */
+const { FAM, USED, ARCHETYPES, organism, canvas, ROW, W } = window.ORG;
+const O = window.ORG.O.filter(o => !o.desk);
+const MM = 0.24, ROWMM = ROW * MM, GAP = 3, CAP = 270;   /* mm: one row, the gap between pieces, a column's height */
+const foot = `<div class="foot"><span>Screen Design · Paper organisms · print at 100% (actual size) on A4</span>
+  <span class="ruler"><i></i>this line is 5 cm</span></div>`;
+const notes = `<div class="notes"><span>Screen <i style="flex:0 0 10mm"></i> Kind of screen <i></i></span><span>Job of this screen <i></i></span><span>Goes to <i></i></span></div>`;
+const sheet = `<div class="sheet"><span class="sh-k">Screen canvas · 14 rows</span><p class="sh-n">Your screen</p>
+  <p class="sh-d">Stick organisms in, top to bottom. Every organism fills whole rows, so they meet edge to edge.</p>${canvas()}${notes}</div>`;
+let html = `<section class="page"><div class="intro">
+  <h1>Paper organisms</h1>
+  <p>Each organism does one job on a screen: a question with its answers, a search box with its filters, a card, a summary.
+    Every one is the full width of the screen and a whole number of rows tall, so any of them fits under any other.</p>
+  <ol>
+    <li><b>Print at 100%</b> (“actual size”) on A4. The line at the bottom of each page should measure 5 cm.</li>
+    <li><b>Cut along the dashed line.</b> Every piece is 9 cm wide; its height is 1 to 6 rows.</li>
+    <li><b>Stick them onto a screen canvas</b>, top to bottom. A screen is full at 14 rows: fewer is fine, more will not fit.</li>
+    <li><b>Write your own words</b> over the grey: the heading, the labels, the button.</li>
+    <li>Need two of something? Print that page twice.</li>
+  </ol>
+  <p>Every piece is labelled in small grey type with its <b>code</b>, its <b>name</b> and its <b>size in pixels</b>, for example
+    <b>ANS-02</b> One answer from a few · 375 × 224 px. The next page lists them all. The codes are the same in the screen tool,
+    so a paper screen can be rebuilt there piece by piece, in the same order.</p></div>${foot}</section>`;
+/* the reference: every organism by family, with its code, job, size and the screens that use it;
+   families go onto as many pages as they need, never split across two */
+const FNAME = { Top: 'Top of the screen', Headings: 'Headings', Search: 'Search', Answers: 'Answers', Content: 'Content', Feedback: 'Feedback', Actions: 'Actions',
+  Own: 'Your own: blank pieces', Overlay: 'Overlays: they lie over a finished screen, one at a time' };
+const FNOTE = { Own: 'OWN-03 is 3 rows tall, and so on. Draw your organism in it and write its name.',
+  Overlay: 'They take no rows: lay one over a screen where it would appear. A toast sits just above a tab bar.' };
+const famRows = f => `<tr class="fam"><td colspan="6">${FNAME[f]} · ${FAM[f]}${FNOTE[f] ? `<br><span style="text-transform:none;letter-spacing:0;font-weight:400">${FNOTE[f]}</span>` : ''}</td></tr>` +
+  O.filter(o => o.fam === f).map(o => `<tr><td class="c">${o.code}</td><td>${o.name}</td><td>${o.does}</td><td class="s">${o.size}</td><td class="s">${o.rows}</td>
+     <td>${USED[o.id].join(' ') || '—'}</td></tr>`).join('');
+const refPages = []; let lines = 99;
+Object.keys(FAM).forEach(f => { const n = O.filter(o => o.fam === f).length + 2;
+  if (lines + n > 44) { refPages.push([]); lines = 0; } refPages[refPages.length - 1].push(f); lines += n; });
+refPages.forEach((fs, i) => { html += `<section class="page"><p class="sec-h">Every organism, and how much room it takes${refPages.length > 1 ? ` (${i + 1} of ${refPages.length})` : ''}<small>in screen pixels: ${W} px wide, a row is ${ROW} px, a screen 14 rows</small></p>
+  <table class="ref"><thead><tr><th>Code</th><th>Organism</th><th>What it does</th><th>Size</th><th>Rows</th><th>Used on</th></tr></thead><tbody>
+  ${fs.map(famRows).join('')}</tbody></table>${foot}</section>`; });
+html += `<section class="page"><div class="pair">${sheet}${sheet}</div>${foot}</section>`;
+/* first fit: each organism, in family order, goes into the first column with room for it,
+   so short pieces fill the gaps above and nothing is left alone on a last page */
+const cols = [], room = [];
+O.forEach(o => { const h = o.rows * ROWMM + GAP;
+  let c = room.findIndex(r => r >= h);
+  if (c < 0) { cols.push([], []); room.push(CAP, CAP); c = cols.length - 2; }
+  cols[c].push(o.id); room[c] -= h; });
+const pages = []; for (let i = 0; i < cols.length; i += 2) pages.push(cols.slice(i, i + 2));
+pages.forEach(p => { html += `<section class="page"><div class="ocols">${p.map(c => `<div class="ocol">${c.map(id => `<div class="ocut">${organism(id)}</div>`).join('')}</div>`).join('')}</div>${foot}</section>`; });
+document.getElementById('pages').innerHTML = html;
+</script>
+</body>
+</html>

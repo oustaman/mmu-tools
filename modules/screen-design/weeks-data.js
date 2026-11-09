@@ -1,0 +1,374 @@
+/* Eleven weeks, as students read them.
+ *
+ *   SHOWN     what the lecture hour shows: a title, a link and one takeaway. How to run it in
+ *             the room is not written here (deleted 23 Oct 2026, with the tutors' panel).
+ *   WORKSHOP  what to make (out.sec, ticked against the Checklist), the steps in one or two
+ *             sentences each, one line for before next week, and the questions people ask.
+ *
+ *  Each fact lives on one page of the site; a step links to its owner rather than restating it.
+ *  Weeks 1 and 2 keep their number of steps: the staff marking sheets pair a note with each.
+ *  Still here only for other pages, until they are reworked: makes, three, aim (the Overview)
+ *  and mistake (the week 1 staff sheet). Nothing on the week page shows them.
+ */
+const WEEKS = [
+{
+ n:1, title:"Why screens look the way they do",
+ makes:["3 teardowns","3 theme ideas"],
+ shown:[
+  {core:true, s:"The assessment brief", u:"index.html#brief", take:"The whole assessment is one document, and every section of it is listed on the hand-in page. Everything you are told this term is already in that brief."},
+  {core:true, slides:"Teardowns", s:"Three live teardowns", u:"teardowns.html", take:"Learn to say what you read first and which of five devices did it: scale, weight, colour, space, position. That vocabulary is what C2 is written in."},
+ ],
+ three:[
+  {t:"Your shared folder and deck", d:"On OneDrive, shared with us, a slide for every section."},
+  {t:"A mark you had to defend", d:"You marked the fake submission, and heard how we mark it."},
+  {t:"Three possible themes", d:"Bring them to week 2 — one becomes your project.", open:true},
+ ],
+ workshop:{
+  aim:"Set up your deck, then mark somebody else's.",
+  out:{"sec": ["—"]},
+  run:[
+   {s:"Make your folder and share it", d:"Follow <a href=\"assessment.html#setup\">Set up your deck</a> on the Checklist: a OneDrive folder called <code>Screen Design</code>, shared with your tutors and the teaching staff."},
+   {s:"Set up the one deck", d:"Then the deck inside it, with a slide for every section, as <a href=\"assessment.html#setup\">Set up your deck</a> shows. That is your whole assessment, empty."},
+   {s:"Read the rubric, in fours", d:"In groups of four, open <a href=\"rubric.html\">the blank rubric</a> and write one sentence per criterion: what would a marker have to see to give a good mark?"},
+   {s:"Mark the example portfolio", d:"Same groups. Mark <a href=\"example.html\">the example portfolio</a> on the rubric: a band and a mark for each criterion, and one sentence of evidence for every number."},
+   {s:"Compare the marks", d:"Every group’s marks go up on the board, then ours. Where you disagree, find the page that settles it."},
+   {s:"The one thing to take away", d:"Everything the brief asked for is there, and almost none of it is evidenced. That gap is what this module is about."},
+  ],
+  between:"Choose three possible themes. Week 2 settles on one.",
+  mistake:"Marking on how it looks. Two groups in three give the visual criterion the highest number and cannot say why.",
+  stuck:[
+   ["I can’t find OneDrive", "office.com, sign in with your university account, then OneDrive in the launcher. Not a personal Microsoft account."],
+   ["Is this a real student?", "No. We wrote it. Nothing in it comes from anybody’s submission."],
+  ]
+ }
+},
+{
+ n:2, title:"Composition and visual hierarchy",
+ makes:["Example 2 marked","Theme locked","8 thumbnails"],
+ shown:[
+  {core:true, s:"Scale, weight, space — live", take:"Changing one thing — size, weight, spacing — changes what gets read first. That is the whole of hierarchy."},
+  {core:true, s:"One app, four layouts", take:"A layout decides whose job comes first, and every other job waits. Say which job your screen puts first, and what it makes wait."},
+ ],
+ three:[
+  {t:"Example 2, marked", d:"A band, a mark and a line of evidence for each criterion — sent through the form."},
+  {t:"Your theme, locked", d:"Part A §1 filled in: theme, audience and your goal. Need longer? Week 3 — the later you change it, the more you redo."},
+  {t:"A first piece of work in your deck", d:"Eight rough thumbnails of one screen, photographed onto B1’s slide. Pick the one you would build before week 3.", open:true},
+ ],
+ workshop:{
+  aim:"Mark the complete example, lock your theme, and put a first piece of work in your deck.",
+  out:{"sec": ["A1", "B1", "C1"]},
+  maybe:["D1"],   /* worth starting now if the goal is clear; no week owns the appendices */
+  bring:"A4 paper and a thick marker · your three possible themes",
+  run:[
+   {s:"Mark Example 2, alone first", d:"Open <a href=\"example-council.html\">the complete example</a> and <a href=\"rubric.html\">the blank rubric</a>. Alone: a band, a mark and one sentence of evidence for each criterion, then one overall mark."},
+   {s:"Send your marks", d:"Through the form on <a href=\"examples.html#portfolios\">Examples</a>. The class average goes up beside our marks after the workshop; nobody sees whose is whose."},
+   {s:"Compare in fours", d:"Read your marks aloud. Wherever you are more than a band apart, find the slide that settles it."},
+   {s:"What makes it complete, and what stops it being a First", d:"As a room: what does it have that the week 1 portfolio did not? And why is it not a First?"},
+   {s:"Choose your theme", d:"Fill in <code>A1</code>: your theme, your audience, and your goal, the one thing a person is trying to get done. Then <code>C1</code>, while the decision is fresh; and if you can, start <code>D1</code> with screenshots of how people do it today."},
+   {s:"Eight thumbnails", d:"Draw the one screen your goal needs most, eight ways, markers only. Photograph all eight onto <code>B1</code>’s slide today."},
+  ],
+  between:"Pick the thumbnail you would build. Not sure of your theme yet? <a href=\"ideas.html\">Theme ideas</a>.",
+  mistake:"Marking on looks. This one is well designed: the marks turn on what it evidences, and on where it stops.",
+  stuck:[
+   ["It looks finished. Isn’t it a First?", "Look at C5 and C6: strong design, its claims asserted rather than measured, and its hardest question answered in a sentence."],
+   ["My mark is far from the others", "Good, that is the exercise. Find the slide that would change your mind, or theirs."],
+   ["Out of ideas at four thumbnails", "Normal. Move one thing and redraw."],
+   ["Can I use Figma?", "Not for the thumbnails: on paper you get eight in the time Figma gets you one."],
+  ]
+ }
+},
+{
+ n:3, title:"The grid",
+ makes:["Layout spec → Part A §3","C2 drafted"],
+ shown:[
+  {core:true, s:"One menu, four grids", take:"A grid decides how much fits. Choose the grid for your content, not for the look."},
+  {core:true, s:"One website, every grid", take:"Twelve columns divide by two, three, four and six; sixteen will not take a row of three. Choose a count that divides the way your content does."},
+ ],
+ three:[
+  {t:"Your theme, locked", d:"If it was not already: A1 filled in, and the goal at the top of A2."},
+  {t:"Your seven numbers", d:"Part A §3 filled in from the grid deck’s last slide. Nothing says “about” or “roughly”."},
+  {t:"C2 started", d:"Once your numbers are set: what you want read first, quoting three of them.", open:true},
+ ],
+ workshop:{
+  aim:"Know what each layout number means. Then, if you have a theme, set your own; if you do not, find one.",
+  out:{"sec": ["A1", "A3", "C2"]},
+  run:[
+   {s:"Play with the grid deck", d:"Open <a href=\"grid-numbers.html\">A grid in seven numbers</a> and push every slider to its extremes. One slide per number, using Example 2’s A3."},
+   {s:"Got a theme? Measure a real site’s grid", d:"Pick a website from your theme and measure its max width, margin and breakpoints, then count the columns at each breakpoint: <a href=\"toolkit.html#measure\">Toolkit › Measure a website</a> shows how. Set your own numbers on <a href=\"grid-numbers.html#s9\">the deck’s last slide</a>, copy them into A3, and say what you kept from the site and why."},
+   {s:"No theme yet? Find one", d:"Press the button on <a href=\"ideas.html\">Theme ideas</a> until one is something you would use, change one thing so it is yours, and copy it into A1. Then start A3 from Example 2’s numbers."},
+   {s:"Write C2, if your numbers are set", d:"One slide: what you want read first on your main screen, and the grid that makes it happen. Quote three numbers from <code>A3</code>."},
+  ],
+  between:"Fill in every box of <code>A3</code>.",
+  mistake:"Copying Example 2’s numbers without asking whether they suit your screens. Start from them; then change them.",
+  stuck:[
+   ["What are the seven numbers?", "The first slide of <a href=\"grid-numbers.html\">the grid deck</a> lists them, one slide each after that."],
+   ["How many columns?", "Four on a phone is common. On a bigger screen, a number your content divides into: 8 or 12."],
+   ["Does it have to be 8px?", "No. Consistent, and written down."],
+  ]
+ }
+},
+{
+ n:4, title:"Type, colour and the grid: one visual system",
+ makes:["Layout, type and colour → Part A §3–5","A first style tile","C3 and C4 drafted"],
+ shown:[
+  {core:true, slides:"Colour and type", s:"Colour and type speak first", u:"type-colour.html", take:"Here red reads as stop and blue as trust; the same words read as a threat or a welcome, depending on the typeface. Choose colours and type for what they say to your audience."},
+  {core:true, s:"Gallery: grids, type and colour", u:"gallery.html", take:"Choose one of each, write them down, use them everywhere, and say why."},
+  {core:true, s:"One example: the bakery, for type, colour and grid", u:"case-bakery.html#s16", take:"Every number in a spec has a reason, and the reason names a person: who reads it, where, on what. That is what C3 and C4 are made of."},
+ ],
+ three:[
+  {t:"Part A §3–5 filled in", d:"Every row a number. A5 has a ratio for every text pair, none under 4.5:1."},
+  {t:"A first style tile", d:"Your three screens from the style kit, in your own words, pasted into B3."},
+  {t:"C3 and C4 drafted", d:"Why this type and why these colours, quoting the numbers.", open:true},
+ ],
+ workshop:{
+  aim:"See how three redesigns decided their type, colour and grid — then decide yours, write them into Part A §3–5, and see them on your own screens.",
+  out:{"sec": ["A4", "A5", "C3", "C4"]},
+  run:[
+   {s:"Study one or more cases", d:"Open <a href=\"case-missed-bin.html#s16\">the missed bin</a>, <a href=\"case-railcard.html#s16\">the Railcard</a> or <a href=\"case-short-course.html#s16\">the Welsh course</a>, and answer <a href=\"examples.html#questions\">the six questions</a>. Each link opens the case on the slide that answers most of them, <i>The redesign’s A3, A4 and A5</i>. Time left? Take another."},
+   {s:"Play with the Style kit", d:"Open the <a href=\"style-kit.html\">Style kit</a> and press <b>Show all three wrong</b>. Then try grids, typefaces and palettes on the three screens, with your own service’s words in the boxes."},
+   {s:"Pick your type and colour", d:"Choose a typeface for <code>A4</code> and a palette for <code>A5</code>, in the <a href=\"gallery.html\">Gallery</a> or the Style kit, and copy them in with their sources (C9). Then one slide each for <code>C3</code> and <code>C4</code>:<br>• <b>Who</b> reads it, where, and on what?<br>• <b>Why</b> this typeface and these colours, for them? Name one you rejected.<br>• <b>One number</b> from A4 or A5: a size, a ratio."},
+   {s:"Check-in: your tutor comes round", d:"One question: <b>you made your A5 pick. Why those colours? What is the rationale?</b>"},
+  ],
+  between:"If any text pair in A5 fails, fix it and copy A5 again.",
+  mistake:"Choosing by look alone. Choose for your audience, then check the numbers.",
+  stuck:[
+   ["Which case should I study?", "Any of them. One studied properly beats three skimmed."],
+   ["I missed weeks 3 and 4", "Start here. The Gallery gives you a complete A3, A4 and A5 in one sitting, with sources."],
+   ["Do I have to use the Gallery?", "No. Your own choices and any tool are fine; the Gallery shows what a complete answer looks like."],
+   ["My brand colour fails", "Darken it until it passes, or keep it for large text and decoration only."],
+   ["Where do I cite the fonts and grid?", "C9. The Gallery and the Style kit write the references for you."],
+  ]
+ }
+},
+{
+ n:5, title:"The journey, and your first wireframes",
+ makes:["The journey before → Part A §2","The journey, mapped → B4","The before, captured → D1","First wireframe → B5","C7 drafted"],
+ shown:[
+  {core:true, s:"Before and after: the painful one", u:"case-bakery.html", take:"The before is evidence, even when it is a message thread. Count it — channels, messages, days — and every count becomes a line in C5 and D2."},
+  {core:true, slides:"Drawing a flow", s:"Drawing a flow", u:"flow-grammar.html", take:"A flow has six marks to learn. The ✗ marks show the problems your design has to fix."},
+  {core:true, slides:"Thinking in wireframes", s:"Thinking in wireframes: one whole journey", u:"wireframes.html", take:"Decide what goes on the screen, in what order and in what words. Fonts and colours can wait."},
+ ],
+ three:[
+  {t:"Your journey before, counted and mapped", d:"Part A §2: the goal and every step people take now, with the count — and the same steps drawn as a flow in B4."},
+  {t:"The before, captured", d:"D1: one screenshot or photo per step, numbered to match A2, and your worst screen stripped back to a wireframe beside its screenshot."},
+  {t:"Your first wireframe, and C7 drafted", d:"One screen that fixes your worst ✗, in B5. One cross-cultural consideration for C7.", open:true},
+ ],
+ workshop:{
+  aim:"Map how it works today, strip the worst screen back to a wireframe to show what goes wrong, then fix that one screen.",
+  out:{"sec": ["A2", "B4", "D1", "B5", "C7"]},
+  bring:"Access to the service you are improving · paper and a marker, if you sketch",
+  run:[
+   {s:"Take a flow apart", d:"Copy this code, open the <a href=\"flow.html\">Flow maker</a>, press <b>Save</b>, paste it under <b>Carrying on?</b> and press <b>Bring it back</b>. Click each box to see how it’s set up, then change things, add a branch, and break it: Undo puts it right. When you’re ready for your own, press <b>More</b>, then <b>Start again</b>. Already started yours? Press Save and keep that text first.", code:"FLOW1zrZTPatwwEIdfRQz0FAW83j9JdAkltLfSQltKCXuQrbEtIkuOJHtrFkOfpg_WJym25cTBLWzY3mzZzPdpfhodITdcAYO3pDC1Q3Io0CLBBm1rNBLnayHRkaxWinhZ9iumciRBqXOSSKVQAIUEM2MR2P2eAs88WmD3R5ACGPDVZXmI8qttuQEKHhh8Rm7TAigcgAFQeAAGqIcyXADLuHJIQRuP4_fMmnIsXQE7QgosomCBRV1HJ0gcIFU9QTy3PjC4UsNGUHt3G4DOY3UCMQUGiaoRnuGrBXwd4K4M8HehfbcvN_l4ApBrN_SuL9Oi6wua_p-e1q9pMy3xmxF7nTbQ7SmYLAPmbY3PqvFCdRNUGwyq301tSWFKnHolhEXnyAWp0FQKz27XeuGwDQ7tLjh8ssZkgS8wVdxyL40mF8SN5-I8g83CYDca7KIfweBbIdPizLTqShkuFoHVWjZonfTtU3CrKCTXRP9KbnRezZyvgvP6MTh_nXi9c4rWy0ym3L8ysb-w1wv2dWDv5NMI62m4LGZoUadI7r5c_v756_Vx5RZRL_KKZ_zZSR_5H32BlgjpUlNr74JKvH1DnNS5QlKhdUafqDPrQWKnp-WtEy_6Mg8yhDJPewjG6Eza0v0Hj_HwvMhiUttOansKh6IFduwoNBKHiR7uYwqeJ7M3hXk_W-w4TguDDy1xaZ9ErzpGwuC91NIVKKCjIOLJtPsD"},
+   {s:"Map how it works today", d:"Into <code>A2</code>: your goal, then every step people take now, with the count: steps, taps, fields, messages, days waiting. Then draw the same steps in the <a href=\"flow.html\">Flow maker</a> with the six marks from <a href=\"flow-grammar.html\">Drawing a flow</a>, mark each ✗ where people get stuck, and <b>copy the slide into B4</b>. Paper, photographed, is just as good. More detail, with a test: <a href=\"flow-guide.html#now\">How flows work</a>."},
+   {s:"Capture it", d:"Screenshot or photograph every step into <code>D1</code>, numbered to match A2. No app or website? Capture whatever people use now: the message thread, the paper form, the diary. Chats need the owner’s permission, with everyone else’s name and number blurred."},
+   {s:"Strip back your worst ✗", d:"Which ✗ costs people the most? Wireframe that screen just as it is, by sketching or in the <a href=\"screen-maker.html\">Screen maker</a>: boxes, labels, real words. Leave the fixing for later. The last slides of <a href=\"wireframes.html\">Thinking in wireframes</a> show what you’re aiming for."},
+   {s:"Number what goes wrong", d:"Press <b>Annotate</b> in the Screen maker, or number your sketch, and say what goes wrong at each number. Put it beside the screenshot in <code>D1</code>."},
+   {s:"Fix it", d:"Duplicate your wireframe, clear the numbers, and change it until the ✗ has gone. That’s your first screen for <code>B5</code>. Show a partner the before and the fix: can they say which number it solved?"},
+  ],
+  between:"Finish your fixed screen if you ran out of time, and finish <code>D1</code> while you can still reach the before. Write <code>C7</code>: one slide on one cross-cultural consideration that is real for your service, such as colour meaning, reading direction, names and dates, language or icons.",
+  mistake:"Fixing the screen while you strip it back. Draw what’s there first.",
+  stuck:[
+   ["There is no website for my idea", "Then the before is how people manage now, so strip back the thread, form or diary they use: <a href=\"toolkit.html#no-service\">When there’s no service yet</a>. The bakery case is exactly that."],
+   ["There’s nothing to capture at all", "Ask someone how they manage today, and recreate what they use with made-up names, saying so in the caption."],
+   ["My worst ✗ is a phone call", "It stays on your flow as a step. For the wireframe, pick the worst ✗ that has something to draw."],
+   ["Does the stripped-back wireframe go in B5?", "No. It shows the before, so it goes in <code>D1</code> beside its screenshot. The fixed copy goes in <code>B5</code>."],
+   ["Can I screenshot a real service?", "Yes, for your appendix, credited. Blur anyone’s personal details."],
+   ["What counts as a step?", "Anything the person has to do or wait for: a page, a tap, a call, a reply. <a href=\"flow-guide.html#step\">How flows work</a> has more."],
+   ["Should I sketch or use the Screen maker?", "Either: both count for B5. Sketch to try ideas quickly, and use the Screen maker when you know what you want."],
+   ["My project is a website for big screens", "Use the Desktop setting in the Screen maker, or sketch it wide."],
+  ]
+ }
+},
+{
+ n:6, title:"Contemporary tools, and working with AI",
+ makes:["Style tile","Mood board","AI log → Part A §7"],
+ shown:[
+  {core:true, s:"Generate one, live", take:"A generator makes something competent in a minute. It cannot decide anything, and the deciding is what is marked."},
+  {core:true, s:"Now check it against a spec", take:"Generated work still has to obey the numbers you declared in A3–A5. Check it against them."},
+ ],
+ three:[
+  {t:"Mood board and style tile", d:"B2 and B3, built only from numbers you already declared."},
+  {t:"Your AI log open", d:"A7 started and C8 drafted — one line per use, from today on."},
+  {t:"The style tile finished", d:"Everything you build in week 8 comes out of it.", open:true},
+ ],
+ workshop:{
+  slides:true,
+  aim:"A style tile that obeys your own numbers, and your AI log opened.",
+  out:{"sec": ["A7", "B2", "B3", "C8"]},
+  bring:"Whatever AI tools you use",
+  run:[
+   {s:"Mood board, fast", d:"Fifteen images on one page: the feeling you are aiming at. Generated images are welcome, and each one gets a line in <code>A7</code>; so are your own photos."},
+   {s:"Style tile", d:"Finish the tile you started in week 4: type scale, palette with roles, spacing, and a button, a field and a card. Every value from your own A3–A5."},
+   {s:"Open the AI log", d:"Start <code>A7</code> today, one line for every AI use; you will not remember them in January. Not using AI? One line, <i>No AI used</i>, and say why in C8. What is allowed, and what to do if you would rather not: <a href=\"toolkit.html#ai\">Using AI</a>."},
+   {s:"Next week is a checkpoint", d:"In week 7 you share your deck with Mike and fill in a short form, and he leaves feedback right in your deck. Make sure your deck is in your shared folder by then."},
+   {s:"Write C8", d:"Eighty words on the AI you used: was it any good, whose work is it, and what did you change? If you used none, say why."},
+  ],
+  between:"Finish your style tile: week 8 builds from it.",
+  mistake:"Leaving the log until January.",
+  stuck:[
+   ["What goes on a style tile?", "Type scale, colours with roles, spacing, three components. One page."],
+   ["The AI made something better than mine", "Good. Log it, then make it obey your numbers."],
+   ["Does asking for feedback change my mark?", "No. It is optional, and nothing about it is marked."],
+  ]
+ }
+},
+{
+ n:7, title:"UX basics and screen states",
+ makes:["Your screens → Part A §2","Your flow, after → B4","The rest of your wireframes → B5","C6 drafted"],
+ shown:[
+  {s:"Mike works on his own deck, live"},
+ ],
+ three:[
+  {t:"The journey, both ways", d:"Part A §2 — the goal, the steps people take now, and your screens, counted."},
+  {t:"Your flow beside the before, and C6", d:"Your version drawn next to week 5’s map in B4, and the ethics paragraph drafted."},
+  {t:"The whole wireframe set", d:"Every screen, states included, sketched or in the Screen maker. Bring it to week 8.", open:true},
+ ],
+ workshop:{
+  form:'w7',
+  slides:true,
+  aim:"The screens of your version, the states you forgot, a flow somebody else can follow, and wireframes for all of it.",
+  out:{"sec": ["A2", "B4", "B5", "C6"]},
+  bring:"Your B4 from week 5",
+  run:[
+   {s:"Your journey, after", d:"Open <code>A2</code>: the goal and the before are there. Now list the screens of your version."},
+   {s:"Give each screen a job", d:"A job in under ten words, starting with a verb. Two screens with the same job are one screen."},
+   {s:"The states check", d:"For each screen: what does it look like empty, loading, and when it fails? This usually adds one or two screens."},
+   {s:"Make your flow from the before", d:"Read Part 2 of <a href=\"flow-guide.html#after\">How flows work</a>. Then in the <a href=\"flow.html\">Flow maker</a> press <b>Start from my “now”</b>, change it into your version, copy <b>Both</b> into <code>B4</code>, and copy the <b>What happened</b> table into <code>D2</code>."},
+   {s:"Swap flows", d:"Can your partner get from the start to the goal without asking you? If not, an arrow is missing."},
+   {s:"Wireframe the rest", d:"Every screen on your list, states included, by sketching or in the <a href=\"screen-maker.html\">Screen maker</a>. Start with the boring screen. <a href=\"wireframes-2.html\">The rest of the organisms</a> shows what to reach for."},
+   {s:"Write C6", d:"Ninety words on one dimension, ethics or sustainability. The empty, loading and error screens you just found are an ethics answer."},
+   {s:"Checkpoint: ask for feedback", d:"Before you leave, share your deck with Mike and fill in [[form7]]. He leaves feedback right in your deck."},
+  ],
+  between:"Finish the wireframe set for <code>B5</code>, and decide which two screens you will build first: week 8 starts from them.",
+  mistake:"Forgetting empty and error screens. They are half of week 9.",
+  stuck:[
+   ["I only have four screens", "Add the states. Empty, error and done are screens."],
+   ["I have fifteen", "Which two share a job? Cross one out. Repeat."],
+   ["What’s a job?", "What someone came to this screen to do. One verb."],
+  ]
+ }
+},
+{
+ n:8, title:"Wireframe to screen",
+ makes:["A wireframe for every screen","First 2 screens finished"],
+ shown:[
+  {s:"Mike works on his own deck, live"},
+ ],
+ three:[
+  {t:"A wireframe for every screen", d:"B5 — sketched or from the Screen maker, one per screen in Part A §2."},
+  {t:"Two finished screens", d:"The first two of B6, built for real in the room."},
+  {t:"The rest of your screens", d:"Every remaining screen of the journey, finished — the biggest piece of work in the module, due at the start of week 9.", open:true},
+ ],
+ workshop:{
+  slides:true,
+  aim:"Your wireframe set checked, and the first two screens built for real.",
+  out:{"sec": ["B5", "B6"]},
+  bring:"Your wireframes from weeks 5 and 7 · paper and markers · a laptop for the last half hour",
+  run:[
+   {s:"Finish the set", d:"Any screen of your journey without a wireframe yet, do it now: sketched or in the <a href=\"screen-maker.html\">Screen maker</a>, quick rather than polished. Boxes and labels, no colour, no fonts, no icons."},
+   {s:"The blind test", d:"Cover your labels and hand the set to a partner. Any screen whose job they cannot name, redraw now."},
+   {s:"Build the first two", d:"Turn your two most important wireframes into finished screens from A3, A4, A5 and your style tile: the first two of <code>B6</code>. <a href=\"style-kit.html#fidelity\">Levels of finish</a> shows what finished means."},
+   {s:"Into the deck", d:"Photograph your sketches, or <b>Copy as a picture</b> from the Screen maker: <code>B5</code> complete, and the first two screens of <code>B6</code> in the deck."},
+  ],
+  between:"Finish every screen of your journey (<code>B6</code>) before week 9: the whole of week 9 works on them. If your feedback has arrived, read it.",
+  mistake:"Decorating. A wireframe that took an hour is a mockup and is worth less here.",
+  stuck:[
+   ["How detailed?", "Boxes and labels. If you are choosing a font, stop."],
+   ["My grid doesn’t fit", "Then fix the grid and update <code>A3</code>. That is allowed, and honest."],
+   ["Can I do it in Figma?", "You can, but a pen or the Screen maker is faster, and you need a whole set."],
+   ["Does the Screen maker use my grid?", "It uses its own rows and columns, and that is fine for B5. Your A3 numbers come back when you finish the screens in B6."],
+  ]
+ }
+},
+{
+ n:9, title:"Adaptation and access",
+ makes:["Access audit → Part A §6","C5 drafted","Other sizes, if you need them"],
+ shown:[
+  {s:"Mike works on his own deck, live"},
+ ],
+ three:[
+  {t:"Other sizes, only if you need them", d:"B7 is optional. A better flow is worth more than more screens."},
+  {t:"An honest audit", d:"Part A §6 filled in, C5 drafted, every failure written down."},
+  {t:"The fixes, and the log", d:"Fix what the audit found and log each fix. The log is what is marked.", open:true},
+ ],
+ workshop:{
+  form:'w9',
+  slides:true,
+  aim:"Six images and an honest audit — on screens that arrived finished.",
+  out:{"sec": ["A6", "B7", "C5"]},
+  bring:"Every finished screen of your journey",
+  run:[
+   {s:"Screens out, first thing", d:"Every screen of your journey, finished, in front of you: this is <code>B6</code>, and today works on it."},
+   {s:"Other sizes, only if you need them", d:"Only if your journey is used on more than one size of screen. At the smaller size, decide what to remove, not what to shrink."},
+   {s:"Run the checklist over everything", d:"Contrast, target size, focus and non-colour cues, on every screen. Write down every failure you find, fixed or not."},
+   {s:"Fill in A6", d:"Who might find your design hard to use, and why? Describe a few people and situations, such as poor eyesight, a second language, or being tired after five minutes on a phone, and what your design does for each. Touch targets, focus and cues that don’t rely on colour are good places to start."},
+   {s:"Optional: a second round of feedback", d:"Want Mike to look again? Fill in [[form9]] this week, and check your deck is still shared with him."},
+  ],
+  between:"Fix what the audit found, and log each fix.",
+  mistake:"Fixing failures without logging them. The log is what is marked.",
+  stuck:[
+   ["Everything fits, I just made it smaller", "What would you remove? If nothing, the big one is empty."],
+   ["I found ten failures", "Good. Log ten, fix three. Better than finding none."],
+   ["Do I need to fix everything?", "No. You need to find it and say so."],
+  ]
+ }
+},
+{
+ n:10, title:"Justifying a decision",
+ makes:["Click-through → Part B §8","Part C rewritten"],
+ shown:[
+  {s:"Mike works on his own deck, live"},
+ ],
+ three:[
+  {t:"A click-through that works", d:"B8 — the journey clicks through, start to finish, checked in the PDF."},
+  {t:"Eight sections that defend", d:"Each one quotes a number from Part A and names something you rejected."},
+  {t:"One read-aloud pass", d:"Before week 11: a sentence with no number in it is costing you marks.", open:true},
+ ],
+ workshop:{
+  slides:true,
+  aim:"Eight drafted sections turned from description into defence, and a click-through that works.",
+  out:{"sec": ["B8", "D2", "D3"]},
+  run:[
+   {s:"Mark your own deck", d:"Mark it on <a href=\"rubric.html\">the blank rubric</a>, the way you marked the examples. Your lowest criterion is where today goes."},
+   {s:"Act on your feedback", d:"Had feedback in week 7 or 9? Go through it point by point: fix what you agree with, and say what you changed in the section it belongs to. No feedback? Use your own rubric marks the same way."},
+   {s:"Read two sections aloud", d:"Read two of your C sections to a partner. Their only job: does each one describe, or defend?"},
+   {s:"Turn description into defence", d:"Rewrite <code>C1</code>–<code>C8</code> so each quotes a number from Part A, names what you rejected, and says what is still wrong. Not more words: different ones."},
+   {s:"Link your screens: your prototype", d:"Link every step to the next, plus a way back and a way out. PowerPoint: <b>Insert › Link › Place in This Document</b>; Google Slides: <b>Insert › Link › Slides in this presentation</b>. Over a pasted picture, link a rectangle with no fill and no outline, and put a <b>Start the prototype →</b> link on <code>B8</code>."},
+   {s:"Export a test PDF, and click it", d:"Export the deck as a PDF, open it in a browser, and click every link. A link that works in the editor can vanish in the export, and the PDF is what is marked."},
+   {s:"Before and after", d:"Check every step in <code>D2</code> has a why, then fill <code>D3</code>: your two most changed screens, before beside after."},
+  ],
+  between:"Read your C sections aloud once more. Any sentence without a number is the next thing to fix.",
+  mistake:"Writing about how it feels. Feelings have no number attached.",
+  stuck:[
+   ["I don’t know what to cite", "Open your Part A and read your own numbers. It is always there."],
+   ["My answer will not fit on one slide", "Cut the description. Keep the number and the reason."],
+  ]
+ }
+},
+{
+ n:11, title:"Submission", dead:true,
+ makes:["References → Part C §9","Submit"],
+ shown:[
+ ],
+ three:[
+ ],
+ workshop:{
+  aim:"No class this week. Mike is in the room to help anyone who comes: polish, check and submit.",
+  when:"No class · drop in at the usual time, and Mike will help",
+  out:{"sec": ["C9", "D4"]},
+  bring:"Your PDF",
+  run:[
+   {s:"C9, the reference list", d:"List everything you cited in <code>C9</code>. It is the easiest section in Part C, and the one most often missing."},
+   {s:"D4, your AI statement", d:"Say whether you used AI. If you did: which tools, for what, where in the deck, and why. If not, one line: No AI was used. <a href=\"toolkit.html#ai\">Using AI in this module</a>."},
+   {s:"Assemble the PDF", d:"Export, open the PDF, and click every link one last time. Then <a href=\"assessment.html#handin\">hand it in</a>."},
+   {s:"Drop in, if you need to", d:"No teaching: export problems, Moodle, last read-throughs. If your work is done, submit and go."},
+  ],
+  between:"Submit, if you have not.",
+  mistake:"Leaving the export to the last hour. It is always bigger than you think.",
+  stuck:[
+   ["My PDF is 400MB", "Export at 150dpi."],
+   ["Moodle rejected it", "Size limit. Same fix."],
+  ]
+ }
+}
+];
