@@ -1,0 +1,586 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Screen Design 2026–27</title>
+<style>
+  :root{
+    --bg:#F5F4F2; --surface:#FFFFFF; --surface-2:#EDEBE8;
+    --ink:#1A1618; --ink-2:#514B4A; --ink-3:#4D4847;
+    --line:#DFDBD7; --line-2:#8E8685;
+    --lec:#8C2437; --lec-soft:#F6E8EA;
+    --wsh:#1A526D; --wsh-soft:#E4EEF3;
+    --sup:#5B5350; --sup-soft:#ECE9E7;
+    --ok:#285638; --ok-soft:#E3EFE7;
+    --warn:#7A5204; --warn-soft:#F4EAD3;
+    --mono:ui-monospace,"SF Mono",Menlo,Consolas,monospace;
+    --sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Inter,Roboto,sans-serif;
+    --fs:1rem;
+  }
+  html[data-theme="dark"]{
+    --bg:#151314; --surface:#1E1B1C; --surface-2:#262223;
+    --ink:#EDE9E7; --ink-2:#B9B2AF; --ink-3:#B7B2B0;
+    --line:#332E2F; --line-2:#7A7372;
+    --lec:#E69FAD; --lec-soft:#332226;
+    --wsh:#7FBEDC; --wsh-soft:#16262E;
+    --sup:#B4ADAB; --sup-soft:#262223;
+    --ok:#83C19A; --ok-soft:#1C2A22;
+    --warn:#E0BC78; --warn-soft:#2A2417;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);
+       font-size:var(--fs);line-height:1.5;-webkit-text-size-adjust:100%}
+  .wrap{max-width:1100px;margin:0 auto;padding:0 22px}
+  @media(max-width:420px){.wrap{padding:0 14px}}
+  @media(max-width:340px){.wrap{padding:0 10px}}
+  a{color:inherit}
+
+  /* The bar, identical on every page. Defined once here and pasted into each
+     file rather than shared, because these open from a Moodle download as
+     often as from a server and a missing stylesheet must not cost the nav. */
+  header{border-bottom:1px solid var(--line);background:var(--surface);position:sticky;top:0;z-index:40}
+  .bar{display:flex;align-items:center;gap:10px;padding-block:11px;flex-wrap:nowrap}
+  .brand{font-weight:680;font-size:1rem;letter-spacing:-0.015em;white-space:nowrap;color:inherit;
+    text-decoration:none;padding:5px 8px;margin-left:-8px;border-radius:6px}
+  .brand:hover{background:var(--surface-2)}
+  .brand:focus-visible{outline:2px solid var(--lec);outline-offset:1px}
+  .sp{flex:1}
+  .navl{font-size:0.85rem;color:var(--ink-2);text-decoration:none;padding:6px 10px;border-radius:6px;white-space:nowrap}
+  .navl:hover{background:var(--surface-2);color:var(--ink)}
+  .navl.on{background:var(--lec);color:#fff}
+  html[data-theme="dark"] .navl.on{color:#151314}
+  .ctl button{font-family:var(--mono);font-size:0.7rem;background:none;color:var(--ink-3);
+    border:1px solid var(--line-2);border-radius:5px;padding:5px 8px;cursor:pointer;line-height:1}
+  .ctl button:hover{border-color:var(--lec);color:var(--lec)}
+  /* Links used to be hidden on phones, which left a student on a phone with no
+     way to reach the brief. They wrap to a second row instead. */
+  @media(max-width:760px){ header .bar{gap:6px} .navl{padding:6px 8px;font-size:0.82rem} }
+  @media(max-width:560px){
+    header .bar{flex-wrap:wrap;row-gap:6px}
+    header .brand{order:0} header .ctl{order:1;margin-left:auto}
+    header .bar > .sp{order:2;flex-basis:100%;height:0}
+    header .navl{order:3;padding:5px 7px;font-size:0.78rem}
+  }
+  @media(max-width:430px){ .brand{font-size:0.9rem} .navl{padding:5px 6px;font-size:0.76rem} }
+  h1{font-size:clamp(1.6rem,4.4vw,2.4rem);line-height:1.08;letter-spacing:-0.028em;
+     margin:26px 0 6px;font-weight:700}
+  .sub{color:var(--ink-2);font-size:1rem;margin:0 0 22px;max-width:52ch}
+
+  /* ================= the week, as a diagram ================= */
+  /* ---- this week ---- */
+  .nowbox{background:var(--surface);border:1px solid var(--line);border-left:5px solid var(--wsh);
+    border-radius:12px;padding:18px 20px;margin:22px 0 4px}
+  .nowbox.pre{border-left-color:var(--ink-3)} .nowbox.late{border-left-color:var(--lec)}
+  .nb-top{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;margin-bottom:3px}
+  .nb-wk{font-family:var(--mono);font-size:0.68rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--wsh)}
+  .nowbox.pre .nb-wk{color:var(--ink-3)} .nowbox.late .nb-wk{color:var(--lec)}
+  .nb-days{margin-left:auto;font-family:var(--mono);font-size:0.72rem;color:var(--ink-3);white-space:nowrap}
+  .nb-days b{color:var(--ink);font-size:0.95rem}
+  .nb-do{font-size:1.32rem;font-weight:690;letter-spacing:-0.022em;line-height:1.2;margin:0 0 10px}
+  .nb-list{display:grid;gap:6px;margin:0 0 14px;padding:0;list-style:none}
+  .nb-list li{display:grid;grid-template-columns:20px 1fr;gap:9px;align-items:baseline;font-size:0.95rem}
+  .nb-list i{font-style:normal;color:var(--wsh);font-size:0.9rem}
+  .nb-list .sec{font-family:var(--mono);font-size:0.72rem;color:var(--wsh);border:1px solid var(--wsh);
+    border-radius:4px;padding:1px 5px;margin-right:6px;font-weight:400}
+  .nb-list li.ok .sec{color:var(--ink-3);border-color:var(--line-2)}
+  .nb-list li.ok i{color:var(--hnd,#2C5F3E)} .nb-list li.ok span{color:var(--ink-3);text-decoration:line-through}
+  .nb-lab{margin:12px 0 6px;font-family:var(--mono);font-size:0.64rem;letter-spacing:0.08em;text-transform:uppercase;color:var(--ink-3)}
+
+  .nb-list .ifcan{font-style:normal;font-family:var(--mono);font-size:0.66rem;color:var(--ink-3);
+    border:1px dashed var(--line-2);border-radius:99px;padding:1px 7px;margin-left:4px}
+  .nb-week{display:inline-flex;align-items:center;min-height:44px;padding:0 18px;border-radius:9px;margin:4px 0 2px;
+    background:var(--wsh);color:#fff;font-weight:650;text-decoration:none}
+  .nb-week:hover{filter:brightness(1.08)}
+  html[data-theme="dark"] .nb-week{color:#151314}
+  .nb-bar{margin-top:12px;padding-top:13px;border-top:1px solid var(--line)}
+  .nb-bl{display:flex;align-items:baseline;gap:8px;font-size:0.82rem;color:var(--ink-2);margin-bottom:7px;flex-wrap:wrap}
+  .nb-bl b{color:var(--ink);font-size:1.05rem}
+  .nb-bl .beh{margin-left:auto;font-family:var(--mono);font-size:0.72rem;padding:2px 8px;border-radius:4px}
+  .beh.on{background:var(--hnd-soft,#E3EFE7);color:#2C5F3E;border:1px solid #2C5F3E}
+  .beh.off{background:var(--lec-soft);color:var(--lec);border:1px solid var(--lec)}
+  .nb-track{position:relative;height:11px;border-radius:99px;background:var(--surface-2);
+    border:1px solid var(--line);overflow:hidden}
+  .nb-you{position:absolute;inset:0 auto 0 0;background:#2C5F3E;border-radius:99px;transition:width .3s}
+  /* Where you should be: a line on the track, not a second bar. It is a
+     target, and a target is a position rather than a quantity. */
+  .nb-should{position:absolute;top:-4px;bottom:-4px;width:2px;background:var(--lec)}
+  .nb-key{display:flex;gap:14px;margin-top:7px;font-family:var(--mono);font-size:0.65rem;color:var(--ink-3);flex-wrap:wrap}
+  .nb-key i{font-style:normal;display:inline-block;width:9px;height:9px;border-radius:2px;margin-right:4px;vertical-align:-1px}
+  .nb-cta{display:inline-block;margin-top:12px;font-family:var(--mono);font-size:0.74rem;
+    text-decoration:none;color:var(--wsh);border:1px solid var(--wsh);border-radius:6px;padding:5px 11px}
+  .nb-cta:hover{background:var(--wsh);color:#fff}
+
+  .weekbox{background:var(--surface);border:1px solid var(--line);border-radius:12px;
+           padding:18px 20px 20px;margin-bottom:14px}
+  .wb-top{display:flex;align-items:baseline;gap:10px;margin-bottom:14px;flex-wrap:wrap}
+  .wb-top b{font-size:1.05rem;font-weight:670}
+  .wb-top span{font-family:var(--mono);font-size:0.72rem;color:var(--ink-3);letter-spacing:0.05em}
+
+  .hbar{display:grid;grid-template-columns:repeat(5,1fr);gap:8px}
+  @media(max-width:760px){.hbar{grid-template-columns:1fr}.hbar .hcell{grid-column:span 1 !important}}
+  .hcell{border-radius:9px;padding:14px 15px;border:1px solid transparent}
+  .hcell.l{background:var(--lec-soft);border-color:var(--lec)}
+  .hcell.w{background:var(--wsh-soft);border-color:var(--wsh)}
+  .hcell.s{background:var(--sup-soft);border-color:var(--line-2)}
+  .hh{display:flex;align-items:baseline;gap:8px;margin-bottom:9px;flex-wrap:wrap}
+  .htime{font-family:var(--mono);font-size:0.76rem;color:var(--ink-2);margin-left:auto;white-space:nowrap}
+  .hrow small{color:var(--ink-3);font-size:0.78rem}
+  .hn{font-size:1.5rem;font-weight:720;letter-spacing:-0.03em;line-height:1}
+  .hcell.l .hn{color:var(--lec)} .hcell.w .hn{color:var(--wsh)} .hcell.s .hn{color:var(--ink-2)}
+  .hl{font-weight:660;font-size:0.98rem}
+  .hmeta{display:grid;gap:5px}
+  .hyou{margin:6px 0 0;font-size:0.95rem;color:var(--ink)}
+  .hrow{display:grid;grid-template-columns:64px 1fr;gap:9px;font-size:0.85rem;align-items:baseline}
+  .hrow i{font-family:var(--mono);font-size:0.65rem;letter-spacing:0.07em;text-transform:uppercase;
+          color:var(--ink-3);font-style:normal}
+  .hrow b{font-weight:600;color:var(--ink)}
+  .hrow span{color:var(--ink-2)}
+
+  /* the cohort split, drawn */
+  .split{display:flex;align-items:center;gap:10px;margin-top:14px;padding-top:13px;
+         border-top:1px dashed var(--line-2);flex-wrap:wrap}
+  .sblk{display:flex;align-items:center;gap:5px}
+  .dots{display:grid;grid-template-columns:repeat(10,5px);gap:2px}
+  .dots i{width:5px;height:5px;border-radius:50%;background:var(--ink-3);display:block}
+  .dots.l i{background:var(--lec)}
+  .dots.g1 i{background:var(--wsh)} .dots.g2 i{background:var(--wsh);opacity:.72}
+  .dots.g3 i{background:var(--wsh);opacity:.5}
+  .sblk small{font-family:var(--mono);font-size:0.66rem;color:var(--ink-3);white-space:nowrap}
+  .arrow{color:var(--ink-3);font-size:1rem}
+
+  /* ================= week grid ================= */
+  .gridwrap{overflow-x:auto;border:1px solid var(--line);border-radius:12px;background:var(--surface)}
+  table.wk{width:100%;border-collapse:collapse;font-size:0.9rem;min-width:660px}
+  table.wk th{font-family:var(--mono);font-size:0.62rem;letter-spacing:0.08em;text-transform:uppercase;
+    color:var(--ink-3);text-align:left;padding:9px 12px;border-bottom:1px solid var(--line);
+    background:var(--surface-2);font-weight:500;position:sticky;top:0}
+  table.wk td{padding:10px 12px;border-bottom:1px solid var(--line);vertical-align:top;color:var(--ink-2)}
+  table.wk tr:last-child td{border-bottom:0}
+  table.wk tr:hover td{background:var(--surface-2)}
+  table.wk tr.now td{background:var(--wsh-soft);box-shadow:inset 0 0 0 1px var(--wsh)}
+  table.wk tr.now .wt{color:var(--wsh)}
+  .nowtag{display:block;margin-top:5px;font-family:var(--mono);font-size:0.6rem;letter-spacing:0.06em;text-transform:uppercase;
+    color:#fff;background:var(--wsh);border-radius:4px;padding:2px 6px;width:max-content}
+  html[data-theme="dark"] .nowtag{color:#151314}
+  table.wk tr.past td{color:var(--ink-3)}
+  .wn{font-family:var(--mono);font-size:0.72rem;color:var(--ink-3);white-space:nowrap}
+  .wt{color:var(--ink);font-weight:620}
+
+  /* display:flex on a <td> takes it out of the table's row layout entirely —
+     the cell stops stretching to the row height, so its bottom border drew
+     short and high, and the divider under the Sheets column sat a few pixels
+     above the one under the rest of the row. The cell stays a cell; the flex
+     goes on a span inside it. */
+  .sheets{white-space:nowrap}
+  .docs{display:flex;gap:6px}
+  /* Sheets, drawn as sheets. A page with a folded corner and three ruled lines,
+     in the colour of the session it belongs to — red for the lecture hour, blue
+     for the workshop, matching the day diagram above. */
+  .doc{white-space:nowrap;display:inline-flex;align-items:center;gap:6px;text-decoration:none;
+    font-family:var(--mono);font-size:0.63rem;letter-spacing:0.03em;color:var(--ink-2);
+    border:1px solid var(--line-2);border-radius:6px;padding:4px 8px 4px 6px;background:var(--surface)}
+  /* Drawn as an SVG, not a stack of CSS gradients. The previous version painted
+     the folded corner with a linear-gradient over the element's own border, so
+     the fold rendered as a solid triangle sticking out past the page edge — and
+     it changed shape under the hover background. */
+  .doc svg{display:block;width:13px;height:16px;flex:none}
+
+  .doc-w{color:var(--wsh)} .doc-w:hover{border-color:var(--wsh);background:var(--wsh-soft)}
+  /* A deck used in the lecture hour: drawn as an easel, the same glyph the decks
+     themselves use for "show as slides". */
+  .doc-s{color:var(--ink)} .doc-s:hover{border-color:var(--ink);background:var(--surface-2)}
+  .docs{flex-wrap:wrap}
+  @media(max-width:900px){.doc span,.doc{font-size:0.6rem}}
+  tr.dead td{color:var(--ink-3)}
+  tr.dead .wt{font-style:italic}
+  /* On a phone the table became a sideways scroller with its three buttons
+     parked at x=675 on a 390-pixel screen — so the way into every handout was
+     the one thing a student would not see. Below 640px each week is a card:
+     number and date, then the title, then what the workshop makes, then the
+     three sheets as full-width 44px buttons a thumb can hit. */
+  @media(max-width:640px){
+    .gridwrap{overflow:visible}
+    table.wk{min-width:0;display:block}
+    table.wk thead{display:none}
+    table.wk tbody{display:block}
+    table.wk tr{display:grid;grid-template-columns:auto 1fr;gap:2px 12px;padding:14px 14px 12px;
+      border-bottom:1px solid var(--line)}
+    table.wk tr:last-child{border-bottom:0}
+    table.wk td{display:block;padding:0;border:0;background:none !important;box-shadow:none !important}
+    table.wk td:nth-child(1){grid-column:1;font-size:.8rem}
+    table.wk td:nth-child(2){grid-column:2;font-size:.8rem}
+    table.wk td:nth-child(3){grid-column:1 / -1;font-size:1.02rem;margin-top:4px}
+    table.wk td:nth-child(4){grid-column:1 / -1;font-size:.88rem;line-height:1.4}
+    table.wk td.sheets{grid-column:1 / -1;margin-top:10px;white-space:normal}
+    table.wk tr.now{background:var(--wsh-soft);box-shadow:inset 3px 0 0 var(--wsh)}
+    .docs{display:grid;grid-template-columns:1fr 1fr 1.2fr;gap:6px}
+    .doc,.doc span{font-size:.78rem}
+    .doc{min-height:44px;justify-content:center;padding:0 8px}
+    .doc-h{font-weight:700}
+    .doc-s{grid-column:1 / -1}
+  }
+
+  /* ================= generic ================= */
+  section{padding:34px 0 8px}
+  .sh{display:flex;align-items:baseline;gap:10px;margin-bottom:4px;flex-wrap:wrap}
+  .sh h2{font-size:1.28rem;font-weight:680;letter-spacing:-0.02em;margin:0}
+  .sh em{font-family:var(--mono);font-size:0.68rem;font-style:normal;color:var(--ink-3);letter-spacing:0.06em}
+
+  .three{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(min(260px,100%),1fr))}
+  .card{background:var(--surface);border:1px solid var(--line);border-radius:11px;padding:16px 18px}
+  .card h3{margin:0 0 3px;font-size:1rem;font-weight:660}
+  .card .k{font-family:var(--mono);font-size:0.66rem;letter-spacing:0.07em;text-transform:uppercase;
+           color:var(--ink-3);display:block;margin-bottom:9px}
+  .card ul{margin:0;padding-left:1.05rem;font-size:0.88rem;color:var(--ink-2)}
+  .card li{margin-bottom:4px}
+  .card li a{display:inline-block;padding-block:4px}   /* 2.5.8: 17px-high links become 25px */
+  .big{font-size:1.9rem;font-weight:720;letter-spacing:-0.03em;line-height:1}
+
+  .cta{display:flex;align-items:center;gap:14px;background:var(--lec);color:#fff;border-radius:12px;
+       padding:18px 22px;text-decoration:none;margin:16px 0 4px;flex-wrap:wrap}
+  html[data-theme="dark"] .cta{color:#151314}
+  .cta b{font-size:1.08rem;font-weight:690;display:block}
+  .cta span{font-size:0.9rem;opacity:.9}
+  .cta .go{margin-left:auto;font-family:var(--mono);font-size:0.85rem;white-space:nowrap}
+
+  .fit{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:6px;margin:4px 0 6px}
+  @media(max-width:620px){.fit{grid-template-columns:1fr}}
+  .fit div{position:relative;background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:8px 8px 10px;display:flex;flex-direction:column;gap:2px}
+  .fit span{font:700 0.7rem var(--mono);color:var(--wsh)} .fit b{font-size:0.86rem} .fit small{font-size:0.74rem;color:var(--ink-3);line-height:1.35}
+
+  .links{display:grid;gap:10px;grid-template-columns:repeat(auto-fit,minmax(min(240px,100%),1fr))}
+
+  .soon{opacity:.55}
+  .soon:hover{border-color:var(--line)}
+
+  footer{padding:32px 0 46px;color:var(--ink-3);font-size:0.8rem;border-top:1px solid var(--line);margin-top:30px}
+  footer p{margin:0 0 5px;max-width:74ch}
+  code{font-family:var(--mono);font-size:0.88em;overflow-wrap:anywhere}
+
+  /* ── handouts: built for a phone first, a desk second, A4 third ─────────── */
+  #handout{border:0;padding:0;margin:auto;width:min(860px,calc(100% - 32px));max-height:90vh;
+    background:var(--surface);color:var(--ink);border-radius:10px;box-shadow:0 18px 60px rgba(0,0,0,.3);overflow:hidden}
+  #handout[open]{display:flex;flex-direction:column}
+  #handout::backdrop{background:rgba(26,22,24,.55)}
+
+  button.cta{border:0;font:inherit;text-align:left;cursor:pointer;width:100%}
+
+  /* Slides: the handout fills the screen and shows one group at a time. On a
+     projector the content is scaled up rather than restyled, so it is the same
+     sheet students have in their pocket, just readable from the back row. */
+  #handout.deck{width:100vw;max-width:100vw;height:100dvh;max-height:100dvh;border-radius:0;margin:0}
+
+  /* the phone: the sheet becomes the screen */
+  @media (max-width:640px){
+    #handout{width:100%;max-width:100%;height:100dvh;max-height:100dvh;border-radius:0;margin:0}
+    .ho-body{padding:16px 16px calc(24px + env(safe-area-inset-bottom))}
+    .ho-body h2{font-size:1.35rem}
+    .ho-two,.ho-crit,.ho-parts{grid-template-columns:1fr}
+    .ho-stats{grid-template-columns:repeat(2,1fr)}
+    .ho-musts{columns:1}
+    .ho-wk{grid-template-columns:20px minmax(0,1fr) 44px 20px}
+    .ho-links a{flex:1 1 100%;justify-content:center}
+    .ho-kicker{display:none}
+    .ho-tools{width:100%;justify-content:space-between}
+    #handout.deck .ho-body{padding:16px}
+    #handout.deck .ho-dnav{padding:8px 10px calc(8px + env(safe-area-inset-bottom))}
+  }
+
+  /* A4: one sheet, no chrome, backgrounds kept so the bars still read */
+  @media print{
+    @page{size:A4;margin:10mm}
+    body>*:not(#handout){display:none !important}
+    #handout{position:static;display:block !important;width:auto;max-width:none;height:auto;max-height:none;
+      box-shadow:none;border-radius:0;overflow:visible}
+    .ho-bar{display:none} .ho-body{overflow:visible;padding:0}
+    .ho-dnav{display:none !important}
+    #handout.deck .ho-body{display:block}
+    #handout.deck .ho-slide{display:block !important;zoom:1;max-width:none}
+    .ho-body,.ho-body *{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+    .ho-block,.ho-wk,.ho-c,.ho-part{break-inside:avoid}
+    .ho-body h2{font-size:1.3rem}
+    .ho-block{padding:8px 10px;margin-bottom:8px}
+    .ho-links{display:none}
+    html,body{background:#fff !important}
+    .ho-scr{display:none !important} .ho-prt{display:block}
+    .ho-idea,.ho-stats{margin-bottom:8px}
+    .ho-stats div{padding:6px 8px} .ho-stats b{font-size:1.25rem}
+    .ho-part{padding:6px 9px}
+    .ho-weeks{gap:0} .ho-wk{min-height:0;gap:6px;padding:1px 0}
+    .ho-wk-dots i{padding:2px 3px}
+    .ho-legend{margin-top:4px}
+    .ho-c{padding:6px 9px} .ho-crit{gap:6px} .ho-c ul{margin-top:3px;font-size:.76rem}
+    .ho-musts li{padding:1px 0;font-size:.82rem}
+  }
+
+  /* Accessibility (WCAG 2.2 audit, September 2026) */
+  .ctl button{min-width:44px;min-height:44px;font-size:.8rem}         /* 2.5.5: the theme button was 25 × 23 */
+  summary{min-height:44px;padding-block:11px}                           /* 2.5.8: a 23px-high row */
+  input[type=checkbox],input[type=radio]{width:24px;height:24px}         /* 2.5.8: 19px boxes */
+  @media (prefers-reduced-motion: reduce){                               /* 2.3.3 */
+    *,*::before,*::after{transition:none!important;animation:none!important;scroll-behavior:auto!important}
+  }
+
+  .brief{margin:0 0 18px} .brief .sub{max-width:78ch}
+  .brieflinks{display:flex;flex-wrap:wrap;gap:8px 18px;align-items:center;margin:10px 0 0;font-size:0.92rem}
+  .brieflinks a{color:var(--lec)} .brieflinks .dl{font-weight:650}
+  .brieflinks .dl span{font-weight:400;color:var(--ink-3);font-size:0.82rem;margin-left:4px}
+  .bring{margin:12px 0 0;font-size:0.9rem;color:var(--ink-2)} .bring b{color:var(--ink)}
+
+  /* THE BAR — one definition, identical on every page (written by navfix; change it
+     everywhere or nowhere). It used to be copied per page and drifted into two heights. */
+  header.sdnav{position:sticky;top:0;z-index:40;background:var(--surface);border-bottom:1px solid var(--line)}
+  header.sdnav .bar{display:flex;align-items:center;gap:10px;min-height:56px;padding-block:8px;flex-wrap:nowrap}
+  header.sdnav .brand{font-weight:680;font-size:1rem;letter-spacing:-0.015em;white-space:nowrap;color:inherit;
+    text-decoration:none;padding:5px 8px;margin-left:-8px;border-radius:6px;order:0}
+  header.sdnav .brand:hover{background:var(--surface-2,var(--bg))}
+  header.sdnav .sp{flex:1;display:block;height:auto;flex-basis:auto;order:0}
+  header.sdnav .sdlinks{display:flex;align-items:center;gap:2px;order:0}
+  header.sdnav .navl{display:inline-block;font-size:0.85rem;line-height:1.3;color:var(--ink-2);text-decoration:none;
+    padding:6px 10px;border-radius:6px;white-space:nowrap;order:0}
+  header.sdnav .navl:hover{background:var(--surface-2,var(--bg));color:var(--ink)}
+  header.sdnav .navl.on{background:var(--lec);color:#fff}
+  html[data-theme="dark"] header.sdnav .navl.on{color:#151314}
+  header.sdnav a:focus-visible,header.sdnav button:focus-visible{outline:2px solid var(--lec);outline-offset:1px}
+  header.sdnav .ctl{order:0;margin-left:4px}
+  header.sdnav .ctl button{font-family:var(--mono);font-size:0.7rem;background:none;color:var(--ink-3);
+    border:1px solid var(--line-2);border-radius:6px;padding:0 9px;cursor:pointer;line-height:1;
+    height:34px;min-height:34px;min-width:34px;display:inline-flex;align-items:center;justify-content:center}
+  header.sdnav .ctl button:hover{border-color:var(--lec);color:var(--lec)}
+  @media(max-width:960px){
+    header.sdnav .bar{flex-wrap:wrap;row-gap:0;padding-block:6px 0;min-height:0}
+    header.sdnav .ctl{order:1;margin-left:auto}
+    header.sdnav .sp{display:none}
+    header.sdnav .sdlinks{order:2;flex-basis:100%;overflow-x:auto;scrollbar-width:none;padding:4px 28px 8px 0;min-height:44px;
+      -webkit-mask-image:linear-gradient(to right,#000 calc(100% - 28px),transparent);mask-image:linear-gradient(to right,#000 calc(100% - 28px),transparent)}
+    header.sdnav .sdlinks::-webkit-scrollbar{display:none}
+    header.sdnav .navl{font-size:0.82rem;padding:6px 9px}
+  }
+  .starthere{margin:0 0 14px}
+  .starthere a{display:inline-block;background:var(--ink);color:var(--bg);border-radius:10px;padding:11px 16px;text-decoration:none;font-size:0.98rem}
+  .starthere a:hover{background:var(--lec)}
+</style>
+</head>
+<body>
+
+<header class="sdnav">
+  <div class="wrap bar">
+    <a class="brand" href="index.html">Screen Design</a>
+    <span class="sp"></span>
+    <nav class="sdlinks" aria-label="Screen Design"><a class="navl" href="start.html">Start here</a><a class="navl" href="weeks.html">Week by week</a><a class="navl" href="assessment.html">Checklist</a><a class="navl" href="examples.html">Examples</a><a class="navl" href="toolkit.html">Toolkit</a><a class="navl" href="assessment-materials.html">Marking</a><a class="navl" href="all.html">All pages</a></nav>
+    <span class="ctl"><button id="theme" aria-label="Dark mode">◐</button></span>
+  </div>
+</header>
+<script>(function(){var n=document.querySelector(".sdlinks"),o=n&&n.querySelector(".on");if(o&&n.scrollWidth>n.clientWidth)n.scrollLeft=o.offsetLeft-n.offsetLeft-16;})();</script>
+
+<div class="wrap">
+
+  <!-- ===== THIS WEEK ===== -->
+  <div class="nowbox" id="nowbox"></div>
+
+  <h1>Screen Design 2026–27</h1>
+  <section class="brief" id="brief">
+    <p class="sub"><b>One journey, made better, and a record of why it looks like that.</b> You pick one thing a person
+      is trying to get done, find out how they do it now and count the steps, then design a shorter, clearer version and
+      write down every choice as you make it. It all goes in one slide deck, filled in a section or two each week and
+      handed in as one PDF: 100% of the mark, with no exam, presentation or group work.</p>
+    <p class="brieflinks"><a class="dl" id="briefdl" download></a>
+      <a href="assessment.html">What goes in the deck →</a>
+      <a href="assessment-materials.html#how">How it is marked →</a>
+      <a href="ideas.html">Need a theme? Theme ideas →</a></p>
+  </section>
+
+  <!-- ========== THE WEEK ========== -->
+  <div class="weekbox">
+    <div class="wb-top"><b>Every Tuesday</b><span id="wb-hours">5 HOURS</span></div>
+    <div class="hbar" id="hbar"></div>
+    <div class="split">
+      <span class="sblk"><span class="dots l" id="d100"></span><small>100+ together</small></span>
+      <span class="arrow">→</span>
+      <span class="sblk"><span class="dots g1" id="dg1"></span><small>~33</small></span>
+      <span class="sblk"><span class="dots g2" id="dg2"></span><small>~33</small></span>
+      <span class="sblk"><span class="dots g3" id="dg3"></span><small>~34</small></span>
+      <span class="sblk"><small style="color:var(--wsh)">3 rooms · identical session</small></span>
+    </div>
+    <p class="bring"><b>Bring every week:</b> a laptop or tablet, with your <code>Screen Design</code> folder and your deck open.</p>
+  </div>
+
+  <!-- ========== WEEKS ========== -->
+  <section id="weeks" style="padding-top:14px">
+    <div class="sh"><h2>Week by week</h2><em>11 WEEKS</em></div>
+    <div class="gridwrap">
+      <table class="wk">
+        <thead><tr><th style="width:52px">Wk</th><th style="width:62px">Date</th><th>What the week is about</th>
+          <th style="width:172px">Open</th></tr></thead>
+        <tbody id="wkbody"></tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ========== HELP ========== -->
+  <section id="help">
+    <div class="sh"><h2>Stuck?</h2></div>
+    <div class="three">
+      <div class="card"><span class="k">Fastest</span><h3>Workshop 2: drop-in and office hours</h3>
+        <ul><li>14:00–16:00 every Tuesday</li><li>Same rooms as your workshop</li><li>Just turn up</li></ul></div>
+      <div class="card"><span class="k">Booked</span><h3>10-minute check-in</h3>
+        <ul><li>Sign up in advance</li><li>~3 each per semester</li><li>Bring your deck</li></ul></div>
+      <div class="card"><span class="k">Missed a week?</span><h3>Catch up</h3>
+        <ul><li>Open that week in <a href="weeks.html">Week by week</a></li><li>Study the In class items marked Core, then do the workshop steps</li><li>Bring the gap to Workshop 2</li></ul></div>
+    </div>
+  </section>
+
+  <footer>
+    <p><b>Screen Design</b> · Level 4 · 30 credits · Semester 1 · <code>1L4Z0045</code> · School of English,
+      Faculty of Arts and Humanities. Approved v1.0, 29 July 2025. Module coordinator Michail Oustamanolakis.</p>
+    <p><a href="../sd/index.html">Browse the older version of this site</a></p>
+  </footer>
+</div>
+
+
+<script src="sd-common.js?v=202611091917"></script>
+<script src="weeks-data.js?v=202611091917"></script>
+<script>
+/* The table is derived from weeks-data.js, not kept a second time. An earlier
+   version held its own copy of the eleven weeks and the two drifted the moment
+   a workshop was reworded. */
+const ROWS = WEEKS.map(w => ({
+  n: w.n, dead: !!w.dead, l: w.title,
+  decks: w.shown.filter(x => x.slides).map(x => ({ l: x.slides, u: x.u }))
+}));
+
+const NOW = SD.week();
+/* One page glyph, used for both sheet links. */
+const PAGE = `<svg viewBox="0 0 13 16" fill="none" stroke="currentColor" stroke-width="1"
+  stroke-linejoin="round" aria-hidden="true">
+  <path d="M.5 1.4A.9.9 0 0 1 1.4.5h5.9l4.7 4.7v9.4a.9.9 0 0 1-.9.9H1.4a.9.9 0 0 1-.9-.9z"/>
+  <path d="M7.3.5v4.7h4.7"/>
+  <path d="M3.2 8.4h6.1M3.2 10.6h6.1M3.2 12.8h3.6" stroke-linecap="round" opacity=".7"/>
+</svg>`;
+/* An easel: a slide deck shown in the lecture hour. */
+const EASEL = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2.5 3.5h19"/><rect x="4" y="3.5" width="16" height="11.5" rx="1"/><path d="M12 15v3.2M12 18.2 8 21.5M12 18.2l4 3.3"/></svg>`;
+
+document.getElementById('wkbody').innerHTML = ROWS.map(w => `
+  <tr class="${w.dead ? 'dead' : ''} ${w.n === NOW ? 'now' : ''} ${NOW && w.n < NOW ? 'past' : ''}">
+    <td class="wn">${w.n === NOW ? '▶ ' : ''}${String(w.n).padStart(2,'0')}</td>
+    <td class="wn">${SD.fmtShort(SD.dateOf(w.n))}${w.n === NOW ? '<span class="nowtag">This week</span>' : ''}</td>
+    <td class="wt">${w.l}</td>
+    <td class="sheets"><span class="docs">
+      <a class="doc doc-w" href="weeks.html?w=${w.n}" title="Week ${w.n}: class, workshop and what comes next, on one page">${PAGE}Open week</a>
+      ${w.decks.map(d => `<a class="doc doc-s" href="${d.u}" title="Slides shown in class: ${d.l}">${EASEL}${d.l}</a>`).join('')}
+    </span></td>
+  </tr>`).join('');
+
+/* This week, and whether you are behind. Everything here is derived from the
+   two dates in sd-common.js — nothing is typed and nothing goes stale. */
+/* The day, from SESSIONS. Times and rooms live in sd-common.js so they are
+   stated once — a room number in three files is a room number that will be
+   wrong in two of them. */
+document.getElementById('hbar').innerHTML = SD.SESSIONS.map(x => `
+  <div class="hcell ${x.k === 'lecture' ? 'l' : x.k === 'workshop' ? 'w' : 's'}"
+       style="grid-column:span ${x.hrs}">
+    <div class="hh"><span class="hn">${x.hrs}</span><span class="hl">${x.n}</span>
+      <span class="htime">${x.from}–${x.to}</span></div>
+    <p class="hyou">${x.you}</p>
+  </div>`).join('');
+
+{ const a = document.getElementById('briefdl'); a.href = OFFICIAL_BRIEF.file;
+  a.innerHTML = `\u2193 ${OFFICIAL_BRIEF.label} <span>${OFFICIAL_BRIEF.kind} \u00b7 ${OFFICIAL_BRIEF.size}</span>`; }
+
+(function nowBox(){
+  const el = document.getElementById('nowbox');
+  const w = SD.week(), days = SD.daysToDeadline(), done = SD.doneCount(), total = SD.total;
+  const wk = ROWS.find(x => x.n === w);
+
+  let cls = '', wkLine = '', title = '', list = '', weekLink = '';
+  if (w === 0) {
+    cls = 'pre';
+    wkLine = `First class ${SD.DAY} ${SD.fmt(SD.dateOf(1))}, 09:00 · GM LT7`;
+    title = 'Nothing to do yet.';
+  } else if (w > SD.WEEKS) {
+    cls = days < 0 ? 'late' : '';
+    wkLine = 'Teaching finished';
+    title = days > 0 ? 'Finish and submit.' : 'The deadline has passed.';
+  } else {
+    wkLine = `Week ${w} of ${SD.WEEKS} · ${SD.DAY} ${SD.fmtShort(SD.dateOf(w))} · 09:00 GM LT7`;
+    /* What this week's workshop makes, and what it invites "if you can" — the
+       same list the week page ticks, not the sections that happen to fall due. */
+    const W = WEEKS.find(x => x.n === w), bySec = s => SD.all.find(i => i.sec === s);
+    const made = W.workshop.out.sec.map(bySec).filter(Boolean), maybe = (W.workshop.maybe || []).map(bySec).filter(Boolean);
+    title = W.dead ? 'Submission week. Nothing new — finish it and hand it in.' : `This week: ${W.title}`;
+    list = [...made.map(i => [i, false]), ...maybe.map(i => [i, true])].map(([i, opt]) => {
+      const ok = SD.isDone(i.key);
+      return `<li class="${ok ? 'ok' : ''}"><i>${ok ? '✓' : '○'}</i><span><b class="sec">${i.sec}</b> ${i.t}${opt ? ' <em class="ifcan">if you can</em>' : ''}</span></li>`;
+    }).join('');
+    weekLink = `weeks.html?w=${w}`;
+  }
+
+  const should = w === 0 ? 0 : SD.expectedBy(Math.min(w, SD.WEEKS));
+  /* Behind means behind on the weeks already taught. Comparing with the end of
+     this week marked everyone behind on the Monday before its class. */
+  const owed = w <= 1 ? 0 : SD.expectedBy(Math.min(w - 1, SD.WEEKS));
+  const behind = done < owed;
+  const pc = n => Math.round(n / total * 100);
+
+  el.className = 'nowbox ' + cls;
+  el.innerHTML = `
+    <div class="nb-top"><span class="nb-wk">${wkLine}</span>
+      <span class="nb-days">${days > 0 ? `<b>${days}</b> days to hand in` :
+        days === 0 ? '<b>Due today</b>' : '<b>Deadline passed</b>'}</span></div>
+    <p class="nb-do">${title}</p>
+    ${list ? `<p class="nb-lab">Sections to fill in</p><ul class="nb-list">${list}</ul>` : ''}
+    ${weekLink ? `<a class="nb-week" href="${weekLink}">Open week ${w} \u2192</a>` : ''}
+    <div class="nb-bar">
+      <div class="nb-bl"><b>${done} of ${total}</b><span>items finished</span>
+        ${w === 0 ? '' : `<span class="beh ${behind ? 'off' : 'on'}">${
+          behind ? `${owed - done} behind` : 'on track'}</span>`}</div>
+      <div class="nb-track">
+        <span class="nb-you" style="width:${pc(done)}%"></span>
+        ${should ? `<span class="nb-should" style="left:${pc(should)}%"></span>` : ''}
+      </div>
+      <div class="nb-key">
+        <span><i style="background:#2C5F3E"></i>you</span>
+        ${should ? `<span><i style="background:var(--lec);width:2px;border-radius:0"></i>where you should be by the end of week ${Math.min(w, SD.WEEKS)} (${should})</span>` : ''}
+      </div>
+      <a class="nb-cta" href="assessment.html">Tick things off →</a>
+    </div>`;
+})();
+
+/* The cohort split, drawn rather than described. Ten dots a row, so 100 reads
+   as 100 without anyone counting. */
+const fill = (id, n) => { const el=document.getElementById(id); if(!el) return;
+  el.innerHTML = Array.from({length:n}, ()=>'<i></i>').join(''); };
+fill('d100',100); fill('dg1',33); fill('dg2',33); fill('dg3',34);
+
+const root=document.documentElement;
+try{ const t=localStorage.getItem('sd-theme'); if(t) root.dataset.theme=t; }catch(e){}
+document.getElementById('theme').onclick=()=>{
+  root.dataset.theme = root.dataset.theme==='dark' ? 'light' : 'dark';
+  try{ localStorage.setItem('sd-theme', root.dataset.theme); }catch(e){}
+};
+</script>
+<script>
+/* The section count is written in prose in one sentence on three pages. It is
+   filled from PARTS so that adding a section cannot leave the sentence behind —
+   which is exactly how "22 sections" survived next to a 23-section list. */
+document.querySelectorAll('.seccount').forEach(el => {
+  el.textContent = PARTS.reduce((n, p) => n + p.items.length, 0);
+});
+
+/* Counted off PARTS rather than typed. This line has been wrong twice — "20"
+   against a brief that held 24, and "Sixteen slides" against a deck of 22 —
+   because a number in prose does not move when the data does. */
+(function () {
+  document.querySelectorAll('[data-part-count]').forEach(function (n) {
+    if (typeof PARTS === 'undefined') return;
+    var g = PARTS.find(function (x) { return x.id === n.dataset.partCount; });
+    if (g) n.textContent = g.items.length;
+  });
+  var el = document.querySelector('[data-sec-count]');
+  if (el && typeof PARTS !== 'undefined')
+    el.textContent = PARTS.reduce(function (n, g) { return n + g.items.length; }, 0);
+})();
+</script>
+</body>
+</html>

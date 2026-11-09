@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Workshop slides — Screen Design</title>
-<link rel="stylesheet" href="deck-kit.css?v=202611061539">
+<link rel="stylesheet" href="deck-kit.css?v=202611091917">
 <style>
 
 
@@ -58,6 +58,8 @@
 </head>
 <body>
 
+<div class="oldv" role="note" style="background:#F4EAD3;color:#3D2C00;font:14px/1.4 -apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;padding:9px 16px;text-align:center;border-bottom:1px solid #D9C79E">You are looking at the older version of this site. <a id="oldv-go" href="../screen-design/index.html" style="color:#3D2C00;font-weight:700">Go to the current site</a></div>
+<script>(function(){var f=location.pathname.split('/').pop()||'index.html',a=document.getElementById('oldv-go');if(a)a.href='../screen-design/'+f+location.search+location.hash;})();</script>
 <header class="sdnav">
   <div class="wrap bar">
     <a class="brand" href="index.html">Screen Design</a>
@@ -80,13 +82,13 @@
 <main id="deck"></main>
 <footer><div class="wrap"><p>Screen Design · Level 4 · 2026–27</p></div></footer>
 
-<script src="sd-common.js?v=202611061539"></script>
-<script src="weeks-data.js?v=202611061539"></script>
+<script src="sd-common.js?v=202611091917"></script>
+<script src="weeks-data.js?v=202611091917"></script>
 <script src="example-council-data.js"></script>
-<script src="deck-kit.js?v=202611061539"></script>
+<script src="deck-kit.js?v=202611091917"></script>
 <script>
 (function () {
-  /* Workshop slides for weeks 7 to 10: what we make today, the steps, what the finished thing looks
+  /* Workshop slides for weeks 6 to 10: what we make today, the steps, what the finished thing looks
      like, and what happens before you leave. The same in all three rooms, so nobody needs the
      lecture hour to start. The steps are the week page's, said shorter; the week page owns them. */
   const n = +(new URLSearchParams(location.search).get('w')) || 7;
@@ -100,6 +102,14 @@
   const shot = (f, cap) => `<figure><img src="ws/${f}" alt="${esc(cap)}" loading="lazy"><figcaption>${esc(cap)}</figcaption></figure>`;
   const SRC = '<p class="src">From the council example on <a href="examples.html">Examples</a>: a solid 2:1, invented by the module team.</p>';
   const D = {
+    6: { h: 'How it will look and feel, and an honest AI log', secs: ['B2', 'B3', 'A7', 'C8'],
+      lead: 'Today you decide how your screens will look and feel, using your own numbers from A3 to A5, and you start a record of any AI you use.',
+      steps: ['Mood board: about fifteen images on one page, the feeling you are aiming for. Generated images or your own photos: both are fine.',
+        'Style tile: your type sizes, your colours with their roles, your spacing, and a button, a field and a card. Every value comes from your own A3 to A5.',
+        'Open A7, your AI log: one line for every time you use AI, starting today. Not using AI? One line: No AI used.',
+        'Write C8: about eighty words. Used AI? Was it any good, whose work is it, what did you change? Chose not to? Why, and what you did instead.'],
+      example: `<div class="shots">${shot('council-B2.png', 'B2: the mood board')}${shot('council-B3.png', 'B3: the style tile, every value from A3 to A5')}</div>${SRC}`,
+      last: { t: 'Before you leave', body: '<p class="lead">Next week is a checkpoint. You share your deck with Mike and fill in a short form, and he leaves feedback right in your deck.</p><p>Check your deck is in your shared folder, shared with Mike, before next Tuesday.</p>' } },
     7: { h: 'Your version: the screens, the states and the flow', secs: ['A2', 'B4', 'B5', 'C6'],
       lead: 'Today your plan becomes screens. You list them, check what each one looks like when things go wrong, draw the new flow, and wireframe the lot.',
       steps: ['In A2, list the screens of your version, and give each one a job in under ten words.',
@@ -137,7 +147,7 @@
       last: { t: 'Before you go', body: '<p class="lead">Export the deck as a PDF, open it, and click every link. A link that works in PowerPoint can vanish in the PDF, and the PDF is what gets marked.</p><p class="try">Week 11 has no class. Mike is in the room at the usual time to help anyone who comes.</p>' } },
   };
   const d = D[n];
-  if (!W || !d) { document.getElementById('deck').innerHTML = '<section class="sl"><div class="wrap"><h2>No workshop slides for this week</h2><p class="lead">There are slides for weeks 7 to 10. <a href="weeks.html">Week by week</a></p></div></section>'; DK.start(); return; }
+  if (!W || !d) { document.getElementById('deck').innerHTML = '<section class="sl"><div class="wrap"><h2>No workshop slides for this week</h2><p class="lead">There are slides for weeks 6 to 10. <a href="weeks.html">Week by week</a></p></div></section>'; DK.start(); return; }
   const date = SD.fmt(SD.dateOf(n)), when = `Week ${n} · ${SD.DAY} ${date}`;
   document.title = `Week ${n} workshop — Screen Design`;
   document.getElementById('dtitle').textContent = `Week ${n} workshop`;

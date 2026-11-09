@@ -1,0 +1,70 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "themes — the portfolio theme bank for Screen Design L4",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "rows", "counts", "notes"],
+  "properties": {
+    "schema_version": { "const": "1.0" },
+    "rows": {
+      "type": "array",
+      "maxItems": 80,
+      "items": { "$ref": "#/definitions/row" },
+      "description": "A ceiling, and deliberately no floor. An earlier draft set minItems to 60, which is the wrong pressure entirely: a minimum tells a collector to reach a number, and reaching a number is how this estate acquired 600 fabricated records. Sixty good themes are worth more than eighty, and the brief says so."
+    },
+    "counts": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["rows_total", "by_domain", "non_app"],
+      "properties": {
+        "rows_total": { "type": "integer" },
+        "by_domain": { "type": "object", "additionalProperties": { "type": "integer" } },
+        "non_app": {
+          "type": "integer",
+          "description": "Themes whose subject is not a product — a form, a notice, a kiosk, a letter, a receipt, a sign. Rule 4 asks for at least fifteen."
+        }
+      }
+    },
+    "notes": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["known_gaps", "collected_on", "method"],
+      "properties": {
+        "known_gaps": { "type": "array", "items": { "type": "string" }, "minItems": 1 },
+        "collected_on": { "type": "string", "format": "date" },
+        "method": { "type": "string" }
+      }
+    }
+  },
+  "definitions": {
+    "row": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "theme", "domain", "why_it_works_at_L4",
+                   "screen_count_estimate", "pitfalls", "too_big_variant", "example_screen_ids"],
+      "properties": {
+        "id": { "type": "string", "pattern": "^[a-z0-9-]+$" },
+        "theme": { "type": "string", "minLength": 20, "maxLength": 200 },
+        "domain": { "enum": ["civic","health","money","learning","work","culture","transport","food","home","community"] },
+        "why_it_works_at_L4": { "type": "string", "minLength": 20, "maxLength": 240 },
+        "screen_count_estimate": {
+          "type": "integer", "minimum": 4, "maximum": 9,
+          "description": "Above nine the theme is too large for eleven weeks. There is no tenth value on purpose."
+        },
+        "pitfalls": {
+          "type": "array", "minItems": 2, "maxItems": 4,
+          "items": { "type": "string", "minLength": 15, "maxLength": 180 }
+        },
+        "too_big_variant": { "type": ["string", "null"], "maxLength": 200 },
+        "not_an_app": {
+          "type": "boolean",
+          "description": "The subject is a form, notice, kiosk, letter, receipt or sign rather than a product."
+        },
+        "example_screen_ids": {
+          "type": "null",
+          "description": "Null on every record, always. screens.json does not exist yet and an invented id would break the join without failing anything."
+        }
+      }
+    }
+  }
+}

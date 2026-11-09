@@ -192,13 +192,14 @@ const WEEKS = [
   {t:"The style tile finished", d:"Everything you build in week 8 comes out of it.", open:true},
  ],
  workshop:{
+  slides:true,
   aim:"A style tile that obeys your own numbers, and your AI log opened.",
   out:{"sec": ["A7", "B2", "B3", "C8"]},
   bring:"Whatever AI tools you use",
   run:[
-   {s:"Mood board, fast", d:"Fifteen images on one page: the feeling you are aiming at. Generated images are welcome; each one gets a line in <code>A7</code>."},
+   {s:"Mood board, fast", d:"Fifteen images on one page: the feeling you are aiming at. Generated images are welcome, and each one gets a line in <code>A7</code>; so are your own photos."},
    {s:"Style tile", d:"Finish the tile you started in week 4: type scale, palette with roles, spacing, and a button, a field and a card. Every value from your own A3–A5."},
-   {s:"Open the AI log", d:"Start <code>A7</code> today, one line for every AI use; you will not remember them in January. Not sure what is allowed? <a href=\"toolkit.html#ai\">Using AI</a>."},
+   {s:"Open the AI log", d:"Start <code>A7</code> today, one line for every AI use; you will not remember them in January. Not using AI? One line, <i>No AI used</i>, and say why in C8. What is allowed, and what to do if you would rather not: <a href=\"toolkit.html#ai\">Using AI</a>."},
    {s:"Next week is a checkpoint", d:"In week 7 you share your deck with Mike and fill in a short form, and he leaves feedback right in your deck. Make sure your deck is in your shared folder by then."},
    {s:"Write C8", d:"Eighty words on the AI you used: was it any good, whose work is it, and what did you change? If you used none, say why."},
   ],
