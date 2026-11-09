@@ -1,0 +1,291 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Tools and AI — Screen Design, week 6</title>
+<link rel="stylesheet" href="deck-kit.css?v=202611092131">
+<style>
+
+
+  /* the workshop slides: four per week, the same in every room */
+  .chips{display:flex;flex-wrap:wrap;gap:8px;margin:4px 0 18px;padding:0;list-style:none}
+  .chips li{background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:7px 12px;font-size:clamp(0.92rem,1.3vw,1.04rem);color:var(--ink-2)}
+  .chips b{font-family:var(--mono);color:var(--ink);margin-right:6px}
+  .shots{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(320px,100%),1fr));gap:14px;margin:0 0 12px}
+  .shots figure{margin:0}
+  .shots img{display:block;width:100%;height:auto;max-height:calc(100vh - 330px);object-fit:contain;object-position:left top;border:1px solid var(--line);border-radius:6px;background:#fff}
+  .shots figcaption{font-size:0.82rem;color:var(--ink-3);margin-top:5px}
+  .exq{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:14px 18px;margin:0 0 12px;font-size:clamp(0.9rem,1.2vw,1rem);color:var(--ink-2);line-height:1.5;max-width:76ch}
+  .exq h3{font-family:var(--mono);font-size:0.72rem;letter-spacing:0.08em;text-transform:uppercase;color:var(--ink-3);margin:0 0 6px}
+  .exq p{margin:0} .exq dl{display:grid;grid-template-columns:minmax(120px,auto) 1fr;gap:4px 14px;margin:0} .exq dt{color:var(--ink-3)} .exq dd{margin:0}
+  .duo{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.3fr);gap:16px;align-items:start}
+  @media(max-width:860px){.duo{grid-template-columns:minmax(0,1fr)}}
+  .tnote{margin:18px 0 0;max-width:760px;background:var(--surface);border:1px dashed var(--line-2);border-radius:10px;padding:10px 14px;font-size:0.86rem;color:var(--ink-2)}
+  .tnote ul{margin:6px 0 0;padding-left:18px} .tnote li{margin:0 0 4px} .tnote b{color:var(--ink)} .tnote span{font-size:0.78rem;color:var(--ink-3)}
+  html.present .tnote{display:none}
+  .lanes{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin:0 0 14px}
+  @media(max-width:760px){.lanes{grid-template-columns:minmax(0,1fr)}}
+  .lane{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:14px 16px;font-size:clamp(0.95rem,1.3vw,1.05rem);color:var(--ink-2);line-height:1.45}
+  .lane h3{margin:0 0 6px;font-size:1.1rem;color:var(--ink)} .lane p{margin:0} .lane b{color:var(--ink)}
+  .src{font-size:0.82rem;color:var(--ink-3);margin:0}
+  .big-link{display:inline-block;font-weight:700;font-size:clamp(1rem,1.5vw,1.15rem)}
+  .none-yet{color:var(--ink-3)}
+
+  /* THE BAR — one definition, identical on every page (written by navfix; change it
+     everywhere or nowhere). It used to be copied per page and drifted into two heights. */
+  header.sdnav{position:sticky;top:0;z-index:40;background:var(--surface);border-bottom:1px solid var(--line)}
+  header.sdnav .bar{display:flex;align-items:center;gap:10px;min-height:56px;padding-block:8px;flex-wrap:nowrap}
+  header.sdnav .brand{font-weight:680;font-size:1rem;letter-spacing:-0.015em;white-space:nowrap;color:inherit;
+    text-decoration:none;padding:5px 8px;margin-left:-8px;border-radius:6px;order:0}
+  header.sdnav .brand:hover{background:var(--surface-2,var(--bg))}
+  header.sdnav .sp{flex:1;display:block;height:auto;flex-basis:auto;order:0}
+  header.sdnav .sdlinks{display:flex;align-items:center;gap:2px;order:0}
+  header.sdnav .navl{display:inline-block;font-size:0.85rem;line-height:1.3;color:var(--ink-2);text-decoration:none;
+    padding:6px 10px;border-radius:6px;white-space:nowrap;order:0}
+  header.sdnav .navl:hover{background:var(--surface-2,var(--bg));color:var(--ink)}
+  header.sdnav .navl.on{background:var(--lec);color:#fff}
+  html[data-theme="dark"] header.sdnav .navl.on{color:#151314}
+  header.sdnav a:focus-visible,header.sdnav button:focus-visible{outline:2px solid var(--lec);outline-offset:1px}
+  header.sdnav .ctl{order:0;margin-left:4px}
+  header.sdnav .ctl button{font-family:var(--mono);font-size:0.7rem;background:none;color:var(--ink-3);
+    border:1px solid var(--line-2);border-radius:6px;padding:0 9px;cursor:pointer;line-height:1;
+    height:34px;min-height:34px;min-width:34px;display:inline-flex;align-items:center;justify-content:center}
+  header.sdnav .ctl button:hover{border-color:var(--lec);color:var(--lec)}
+  @media(max-width:960px){
+    header.sdnav .bar{flex-wrap:wrap;row-gap:0;padding-block:6px 0;min-height:0}
+    header.sdnav .ctl{order:1;margin-left:auto}
+    header.sdnav .sp{display:none}
+    header.sdnav .sdlinks{order:2;flex-basis:100%;overflow-x:auto;scrollbar-width:none;padding:4px 28px 8px 0;min-height:44px;
+      -webkit-mask-image:linear-gradient(to right,#000 calc(100% - 28px),transparent);mask-image:linear-gradient(to right,#000 calc(100% - 28px),transparent)}
+    header.sdnav .sdlinks::-webkit-scrollbar{display:none}
+    header.sdnav .navl{font-size:0.82rem;padding:6px 9px}
+  }
+
+  /* the lecture: a palette that looks finished and is not, its ratios worked out on the slide */
+  .pal{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin:6px 0 12px;max-width:900px}
+  .pal div{border-radius:8px;padding:12px;min-height:74px;font:600 0.95rem/1.3 var(--sans);border:1px solid rgba(0,0,0,.08)}
+  .ratios{list-style:none;margin:0 0 10px;padding:0;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:4px 24px;max-width:900px;font-size:clamp(0.9rem,1.3vw,1rem);color:var(--ink-2)}
+  .ratios b{display:inline-block;min-width:5.2em;font-family:var(--mono)} .ratios .no b{color:#B3261E} .ratios .ok b{color:#285638}
+  html[data-theme="dark"] .ratios .no b{color:#F4A39B} html[data-theme="dark"] .ratios .ok b{color:#83C19A}
+  .prompt{font:clamp(0.9rem,1.25vw,1rem)/1.55 var(--mono);background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:14px 16px;max-width:860px;white-space:pre-wrap;color:var(--ink)}
+  .vs{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:16px;max-width:1000px}
+  @media(max-width:760px){.vs,.ratios,.pal{grid-template-columns:minmax(0,1fr)}}
+  .vs .bad{border-left-color:#B3261E}
+  .cases{width:100%;max-width:1100px;border-collapse:collapse;background:var(--surface);border:1px solid var(--line);border-radius:10px;overflow:hidden;font-size:clamp(0.86rem,1.25vw,1rem);line-height:1.4}
+  .cases th,.cases td{text-align:left;vertical-align:top;padding:10px 14px;border-bottom:1px solid var(--line)}
+  .cases th{font-size:0.78rem;font-family:var(--mono);letter-spacing:0.06em;text-transform:uppercase;color:var(--ink-3);font-weight:400}
+  .cases td{color:var(--ink-2)} .cases td:first-child{color:var(--ink)} .cases .when{white-space:nowrap}
+  .cases tr:last-child td{border-bottom:0}
+</style>
+</head>
+<body>
+
+<div class="oldv" role="note" style="background:#F4EAD3;color:#3D2C00;font:14px/1.4 -apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;padding:9px 16px;text-align:center;border-bottom:1px solid #D9C79E">You are looking at the older version of this site. <a id="oldv-go" href="../screen-design/index.html" style="color:#3D2C00;font-weight:700">Go to the current site</a></div>
+<script>(function(){var f=location.pathname.split('/').pop()||'index.html',a=document.getElementById('oldv-go');if(a)a.href='../screen-design/'+f+location.search+location.hash;})();</script>
+<header class="sdnav">
+  <div class="wrap bar">
+    <a class="brand" href="index.html">Screen Design</a>
+    <span class="sp"></span>
+    <nav class="sdlinks" aria-label="Screen Design"><a class="navl on" href="weeks.html">Week by week</a><a class="navl" href="assessment.html">Checklist</a><a class="navl" href="examples.html">Examples</a><a class="navl" href="toolkit.html">Toolkit</a><a class="navl" href="assessment-materials.html">Marking</a></nav>
+    <span class="ctl"><button id="theme" aria-label="Dark mode">◐</button></span>
+  </div>
+</header>
+<script>(function(){var n=document.querySelector(".sdlinks"),o=n&&n.querySelector(".on");if(o&&n.scrollWidth>n.clientWidth)n.scrollLeft=o.offsetLeft-n.offsetLeft-16;})();</script>
+
+<div class="dtools"><div class="wrap">
+  <b id="dtitle">Week 6 lecture: tools and AI</b><span class="sp"></span>
+  <select id="jump" aria-label="Go to slide"></select>
+  <button type="button" class="tb" id="prev" aria-label="Previous slide">←</button>
+  <button type="button" class="tb" id="next" aria-label="Next slide">→</button>
+  <button type="button" class="tb" id="present" aria-pressed="false">Present</button>
+</div></div>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><filter id="rough"><feTurbulence type="fractalNoise" baseFrequency="0.018" numOctaves="2" seed="4"/><feDisplacementMap in="SourceGraphic" scale="3.5"/></filter></svg>
+
+<main id="deck">
+
+<section class="sl" data-t="Tools and AI"><div class="wrap">
+  <p class="ey">Week 6 · lecture theatre</p>
+  <h2>Tools and AI: what they make, and what stays yours</h2>
+  <p class="lead">The last lecture of this kind. From next week, this hour is me building my own deck, live, the way you build yours.</p>
+</div></section>
+
+<section class="sl" data-t="Today"><div class="wrap">
+  <h2>Today</h2>
+  <ol class="pts">
+    <li>What you hand in, once more</li>
+    <li>The tools: which ones count</li>
+    <li>What AI is good at, what it can’t do for you, and five times it went wrong</li>
+    <li>Using it well: your numbers in, a check, a decision, a line in the log</li>
+    <li>What to be careful with</li>
+    <li>Not using it</li>
+    <li>What changes from next week</li>
+  </ol>
+</div></section>
+
+<section class="sl" data-t="What you hand in"><div class="wrap">
+  <h2>You hand in one PDF, with three things</h2>
+  <ol class="pts">
+    <li><b>A clickable prototype:</b> your screens, at one or more sizes. Add clicks to your PowerPoint, and you’re done.</li>
+    <li><b>Process work:</b> sketches, wireframes, mood board, style tile. Paper or software: both count. The appendices count here too.</li>
+    <li><b>A rationale of 500–700 words:</b> layout, type, colour, users, accessibility, AI, one ethics or sustainability point, one cross-cultural point.</li>
+  </ol>
+  <p class="try">Every section is on the <a href="../screen-design/assessment.html">checklist</a>, one slide at a time. Copy a slide, paste it into your deck, fill it in.</p>
+</div></section>
+
+<section class="sl" data-t="AI: allowed, not required"><div class="wrap">
+  <h2>AI is allowed, but not required</h2>
+  <ul class="pts">
+    <li>The brief calls AI <b>authentic industry practice</b>. Using it is not cheating.</li>
+    <li>Not using it is fine, and costs you nothing.</li>
+    <li><b>Either way, you declare it:</b> that you used it and how, or that you didn’t. In the brief’s words: <q>Submitting AI-generated text without declaration constitutes academic misconduct.</q></li>
+  </ul>
+</div></section>
+
+<section class="sl" data-t="The tools"><div class="wrap">
+  <h2>The tool is your choice. The decisions are what’s marked.</h2>
+  <ul class="pts">
+    <li><b>Paper and a pen:</b> the fastest way to try a layout. A photo of it counts.</li>
+    <li><b>PowerPoint or Google Slides:</b> your deck, and your prototype once the slides are linked.</li>
+    <li><b>Figma, Canva, anything else:</b> welcome, never required.</li>
+    <li><b>The tools on this site:</b> the Flow maker for B4, the Screen maker for B5, the Gallery for A3 to A5 and B3.</li>
+  </ul>
+  <p class="try">Nobody gets more marks for harder software. A clear wireframe on paper beats a messy one in Figma.</p>
+</div></section>
+
+<section class="sl" data-t="What AI is good at"><div class="wrap">
+  <h2>What AI is good at, in this module</h2>
+  <ul class="pts">
+    <li><b>Options, fast:</b> ten palettes, five type pairings, three layouts to react to.</li>
+    <li><b>Mood board images:</b> a feeling you can’t find a photo for.</li>
+    <li><b>A first draft of words:</b> button labels, error messages, a help line. Then you rewrite them for your users.</li>
+    <li><b>A second opinion:</b> “what is unclear on this screen?”</li>
+    <li><b>Your language:</b> grammar, spelling, clarity. The argument stays yours.</li>
+  </ul>
+</div></section>
+
+<section class="sl" data-t="What it can’t do for you"><div class="wrap">
+  <h2>What it can’t do for you</h2>
+  <ul class="pts">
+    <li><b>Know your users,</b> or how they do it today. That came from your A2 and D1.</li>
+    <li><b>Keep twenty screens consistent.</b> It makes one at a time.</li>
+    <li><b>Check its own work</b> against your contrast, your sizes, your grid.</li>
+    <li><b>Give you sources it has actually read.</b> Never cite something you haven’t seen.</li>
+    <li><b>Take responsibility.</b> Your name is on the hand-in, not the tool’s.</li>
+  </ul>
+</div></section>
+
+<section class="sl" data-t="Looks finished, isn’t checked"><div class="wrap">
+  <h2>It looks finished. It isn’t checked.</h2>
+  <p class="lead">A pale, trendy palette that looks finished in a mock-up. The contrast is worked out here, live:</p>
+  <div class="pal" id="pal"></div>
+  <ul class="ratios" id="ratios"></ul>
+  <p class="src">Text needs at least 4.5:1 against its background. This palette is the module’s own “what we are fixing” example.</p>
+</div></section>
+
+<section class="sl" data-t="Five failures, side by side"><div class="wrap">
+  <h2>Five failures, side by side</h2>
+  <table class="cases"><thead><tr><th scope="col">What happened</th><th scope="col">When</th><th scope="col">For you</th></tr></thead><tbody>
+    <tr><td>Figma’s AI feature kept producing near-copies of Apple’s Weather app, so Figma paused it</td><td class="when">July 2024</td><td>A generated layout can be someone else’s design. Your screens have to be your decisions.</td></tr>
+    <tr><td>Air Canada’s chatbot made up a bereavement-fare rule, and a tribunal held the airline responsible</td><td class="when">February 2024</td><td>Your labels, help text and error messages are yours.</td></tr>
+    <tr><td>Two lawyers cited court cases ChatGPT had invented, and were fined $5,000</td><td class="when">June 2023</td><td>Never cite something you haven’t read, in C9 too.</td></tr>
+    <tr><td>A newspaper’s AI-written summer reading list: 10 of its 15 books didn’t exist</td><td class="when">May 2025</td><td>Plausible is not the same as real. Check every fact.</td></tr>
+    <tr><td>Google’s first Bard ad got a telescope fact wrong, and Alphabet lost about $100 billion in a day</td><td class="when">February 2023</td><td>Confident is not the same as correct.</td></tr>
+  </tbody></table>
+  <p class="src">Sources: AppleInsider, 7 July 2024 · Moffatt v. Air Canada, 2024 BCCRT 149 · Mata v. Avianca, Inc., S.D.N.Y., 22 June 2023 · Axios, 20 May 2025 · The Week, 9 February 2023.</p>
+</div></section>
+
+<section class="sl" data-t="It does not decide"><div class="wrap">
+  <h2>A generator makes something competent in a minute. It does not decide anything.</h2>
+  <p class="lead">The deciding is what is marked: the numbers in your A3 to A5, and the reasons in Part C. A generated palette is a suggestion until you check it and choose it.</p>
+</div></section>
+
+<section class="sl" data-t="Your numbers in"><div class="wrap">
+  <h2>Put your own numbers in</h2>
+  <p class="lead">A vague prompt gets a generic answer. Give it your constraints and ask for options, not the answer.</p>
+  <div class="prompt">I’m designing a booking screen for a small bakery. Customers are mostly over 50, often on a phone.
+Body text is 18 px, headings 28 px. Background #FFFFFF, text #2B211C.
+Suggest three accent colours that pass 4.5:1 on white, and say why each one suits a bakery.</div>
+</div></section>
+
+<section class="sl" data-t="Live: generate, check, decide"><div class="wrap">
+  <p class="ey">Live</p>
+  <h2>Generate, check, decide, log</h2>
+  <ol class="pts">
+    <li><b>Generate:</b> ask for a palette, a type pairing or mood board images for one project.</li>
+    <li><b>Check:</b> against your own numbers. Is the text at least 4.5:1 on its background? Are the sizes on your scale? The <a href="../screen-design/gallery.html#check">contrast checker</a> answers the first.</li>
+    <li><b>Decide:</b> keep it, change it, or bin it, and know why.</li>
+    <li><b>Log:</b> one bullet in A7. Which tool, for what, and what it gave you.</li>
+  </ol>
+</div></section>
+
+<section class="sl" data-t="Be careful with"><div class="wrap">
+  <h2>Be careful with</h2>
+  <ul class="pts">
+    <li><b>Other people’s details:</b> don’t paste anyone’s name, number or messages into an AI tool. The same rule as blurring them in D1.</li>
+    <li><b>Images:</b> say where every image came from, generated or not, with a date.</li>
+    <li><b>Facts and references:</b> check them. A confident answer can be wrong, and a reference can be invented.</li>
+    <li><b>The cost:</b> every request uses energy. That is a ready-made point for C6, if you want it.</li>
+  </ul>
+</div></section>
+
+<section class="sl" data-t="A7: the log"><div class="wrap">
+  <h2>A7: one bullet each time</h2>
+  <div class="vs">
+    <div><p class="ey">Says nothing</p><p class="eg bad">Used ChatGPT to help with colours.</p></div>
+    <div><p class="ey">Says what happened</p><p class="eg">ChatGPT, to suggest colour palettes for a bakery: three palettes. I kept none, but took the idea of warm neutrals.</p></div>
+  </div>
+</div></section>
+
+<section class="sl" data-t="C8: what you make of it"><div class="wrap">
+  <h2>C8: what you make of it</h2>
+  <p class="lead">About eighty words. Was it any good? Whose work is it? What did you change?</p>
+  <p class="eg">The palettes were generic: all three would suit any café. Warm neutrals were worth keeping; the reds failed contrast, so the accent is mine.</p>
+</div></section>
+
+<section class="sl" data-t="Not using AI"><div class="wrap">
+  <h2>Not using AI</h2>
+  <ul class="pts">
+    <li><b>A7:</b> one line, <i>No AI used</i>.</li>
+    <li><b>C8:</b> why you chose not to, and what you did instead. It counts the same.</li>
+    <li><b>D4:</b> one line, <i>No AI was used in this portfolio.</i></li>
+    <li>AI built into other tools counts: Copilot, PowerPoint Designer, Canva’s Magic tools, Grammarly’s rewrites. Not sure? Log it.</li>
+  </ul>
+</div></section>
+
+<section class="sl" data-t="From next week"><div class="wrap">
+  <h2>Every Tuesday from next week</h2>
+  <ul class="pts">
+    <li><b>09:00, lecture theatre:</b> I build my own deck, live.</li>
+    <li><b>10:00, Workshop 1:</b> make one piece of your hand-in, with your group tutor.</li>
+    <li><b>14:00, Workshop 2:</b> drop in. Work on your deck, ask, get feedback.</li>
+    <li><b>Week 7:</b> share your deck with me and fill in the check-in form. I’ll leave feedback right in your deck.</li>
+  </ul>
+</div></section>
+
+<section class="sl" data-t="Your style tile"><div class="wrap">
+  <p class="ey">Live · then in the workshop</p>
+  <h2>Your style tile, built from your choices</h2>
+  <p class="lead">In the <a href="../screen-design/gallery.html#tile">Gallery</a>, pick a typeface and colours, and the style tile builds itself. Click a colour to change it, click any words to retype them, then copy it into B3.</p>
+  <p class="try">This is today’s workshop. Your group tutor takes it from here.</p>
+</div></section>
+
+</main>
+<footer><div class="wrap"><p>Screen Design · Level 4 · 2026–27</p></div></footer>
+
+<script src="sd-options.js"></script>
+<script src="deck-kit.js?v=202611092131"></script>
+<script>
+(function () {
+  /* the Brand first palette, with every ratio computed here rather than typed */
+  const S = window.SDO, C = S.COLS.find(c => c.id === 'brand');
+  const roles = [['Text', C.ink], ['Quiet text', C.muted], ['Button', C.pri], ['Background', C.bg], ['Surface', C.panel], ['Success', C.ok], ['Error', C.err], ['Link', C.link || C.pri]];
+  const ink = h => S.ratio('#1A1618', h) >= S.ratio('#FFFFFF', h) ? '#1A1618' : '#FFFFFF';
+  document.getElementById('pal').innerHTML = roles.map(([n, h]) => `<div style="background:${h};color:${ink(h)}">${n}<br><small>${h}</small></div>`).join('');
+  document.getElementById('ratios').innerHTML = S.pairs(C).filter(([n]) => n !== 'accent on background').map(([n, f, b]) => { const r = S.ratio(f, b);
+    return `<li class="${r >= 4.5 ? 'ok' : 'no'}"><b>${r.toFixed(1)}:1</b> ${n}${r >= 4.5 ? '' : ' ✗'}</li>`; }).join('');
+})();
+DK.start();
+</script>
+</body>
+</html>
