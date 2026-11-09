@@ -30,7 +30,7 @@ const OFFICIAL_BRIEF = { file: 'Screen_Design_Assessment_Brief_CAF_2026-27.docx'
 const MARKING_FORM = { council: '' };
 /* The feedback forms: the week 7 checkpoint and the optional second round in week 9. Paste each
    form's share link here; until then the pages say the link comes in class. */
-const FEEDBACK_FORM = { w7: '', w9: '' };
+const FEEDBACK_FORM = { w7: 'https://forms.cloud.microsoft/e/FkCJKpKu2d', w9: 'https://forms.cloud.microsoft/e/tSchWyEaBF' };
 
 
 /* The day itself. One hour, two hours, a two-hour gap, then two hours. */
