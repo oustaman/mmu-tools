@@ -28,6 +28,9 @@ const OFFICIAL_BRIEF = { file: 'Screen_Design_Assessment_Brief_CAF_2026-27.docx'
    the form exists; the materials page says "posted in class" until then. Paste
    the form's share link here and nothing else needs to change. */
 const MARKING_FORM = { council: '' };
+/* The feedback forms: the week 7 checkpoint and the optional second round in week 9. Paste each
+   form's share link here; until then the pages say the link comes in class. */
+const FEEDBACK_FORM = { w7: '', w9: '' };
 
 
 /* The day itself. One hour, two hours, a two-hour gap, then two hours. */
@@ -84,9 +87,9 @@ const PARTS = [
     h:"Hex codes with roles, and a contrast ratio for every text/background pair: at least 4.5:1 for ordinary text, 3:1 for large text and icons. <a href=\"gallery.html#contrast\">What a ratio means</a>.",
     f:["Background:  #","Surface:     #","Body text:   #","Quiet text:  #","Accent:      #","",
        "CONTRAST — every text on every background it sits on","  body on background   =      :1","  quiet on background  =      :1","  body on surface      =      :1","  accent on background =      :1"]},
-   {sec:"A6", t:"Accessibility", dw:9, d:"Three fields filled",
-    h:"Minimum touch target, focus state, non-colour cues.",
-    f:["Minimum touch target:","Focus state:","Non-colour cues:"]},
+   {sec:"A6", t:"Accessibility", dw:9, d:"A few people and situations, each answered",
+    h:"Who might find your design hard to use, and why: a few people and situations, and what your design does for each. Touch targets, focus and cues that don’t rely on colour are good places to start.",
+    f:["Who, and in what situation:","What makes it hard:","What my design does about it:","","Who, and in what situation:","What makes it hard:","What my design does about it:"]},
    {sec:"A7", t:"AI use log", dw:6, d:"Every AI use has a line",
     h:"Log every AI use as you go, one line each: the tool, what it made, what you changed, and why. You judge it later, in C8. <a href=\"toolkit.html#ai\">Using AI in this module</a>.",
     f:["Tool  |  What it made  |  What I changed  |  Why","1.","2.","3."]}
