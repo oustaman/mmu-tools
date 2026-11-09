@@ -436,8 +436,8 @@
 </div>
 
 
-<script src="sd-common.js?v=202611092021"></script>
-<script src="weeks-data.js?v=202611092021"></script>
+<script src="sd-common.js?v=202611092131"></script>
+<script src="weeks-data.js?v=202611092131"></script>
 <script>
 /* The table is derived from weeks-data.js, not kept a second time. An earlier
    version held its own copy of the eleven weeks and the two drifted the moment
@@ -510,7 +510,7 @@ document.getElementById('hbar').innerHTML = SD.SESSIONS.map(x => `
        same list the week page ticks, not the sections that happen to fall due. */
     const W = WEEKS.find(x => x.n === w), bySec = s => SD.all.find(i => i.sec === s);
     const made = W.workshop.out.sec.map(bySec).filter(Boolean), maybe = (W.workshop.maybe || []).map(bySec).filter(Boolean);
-    title = W.dead ? 'Submission week. Nothing new — finish it and hand it in.' : `This week: ${W.title}`;
+    title = W.dead ? 'Drop-in session. No class: work on your deck, and Mike is in the room to help.' : `This week: ${W.title}`;
     list = [...made.map(i => [i, false]), ...maybe.map(i => [i, true])].map(([i, opt]) => {
       const ok = SD.isDone(i.key);
       return `<li class="${ok ? 'ok' : ''}"><i>${ok ? '✓' : '○'}</i><span><b class="sec">${i.sec}</b> ${i.t}${opt ? ' <em class="ifcan">if you can</em>' : ''}</span></li>`;

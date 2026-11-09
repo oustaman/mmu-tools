@@ -183,8 +183,7 @@ const WEEKS = [
  n:6, title:"Contemporary tools, and working with AI",
  makes:["Style tile","Mood board","AI log → Part A §7"],
  shown:[
-  {core:true, s:"Generate one, live", u:"https://interfaces.institute/collections/generated/", take:"A generator makes something competent in a minute. It cannot decide anything, and the deciding is what is marked."},
-  {core:true, s:"Now check it against a spec", u:"https://interfaces.institute/collections/design-tools/#pairs", take:"Generated work still has to obey the numbers you declared in A3–A5. Check it against them."},
+  {core:true, s:"Tools and AI: what they make, and what stays yours", u:"lecture.html", take:"A generator makes something competent in a minute. It does not decide anything, and the deciding is what is marked."},
  ],
  three:[
   {t:"Mood board and style tile", d:"B2 and B3, built only from numbers you already declared."},
@@ -197,11 +196,11 @@ const WEEKS = [
   out:{"sec": ["A7", "B2", "B3", "C8"]},
   bring:"Whatever AI tools you use",
   run:[
-   {s:"Mood board, fast", d:"Fifteen images on one page: the feeling you are aiming at. Generated images are welcome, and each one gets a line in <code>A7</code>; so are your own photos."},
-   {s:"Style tile", d:"Finish the tile you started in week 4: type scale, palette with roles, spacing, and a button, a field and a card. Every value from your own A3–A5."},
-   {s:"Open the AI log", d:"Start <code>A7</code> today, one line for every AI use; you will not remember them in January. Not using AI? One line, <i>No AI used</i>, and say why in C8. What is allowed, and what to do if you would rather not: <a href=\"toolkit.html#ai\">Using AI</a>."},
+   {s:"Mood board", d:"As many images as you need on one page, at least five or six, so it feels the way your design should feel. Generated images or your own photos, each with its source and a date, like November 2026. Buttons, stickies, colours: anything that helps the feel. You can’t go wrong."},
+   {s:"Style tile", d:"Build it in the <a href=\"../screen-design/gallery.html#tile\">Gallery</a>: pick a typeface and colours, then change anything on the tile until you like it, and copy it into <code>B3</code>."},
+   {s:"Open the AI log", d:"Start <code>A7</code> today: one bullet for every time you use AI. Which tool, for what, and what did it give you? Not using AI? One line, <i>No AI used</i>, and say why in C8. What is allowed, and what to do if you would rather not: <a href=\"toolkit.html#ai\">Using AI</a>."},
    {s:"Next week is a checkpoint", d:"In week 7 you share your deck with Mike and fill in a short form, and he leaves feedback right in your deck. Make sure your deck is in your shared folder by then."},
-   {s:"Write C8", d:"Eighty words on the AI you used: was it any good, whose work is it, and what did you change? If you used none, say why."},
+   {s:"Write C8", d:"About eighty words. Used AI? Was it any good, whose work is it, what did you change? Chose not to? Why, and what you did instead."},
   ],
   between:"Finish your style tile: week 8 builds from it.",
   mistake:"Leaving the log until January.",
@@ -344,7 +343,7 @@ const WEEKS = [
  }
 },
 {
- n:11, title:"Submission", dead:true,
+ n:11, title:"Drop-in session", dead:true,
  makes:["References → Part C §9","Submit"],
  shown:[
  ],
