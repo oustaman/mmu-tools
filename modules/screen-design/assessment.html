@@ -305,6 +305,8 @@
   .it-tools .cp.on{background:var(--ok);border-color:var(--ok)}
   .it-tools .cp:focus-visible{outline:2px solid var(--lec);outline-offset:2px}
   .it.cov{cursor:default;margin:0 0 14px}
+  .m.late-m{background:var(--lec-soft);color:var(--lec);border:1px solid var(--lec);font-weight:600}
+  .it.done .m.late-m{display:none}
 </style>
 </head>
 <body>
@@ -396,9 +398,9 @@
   </footer>
 </div>
 
-<script src="sd-common.js?v=202611091945"></script>
-<script src="weeks-data.js?v=202611091945"></script>
-<script src="tools-data.js?v=202611091945"></script>
+<script src="sd-common.js?v=202611092040"></script>
+<script src="weeks-data.js?v=202611092040"></script>
+<script src="tools-data.js?v=202611092040"></script>
 <script>
 /* The list lives in sd-common.js so the hub can read it too — one source, so
    the progress bar there and the ticks here can never disagree. */
@@ -432,6 +434,7 @@ el.innerHTML = PARTS.map(p => {
       ${thumb(x)}
       <span class="it-b"><b><span class="secno">${x.sec}</span>${x.t}</b><span class="how">${x.h}</span>
         <span class="it-meta">
+          ${late ? `<span class="m late-m">Behind: due by week ${x.dw}</span>` : ''}
           <span class="m sn" title="${escT(sw)}">${sn}${sw ? ' · ' + escT(sw) : ''}</span>
           <span class="m wk">${MADE[x.sec] ? `Week ${MADE[x.sec]}${x.dw > MADE[x.sec] ? ` \u00b7 final by week ${x.dw}` : ''}` : 'Any week'}</span>
           <span class="m dn">Done when: ${x.d}</span>

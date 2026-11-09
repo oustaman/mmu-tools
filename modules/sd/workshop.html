@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Workshop slides — Screen Design</title>
-<link rel="stylesheet" href="deck-kit.css?v=202611091945">
+<link rel="stylesheet" href="deck-kit.css?v=202611092040">
 <style>
 
 
@@ -21,6 +21,13 @@
   .exq p{margin:0} .exq dl{display:grid;grid-template-columns:minmax(120px,auto) 1fr;gap:4px 14px;margin:0} .exq dt{color:var(--ink-3)} .exq dd{margin:0}
   .duo{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.3fr);gap:16px;align-items:start}
   @media(max-width:860px){.duo{grid-template-columns:minmax(0,1fr)}}
+  .tnote{margin:18px 0 0;max-width:760px;background:var(--surface);border:1px dashed var(--line-2);border-radius:10px;padding:10px 14px;font-size:0.86rem;color:var(--ink-2)}
+  .tnote ul{margin:6px 0 0;padding-left:18px} .tnote li{margin:0 0 4px} .tnote b{color:var(--ink)} .tnote span{font-size:0.78rem;color:var(--ink-3)}
+  html.present .tnote{display:none}
+  .lanes{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin:0 0 14px}
+  @media(max-width:760px){.lanes{grid-template-columns:minmax(0,1fr)}}
+  .lane{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:14px 16px;font-size:clamp(0.95rem,1.3vw,1.05rem);color:var(--ink-2);line-height:1.45}
+  .lane h3{margin:0 0 6px;font-size:1.1rem;color:var(--ink)} .lane p{margin:0} .lane b{color:var(--ink)}
   .src{font-size:0.82rem;color:var(--ink-3);margin:0}
   .big-link{display:inline-block;font-weight:700;font-size:clamp(1rem,1.5vw,1.15rem)}
   .none-yet{color:var(--ink-3)}
@@ -82,14 +89,14 @@
 <main id="deck"></main>
 <footer><div class="wrap"><p>Screen Design · Level 4 · 2026–27</p></div></footer>
 
-<script src="sd-common.js?v=202611091945"></script>
-<script src="weeks-data.js?v=202611091945"></script>
+<script src="sd-common.js?v=202611092040"></script>
+<script src="weeks-data.js?v=202611092040"></script>
 <script src="example-council-data.js"></script>
-<script src="deck-kit.js?v=202611091945"></script>
+<script src="deck-kit.js?v=202611092040"></script>
 <script>
 (function () {
-  /* Workshop slides for weeks 6 to 10: what we make today, the steps, what the finished thing looks
-     like, and what happens before you leave. The same in all three rooms, so nobody needs the
+  /* Workshop slides for weeks 6 to 10: what we make today, where each student is, the steps, what the
+     finished thing looks like, and what happens before you leave. The same in all three rooms, so nobody needs the
      lecture hour to start. The steps are the week page's, said shorter; the week page owns them. */
   const n = +(new URLSearchParams(location.search).get('w')) || 7;
   const W = WEEKS.find(w => w.n === n), SEC = Object.fromEntries(PARTS.flatMap(p => p.items).map(x => [x.sec, x]));
@@ -146,6 +153,35 @@
       example: `<div class="duo">${ex('C4')}<div class="shots">${shot('council-D3.png', 'D3: before and after, side by side')}</div></div>${SRC}`,
       last: { t: 'Before you go', body: '<p class="lead">Export the deck as a PDF, open it, and click every link. A link that works in PowerPoint can vanish in the PDF, and the PDF is what gets marked.</p><p class="try">Week 11 has no class. Mike is in the room at the usual time to help anyone who comes.</p>' } },
   };
+  /* For whoever runs the room: what to say in two minutes, what to look for, and the snag that comes up.
+     Shown on the page, hidden in Present, so a tutor can read it once before the session and nothing more. */
+  const TUTOR = {
+    6: ['Say: today is how the screens will look and feel (B2 mood board, B3 style tile), plus the AI log (A7, C8). Not using AI is fine: C8 says why.',
+      'Look for: a style tile whose sizes and colours match the student’s own A3 to A5. No A3 to A5 yet? That is the behind group: the Style kit fills all three in about twenty minutes.',
+      'Snag: the mood board eating the session. Fifteen images, twenty minutes, then move on.'],
+    7: ['Say: today the plan becomes screens. List them, check what each looks like when things go wrong, draw the new flow, wireframe the lot.',
+      'Look for: every screen has a job in under ten words, and empty, loading and error screens are on the list.',
+      'Snag: the week 5 flow is gone from the Flow maker (another computer, cleared browser). They start Your version from scratch; it is quick.',
+      'Before they leave: everyone shares their deck with Mike and fills in the check-in form. It is on the last slide.'],
+    8: ['Say: finish the wireframes, then build the two most important screens for real, from their own numbers.',
+      'Look for: finished screens that use the student’s A3 to A5 values, not new ones picked on the day.',
+      'Snag: decorated wireframes. Boxes and labels only; colour belongs in B6.'],
+    9: ['Say: look at the finished screens through other people’s eyes, and write down who finds them hard and what the design does about it.',
+      'Look for: specific people and situations in A6, such as poor eyesight, a second language, or tiredness.',
+      'Snag: “it is accessible for everyone”. Ask: for whom, doing what, and what on the screen helps them?',
+      'Mention: a second round of feedback is open this week, on the last slide.'],
+    10: ['Say: Part C stops describing and starts defending, and the screens become a click-through.',
+      'Look for: C sections that quote a number from Part A and name something the student rejected.',
+      'Snag: links that work in PowerPoint and vanish in the PDF. Everyone exports and clicks before leaving.'],
+  };
+  /* for the students who are ahead: the next useful thing, so nobody waits */
+  const AHEAD = {
+    6: 'Start week 7: list the screens of your version in A2, and give each one a job.',
+    7: 'Start week 8: turn your most important wireframe into a finished screen.',
+    8: 'Carry on into B6: every screen of your journey, finished.',
+    9: 'Start week 10: link your screens into a click-through, then rewrite one C section.',
+    10: 'Ask a classmate to click through your PDF without help, and fix wherever they stop.',
+  };
   const d = D[n];
   if (!W || !d) { document.getElementById('deck').innerHTML = '<section class="sl"><div class="wrap"><h2>No workshop slides for this week</h2><p class="lead">There are slides for weeks 6 to 10. <a href="weeks.html">Week by week</a></p></div></section>'; DK.start(); return; }
   const date = SD.fmt(SD.dateOf(n)), when = `Week ${n} · ${SD.DAY} ${date}`;
@@ -158,6 +194,17 @@
   <h2>${esc(d.h)}</h2>
   <p class="lead">${d.lead}</p>
   <ul class="chips">${d.secs.map(s => `<li><b>${s}</b>${esc(SEC[s].t)}</li>`).join('')}</ul>
+  ${TUTOR[n] ? `<div class="tnote"><b>For tutors</b> <span>(hidden when you press Present)</span><ul>${TUTOR[n].map(x => `<li>${esc(x)}</li>`).join('')}</ul></div>` : ''}
+</div></section>
+<section class="sl" data-t="Where are you?"><div class="wrap">
+  <h2>Where are you?</h2>
+  <p class="lead">Everyone is at a different point, and that is fine. Pick the one that fits you today.</p>
+  <div class="lanes">
+    <div class="lane"><h3>Behind</h3><p>Open the <a href="assessment.html">checklist</a>. Anything marked <b>Behind</b> comes first, the earliest one first: copy its slide into your deck and fill it in.</p></div>
+    <div class="lane"><h3>On track</h3><p>Today’s steps are on the next slide.</p></div>
+    <div class="lane"><h3>Ahead</h3><p>${esc(AHEAD[n] || 'Carry on with the next section on the checklist.')}</p></div>
+  </div>
+  <p class="src">Stuck on anything? Ask your tutor now, or bring it to Workshop 2, 14:00–16:00.</p>
 </div></section>
 <section class="sl" data-t="Do this"><div class="wrap">
   <h2>Do this</h2>
