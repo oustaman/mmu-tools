@@ -376,7 +376,7 @@ var EXAMPLE = {   // var, not const: examples.html loads both example files, one
      "note": {
       "c": 3,
       "band": "Third",
-      "s": "Two sketches where week 2 produced eight, photographed badly. The caption is three words where the brief asks for about a hundred, and it says nothing about what the sketch decided. Criterion 3 is about evidencing a process; this evidences that one happened."
+      "s": "Two sketches where week 2 produced eight, photographed badly. The caption is three words, and it says nothing about what the sketch decided. Criterion 3 is about evidencing a process; this evidences that one happened."
      }
     }
    ],
@@ -542,7 +542,7 @@ var EXAMPLE = {   // var, not const: examples.html loads both example files, one
      "note": {
       "c": 3,
       "band": "Third",
-      "s": "Three links where the brief asks for six, and the third one starts from a control that is not there. The Home screen in B6 has a tab bar of Home, Plants, Add and Profile — there is no gear on it. So the link either does not exist or lands from nowhere, and either way a marker clicking through stops here. Week 10 sets aside fifteen minutes to check exactly this, and the check was not done. \"Prototype incomplete or non-functional\" is the rubric's own wording for the band below this one; three links that mostly work is what keeps it out of it."
+      "s": "Three links for a journey of five screens, and the third one starts from a control that is not there. The Home screen in B6 has a tab bar of Home, Plants, Add and Profile — there is no gear on it. So the link either does not exist or lands from nowhere, and either way a marker clicking through stops here. Week 10 sets aside fifteen minutes to check exactly this, and the check was not done. \"Prototype incomplete or non-functional\" is the rubric's own wording for the band below this one; three links that mostly work is what keeps it out of it."
      }
     }
    ],

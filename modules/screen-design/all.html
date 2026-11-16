@@ -192,6 +192,14 @@
   html[data-theme="dark"] header.sdnav .navl.on{color:#151314}
   header.sdnav a:focus-visible,header.sdnav button:focus-visible{outline:2px solid var(--lec);outline-offset:1px}
   header.sdnav .ctl{order:0;margin-left:4px}
+  header.sdnav .fbl{order:0;display:inline-flex;align-items:center;min-height:36px;padding:6px 14px;border-radius:999px;background:var(--lec);
+    color:#fff;font-size:0.86rem;font-weight:700;text-decoration:none;white-space:nowrap;margin-left:6px}
+  header.sdnav .fbl[hidden]{display:none}
+  header.sdnav .fbl:hover{filter:brightness(1.1)}
+  html[data-theme="dark"] header.sdnav .fbl{color:#151314}
+  .oldsw{text-align:center;font-size:0.82rem;color:var(--ink-3);margin:28px auto 32px;padding:0 16px}
+  .oldsw a{color:var(--ink-2)}
+  html.present .oldsw{display:none}
   header.sdnav .ctl button{font-family:var(--mono);font-size:0.7rem;background:none;color:var(--ink-3);
     border:1px solid var(--line-2);border-radius:6px;padding:0 9px;cursor:pointer;line-height:1;
     height:34px;min-height:34px;min-width:34px;display:inline-flex;align-items:center;justify-content:center}
@@ -199,6 +207,8 @@
   @media(max-width:960px){
     header.sdnav .bar{flex-wrap:wrap;row-gap:0;padding-block:6px 0;min-height:0}
     header.sdnav .ctl{order:1;margin-left:auto}
+    header.sdnav .fbl{order:1;margin-left:auto;min-height:34px;padding:5px 12px}
+    header.sdnav .fbl:not([hidden]) ~ .ctl{margin-left:6px}
     header.sdnav .sp{display:none}
     header.sdnav .sdlinks{order:2;flex-basis:100%;overflow-x:auto;scrollbar-width:none;padding:4px 28px 8px 0;min-height:44px;
       -webkit-mask-image:linear-gradient(to right,#000 calc(100% - 28px),transparent);mask-image:linear-gradient(to right,#000 calc(100% - 28px),transparent)}
@@ -214,10 +224,11 @@
     <a class="brand" href="index.html">Screen Design</a>
     <span class="sp"></span>
     <nav class="sdlinks" aria-label="Screen Design"><a class="navl" href="start.html">Start here</a><a class="navl" href="weeks.html">Week by week</a><a class="navl" href="assessment.html">Checklist</a><a class="navl" href="examples.html">Examples</a><a class="navl" href="toolkit.html">Toolkit</a><a class="navl" href="assessment-materials.html">Marking</a><a class="navl on" href="all.html" aria-current="page">All pages</a></nav>
+    <a class="fbl" id="fbl" href="#" target="_blank" rel="noopener" hidden>Feedback form</a>
     <span class="ctl"><button id="theme" aria-label="Dark mode">◐</button></span>
   </div>
 </header>
-<script>(function(){var n=document.querySelector(".sdlinks"),o=n&&n.querySelector(".on");if(o&&n.scrollWidth>n.clientWidth)n.scrollLeft=o.offsetLeft-n.offsetLeft-16;})();</script>
+<script>(function(){var d=new Date(),a=document.getElementById("fbl");[["2026-11-16", "2026-11-30", "https://forms.cloud.microsoft/e/FkCJKpKu2d"], ["2026-11-30", "2026-12-14", "https://forms.cloud.microsoft/e/tSchWyEaBF"]].forEach(function(f){if(f[2]&&d>=new Date(f[0]+"T00:00")&&d<new Date(f[1]+"T00:00")){a.href=f[2];a.hidden=false;}});var n=document.querySelector(".sdlinks"),o=n&&n.querySelector(".on");if(o&&n.scrollWidth>n.clientWidth)n.scrollLeft=o.offsetLeft-n.offsetLeft-16;})();</script>
 
 <div class="wrap">
   <h1>All pages</h1>
@@ -227,38 +238,38 @@
     <h2 id="three-h">The submission needs to show</h2>
     <ol>
       <li data-f="1"><b>A clickable prototype:</b> the screens, at one or more sizes. Add clicks to your PowerPoint and you’re done.</li>
-      <li data-f="2"><b>Process work:</b> sketches, wireframes, mood board and style tiles. Sketches on paper or in design software: both count. The appendices count here too.</li>
+      <li data-f="2"><b>Process work:</b> concept sketches, wireframes, mood board and style tile. On paper or in software: both count. The appendices count here too.</li>
       <li data-f="3"><b>A rationale of 500–700 words,</b> covering layout, type, colour, users, accessibility, AI, one ethics or sustainability point and one cross-cultural point.</li>
     </ol>
   </section>
 
   <h2>What you hand in</h2>
-  <div class="tiles"><a class="tile" href="start.html"><b>Start here</b><span>The module in one page: a bad experience, the same job improved, and what you do.</span></a><a class="tile" href="assessment.html"><b>Checklist</b><span>Every section of your deck, what each one needs, and what it feeds into.</span></a><a class="tile" href="index.html"><b>Overview</b><span>The module on one page: dates, the brief in plain words, and what is due when.</span></a><a class="tile" href="rubric.html"><b>Marking rubric</b><span>How the work is marked, criterion by criterion.</span></a><a class="tile" href="assessment-materials.html"><b>Marking</b><span>How marking works, and the questions people ask.</span></a><a class="tile" href="Screen_Design_Assessment_Brief_CAF_2026-27.docx"><b>The brief, as issued</b><span>The official assessment brief, as a Word file.</span></a></div>
+  <div class="tiles"><a class="tile" href="start.html"><b>Start here</b><span>The module in one page: a bad experience, the same job improved, and what you do.</span></a><a class="tile" href="#" data-form="w7" target="_blank" rel="noopener"><b>Optional check-in, week 7</b><span>Want feedback on your deck? Share it with Mike, then fill in this form.</span></a><a class="tile" href="#" data-form="w9" target="_blank" rel="noopener"><b>Optional check-in, week 9</b><span>A second round of feedback, if you want one.</span></a><a class="tile" href="assessment.html"><b>Checklist</b><span>Every section of your deck, what each one needs, and what it feeds into.</span></a><a class="tile" href="index.html"><b>Homepage</b><span>The module on one page: dates, the brief in plain words, and what is due when.</span></a><a class="tile" href="rubric.html"><b>Marking rubric</b><span>How the work is marked, criterion by criterion.</span></a><a class="tile" href="assessment-materials.html"><b>Marking</b><span>How marking works, and the questions people ask.</span></a><a class="tile" href="Screen_Design_Assessment_Brief_CAF_2026-27.docx"><b>The brief, as issued</b><span>The official assessment brief, as a Word file.</span></a></div>
 
   <h2>Week by week</h2>
   <ul class="weeklist" id="weeklist"></ul>
 
   <h2>Slides from class</h2>
-  <div class="tiles"><a class="tile" href="lecture.html"><b>Tools and AI</b><span>Week 6 lecture: what tools and AI make, and what stays yours.</span></a><a class="tile" href="teardowns.html"><b>Three teardowns</b><span>Week 1. What you read first on a screen, and why.</span></a><a class="tile" href="grid-numbers.html"><b>A grid in seven numbers</b><span>Week 3. Columns, gutter, margin and the rest, each with a live screen.</span></a><a class="tile" href="type-colour.html"><b>Colour and type speak first</b><span>Week 4. The same words read differently in different colours and type.</span></a><a class="tile" href="flow-grammar.html"><b>Drawing a flow</b><span>Week 5. The marks a flow uses, and how to draw yours.</span></a><a class="tile" href="wireframes.html"><b>Thinking in wireframes</b><span>Week 5. One whole journey, screen by screen.</span></a><a class="tile" href="passready.html"><b>PassReady: the worst-day screens</b><span>Week 7. Screens for when things go wrong.</span></a><a class="tile" href="wireframes-2.html"><b>The rest of the organisms</b><span>Week 7. The pieces you have not used yet, including empty, loading and error.</span></a></div>
+  <div class="tiles"><a class="tile" href="lecture.html"><b>Tools and AI</b><span>Week 6 lecture: what tools and AI make, and what stays yours.</span></a><a class="tile" href="teardowns.html"><b>Three teardowns</b><span>Week 1. What you read first on a screen, and why.</span></a><a class="tile" href="grid-numbers.html"><b>A grid in six numbers</b><span>Week 3. Columns, gutter, margin and the rest, each with a live screen.</span></a><a class="tile" href="type-colour.html"><b>Colour and type speak first</b><span>Week 4. The same words read differently in different colours and type.</span></a><a class="tile" href="flow-grammar.html"><b>Drawing a flow</b><span>Week 5. The marks a flow uses, and how to draw yours.</span></a><a class="tile" href="wireframes.html"><b>Thinking in wireframes</b><span>Week 5. One whole journey, screen by screen.</span></a><a class="tile" href="passready.html"><b>PassReady: the worst-day screens</b><span>Week 7. Screens for when things go wrong.</span></a><a class="tile" href="wireframes-2.html"><b>The rest of the organisms</b><span>Week 7. The pieces you have not used yet, including empty, loading and error.</span></a></div>
   <div class="tiles" id="workshops" style="margin-top:10px"></div>
 
   <h2>Tools that build your hand-in</h2>
   <div class="tiles"><a class="tile" href="flow.html"><b>Flow maker<em>2</em></b><span>Your journey before and after, as a slide for B4, and the D2 table.</span></a><a class="tile" href="screen-maker.html"><b>Screen maker<em>2</em></b><span>Wireframes from ready-made blocks, at phone or desktop size.</span></a><a class="tile" href="style-kit.html"><b>Style kit<em>2</em></b><span>A grid, type and colour from published systems, ready to copy into A3 to A5.</span></a><a class="tile" href="gallery.html"><b>Gallery<em>2</em></b><span>Grids, typefaces and palettes with their numbers and sources.</span></a><a class="tile" href="toolkit.html"><b>Toolkit</b><span>Every tool and website we recommend, by what it helps you fill.</span></a></div>
 
   <h2>Guides</h2>
-  <div class="tiles"><a class="tile" href="flow-guide.html"><b>How flows work</b><span>Every part of a flow, with a real example and two short self-tests.</span></a><a class="tile" href="organisms.html"><b>Organisms</b><span>Every block in the Screen maker at full size, with what it does.</span></a><a class="tile" href="ideas.html"><b>Theme ideas</b><span>Starting points if you have not picked a project yet.</span></a></div>
+  <div class="tiles"><a class="tile" href="inclusive.html"><b>Design for everyone</b><span>Situations that make a screen hard, and the decisions that help. For A6 and C5.</span></a><a class="tile" href="flow-guide.html"><b>How flows work</b><span>Every part of a flow, with a real example and two short self-tests.</span></a><a class="tile" href="organisms.html"><b>Organisms</b><span>Every block in the Screen maker at full size, with what it does.</span></a><a class="tile" href="ideas.html"><b>Theme ideas</b><span>Starting points if you have not picked a project yet.</span></a></div>
 
   <h2>Examples</h2>
   <div class="tiles"><a class="tile" href="examples.html"><b>Examples</b><span>All the examples in one place, and what to take from each.</span></a><a class="tile" href="example.html"><b>Example portfolio 1</b><span>A thin portfolio, so you can see what is missing.</span></a><a class="tile" href="example-marked.html"><b>Example 1, marked</b><span>The same portfolio, with a marker’s notes.</span></a><a class="tile" href="example-feedback.html"><b>Example 1, feedback sheet</b><span>The feedback it got.</span></a><a class="tile" href="example-council.html"><b>Example portfolio 2</b><span>A complete portfolio: a solid 2:1.</span></a><a class="tile" href="example-council-marked.html"><b>Example 2, marked</b><span>The same portfolio, with a marker’s notes.</span></a><a class="tile" href="example-council-feedback.html"><b>Example 2, feedback sheet</b><span>The feedback it got.</span></a><a class="tile" href="case-missed-bin.html"><b>Before and after: a missed bin</b><span>A council website, measured and improved.</span></a><a class="tile" href="case-bakery.html"><b>Before and after: a cake order</b><span>A business with no website yet.</span></a><a class="tile" href="case-railcard.html"><b>Before and after: a Railcard</b><span>Buying a 16–25 Railcard.</span></a><a class="tile" href="case-short-course.html"><b>Before and after: a Welsh course</b><span>Finding a first course, in two languages.</span></a></div>
 
   <h2>The older version</h2>
-  <p class="sub">The site as it was before November 2026 is still there, if you prefer it: <a href="../sd/index.html">browse the older version</a>. Your ticks and saved work are the same on both.</p>
+  <p class="sub">The site as it was before November 2026 is still there, if you prefer it: <a href="../sd/index.html?old=1">browse the older version</a>. Your ticks and saved work are the same on both.</p>
 
   <footer><p>Screen Design · Level 4 · 30 credits · 2026–27</p></footer>
 </div>
 
-<script src="sd-common.js?v=202611092131"></script>
-<script src="weeks-data.js?v=202611092131"></script>
+<script src="sd-common.js?v=202611162240"></script>
+<script src="weeks-data.js?v=202611162240"></script>
 <script>
 /* the weeks and the workshop slides come from the same data as the week pages */
 (function () {
@@ -273,5 +284,7 @@ document.getElementById('theme').onclick = () => {
   try { localStorage.setItem('sd-theme', root.dataset.theme); } catch (e) {}
 };
 </script>
+<script>document.querySelectorAll('[data-form]').forEach(a => { const u = FEEDBACK_FORM[a.dataset.form]; if (u) a.href = u; else a.removeAttribute('target'); });</script>
+<!-- old-switch (navfix) --><p class="oldsw"><a id="oldsw" href="../sd/index.html?old=1">Switch to the old version</a></p><!-- /old-switch -->
 </body>
 </html>

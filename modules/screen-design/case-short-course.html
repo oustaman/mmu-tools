@@ -255,6 +255,14 @@
   html[data-theme="dark"] header.sdnav .navl.on{color:#151314}
   header.sdnav a:focus-visible,header.sdnav button:focus-visible{outline:2px solid var(--lec);outline-offset:1px}
   header.sdnav .ctl{order:0;margin-left:4px}
+  header.sdnav .fbl{order:0;display:inline-flex;align-items:center;min-height:36px;padding:6px 14px;border-radius:999px;background:var(--lec);
+    color:#fff;font-size:0.86rem;font-weight:700;text-decoration:none;white-space:nowrap;margin-left:6px}
+  header.sdnav .fbl[hidden]{display:none}
+  header.sdnav .fbl:hover{filter:brightness(1.1)}
+  html[data-theme="dark"] header.sdnav .fbl{color:#151314}
+  .oldsw{text-align:center;font-size:0.82rem;color:var(--ink-3);margin:28px auto 32px;padding:0 16px}
+  .oldsw a{color:var(--ink-2)}
+  html.present .oldsw{display:none}
   header.sdnav .ctl button{font-family:var(--mono);font-size:0.7rem;background:none;color:var(--ink-3);
     border:1px solid var(--line-2);border-radius:6px;padding:0 9px;cursor:pointer;line-height:1;
     height:34px;min-height:34px;min-width:34px;display:inline-flex;align-items:center;justify-content:center}
@@ -262,6 +270,8 @@
   @media(max-width:960px){
     header.sdnav .bar{flex-wrap:wrap;row-gap:0;padding-block:6px 0;min-height:0}
     header.sdnav .ctl{order:1;margin-left:auto}
+    header.sdnav .fbl{order:1;margin-left:auto;min-height:34px;padding:5px 12px}
+    header.sdnav .fbl:not([hidden]) ~ .ctl{margin-left:6px}
     header.sdnav .sp{display:none}
     header.sdnav .sdlinks{order:2;flex-basis:100%;overflow-x:auto;scrollbar-width:none;padding:4px 28px 8px 0;min-height:44px;
       -webkit-mask-image:linear-gradient(to right,#000 calc(100% - 28px),transparent);mask-image:linear-gradient(to right,#000 calc(100% - 28px),transparent)}
@@ -279,10 +289,11 @@
     <a class="brand" href="index.html">Screen Design</a>
     <span class="sp"></span>
     <nav class="sdlinks" aria-label="Screen Design"><a class="navl" href="start.html">Start here</a><a class="navl" href="weeks.html">Week by week</a><a class="navl" href="assessment.html">Checklist</a><a class="navl on" href="examples.html">Examples</a><a class="navl" href="toolkit.html">Toolkit</a><a class="navl" href="assessment-materials.html">Marking</a><a class="navl" href="all.html">All pages</a></nav>
+    <a class="fbl" id="fbl" href="#" target="_blank" rel="noopener" hidden>Feedback form</a>
     <span class="ctl"><button id="theme" aria-label="Dark mode">◐</button></span>
   </div>
 </header>
-<script>(function(){var n=document.querySelector(".sdlinks"),o=n&&n.querySelector(".on");if(o&&n.scrollWidth>n.clientWidth)n.scrollLeft=o.offsetLeft-n.offsetLeft-16;})();</script>
+<script>(function(){var d=new Date(),a=document.getElementById("fbl");[["2026-11-16", "2026-11-30", "https://forms.cloud.microsoft/e/FkCJKpKu2d"], ["2026-11-30", "2026-12-14", "https://forms.cloud.microsoft/e/tSchWyEaBF"]].forEach(function(f){if(f[2]&&d>=new Date(f[0]+"T00:00")&&d<new Date(f[1]+"T00:00")){a.href=f[2];a.hidden=false;}});var n=document.querySelector(".sdlinks"),o=n&&n.querySelector(".on");if(o&&n.scrollWidth>n.clientWidth)n.scrollLeft=o.offsetLeft-n.offsetLeft-16;})();</script>
 
 <div class="wt-bar" id="wt"><div class="wrap">
   <b>Finding a Welsh course</b><span class="sp"></span><span class="ct" id="wtct"></span>
@@ -687,7 +698,7 @@
 
 </div>
 
-<script src="sd-common.js?v=202611092131"></script>
+<script src="sd-common.js?v=202611162240"></script>
 <script src="cases.js"></script>
 <script>
 const root = document.documentElement;
@@ -697,5 +708,6 @@ document.getElementById('theme').onclick = () => {
   try { localStorage.setItem('sd-theme', root.dataset.theme); } catch (e) {}
 };
 </script>
+<!-- old-switch (navfix) --><p class="oldsw"><a id="oldsw" href="../sd/case-short-course.html?old=1">Switch to the old version</a></p><script>(function(){var a=document.getElementById("oldsw"),q=location.search;a.href="../sd/case-short-course.html"+(q?q+"&":"?")+"old=1"+location.hash;})();</script><!-- /old-switch -->
 </body>
 </html>

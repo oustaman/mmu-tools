@@ -213,35 +213,6 @@
   .ck2-out{font-size:0.95rem;color:var(--ink-2);min-height:40px;display:flex;align-items:center} .ck2-out b{color:var(--ink);margin-right:6px}
   .ck2-sw{font:700 1.3rem/40px Georgia,serif;width:64px;text-align:center;border:1px solid var(--line-2);border-radius:8px}
 
-  /* THE BAR — one definition, identical on every page (written by navfix; change it
-     everywhere or nowhere). It used to be copied per page and drifted into two heights. */
-  header.sdnav{position:sticky;top:0;z-index:40;background:var(--surface);border-bottom:1px solid var(--line)}
-  header.sdnav .bar{display:flex;align-items:center;gap:10px;min-height:56px;padding-block:8px;flex-wrap:nowrap}
-  header.sdnav .brand{font-weight:680;font-size:1rem;letter-spacing:-0.015em;white-space:nowrap;color:inherit;
-    text-decoration:none;padding:5px 8px;margin-left:-8px;border-radius:6px;order:0}
-  header.sdnav .brand:hover{background:var(--surface-2,var(--bg))}
-  header.sdnav .sp{flex:1;display:block;height:auto;flex-basis:auto;order:0}
-  header.sdnav .sdlinks{display:flex;align-items:center;gap:2px;order:0}
-  header.sdnav .navl{display:inline-block;font-size:0.85rem;line-height:1.3;color:var(--ink-2);text-decoration:none;
-    padding:6px 10px;border-radius:6px;white-space:nowrap;order:0}
-  header.sdnav .navl:hover{background:var(--surface-2,var(--bg));color:var(--ink)}
-  header.sdnav .navl.on{background:var(--lec);color:#fff}
-  html[data-theme="dark"] header.sdnav .navl.on{color:#151314}
-  header.sdnav a:focus-visible,header.sdnav button:focus-visible{outline:2px solid var(--lec);outline-offset:1px}
-  header.sdnav .ctl{order:0;margin-left:4px}
-  header.sdnav .ctl button{font-family:var(--mono);font-size:0.7rem;background:none;color:var(--ink-3);
-    border:1px solid var(--line-2);border-radius:6px;padding:0 9px;cursor:pointer;line-height:1;
-    height:34px;min-height:34px;min-width:34px;display:inline-flex;align-items:center;justify-content:center}
-  header.sdnav .ctl button:hover{border-color:var(--lec);color:var(--lec)}
-  @media(max-width:960px){
-    header.sdnav .bar{flex-wrap:wrap;row-gap:0;padding-block:6px 0;min-height:0}
-    header.sdnav .ctl{order:1;margin-left:auto}
-    header.sdnav .sp{display:none}
-    header.sdnav .sdlinks{order:2;flex-basis:100%;overflow-x:auto;scrollbar-width:none;padding:4px 28px 8px 0;min-height:44px;
-      -webkit-mask-image:linear-gradient(to right,#000 calc(100% - 28px),transparent);mask-image:linear-gradient(to right,#000 calc(100% - 28px),transparent)}
-    header.sdnav .sdlinks::-webkit-scrollbar{display:none}
-    header.sdnav .navl{font-size:0.82rem;padding:6px 9px}
-  }
 
   /* the style tile: a 16:9 slide drawn from the picks, scaled to fit, copied at full size */
   .tl-bar{display:flex;flex-wrap:wrap;gap:8px 12px;align-items:center;margin:10px 0 6px}
@@ -272,6 +243,46 @@
   .tl-card{border-radius:10px;padding:14px 16px;font-size:15px}
   .tl-sp{display:flex;align-items:flex-end;gap:16px;font-size:12px} .tl-sp span{display:grid;justify-items:center;gap:4px}
   .tl-foot{grid-column:1/-1;font-size:13px;opacity:.85;display:flex;justify-content:space-between;gap:20px}
+
+  /* THE BAR — one definition, identical on every page (written by navfix; change it
+     everywhere or nowhere). It used to be copied per page and drifted into two heights. */
+  header.sdnav{position:sticky;top:0;z-index:40;background:var(--surface);border-bottom:1px solid var(--line)}
+  header.sdnav .bar{display:flex;align-items:center;gap:10px;min-height:56px;padding-block:8px;flex-wrap:nowrap}
+  header.sdnav .brand{font-weight:680;font-size:1rem;letter-spacing:-0.015em;white-space:nowrap;color:inherit;
+    text-decoration:none;padding:5px 8px;margin-left:-8px;border-radius:6px;order:0}
+  header.sdnav .brand:hover{background:var(--surface-2,var(--bg))}
+  header.sdnav .sp{flex:1;display:block;height:auto;flex-basis:auto;order:0}
+  header.sdnav .sdlinks{display:flex;align-items:center;gap:2px;order:0}
+  header.sdnav .navl{display:inline-block;font-size:0.85rem;line-height:1.3;color:var(--ink-2);text-decoration:none;
+    padding:6px 10px;border-radius:6px;white-space:nowrap;order:0}
+  header.sdnav .navl:hover{background:var(--surface-2,var(--bg));color:var(--ink)}
+  header.sdnav .navl.on{background:var(--lec);color:#fff}
+  html[data-theme="dark"] header.sdnav .navl.on{color:#151314}
+  header.sdnav a:focus-visible,header.sdnav button:focus-visible{outline:2px solid var(--lec);outline-offset:1px}
+  header.sdnav .ctl{order:0;margin-left:4px}
+  header.sdnav .fbl{order:0;display:inline-flex;align-items:center;min-height:36px;padding:6px 14px;border-radius:999px;background:var(--lec);
+    color:#fff;font-size:0.86rem;font-weight:700;text-decoration:none;white-space:nowrap;margin-left:6px}
+  header.sdnav .fbl[hidden]{display:none}
+  header.sdnav .fbl:hover{filter:brightness(1.1)}
+  html[data-theme="dark"] header.sdnav .fbl{color:#151314}
+  .oldsw{text-align:center;font-size:0.82rem;color:var(--ink-3);margin:28px auto 32px;padding:0 16px}
+  .oldsw a{color:var(--ink-2)}
+  html.present .oldsw{display:none}
+  header.sdnav .ctl button{font-family:var(--mono);font-size:0.7rem;background:none;color:var(--ink-3);
+    border:1px solid var(--line-2);border-radius:6px;padding:0 9px;cursor:pointer;line-height:1;
+    height:34px;min-height:34px;min-width:34px;display:inline-flex;align-items:center;justify-content:center}
+  header.sdnav .ctl button:hover{border-color:var(--lec);color:var(--lec)}
+  @media(max-width:960px){
+    header.sdnav .bar{flex-wrap:wrap;row-gap:0;padding-block:6px 0;min-height:0}
+    header.sdnav .ctl{order:1;margin-left:auto}
+    header.sdnav .fbl{order:1;margin-left:auto;min-height:34px;padding:5px 12px}
+    header.sdnav .fbl:not([hidden]) ~ .ctl{margin-left:6px}
+    header.sdnav .sp{display:none}
+    header.sdnav .sdlinks{order:2;flex-basis:100%;overflow-x:auto;scrollbar-width:none;padding:4px 28px 8px 0;min-height:44px;
+      -webkit-mask-image:linear-gradient(to right,#000 calc(100% - 28px),transparent);mask-image:linear-gradient(to right,#000 calc(100% - 28px),transparent)}
+    header.sdnav .sdlinks::-webkit-scrollbar{display:none}
+    header.sdnav .navl{font-size:0.82rem;padding:6px 9px}
+  }
 </style>
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=Fraunces:wght@700&family=Source+Sans+3:wght@400;700&family=Roboto:wght@400;700&family=Nunito+Sans:wght@400;800&family=IBM+Plex+Sans:wght@400;700&family=IBM+Plex+Serif:wght@600&family=Inter:wght@400;700&family=Merriweather:wght@700&family=Lexend:wght@400;700&family=Public+Sans:wght@400;700&family=Noto+Sans:wght@400;700&family=Noto+Serif:wght@700&family=Lora:wght@700&family=Open+Sans:wght@400;700&family=Source+Serif+4:wght@700&family=DM+Sans:wght@400;700&family=DM+Serif+Display&display=swap" rel="stylesheet" crossorigin="anonymous">
@@ -283,10 +294,11 @@
     <a class="brand" href="index.html">Screen Design</a>
     <span class="sp"></span>
     <nav class="sdlinks" aria-label="Screen Design"><a class="navl" href="start.html">Start here</a><a class="navl" href="weeks.html">Week by week</a><a class="navl" href="assessment.html">Checklist</a><a class="navl" href="examples.html">Examples</a><a class="navl on" href="toolkit.html">Toolkit</a><a class="navl" href="assessment-materials.html">Marking</a><a class="navl" href="all.html">All pages</a></nav>
+    <a class="fbl" id="fbl" href="#" target="_blank" rel="noopener" hidden>Feedback form</a>
     <span class="ctl"><button id="theme" aria-label="Dark mode">◐</button></span>
   </div>
 </header>
-<script>(function(){var n=document.querySelector(".sdlinks"),o=n&&n.querySelector(".on");if(o&&n.scrollWidth>n.clientWidth)n.scrollLeft=o.offsetLeft-n.offsetLeft-16;})();</script>
+<script>(function(){var d=new Date(),a=document.getElementById("fbl");[["2026-11-16", "2026-11-30", "https://forms.cloud.microsoft/e/FkCJKpKu2d"], ["2026-11-30", "2026-12-14", "https://forms.cloud.microsoft/e/tSchWyEaBF"]].forEach(function(f){if(f[2]&&d>=new Date(f[0]+"T00:00")&&d<new Date(f[1]+"T00:00")){a.href=f[2];a.hidden=false;}});var n=document.querySelector(".sdlinks"),o=n&&n.querySelector(".on");if(o&&n.scrollWidth>n.clientWidth)n.scrollLeft=o.offsetLeft-n.offsetLeft-16;})();</script>
 
 <div class="wrap">
   <h1>Gallery: grids, type and colour</h1>
@@ -490,7 +502,6 @@
         <div class="tl-sw">${ROLES.map(([k, n]) => `<label title="Change ${n.toLowerCase()}"><i style="background:${c[k]}"></i><b>${n}</b><br>${c[k].toUpperCase()}${['ink', 'muted', 'pri', 'err'].includes(k) ? `<br>${r(k === 'pri' ? on : c[k], k === 'pri' ? c.pri : c.bg)}` : ''}<input type="color" data-role="${k}" value="${c[k]}" aria-label="${n} colour"></label>`).join('')}</div>
         <div class="tl-ts">
           <div><span style="font:${t.hw} ${t.h1}px/1.2 ${t.fh},system-ui">${ed('h', 'The one question')}</span><small>${t.h1} px</small></div>
-          <div><span style="font:${t.hw} ${sub}px/1.25 ${t.fh},system-ui">${ed('s', 'Section heading')}</span><small>${sub} px</small></div>
           <div><span style="font:400 ${t.body}px/1.5 ${t.fb},system-ui">${ed('b', 'Body text you read, at a size you can read.')}</span><small>${t.body} px</small></div>
           <div><span style="font:400 ${t.small}px/1.5 ${t.fb},system-ui;color:${c.muted}">${ed('n', 'Hints and small print')}</span><small>${t.small} px</small></div>
         </div>
@@ -549,5 +560,6 @@ document.getElementById('theme').onclick = () => {
   try { localStorage.setItem('sd-theme', root.dataset.theme); } catch (e) {}
 };
 </script>
+<!-- old-switch (navfix) --><p class="oldsw"><a id="oldsw" href="../sd/gallery.html?old=1">Switch to the old version</a></p><script>(function(){var a=document.getElementById("oldsw"),q=location.search;a.href="../sd/gallery.html"+(q?q+"&":"?")+"old=1"+location.hash;})();</script><!-- /old-switch -->
 </body>
 </html>

@@ -28,7 +28,7 @@ const OFFICIAL_BRIEF = { file: 'Screen_Design_Assessment_Brief_CAF_2026-27.docx'
    the form exists; the materials page says "posted in class" until then. Paste
    the form's share link here and nothing else needs to change. */
 const MARKING_FORM = { council: '' };
-/* The feedback forms: the week 7 checkpoint and the optional second round in week 9. Paste each
+/* The feedback forms: the optional check-in in week 7 and the second round in week 9. Paste each
    form's share link here; until then the pages say the link comes in class. */
 const FEEDBACK_FORM = { w7: 'https://forms.cloud.microsoft/e/FkCJKpKu2d', w9: 'https://forms.cloud.microsoft/e/tSchWyEaBF' };
 
@@ -40,7 +40,7 @@ const SESSIONS = [
     led:'Mike', you:'Watch Mike build his own deck' },
   { k:'workshop', n:'Workshop 1', from:'10:00', to:'12:00', hrs:2,
     who:'3 groups · 30–35 each', where:'Breakout rooms', building:'Room allocation TBC',
-    led:'Your group tutor', you:'Make one piece of your hand-in' },
+    led:'Your group tutor', you:'Make this week’s part of your hand-in' },
   { k:'support',  n:'Workshop 2',  from:'14:00', to:'16:00', hrs:2,
     who:'Drop in, any group', where:'Same rooms', building:'After the lunch break',
     led:'Drop-in and office hours', you:'Work on your deck · ask · get feedback' }
@@ -87,9 +87,9 @@ const PARTS = [
     h:"Hex codes with roles, and a contrast ratio for every text/background pair: at least 4.5:1 for ordinary text, 3:1 for large text and icons. <a href=\"gallery.html#contrast\">What a ratio means</a>.",
     f:["Background:  #","Surface:     #","Body text:   #","Quiet text:  #","Accent:      #","",
        "CONTRAST — every text on every background it sits on","  body on background   =      :1","  quiet on background  =      :1","  body on surface      =      :1","  accent on background =      :1"]},
-   {sec:"A6", t:"Accessibility", dw:9, d:"A few people and situations, each answered",
-    h:"Who might find your design hard to use, and why: a few people and situations, and what your design does for each. Touch targets, focus and cues that don’t rely on colour are good places to start.",
-    f:["Who, and in what situation:","What makes it hard:","What my design does about it:","","Who, and in what situation:","What makes it hard:","What my design does about it:"]},
+   {sec:"A6", t:"Designing for everyone", dw:7, d:"Three people in hard situations, one decision each",
+    h:"Three people in hard situations, and what your design does for each, on which screen. Start from the cards in <a href=\"inclusive.html\">Design for everyone</a>, copy them, and change the words to fit your service. One line each: in week 9, C5 picks one of them and says why it matters.",
+    f:["Who, and in what situation:","What makes it hard:","What my design does, and on which screen:","","Who, and in what situation:","What makes it hard:","What my design does, and on which screen:","","Who, and in what situation:","What makes it hard:","What my design does, and on which screen:"]},
    {sec:"A7", t:"AI use log", dw:6, d:"Every AI use has a line",
     h:"One bullet for every time you use AI, as you go: which tool, what for, and what it gave you. You judge it later, in C8. Not using AI? One line: No AI used. <a href=\"toolkit.html#ai\">Using AI in this module</a>.",
     f:["One bullet for every time you use AI: which tool, what for, and what it gave you.","","•  e.g. ChatGPT, to suggest colour palettes for a bakery: three palettes. I kept none, but took the idea of warm neutrals.","•","•","","Not using AI? One line: No AI used."]}
@@ -98,18 +98,18 @@ const PARTS = [
   desc:"Everything visual. Paste images straight into the deck as you make them. Screens get one slide each.",
   items:[
    {sec:"B1", t:"Concept sketches", dw:3, d:"Photo in the deck",
-    h:"Rough sketches of your main screen, photographed — quick, on paper, several versions. Your week 2 thumbnails, if you made them.",
+    h:"One screen, drawn eight different ways, quick and rough on paper, so you can pick the idea you would build. Wireframes (B5) are the same kind of drawing with a different job: every screen, drawn once, the way you chose. The sketch you circle here can become that screen’s wireframe. Your eight concept sketches from week 2 go here.",
     f:["[ paste photos of your layouts ]","Caption (it must fit on the slide):"]},
    {sec:"B2", t:"Mood board", dw:6, d:"One page, with sources and a date",
     h:"As many images as you need on one page, at least five or six: the feeling your design is aiming for. Generated images or your own photos, each with its source and a date, like November 2026.", f:["[ paste mood board ]","Caption (it must fit on the slide):"]},
    {sec:"B3", t:"Style tile", dw:6, d:"One page",
     h:"Type, colour and spacing with sample components. Build it in the <a href=\"gallery.html#tile\">Gallery</a>, or make your own.", f:["[ paste style tile ]","Caption (it must fit on the slide):"]},
    {sec:"B4", t:"Flow diagram", dw:7, d:"Before and after, mapped",
-    h:"The journey as boxes and arrows: how people do it now (week 5), and your screens beside it (week 7). The Flow maker draws both and counts them; a photo of paper is just as good.", f:["[ paste flow diagram ]","Caption (it must fit on the slide):"]},
+    h:"The journey as boxes and arrows: how people do it now (week 5), and your screens beside it (week 7). The Flow maker draws both and counts them; <a href=\"https://app.diagrams.net/\" target=\"_blank\" rel=\"noopener\">draw.io</a> or a photo of paper is just as good.", f:["[ paste flow diagram ]","Caption (it must fit on the slide):"]},
    {sec:"B5", t:"Wireframe set", dw:8, d:"One per screen in A2",
-    h:"Every screen of your journey wireframed: boxes and labels, sketched on paper or made in the <a href=\"screen-maker.html\">Screen maker</a>. Either counts.", f:["[ paste wireframes ]","Caption (it must fit on the slide):"]},
+    h:"Every screen of your journey, drawn once, the way you chose: boxes, labels and real words, no colour yet. The concept sketch you circled in B1 can be the first one, redrawn with real words. On paper, in the <a href=\"screen-maker.html\">Screen maker</a> or in <a href=\"https://app.diagrams.net/\" target=\"_blank\" rel=\"noopener\">draw.io</a>: any of them counts.", f:["[ paste wireframes ]","Caption (it must fit on the slide):"]},
    {sec:"B6", t:"The finished screens", dw:9, d:"Every screen of the journey",
-    h:"Your journey, one screen per slide, built from A3\u2013A5. Which <a href=\"style-kit.html#fidelity\">level of finish</a> they need.", f:["[ paste screens ]","Caption (it must fit on the slide):"]},
+    h:"Every screen of your journey finished, one per slide: your real words, with the grid, type and colours from A3\u2013A5 and your style tile. Make them in PowerPoint, Google Slides, Figma or anything you like.", f:["[ paste screens ]","Caption (it must fit on the slide):"]},
    {sec:"B7", t:"Other screen sizes (optional)", dw:9, d:"Only if your project needs them", opt:true,
     h:"Optional. If your journey is used on more than one size of screen, show your key screens at those sizes \u2014 adapted, not shrunk. Improving the flow matters more than making more screens.", f:["[ paste screens at other sizes, if you made any ]","Caption (it must fit on the slide):"]},
    {sec:"B8", t:"Click-through", dw:10, d:"The journey, start to finish",
@@ -119,35 +119,35 @@ const PARTS = [
        "Every step links to the next, with a way back and a way out. Links are checked for existence and destination, not elegance."]}
   ]},
  {id:"C", name:"Rationale", tag:"short written answers",
-  desc:"The written part, drafted in the week that made each decision (the week is on each section). Every one quotes a number from Part A.",
+  desc:"The written part, about 500–700 words in all: about 70–90 words for each of C1–C8, drafted in the week that made each decision. C1–C5 each quote something from Part A; C6–C8 each name one decision on your screens.",
   items:[
    {sec:"C1", t:"Theme & audience", dw:10, d:"Quoting A1",
     h:"Who it is for, what they need, why this topic.",
-    f:["(One slide at most — quote something from A1)"]},
+    f:["(About 70–90 words — quote something from A1)"]},
    {sec:"C2", t:"Layout & hierarchy", dw:10, d:"Quoting A3",
     h:"What you wanted read first, and the grid that made it happen.",
-    f:["(One slide at most — quote a number from A3)"]},
+    f:["(About 70–90 words — quote a number from A3)"]},
    {sec:"C3", t:"Typography", dw:10, d:"Quoting A4",
     h:"Why this pairing, this scale, this measure.",
-    f:["(One slide at most — quote the ratio from A4)"]},
+    f:["(About 70–90 words — quote a size or the scale from A4)"]},
    {sec:"C4", t:"Colour", dw:10, d:"Quoting A5",
     h:"Why these colours, and what the contrast figures changed.",
-    f:["(One slide at most — quote a ratio from A5)"]},
-   {sec:"C5", t:"User needs & accessibility", dw:9, d:"Quoting A6",
-    h:"How your choices serve user needs and accessibility, quoting A6 and your before-and-after counts. Required by the brief. Get the evidence by measuring it yourself: never test your design with other people, because that needs ethics approval this assessment does not have.",
-    f:["(One slide at most — quote a value from A6)","","The brief asks for this one by name."]},
+    f:["(About 70–90 words — quote a contrast ratio from A5)"]},
+   {sec:"C5", t:"User needs & accessibility", dw:9, d:"Quoting a decision from A6",
+    h:"About 70–90 words, written in week 9, once your screens are finished. A6 lists what you decided; C5 argues for one of those decisions. Pick the one that helps the most people, say who it helps and why, and name the finished screen it is on. Your before-and-after counts can back it up. Required by the brief. Do not test your design with people outside class: that needs ethics approval this assessment does not have. A classmate looking at your work in class is practice, not evidence.",
+    f:["(About 70–90 words — quote one decision from A6)","","The brief asks for this one by name."]},
    {sec:"C6", t:"Ethics or sustainability", dw:10, d:"One dimension named",
-    h:"One environmental, ethical or social dimension of your design. Required by the brief.",
-    f:["(One slide at most)","","Pick ONE and be concrete. Data you chose not to collect. A dark pattern you",
+    h:"One environmental, ethical or social dimension of your design, and one decision on your screens that answers it. Required by the brief.",
+    f:["(About 70–90 words — name one decision on your screens)","","Pick ONE and be concrete. Data you chose not to collect. A dark pattern you",
        "refused. Image weight and what it costs to load. Something you made work",
        "without an account."]},
-   {sec:"C7", t:"A cross-cultural consideration", dw:5, d:"One consideration named",
-    h:"One cross-cultural communication point relevant to your design. Required by the brief.",
-    f:["(One slide at most)","","Pick ONE: colour symbolism · reading direction · icon universality ·",
+   {sec:"C7", t:"A cross-cultural consideration", dw:7, d:"One consideration named",
+    h:"One cross-cultural communication point relevant to your design, and the decision on your screens that answers it. Required by the brief. Eight are on <a href=\"inclusive.html#c7\">Design for everyone</a>, each with a paragraph to copy and edit: names, dates, addresses, colour, icons, translation, money, titles.",
+    f:["(About 70–90 words — name one decision on your screens)","","Pick ONE: colour symbolism · reading direction · icon universality ·",
        "cultural specificity of the imagery you used."]},
    {sec:"C8", t:"Your AI use", dw:6, d:"Your use judged, or a reason for not using any",
     h:"Which tools, for what, and how you evaluated or changed the output. Or why you chose not to use any, and what you did instead: that counts the same. Required by the brief. <a href=\"toolkit.html#no-ai\">If you choose not to use AI</a>.",
-    f:["(One slide at most)","","Not the same as the A7 log. A7 is the record; this is what you make of it —",
+    f:["(About 70–90 words)","","Not the same as the A7 log. A7 is the record; this is what you make of it —",
        "was the output any good, whose work is it, what did you change and why."]},
    {sec:"C9", t:"References", dw:11, d:"Everything you cited, listed",
     h:"<a href=\"http://libguides.mmu.ac.uk/refguide\">Cite Them Right Harvard</a>: cite in the text, and list everything here. The list does not count toward the 500\u2013700 words; in-text citations do.",
@@ -175,8 +175,8 @@ const PARTS = [
     h:"The two places your change matters most: before on the left, after on the right, and one line under each pair saying what changed.",
     f:["[ before ]   [ after ]","What changed:","","[ before ]   [ after ]","What changed:"]},
    {sec:"D4", t:"AI statement", dw:11, d:"Used or not, said plainly",
-    h:"Whether you used AI. If you did: which tools, for what, where in the deck, and why. If you did not, one line: No AI was used. <a href=\"toolkit.html#ai\">Using AI in this module</a>.",
-    f:["AI used:  yes / no","","If yes, for each use:","  Tool:","  What for:","  Where in the deck (section):","  Why:","","If no:  No AI was used in this portfolio."]}
+    h:"Whether you used AI, said plainly. If you did, point to your log in A7 and say where in the deck it shows. If you did not, one line: No AI used. <a href=\"toolkit.html#ai\">Using AI in this module</a>.",
+    f:["AI used:  yes / no","","If yes: every use is logged in A7. It shows in these sections:","","If no:  No AI used."]}
   ]}
 ];
 
@@ -274,7 +274,25 @@ const SD = (() => {
     d.toLocaleTimeString('en-GB', {hour:'2-digit', minute:'2-digit'});
   const fmtShort = d => d.toLocaleDateString('en-GB', {day:'numeric', month:'short'});
 
-  return { start, dead, all, total: all.length, week, dateOf, mondayOf, daysToDeadline,
+  /** The feedback form running now, or null: the week 7 form in weeks 7 and 8, the week 9 form in weeks 9
+   *  and 10. The bar's "Feedback form" link uses the same dates (navfix bakes them in). */
+  function feedback(now = new Date()){
+    const w = week(now), k = (w === 7 || w === 8) ? 'w7' : (w === 9 || w === 10) ? 'w9' : null;
+    return k && FEEDBACK_FORM[k] ? { k, u: FEEDBACK_FORM[k] } : null;
+  }
+  /** The feedback form as one big, obvious card: one definition for every page that shows it. */
+  function fbCard(f = feedback()){
+    if (!f) return '';
+    if (!document.getElementById('fbcss')) { const st = document.createElement('style'); st.id = 'fbcss'; st.textContent =
+      '.fbc{display:flex;flex-wrap:wrap;align-items:center;gap:12px 20px;background:var(--surface);border:2px solid var(--lec);border-radius:14px;padding:16px 20px;margin:18px 0;max-width:820px}' +
+      '.fbc .fbt{flex:1 1 300px;color:var(--ink-2);line-height:1.45;margin:0}.fbc .fbt b{display:block;font-size:1.18rem;color:var(--ink);margin-bottom:3px}' +
+      '.fbc a.fbb{display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding:10px 22px;border-radius:10px;background:var(--lec);color:#fff;font-weight:700;font-size:1.04rem;text-decoration:none;white-space:nowrap}' +
+      '.fbc a.fbb:hover{filter:brightness(1.1)}.fbc a.fbb:focus-visible{outline:3px solid var(--ink);outline-offset:2px}html[data-theme="dark"] .fbc a.fbb{color:#151314}';
+      document.head.appendChild(st); }
+    return `<div class="fbc"><p class="fbt"><b>Want feedback on your deck?</b>Fill in the feedback form and Mike will give you feedback, as comments right in your deck. Share your deck with Mike first. It takes two minutes, and it is optional.</p><a class="fbb" href="${f.u}" target="_blank" rel="noopener">Open the feedback form</a></div>`;
+  }
+
+  return { start, dead, all, total: all.length, week, dateOf, mondayOf, daysToDeadline, feedback, fbCard,
            SESSIONS, DAY: TERM.DAY, PARTS, skeleton, slideText,
            expectedBy, dueIn, partDeadlines, read, write, doneCount, isDone, fmt, fmtFull, fmtShort, WEEKS: TERM.WEEKS };
 })();
