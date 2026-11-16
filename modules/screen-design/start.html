@@ -196,6 +196,7 @@
   table.cmp th,table.cmp td{padding:8px 12px;border-bottom:1px solid var(--line);text-align:left}
   table.cmp th{font-size:0.78rem;color:var(--ink-3);font-weight:600} table.cmp td:nth-child(n+2){font-family:var(--mono);white-space:nowrap}
   table.cmp tr:last-child td{border-bottom:0}
+  table.cmp.map{max-width:820px} table.cmp.map td:nth-child(n+2){font-family:inherit;white-space:normal}
   .todo{counter-reset:s;list-style:none;margin:8px 0 0;padding:0;display:grid;gap:10px;max-width:760px}
   .todo li{counter-increment:s;display:grid;grid-template-columns:40px minmax(0,1fr);gap:12px;background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:12px 14px}
   .todo li::before{content:counter(s);width:32px;height:32px;border-radius:50%;background:var(--ink);color:var(--bg);font-weight:700;display:grid;place-items:center}
@@ -294,7 +295,7 @@
     <figure><img src="ws/council-B5.png" alt="Four wireframes in grey boxes, one for each screen" loading="lazy"><figcaption><b>2 · Wireframes</b> (B5): every screen, drawn once, the way you chose: boxes, labels and real words, no colour yet. Your circled sketch can become one.</figcaption></figure>
     <figure><img src="ws/council-B6.png" alt="The same start screen finished, with type, colour and real content" loading="lazy"><figcaption><b>3 · Finished screens</b> (B6): every screen with your grid, type and colours, one per slide.</figcaption></figure>
   </div>
-  <p class="sub"><b>Concept sketch or wireframe?</b> The same kind of drawing, with a different job. A concept sketch finds the idea for one screen; a wireframe draws every screen once, the way you chose.</p>
+  <p class="sub"><b>Concept sketch or wireframe?</b> The same kind of drawing, with a different job. A concept sketch finds the idea for one screen; a wireframe draws every screen once, the way you chose. <b>You need all three stages in your deck, even when they look alike</b>: the brief asks for sketches, wireframes and a prototype, and a marker can only credit a step they can see.</p>
   <p class="src">From Example 2 on <a href="examples.html">Examples</a>, a made-up council tax form. Copy how it works, not its topic: your project is yours.</p>
 
   <h2>A bad experience</h2>
@@ -345,7 +346,7 @@
   <p class="sub" style="margin-top:12px">Everything goes in one PowerPoint deck, and you hand it in as one PDF.</p>
 
   <h2>What you hand in, and where it goes in your deck</h2>
-  <table class="cmp"><thead><tr><th>The brief asks for</th><th>Your deck</th></tr></thead><tbody>
+  <table class="cmp map"><thead><tr><th>The brief asks for</th><th>Your deck</th></tr></thead><tbody>
     <tr><td><b>1 · A clickable prototype</b></td><td>B6 to B8: your finished screens, linked</td></tr>
     <tr><td><b>2 · Process work</b></td><td>Part A (your numbers), B1 to B5 (sketches to wireframes), Part D (the before and after)</td></tr>
     <tr><td><b>3 · A rationale of 500–700 words</b></td><td>Part C: C1 to C8, about 70–90 words each</td></tr>
@@ -356,13 +357,12 @@
   <footer><p>Screen Design · Level 4 · 30 credits · 2026–27</p></footer>
 </div>
 
-<script src="sd-common.js?v=202611162240"></script>
+<script src="sd-common.js?v=202611162308"></script>
 <script>
 document.getElementById('due').textContent = SD.fmtFull(SD.dead);
 (function () { const w = SD.week(); if (w >= 1 && w <= SD.WEEKS) { const a = document.getElementById('thisweek'); a.href = 'weeks.html?w=' + w; a.textContent = 'This week: week ' + w; }
   /* the optional check-in, in the weeks it runs */
-  const c = document.getElementById('checkin'), card = SD.fbCard();
-  if (card) { c.hidden = false; c.innerHTML = card; } })();
+  const c = document.getElementById('checkin'); c.hidden = false; c.innerHTML = SD.helpRow(); })();
 const root = document.documentElement;
 try { const t = localStorage.getItem('sd-theme'); if (t) root.dataset.theme = t; } catch (e) {}
 document.getElementById('theme').onclick = () => {

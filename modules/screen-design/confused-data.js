@@ -1,0 +1,112 @@
+/* The things students mix up, in their own words, each tied to the checklist sections it is about.
+   One list for two pages: confused.html shows it all, and the checklist puts a "Confused?" link on every
+   section an answer names, so the two can never drift apart. Answers repeat rules that live elsewhere
+   (sd-common.js, weeks-data.js): change the rule there first, then the answer here.
+   An item: { id, short (the checklist's link label), q, a (HTML), secs, see: [[label, href]], img: [[file, caption]] } */
+const CONFUSED = [
+  { g: 'Which is which?', sub: 'Words that sound alike, and pieces of the deck that look like the same thing.', items: [
+    { id: 'sketch-wireframe', short: 'sketch or wireframe?', secs: ['B1', 'B5'],
+      q: 'Concept sketch or wireframe? Aren’t they the same?',
+      a: 'The same kind of drawing, with a different job. A <b>concept sketch</b> finds the idea for <b>one screen</b>: drawn eight ways, quick and rough, on paper (week 2). A <b>wireframe</b> draws <b>every screen once</b>, the way you chose: boxes, labels and real words, no colour (week 8). The sketch you circled can become that screen’s wireframe.',
+      img: [['council-B1.png', 'B1: one screen, eight ways'], ['council-B5.png', 'B5: every screen, once']] },
+    { id: 'need-all', short: 'do I need all three?', secs: ['B1', 'B5', 'B6'],
+      q: 'Do I need sketches, wireframes and finished screens, even if they look alike?',
+      a: '<b>Yes, all three.</b> The brief asks for “a credible design process (sketches, wireframes, prototype)”, and a marker can only credit a step they can see. The same screen at three stages is the point: it shows how your design got there. If your wireframe looks a lot like the sketch you circled, keep both. That shows the idea held up.',
+      img: [['council-B1.png', 'B1: concept sketches'], ['council-B5.png', 'B5: wireframes'], ['council-B6.png', 'B6: finished']] },
+    { id: 'wireframe-finished', short: 'wireframe or finished?', secs: ['B5', 'B6'],
+      q: 'Wireframe or finished screen?',
+      a: 'A wireframe has no colour and no chosen fonts: boxes, labels and real words. A finished screen uses your own grid, type and colours from A3 to A5, one screen per slide. If you are choosing a font, it is B6.',
+      img: [['council-B5.png', 'B5: a wireframe'], ['council-B6.png', 'B6: the same screen, finished']] },
+    { id: 'finished-prototype', short: 'screens or prototype?', secs: ['B6', 'B8'],
+      q: 'Finished screens or prototype?',
+      a: 'The prototype is your finished screens, linked so they click through, start to finish, in the PDF. Nothing new to draw: B8 is the links (week 10).' },
+    { id: 'flow-wireframe', short: 'flow or wireframe?', secs: ['B4', 'B5'],
+      q: 'Flow diagram or wireframe?',
+      a: 'A flow is the <b>whole journey</b> as boxes and arrows, one box per step: how people do it now, and your version beside it. A wireframe is what <b>one screen</b> looks like.' },
+    { id: 'mood-tile', short: 'mood board or style tile?', secs: ['B2', 'B3'],
+      q: 'Mood board or style tile?',
+      a: 'The mood board is pictures for the <b>feel</b>, each with its source and a date. The style tile is your <b>actual</b> type, colours and buttons, every value from A3 to A5.' },
+    { id: 'one-journey', short: 'A2, B4 and D2', secs: ['A2', 'B4', 'D2'],
+      q: 'A2, B4 and D2: aren’t they the same journey?',
+      a: 'Yes, said three ways. <b>A2</b> counts the steps, before and after. <b>B4</b> draws them as boxes and arrows. <b>D2</b> says what happened to each step, and why: kept, merged, moved or removed. The Flow maker gives you all three.' },
+    { id: 'a6-c5', short: 'A6 or C5?', secs: ['A6', 'C5'],
+      q: 'A6 or C5?',
+      a: '<b>A6 says what</b> you decided: three people in hard situations, one line each (week 7). <b>C5 says why</b> one of those decisions matters, about 70–90 words, written once your screens are finished (week 9).',
+      see: [['Design for everyone', 'inclusive.html']] },
+    { id: 'c6-c7', short: 'C6 or C7?', secs: ['C6', 'C7'],
+      q: 'C6 or C7? Both name a decision on my screens.',
+      a: '<b>C6 is ethics or sustainability</b>: who could be harmed, or what is wasted. Data you chose not to ask for, a trick you refused, a heavy picture you left out (week 9). <b>C7 is a cross-cultural point</b>: someone from another culture reading your screens. Names, dates, colours, icons (week 7).',
+      see: [['C7 cards, ready to edit', 'inclusive.html#c7']] },
+    { id: 'before-after', short: 'D1, D2 and D3', secs: ['D1', 'D2', 'D3'],
+      q: 'D1, D2 and D3: three kinds of before and after?',
+      a: '<b>D1</b> is the before: one screenshot or photo per step, numbered to match A2. <b>D2</b> lists every step and what happened to it in your version, with a reason. <b>D3</b> puts your two most changed screens side by side, before beside after.' },
+    { id: 'ai-three', short: 'A7, C8 and D4', secs: ['A7', 'C8', 'D4'],
+      q: 'AI comes up three times. Which is which?',
+      a: '<b>A7</b> is your log, kept as you go: one bullet each time. <b>C8</b> is what you think of it, about 70–90 words. <b>D4</b> is the statement at the end, pointing to A7. Not using AI is fine: “No AI used.” in A7 and D4, and C8 says why.',
+      see: [['Using AI', 'toolkit.html#ai']] },
+    { id: 'part-a-c', short: 'Part A or Part C?', secs: ['A3', 'A4', 'A5', 'C2', 'C3', 'C4'],
+      q: 'Part A and Part C: why write things twice?',
+      a: 'You don’t. <b>Part A is the numbers</b>: your grid, sizes, colours and counts. <b>Part C is the reasons</b>: C1 to C5 each quote a number from Part A, and C6 to C8 each name one decision on your screens. Quoting your own number is what turns a description into an argument.' },
+  ]},
+  { g: 'Am I behind?', sub: 'Everyone is at a different point. This is how to find yours.', items: [
+    { id: 'late', short: 'joined late?', secs: ['A1', 'A2', 'D1'],
+      q: 'I joined late, or missed some weeks. Where do I start?',
+      a: 'Follow the five steps on Start here, in that order. Then open the checklist: anything you are behind on is marked <b>Behind: due by week …</b>. Do the earliest first, and bring the gap to Workshop 2.',
+      see: [['Joined late? Five steps', 'start.html#late']] },
+    { id: 'when-final', short: 'when is it due?', secs: [],
+      q: 'Do I have to finish each section in the week it is taught?',
+      a: 'No. Each section on the checklist says the week it starts and the week it should be final. Nothing is handed in until the end: one PDF, by {due}.' },
+  ]},
+  { g: 'Am I allowed to…?', sub: 'Usually yes. The two real noes are here too.', items: [
+    { id: 'tools', short: 'which tool?', secs: ['B1', 'B4', 'B5', 'B6'],
+      q: 'Can I use Figma, draw.io, or just paper?',
+      a: 'Paper counts the same as software. Concept sketches: paper, because you get eight in the time Figma gets you one. Flows and wireframes: paper, the Flow maker or Screen maker, or draw.io. Finished screens: PowerPoint, Google Slides or Figma.' },
+    { id: 'ai-allowed', short: 'is AI allowed?', secs: ['A7', 'C8'],
+      q: 'Am I allowed to use AI?',
+      a: 'Yes. The brief allows it, and not using it costs you nothing. The decisions and the argument stay yours. Log every use in A7 as you go.',
+      see: [['What is allowed', 'toolkit.html#ai']] },
+    { id: 'testing', short: 'can I test it?', secs: ['C5'],
+      q: 'Can I test my design with friends or family?',
+      a: '<b>No.</b> Testing with people outside class needs ethics approval this assessment does not have. Swapping work with a classmate in class is fine, but it is practice, not evidence: don’t quote it. Your evidence is your own counts, before and after.' },
+    { id: 'change', short: 'can I change it later?', secs: ['A3', 'A4', 'A5'],
+      q: 'Can I change my grid, type or colours later?',
+      a: 'Yes. If your grid doesn’t fit once you build the screens, fix it and update A3. That is allowed, and honest.' },
+    { id: 'copy-example', short: 'can I copy the example?', secs: [],
+      q: 'Can I copy the example?',
+      a: 'Copy <b>how it works</b>, not what it says. It is a made-up council form, and your project is yours. It also has mistakes on purpose: read the marker’s notes beside each slide before you copy anything.',
+      see: [['Examples, with the marker’s notes', 'examples.html']] },
+  ]},
+  { g: 'Saying what’s wrong', sub: 'If criticising feels rude, read this one.', items: [
+    { id: 'criticise', short: 'is it rude?', secs: ['A2', 'D1'],
+      q: 'Isn’t it rude to criticise a real service?',
+      a: 'No. Saying clearly what goes wrong, and for whom, is the job, and it is what gets marked. You are judging a screen, not the people who made it. Count, and the numbers make the case for you. Two sentences that do it:<br>“Step 3 asks for a council tax number, which students don’t get until the first bill arrives.”<br>“The error shows only as a red border, so someone who can’t tell red from green won’t see it.”' },
+    { id: 'opinion', short: 'what if I’m wrong?', secs: ['C1', 'C2', 'C3', 'C4'],
+      q: 'What if my opinion is wrong?',
+      a: 'A design decision isn’t right or wrong: it is argued. Say what you chose, what you rejected, and why. A section that only describes what you made is the weak one.' },
+  ]},
+  { g: 'How much is enough?', sub: 'The numbers, in one place.', items: [
+    { id: 'words', short: 'how many words?', secs: ['C1', 'C9'],
+      q: 'How long is each part of the rationale?',
+      a: 'C1 to C8: about 70–90 words each, never more than one slide. The whole rationale is 500–700 words. The reference list in C9 does not count.' },
+    { id: 'how-many', short: 'how many?', secs: ['B2', 'B6', 'B7'],
+      q: 'How many images, screens and slides?',
+      a: 'Mood board: five or six images at least. Finished screens: every screen in A2, one per slide. Other screen sizes (B7) only if your journey needs them.' },
+    { id: 'hand-in', short: 'what do I hand in?', secs: ['B8'],
+      q: 'What exactly do I hand in?',
+      a: 'One deck, exported as <b>one PDF</b>. Open the PDF and click every link before you hand it in: a link that works in PowerPoint can vanish in the PDF, and the PDF is what gets marked.',
+      see: [['How to hand in', 'assessment.html#handin']] },
+  ]},
+  { g: 'Words we use', sub: 'Plain meanings, for anyone new to this.', items: [
+    { id: 'words-we-use', short: 'words we use', secs: [],
+      q: 'Deck, journey, state, contrast ratio: what do they mean here?',
+      a: '<dl class="gl">'
+        + '<dt>Deck</dt><dd>Your one PowerPoint or Google Slides file. Everything goes in it.</dd>'
+        + '<dt>Section</dt><dd>One slide of the deck, like A1 or B5. The checklist lists them all.</dd>'
+        + '<dt>Journey</dt><dd>Every step someone takes to get one thing done, start to finish.</dd>'
+        + '<dt>State</dt><dd>What a screen looks like empty, loading, or when something fails.</dd>'
+        + '<dt>Rationale</dt><dd>Part C: why your design looks the way it does.</dd>'
+        + '<dt>Contrast ratio</dt><dd>How far a text colour stands out from its background, like 4.5:1.</dd>'
+        + '<dt>Process work</dt><dd>Everything that shows how you got there: sketches, wireframes, mood board, style tile.</dd>'
+        + '</dl>' },
+  ]},
+];

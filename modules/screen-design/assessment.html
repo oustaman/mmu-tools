@@ -269,6 +269,7 @@
   .it-tools{align-items:center}
   .it-tools a.go{font-size:0.86rem;font-weight:700;color:#fff;background:var(--lec);border-color:var(--lec);border-radius:8px;padding:6px 14px;min-height:34px;display:inline-flex;align-items:center;gap:6px}
   .it-tools a.go:hover{filter:brightness(1.1)}
+  .it-tools a.cf{color:var(--ink-2);border-style:dashed}
   html[data-theme="dark"] .it-tools a.go{color:#151314}
   .it-tools a:focus-visible{outline:2px solid var(--lec);outline-offset:2px}
   .deckn{margin:8px 0 0;font-size:0.8rem;color:var(--ink-2)} .deckn b{color:var(--ink)}
@@ -418,9 +419,10 @@
   </footer>
 </div>
 
-<script src="sd-common.js?v=202611162240"></script>
-<script src="weeks-data.js?v=202611162240"></script>
-<script src="tools-data.js?v=202611162240"></script>
+<script src="sd-common.js?v=202611162308"></script>
+<script src="weeks-data.js?v=202611162308"></script>
+<script src="confused-data.js?v=202611162308"></script>
+<script src="tools-data.js?v=202611162308"></script>
 <script>
 /* The list lives in sd-common.js so the hub can read it too — one source, so
    the progress bar there and the ticks here can never disagree. */
@@ -475,7 +477,8 @@ const GO = {
 const base = u => u.split(/[?#]/)[0];
 const toolLinks = x => { const go = GO[x.sec] || [], seen = new Set(go.map(g => base(g[1])));
   return go.map(([t, u]) => `<a class="go" href="${u}">${escT(t)} <span aria-hidden="true">→</span></a>`).join('')
-    + TOOLS_FOR(x.sec).filter(it => !seen.has(base(it[1]))).map(it => `<a href="${it[1]}"${it[1].startsWith('http') ? ' target="_blank" rel="noopener"' : ''}>${escT(it[0])}</a>`).join(''); };
+    + TOOLS_FOR(x.sec).filter(it => !seen.has(base(it[1]))).map(it => `<a href="${it[1]}"${it[1].startsWith('http') ? ' target="_blank" rel="noopener"' : ''}>${escT(it[0])}</a>`).join('')
+    + CONFUSED.flatMap(g => g.items).filter(c => c.secs.includes(x.sec)).map(c => `<a class="cf" href="confused.html#${c.id}">Confused? ${escT(c.short)}</a>`).join(''); };
 const escT = s => String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
 const thumb = x => { const lines = (x.f || []).filter((l, i, a) => !(l === '' && a[i - 1] === '')).slice(0, 7);
   const n = slidesOf(x)[2];
@@ -701,7 +704,8 @@ document.querySelectorAll('.seccount').forEach(el => {
   el.textContent = PARTS.reduce((n, p) => n + p.items.length, 0);
 });
 </script>
-<script>(function () { const card = SD.fbCard(), l = document.querySelector('.ckin'); if (card && l) l.outerHTML = card; })();</script>
+<script>(function () { const f = SD.feedback(), l = document.querySelector('.ckin'); if (!l) return;
+  if (f) l.outerHTML = SD.helpRow(f); else l.insertAdjacentHTML('afterend', SD.helpRow(null)); })();</script>
 <script>document.querySelectorAll('[data-form]').forEach(a => { const u = FEEDBACK_FORM[a.dataset.form]; if (u) a.href = u; else a.removeAttribute('target'); });</script>
 <!-- old-switch (navfix) --><p class="oldsw"><a id="oldsw" href="../sd/assessment.html?old=1">Switch to the old version</a></p><script>(function(){var a=document.getElementById("oldsw"),q=location.search;a.href="../sd/assessment.html"+(q?q+"&":"?")+"old=1"+location.hash;})();</script><!-- /old-switch -->
 </body>
