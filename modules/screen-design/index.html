@@ -436,23 +436,24 @@
     <div class="three">
       <div class="card"><span class="k">Fastest</span><h3>Workshop 2: drop-in and office hours</h3>
         <ul><li>14:00–16:00 every Tuesday</li><li>Same rooms as your workshop</li><li>Just turn up</li></ul></div>
-      <div class="card"><span class="k">Booked</span><h3>10-minute check-in</h3>
-        <ul><li>Sign up in advance</li><li>~3 each per semester</li><li>Bring your deck</li></ul></div>
+      <div class="card"><span class="k">Confused?</span><h3>The questions students ask most</h3>
+        <ul><li>Sketch or wireframe? A6 or C5?</li><li>Each answer linked to your checklist</li><li><a href="confused.html">See the answers</a>, or ask Mike</li></ul></div>
       <div class="card"><span class="k">Missed a week?</span><h3>Catch up</h3>
         <ul><li>Open that week in <a href="weeks.html">Week by week</a></li><li>Open its workshop slides and do the steps</li><li>Bring the gap to Workshop 2</li></ul></div>
     </div>
+    <div id="office"></div>
   </section>
 
   <footer>
     <p><b>Screen Design</b> · Level 4 · 30 credits · Semester 1 · <code>1L4Z0045</code> · School of English,
       Faculty of Arts and Humanities. Approved v1.0, 29 July 2025. Module coordinator Michail Oustamanolakis.</p>
-    <p><a href="../sd/index.html">Browse the older version of this site</a></p>
+    <p><a href="../sd/index.html?old=1">Browse the older version of this site</a></p>
   </footer>
 </div>
 
 
-<script src="sd-common.js?v=202611162245"></script>
-<script src="weeks-data.js?v=202611162245"></script>
+<script src="sd-common.js?v=202611162309"></script>
+<script src="weeks-data.js?v=202611162309"></script>
 <script>
 /* The table is derived from weeks-data.js, not kept a second time. An earlier
    version held its own copy of the eleven weeks and the two drifted the moment
@@ -541,7 +542,7 @@ document.getElementById('hbar').innerHTML = SD.SESSIONS.map(x => `
       <span class="nb-days">${days > 0 ? `<b>${days}</b> days to hand in` :
         days === 0 ? '<b>Due today</b>' : '<b>Deadline passed</b>'}</span></div>
     <p class="nb-do">${title}</p>
-    ${SD.fbCard()}
+    ${SD.helpRow()}
     ${list ? `<p class="nb-lab">Sections to fill in</p><ul class="nb-list">${list}</ul>` : ''}
     ${weekLink ? `<a class="nb-week" href="${weekLink}">Open week ${w} \u2192</a>` : ''}
     <div class="nb-bar">
@@ -565,6 +566,7 @@ document.getElementById('hbar').innerHTML = SD.SESSIONS.map(x => `
 const fill = (id, n) => { const el=document.getElementById(id); if(!el) return;
   el.innerHTML = Array.from({length:n}, ()=>'<i></i>').join(''); };
 fill('d100',100); fill('dg1',33); fill('dg2',33); fill('dg3',34);
+document.getElementById('office').innerHTML = SD.officeCard();
 
 const root=document.documentElement;
 try{ const t=localStorage.getItem('sd-theme'); if(t) root.dataset.theme=t; }catch(e){}
