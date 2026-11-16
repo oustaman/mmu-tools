@@ -209,6 +209,7 @@
   /* numbered markers, on the screen and in the pane */
   .pin{position:absolute;z-index:8;width:32px;height:32px;margin:-16px 0 0 -16px;border-radius:50%;color:#fff;font:700 15px/32px system-ui,sans-serif;text-align:center;box-shadow:0 0 0 3px #fff,0 2px 8px rgba(0,0,0,.3);cursor:pointer;transition:transform .15s}
   .pin.bad,.dot.bad{background:#B3261E} .pin.good,.dot.good{background:#00703C}
+  .dot.wsh{background:var(--wsh)} html[data-theme="dark"] .dot.wsh{color:#151314}
   .pin.hot{transform:scale(1.35);box-shadow:0 0 0 3px #fff,0 0 0 7px rgba(255,221,0,.95)}
   .ring{position:absolute;z-index:7;border:3px solid #FFDD00;border-radius:6px;box-shadow:0 0 0 2px #0B0C0C;pointer-events:none;opacity:0;transition:opacity .15s}
   .ring.hot{opacity:1}
@@ -240,6 +241,8 @@
 
   /* THE BAR — one definition, identical on every page (written by navfix; change it
      everywhere or nowhere). It used to be copied per page and drifted into two heights. */
+  a.skip{position:absolute;left:8px;top:-60px;z-index:60;background:var(--ink);color:var(--surface);padding:10px 16px;border-radius:0 0 8px 8px;font-weight:700;text-decoration:none}
+  a.skip:focus{top:0;outline:3px solid var(--lec);outline-offset:2px}
   header.sdnav{position:sticky;top:0;z-index:40;background:var(--surface);border-bottom:1px solid var(--line)}
   header.sdnav .bar{display:flex;align-items:center;gap:10px;min-height:56px;padding-block:8px;flex-wrap:nowrap}
   header.sdnav .brand{font-weight:680;font-size:1rem;letter-spacing:-0.015em;white-space:nowrap;color:inherit;
@@ -283,6 +286,7 @@
 </head>
 <body>
 
+<a class="skip" href="#" onclick="var t=document.querySelector('main h1,main,h1');if(t){if(!t.hasAttribute('tabindex'))t.setAttribute('tabindex','-1');t.focus();t.scrollIntoView();}return false">Skip to content</a>
 <header class="sdnav">
   <div class="wrap bar">
     <a class="brand" href="index.html">Screen Design</a>
@@ -319,7 +323,7 @@
     <ul class="pts" style="max-width:760px">
       <li><span class="dot bad">1</span><b>Red numbers are problems</b><span class="tx">Six screens of the service as it is now. Each red number is measured, not just described.</span></li>
       <li><span class="dot good">1</span><b>Green numbers are decisions</b><span class="tx">Six screens of the same job, improved. Each green number explains why it is that way.</span></li>
-      <li><span class="dot" style="background:var(--wsh)">A2</span><b>Blue tags are your deck</b><span class="tx">Every point links to the section of <i>your</i> portfolio where the same kind of thinking goes. Click one to open it on the checklist.</span></li>
+      <li><span class="dot wsh">A2</span><b>Blue tags are your deck</b><span class="tx">Every point links to the section of <i>your</i> portfolio where the same kind of thinking goes. Click one to open it on the checklist.</span></li>
     </ul>
     <p class="cx-link">Ratios like “4.5:1” come up throughout this case: <a href="gallery.html#contrast">what a contrast ratio means</a>.</p>
     <p class="note">Point at a number on the screen or in the list and both light up. Move with ← →.</p>
@@ -745,7 +749,7 @@
 
 </div>
 
-<script src="sd-common.js?v=202611162321"></script>
+<script src="sd-common.js?v=202611162342"></script>
 <script src="cases.js"></script>
 <script>
 const root = document.documentElement;

@@ -343,6 +343,8 @@
 
   /* THE BAR — one definition, identical on every page (written by navfix; change it
      everywhere or nowhere). It used to be copied per page and drifted into two heights. */
+  a.skip{position:absolute;left:8px;top:-60px;z-index:60;background:var(--ink);color:var(--surface);padding:10px 16px;border-radius:0 0 8px 8px;font-weight:700;text-decoration:none}
+  a.skip:focus{top:0;outline:3px solid var(--lec);outline-offset:2px}
   header.sdnav{position:sticky;top:0;z-index:40;background:var(--surface);border-bottom:1px solid var(--line)}
   header.sdnav .bar{display:flex;align-items:center;gap:10px;min-height:56px;padding-block:8px;flex-wrap:nowrap}
   header.sdnav .brand{font-weight:680;font-size:1rem;letter-spacing:-0.015em;white-space:nowrap;color:inherit;
@@ -384,6 +386,7 @@
 </head>
 <body>
 
+<a class="skip" href="#" onclick="var t=document.querySelector('main h1,main,h1');if(t){if(!t.hasAttribute('tabindex'))t.setAttribute('tabindex','-1');t.focus();t.scrollIntoView();}return false">Skip to content</a>
 <header class="sdnav">
   <div class="wrap bar">
     <a class="brand" href="index.html">Screen Design</a>
@@ -465,8 +468,8 @@
 </div>
 
 
-<script src="sd-common.js?v=202611162321"></script>
-<script src="weeks-data.js?v=202611162321"></script>
+<script src="sd-common.js?v=202611162342"></script>
+<script src="weeks-data.js?v=202611162342"></script>
 <script>
 /* The table is derived from weeks-data.js, not kept a second time. An earlier
    version held its own copy of the eleven weeks and the two drifted the moment
