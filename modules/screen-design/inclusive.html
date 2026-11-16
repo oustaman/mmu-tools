@@ -1,0 +1,411 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Design for everyone · Screen Design</title>
+<style>
+  :root{
+    --bg:#F5F4F2; --surface:#FFFFFF; --surface-2:#EDEBE8;
+    --ink:#1A1618; --ink-2:#514B4A; --ink-3:#4D4847;
+    --line:#DFDBD7; --line-2:#8E8685;
+    --lec:#8C2437; --lec-soft:#F6E8EA;
+    --wsh:#1A526D; --wsh-soft:#E4EEF3;
+    --ok:#285638; --ok-soft:#E3EFE7;
+    --warn:#684604; --warn-soft:#F4EAD3;
+    --mono:ui-monospace,"SF Mono",Menlo,Consolas,monospace;
+    --sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Inter,Roboto,sans-serif;
+  }
+  html[data-theme="dark"]{
+    --bg:#151314; --surface:#1E1B1C; --surface-2:#262223;
+    --ink:#EDE9E7; --ink-2:#B9B2AF; --ink-3:#B7B2B0;
+    --line:#332E2F; --line-2:#7A7372;
+    --lec:#E69FAD; --lec-soft:#332226;
+    --wsh:#7FBEDC; --wsh-soft:#16262E;
+    --ok:#83C19A; --ok-soft:#1C2A22;
+    --warn:#DCB469; --warn-soft:#2A2417;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);line-height:1.5}
+  .wrap{max-width:1100px;margin:0 auto;padding:0 22px}
+  @media(max-width:420px){.wrap{padding:0 14px}}
+  @media(max-width:340px){.wrap{padding:0 10px}}
+  a{color:var(--lec)}
+
+  /* The bar, identical on every page (see assessment.html). */
+  header{border-bottom:1px solid var(--line);background:var(--surface);position:sticky;top:0;z-index:40}
+  .bar{display:flex;align-items:center;gap:10px;padding-block:11px;flex-wrap:nowrap}
+  .brand{font-weight:680;font-size:1rem;letter-spacing:-0.015em;white-space:nowrap;color:inherit;
+    text-decoration:none;padding:5px 8px;margin-left:-8px;border-radius:6px}
+  .brand:hover{background:var(--surface-2)}
+  .brand:focus-visible{outline:2px solid var(--lec);outline-offset:1px}
+  .sp{flex:1}
+  .navl{font-size:0.85rem;color:var(--ink-2);text-decoration:none;padding:6px 10px;border-radius:6px;white-space:nowrap}
+  .navl:hover{background:var(--surface-2);color:var(--ink)}
+  .ctl button{font-family:var(--mono);font-size:0.7rem;background:none;color:var(--ink-3);
+    border:1px solid var(--line-2);border-radius:5px;padding:5px 8px;cursor:pointer;line-height:1}
+  .ctl button:hover{border-color:var(--lec);color:var(--lec)}
+  @media(max-width:760px){ header .bar{gap:6px} .navl{padding:6px 8px;font-size:0.82rem} }
+  @media(max-width:560px){
+    header .bar{flex-wrap:wrap;row-gap:6px}
+    header .brand{order:0} header .ctl{order:1;margin-left:auto}
+    header .bar > .sp{order:2;flex-basis:100%;height:0}
+    header .navl{order:3;padding:5px 7px;font-size:0.78rem}
+  }
+  @media(max-width:430px){ .brand{font-size:0.9rem} .navl{padding:5px 6px;font-size:0.76rem} }
+
+  .navl.on{background:var(--lec);color:#fff}
+  html[data-theme="dark"] .navl.on{color:#151314}
+  h1{font-size:clamp(1.6rem,4.4vw,2.3rem);line-height:1.1;letter-spacing:-0.028em;margin:24px 0 4px;font-weight:700}
+  h2{font-size:1.2rem;font-weight:690;letter-spacing:-0.015em;margin:34px 0 6px}
+  .sub{color:var(--ink-2);margin:0 0 18px;max-width:70ch}
+  .lede{color:var(--ink-2);margin:0 0 14px;max-width:72ch;font-size:0.95rem}
+
+  .tiles{display:grid;gap:10px;grid-template-columns:repeat(auto-fit,minmax(min(220px,100%),1fr))}
+  .tile{display:block;background:var(--surface);border:1px solid var(--line);border-radius:11px;padding:14px 16px;
+    text-decoration:none;color:inherit}
+  .tile:hover{border-color:var(--lec)}
+  .tile b{display:block;font-size:0.98rem;margin-bottom:3px}
+  .tile span{font-size:0.86rem;color:var(--ink-2)}
+  .tile i{font-style:normal;font-family:var(--mono);font-size:0.68rem;color:var(--ink-3);display:block;margin-top:6px}
+
+  table.steps{width:100%;border-collapse:collapse;background:var(--surface);border:1px solid var(--line);
+    border-radius:11px;overflow:hidden;font-size:0.9rem}
+  .steps th{text-align:left;font-family:var(--mono);font-size:0.62rem;letter-spacing:0.08em;text-transform:uppercase;
+    color:var(--ink-3);padding:9px 12px;background:var(--surface-2);font-weight:500}
+  .steps td{padding:8px 12px;border-top:1px solid var(--line);vertical-align:middle}
+  .steps td.cls{font-weight:640}
+  .steps td.rg{font-family:var(--mono);font-size:0.8rem;color:var(--ink-2);white-space:nowrap}
+  .steps .m{display:inline-block;font-family:var(--mono);font-size:0.82rem;font-weight:700;min-width:34px;
+    text-align:center;padding:2px 6px;margin:2px 3px 2px 0;border-radius:5px;background:var(--bg);border:1px solid var(--line)}
+  .steps tr.first td.cls{color:var(--ok)}
+  .steps tr.fail td.cls{color:var(--lec)}
+
+  .ex{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(min(320px,100%),1fr))}
+  .excard{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:16px 18px;
+    display:flex;flex-direction:column;gap:10px}
+  .exk{font-family:var(--mono);font-size:0.64rem;letter-spacing:0.08em;text-transform:uppercase;color:var(--ink-3)}
+  .excard h3{margin:0;font-size:1.08rem}
+  .excard p{margin:0;font-size:0.9rem;color:var(--ink-2)}
+  .exmark{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap}
+  .exmark .n{font-size:2.2rem;font-weight:740;letter-spacing:-0.03em;color:var(--lec);line-height:1}
+  .exmark .crit{font-family:var(--mono);font-size:0.78rem;color:var(--ink-2)}
+  .exhid{font-size:0.9rem;color:var(--ink-2);background:var(--bg);border:1px dashed var(--line-2);border-radius:8px;padding:10px 12px}
+  .exacts{display:flex;flex-wrap:wrap;gap:8px;margin-top:auto}
+  .btn{display:inline-flex;align-items:center;min-height:42px;padding:0 15px;border-radius:8px;text-decoration:none;
+    font-weight:640;font-size:0.9rem;border:1px solid var(--line-2);color:var(--ink);background:var(--bg)}
+  .btn:hover{border-color:var(--lec);color:var(--lec)}
+  .btn.pri{background:var(--lec);border-color:var(--lec);color:#fff}
+  html[data-theme="dark"] .btn.pri{color:#151314}
+  .btn.off{color:var(--ink-3);border-style:dashed;cursor:default}
+  .faq{display:grid;gap:6px}
+  .faq details{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:0}
+  .faq summary{cursor:pointer;padding:12px 16px;font-weight:600;list-style:none;display:flex;gap:10px;align-items:baseline}
+  .faq summary::-webkit-details-marker{display:none}
+  .faq summary::before{content:"+";font-family:var(--mono);color:var(--ink-3);width:1em;flex:none}
+  .faq details[open] summary::before{content:"\2013"}
+  .faq .a{padding:0 16px 14px 42px;color:var(--ink-2);font-size:0.95rem;line-height:1.6}
+  .faq .a a{color:var(--lec)}
+  .note{font-size:0.82rem;color:var(--ink-3);margin:12px 0 0}
+  footer{padding:24px 0 44px;color:var(--ink-3);font-size:0.8rem;border-top:1px solid var(--line);margin-top:30px}
+  @media(max-width:520px){ .steps td{padding:7px 8px} .steps td.rg{white-space:normal} }
+
+  /* the toolkit: cards, filtered by the deck section each one helps fill */
+  .tk-filter{display:flex;flex-wrap:wrap;gap:6px;margin:6px 0 16px}
+  .tk-filter button{appearance:none;border:1px solid var(--line);background:var(--surface);color:var(--ink-2);border-radius:99px;padding:6px 12px;min-height:36px;font:600 0.82rem var(--sans,inherit);cursor:pointer}
+  .tk-filter button[aria-pressed="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+  .tk-group{margin:0 0 26px;scroll-margin-top:80px}
+  .tk-group h2{margin:0 0 4px}
+  .tk-group .gsub{margin:0 0 10px;color:var(--ink-3);font-size:0.9rem}
+  .tk-grid{display:grid;gap:10px;grid-template-columns:repeat(auto-fill,minmax(min(270px,100%),1fr))}
+  .tk{display:flex;flex-direction:column;gap:6px;background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:14px 16px;color:inherit;text-decoration:none;transition:border-color .15s,transform .15s}
+  .tk:hover,.tk:focus-visible{border-color:var(--lec);transform:translateY(-1px)}
+  .tk:focus-visible{outline:2px solid var(--lec);outline-offset:2px}
+  @media (prefers-reduced-motion:reduce){.tk{transition:none}.tk:hover{transform:none}}
+  .tk .top{display:flex;justify-content:space-between;gap:8px;align-items:baseline}
+  .tk b{font-size:1rem}
+  .tk .kind{font-family:var(--mono);font-size:0.62rem;letter-spacing:0.08em;text-transform:uppercase;border-radius:4px;padding:2px 6px;white-space:nowrap;border:1px solid currentColor}
+  .tk .kind.explore{color:var(--lec)} .tk .kind.collect{color:#1E6B3A} .tk .kind.check{color:#8F2E1B} .tk .kind.make{color:#6A4B00}
+  .tk p{margin:0;color:var(--ink-2);font-size:0.9rem;line-height:1.5;flex:1}
+  .tk .foot{display:flex;flex-wrap:wrap;gap:5px;align-items:center;font-family:var(--mono);font-size:0.68rem;color:var(--ink-3)}
+  .tk .sec{background:var(--bg);border:1px solid var(--line);border-radius:4px;padding:1px 5px;color:var(--ink-2)}
+  .tk .host{margin-left:auto}
+  .tk.ours{border-color:var(--lec)}
+  .howto{background:var(--surface);border:1px solid var(--line);border-left:3px solid var(--lec);border-radius:0 12px 12px 0;padding:14px 18px;margin:0 0 26px}
+  .howto ol{margin:6px 0 0;padding-left:20px} .howto li{margin:4px 0;color:var(--ink-2)}
+  .howto code{font-size:0.86em}
+  .howto{scroll-margin-top:80px}
+  details.howto{padding:0}
+  details.howto > summary{cursor:pointer;list-style:none;display:flex;align-items:center;gap:10px;min-height:48px;padding:12px 18px}
+  details.howto > summary::-webkit-details-marker{display:none}
+  details.howto > summary::after{content:"+";margin-left:auto;font-family:var(--mono);font-size:1.1rem;color:var(--ink-3)}
+  details.howto[open] > summary::after{content:"\2013"}
+  details.howto > summary:hover b{color:var(--lec)}
+  details.howto > summary:focus-visible{outline:2px solid var(--lec);outline-offset:2px;border-radius:0 12px 12px 0}
+  details.howto > :not(summary){margin-left:18px;margin-right:18px}
+  details.howto[open]{padding-bottom:14px}
+  details.howto + details.howto{margin-top:-14px}
+  table.mt{width:100%;border-collapse:collapse;margin:10px 0 4px;font-size:0.88rem;background:var(--bg);border-radius:8px;overflow:hidden}
+  .mt th,.mt td{text-align:left;vertical-align:top;padding:8px 10px;border-top:1px solid var(--line);color:var(--ink-2)}
+  .mt tr:first-child th{border-top:0;font-family:var(--mono);font-size:0.66rem;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-3);font-weight:600}
+  .mt th{color:var(--ink);font-weight:640;white-space:nowrap}
+  .mt kbd{font-family:var(--mono);font-size:0.8em;border:1px solid var(--line-2);border-bottom-width:2px;border-radius:4px;padding:0 4px;background:var(--surface)}
+  .mtn{margin:8px 0 0;font-size:0.85rem;color:var(--ink-3)}
+  @media(max-width:700px){ .mt,.mt tbody,.mt tr,.mt th,.mt td{display:block} .mt tr:first-child{display:none} .mt tr{border-top:1px solid var(--line);padding:6px 0} .mt th,.mt td{border:0;padding:3px 10px} .mt th{white-space:normal} }
+
+  .tk-guide p{margin:8px 0;color:var(--ink-2);line-height:1.55;max-width:82ch}
+  .tk-guide p b,.tk-guide li b{color:var(--ink)}
+  .tk-guide ol,.tk-guide ul{margin:6px 0;padding-left:22px;color:var(--ink-2);line-height:1.55;max-width:82ch}
+  .tk-guide li{margin:4px 0}
+  .tk-guide h3{font-size:0.95rem;margin:4px 0}
+  .tk-cols{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(280px,100%),1fr));gap:4px 24px;margin:8px 0}
+  .tk-warn{border-left:3px solid var(--lec);padding-left:12px}
+  details.howto{margin:0 0 10px}
+  details.howto[open]{padding-bottom:10px}
+  details.howto > p{margin:8px 18px;color:var(--ink-2);line-height:1.55;max-width:82ch}
+  details.howto + :not(details){margin-top:22px}
+
+
+  /* the three things the submission shows: the same words here and on the checklist */
+  .three{background:var(--surface);border:1px solid var(--line);border-left:3px solid var(--lec);border-radius:0 12px 12px 0;padding:14px 18px;margin:0 0 8px}
+  .three h2{margin:0 0 8px;font-size:1.02rem}
+  .three ol{margin:0;padding-left:20px;color:var(--ink-2);line-height:1.5}
+  .three li{margin:0 0 6px} .three li b{color:var(--ink)}
+  .tile em{font-style:normal;font-family:var(--mono);font-size:0.66rem;color:var(--lec);border:1px solid var(--line-2);border-radius:4px;padding:1px 6px;margin-left:6px;white-space:nowrap}
+  .weeklist{display:grid;gap:6px;grid-template-columns:repeat(auto-fill,minmax(min(260px,100%),1fr));list-style:none;padding:0;margin:0}
+  .weeklist a{display:flex;gap:10px;align-items:baseline;background:var(--surface);border:1px solid var(--line);border-radius:9px;padding:9px 12px;text-decoration:none;color:inherit}
+  .weeklist a:hover{border-color:var(--lec)} .weeklist i{font-style:normal;font-family:var(--mono);font-size:0.72rem;color:var(--ink-3);white-space:nowrap}
+
+
+  /* Design for everyone: situations, the decisions that help, and an A6 entry to copy */
+  .lead2{font-size:1.06rem;color:var(--ink-2);max-width:68ch;line-height:1.55;margin:0 0 14px} .lead2 b{color:var(--ink)}
+  .how{margin:6px 0 18px;padding-left:20px;color:var(--ink-2);line-height:1.55;max-width:70ch}
+  .cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(330px,100%),1fr));gap:12px}
+  .cardx{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:14px 16px;display:flex;flex-direction:column;gap:8px}
+  .cardx h3{margin:0;font-size:1.05rem} .cardx .who{margin:0;color:var(--ink-2);font-size:0.9rem}
+  .cardx h4{margin:4px 0 0;font-family:var(--mono);font-size:0.68rem;letter-spacing:.07em;text-transform:uppercase;color:var(--ink-3);font-weight:400}
+  .cardx p,.cardx ul{margin:0;color:var(--ink-2);font-size:0.92rem;line-height:1.45} .cardx ul{padding-left:18px} .cardx li{margin:2px 0}
+  .cardx pre{margin:4px 0 0;white-space:pre-wrap;font:0.78rem/1.5 var(--mono);background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:8px 10px;color:var(--ink)}
+  .cardx button{align-self:flex-start;font:600 0.84rem inherit;font-family:inherit;border-radius:999px;padding:6px 14px;border:1px solid var(--ink);background:var(--ink);color:var(--surface);cursor:pointer;min-height:36px}
+  .cardx button.on{background:var(--ok);border-color:var(--ok)}
+  .checks{counter-reset:k;list-style:none;padding:0;margin:8px 0 0;display:grid;gap:8px;max-width:760px}
+  .checks li{counter-increment:k;display:grid;grid-template-columns:30px minmax(0,1fr);gap:10px;background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:10px 12px;color:var(--ink-2)}
+  .checks li::before{content:counter(k);width:26px;height:26px;border-radius:50%;background:var(--ink);color:var(--bg);font-weight:700;display:grid;place-items:center;font-size:0.85rem}
+  .checks b{color:var(--ink)}
+  .pattern{white-space:pre-wrap;font:0.86rem/1.6 var(--mono);background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:12px 14px;max-width:760px;color:var(--ink)}
+  .src{font-size:0.82rem;color:var(--ink-3)}
+
+  /* THE BAR — one definition, identical on every page (written by navfix; change it
+     everywhere or nowhere). It used to be copied per page and drifted into two heights. */
+  header.sdnav{position:sticky;top:0;z-index:40;background:var(--surface);border-bottom:1px solid var(--line)}
+  header.sdnav .bar{display:flex;align-items:center;gap:10px;min-height:56px;padding-block:8px;flex-wrap:nowrap}
+  header.sdnav .brand{font-weight:680;font-size:1rem;letter-spacing:-0.015em;white-space:nowrap;color:inherit;
+    text-decoration:none;padding:5px 8px;margin-left:-8px;border-radius:6px;order:0}
+  header.sdnav .brand:hover{background:var(--surface-2,var(--bg))}
+  header.sdnav .sp{flex:1;display:block;height:auto;flex-basis:auto;order:0}
+  header.sdnav .sdlinks{display:flex;align-items:center;gap:2px;order:0}
+  header.sdnav .navl{display:inline-block;font-size:0.85rem;line-height:1.3;color:var(--ink-2);text-decoration:none;
+    padding:6px 10px;border-radius:6px;white-space:nowrap;order:0}
+  header.sdnav .navl:hover{background:var(--surface-2,var(--bg));color:var(--ink)}
+  header.sdnav .navl.on{background:var(--lec);color:#fff}
+  html[data-theme="dark"] header.sdnav .navl.on{color:#151314}
+  header.sdnav a:focus-visible,header.sdnav button:focus-visible{outline:2px solid var(--lec);outline-offset:1px}
+  header.sdnav .ctl{order:0;margin-left:4px}
+  header.sdnav .fbl{order:0;display:inline-flex;align-items:center;min-height:36px;padding:6px 14px;border-radius:999px;background:var(--lec);
+    color:#fff;font-size:0.86rem;font-weight:700;text-decoration:none;white-space:nowrap;margin-left:6px}
+  header.sdnav .fbl[hidden]{display:none}
+  header.sdnav .fbl:hover{filter:brightness(1.1)}
+  html[data-theme="dark"] header.sdnav .fbl{color:#151314}
+  .oldsw{text-align:center;font-size:0.82rem;color:var(--ink-3);margin:28px auto 32px;padding:0 16px}
+  .oldsw a{color:var(--ink-2)}
+  html.present .oldsw{display:none}
+  header.sdnav .ctl button{font-family:var(--mono);font-size:0.7rem;background:none;color:var(--ink-3);
+    border:1px solid var(--line-2);border-radius:6px;padding:0 9px;cursor:pointer;line-height:1;
+    height:34px;min-height:34px;min-width:34px;display:inline-flex;align-items:center;justify-content:center}
+  header.sdnav .ctl button:hover{border-color:var(--lec);color:var(--lec)}
+  @media(max-width:960px){
+    header.sdnav .bar{flex-wrap:wrap;row-gap:0;padding-block:6px 0;min-height:0}
+    header.sdnav .ctl{order:1;margin-left:auto}
+    header.sdnav .fbl{order:1;margin-left:auto;min-height:34px;padding:5px 12px}
+    header.sdnav .fbl:not([hidden]) ~ .ctl{margin-left:6px}
+    header.sdnav .sp{display:none}
+    header.sdnav .sdlinks{order:2;flex-basis:100%;overflow-x:auto;scrollbar-width:none;padding:4px 28px 8px 0;min-height:44px;
+      -webkit-mask-image:linear-gradient(to right,#000 calc(100% - 28px),transparent);mask-image:linear-gradient(to right,#000 calc(100% - 28px),transparent)}
+    header.sdnav .sdlinks::-webkit-scrollbar{display:none}
+    header.sdnav .navl{font-size:0.82rem;padding:6px 9px}
+  }
+  .c5d{margin:10px 0 0;border-top:1px dashed var(--line-2);padding-top:8px}
+  .c5d summary{cursor:pointer;font-weight:600;color:var(--ink);font-size:0.9rem;min-height:24px}
+  .c5d[open] summary{margin-bottom:6px}
+</style>
+</head>
+<body>
+
+<header class="sdnav">
+  <div class="wrap bar">
+    <a class="brand" href="index.html">Screen Design</a>
+    <span class="sp"></span>
+    <nav class="sdlinks" aria-label="Screen Design"><a class="navl" href="start.html">Start here</a><a class="navl" href="weeks.html">Week by week</a><a class="navl" href="assessment.html">Checklist</a><a class="navl" href="examples.html">Examples</a><a class="navl on" href="toolkit.html">Toolkit</a><a class="navl" href="assessment-materials.html">Marking</a><a class="navl" href="all.html">All pages</a></nav>
+    <a class="fbl" id="fbl" href="#" target="_blank" rel="noopener" hidden>Feedback form</a>
+    <span class="ctl"><button id="theme" aria-label="Dark mode">◐</button></span>
+  </div>
+</header>
+<script>(function(){var d=new Date(),a=document.getElementById("fbl");[["2026-11-16", "2026-11-30", "https://forms.cloud.microsoft/e/FkCJKpKu2d"], ["2026-11-30", "2026-12-14", "https://forms.cloud.microsoft/e/tSchWyEaBF"]].forEach(function(f){if(f[2]&&d>=new Date(f[0]+"T00:00")&&d<new Date(f[1]+"T00:00")){a.href=f[2];a.hidden=false;}});var n=document.querySelector(".sdlinks"),o=n&&n.querySelector(".on");if(o&&n.scrollWidth>n.clientWidth)n.scrollLeft=o.offsetLeft-n.offsetLeft-16;})();</script>
+
+<div class="wrap">
+  <h1>Design for everyone</h1>
+  <p class="lead2">Anyone can be in a hard situation: for good, for a while, or for a minute. Someone with one arm, someone with an arm in a sling, and a parent holding a baby all need a screen that works with one hand. <b>Design for the hardest situation, and the screen gets easier for everyone.</b></p>
+  <p class="src">The idea of situations that are permanent, temporary or situational comes from Microsoft’s Inclusive Design toolkit (2016).</p>
+
+  <h2>How to use this page</h2>
+  <ol class="how">
+    <li>Pick three situations that fit the people who use your service.</li>
+    <li>For each one, find the screen where it would be hard.</li>
+    <li>Make one decision on that screen, and show it there.</li>
+    <li>Copy the card into <a href="assessment.html#A6">A6</a>, and change the words in brackets to fit your service.</li>
+    <li>For <a href="assessment.html#C7">C7</a>, pick one card from <a href="#c7">Different cultures, different habits</a>, and copy its paragraph.</li>
+    <li>In week 9, once your screens are finished, write <a href="assessment.html#C5">C5</a> about the decision that helps the most people. Each card has a paragraph for it. A6 says what you decided; C5 says why it matters.</li>
+  </ol>
+
+  <h2>Nine situations</h2>
+  <div class="cards"><article class="cardx"><h3>Can’t see the screen well</h3><p class="who">Low vision, older eyes, or anyone reading a phone in bright sun.</p>
+      <h4>What makes it hard</h4><p>Small or pale text, and words printed over pictures.</p>
+      <h4>Decisions that help</h4><ul><li>Body text at least 16 px; 18 is easier.</li><li>Every text at least 4.5:1 against its background. The <a href="gallery.html#check">contrast checker</a> works it out.</li><li>No words over photos.</li></ul>
+      <h4>For your A6, ready to edit</h4><pre id="a6-0">Who, and in what situation: someone with low vision, or anyone reading in bright sun
+What makes it hard: small or pale text on the [ ] screen
+What my design does, and on which screen: body text at 18 px and every text at least 4.5:1, on the [ ] screen</pre>
+      <button type="button" data-copy="a6-0">Copy for A6</button>
+      <details class="c5d"><summary>For your C5, in week 9: a paragraph to edit</summary><pre id="c5-0">The decision that helps the most people is body text at [18] px, with every text at least [4.5]:1 against its background (A5), on the [ ] screen. It helps people with low vision, and anyone reading a phone in bright sun, who could not read the small, pale text there before. The old text measured [ ]:1; mine measures [ ]:1. I chose it over [what you rejected], because [the reason].</pre><button type="button" data-copy="c5-0">Copy for C5</button></details></article><article class="cardx"><h3>Can’t tell some colours apart</h3><p class="who">Colour blindness, a black-and-white printout, a dim screen.</p>
+      <h4>What makes it hard</h4><p>When colour is the only clue: a red border for an error, green for done.</p>
+      <h4>Decisions that help</h4><ul><li>Colour plus a word or an icon: “Error:”, “✓ Sent”.</li><li>Links underlined, not only coloured.</li><li>A screenshot turned grey still makes sense.</li></ul>
+      <h4>For your A6, ready to edit</h4><pre id="a6-1">Who, and in what situation: someone who can’t tell red from green
+What makes it hard: an error shown only by a red border on the [ ] screen
+What my design does, and on which screen: the word “Error” and a message beside the field, as well as the colour, on the [ ] screen</pre>
+      <button type="button" data-copy="a6-1">Copy for A6</button>
+      <details class="c5d"><summary>For your C5, in week 9: a paragraph to edit</summary><pre id="c5-1">The decision that helps the most people is saying errors in words, not only in colour, on the [ ] screen. It helps people who can’t tell red from green, and anyone on a dim screen or a grey printout. Before, a red border was the only clue that [ ] had gone wrong; now the word “Error” and a message beside the field say how to fix it. Turned grey, the screen still makes sense. I chose it over [ ], because [ ].</pre><button type="button" data-copy="c5-1">Copy for C5</button></details></article><article class="cardx"><h3>Only one hand free</h3><p class="who">An arm in a sling, holding a bag or a child, standing on a bus.</p>
+      <h4>What makes it hard</h4><p>Small buttons, things out of a thumb’s reach, swiping or dragging.</p>
+      <h4>Decisions that help</h4><ul><li>Every button at least 24 by 24 px, the WCAG minimum, and the main one bigger.</li><li>The main button low on the screen, where a thumb reaches.</li><li>A tap instead of a swipe or a drag.</li></ul>
+      <h4>For your A6, ready to edit</h4><pre id="a6-2">Who, and in what situation: someone holding a child, or standing on a bus
+What makes it hard: reaching a small button at the top of the [ ] screen
+What my design does, and on which screen: a full-width main button at the bottom, at least 48 px tall, on the [ ] screen</pre>
+      <button type="button" data-copy="a6-2">Copy for A6</button>
+      <details class="c5d"><summary>For your C5, in week 9: a paragraph to edit</summary><pre id="c5-2">The decision that helps the most people is a full-width main button at the bottom of the [ ] screen, [48] px tall: well above the WCAG minimum of 24 px. It helps anyone with one hand free, holding a child, a bag or a rail on the bus. Before, the main button was [ ] px, at the top, out of a thumb’s reach. The journey now has [ ] screens instead of [ ] (A2), so that reach happens less often too. I chose it over [ ], because [ ].</pre><button type="button" data-copy="c5-2">Copy for C5</button></details></article><article class="cardx"><h3>Reading in a second language</h3><p class="who">International students, people new to the country, visitors.</p>
+      <h4>What makes it hard</h4><p>Idioms, long sentences, jargon, icons with no words.</p>
+      <h4>Decisions that help</h4><ul><li>Plain words and short sentences.</li><li>A word beside every icon.</li><li>One question per screen.</li></ul>
+      <h4>For your A6, ready to edit</h4><pre id="a6-3">Who, and in what situation: an international student reading in a second language
+What makes it hard: the legal words on the [ ] screen
+What my design does, and on which screen: plain words, short sentences and one question per screen, on the [ ] screen</pre>
+      <button type="button" data-copy="a6-3">Copy for A6</button>
+      <details class="c5d"><summary>For your C5, in week 9: a paragraph to edit</summary><pre id="c5-3">The decision that helps the most people is plain words and one question per screen, on the [ ] screen. It helps people reading in a second language, who met words like “[ ]” before. The old screen asked [ ] questions in [ ] words; mine asks one, in [ ] words (A2). “[old word]” became “[new word]”. I chose it over [ ], because [ ].</pre><button type="button" data-copy="c5-3">Copy for C5</button></details></article><article class="cardx"><h3>Worried, tired or in a hurry</h3><p class="who">After bad news, late at night, five minutes before a deadline.</p>
+      <h4>What makes it hard</h4><p>Too much at once, an unclear next step, losing what you typed.</p>
+      <h4>Decisions that help</h4><ul><li>The most important thing first, one thing per screen.</li><li>A clear way back, and a way to save and come back later.</li><li>Error messages that say how to fix it.</li></ul>
+      <h4>For your A6, ready to edit</h4><pre id="a6-4">Who, and in what situation: someone worried about a deadline
+What makes it hard: a long page with the deadline at the bottom of the [ ] screen
+What my design does, and on which screen: the deadline first and one task per screen, on the [ ] screen</pre>
+      <button type="button" data-copy="a6-4">Copy for A6</button>
+      <details class="c5d"><summary>For your C5, in week 9: a paragraph to edit</summary><pre id="c5-4">The decision that helps the most people is putting [the deadline] first, and one task per screen, on the [ ] screen. It helps people who are worried, tired or in a hurry, who had to scroll past [ ] to find what mattered. The journey went from [ ] steps to [ ] (A2), and [ ] can now be saved and finished later. I chose it over [ ], because [ ].</pre><button type="button" data-copy="c5-4">Copy for C5</button></details></article><article class="cardx"><h3>Finds reading hard</h3><p class="who">Dyslexia, tiredness, a noisy place.</p>
+      <h4>What makes it hard</h4><p>Long lines, walls of text, words in capitals.</p>
+      <h4>Decisions that help</h4><ul><li>Short lines: about 45 to 75 characters.</li><li>Headings and short paragraphs.</li><li>Text aligned left, in a typeface with clear letters.</li></ul>
+      <h4>For your A6, ready to edit</h4><pre id="a6-5">Who, and in what situation: someone with dyslexia
+What makes it hard: a wall of text on the [ ] screen
+What my design does, and on which screen: short lines, a heading every few lines, and text aligned left, on the [ ] screen</pre>
+      <button type="button" data-copy="a6-5">Copy for A6</button>
+      <details class="c5d"><summary>For your C5, in week 9: a paragraph to edit</summary><pre id="c5-5">The decision that helps the most people is short lines and a heading every few lines, on the [ ] screen. It helps people with dyslexia, and anyone tired or in a noisy place. Before, the text ran in one block, about [ ] characters a line; now lines stop at about [ ], set in [typeface] at [ ] px (A4), aligned left. I chose it over [ ], because [ ].</pre><button type="button" data-copy="c5-5">Copy for C5</button></details></article><article class="cardx"><h3>New to this, or unsure with technology</h3><p class="who">Doing this online for the first time, low confidence, older users.</p>
+      <h4>What makes it hard</h4><p>Icons with no words, hidden steps, worry about getting it wrong.</p>
+      <h4>Decisions that help</h4><ul><li>Words on buttons: “Send report”, not “OK”.</li><li>Progress shown: “Step 2 of 4”.</li><li>A phone number, or another way to get help.</li></ul>
+      <h4>For your A6, ready to edit</h4><pre id="a6-6">Who, and in what situation: someone doing this online for the first time
+What makes it hard: not knowing how many steps are left on the [ ] screen
+What my design does, and on which screen: “Step 2 of 4” at the top and a phone number for help, on the [ ] screen</pre>
+      <button type="button" data-copy="a6-6">Copy for A6</button>
+      <details class="c5d"><summary>For your C5, in week 9: a paragraph to edit</summary><pre id="c5-6">The decision that helps the most people is showing progress, “Step [ ] of [ ]”, and a phone number for help, on the [ ] screen. It helps people doing this online for the first time, who could not tell how much was left. The journey is now [ ] steps instead of [ ] (A2), and every button says what it does: “[ ]”, not “OK”. I chose it over [ ], because [ ].</pre><button type="button" data-copy="c5-6">Copy for C5</button></details></article><article class="cardx"><h3>A slow connection or an old phone</h3><p class="who">Limited data, poor signal, a cheap handset.</p>
+      <h4>What makes it hard</h4><p>Heavy pictures, video, long waits.</p>
+      <h4>Decisions that help</h4><ul><li>Few, light pictures.</li><li>Nothing important only inside a picture.</li><li>Progress saved as they go.</li></ul>
+      <h4>For your A6, ready to edit</h4><pre id="a6-7">Who, and in what situation: someone with little data, on a poor signal
+What makes it hard: a large photo that loads before the form on the [ ] screen
+What my design does, and on which screen: no photo at the top, and progress saved after each step, on the [ ] screen</pre>
+      <button type="button" data-copy="a6-7">Copy for A6</button>
+      <details class="c5d"><summary>For your C5, in week 9: a paragraph to edit</summary><pre id="c5-7">The decision that helps the most people is no large photo on the [ ] screen, and progress saved after each step. It helps people with little data, a poor signal or an old phone, who waited for [ ] before they could start. Nothing important is inside a picture now, and the journey has [ ] screens instead of [ ] (A2), so there is less to load. I chose it over [ ], because [ ].</pre><button type="button" data-copy="c5-7">Copy for C5</button></details></article><article class="cardx"><h3>Uses a screen reader</h3><p class="who">Blind people use software that reads the screen aloud.</p>
+      <h4>What makes it hard</h4><p>Pictures with no description, fields with no label, buttons that say “Click here”.</p>
+      <h4>Decisions that help</h4><ul><li>A short description for every picture that matters.</li><li>A visible label on every field.</li><li>Buttons that say what they do.</li></ul>
+      <h4>For your A6, ready to edit</h4><pre id="a6-8">Who, and in what situation: someone who is blind and uses a screen reader
+What makes it hard: a field with no label on the [ ] screen
+What my design does, and on which screen: a label on every field and buttons that say what they do, on the [ ] screen</pre>
+      <button type="button" data-copy="a6-8">Copy for A6</button>
+      <details class="c5d"><summary>For your C5, in week 9: a paragraph to edit</summary><pre id="c5-8">The decision that helps the most people is a visible label on every field, and buttons that say what they do, on the [ ] screen. It helps blind people using a screen reader, which reads the label aloud, and everyone else, who sees it too. Before, “[ ]” was grey text inside the box that vanished once you typed; now it sits above the field. The button says “[ ]”, not “Click here”. I chose it over [ ], because [ ].</pre><button type="button" data-copy="c5-8">Copy for C5</button></details></article></div>
+
+  <h2 id="c7">Different cultures, different habits: for C7</h2>
+  <p class="sub">The brief asks for one cross-cultural point (C7). Pick the one that is real for the people who use your service, make the decision on your screens, then copy the paragraph and change the words in brackets. About 70–90 words.</p>
+  <div class="cards"><article class="cardx"><h3>Names</h3><p class="who">Not everyone has a first name and a surname. Some people have one name; in China, Japan, Korea and Hungary the family name usually comes first.</p>
+      <h4>What goes wrong</h4><p>“First name” and “Last name” boxes make people guess, and get it wrong.</p>
+      <h4>Decisions that help</h4><ul><li>One “Full name” field, long enough for long names.</li><li>Ask “What should we call you?” only if you need it.</li></ul>
+      <h4>For your C7, ready to edit</h4><pre id="c7-0">One cross-cultural point for my design is names. Not everyone has a first name and a surname: some people have one name, and in China, Japan, Korea and Hungary the family name usually comes first. Separate “First name” and “Last name” boxes make them guess, and the [service] then gets their name wrong. So the [ ] screen asks for “Full name” in one field, long enough for [ ] characters. I chose it over [ ], because [ ].</pre>
+      <button type="button" data-copy="c7-0">Copy for C7</button></article><article class="cardx"><h3>Dates and times</h3><p class="who">03/04/2027 is 3 April in the UK and 4 March in the US.</p>
+      <h4>What goes wrong</h4><p>A date written in numbers can be read two ways, and a missed date can cost money.</p>
+      <h4>Decisions that help</h4><ul><li>Write the month as a word: 3 April 2027.</li><li>Say the time zone if people book from abroad.</li></ul>
+      <h4>For your C7, ready to edit</h4><pre id="c7-1">One cross-cultural point for my design is dates. In the UK, 03/04/2027 is 3 April; in the US it is 4 March, and many [users] grew up with other formats. A date misread on the [ ] screen means [what goes wrong: a missed deadline, a wrong booking]. So every date on my screens writes the month as a word, “3 April 2027”, and [ ]. I chose it over [ ], because [ ].</pre>
+      <button type="button" data-copy="c7-1">Copy for C7</button></article><article class="cardx"><h3>Addresses and phone numbers</h3><p class="who">Not every address has a UK-style postcode, and phone numbers abroad start with a country code.</p>
+      <h4>What goes wrong</h4><p>Forms that only accept a UK postcode or an 11-digit number shut people out.</p>
+      <h4>Decisions that help</h4><ul><li>Country first, then address lines that accept any address.</li><li>Accept +44, spaces and brackets in phone numbers.</li></ul>
+      <h4>For your C7, ready to edit</h4><pre id="c7-2">One cross-cultural point for my design is addresses. Many [users] have a home address outside the UK, and a phone number that starts with a country code. A form that accepts only a UK postcode and an 11-digit number shuts them out at the [ ] screen. So my form asks for the country first, accepts any address in plain lines, and accepts “+” and spaces in phone numbers. I chose it over [ ], because [ ].</pre>
+      <button type="button" data-copy="c7-2">Copy for C7</button></article><article class="cardx"><h3>Colour meanings</h3><p class="who">Red is a warning on a UK form; in China it is the colour of luck and celebration, and on Chinese share prices red means up.</p>
+      <h4>What goes wrong</h4><p>Colour alone can say the opposite of what you meant.</p>
+      <h4>Decisions that help</h4><ul><li>Never colour alone: a word or an icon with it.</li><li>Check what your main colour means to the people you design for.</li></ul>
+      <h4>For your C7, ready to edit</h4><pre id="c7-3">One cross-cultural point for my design is colour. In the UK, red reads as a warning; in China it is the colour of luck and celebration, and on Chinese share prices red means up. My [main colour], [#hex] (A5), could [what it might wrongly say]. So on the [ ] screen colour is never the only clue: “[word]” sits beside it. I chose it over [ ], because [ ].</pre>
+      <button type="button" data-copy="c7-3">Copy for C7</button></article><article class="cardx"><h3>Icons and gestures</h3><p class="who">A US mailbox does not look like a British postbox, and a hand gesture that means OK in one country can be rude in another.</p>
+      <h4>What goes wrong</h4><p>An icon only works if people already know the thing it shows.</p>
+      <h4>Decisions that help</h4><ul><li>A word beside every icon.</li><li>No hand gestures as icons.</li></ul>
+      <h4>For your C7, ready to edit</h4><pre id="c7-4">One cross-cultural point for my design is icons. An icon works only if people already know the thing it shows: a US mailbox looks nothing like a British postbox, and a hand gesture that means OK in one country can be rude in another. On the [ ] screen, the [ ] icon could be read as [ ]. So every icon on my screens has a word beside it: “[ ]”. I chose it over [ ], because [ ].</pre>
+      <button type="button" data-copy="c7-4">Copy for C7</button></article><article class="cardx"><h3>Text that grows, or runs the other way</h3><p class="who">Translated text is often longer than English: “Settings” in German is “Einstellungen”. Arabic and Hebrew read right to left.</p>
+      <h4>What goes wrong</h4><p>Buttons cut words off, and words inside pictures can’t be translated.</p>
+      <h4>Decisions that help</h4><ul><li>Buttons that grow with their words.</li><li>No words inside pictures.</li></ul>
+      <h4>For your C7, ready to edit</h4><pre id="c7-5">One cross-cultural point for my design is translation. If the [service] were translated, words would grow: “Settings” in German is “Einstellungen”, and Arabic would run right to left. On the [ ] screen, the [ ] button would cut its words off, and the [ ] picture has words inside it. So my buttons grow with their text, at least [ ] px wide, and no words are inside pictures. I chose it over [ ], because [ ].</pre>
+      <button type="button" data-copy="c7-5">Copy for C7</button></article><article class="cardx"><h3>Money and numbers</h3><p class="who">In much of Europe, 1.500,00 means one thousand five hundred; the UK writes 1,500.00.</p>
+      <h4>What goes wrong</h4><p>The same digits can mean different amounts, and “£” is not everyone’s currency.</p>
+      <h4>Decisions that help</h4><ul><li>Write amounts the UK way, and name the currency: £15.00 (GBP).</li><li>Show the total before people pay.</li></ul>
+      <h4>For your C7, ready to edit</h4><pre id="c7-6">One cross-cultural point for my design is money. In much of Europe, 1.500,00 means one thousand five hundred, where the UK writes 1,500.00, and “£” is not everyone’s home currency. On the [ ] screen, a [user] paying [ ] could misread the amount. So every amount is written the UK way, with the currency named, “£[ ] (GBP)”, and the total shows before they pay. I chose it over [ ], because [ ].</pre>
+      <button type="button" data-copy="c7-6">Copy for C7</button></article><article class="cardx"><h3>Titles and gender</h3><p class="who">Mr, Mrs, Miss and Ms is a British habit. Many people have no title, or one the list lacks, such as Dr or Mx.</p>
+      <h4>What goes wrong</h4><p>A required title or a two-option gender list makes people pick something untrue.</p>
+      <h4>Decisions that help</h4><ul><li>Drop the title, or make it optional with free text.</li><li>Ask about gender only if the service needs it.</li></ul>
+      <h4>For your C7, ready to edit</h4><pre id="c7-7">One cross-cultural point for my design is titles. “Mr, Mrs, Miss, Ms” is a British habit: many people have no title, or one the list lacks, such as Dr or Mx. The old [ ] screen made the title required, so people had to pick something untrue. My version [drops the title / makes it optional, as free text], and asks about gender only [where the service needs it / not at all]. I chose it over [ ], because [ ].</pre>
+      <button type="button" data-copy="c7-7">Copy for C7</button></article></div>
+
+  <h2>Five checks you can do yourself</h2>
+  <p class="sub">No special tools, and no testing with other people. Do them on your finished screens, and fix what you find.</p>
+  <ol class="checks">
+    <li><span><b>Arm’s length.</b> Hold the screen at arm’s length, or squint. Can you still read it, and tell what to do first?</span></li>
+    <li><span><b>Grey.</b> Turn a screenshot grey. Does anything only make sense in colour?</span></li>
+    <li><span><b>One thumb.</b> Hold your phone in one hand. Can your thumb reach the main button?</span></li>
+    <li><span><b>Read it aloud.</b> Is there a word you would have to explain to a friend? Replace it.</span></li>
+    <li><span><b>Zoom.</b> Zoom in to 200%. Does anything get cut off, or run into something else?</span></li>
+  </ol>
+
+  <h2>For C5: the pattern behind every paragraph</h2>
+  <p class="sub">About 70–90 words. Fill it with your own decision, screen and reasons.</p>
+  <div class="pattern">The decision that helps the most people is [the decision], on the [ ] screen.
+It helps [who], who [what makes it hard for them].
+Before, [what happened]; now, [what happens instead].
+I chose it over [what you rejected], because [the reason].</div>
+
+  <footer><p>Screen Design · Level 4 · 30 credits · 2026–27</p></footer>
+</div>
+
+<script src="sd-common.js?v=202611162245"></script>
+<script>
+document.addEventListener('click', async e => {
+  const b = e.target.closest('[data-copy]'); if (!b) return;
+  const pre = document.getElementById(b.dataset.copy);
+  b._l = b._l || b.textContent;
+  try { await navigator.clipboard.writeText(pre.textContent); b.textContent = 'Copied ✓'; b.classList.add('on'); }
+  catch (err) { getSelection().selectAllChildren(pre); b.textContent = 'Press Ctrl or ⌘ C to copy'; }
+  clearTimeout(b._t); b._t = setTimeout(() => { b.textContent = b._l; b.classList.remove('on'); }, 2400);
+});
+const root = document.documentElement;
+try { const t = localStorage.getItem('sd-theme'); if (t) root.dataset.theme = t; } catch (e) {}
+document.getElementById('theme').onclick = () => {
+  root.dataset.theme = root.dataset.theme === 'dark' ? 'light' : 'dark';
+  try { localStorage.setItem('sd-theme', root.dataset.theme); } catch (e) {}
+};
+</script>
+<!-- old-switch (navfix) --><p class="oldsw"><a id="oldsw" href="../sd/index.html?old=1">Switch to the old version</a></p><!-- /old-switch -->
+</body>
+</html>

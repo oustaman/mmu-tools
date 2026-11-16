@@ -250,35 +250,6 @@
   .m.fd{border:1px solid var(--line-2);color:var(--ink-2);background:none}
   @media(max-width:1000px){.ck{grid-template-columns:minmax(0,1fr);grid-template-areas:"side" "main"}.three{position:static}.three-now{display:none}}
 
-  /* THE BAR — one definition, identical on every page (written by navfix; change it
-     everywhere or nowhere). It used to be copied per page and drifted into two heights. */
-  header.sdnav{position:sticky;top:0;z-index:40;background:var(--surface);border-bottom:1px solid var(--line)}
-  header.sdnav .bar{display:flex;align-items:center;gap:10px;min-height:56px;padding-block:8px;flex-wrap:nowrap}
-  header.sdnav .brand{font-weight:680;font-size:1rem;letter-spacing:-0.015em;white-space:nowrap;color:inherit;
-    text-decoration:none;padding:5px 8px;margin-left:-8px;border-radius:6px;order:0}
-  header.sdnav .brand:hover{background:var(--surface-2,var(--bg))}
-  header.sdnav .sp{flex:1;display:block;height:auto;flex-basis:auto;order:0}
-  header.sdnav .sdlinks{display:flex;align-items:center;gap:2px;order:0}
-  header.sdnav .navl{display:inline-block;font-size:0.85rem;line-height:1.3;color:var(--ink-2);text-decoration:none;
-    padding:6px 10px;border-radius:6px;white-space:nowrap;order:0}
-  header.sdnav .navl:hover{background:var(--surface-2,var(--bg));color:var(--ink)}
-  header.sdnav .navl.on{background:var(--lec);color:#fff}
-  html[data-theme="dark"] header.sdnav .navl.on{color:#151314}
-  header.sdnav a:focus-visible,header.sdnav button:focus-visible{outline:2px solid var(--lec);outline-offset:1px}
-  header.sdnav .ctl{order:0;margin-left:4px}
-  header.sdnav .ctl button{font-family:var(--mono);font-size:0.7rem;background:none;color:var(--ink-3);
-    border:1px solid var(--line-2);border-radius:6px;padding:0 9px;cursor:pointer;line-height:1;
-    height:34px;min-height:34px;min-width:34px;display:inline-flex;align-items:center;justify-content:center}
-  header.sdnav .ctl button:hover{border-color:var(--lec);color:var(--lec)}
-  @media(max-width:960px){
-    header.sdnav .bar{flex-wrap:wrap;row-gap:0;padding-block:6px 0;min-height:0}
-    header.sdnav .ctl{order:1;margin-left:auto}
-    header.sdnav .sp{display:none}
-    header.sdnav .sdlinks{order:2;flex-basis:100%;overflow-x:auto;scrollbar-width:none;padding:4px 28px 8px 0;min-height:44px;
-      -webkit-mask-image:linear-gradient(to right,#000 calc(100% - 28px),transparent);mask-image:linear-gradient(to right,#000 calc(100% - 28px),transparent)}
-    header.sdnav .sdlinks::-webkit-scrollbar{display:none}
-    header.sdnav .navl{font-size:0.82rem;padding:6px 9px}
-  }
 
   /* each section drawn as the slide it becomes: a 16:9 thumbnail, stacked when it takes more than one */
   .it{grid-template-columns:26px 200px minmax(0,1fr)}
@@ -295,6 +266,10 @@
   .it-tools{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
   .it-tools a{font-size:0.78rem;color:var(--lec);text-decoration:none;border:1px solid var(--line-2);border-radius:999px;padding:3px 10px;background:var(--surface)}
   .it-tools a:hover{border-color:var(--lec)} .it-tools a.ex{color:var(--ink-2);border-style:dashed}
+  .it-tools{align-items:center}
+  .it-tools a.go{font-size:0.86rem;font-weight:700;color:#fff;background:var(--lec);border-color:var(--lec);border-radius:8px;padding:6px 14px;min-height:34px;display:inline-flex;align-items:center;gap:6px}
+  .it-tools a.go:hover{filter:brightness(1.1)}
+  html[data-theme="dark"] .it-tools a.go{color:#151314}
   .it-tools a:focus-visible{outline:2px solid var(--lec);outline-offset:2px}
   .deckn{margin:8px 0 0;font-size:0.8rem;color:var(--ink-2)} .deckn b{color:var(--ink)}
   @media(max-width:720px){.it{grid-template-columns:26px minmax(0,1fr)}.sl-th{grid-column:2;width:min(240px,100%)}.it-b{grid-column:2}}
@@ -307,6 +282,49 @@
   .it.cov{cursor:default;margin:0 0 14px}
   .m.late-m{background:var(--lec-soft);color:var(--lec);border:1px solid var(--lec);font-weight:600}
   .it.done .m.late-m{display:none}
+
+  .ckin{margin:-4px 0 14px;font-size:0.9rem;color:var(--ink-2)} .ckin a{font-weight:600}
+  .three .map{display:block;font-style:normal;font-family:var(--mono);font-size:0.7rem;color:var(--ink-3);margin-top:2px}
+
+  /* THE BAR — one definition, identical on every page (written by navfix; change it
+     everywhere or nowhere). It used to be copied per page and drifted into two heights. */
+  header.sdnav{position:sticky;top:0;z-index:40;background:var(--surface);border-bottom:1px solid var(--line)}
+  header.sdnav .bar{display:flex;align-items:center;gap:10px;min-height:56px;padding-block:8px;flex-wrap:nowrap}
+  header.sdnav .brand{font-weight:680;font-size:1rem;letter-spacing:-0.015em;white-space:nowrap;color:inherit;
+    text-decoration:none;padding:5px 8px;margin-left:-8px;border-radius:6px;order:0}
+  header.sdnav .brand:hover{background:var(--surface-2,var(--bg))}
+  header.sdnav .sp{flex:1;display:block;height:auto;flex-basis:auto;order:0}
+  header.sdnav .sdlinks{display:flex;align-items:center;gap:2px;order:0}
+  header.sdnav .navl{display:inline-block;font-size:0.85rem;line-height:1.3;color:var(--ink-2);text-decoration:none;
+    padding:6px 10px;border-radius:6px;white-space:nowrap;order:0}
+  header.sdnav .navl:hover{background:var(--surface-2,var(--bg));color:var(--ink)}
+  header.sdnav .navl.on{background:var(--lec);color:#fff}
+  html[data-theme="dark"] header.sdnav .navl.on{color:#151314}
+  header.sdnav a:focus-visible,header.sdnav button:focus-visible{outline:2px solid var(--lec);outline-offset:1px}
+  header.sdnav .ctl{order:0;margin-left:4px}
+  header.sdnav .fbl{order:0;display:inline-flex;align-items:center;min-height:36px;padding:6px 14px;border-radius:999px;background:var(--lec);
+    color:#fff;font-size:0.86rem;font-weight:700;text-decoration:none;white-space:nowrap;margin-left:6px}
+  header.sdnav .fbl[hidden]{display:none}
+  header.sdnav .fbl:hover{filter:brightness(1.1)}
+  html[data-theme="dark"] header.sdnav .fbl{color:#151314}
+  .oldsw{text-align:center;font-size:0.82rem;color:var(--ink-3);margin:28px auto 32px;padding:0 16px}
+  .oldsw a{color:var(--ink-2)}
+  html.present .oldsw{display:none}
+  header.sdnav .ctl button{font-family:var(--mono);font-size:0.7rem;background:none;color:var(--ink-3);
+    border:1px solid var(--line-2);border-radius:6px;padding:0 9px;cursor:pointer;line-height:1;
+    height:34px;min-height:34px;min-width:34px;display:inline-flex;align-items:center;justify-content:center}
+  header.sdnav .ctl button:hover{border-color:var(--lec);color:var(--lec)}
+  @media(max-width:960px){
+    header.sdnav .bar{flex-wrap:wrap;row-gap:0;padding-block:6px 0;min-height:0}
+    header.sdnav .ctl{order:1;margin-left:auto}
+    header.sdnav .fbl{order:1;margin-left:auto;min-height:34px;padding:5px 12px}
+    header.sdnav .fbl:not([hidden]) ~ .ctl{margin-left:6px}
+    header.sdnav .sp{display:none}
+    header.sdnav .sdlinks{order:2;flex-basis:100%;overflow-x:auto;scrollbar-width:none;padding:4px 28px 8px 0;min-height:44px;
+      -webkit-mask-image:linear-gradient(to right,#000 calc(100% - 28px),transparent);mask-image:linear-gradient(to right,#000 calc(100% - 28px),transparent)}
+    header.sdnav .sdlinks::-webkit-scrollbar{display:none}
+    header.sdnav .navl{font-size:0.82rem;padding:6px 9px}
+  }
 </style>
 </head>
 <body>
@@ -316,21 +334,23 @@
     <a class="brand" href="index.html">Screen Design</a>
     <span class="sp"></span>
     <nav class="sdlinks" aria-label="Screen Design"><a class="navl" href="start.html">Start here</a><a class="navl" href="weeks.html">Week by week</a><a class="navl on" href="assessment.html" aria-current="page">Checklist</a><a class="navl" href="examples.html">Examples</a><a class="navl" href="toolkit.html">Toolkit</a><a class="navl" href="assessment-materials.html">Marking</a><a class="navl" href="all.html">All pages</a></nav>
+    <a class="fbl" id="fbl" href="#" target="_blank" rel="noopener" hidden>Feedback form</a>
     <span class="ctl"><button id="theme" aria-label="Dark mode">◐</button></span>
   </div>
 </header>
-<script>(function(){var n=document.querySelector(".sdlinks"),o=n&&n.querySelector(".on");if(o&&n.scrollWidth>n.clientWidth)n.scrollLeft=o.offsetLeft-n.offsetLeft-16;})();</script>
+<script>(function(){var d=new Date(),a=document.getElementById("fbl");[["2026-11-16", "2026-11-30", "https://forms.cloud.microsoft/e/FkCJKpKu2d"], ["2026-11-30", "2026-12-14", "https://forms.cloud.microsoft/e/tSchWyEaBF"]].forEach(function(f){if(f[2]&&d>=new Date(f[0]+"T00:00")&&d<new Date(f[1]+"T00:00")){a.href=f[2];a.hidden=false;}});var n=document.querySelector(".sdlinks"),o=n&&n.querySelector(".on");if(o&&n.scrollWidth>n.clientWidth)n.scrollLeft=o.offsetLeft-n.offsetLeft-16;})();</script>
 
 <div class="wrap ckw">
   <h1>What to hand in</h1>
   <p class="sub">This is the complete list. Nothing else is required.</p>
+  <p class="ckin">Want feedback on your deck? An optional check-in: <a href="#" data-form="w7" id="ckin-a" target="_blank" rel="noopener">week 7 form</a> · <a href="#" data-form="w9" target="_blank" rel="noopener">week 9 form</a>. Share your deck with Mike first.</p>
 <div class="ck">
 <aside class="three" id="three" aria-labelledby="three-h">
   <h2 id="three-h">The submission needs to show</h2>
   <ol>
-    <li data-f="1"><b>A clickable prototype:</b> the screens, at one or more sizes. Add clicks to your PowerPoint and you’re done.</li>
-    <li data-f="2"><b>Process work:</b> sketches, wireframes, mood board and style tiles. Sketches on paper or in design software: both count. The appendices count here too.</li>
-    <li data-f="3"><b>A rationale of 500–700 words,</b> covering layout, type, colour, users, accessibility, AI, one ethics or sustainability point and one cross-cultural point.</li>
+    <li data-f="1"><b>A clickable prototype:</b> the screens, at one or more sizes. Add clicks to your PowerPoint, then check them in the PDF. <i class="map">B6 to B8</i></li>
+    <li data-f="2"><b>Process work:</b> concept sketches, wireframes, mood board and style tile. On paper or in software: both count. The appendices count here too. <i class="map">Part A, B1 to B5, Part D</i></li>
+    <li data-f="3"><b>A rationale of 500–700 words,</b> covering layout, type, colour, users, accessibility, AI, one ethics or sustainability point and one cross-cultural point. <i class="map">Part C, about 70–90 words each; A7 and D4</i></li>
   </ol>
   <p class="three-now" id="threenow"></p>
   <p class="deckn" id="deckn"></p>
@@ -398,9 +418,9 @@
   </footer>
 </div>
 
-<script src="sd-common.js?v=202611092131"></script>
-<script src="weeks-data.js?v=202611092131"></script>
-<script src="tools-data.js?v=202611092131"></script>
+<script src="sd-common.js?v=202611162245"></script>
+<script src="weeks-data.js?v=202611162245"></script>
+<script src="tools-data.js?v=202611162245"></script>
 <script>
 /* The list lives in sd-common.js so the hub can read it too — one source, so
    the progress bar there and the ticks here can never disagree. */
@@ -411,7 +431,7 @@ const MADE = {}; WEEKS.forEach(w => w.workshop.out.sec.forEach(s => { if (!MADE[
 const NOW = SD.week();
 /* which of the brief's three things a section feeds: the screens are the prototype, Part C is the
    rationale, and everything else (the numbers, the process and the appendices) is process work */
-const FEED = s => /^B[678]$/.test(s) ? 1 : s[0] === 'C' ? 3 : 2;
+const FEED = s => /^B[678]$/.test(s) ? 1 : (s[0] === 'C' || s === 'A7' || s === 'D4') ? 3 : 2;
 const FEEDN = { 1: 'Prototype', 2: 'Process', 3: 'Rationale' };
 let total = 0;
 /* each section is a slide in the deck: a thumbnail of what goes on it, how many slides it takes,
@@ -420,6 +440,42 @@ const SLIDES = { B5: ['1–2 slides', 'as many wireframes as fit; Example 2 fits
   B7: ['1 per extra size', 'only if you need other sizes', 2], D1: ['1–2 slides', 'one image per step', 2] };
 const slidesOf = x => SLIDES[x.sec] || (x.sec[0] === 'C' ? ['1 slide at most', '', 1] : ['1 slide', '', 1]);
 const TOOLS_FOR = s => TOOL_GROUPS.flatMap(g => g.items).filter(it => it[3].includes(s) && it[1] !== 'assessment.html');
+/* The tool that makes each section, as a big button straight to the right spot (Mike, 16 Nov 2026).
+   The other guides stay as small links beside it. A section with nothing to open has no button. */
+const GO = {
+  A1: [['Theme ideas', 'ideas.html']],
+  A2: [['Flow maker: count the steps', 'flow.html']],
+  A3: [['Gallery: pick a grid', 'gallery.html#grids']],
+  A4: [['Gallery: pick a typeface', 'gallery.html#type']],
+  A5: [['Gallery: pick colours', 'gallery.html#colour'], ['Contrast checker', 'gallery.html#check']],
+  A6: [['Design for everyone: copy a card', 'inclusive.html']],
+  A7: [['How to log AI use', 'toolkit.html#ai']],
+  B1: [['Week 2: how to sketch', 'weeks.html?w=2#workshop']],
+  B2: [['Week 6: the mood board', 'weeks.html?w=6#workshop']],
+  B3: [['Style tile builder', 'gallery.html#tile']],
+  B4: [['Flow maker', 'flow.html']],
+  B5: [['Screen maker', 'screen-maker.html']],
+  B6: [['Levels of finish', 'style-kit.html#fidelity']],
+  B7: [['Screen maker', 'screen-maker.html']],
+  B8: [['Week 10: link your slides', 'weeks.html?w=10#workshop']],
+  C1: [['Week 2: who it is for', 'weeks.html?w=2#workshop']],
+  C2: [['Week 3: layout and hierarchy', 'weeks.html?w=3#workshop']],
+  C3: [['Week 4: typography', 'weeks.html?w=4#workshop']],
+  C4: [['Contrast checker', 'gallery.html#check']],
+  C5: [['Design for everyone: C5 paragraphs', 'inclusive.html']],
+  C6: [['Week 9: what goes in C6', 'weeks.html?w=9#workshop']],
+  C7: [['Design for everyone: C7 cards', 'inclusive.html#c7']],
+  C8: [['Using AI', 'toolkit.html#ai']],
+  C9: [['Week 11: the reference list', 'weeks.html?w=11#workshop']],
+  D1: [['Week 5: capture the before', 'weeks.html?w=5#workshop']],
+  D2: [['Flow maker: what happened', 'flow.html']],
+  D3: [['Week 10: before and after', 'weeks.html?w=10#workshop']],
+  D4: [['Using AI', 'toolkit.html#ai']],
+};
+const base = u => u.split(/[?#]/)[0];
+const toolLinks = x => { const go = GO[x.sec] || [], seen = new Set(go.map(g => base(g[1])));
+  return go.map(([t, u]) => `<a class="go" href="${u}">${escT(t)} <span aria-hidden="true">→</span></a>`).join('')
+    + TOOLS_FOR(x.sec).filter(it => !seen.has(base(it[1]))).map(it => `<a href="${it[1]}"${it[1].startsWith('http') ? ' target="_blank" rel="noopener"' : ''}>${escT(it[0])}</a>`).join(''); };
 const escT = s => String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
 const thumb = x => { const lines = (x.f || []).filter((l, i, a) => !(l === '' && a[i - 1] === '')).slice(0, 7);
   const n = slidesOf(x)[2];
@@ -428,7 +484,7 @@ const thumb = x => { const lines = (x.f || []).filter((l, i, a) => !(l === '' &&
 el.innerHTML = PARTS.map(p => {
   const rows = p.items.map((x,i) => {
     const key = `sd-${p.id}-${i}`; total++;
-    const late = NOW > x.dw && !SD.isDone(key), [sn, sw] = slidesOf(x), tools = TOOLS_FOR(x.sec);
+    const late = NOW > x.dw && !SD.isDone(key), [sn, sw] = slidesOf(x);
     return `<label class="it ${late ? 'late' : ''}" id="${x.sec}" data-k="${key}" data-week="${MADE[x.sec] || 'any'}">
       <input type="checkbox">
       ${thumb(x)}
@@ -442,7 +498,7 @@ el.innerHTML = PARTS.map(p => {
           ${x.opt ? '<span class="m wd">Optional</span>' : ''}
           ${x.wd ? `<span class="m wd">${x.wd}</span>` : ''}
         </span>
-        <span class="it-tools"><button type="button" class="cp" data-copy="${x.sec}">Copy this slide</button>${tools.map(it => `<a href="${it[1]}">${escT(it[0])}</a>`).join('')}</span>
+        <span class="it-tools"><button type="button" class="cp" data-copy="${x.sec}">Copy this slide</button>${toolLinks(x)}</span>
       </span></label>`;
   }).join('');
   return `<div class="part">
@@ -645,5 +701,8 @@ document.querySelectorAll('.seccount').forEach(el => {
   el.textContent = PARTS.reduce((n, p) => n + p.items.length, 0);
 });
 </script>
+<script>(function () { const card = SD.fbCard(), l = document.querySelector('.ckin'); if (card && l) l.outerHTML = card; })();</script>
+<script>document.querySelectorAll('[data-form]').forEach(a => { const u = FEEDBACK_FORM[a.dataset.form]; if (u) a.href = u; else a.removeAttribute('target'); });</script>
+<!-- old-switch (navfix) --><p class="oldsw"><a id="oldsw" href="../sd/assessment.html?old=1">Switch to the old version</a></p><script>(function(){var a=document.getElementById("oldsw"),q=location.search;a.href="../sd/assessment.html"+(q?q+"&":"?")+"old=1"+location.hash;})();</script><!-- /old-switch -->
 </body>
 </html>

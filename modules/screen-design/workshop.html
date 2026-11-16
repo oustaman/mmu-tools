@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Workshop slides — Screen Design</title>
-<link rel="stylesheet" href="deck-kit.css?v=202611092131">
+<link rel="stylesheet" href="deck-kit.css?v=202611162245">
 <style>
 
 
@@ -18,7 +18,7 @@
   .shots figcaption{font-size:0.82rem;color:var(--ink-3);margin-top:5px}
   .exq{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:14px 18px;margin:0 0 12px;font-size:clamp(0.9rem,1.2vw,1rem);color:var(--ink-2);line-height:1.5;max-width:76ch}
   .exq h3{font-family:var(--mono);font-size:0.72rem;letter-spacing:0.08em;text-transform:uppercase;color:var(--ink-3);margin:0 0 6px}
-  .exq p{margin:0} .exq dl{display:grid;grid-template-columns:minmax(120px,auto) 1fr;gap:4px 14px;margin:0} .exq dt{color:var(--ink-3)} .exq dd{margin:0}
+  .exq p{margin:0} .exq pre{margin:0;white-space:pre-wrap;font:clamp(0.78rem,1.05vw,0.9rem)/1.5 var(--mono);color:var(--ink)} .exq dl{display:grid;grid-template-columns:minmax(120px,auto) 1fr;gap:4px 14px;margin:0} .exq dt{color:var(--ink-3)} .exq dd{margin:0}
   .duo{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.3fr);gap:16px;align-items:start}
   @media(max-width:860px){.duo{grid-template-columns:minmax(0,1fr)}}
   .tnote{margin:18px 0 0;max-width:760px;background:var(--surface);border:1px dashed var(--line-2);border-radius:10px;padding:10px 14px;font-size:0.86rem;color:var(--ink-2)}
@@ -31,6 +31,10 @@
   .src{font-size:0.82rem;color:var(--ink-3);margin:0}
   .big-link{display:inline-block;font-weight:700;font-size:clamp(1rem,1.5vw,1.15rem)}
   .none-yet{color:var(--ink-3)}
+  .fbgo{margin:6px 0 10px}
+  .fbgo a{display:inline-flex;align-items:center;min-height:56px;padding:12px 28px;border-radius:12px;background:var(--lec);color:#fff;font-weight:700;font-size:clamp(1.1rem,1.8vw,1.4rem);text-decoration:none}
+  html[data-theme="dark"] .fbgo a{color:#151314}
+  .fburl{font-family:var(--mono);font-size:clamp(1rem,1.6vw,1.3rem);color:var(--ink);margin:0 0 14px;word-break:break-all}
 
   /* THE BAR — one definition, identical on every page (written by navfix; change it
      everywhere or nowhere). It used to be copied per page and drifted into two heights. */
@@ -48,6 +52,14 @@
   html[data-theme="dark"] header.sdnav .navl.on{color:#151314}
   header.sdnav a:focus-visible,header.sdnav button:focus-visible{outline:2px solid var(--lec);outline-offset:1px}
   header.sdnav .ctl{order:0;margin-left:4px}
+  header.sdnav .fbl{order:0;display:inline-flex;align-items:center;min-height:36px;padding:6px 14px;border-radius:999px;background:var(--lec);
+    color:#fff;font-size:0.86rem;font-weight:700;text-decoration:none;white-space:nowrap;margin-left:6px}
+  header.sdnav .fbl[hidden]{display:none}
+  header.sdnav .fbl:hover{filter:brightness(1.1)}
+  html[data-theme="dark"] header.sdnav .fbl{color:#151314}
+  .oldsw{text-align:center;font-size:0.82rem;color:var(--ink-3);margin:28px auto 32px;padding:0 16px}
+  .oldsw a{color:var(--ink-2)}
+  html.present .oldsw{display:none}
   header.sdnav .ctl button{font-family:var(--mono);font-size:0.7rem;background:none;color:var(--ink-3);
     border:1px solid var(--line-2);border-radius:6px;padding:0 9px;cursor:pointer;line-height:1;
     height:34px;min-height:34px;min-width:34px;display:inline-flex;align-items:center;justify-content:center}
@@ -55,6 +67,8 @@
   @media(max-width:960px){
     header.sdnav .bar{flex-wrap:wrap;row-gap:0;padding-block:6px 0;min-height:0}
     header.sdnav .ctl{order:1;margin-left:auto}
+    header.sdnav .fbl{order:1;margin-left:auto;min-height:34px;padding:5px 12px}
+    header.sdnav .fbl:not([hidden]) ~ .ctl{margin-left:6px}
     header.sdnav .sp{display:none}
     header.sdnav .sdlinks{order:2;flex-basis:100%;overflow-x:auto;scrollbar-width:none;padding:4px 28px 8px 0;min-height:44px;
       -webkit-mask-image:linear-gradient(to right,#000 calc(100% - 28px),transparent);mask-image:linear-gradient(to right,#000 calc(100% - 28px),transparent)}
@@ -70,10 +84,11 @@
     <a class="brand" href="index.html">Screen Design</a>
     <span class="sp"></span>
     <nav class="sdlinks" aria-label="Screen Design"><a class="navl" href="start.html">Start here</a><a class="navl on" href="weeks.html">Week by week</a><a class="navl" href="assessment.html">Checklist</a><a class="navl" href="examples.html">Examples</a><a class="navl" href="toolkit.html">Toolkit</a><a class="navl" href="assessment-materials.html">Marking</a><a class="navl" href="all.html">All pages</a></nav>
+    <a class="fbl" id="fbl" href="#" target="_blank" rel="noopener" hidden>Feedback form</a>
     <span class="ctl"><button id="theme" aria-label="Dark mode">◐</button></span>
   </div>
 </header>
-<script>(function(){var n=document.querySelector(".sdlinks"),o=n&&n.querySelector(".on");if(o&&n.scrollWidth>n.clientWidth)n.scrollLeft=o.offsetLeft-n.offsetLeft-16;})();</script>
+<script>(function(){var d=new Date(),a=document.getElementById("fbl");[["2026-11-16", "2026-11-30", "https://forms.cloud.microsoft/e/FkCJKpKu2d"], ["2026-11-30", "2026-12-14", "https://forms.cloud.microsoft/e/tSchWyEaBF"]].forEach(function(f){if(f[2]&&d>=new Date(f[0]+"T00:00")&&d<new Date(f[1]+"T00:00")){a.href=f[2];a.hidden=false;}});var n=document.querySelector(".sdlinks"),o=n&&n.querySelector(".on");if(o&&n.scrollWidth>n.clientWidth)n.scrollLeft=o.offsetLeft-n.offsetLeft-16;})();</script>
 
 <div class="dtools"><div class="wrap">
   <b id="dtitle">Workshop slides</b><span class="sp"></span>
@@ -87,10 +102,10 @@
 <main id="deck"></main>
 <footer><div class="wrap"><p>Screen Design · Level 4 · 2026–27</p></div></footer>
 
-<script src="sd-common.js?v=202611092131"></script>
-<script src="weeks-data.js?v=202611092131"></script>
+<script src="sd-common.js?v=202611162245"></script>
+<script src="weeks-data.js?v=202611162245"></script>
 <script src="example-council-data.js"></script>
-<script src="deck-kit.js?v=202611092131"></script>
+<script src="deck-kit.js?v=202611162245"></script>
 <script>
 (function () {
   /* Workshop slides for weeks 6 to 10: what we make today, where each student is, the steps, what the
@@ -99,11 +114,11 @@
   const n = +(new URLSearchParams(location.search).get('w')) || 7;
   const W = WEEKS.find(w => w.n === n), SEC = Object.fromEntries(PARTS.flatMap(p => p.items).map(x => [x.sec, x]));
   const esc = s => String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
-  const form = k => FEEDBACK_FORM[k] ? `<a class="big-link" href="${FEEDBACK_FORM[k]}" target="_blank" rel="noopener">Open the feedback form</a>` : '<span class="none-yet">Your tutor shares the link in the room.</span>';
   /* a section of the council example, from its own data */
   const ex = sec => { const s = EXAMPLE.slides.find(x => x.sec === sec); if (!s) return '';
     return `<div class="exq">${s.blocks.map(b => b.t === 'h3' ? `<h3>${esc(b.x.replace(/\s+/g, ' '))}</h3>` : b.t === 'p' ? `<p>${esc(b.x)}</p>`
-      : b.t === 'kv' ? `<dl>${b.x.map(([k, v]) => `<dt>${esc(k)}</dt><dd>${esc(v)}</dd>`).join('')}</dl>` : '').join('')}</div>`; };
+      : b.t === 'kv' ? `<dl>${b.x.map(([k, v]) => `<dt>${esc(k)}</dt><dd>${esc(v)}</dd>`).join('')}</dl>`
+      : b.t === 'pre' ? `<pre>${esc(b.x)}</pre>` : '').join('')}</div>`; };
   const shot = (f, cap) => `<figure><img src="ws/${f}" alt="${esc(cap)}" loading="lazy"><figcaption>${esc(cap)}</figcaption></figure>`;
   const SRC = '<p class="src">From the council example on <a href="examples.html">Examples</a>: a solid 2:1, invented by the module team.</p>';
   const D = {
@@ -112,73 +127,75 @@
       steps: ['Mood board: as many images as you need on one page, at least five or six, so it feels the way your design should feel. Generated images or your own photos, each with its source and a date, like November 2026. Buttons, stickies, colours: anything that helps the feel. You can’t go wrong.',
         'Style tile: build it in the <a href="gallery.html#tile">Gallery</a>. Pick a typeface and colours, change anything on the tile until you like it, then copy it into B3.',
         'Open A7, your AI log: one bullet for every time you use AI. Which tool, for what, and what did it give you? Not using AI? One line: No AI used.',
-        'Write C8: about eighty words. Used AI? Was it any good, whose work is it, what did you change? Chose not to? Why, and what you did instead.'],
+        'Write C8: about 70–90 words. Used AI? Was it any good, whose work is it, what did you change? Chose not to? Why, and what you did instead.'],
       example: `<div class="shots">${shot('council-B2.png', 'B2: the mood board')}${shot('council-B3.png', 'B3: the style tile, every value from A3 to A5')}</div>${SRC}`,
-      last: { t: 'Before you leave', body: '<p class="lead">Next week is a checkpoint. You share your deck with Mike and fill in a short form, and he leaves feedback right in your deck.</p><p>Check your deck is in your shared folder, shared with Mike, before next Tuesday.</p>' } },
-    7: { h: 'Your version: the screens, the states and the flow', secs: ['A2', 'B4', 'B5', 'C6'],
-      lead: 'Today your plan becomes screens. You list them, check what each one looks like when things go wrong, draw the new flow, and wireframe the lot.',
-      steps: ['In A2, list the screens of your version, and give each one a job in under ten words.',
-        'For every screen, ask what it looks like empty, loading, and when it fails. Add the screens that are missing.',
-        'In the <a href="flow.html">Flow maker</a>, press <b>Start from my “now”</b> and change it into your version. Copy <b>Both</b> into B4, and the <b>What happened</b> table into D2.',
-        'Wireframe every screen on your list for B5. Start with the boring one.',
-        'Write C6: ninety words on ethics or sustainability.'],
-      example: `<div class="shots">${shot('council-B4.png', 'B4: the new flow, four screens and three decisions')}${shot('council-B5.png', 'B5: a wireframe for every screen, with notes')}</div>${SRC}`,
-      last: { t: 'Before you leave: the checkpoint', body: `<ol class="pts"><li>Check your deck is in your shared folder, shared with Mike.</li><li>Fill in the feedback form. It takes two minutes.</li><li>Mike leaves feedback right in your deck, as comments.</li></ol><p>${form('w7')}</p><p class="try">Before next week: finish the wireframe set, and pick the two screens you will build first.</p>` } },
-    8: { h: 'From wireframe to finished screen', secs: ['B5', 'B6'],
-      lead: 'Today the wireframe set gets finished and checked, and your two most important screens get built for real.',
-      steps: ['Any screen without a wireframe yet, do it now. Quick, not polished.',
+      last: { t: 'Before you leave', body: '<p class="lead">Next week there is an optional check-in: share your deck with Mike and fill in a short form, and he leaves feedback right in your deck.</p><p>If you want it, check your deck is in your shared folder before next Tuesday.</p>' } },
+    7: { h: 'Your version, and designing for everyone', secs: ['A2', 'B4', 'A6', 'C7'],
+      lead: 'Today you list the screens of your version, draw its flow, and make decisions so it works for people in hard situations, and from other cultures.',
+      steps: ['In A2, list the screens of your version, each with a job in under ten words.',
+        'In the <a href="flow.html">Flow maker</a>, press <b>Start from my “now”</b> and change it into your version. Copy <b>Both</b> into B4. Or draw it in <a href="https://app.diagrams.net/" target="_blank" rel="noopener">draw.io</a>.',
+        'Open <a href="inclusive.html">Design for everyone</a>. Pick three people whose situation fits your service.',
+        'For each, find the screen where it would be hard, and make one decision there. Copy the card into A6 and change the words to fit.',
+        'C7: on the same page, pick one of <b>Different cultures, different habits</b> that is real for your service. Make the decision, copy the paragraph, change the words in brackets.'],
+      example: `${ex('A6')}${SRC}`,
+      fb: 'w7',
+      last: { t: 'Before next week', body: '<p class="lead">Finish A6 and C7 if you ran out of time.</p><p>Bring your concept sketches from week 2: next week the one you circled becomes your first wireframe.</p>' } },
+    8: { h: 'Every screen wireframed, the first ones finished', secs: ['B5', 'B6'],
+      lead: 'Today every screen of your journey gets a wireframe, states included, and your most important screens get finished for real.',
+      steps: ['For each screen: what does it look like empty, loading, and when something fails? Add the screens that are missing.',
+        'Wireframe every screen still without one, starting from the concept sketch you circled in B1: on paper, in the <a href="screen-maker.html">Screen maker</a>, or in <a href="https://app.diagrams.net/" target="_blank" rel="noopener">draw.io</a>. No colour yet.',
         'Cover your labels and hand the set to a partner. Redraw any screen whose job they can’t name.',
-        'Build your two most important screens for real, from A3, A4, A5 and your style tile.',
-        'Put them in the deck: B5 complete, and the first two screens of B6.'],
+        'Put the set in B5.',
+        'Finish your most important screens with your grid, type and colours: one slide each in B6.'],
       example: `<div class="shots">${shot('council-B5.png', 'B5: the wireframes')}${shot('council-B6.png', 'B6: the first one, finished')}</div>${SRC}`,
-      last: { t: 'Before next week', body: '<p class="lead">Finish every screen of B6. Week 9 starts with all of them in front of you.</p><p>Stuck on what “finished” means? <a href="style-kit.html#fidelity">Levels of finish</a> shows it.</p>' } },
-    9: { h: 'Who finds it hard, and what your design does about it', secs: ['A6', 'C5'],
-      lead: 'Today you look at your finished screens through other people’s eyes, and write down what you find.',
-      steps: ['Every finished screen out, in front of you.',
-        'Think about who might struggle: poor eyesight, a second language, being tired after five minutes on a phone. Pick a few, and go through your screens as them.',
-        'Fix what you can. Write down what you can’t.',
-        'Fill in A6: those people and situations, and what your design does for each. Touch targets, focus and colour are good places to start.',
-        'Other screen sizes only if your journey needs them (B7). Draft C5.'],
-      example: `${ex('C5')}${ex('A6')}${SRC}`,
-      last: { t: 'Optional: a second round of feedback', body: `<p class="lead">Want Mike to look at your deck again? Fill in the form this week, and check your deck is still shared with him.</p><p>${form('w9')}</p>` } },
-    10: { h: 'From describing to defending', secs: ['B8', 'D2', 'D3'],
-      lead: 'Today Part C stops describing your design and starts defending it, and your screens become a click-through.',
-      steps: ['Mark your own deck on the <a href="rubric.html">rubric</a>. Your lowest criterion is where today goes.',
-        'Go through your feedback point by point, and fix what you agree with.',
-        'Rewrite each C section so it quotes a number from Part A, names what you rejected, and says what is still wrong.',
-        'Link every screen to the next, with a way back and a way out. That is B8.',
-        'Fill D2 and D3, then export a PDF and click every link.'],
-      example: `<div class="duo">${ex('C4')}<div class="shots">${shot('council-D3.png', 'D3: before and after, side by side')}</div></div>${SRC}`,
-      last: { t: 'Before you go', body: '<p class="lead">Export the deck as a PDF, open it, and click every link. A link that works in PowerPoint can vanish in the PDF, and the PDF is what gets marked.</p><p class="try">Week 11 has no class. Mike is in the room at the usual time to help anyone who comes.</p>' } },
+      last: { t: 'Before next week', body: '<p class="lead">Finish as many screens as you can for B6. Week 9 is set aside for the rest.</p>' } },
+    9: { h: 'Every screen finished', secs: ['B6', 'C5', 'C6', 'B7'],
+      lead: 'Today every screen of your journey gets finished, and you write two short texts: C5 and C6.',
+      steps: ['Every finished screen out, with the wireframes for the rest.',
+        'Finish the rest, one screen per slide in B6. Check your three decisions from A6 are really on the screens.',
+        'Write C5: about 70–90 words on the A6 decision that helps the most people. Each card on <a href="inclusive.html">Design for everyone</a> has a paragraph to copy and edit. A6 says what; C5 says why.',
+        'Write C6: about 70–90 words naming one decision on your screens, such as data you chose not to ask for.',
+        'Other screen sizes only if your journey needs them (B7). Decide what to remove, not what to shrink.'],
+      example: `<div class="duo">${ex('C5')}${ex('C6')}</div>${SRC}`,
+      fb: 'w9', fbLead: 'A second round: fill it in again, and Mike will look at your deck again.',
+      last: { t: 'Before next week', body: '<p class="lead">Finish every screen for B6. Next week you link them into a prototype that clicks through.</p>' } },
+    10: { h: 'Link it, and check it', secs: ['B8', 'D2', 'D3'],
+      lead: 'Today your screens become a prototype that clicks through, and you show the before beside the after.',
+      steps: ['Link every screen to the next, with a way back and a way out. That is B8.',
+        'Export a PDF, open it, and click every link.',
+        'Check every step in D2 has a reason, then put your two most changed screens before and after in D3.',
+        'Read two C sections to a partner: does each describe, or defend? Fix the one that describes.',
+        'If you can, start C9 (every source you cited) and D4 (your AI statement, from A7). Week 11 has no class.'],
+      example: `<div class="shots">${shot('council-D3.png', 'D3: before and after, side by side')}</div>${SRC}`,
+      last: { t: 'Before you go', body: '<p class="lead">Export the deck as a PDF, open it, and click every link. A link that works in PowerPoint can vanish in the PDF, and the PDF is what gets marked.</p><p class="try">Week 11 has no class. Mike is in the room to help anyone who comes. Hand in by Friday 8 January 2027, 21:00.</p>' } },
   };
   /* For whoever runs the room: what to say in two minutes, what to look for, and the snag that comes up.
      Shown on the page, hidden in Present, so a tutor can read it once before the session and nothing more. */
   const TUTOR = {
     6: ['Say: today is how the screens will look and feel (B2 mood board, B3 style tile), plus the AI log (A7, C8). Not using AI is fine: C8 says why.',
-      'Look for: a style tile whose sizes and colours match the student’s own A3 to A5. No A3 to A5 yet? That is the behind group: the Style kit fills all three in about twenty minutes.',
-      'Snag: the mood board eating the session. Fifteen images, twenty minutes, then move on.'],
-    7: ['Say: today the plan becomes screens. List them, check what each looks like when things go wrong, draw the new flow, wireframe the lot.',
-      'Look for: every screen has a job in under ten words, and empty, loading and error screens are on the list.',
-      'Snag: the week 5 flow is gone from the Flow maker (another computer, cleared browser). They start Your version from scratch; it is quick.',
-      'Before they leave: everyone shares their deck with Mike and fills in the check-in form. It is on the last slide.'],
-    8: ['Say: finish the wireframes, then build the two most important screens for real, from their own numbers.',
-      'Look for: finished screens that use the student’s A3 to A5 values, not new ones picked on the day.',
-      'Snag: decorated wireframes. Boxes and labels only; colour belongs in B6.'],
-    9: ['Say: look at the finished screens through other people’s eyes, and write down who finds them hard and what the design does about it.',
-      'Look for: specific people and situations in A6, such as poor eyesight, a second language, or tiredness.',
-      'Snag: “it is accessible for everyone”. Ask: for whom, doing what, and what on the screen helps them?',
-      'Mention: a second round of feedback is open this week, on the last slide.'],
-    10: ['Say: Part C stops describing and starts defending, and the screens become a click-through.',
-      'Look for: C sections that quote a number from Part A and name something the student rejected.',
+      'Look for: a style tile whose sizes and colours match the student’s own A3 to A5. No A3 to A5 yet? That is the behind group: the Gallery fills all three, and builds the style tile.',
+      'Snag: the mood board eating the session. Five or six images is enough; twenty minutes, then move on.'],
+    7: ['Say: list the screens of your version, draw its flow, then make three decisions for people in hard situations (A6) and one for another culture (C7), all from the Design for everyone page.',
+      'Look for: real people in real situations (one hand free, a second language, worry), each with one decision on a named screen.',
+      'Snag: “accessible for everyone”. Ask: for whom, in what situation, and what on the screen helps them?',
+      'Mention: the feedback form, on its own slide near the end. Optional; Mike gives feedback in their deck.'],
+    8: ['Say: every screen as a wireframe, states included, then finish the most important ones for real.',
+      'Look for: finished screens that use the student’s own A3 to A5 values, not new ones picked on the day.',
+      'Snag: decorated wireframes. Boxes, labels and real words; colour belongs in B6.'],
+    9: ['Say: finish every screen, then two short texts: C5 (why the best A6 decision matters, on its finished screen) and C6 (one ethics or sustainability decision).',
+      'Look for: the three A6 decisions visible on the finished screens.',
+      'Mention: the feedback form, on its own slide near the end, for a second round of feedback.'],
+    10: ['Say: link the screens into a prototype, check it in the PDF, and show the before beside the after.',
+      'Look for: every screen linked forward, with a way back and a way out.',
       'Snag: links that work in PowerPoint and vanish in the PDF. Everyone exports and clicks before leaving.'],
   };
   /* for the students who are ahead: the next useful thing, so nobody waits */
   const AHEAD = {
     6: 'Start week 7: list the screens of your version in A2, and give each one a job.',
-    7: 'Start week 8: turn your most important wireframe into a finished screen.',
-    8: 'Carry on into B6: every screen of your journey, finished.',
-    9: 'Start week 10: link your screens into a click-through, then rewrite one C section.',
-    10: 'Ask a classmate to click through your PDF without help, and fix wherever they stop.',
+    7: 'Start week 8: the states check, then wireframe the rest of your screens.',
+    8: 'Start week 9: once a screen is finished, check your A6 decisions are on it, and start C5.',
+    9: 'Start week 10: link your screens into a click-through.',
+    10: 'Finish C9 and D4, then export the final PDF and click every link one last time.',
   };
   const d = D[n];
   if (!W || !d) { document.getElementById('deck').innerHTML = '<section class="sl"><div class="wrap"><h2>No workshop slides for this week</h2><p class="lead">There are slides for weeks 6 to 10. <a href="weeks.html">Week by week</a></p></div></section>'; DK.start(); return; }
@@ -198,7 +215,7 @@
   <h2>Where are you?</h2>
   <p class="lead">Everyone is at a different point, and that is fine. Pick the one that fits you today.</p>
   <div class="lanes">
-    <div class="lane"><h3>Behind</h3><p>Open the <a href="assessment.html">checklist</a>. Anything marked <b>Behind</b> comes first, the earliest one first: copy its slide into your deck and fill it in.</p></div>
+    <div class="lane"><h3>Behind</h3><p>Open the <a href="assessment.html">checklist</a> and check what you can do today.</p></div>
     <div class="lane"><h3>On track</h3><p>Today’s steps are on the next slide.</p></div>
     <div class="lane"><h3>Ahead</h3><p>${esc(AHEAD[n] || 'Carry on with the next section on the checklist.')}</p></div>
   </div>
@@ -213,6 +230,13 @@
   <h2>What the finished thing looks like</h2>
   ${d.example}
 </div></section>
+${d.fb ? `<section class="sl" data-t="Feedback form"><div class="wrap">
+  <h2>Feedback form</h2>
+  <p class="lead">${esc(d.fbLead || 'Fill it in, and Mike will give you feedback on your deck.')}</p>
+  <ol class="pts"><li>Check your deck is in your shared folder, shared with Mike.</li><li>Fill in the form. It takes two minutes.</li><li>Mike leaves feedback right in your deck, as comments.</li></ol>
+  ${FEEDBACK_FORM[d.fb] ? `<p class="fbgo"><a href="${FEEDBACK_FORM[d.fb]}" target="_blank" rel="noopener">Open the feedback form</a></p><p class="fburl">${esc(FEEDBACK_FORM[d.fb].replace(/^https:\/\//, ''))}</p>` : '<p class="none-yet">Your tutor shares the link in the room.</p>'}
+  <p class="src">Optional. For the next two weeks it is also in the top bar of every page, as <b>Feedback form</b>.</p>
+</div></section>` : ''}
 <section class="sl" data-t="${esc(d.last.t)}"><div class="wrap">
   <h2>${esc(d.last.t)}</h2>
   ${d.last.body}
@@ -220,5 +244,6 @@
   DK.start();
 })();
 </script>
+<!-- old-switch (navfix) --><p class="oldsw"><a id="oldsw" href="../sd/workshop.html?old=1">Switch to the old version</a></p><script>(function(){var a=document.getElementById("oldsw"),q=location.search;a.href="../sd/workshop.html"+(q?q+"&":"?")+"old=1"+location.hash;})();</script><!-- /old-switch -->
 </body>
 </html>

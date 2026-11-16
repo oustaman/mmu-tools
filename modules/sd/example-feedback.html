@@ -2,6 +2,7 @@
 <html lang="en-GB">
 <head>
 <meta charset="utf-8">
+<script>/* The current site is ../screen-design/ (16 Nov 2026): this older copy sends everyone there, unless they chose it with ?old=1 ("Switch to the old version"). Going back via the banner clears the choice. */(function(){var k="sd-old",p=location.pathname;if(/[?&]old=1/.test(location.search)){try{localStorage.setItem(k,"1")}catch(e){}return}try{if(localStorage.getItem(k))return}catch(e){}if(/\/modules\/sd\//.test(p))location.replace(p.replace("/modules/sd/","/modules/screen-design/")+location.search+location.hash);})();</script>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Example 1, feedback sheet — Screen Design</title>
 <style>
@@ -153,7 +154,7 @@
 <body>
 
 <div class="oldv" role="note" style="background:#F4EAD3;color:#3D2C00;font:14px/1.4 -apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;padding:9px 16px;text-align:center;border-bottom:1px solid #D9C79E">You are looking at the older version of this site. <a id="oldv-go" href="../screen-design/index.html" style="color:#3D2C00;font-weight:700">Go to the current site</a></div>
-<script>(function(){var f=location.pathname.split('/').pop()||'index.html',a=document.getElementById('oldv-go');if(a)a.href='../screen-design/'+f+location.search+location.hash;})();</script>
+<script>(function(){var f=location.pathname.split('/').pop()||'index.html',a=document.getElementById('oldv-go');if(a){a.href='../screen-design/'+f+location.search.replace(/[?&]old=1/,'').replace(/^&/,'?')+location.hash;a.onclick=function(){try{localStorage.removeItem('sd-old')}catch(e){}};}})();</script>
 <header class="sdnav">
   <div class="wrap bar">
     <a class="brand" href="index.html">Screen Design</a>
@@ -192,8 +193,8 @@
   <footer><p>Screen Design · Level 4 · 30 credits · 2026–27</p></footer>
 </div>
 
-<script src="sd-common.js?v=202611092131"></script>
-<script src="rubric-data.js?v=202611092131"></script>
+<script src="sd-common.js?v=202611162245"></script>
+<script src="rubric-data.js?v=202611162245"></script>
 <script src="example-data.js"></script>
 <script>
 (function () {

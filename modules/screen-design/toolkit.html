@@ -166,6 +166,9 @@
   details.howto > p{margin:8px 18px;color:var(--ink-2);line-height:1.55;max-width:82ch}
   details.howto + :not(details){margin-top:22px}
 
+  .ai-h{font-size:0.95rem;margin:14px 0 4px;scroll-margin-top:80px}
+  .ai-log{font:0.74rem/1.5 var(--mono,monospace);background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:10px 12px;overflow-x:auto;white-space:pre;margin:6px 0 10px}
+
   /* THE BAR — one definition, identical on every page (written by navfix; change it
      everywhere or nowhere). It used to be copied per page and drifted into two heights. */
   header.sdnav{position:sticky;top:0;z-index:40;background:var(--surface);border-bottom:1px solid var(--line)}
@@ -182,6 +185,14 @@
   html[data-theme="dark"] header.sdnav .navl.on{color:#151314}
   header.sdnav a:focus-visible,header.sdnav button:focus-visible{outline:2px solid var(--lec);outline-offset:1px}
   header.sdnav .ctl{order:0;margin-left:4px}
+  header.sdnav .fbl{order:0;display:inline-flex;align-items:center;min-height:36px;padding:6px 14px;border-radius:999px;background:var(--lec);
+    color:#fff;font-size:0.86rem;font-weight:700;text-decoration:none;white-space:nowrap;margin-left:6px}
+  header.sdnav .fbl[hidden]{display:none}
+  header.sdnav .fbl:hover{filter:brightness(1.1)}
+  html[data-theme="dark"] header.sdnav .fbl{color:#151314}
+  .oldsw{text-align:center;font-size:0.82rem;color:var(--ink-3);margin:28px auto 32px;padding:0 16px}
+  .oldsw a{color:var(--ink-2)}
+  html.present .oldsw{display:none}
   header.sdnav .ctl button{font-family:var(--mono);font-size:0.7rem;background:none;color:var(--ink-3);
     border:1px solid var(--line-2);border-radius:6px;padding:0 9px;cursor:pointer;line-height:1;
     height:34px;min-height:34px;min-width:34px;display:inline-flex;align-items:center;justify-content:center}
@@ -189,14 +200,14 @@
   @media(max-width:960px){
     header.sdnav .bar{flex-wrap:wrap;row-gap:0;padding-block:6px 0;min-height:0}
     header.sdnav .ctl{order:1;margin-left:auto}
+    header.sdnav .fbl{order:1;margin-left:auto;min-height:34px;padding:5px 12px}
+    header.sdnav .fbl:not([hidden]) ~ .ctl{margin-left:6px}
     header.sdnav .sp{display:none}
     header.sdnav .sdlinks{order:2;flex-basis:100%;overflow-x:auto;scrollbar-width:none;padding:4px 28px 8px 0;min-height:44px;
       -webkit-mask-image:linear-gradient(to right,#000 calc(100% - 28px),transparent);mask-image:linear-gradient(to right,#000 calc(100% - 28px),transparent)}
     header.sdnav .sdlinks::-webkit-scrollbar{display:none}
     header.sdnav .navl{font-size:0.82rem;padding:6px 9px}
   }
-  .ai-h{font-size:0.95rem;margin:14px 0 4px;scroll-margin-top:80px}
-  .ai-log{font:0.74rem/1.5 var(--mono,monospace);background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:10px 12px;overflow-x:auto;white-space:pre;margin:6px 0 10px}
 </style>
 </head>
 <body>
@@ -206,10 +217,11 @@
     <a class="brand" href="index.html">Screen Design</a>
     <span class="sp"></span>
     <nav class="sdlinks" aria-label="Screen Design"><a class="navl" href="start.html">Start here</a><a class="navl" href="weeks.html">Week by week</a><a class="navl" href="assessment.html">Checklist</a><a class="navl" href="examples.html">Examples</a><a class="navl on" href="toolkit.html" aria-current="page">Toolkit</a><a class="navl" href="assessment-materials.html">Marking</a><a class="navl" href="all.html">All pages</a></nav>
+    <a class="fbl" id="fbl" href="#" target="_blank" rel="noopener" hidden>Feedback form</a>
     <span class="ctl"><button id="theme" aria-label="Dark mode">◐</button></span>
   </div>
 </header>
-<script>(function(){var n=document.querySelector(".sdlinks"),o=n&&n.querySelector(".on");if(o&&n.scrollWidth>n.clientWidth)n.scrollLeft=o.offsetLeft-n.offsetLeft-16;})();</script>
+<script>(function(){var d=new Date(),a=document.getElementById("fbl");[["2026-11-16", "2026-11-30", "https://forms.cloud.microsoft/e/FkCJKpKu2d"], ["2026-11-30", "2026-12-14", "https://forms.cloud.microsoft/e/tSchWyEaBF"]].forEach(function(f){if(f[2]&&d>=new Date(f[0]+"T00:00")&&d<new Date(f[1]+"T00:00")){a.href=f[2];a.hidden=false;}});var n=document.querySelector(".sdlinks"),o=n&&n.querySelector(".on");if(o&&n.scrollWidth>n.clientWidth)n.scrollLeft=o.offsetLeft-n.offsetLeft-16;})();</script>
 
 <div class="wrap">
   <h1>Toolkit</h1>
@@ -229,8 +241,8 @@
       <li><b>Does it need more than a few screens?</b> Three to six is plenty. If you need fifteen, the goal is too big; cut it in half.</li>
       <li><b>Do you care about it even a little?</b> You will spend ten weeks on it. Something that annoyed you this term counts.</li>
     </ol>
-    <p><b>Steer clear of</b> redesigning Spotify or Instagram (you end up critiquing them, with nothing of yours to mark); anything regulated, such as medical, legal or financial services, where steps exist because the law requires them; and adding features: your job is a shorter, clearer journey, not a longer one.</p>
-    <p><b>Settle it by week 3.</b> You can change it later, but everything after is built on it, so a later change means more to redo.</p>
+    <p><b>Steer clear of</b> redesigning Spotify or Instagram (they are already polished, so there is little left to improve and little of yours to mark); anything that gives medical, legal or financial advice, where steps exist because the law requires them; and adding features: your job is a shorter, clearer journey, not a longer one.</p>
+    <p><b>Settle it by week 2.</b> You can change it later, but everything after is built on it, so a later change means more to redo.</p>
   </details>
   <details class="howto tk-guide" id="no-service">
     <summary><b>When there’s no service yet</b></summary>
@@ -269,14 +281,14 @@
     <h3 class="ai-h" id="no-ai">If you choose not to use AI</h3>
     <ul>
       <li><b>A7:</b> one line, <i>No AI used</i>. Keep it true: if that changes, start logging.</li>
-      <li><b>C8:</b> about eighty words on why you chose not to, and what you did instead. The brief asks for exactly this, and it counts the same as reflecting on AI you used.</li>
-      <li><b>D4:</b> one line, <i>No AI was used in this portfolio.</i></li>
-      <li><b>Mood board:</b> your own photos, or images you are allowed to reuse, each credited in C9.</li>
+      <li><b>C8:</b> about 70–90 words on why you chose not to, and what you did instead. The brief asks for exactly this, and it counts the same as reflecting on AI you used.</li>
+      <li><b>D4:</b> one line, <i>No AI used.</i></li>
+      <li><b>Mood board:</b> your own photos, or images you are allowed to reuse, each with its source and a date.</li>
       <li><b>Built-in AI:</b> turn off the suggestions in the tools above, or leave them unaccepted.</li>
     </ul>
     <p><b>Say where you used it.</b> Log each use in <a href="assessment.html#A7">A7</a> as you go. Judge it in <a href="assessment.html#C8">C8</a>:
       was it any good, whose work is it, what did you change? Then <a href="assessment.html#D4">D4</a>, your AI statement: if you used it, how, where and why;
-      if not, one line: <i>No AI was used.</i></p>
+      if not, one line: <i>No AI used.</i></p>
     <p class="tk-warn">In the brief’s words: <q>Submitting AI-generated text without declaration constitutes academic misconduct.</q>
       Whether you used AI is not marked; what you make of it in C8 counts toward Critical Reflection.</p>
   </details>
@@ -322,7 +334,7 @@
   <footer><p>Screen Design · Level 4 · 30 credits · 2026–27 · Links checked October 2026. Tell us if one breaks.</p></footer>
 </div>
 
-<script src="tools-data.js?v=202611092131"></script>
+<script src="tools-data.js?v=202611162245"></script>
 <script>
 (function () {
   /* kind: explore (play with the idea) · collect (take numbers off something real) ·
@@ -365,5 +377,6 @@ document.getElementById('theme').onclick = () => {
   try { localStorage.setItem('sd-theme', root.dataset.theme); } catch (e) {}
 };
 </script>
+<!-- old-switch (navfix) --><p class="oldsw"><a id="oldsw" href="../sd/toolkit.html?old=1">Switch to the old version</a></p><script>(function(){var a=document.getElementById("oldsw"),q=location.search;a.href="../sd/toolkit.html"+(q?q+"&":"?")+"old=1"+location.hash;})();</script><!-- /old-switch -->
 </body>
 </html>

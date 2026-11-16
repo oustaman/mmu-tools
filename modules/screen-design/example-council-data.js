@@ -106,37 +106,41 @@ var EXAMPLE = {   // var, not const: examples.html loads both example files, one
 "First accent was #2B8FD0 — 3.62:1 on white. Darkened it; every pair now passes AA." } ] },
 
   { kind: "section", sec: "A6", blocks: [
-    { t: "h3", x: "A6.  ACCESSIBILITY" },
-    { t: "kv", x: [
-      ["Minimum touch target", "44 × 44 px for every control, including the 'Change' links"],
-      ["Focus state", "#FFB81C fill with a 4 px #1F2933 bar under it. The yellow alone is 1.73:1 on white, so the dark bar carries the contrast (14.76:1)"],
-      ["Non-colour cues", "Errors: an icon, the word 'Error', and a message next to the field. Required: every field is required, optional ones say so. The step is named in words, not only shown in the progress bar"] ] } ] },
+    { t: "h3", x: "A6.  DESIGNING FOR EVERYONE" },
+    { t: "pre", x:
+"Who, and in what situation: a student on the bus, one hand free\n" +
+"What makes it hard: small 'Change' links and buttons\n" +
+"What my design does, and on which screen: every control at least 44 × 44 px,\n" +
+"   including the 'Change' links, on screens 1 to 4\n\n" +
+"Who, and in what situation: an international student reading in a second language\n" +
+"What makes it hard: the council's words, 'liable' and 'Class N'\n" +
+"What my design does, and on which screen: one plain question per screen, and\n" +
+"   'What counts as full time' opens under the question, on screen 1\n\n" +
+"Who, and in what situation: someone who can't tell red from green, or uses a keyboard\n" +
+"What makes it hard: errors shown only by a red border; no way to see where you are\n" +
+"What my design does, and on which screen: an icon, the word 'Error' and a message\n" +
+"   beside the field, and a yellow focus with a dark bar (14.76:1), on screens 2 and 3" } ] },
 
   { kind: "section", sec: "A7", blocks: [
     { t: "h3", x: "A7.  AI USE LOG" },
     { t: "pre", x:
-"Tool | What it made | What I changed | Why\n\n" +
-"1. ChatGPT | a plain-English version of the 'Class N' exemption\n" +
-"   | cut 'you will be exempt' to 'your home may be exempt'\n" +
-"   | the council decides, not the form; it was promising a result\n\n" +
-"2. ChatGPT | six versions of the start question\n" +
-"   | used none as written; combined two of them\n" +
-"   | all six asked about the reader, not about everyone in the house\n\n" +
-"3. Adobe Firefly | a terrace-house illustration for the mood board\n" +
-"   | kept it on the board only, not on any screen\n" +
-"   | the windows were wrong and nobody needs a picture to fill in a form" } ] },
+"•  ChatGPT, to put the 'Class N' exemption into plain English: a shorter version,\n" +
+"   which promised 'you will be exempt'.\n" +
+"•  ChatGPT, for six versions of the start question: six questions, all about 'you',\n" +
+"   not the house.\n" +
+"•  Adobe Firefly, for a terrace-house illustration for the mood board: one illustration." } ] },
 
   { kind: "divider", blocks: [{ t: "h2", x: "PART B — THE WORK" }] },
 
   { kind: "section", sec: "B1", blocks: [
     { t: "h3", x: "B1.  CONCEPT SKETCHES" },
-    { t: "img", a: "sketches", x: "Eight thumbnails of the start screen" },
-    { t: "cap", x: "Eight ways of opening the form, drawn in the week 2 workshop. Four started with a list of exemptions, because that is what the council's site does; I crossed all four out once I saw I was copying the problem. Number 6 asks one question about the whole house and puts everything else below it. That is the one I built. Number 3 had a progress bar with seven steps, which is the before, not the after. The thumbnails taught me the start screen has one job: tell someone in ten seconds whether this is for them." } ] },
+    { t: "img", a: "sketches", x: "Eight concept sketches of the start screen" },
+    { t: "cap", x: "Eight ways of opening the form, drawn in the week 2 workshop. Four started with a list of exemptions, because that is what the council's site does; I crossed all four out once I saw I was copying the problem. Number 6 asks one question about the whole house and puts everything else below it. That is the one I built. Number 3 had a progress bar with seven steps, which is the before, not the after. The sketches taught me the start screen has one job: tell someone in ten seconds whether this is for them." } ] },
 
   { kind: "section", sec: "B2", blocks: [
     { t: "h3", x: "B2.  MOOD BOARD" },
     { t: "img", a: "mood", x: "Mood board: calm, official, not cold" },
-    { t: "cap", x: "Three words I kept coming back to: calm, official, human. Official because people need to trust it with their address and their university details; calm because council tax arrives as a threat; human because the current site reads like the regulation it is built on. The navy is from the council's own sign on the town hall. The yellow is borrowed from road signs: it means look here, not danger. The illustration is AI-generated and stays on this board — see A7." } ] },
+    { t: "cap", x: "Three words I kept coming back to: calm, official, human. Official because people need to trust it with their address and their university details; calm because council tax arrives as a threat; human because the current site reads like the regulation it is built on. The navy is from the council's own sign on the town hall. The yellow is borrowed from road signs: it means look here, not danger. The illustration is AI-generated and stays on this board — see A7. Sources: illustration, Adobe Firefly, November 2026; navy, the council's sign on the town hall, photographed October 2026." } ] },
 
   { kind: "section", sec: "B3", blocks: [
     { t: "h3", x: "B3.  STYLE TILE" },
@@ -211,7 +215,7 @@ var EXAMPLE = {   // var, not const: examples.html loads both example files, one
 
   { kind: "section", sec: "C5", blocks: [
     { t: "h3", x: "C5.  USER NEEDS & ACCESSIBILITY" },
-    { t: "p", x: "The need is to stop being billed, quickly and without fear of getting it wrong. Seven steps became four (A2), and the two that were worst for students went: the account, and the council tax number you do not have until the bill arrives. Every control is 44 px (A6), the WCAG target size (W3C, 2023), because people do this on a phone on the bus as often as at a desk. Errors are said in words, not colour. The proof step stays, because the law requires it (Council Tax (Exempt Dwellings) Order 1992), but it is now the university's job by default, not yours." } ] },
+    { t: "p", x: "The need is to stop being billed, quickly and without fear of getting it wrong. Seven steps became four (A2), and the two that were worst for students went: the account, and the council tax number you do not have until the bill arrives. Every control is at least 44 px (A6), well above the WCAG minimum of 24 px (W3C, 2023), because people do this on a phone on the bus as often as at a desk. Errors are said in words, not colour. The proof step stays, because the law requires it (Council Tax (Exempt Dwellings) Order 1992), but it is now the university's job by default, not yours." } ] },
 
   { kind: "section", sec: "C6", blocks: [
     { t: "h3", x: "C6.  ETHICS OR SUSTAINABILITY" },
@@ -263,7 +267,11 @@ var EXAMPLE = {   // var, not const: examples.html loads both example files, one
   { kind: "section", sec: "D3", blocks: [
     { t: "h3", x: "D3.  SIDE BY SIDE" },
     { t: "img", a: "side", x: "Two steps before and after" },
-    { t: "cap", x: "Top: 'Select exemption type' and its list of legal classes, against one question about the house. Bottom: a PDF per person under 2 MB, against the university confirming it." } ] }
+    { t: "cap", x: "Top: 'Select exemption type' and its list of legal classes, against one question about the house. Bottom: a PDF per person under 2 MB, against the university confirming it." } ] },
+
+  { kind: "section", sec: "D4", blocks: [
+    { t: "h3", x: "D4.  AI STATEMENT" },
+    { t: "p", x: "AI used: yes. Every use is logged in A7: ChatGPT for plain-English wording and for the start question, and Adobe Firefly for one mood board illustration. It shows in A7, B2 and C8. None of the finished screens uses words or pictures made by AI." } ] }
  ],
 
  criteria: [
@@ -316,8 +324,8 @@ const NOTES = [
  { sec:"A2", b:1, c:3, band:"First", s:"The slide the whole deck rests on: a goal in one sentence, both lists, both counted. Every C section can now quote 7 → 4, and most of them do." },
  { sec:"A3", b:1, c:1, band:"First", s:"Eight columns, argued for in C2 rather than defaulted to. Every number here is visible on the screens — check any of them." },
  { sec:"A5", b:2, c:2, band:"First", s:"Every pair measured, and the record shows a change: the first accent failed at 3.62:1 and was darkened. That one line is worth more than a table that was right first time." },
- { sec:"A6", b:1, c:2, band:"First", s:"The focus state is solved, not just stated. Yellow alone fails at 1.73:1, so a dark bar carries the contrast. Plenty of professional sites get this wrong." },
- { sec:"A7", b:1, c:4, band:"First", s:"An honest log: each use, what changed, and why. Compare the first example, where A7 says none and B4 says otherwise." },
+ { sec:"A6", b:1, c:2, band:"First", s:"Three real situations, each with one decision on a named screen. And the focus state is solved, not just stated: yellow alone fails at 1.73:1, so a dark bar carries the contrast." },
+ { sec:"A7", b:1, c:4, band:"First", s:"An honest log: one line for each use, what it was for and what it gave. The judging is in C8, where it belongs. Compare the first example, where A7 says none and B4 says otherwise." },
  { sec:"B1", b:2, c:3, band:"2:1", s:"Eight real alternatives, and the caption says what they taught — four crossed out because they copied the before. That is process, not decoration." },
  { sec:"B5", b:2, c:3, band:"2:1", s:"'Wireframe 4 had a check-your-answers page before it. I took it out — see D2.' The decision is recorded, which is good. The reason, in D2, is the problem." },
  { sec:"B6", i:4, b:1, c:2, band:"First", s:"The reference is the largest thing after the heading, and what happens next has dates. The one screen a student would screenshot is designed to be screenshotted." },
