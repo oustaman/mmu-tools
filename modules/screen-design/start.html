@@ -265,7 +265,7 @@
   <div class="wrap bar">
     <a class="brand" href="index.html">Screen Design</a>
     <span class="sp"></span>
-    <nav class="sdlinks" aria-label="Screen Design"><a class="navl on" href="start.html" aria-current="page">Start here</a><a class="navl" href="weeks.html">Week by week</a><a class="navl" href="assessment.html">Checklist</a><a class="navl" href="examples.html">Examples</a><a class="navl" href="toolkit.html">Toolkit</a><a class="navl" href="assessment-materials.html">Marking</a><a class="navl" href="all.html">All pages</a></nav>
+    <nav class="sdlinks" aria-label="Screen Design"><a class="navl on" href="start.html" aria-current="page">Start here</a><a class="navl" href="weeks.html">Week by week</a><a class="navl" href="assessment.html">Checklist</a><a class="navl" href="examples.html">Examples</a><a class="navl" href="toolkit.html">Toolkit</a><a class="navl" href="assessment-materials.html">Marking</a><a class="navl" href="index.html#help">Stuck?</a><a class="navl" href="all.html">All pages</a></nav>
     <a class="fbl" id="fbl" href="#" target="_blank" rel="noopener" hidden>Feedback form</a>
     <span class="ctl"><button id="theme" aria-label="Dark mode">◐</button></span>
   </div>
@@ -275,8 +275,6 @@
 <div class="wrap">
   <h1>Start here</h1>
   <p class="lead2">In this module you take <b>one thing people find hard to do on a screen</b>, show how it works now, and design a better version. You hand in <b>one PDF</b>, by <b id="due"></b>.</p>
-
-  <div id="checkin" hidden></div>
 
   <div class="late" id="late">
     <b>Joined late? Do these first, in this order</b>
@@ -357,12 +355,10 @@
   <footer><p>Screen Design · Level 4 · 30 credits · 2026–27</p></footer>
 </div>
 
-<script src="sd-common.js?v=202611162308"></script>
+<script src="sd-common.js?v=202611162320"></script>
 <script>
 document.getElementById('due').textContent = SD.fmtFull(SD.dead);
-(function () { const w = SD.week(); if (w >= 1 && w <= SD.WEEKS) { const a = document.getElementById('thisweek'); a.href = 'weeks.html?w=' + w; a.textContent = 'This week: week ' + w; }
-  /* the optional check-in, in the weeks it runs */
-  const c = document.getElementById('checkin'); c.hidden = false; c.innerHTML = SD.helpRow(); })();
+(function () { const w = SD.week(); if (w >= 1 && w <= SD.WEEKS) { const a = document.getElementById('thisweek'); a.href = 'weeks.html?w=' + w; a.textContent = 'This week: week ' + w; } })();
 const root = document.documentElement;
 try { const t = localStorage.getItem('sd-theme'); if (t) root.dataset.theme = t; } catch (e) {}
 document.getElementById('theme').onclick = () => {

@@ -284,7 +284,6 @@
   .m.late-m{background:var(--lec-soft);color:var(--lec);border:1px solid var(--lec);font-weight:600}
   .it.done .m.late-m{display:none}
 
-  .ckin{margin:-4px 0 14px;font-size:0.9rem;color:var(--ink-2)} .ckin a{font-weight:600}
   .three .map{display:block;font-style:normal;font-family:var(--mono);font-size:0.7rem;color:var(--ink-3);margin-top:2px}
 
   /* THE BAR — one definition, identical on every page (written by navfix; change it
@@ -334,7 +333,7 @@
   <div class="wrap bar">
     <a class="brand" href="index.html">Screen Design</a>
     <span class="sp"></span>
-    <nav class="sdlinks" aria-label="Screen Design"><a class="navl" href="start.html">Start here</a><a class="navl" href="weeks.html">Week by week</a><a class="navl on" href="assessment.html" aria-current="page">Checklist</a><a class="navl" href="examples.html">Examples</a><a class="navl" href="toolkit.html">Toolkit</a><a class="navl" href="assessment-materials.html">Marking</a><a class="navl" href="all.html">All pages</a></nav>
+    <nav class="sdlinks" aria-label="Screen Design"><a class="navl" href="start.html">Start here</a><a class="navl" href="weeks.html">Week by week</a><a class="navl on" href="assessment.html" aria-current="page">Checklist</a><a class="navl" href="examples.html">Examples</a><a class="navl" href="toolkit.html">Toolkit</a><a class="navl" href="assessment-materials.html">Marking</a><a class="navl" href="index.html#help">Stuck?</a><a class="navl" href="all.html">All pages</a></nav>
     <a class="fbl" id="fbl" href="#" target="_blank" rel="noopener" hidden>Feedback form</a>
     <span class="ctl"><button id="theme" aria-label="Dark mode">◐</button></span>
   </div>
@@ -344,7 +343,6 @@
 <div class="wrap ckw">
   <h1>What to hand in</h1>
   <p class="sub">This is the complete list. Nothing else is required.</p>
-  <p class="ckin">Want feedback on your deck? An optional check-in: <a href="#" data-form="w7" id="ckin-a" target="_blank" rel="noopener">week 7 form</a> · <a href="#" data-form="w9" target="_blank" rel="noopener">week 9 form</a>. Share your deck with Mike first.</p>
 <div class="ck">
 <aside class="three" id="three" aria-labelledby="three-h">
   <h2 id="three-h">The submission needs to show</h2>
@@ -419,10 +417,10 @@
   </footer>
 </div>
 
-<script src="sd-common.js?v=202611162308"></script>
-<script src="weeks-data.js?v=202611162308"></script>
-<script src="confused-data.js?v=202611162308"></script>
-<script src="tools-data.js?v=202611162308"></script>
+<script src="sd-common.js?v=202611162320"></script>
+<script src="weeks-data.js?v=202611162320"></script>
+<script src="confused-data.js?v=202611162320"></script>
+<script src="tools-data.js?v=202611162320"></script>
 <script>
 /* The list lives in sd-common.js so the hub can read it too — one source, so
    the progress bar there and the ticks here can never disagree. */
@@ -704,9 +702,6 @@ document.querySelectorAll('.seccount').forEach(el => {
   el.textContent = PARTS.reduce((n, p) => n + p.items.length, 0);
 });
 </script>
-<script>(function () { const f = SD.feedback(), l = document.querySelector('.ckin'); if (!l) return;
-  if (f) l.outerHTML = SD.helpRow(f); else l.insertAdjacentHTML('afterend', SD.helpRow(null)); })();</script>
-<script>document.querySelectorAll('[data-form]').forEach(a => { const u = FEEDBACK_FORM[a.dataset.form]; if (u) a.href = u; else a.removeAttribute('target'); });</script>
 <!-- old-switch (navfix) --><p class="oldsw"><a id="oldsw" href="../sd/assessment.html?old=1">Switch to the old version</a></p><script>(function(){var a=document.getElementById("oldsw"),q=location.search;a.href="../sd/assessment.html"+(q?q+"&":"?")+"old=1"+location.hash;})();</script><!-- /old-switch -->
 </body>
 </html>

@@ -33,7 +33,7 @@ const MARKING_FORM = { council: '' };
 const FEEDBACK_FORM = { w7: 'https://forms.cloud.microsoft/e/FkCJKpKu2d', w9: 'https://forms.cloud.microsoft/e/tSchWyEaBF' };
 /* How to reach Mike outside class: office hours and private meetings, online, on a Wednesday or Thursday.
    The homepage and the Confused? page both draw this card (SD.officeCard). */
-const CONTACT = { email: 'm.oustamanolakis@mmu.ac.uk', days: 'Wednesday or Thursday' };
+const CONTACT = { email: 'm.oustamanolakis@mmu.ac.uk', days: 'Wednesday or Thursday', until: 'Thursday 10 December' };
 
 
 /* The day itself. One hour, two hours, a two-hour gap, then two hours. */
@@ -283,33 +283,6 @@ const SD = (() => {
     const w = week(now), k = (w === 7 || w === 8) ? 'w7' : (w === 9 || w === 10) ? 'w9' : null;
     return k && FEEDBACK_FORM[k] ? { k, u: FEEDBACK_FORM[k] } : null;
   }
-  /** The feedback form as one big, obvious card: one definition for every page that shows it. */
-  function fbCard(f = feedback()){
-    if (!f) return '';
-    if (!document.getElementById('fbcss')) { const st = document.createElement('style'); st.id = 'fbcss'; st.textContent =
-      '.fbc{display:flex;flex-wrap:wrap;align-items:center;gap:12px 20px;background:var(--surface);border:2px solid var(--lec);border-radius:14px;padding:16px 20px;margin:18px 0;max-width:820px}' +
-      '.fbc .fbt{flex:1 1 300px;color:var(--ink-2);line-height:1.45;margin:0}.fbc .fbt b{display:block;font-size:1.18rem;color:var(--ink);margin-bottom:3px}' +
-      '.fbc a.fbb{display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding:10px 22px;border-radius:10px;background:var(--lec);color:#fff;font-weight:700;font-size:1.04rem;text-decoration:none;white-space:nowrap}' +
-      '.fbc a.fbb:hover{filter:brightness(1.1)}.fbc a.fbb:focus-visible{outline:3px solid var(--ink);outline-offset:2px}html[data-theme="dark"] .fbc a.fbb{color:#151314}';
-      document.head.appendChild(st); }
-    return `<div class="fbc"><p class="fbt"><b>Want feedback on your deck?</b>Fill in the feedback form and Mike will give you feedback, as comments right in your deck. Share your deck with Mike first. It takes two minutes, and it is optional.</p><a class="fbb" href="${f.u}" target="_blank" rel="noopener">Open the feedback form</a></div>`;
-  }
-
-  /** The Confused? card, and the row that sets it beside the feedback card (or alone, outside weeks 7–10). */
-  function cfCard(){
-    return `<div class="cfc"><p class="fbt"><b>Confused?</b>Sketch or wireframe? A6 or C5? What am I allowed to do? The questions students ask most, each linked to your checklist, and a button to ask Mike.</p><a class="cfb" href="confused.html">See the answers</a></div>`;
-  }
-  function helpRow(f = feedback()){
-    fbCard(f || { u: '' });   /* injects the shared styles */
-    if (!document.getElementById('hrcss')) { const st = document.createElement('style'); st.id = 'hrcss'; st.textContent =
-      '.hrow{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(300px,100%),1fr));gap:14px;margin:18px 0}.hrow .fbc,.hrow .cfc{margin:0;max-width:none}' +
-      '.cfc{display:flex;flex-wrap:wrap;align-items:center;gap:12px 20px;background:var(--surface);border:2px solid var(--line-2);border-radius:14px;padding:16px 20px}' +
-      '.cfc .fbt{flex:1 1 260px;color:var(--ink-2);line-height:1.45;margin:0}.cfc .fbt b{display:block;font-size:1.18rem;color:var(--ink);margin-bottom:3px}' +
-      '.cfc a.cfb{display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding:10px 22px;border-radius:10px;background:var(--ink);color:var(--surface);font-weight:700;font-size:1.04rem;text-decoration:none;white-space:nowrap}' +
-      '.cfc a.cfb:hover{filter:brightness(1.25)}.cfc a.cfb:focus-visible{outline:3px solid var(--lec);outline-offset:2px}';
-      document.head.appendChild(st); }
-    return `<div class="hrow">${f ? fbCard(f) : ''}${cfCard()}</div>`;
-  }
   /** Office hours and private meetings: one card, the same words wherever it appears. */
   function officeCard(){
     if (!document.getElementById('ofcss')) { const st = document.createElement('style'); st.id = 'ofcss'; st.textContent =
@@ -322,10 +295,10 @@ const SD = (() => {
       document.head.appendChild(st); }
     const body = 'Hello Mike,\n\nI would like to meet online about:\n\nTimes that suit me (' + CONTACT.days + '):\n\n';
     const href = `mailto:${CONTACT.email}?subject=${encodeURIComponent('Screen Design: meeting request')}&body=${encodeURIComponent(body)}`;
-    return `<div class="ofc"><h3>Office hours and private meetings</h3><p>Want to talk something through, one to one? Contact Mike directly to arrange a meeting online, on a ${CONTACT.days}. Say what it is about, and two times that suit you.</p><div class="ofa"><a class="ofb" href="${href}">Email Mike to arrange a meeting</a><span>or write to <code>${CONTACT.email}</code></span></div></div>`;
+    return `<div class="ofc"><h3>Office hours and private meetings</h3><p>Want to talk something through, one to one? Contact Mike directly. We can meet online, any ${CONTACT.days}, before ${CONTACT.until}.</p><div class="ofa"><a class="ofb" href="${href}">Email Mike to arrange a meeting</a><span>or write to <code>${CONTACT.email}</code></span></div></div>`;
   }
 
-  return { start, dead, all, total: all.length, week, dateOf, mondayOf, daysToDeadline, feedback, fbCard, cfCard, helpRow, officeCard, CONTACT,
+  return { start, dead, all, total: all.length, week, dateOf, mondayOf, daysToDeadline, feedback, officeCard, CONTACT,
            SESSIONS, DAY: TERM.DAY, PARTS, skeleton, slideText,
            expectedBy, dueIn, partDeadlines, read, write, doneCount, isDone, fmt, fmtFull, fmtShort, WEEKS: TERM.WEEKS };
 })();
