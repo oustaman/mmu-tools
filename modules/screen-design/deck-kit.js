@@ -90,6 +90,7 @@ window.DK = (function () {
       if (/SELECT|INPUT|TEXTAREA/.test(e.target.tagName) || e.altKey || e.metaKey || e.ctrlKey) return;
       if (e.key === 'ArrowRight' || (present() && (e.key === 'PageDown' || e.key === ' '))) { e.preventDefault(); show(cur + 1, true); }
       if (e.key === 'ArrowLeft' || (present() && e.key === 'PageUp')) { e.preventDefault(); show(cur - 1, true); }
+      if (e.key === 'Escape' && present()) { root.classList.remove('present'); document.getElementById('present').setAttribute('aria-pressed', 'false'); show(cur); }
       if (e.key.toLowerCase() === 'f') { if (document.fullscreenElement) document.exitFullscreen(); else root.requestFullscreen(); }
     });
     const m = parseInt((location.hash.match(/^#s(\d+)$/) || [])[1], 10);

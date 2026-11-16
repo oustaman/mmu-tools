@@ -26,6 +26,8 @@ OLD_HOME = {'start', 'all', 'inclusive', 'confused'}  # pages the old site never
 CSS = '''
   /* THE BAR — one definition, identical on every page (written by navfix; change it
      everywhere or nowhere). It used to be copied per page and drifted into two heights. */
+  a.skip{position:absolute;left:8px;top:-60px;z-index:60;background:var(--ink);color:var(--surface);padding:10px 16px;border-radius:0 0 8px 8px;font-weight:700;text-decoration:none}
+  a.skip:focus{top:0;outline:3px solid var(--lec);outline-offset:2px}
   header.sdnav{position:sticky;top:0;z-index:40;background:var(--surface);border-bottom:1px solid var(--line)}
   header.sdnav .bar{display:flex;align-items:center;gap:10px;min-height:56px;padding-block:8px;flex-wrap:nowrap}
   header.sdnav .brand{font-weight:680;font-size:1rem;letter-spacing:-0.015em;white-space:nowrap;color:inherit;
@@ -69,6 +71,7 @@ for f in sorted(os.listdir(D)):
     k = f[:-5]
     if k not in ACTIVE: continue
     s = open(os.path.join(D, f)).read()
+    s = re.sub(r'<a class="skip" href="#" onclick="[^\n]*">Skip to content</a>\n', '', s)  # idempotent
     m = re.search(r'<header\b[^>]*>.*?</header>(\n<script>\(function\(\)\{(?:var d=new Date\(\),a=document.getElementById\("fbl"\).*?)?var n=document.querySelector\(".sdlinks".*?</script>)?', s, re.S)
     assert m and 'class="brand"' in m.group(0), f
     had_theme = 'id="theme"' in m.group(0)
@@ -76,7 +79,8 @@ for f in sorted(os.listdir(D)):
     links = ''.join(
         f'<a class="navl{" on" if h == on else ""}" href="{HREF.get(k, {}).get(h, h)}"{" aria-current=\"page\"" if h == f else ""}>{t}</a>'
         for h, t in ITEMS)
-    hdr = ('<header class="sdnav">\n  <div class="wrap bar">\n    <a class="brand" href="index.html">Screen Design</a>\n'
+    hdr = ('<a class="skip" href="#" onclick="var t=document.querySelector(\'main h1,main,h1\');if(t){if(!t.hasAttribute(\'tabindex\'))t.setAttribute(\'tabindex\',\'-1\');t.focus();t.scrollIntoView();}return false">Skip to content</a>\n'
+           '<header class="sdnav">\n  <div class="wrap bar">\n    <a class="brand" href="index.html">Screen Design</a>\n'
            '    <span class="sp"></span>\n    <nav class="sdlinks" aria-label="Screen Design">' + links + '</nav>\n'
            + '    <a class="fbl" id="fbl" href="#" target="_blank" rel="noopener" hidden>Feedback form</a>\n'
            + ('    <span class="ctl"><button id="theme" aria-label="Dark mode">◐</button></span>\n' if had_theme else '')
