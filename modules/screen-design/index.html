@@ -229,6 +229,15 @@
 
   .three{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(min(260px,100%),1fr))}
   .card{background:var(--surface);border:1px solid var(--line);border-radius:11px;padding:16px 18px}
+  .four{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(min(230px,100%),1fr))}
+  .four .card{display:flex;flex-direction:column}
+  .four .card ul{margin-bottom:14px}
+  html{scroll-behavior:smooth}
+  .card a.cta{margin-top:auto;align-self:flex-start;display:inline-flex;align-items:center;gap:6px;min-height:44px;padding:8px 16px;border-radius:9px;background:var(--lec);color:#fff;font-weight:700;font-size:0.95rem;text-decoration:none}
+  .card a.cta:hover{filter:brightness(1.1)} .card a.cta:focus-visible{outline:3px solid var(--ink);outline-offset:2px}
+  html[data-theme="dark"] .card a.cta{color:#151314}
+  #help{scroll-margin-top:64px}
+  @media(max-width:960px){#help{scroll-margin-top:104px}}
   .card h3{margin:0 0 3px;font-size:1rem;font-weight:660}
   .card .k{font-family:var(--mono);font-size:0.66rem;letter-spacing:0.07em;text-transform:uppercase;
            color:var(--ink-3);display:block;margin-bottom:9px}
@@ -379,7 +388,7 @@
   <div class="wrap bar">
     <a class="brand" href="index.html">Screen Design</a>
     <span class="sp"></span>
-    <nav class="sdlinks" aria-label="Screen Design"><a class="navl" href="start.html">Start here</a><a class="navl" href="weeks.html">Week by week</a><a class="navl" href="assessment.html">Checklist</a><a class="navl" href="examples.html">Examples</a><a class="navl" href="toolkit.html">Toolkit</a><a class="navl" href="assessment-materials.html">Marking</a><a class="navl" href="all.html">All pages</a></nav>
+    <nav class="sdlinks" aria-label="Screen Design"><a class="navl" href="start.html">Start here</a><a class="navl" href="weeks.html">Week by week</a><a class="navl" href="assessment.html">Checklist</a><a class="navl" href="examples.html">Examples</a><a class="navl" href="toolkit.html">Toolkit</a><a class="navl" href="assessment-materials.html">Marking</a><a class="navl" href="index.html#help">Stuck?</a><a class="navl" href="all.html">All pages</a></nav>
     <a class="fbl" id="fbl" href="#" target="_blank" rel="noopener" hidden>Feedback form</a>
     <span class="ctl"><button id="theme" aria-label="Dark mode">◐</button></span>
   </div>
@@ -433,13 +442,17 @@
   <!-- ========== HELP ========== -->
   <section id="help">
     <div class="sh"><h2>Stuck?</h2></div>
-    <div class="three">
+    <div class="four">
       <div class="card"><span class="k">Fastest</span><h3>Workshop 2: drop-in and office hours</h3>
         <ul><li>14:00–16:00 every Tuesday</li><li>Same rooms as your workshop</li><li>Just turn up</li></ul></div>
       <div class="card"><span class="k">Confused?</span><h3>The questions students ask most</h3>
-        <ul><li>Sketch or wireframe? A6 or C5?</li><li>Each answer linked to your checklist</li><li><a href="confused.html">See the answers</a>, or ask Mike</li></ul></div>
+        <ul><li>Sketch or wireframe? A6 or C5?</li><li>Each answer linked to your checklist</li><li>A button to ask Mike</li></ul>
+        <a class="cta" href="confused.html">See the answers <span aria-hidden="true">→</span></a></div>
       <div class="card"><span class="k">Missed a week?</span><h3>Catch up</h3>
         <ul><li>Open that week in <a href="weeks.html">Week by week</a></li><li>Open its workshop slides and do the steps</li><li>Bring the gap to Workshop 2</li></ul></div>
+      <div class="card"><span class="k">Arrived late?</span><h3>Start here</h3>
+        <ul><li>The module in one page</li><li>Five catch-up steps, in order</li><li>Set up your deck first</li></ul>
+        <a class="cta" href="start.html#late">Start here <span aria-hidden="true">→</span></a></div>
     </div>
     <div id="office"></div>
   </section>
@@ -452,8 +465,8 @@
 </div>
 
 
-<script src="sd-common.js?v=202611162309"></script>
-<script src="weeks-data.js?v=202611162309"></script>
+<script src="sd-common.js?v=202611162321"></script>
+<script src="weeks-data.js?v=202611162321"></script>
 <script>
 /* The table is derived from weeks-data.js, not kept a second time. An earlier
    version held its own copy of the eleven weeks and the two drifted the moment
@@ -542,7 +555,6 @@ document.getElementById('hbar').innerHTML = SD.SESSIONS.map(x => `
       <span class="nb-days">${days > 0 ? `<b>${days}</b> days to hand in` :
         days === 0 ? '<b>Due today</b>' : '<b>Deadline passed</b>'}</span></div>
     <p class="nb-do">${title}</p>
-    ${SD.helpRow()}
     ${list ? `<p class="nb-lab">Sections to fill in</p><ul class="nb-list">${list}</ul>` : ''}
     ${weekLink ? `<a class="nb-week" href="${weekLink}">Open week ${w} \u2192</a>` : ''}
     <div class="nb-bar">
