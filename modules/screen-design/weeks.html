@@ -356,8 +356,8 @@
 
 </div>
 
-<script src="sd-common.js?v=202611162342"></script>
-<script src="weeks-data.js?v=202611162342"></script>
+<script src="sd-common.js?v=202611171316"></script>
+<script src="weeks-data.js?v=202611171316"></script>
 <script>
 const $ = s => document.querySelector(s);
 const NOW = SD.week();
@@ -451,12 +451,12 @@ function render(){
     })() : `<p class="none">No lecture this week.</p>`}`;
 
   $('#workshop').innerHTML = `
-    <div class="bh"><h2>${k.when ? 'Workshop' : 'Workshop 1'}</h2><span class="when">${esc(k.when || '2h · 10:00–12:00 · your group tutor · three rooms run the same session')}</span></div>
+    <div class="bh"><h2>${k.when ? 'Workshop' : 'Workshop 1'}</h2><span class="when">${esc(k.when || '2h · 10:00 or 11:00, depending on your group · your group tutor · three rooms run the same session')}</span></div>
     ${k.slides || k.form ? `<p class="wk-slides">${k.slides ? `<a class="rshow" href="workshop.html?w=${w.n}">Workshop slides</a>` : ''}${k.form ? (FEEDBACK_FORM[k.form] ? `<a class="rshow wk-form" href="${FEEDBACK_FORM[k.form]}" target="_blank" rel="noopener">Feedback form</a>` : '<span class="wk-form-soon">Feedback form: the link comes in class</span>') : ''}</p>` : ''}
     <ol class="items steps">${k.run.map((r, i) => `<li>
       <div class="it flat"><div class="sum"><span class="n">${i + 1}</span><span class="s"><b>${rich(r.s)}</b><span class="take">${forms(rich(r.d))}</span>${r.code ? `<span class="wk-code"><textarea readonly rows="2" aria-label="The save code for this example flow">${esc(r.code)}</textarea><button type="button" data-copycode>Copy the code</button><span class="wk-said" role="status"></span></span>` : ''}</span></div></div></li>`).join('')}</ol>`;
 
-  $('#after').innerHTML = (k.when ? '' : `<p class="wk2"><b>Workshop 2</b> · 14:00–16:00 · drop-in and office hours: work on your deck, ask, and get feedback. Any group, same rooms.</p>`) + `
+  $('#after').innerHTML = (k.when ? '' : `<p class="wk2"><b>Workshop 2</b> · 14:00 or 15:00, depending on your group · drop-in and office hours: work on your deck, ask, and get feedback. Same rooms as Workshop 1.</p>`) + `
     <div class="bh"><h2>${w.n < SD.WEEKS ? 'Before next week' : 'Before the deadline'}</h2></div>
     ${k.between ? `<div class="btwnline"><span>${rich(k.between)}</span></div>` : ''}`;
 
