@@ -36,16 +36,17 @@ const FEEDBACK_FORM = { w7: 'https://forms.cloud.microsoft/e/FkCJKpKu2d', w9: 'h
 const CONTACT = { email: 'm.oustamanolakis@mmu.ac.uk', days: 'Wednesday or Thursday', until: 'Thursday 10 December' };
 
 
-/* The day itself. One hour, two hours, a two-hour gap, then two hours. */
+/* The day itself. The lecture, then two workshops with your group: one group starts each an hour later
+   (11:00 and 15:00), so the workshops say both times. `time` is what every page shows. */
 const SESSIONS = [
-  { k:'lecture',  n:'Lecture theatre',  from:'09:00', to:'10:00', hrs:1,
+  { k:'lecture',  n:'Lecture theatre',  time:'09:00–10:00', hrs:1,
     who:'Everyone · 100+', where:'GM LT7', building:'Geoffrey Manton',
     led:'Mike', you:'Watch Mike build his own deck' },
-  { k:'workshop', n:'Workshop 1', from:'10:00', to:'12:00', hrs:2,
+  { k:'workshop', n:'Workshop 1', time:'10:00 or 11:00, by group', hrs:2,
     who:'3 groups · 30–35 each', where:'Breakout rooms', building:'Room allocation TBC',
     led:'Your group tutor', you:'Make this week’s part of your hand-in' },
-  { k:'support',  n:'Workshop 2',  from:'14:00', to:'16:00', hrs:2,
-    who:'Drop in, any group', where:'Same rooms', building:'After the lunch break',
+  { k:'support',  n:'Workshop 2',  time:'14:00 or 15:00, by group', hrs:2,
+    who:'Your group', where:'Same rooms', building:'After the lunch break',
     led:'Drop-in and office hours', you:'Work on your deck · ask · get feedback' }
 ];
 
