@@ -224,7 +224,7 @@
     <span class="ctl"><button id="theme" aria-label="Dark mode">◐</button></span>
   </div>
 </header>
-<script>(function(){var d=new Date(),a=document.getElementById("fbl");[["2026-11-16", "2026-11-30", "https://forms.cloud.microsoft/e/FkCJKpKu2d"], ["2026-11-30", "2026-12-14", "https://forms.cloud.microsoft/e/tSchWyEaBF"]].forEach(function(f){if(f[2]&&d>=new Date(f[0]+"T00:00")&&d<new Date(f[1]+"T00:00")){a.href=f[2];a.hidden=false;}});var n=document.querySelector(".sdlinks"),o=n&&n.querySelector(".on");if(o&&n.scrollWidth>n.clientWidth)n.scrollLeft=o.offsetLeft-n.offsetLeft-16;})();</script>
+<script>(function(){var d=new Date(),a=document.getElementById("fbl");[].forEach(function(f){if(f[2]&&d>=new Date(f[0]+"T00:00")&&d<new Date(f[1]+"T00:00")){a.href=f[2];a.hidden=false;}});var n=document.querySelector(".sdlinks"),o=n&&n.querySelector(".on");if(o&&n.scrollWidth>n.clientWidth)n.scrollLeft=o.offsetLeft-n.offsetLeft-16;})();</script>
 
 <div class="wrap">
   <h1>Toolkit</h1>
@@ -362,13 +362,14 @@
   <footer><p>Screen Design · Level 4 · 30 credits · 2026–27 · Links checked October 2026. Tell us if one breaks.</p></footer>
 </div>
 
-<script src="tools-data.js?v=202611232055"></script>
+<script src="tools-data.js?v=202611232150"></script>
 <script>
 (function () {
   /* kind: explore (play with the idea) · collect (take numbers off something real) ·
      check (test what you made) · make (produce the artefact). sec: the deck sections it helps fill. */
   const GROUPS = TOOL_GROUPS;
-  const host = u => u.startsWith('http') ? new URL(u).hostname.replace(/^www\./, '') : 'this site';
+  const file = u => /\.pptx$/.test(u);   /* a download, not a page */
+  const host = u => file(u) ? 'PowerPoint ↓' : u.startsWith('http') ? new URL(u).hostname.replace(/^www\./, '') + ' ↗' : 'this site ↗';
   const KIND = { explore: 'Explore', collect: 'Collect', check: 'Check', make: 'Make' };
   const secs = [...new Set(GROUPS.flatMap(g => g.items.flatMap(i => i[3])))].sort((a, b) => a.localeCompare(b, 'en', { numeric: true }));
   let only = (location.hash.match(/^#([A-D]\d)$/) || [])[1] || null;
@@ -377,9 +378,9 @@
       secs.map(s => `<button type="button" data-s="${s}" aria-pressed="${only === s}">${s}</button>`).join('');
     /* the top section always shows all of its tools; with a filter on, the ones that match also join the list below */
     const section = (g, items, id) => `<section class="tk-group" id="${id}"><h2>${g.h}</h2><p class="gsub">${g.sub}</p><div class="tk-grid">${items.map(([n, u, k, s, d, ours]) =>
-        `<a class="tk${ours ? ' ours' : ''}" href="${u}"${u.startsWith('http') ? ' target="_blank" rel="noopener"' : ''}>
+        `<a class="tk${ours ? ' ours' : ''}" href="${u}"${u.startsWith('http') ? ' target="_blank" rel="noopener"' : file(u) ? ' download' : ''}>
           <span class="top"><b>${n}</b><span class="kind ${k}">${KIND[k]}</span></span><p>${d}</p>
-          <span class="foot">${s.map(x => `<span class="sec">${x}</span>`).join('')}<span class="host">${host(u)} ↗</span></span></a>`).join('')}</div></section>`;
+          <span class="foot">${s.map(x => `<span class="sec">${x}</span>`).join('')}<span class="host">${host(u)}</span></span></a>`).join('')}</div></section>`;
     document.getElementById('tk-build').innerHTML = section(GROUPS[0], GROUPS[0].items, 'build');
     document.getElementById('tk').innerHTML = GROUPS.map((g, i) => {
       if (!i && !only) return '';

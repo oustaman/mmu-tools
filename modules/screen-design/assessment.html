@@ -341,7 +341,7 @@
     <span class="ctl"><button id="theme" aria-label="Dark mode">◐</button></span>
   </div>
 </header>
-<script>(function(){var d=new Date(),a=document.getElementById("fbl");[["2026-11-16", "2026-11-30", "https://forms.cloud.microsoft/e/FkCJKpKu2d"], ["2026-11-30", "2026-12-14", "https://forms.cloud.microsoft/e/tSchWyEaBF"]].forEach(function(f){if(f[2]&&d>=new Date(f[0]+"T00:00")&&d<new Date(f[1]+"T00:00")){a.href=f[2];a.hidden=false;}});var n=document.querySelector(".sdlinks"),o=n&&n.querySelector(".on");if(o&&n.scrollWidth>n.clientWidth)n.scrollLeft=o.offsetLeft-n.offsetLeft-16;})();</script>
+<script>(function(){var d=new Date(),a=document.getElementById("fbl");[].forEach(function(f){if(f[2]&&d>=new Date(f[0]+"T00:00")&&d<new Date(f[1]+"T00:00")){a.href=f[2];a.hidden=false;}});var n=document.querySelector(".sdlinks"),o=n&&n.querySelector(".on");if(o&&n.scrollWidth>n.clientWidth)n.scrollLeft=o.offsetLeft-n.offsetLeft-16;})();</script>
 
 <div class="wrap ckw">
   <h1>What to hand in</h1>
@@ -420,10 +420,10 @@
   </footer>
 </div>
 
-<script src="sd-common.js?v=202611232055"></script>
-<script src="weeks-data.js?v=202611232055"></script>
-<script src="confused-data.js?v=202611232055"></script>
-<script src="tools-data.js?v=202611232055"></script>
+<script src="sd-common.js?v=202611232150"></script>
+<script src="weeks-data.js?v=202611232150"></script>
+<script src="confused-data.js?v=202611232150"></script>
+<script src="tools-data.js?v=202611232150"></script>
 <script>
 /* The list lives in sd-common.js so the hub can read it too — one source, so
    the progress bar there and the ticks here can never disagree. */
@@ -478,7 +478,7 @@ const GO = {
 const base = u => u.split(/[?#]/)[0];
 const toolLinks = x => { const go = GO[x.sec] || [], seen = new Set(go.map(g => base(g[1])));
   return go.map(([t, u]) => `<a class="go" href="${u}">${escT(t)} <span aria-hidden="true">→</span></a>`).join('')
-    + TOOLS_FOR(x.sec).filter(it => !seen.has(base(it[1]))).map(it => `<a href="${it[1]}"${it[1].startsWith('http') ? ' target="_blank" rel="noopener"' : ''}>${escT(it[0])}</a>`).join('')
+    + TOOLS_FOR(x.sec).filter(it => !seen.has(base(it[1]))).map(it => `<a href="${it[1]}"${it[1].startsWith('http') ? ' target="_blank" rel="noopener"' : /\.pptx$/.test(it[1]) ? ' download' : ''}>${escT(it[0])}</a>`).join('')
     + CONFUSED.flatMap(g => g.items).filter(c => c.secs.includes(x.sec)).map(c => `<a class="cf" href="confused.html#${c.id}">Confused? ${escT(c.short)}</a>`).join(''); };
 const escT = s => String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
 const thumb = x => { const lines = (x.f || []).filter((l, i, a) => !(l === '' && a[i - 1] === '')).slice(0, 7);

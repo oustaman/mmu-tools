@@ -18,7 +18,9 @@ _C = open(os.path.join(D, 'sd-common.js')).read()
 _W1 = datetime.date.fromisoformat(re.search(r"WEEK1:\s*'([\d-]+)'", _C).group(1))
 _MON = lambda w: (_W1 - datetime.timedelta(days=_W1.weekday()) + datetime.timedelta(weeks=w - 1)).isoformat()
 _FF = dict(re.findall(r"(w[79]):\s*'([^']*)'", re.search(r"const FEEDBACK_FORM = \{(.*?)\};", _C).group(1)))
-FB = [[_MON(7), _MON(9), _FF.get('w7', '')], [_MON(9), _MON(11), _FF.get('w9', '')]]
+# Off since 23 Nov 2026 (Mike): the form is offered on the week 7 and week 9 workshop slides, not in the bar.
+# The windows were: [[_MON(7), _MON(9), _FF.get('w7', '')], [_MON(9), _MON(11), _FF.get('w9', '')]]
+FB = []
 FBJS = ('var d=new Date(),a=document.getElementById("fbl");' + repr(FB).replace("'", '"') +
         '.forEach(function(f){if(f[2]&&d>=new Date(f[0]+"T00:00")&&d<new Date(f[1]+"T00:00")){a.href=f[2];a.hidden=false;}});')
 # "Switch to the old version", at the foot of every page: the old site sends everyone here unless ?old=1.
