@@ -356,8 +356,8 @@
 
 </div>
 
-<script src="sd-common.js?v=202611231858"></script>
-<script src="weeks-data.js?v=202611231858"></script>
+<script src="sd-common.js?v=202611232055"></script>
+<script src="weeks-data.js?v=202611232055"></script>
 <script>
 const $ = s => document.querySelector(s);
 const NOW = SD.week();
@@ -379,15 +379,15 @@ const rich = s => esc(s)
   /* Links too. The href is matched narrowly — a relative page in this folder,
      or an https URL — so the whitelist stays a whitelist. Without this the run
      sheets printed raw <a href="..."> at the reader. */
-  .replace(/&lt;a href="((?:https:\/\/)?[\w.\/?=&#:%-]+)"(?: target="_blank")?>/g,
+  .replace(/&lt;a href="((?:https:\/\/)?[\w.\/?=&#:%-]+)"(?: target="_blank")?(?: rel="noopener")?>/g,
            (m, h) => `<a href="${h}"${h.startsWith('http') ? ' target="_blank" rel="noopener"' : ''}>`)
   .replace(/&lt;\/a>/g, '</a>');
 /* [[form7]] and [[form9]] in a step become the feedback form's link, or a note until it exists */
 const forms = s => s.replace(/\[\[form([79])\]\]/g, (m, n) => FEEDBACK_FORM['w' + n] ? `<a href="${FEEDBACK_FORM['w' + n]}" target="_blank" rel="noopener">the feedback form</a>` : 'the feedback form (the link comes in class)');
-const show = url => {
+const show = (url, label) => {
   if (!url) return '';
   return /^https?:/.test(url)
-    ? `<a class="rshow" href="${url}" target="_blank" rel="noopener">Show → ${url.replace(/^https:\/\//,'')}</a>`
+    ? `<a class="rshow" href="${url}" target="_blank" rel="noopener">${label ? `Open → ${esc(label)}` : `Show → ${url.replace(/^https:\/\//,'')}`}</a>`
     : (/\.html([#?][^\s]*)?$/.test(url)   /* a page, or a place on one: case-bakery.html#s16 */
         ? `<a class="rshow" href="${url}">Show → ${url}</a>`
         : `<span class="rshow plain">Show → ${esc(url)}</span>`);
@@ -445,7 +445,7 @@ function render(){
       const li = (r, i, c) => `<li${c ? ' class="core"' : ''}>
       <div class="it flat"><div class="sum"><span class="n">${i + 1}</span>
         <span class="s">${c ? '<em class="corebadge">Core</em>' : ''}<b>${rich(r.s)}</b>${r.take ? `<span class="take">${rich(r.take)}</span>` : ''}</span></div></div>
-      ${r.u ? `<div class="go">${show(r.u)}</div>` : ''}</li>`;
+      ${r.u ? `<div class="go">${show(r.u, r.ul)}</div>` : ''}</li>`;
       /* Only what the week is built on (24 Oct 2026: "Worth a look" was more load than help). */
       return `<ol class="items">${w.shown.map((r, i) => li(r, i, false)).join('')}</ol>`;
     })() : `<p class="none">No lecture this week.</p>`}`;

@@ -470,8 +470,8 @@
 </div>
 
 
-<script src="sd-common.js?v=202611231858"></script>
-<script src="weeks-data.js?v=202611231858"></script>
+<script src="sd-common.js?v=202611232055"></script>
+<script src="weeks-data.js?v=202611232055"></script>
 <script>
 /* The table is derived from weeks-data.js, not kept a second time. An earlier
    version held its own copy of the eleven weeks and the two drifted the moment
@@ -499,7 +499,7 @@ document.getElementById('wkbody').innerHTML = ROWS.map(w => `
     <td class="wt">${w.l}</td>
     <td class="sheets"><span class="docs">
       <a class="doc doc-w" href="weeks.html?w=${w.n}" title="Week ${w.n}: class, workshop and what comes next, on one page">${PAGE}Open week</a>
-      ${w.decks.map(d => `<a class="doc doc-s" href="${d.u}" title="Slides shown in class: ${d.l}">${EASEL}${d.l}</a>`).join('')}
+      ${w.decks.map(d => `<a class="doc doc-s" href="${d.u}"${/^https?:/.test(d.u) ? ' target="_blank" rel="noopener"' : ''} title="Slides shown in class: ${d.l}">${EASEL}${d.l}</a>`).join('')}
     </span></td>
   </tr>`).join('');
 

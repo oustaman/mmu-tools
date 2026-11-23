@@ -10,6 +10,11 @@
  *  Still here only for other pages, until they are reworked: makes, three, aim (the Overview)
  *  and mistake (the week 1 staff sheet). Nothing on the week page shows them.
  */
+/* Mike's own deck, built live in the lecture from week 7 (link given 23 Nov 2026). One place: the weeks below use it. */
+const MIKE_DECK = 'https://stummuac-my.sharepoint.com/:p:/g/personal/55140857_ad_mmu_ac_uk/IQDV27v9jjmrSq7u8_kTYVsZAfB4l9mmfby6VRKfrCvY_6s?e=v5qbZz';
+/* The Elternfreund prototype PDF (Lars Jensen), for students on Moodle, behind the MMU login: it has no licence that
+   allows a public copy, so this site links to it and never hosts it (23 Nov 2026). Also typed in examples.html; here, not sd-common.js, because the marking sheets load this file alone. */
+const ELTERN_PDF = 'https://moodle.mmu.ac.uk/pluginfile.php/8970752/mod_resource/content/1/prototyp-elternfreund-140403153421-phpapp01.pdf';
 const WEEKS = [
 {
  n:1, title:"Why screens look the way they do",
@@ -215,7 +220,7 @@ const WEEKS = [
  n:7, title:"Your version, and designing for everyone",
  makes:["Your screens → A2","Your flow, after → B4","Designing for everyone → A6","A cross-cultural point → C7"],
  shown:[
-  {s:"Mike works on his own deck, live"},
+  {s:"Mike works on his own deck, live", slides:"Mike’s deck", u:MIKE_DECK, ul:"Mike’s deck (SharePoint)", take:"The same deck you are making, built in front of you. Open it any time to see where his is up to."},
  ],
  three:[
   {t:"The journey, both ways", d:"A2: the goal, the steps people take now, and the screens of your version, counted."},
@@ -251,11 +256,12 @@ const WEEKS = [
  n:8, title:"Wireframe to screen",
  makes:["A wireframe for every screen → B5","Your first finished screens → B6"],
  shown:[
-  {s:"Mike works on his own deck, live"},
+  {s:"Mike works on his own deck, live", slides:"Mike’s deck", u:MIKE_DECK, ul:"Mike’s deck (SharePoint)", take:"The same deck you are making, built in front of you. Open it any time to see where his is up to."},
+  {core:true, s:"Where this is going: a prototype that is one PDF", u:ELTERN_PDF, ul:"Prototyp Elternfreund (PDF, on Moodle)", take:"A whole app, 91 screens, linked page to page inside one PDF. Mid fidelity, and it clicks through like an app. Any set of screens becomes a prototype once it is linked, even sketches: in week 10, a blank box over each button, linked to the slide it leads to, makes yours one (B8)."},
  ],
  three:[
   {t:"A wireframe for every screen", d:"B5: every screen in A2, drawn once, states included. Your circled concept sketch can be the first."},
-  {t:"Your first finished screens", d:"The first screens of B6: your real words, with the grid, type and colours from A3–A5."},
+  {t:"Your first finished screens", d:"The first screens of B6: wording and content as real as you can make them, at the fidelity you choose."},
   {t:"Keep going", d:"Carry on finishing screens before week 9, which is set aside for the rest.", open:true},
  ],
  workshop:{
@@ -265,19 +271,20 @@ const WEEKS = [
   bring:"Your list of screens from A2 · paper and markers, or a laptop",
   run:[
    {s:"The states check", d:"For each screen on your list: what does it look like empty, loading, and when something fails? This usually adds one or two screens."},
-   {s:"Finish the wireframes", d:"Any screen without a wireframe yet, do it now, on paper, in the <a href=\"screen-maker.html\">Screen maker</a> or in <a href=\"https://app.diagrams.net/\" target=\"_blank\" rel=\"noopener\">draw.io</a>: boxes, labels and real words. No colour yet. Start from the concept sketch you circled in <code>B1</code>."},
+   {s:"Finish the wireframes", d:"Any screen without a wireframe yet, do it now, in whatever you are quickest in: paper, Canva, Figma, PowerPoint, the <a href=\"screen-maker.html\">Screen maker</a> or <a href=\"https://app.diagrams.net/\" target=\"_blank\" rel=\"noopener\">draw.io</a>. Real words, at whatever level of detail you like: boxes and labels are enough. Start from the concept sketch you circled in <code>B1</code>."},
    {s:"The blind test", d:"Cover your labels and hand the set to a partner. Any screen whose job they can’t name, redraw. Practice, not user testing."},
-   {s:"Into the deck", d:"Photograph your paper wireframes, or <b>Copy as a picture</b> from the Screen maker: <code>B5</code> complete."},
-   {s:"Your first finished screens", d:"Turn your most important wireframes into finished screens: your real words, with the grid, type and colours from A3–A5 and your style tile. One slide each in <code>B6</code>."},
+   {s:"Into the deck", d:"Photograph paper wireframes; from an app, copy or export each screen as a picture (in the Screen maker, <b>Copy as a picture</b>) and paste it in: <code>B5</code> complete."},
+   {s:"Your first finished screens", d:"Take your most important wireframes further: wording and content as real as you can make them, at the fidelity you choose (going polished? use your grid, type and colours from A3–A5). One slide each in <code>B6</code>."},
   ],
   between:"Finish as many screens as you can for <code>B6</code>. Week 9 is set aside for the rest.",
-  mistake:"Decorating a wireframe. Colour and fonts belong in B6, not B5.",
+  mistake:"Leaving screens out. Every screen in A2 needs a wireframe; how detailed it is, is up to you.",
   stuck:[
    ["Isn’t a wireframe just a concept sketch?", "The same kind of drawing, with a different job. Concept sketches (B1): one screen, eight ways, to find the idea. Wireframes (B5): every screen, once, the way you chose. The sketch you circled can be that screen’s wireframe, redrawn with real words."],
-   ["How detailed is a wireframe?", "Boxes, labels and real words. If you are choosing a font, stop: that is B6."],
-   ["What does “finished” mean?", "Your real words, your grid, type and colours from A3–A5, one screen per slide. It doesn’t need to be perfect."],
+   ["How detailed is a wireframe?", "As detailed as you like: plain boxes and labels, or colour and your fonts. What counts is every screen, with real words."],
+   ["What does “finished” mean?", "Wording and content as real as you can make them: real words, names and numbers, no filler text, one screen per slide. Fidelity is your choice. Add links and they become your prototype. It doesn’t need to be perfect."],
    ["My grid doesn’t fit", "Then fix the grid and update <code>A3</code>. That is allowed, and honest."],
-   ["Can I do it in Figma?", "Yes, especially for B6. For B5 a pen or the Screen maker is quicker, and you need a whole set."],
+   ["How do my wireframes become a prototype?", "Any set of screens becomes one once it is linked, at any fidelity, even sketches. In week 10, draw a blank box over each button, link it to the slide that button leads to, and the deck clicks through: that is <code>B8</code>. A whole app made this way: <a href=\"examples.html#pdf-prototype\">a prototype that is one PDF</a>."],
+   ["Which tool should I use?", "Any you like: paper, Canva, Figma, PowerPoint, Google Slides, the Screen maker or draw.io. The tool is not marked; the set is: every screen, once, with real words. Pick the one you are quickest in, because you need a whole set."],
    ["Does the Screen maker use my grid?", "It uses its own rows and columns, and that is fine for B5. Your A3 numbers come back when you finish the screens in B6."],
   ]
  }
@@ -286,7 +293,7 @@ const WEEKS = [
  n:9, title:"Finished screens",
  makes:["Every screen finished → B6","C5 and C6 drafted","Other sizes, if you need them → B7"],
  shown:[
-  {s:"Mike works on his own deck, live"},
+  {s:"Mike works on his own deck, live", slides:"Mike’s deck", u:MIKE_DECK, ul:"Mike’s deck (SharePoint)", take:"The same deck you are making, built in front of you. Open it any time to see where his is up to."},
  ],
  three:[
   {t:"Every screen finished", d:"B6: every screen of your journey, one per slide."},
@@ -310,7 +317,7 @@ const WEEKS = [
   between:"Finish any screen still missing. Week 10 links them into your prototype.",
   mistake:"Shrinking a screen for a smaller size instead of deciding what to remove.",
   stuck:[
-   ["I haven’t finished every screen", "Finish the screens on your main journey first. That is what your prototype needs."],
+   ["I haven’t finished every screen", "Finish the screens on your main journey first. Your prototype can link whatever you have, at any fidelity, as long as it clicks through."],
    ["Isn’t C5 the same as A6?", "No. A6 lists three decisions, one line each. C5 picks the one that helps the most people and argues for it, pointing at the finished screen. A6 is what; C5 is why."],
    ["What goes in C6?", "One decision and who it affects: data you chose not to ask for, a trick you refused, a heavy picture you left out."],
    ["Everything fits, I just made it smaller", "What would you remove? If nothing, the big one is too full."],
@@ -321,7 +328,7 @@ const WEEKS = [
  n:10, title:"Link it, and check it",
  makes:["Click-through → B8","Before and after → D2, D3"],
  shown:[
-  {s:"Mike works on his own deck, live"},
+  {s:"Mike works on his own deck, live", slides:"Mike’s deck", u:MIKE_DECK, ul:"Mike’s deck (SharePoint)", take:"The same deck you are making, built in front of you. Open it any time to see where his is up to."},
  ],
  three:[
   {t:"A click-through that works", d:"B8: the journey clicks through, start to finish, checked in the PDF."},

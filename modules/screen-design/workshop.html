@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Workshop slides — Screen Design</title>
-<link rel="stylesheet" href="deck-kit.css?v=202611231858">
+<link rel="stylesheet" href="deck-kit.css?v=202611232055">
 <style>
 
 
@@ -25,10 +25,16 @@
   .tnote ul{margin:6px 0 0;padding-left:18px} .tnote li{margin:0 0 4px} .tnote b{color:var(--ink)} .tnote span{font-size:0.78rem;color:var(--ink-3)}
   html.present .tnote{display:none}
   .lanes{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin:0 0 14px}
-  @media(max-width:760px){.lanes{grid-template-columns:minmax(0,1fr)}}
+  .lanes.four{grid-template-columns:repeat(4,minmax(0,1fr))}
+  .lanes.two{grid-template-columns:repeat(2,minmax(0,1fr))} .lane ol{margin:4px 0 0;padding-left:1.2em} .lane ol li{margin-bottom:6px}
+  @media(max-width:1100px){.lanes.four{grid-template-columns:repeat(2,minmax(0,1fr))}}
+  @media(max-width:760px){.lanes,.lanes.four,.lanes.two{grid-template-columns:minmax(0,1fr)}}
+  .shots.fid{grid-template-columns:repeat(3,minmax(0,1fr))} @media(max-width:860px){.shots.fid{grid-template-columns:minmax(0,1fr)}}
+  .shots.fid img{max-height:calc(100vh - 380px)} .shots.fid figcaption{font-size:0.95rem;font-weight:700;color:var(--ink)}
   .lane{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:14px 16px;font-size:clamp(0.95rem,1.3vw,1.05rem);color:var(--ink-2);line-height:1.45}
   .lane h3{margin:0 0 6px;font-size:1.1rem;color:var(--ink)} .lane p{margin:0} .lane b{color:var(--ink)}
   .src{font-size:0.82rem;color:var(--ink-3);margin:0}
+  .mnote{margin:0 0 10px;padding:10px 14px;border-left:4px solid var(--lec);background:var(--surface);border-radius:6px;font-size:clamp(0.98rem,1.4vw,1.1rem);color:var(--ink-2);max-width:68ch} .mnote b{color:var(--ink)}
   .big-link{display:inline-block;font-weight:700;font-size:clamp(1rem,1.5vw,1.15rem)}
   .none-yet{color:var(--ink-3)}
   .fbgo{margin:6px 0 10px}
@@ -105,10 +111,10 @@
 <main id="deck"></main>
 <footer><div class="wrap"><p>Screen Design · Level 4 · 2026–27</p></div></footer>
 
-<script src="sd-common.js?v=202611231858"></script>
-<script src="weeks-data.js?v=202611231858"></script>
+<script src="sd-common.js?v=202611232055"></script>
+<script src="weeks-data.js?v=202611232055"></script>
 <script src="example-council-data.js"></script>
-<script src="deck-kit.js?v=202611231858"></script>
+<script src="deck-kit.js?v=202611232055"></script>
 <script>
 (function () {
   /* Workshop slides for weeks 6 to 10: what we make today, where each student is, the steps, what the
@@ -146,12 +152,38 @@
     8: { h: 'Every screen wireframed, the first ones finished', secs: ['B5', 'B6'],
       lead: 'Today every screen of your journey gets a wireframe, states included, and your most important screens get finished for real.',
       steps: ['For each screen: what does it look like empty, loading, and when something fails? Add the screens that are missing.',
-        'Wireframe every screen still without one, starting from the concept sketch you circled in B1: on paper, in the <a href="screen-maker.html">Screen maker</a>, or in <a href="https://app.diagrams.net/" target="_blank" rel="noopener">draw.io</a>. No colour yet.',
+        'Wireframe every screen still without one, starting from the concept sketch you circled in B1. Any tool you like: paper, Canva, Figma, PowerPoint, the <a href="screen-maker.html">Screen maker</a> or <a href="https://app.diagrams.net/" target="_blank" rel="noopener">draw.io</a>, plain or detailed.',
         'Cover your labels and hand the set to a partner. Redraw any screen whose job they can’t name.',
         'Put the set in B5.',
-        'Finish your most important screens with your grid, type and colours: one slide each in B6.'],
+        'Take your most important screens further, with wording and content as real as you can make them: one slide each in B6.'],
       example: `<div class="shots">${shot('council-B5.png', 'B5: the wireframes')}${shot('council-B6.png', 'B6: the first one, finished')}</div>${SRC}`,
-      last: { t: 'Before next week', body: '<p class="lead">Finish as many screens as you can for B6. Week 9 is set aside for the rest.</p>' } },
+      /* one concept, one example, the software, then the work (Mike, 23 Nov 2026: seven slides) */
+      concept: { t: 'Fidelity', h: 'Fidelity: how finished it looks',
+        body: `<p class="lead">The same screen at three levels. Fidelity is how finished it looks, and it is your choice. Put links on your screens, at any level, and they become a prototype: mid-fidelity wireframes with links on them are one, like the example on the next slide.</p>
+  <div class="shots fid">${shot('council-B1.png', 'Low: sketches')}${shot('council-B5.png', 'Mid: wireframes')}${shot('council-B6.png', 'High: polished screens')}</div>${SRC}` },
+      eg: { t: 'Example', h: 'One example: a whole app, in one PDF',
+        body: `<p class="lead"><a href="https://www.slideshare.net/slideshow/prototyp-elternfreund/33101280" target="_blank" rel="noopener"><b>Prototyp Elternfreund</b></a>, by the designer Lars Jensen (in German, 2014). Mid fidelity: 91 screens and 1,121 links between them. Let’s explore two journeys.</p>
+  <div class="lanes two">
+    <div class="lane"><h3>1 · Log in</h3><ol>
+      <li>On the home page, click <i>Login</i>, top right.</li>
+      <li>The login box opens (page 4). Try <i>Passwort vergessen?</i> (forgot your password?): a state, with its own page.</li>
+      <li>Click <i>Einloggen</i> (log in). You are in: the menu now says <i>Mein Profil</i>, <i>Nachrichten</i>, <i>Favoriten</i>, <i>Logout</i> (page 5).</li></ol></div>
+    <div class="lane"><h3>2 · Go to your profile</h3><ol>
+      <li>Logged in, click <i>Mein Profil</i> (my profile).</li>
+      <li>Johanna’s profile (page 42): placeholders where nothing is decided yet (<i>[Logo]</i>, grey photos, filler text), real words where it is.</li>
+      <li>Click any <i>bearbeiten</i> (edit): each opens its own page. <i>Logout</i> takes you back to the start.</li></ol></div>
+  </div>
+  <p class="mnote"><b>The PDF of this work is on <a href="${ELTERN_PDF}" target="_blank" rel="noopener">Moodle</a>.</b> Download it and click through both journeys yourself. Every button is linked to the page it leads to: that is all a prototype needs.</p>
+  <p class="src">Credit: Lars Jensen. More on <a href="examples.html#pdf-prototype">Examples</a>.</p>` },
+      tools: { t: 'Software', h: 'Software: use whatever you want',
+        body: `<div class="lanes four">
+    <div class="lane"><h3>Figma</h3><p>Excellent design software. Full control, with a learning curve. Free on the <a href="https://www.figma.com/education/" target="_blank" rel="noopener">Education plan</a>: apply with your MMU account.</p></div>
+    <div class="lane"><h3>Canva, Miro or another whiteboard</h3><p>A lower learning curve. Excellent for mid fidelity.</p></div>
+    <div class="lane"><h3>PowerPoint</h3><p>An even lower learning curve, and lower fidelity. You are more than welcome to design in PowerPoint if you can make it work.</p></div>
+    <div class="lane"><h3>Pen and paper</h3><p>Sketches. No learning curve at all. Photograph them into your deck.</p></div>
+  </div>
+  <p class="src">The tool is not marked. Whatever you use, the screens end up in your deck, and that is where they are linked.</p>` },
+      last: { t: 'Before next week', body: '<p class="lead">Finish as many screens as you can for B6. Week 9 is set aside for the rest.</p><p>Where this is going: in week 10, a blank box over each button, linked to the slide it leads to, turns your screens into a prototype. A whole app made this way: <a href="examples.html#pdf-prototype">a prototype that is one PDF</a>.</p>' } },
     9: { h: 'Every screen finished', secs: ['B6', 'C5', 'C6', 'B7'],
       lead: 'Today every screen of your journey gets finished, and you write two short texts: C5 and C6.',
       steps: ['Every finished screen out, with the wireframes for the rest.',
@@ -182,9 +214,6 @@
       'Look for: real people in real situations (one hand free, a second language, worry), each with one decision on a named screen.',
       'Snag: “accessible for everyone”. Ask: for whom, in what situation, and what on the screen helps them?',
       'Mention: the feedback form, on its own slide near the end. Optional; Mike gives feedback in their deck.'],
-    8: ['Say: every screen as a wireframe, states included, then finish the most important ones for real.',
-      'Look for: finished screens that use the student’s own A3 to A5 values, not new ones picked on the day.',
-      'Snag: decorated wireframes. Boxes, labels and real words; colour belongs in B6.'],
     9: ['Say: finish every screen, then two short texts: C5 (why the best A6 decision matters, on its finished screen) and C6 (one ethics or sustainability decision).',
       'Look for: the three A6 decisions visible on the finished screens.',
       'Mention: the feedback form, on its own slide near the end, for a second round of feedback.'],
@@ -214,6 +243,10 @@
   <ul class="chips">${d.secs.map(s => `<li><b>${s}</b>${esc(SEC[s].t)}</li>`).join('')}</ul>
   ${TUTOR[n] ? `<div class="tnote"><b>For tutors</b> <span>(hidden when you press Present)</span><ul>${TUTOR[n].map(x => `<li>${esc(x)}</li>`).join('')}</ul></div>` : ''}
 </div></section>
+${['concept', 'eg', 'tools'].filter(k => d[k]).map(k => `<section class="sl" data-t="${esc(d[k].t)}"><div class="wrap">
+  <h2>${esc(d[k].h)}</h2>
+  ${d[k].body}
+</div></section>`).join('')}
 <section class="sl" data-t="Where are you?"><div class="wrap">
   <h2>Where are you?</h2>
   <p class="lead">Everyone is at a different point, and that is fine. Pick the one that fits you today.</p>
@@ -229,10 +262,10 @@
   <ol class="pts">${d.steps.map(s => `<li>${s}</li>`).join('')}</ol>
   <p class="src">Every step in full, with what to do when you are stuck: <a href="weeks.html?w=${n}#workshop">week ${n}</a>.</p>
 </div></section>
-<section class="sl" data-t="The finished thing"><div class="wrap">
+${d.concept ? '' : `<section class="sl" data-t="The finished thing"><div class="wrap">
   <h2>What the finished thing looks like</h2>
   ${d.example}
-</div></section>
+</div></section>`}
 ${d.fb ? `<section class="sl" data-t="Feedback form"><div class="wrap">
   <h2>Feedback form</h2>
   <p class="lead">${esc(d.fbLead || 'Fill it in, and Mike will give you feedback on your deck.')}</p>
