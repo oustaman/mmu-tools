@@ -30,6 +30,20 @@
 
   const wrap = (s, max) => { const out = []; let line = ''; String(s).split(/\s+/).forEach(w => { if ((line + ' ' + w).trim().length > max) { if (line) out.push(line); line = w; } else line = (line + ' ' + w).trim(); }); if (line) out.push(line); return out.length ? out : ['']; };
   const clip = (lines, n) => lines.length <= n ? lines : [...lines.slice(0, n - 1), lines[n - 1].replace(/[,.;:]?$/, '') + '…'];
+  /* words measured in the browser's own font: all of them are kept, and a word too long for a line breaks across lines */
+  const ruler = document.createElement('canvas').getContext('2d');
+  const wide = (s, fs, wt = 400) => { ruler.font = `${wt} ${fs}px ${FONT}`; return ruler.measureText(s).width; };
+  function fill(s, maxW, fs, wt = 400) {
+    const out = []; let line = '';
+    String(s == null ? '' : s).split(/\s+/).filter(Boolean).forEach(word => {
+      const tried = line ? line + ' ' + word : word;
+      if (wide(tried, fs, wt) <= maxW) { line = tried; return; }
+      if (line) out.push(line);
+      while (word.length > 1 && wide(word, fs, wt) > maxW) { let n = word.length - 1; while (n > 1 && wide(word.slice(0, n), fs, wt) > maxW) n--; out.push(word.slice(0, n)); word = word.slice(n); }
+      line = word; });
+    if (line) out.push(line);
+    return out.length ? out : [''];
+  }
   const T = (lines, x, y, lh, attrs) => `<text ${attrs} text-anchor="middle">${lines.map((l, i) => `<tspan x="${x}" y="${y + i * lh}">${esc(l)}</tspan>`).join('')}</text>`;
   const COL = { ink: '#1A1618', mute: '#5A5352', box: '#FFFFFF', line: '#1A1618', q: '#FFF4D6', qs: '#8A6100', wait: '#F1EFEC', bad: '#B3261E', badf: '#FCEAE8', ok: '#285638', okf: '#E3EFE7', loop: '#1A526D', rm: '#8E8685' };
 
@@ -154,7 +168,8 @@
     for (let pass = 0; pass < 3; pass++) list.forEach(x => { if (!x.br || P[x.id]) return;
       const a = arrows.find(e => e.to === x && P[e.from.id]); if (!a && pass < 2) return;
       const o = a ? P[a.from.id] : { c: 0, r: Math.max(0, ...Object.values(P).map(q => q.r)) };
-      for (const [dc, dr] of [[0, 1], [1, 1], [-1, 1], [0, 2], [1, 2], [-1, 2], [2, 1], [0, 3]]) { const cc = o.c + dc, rr = o.r + dr; if (cc >= 0 && !used.has(key(cc, rr))) { put(x.id, cc, rr); return; } } });
+      for (const [dc, dr] of [[0, 1], [1, 1], [-1, 1], [0, 2], [1, 2], [-1, 2], [2, 1], [0, 3]]) { const cc = o.c + dc, rr = o.r + dr; if (cc >= 0 && !used.has(key(cc, rr))) { put(x.id, cc, rr); return; } }
+      if (pass === 2) for (let rr = o.r + 1; ; rr++) for (let cc = 0; cc < per + 2; cc++) if (!used.has(key(cc, rr))) { put(x.id, cc, rr); return; } });
     return P;
   }
   function graph(list, x0, y0, bw0, bh0, o = {}) {
@@ -296,5 +311,5 @@
     return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${bw0 + 2 * P} ${hb + ha + 2 * P}" font-family="${FONT}" role="img">${DEFS}<rect width="100%" height="100%" fill="#fff"/>
       ${band(before, P, P, bw0, hb, 'NOW', '', F, true)}<line x1="${P}" y1="${P + hb}" x2="${bw0 + P}" y2="${P + hb}" stroke="#DFDBD7" stroke-width="2"/>${band(after, P, P + hb + 12, bw0, ha, 'YOUR VERSION', '', null, true)}</svg>`;
   }
-  window.FD = { esc, nums, counts, fatesOf, wrap, clip, T, COL, band, DEFS, FONT, mini, pair, rowW, PAL, migrate, arrowsOf, cellsOf, graph, sheet };
+  window.FD = { esc, nums, counts, fatesOf, wrap, clip, fill, T, COL, band, DEFS, FONT, mini, pair, rowW, PAL, migrate, arrowsOf, cellsOf, graph, sheet };
 })();

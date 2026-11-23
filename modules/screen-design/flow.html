@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Flow maker — Screen Design</title>
-<link rel="stylesheet" href="tool-shell.css?v=202611231852">
+<link rel="stylesheet" href="tool-shell.css?v=202611231858">
 <style>
   /* the Flow maker: the slide on a canvas, and on the right the steps that draw it */
   .tool{grid-template-columns:minmax(0,1fr) 372px;grid-template-rows:minmax(0,1fr)}
@@ -197,9 +197,9 @@
   <div class="dlg-acts"><button class="tbtn pri" value="close">Got it</button></div>
 </form></dialog>
 
-<script src="flow-draw.js?v=202611231852"></script>
-<script src="tool-tour.js?v=202611231852"></script>
-<script src="tool-canvas.js?v=202611231852"></script>
+<script src="flow-draw.js?v=202611231858"></script>
+<script src="tool-tour.js?v=202611231858"></script>
+<script src="tool-canvas.js?v=202611231858"></script>
 <script>
 (function () {
   /* The Flow maker. Students list the journey as it is now (week 5), then build their version
@@ -207,7 +207,7 @@
      Every step now ends up kept, merged, moved or removed, which is D2; the drawing is a
      16:9 slide for B4. Nothing to learn but the buttons. */
   const $ = id => document.getElementById(id);
-  const { esc, nums, counts, fatesOf, COL, graph, cellsOf, PAL, migrate, DEFS, FONT, wrap: FD_wrap, clip: FD_clip } = window.FD;
+  const { esc, nums, counts, fatesOf, COL, graph, cellsOf, PAL, migrate, DEFS, FONT, wrap: FD_wrap, clip: FD_clip, fill: FD_fill } = window.FD;
   const fates = () => fatesOf(S.before, S.after);
   const KEY = 'sd-flow2';
   let uid = 1; const nid = p => p + (uid++) + '-' + Date.now().toString(36);
@@ -343,16 +343,19 @@
 
   /* ---------- the slide: 1920 × 1080, read left to right ---------- */
   const W = 1920, H = 1080, M = 72;
-  /* the goal, on one line at full size, or two lines a little smaller */
+  /* the goal: all of it, on one line at full size, or smaller on as many lines as the room above the diagram takes */
   function goalLines() {
-    const g = S.goal || 'Your goal', big = g.length <= 66, fs = big ? 44 : 34, lines = big ? [g] : FD_clip(FD_wrap(g, 92), 2);
-    return `<g data-goal="1">${lines.map((l, i) => `<text x="${M}" y="${M + (big ? 72 : 60 + i * 42)}" font-size="${fs}" font-weight="800" fill="${COL.ink}">${esc(l)}</text>`).join('')}</g>`;
+    const g = S.goal || 'Your goal', room = W - 2 * M, one = FD_fill(g, room, 44, 800);
+    if (one.length === 1) return `<g data-goal="1"><text x="${M}" y="${M + 72}" font-size="44" font-weight="800" fill="${COL.ink}">${esc(g)}</text></g>`;
+    let fs = 34, lines = FD_fill(g, room, fs, 800); while (lines.length * fs * 1.22 > 86 && fs > 12) { fs--; lines = FD_fill(g, room, fs, 800); }
+    const lh = fs * 1.22;
+    return `<g data-goal="1">${lines.map((l, i) => `<text x="${M}" y="${(M + 60 - 34 + fs + i * lh).toFixed(1)}" font-size="${fs}" font-weight="800" fill="${COL.ink}">${esc(l)}</text>`).join('')}</g>`;
   }
   const GEO = { before: {}, after: {} }, LEG = '@legend'; let FIT = [];
   function slide() {
     const cb = counts(S.before), ca = counts(S.after), v = S.view, F = v === 'both' ? fates() : null;
     const head = v === 'before' ? 'How people do it now' : v === 'after' ? 'Your version' : 'Now, and your version';
-    let s = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${W} ${H}" width="${W}" height="${H}" font-family="${FONT}">
+    let s = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${W} ${H}" width="${W}" height="${H}" font-family="${FONT}" text-rendering="geometricPrecision">
       ${DEFS}
       <rect width="${W}" height="${H}" fill="#fff"/>
       <text x="${M}" y="${M + 22}" font-size="20" font-weight="700" fill="${COL.mute}" letter-spacing="2">B4 · FLOW DIAGRAM</text>
