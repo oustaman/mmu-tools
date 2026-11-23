@@ -60,7 +60,8 @@ const CONFUSED = [
   { g: 'Am I allowed to…?', sub: 'Usually yes. The two real noes are here too.', items: [
     { id: 'tools', short: 'which tool?', secs: ['B1', 'B4', 'B5', 'B6'],
       q: 'Can I use Figma, draw.io, or just paper?',
-      a: 'Paper counts the same as software. Concept sketches: paper, because you get eight in the time Figma gets you one. Flows and wireframes: paper, the Flow maker or Screen maker, or draw.io. Finished screens: PowerPoint, Google Slides or Figma.' },
+      a: 'Paper counts the same as software. Concept sketches: paper, because you get eight in the time Figma gets you one. Flows and wireframes: paper, the Flow maker or Screen maker, or draw.io. Finished screens: PowerPoint, Google Slides or Figma, all free to you.',
+      see: [['Software and kit', 'toolkit.html#tools']] },
     { id: 'ai-allowed', short: 'is AI allowed?', secs: ['A7', 'C8'],
       q: 'Am I allowed to use AI?',
       a: 'Yes. The brief allows it, and not using it costs you nothing. The decisions and the argument stay yours. Log every use in A7 as you go.',

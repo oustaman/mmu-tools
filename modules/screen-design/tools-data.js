@@ -30,6 +30,7 @@ const TOOL_GROUPS = [
     ['Thinking in wireframes', 'wireframes.html', 'explore', ['B5'], 'Week 5 slides: one whole journey, wireframed screen by screen.', true],
     ['Levels of finish', 'style-kit.html#fidelity', 'explore', ['B6'], 'How finished your screens need to be.', true],
     ['Linking your slides', 'weeks.html?w=10#workshop', 'make', ['B8'], 'Week 10: link every screen to the next, then test the PDF.', true],
+    ['A prototype that is one PDF', 'examples.html#pdf-prototype', 'explore', ['B8'], 'A whole app, 91 screens, linked page to page inside one PDF, by the designer Lars Jensen. What B8 asks of your deck, at full size.', true],
     ['Using AI', 'toolkit.html#ai', 'explore', ['A7', 'C8', 'D4'], 'What is allowed, and how to log it as you go.', true],
   ]},
 ];

@@ -334,7 +334,7 @@ const WEEKS = [
   out:{"sec": ["B8", "D2", "D3"]},
   maybe:["C9", "D4"],
   run:[
-   {s:"Link your screens: your prototype", d:"Link every screen to the next, plus a way back and a way out. PowerPoint: <b>Insert › Link › Place in This Document</b>; Google Slides: <b>Insert › Link › Slides in this presentation</b>. Over a pasted picture, link a rectangle with no fill and no outline, and put a <b>Start the prototype →</b> link on the <code>B8</code> slide."},
+   {s:"Link your screens: your prototype", d:"Link every screen to the next, plus a way back and a way out. PowerPoint: <b>Insert › Link › Place in This Document</b>; Google Slides: <b>Insert › Link › Slides in this presentation</b>. Over a pasted picture, link a rectangle with no fill and no outline, and put a <b>Start the prototype →</b> link on the <code>B8</code> slide. A whole app made this way: <a href=\"examples.html#pdf-prototype\">a prototype that is one PDF</a>."},
    {s:"Export a test PDF, and click it", d:"Export the deck as a PDF, open it in a browser, and click every link. A link that works in the editor can vanish in the export, and the PDF is what is marked."},
    {s:"Before and after", d:"Check every step in <code>D2</code> has a reason, then fill <code>D3</code>: your two most changed screens, before beside after."},
    {s:"Read two sections aloud", d:"Read two of your C sections to a partner: does each one describe, or defend? Fix the one that describes by naming what you rejected, and why."},
