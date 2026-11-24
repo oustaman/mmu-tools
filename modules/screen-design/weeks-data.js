@@ -258,6 +258,7 @@ const WEEKS = [
  shown:[
   {s:"Mike works on his own deck, live", slides:"Mike’s deck", u:MIKE_DECK, ul:"Mike’s deck (SharePoint)", take:"The same deck you are making, built in front of you. Open it any time to see where his is up to."},
   {core:true, s:"Where this is going: a prototype that is one PDF", u:ELTERN_PDF, ul:"Prototyp Elternfreund (PDF, on Moodle)", take:"A whole app, 91 screens, linked page to page inside one PDF. Mid fidelity, and it clicks through like an app. Any set of screens becomes a prototype once it is linked, even sketches: in week 10, a blank box over each button, linked to the slide it leads to, makes yours one (B8)."},
+  {s:"A wireframe kit, if you work in PowerPoint", u:"Wireframe-kit.pptx", ul:"Wireframe kit (PowerPoint)", take:"Every Screen maker piece as PowerPoint shapes, phone and desktop, with blank screens to start from. Copy a piece, paste it on your slide, change the words."},
  ],
  three:[
   {t:"A wireframe for every screen", d:"B5: every screen in A2, drawn once, states included. Your circled concept sketch can be the first."},
@@ -271,7 +272,7 @@ const WEEKS = [
   bring:"Your list of screens from A2 · paper and markers, or a laptop",
   run:[
    {s:"The states check", d:"For each screen on your list: what does it look like empty, loading, and when something fails? This usually adds one or two screens."},
-   {s:"Finish the wireframes", d:"Any screen without a wireframe yet, do it now, in whatever you are quickest in: paper, Canva, Figma, PowerPoint, the <a href=\"screen-maker.html\">Screen maker</a> or <a href=\"https://app.diagrams.net/\" target=\"_blank\" rel=\"noopener\">draw.io</a>. Real words, at whatever level of detail you like: boxes and labels are enough. Start from the concept sketch you circled in <code>B1</code>."},
+   {s:"Finish the wireframes", d:"Any screen without a wireframe yet, do it now, in whatever you are quickest in: paper, Canva, Figma, PowerPoint (there is a <a href=\"Wireframe-kit.pptx\" download>wireframe kit</a> to copy from), the <a href=\"screen-maker.html\">Screen maker</a> or <a href=\"https://app.diagrams.net/\" target=\"_blank\" rel=\"noopener\">draw.io</a>. Real words, at whatever level of detail you like: boxes and labels are enough. Start from the concept sketch you circled in <code>B1</code>."},
    {s:"The blind test", d:"Cover your labels and hand the set to a partner. Any screen whose job they can’t name, redraw. Practice, not user testing."},
    {s:"Into the deck", d:"Photograph paper wireframes; from an app, copy or export each screen as a picture (in the Screen maker, <b>Copy as a picture</b>) and paste it in: <code>B5</code> complete."},
    {s:"Your first finished screens", d:"Take your most important wireframes further: wording and content as real as you can make them, at the fidelity you choose (going polished? use your grid, type and colours from A3–A5). One slide each in <code>B6</code>."},
@@ -284,7 +285,7 @@ const WEEKS = [
    ["What does “finished” mean?", "Wording and content as real as you can make them: real words, names and numbers, no filler text, one screen per slide. Fidelity is your choice. Add links and they become your prototype. It doesn’t need to be perfect."],
    ["My grid doesn’t fit", "Then fix the grid and update <code>A3</code>. That is allowed, and honest."],
    ["How do my wireframes become a prototype?", "Any set of screens becomes one once it is linked, at any fidelity, even sketches. In week 10, draw a blank box over each button, link it to the slide that button leads to, and the deck clicks through: that is <code>B8</code>. A whole app made this way: <a href=\"examples.html#pdf-prototype\">a prototype that is one PDF</a>."],
-   ["Which tool should I use?", "Any you like: paper, Canva, Figma, PowerPoint, Google Slides, the Screen maker or draw.io. The tool is not marked; the set is: every screen, once, with real words. Pick the one you are quickest in, because you need a whole set."],
+   ["Which tool should I use?", "Any you like: paper, Canva, Figma, PowerPoint, Google Slides, the Screen maker or draw.io. The tool is not marked; the set is: every screen, once, with real words. Pick the one you are quickest in, because you need a whole set. In PowerPoint, start from the <a href=\"Wireframe-kit.pptx\" download>wireframe kit</a>."],
    ["Does the Screen maker use my grid?", "It uses its own rows and columns, and that is fine for B5. Your A3 numbers come back when you finish the screens in B6."],
   ]
  }

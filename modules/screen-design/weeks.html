@@ -356,8 +356,8 @@
 
 </div>
 
-<script src="sd-common.js?v=202611232150"></script>
-<script src="weeks-data.js?v=202611232150"></script>
+<script src="sd-common.js?v=202611240836"></script>
+<script src="weeks-data.js?v=202611240836"></script>
 <script>
 const $ = s => document.querySelector(s);
 const NOW = SD.week();
@@ -379,8 +379,8 @@ const rich = s => esc(s)
   /* Links too. The href is matched narrowly — a relative page in this folder,
      or an https URL — so the whitelist stays a whitelist. Without this the run
      sheets printed raw <a href="..."> at the reader. */
-  .replace(/&lt;a href="((?:https:\/\/)?[\w.\/?=&#:%-]+)"(?: target="_blank")?(?: rel="noopener")?>/g,
-           (m, h) => `<a href="${h}"${h.startsWith('http') ? ' target="_blank" rel="noopener"' : ''}>`)
+  .replace(/&lt;a href="((?:https:\/\/)?[\w.\/?=&#:%-]+)"(?: target="_blank")?(?: rel="noopener")?( download)?>/g,
+           (m, h, d) => `<a href="${h}"${h.startsWith('http') ? ' target="_blank" rel="noopener"' : ''}${d ? ' download' : ''}>`)
   .replace(/&lt;\/a>/g, '</a>');
 /* [[form7]] and [[form9]] in a step become the feedback form's link, or a note until it exists */
 const forms = s => s.replace(/\[\[form([79])\]\]/g, (m, n) => FEEDBACK_FORM['w' + n] ? `<a href="${FEEDBACK_FORM['w' + n]}" target="_blank" rel="noopener">the feedback form</a>` : 'the feedback form (the link comes in class)');
@@ -390,7 +390,9 @@ const show = (url, label) => {
     ? `<a class="rshow" href="${url}" target="_blank" rel="noopener">${label ? `Open → ${esc(label)}` : `Show → ${url.replace(/^https:\/\//,'')}`}</a>`
     : (/\.html([#?][^\s]*)?$/.test(url)   /* a page, or a place on one: case-bakery.html#s16 */
         ? `<a class="rshow" href="${url}">Show → ${url}</a>`
-        : `<span class="rshow plain">Show → ${esc(url)}</span>`);
+        : (/\.(pptx|pdf|docx)$/.test(url)     /* a file in this folder, to download: Wireframe-kit.pptx */
+            ? `<a class="rshow" href="${url}" download>Download → ${esc(label || url)}</a>`
+            : `<span class="rshow plain">Show → ${esc(url)}</span>`));
 };
 
 /* One page per week (clean-up, 23 October 2026: students got lost in the text).
